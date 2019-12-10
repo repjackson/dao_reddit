@@ -50,8 +50,8 @@ template(name='answer_session_edit')
             .row
                 .four.wide.column
                     unless complete
-                        .ui.fluid.button.cancel_answer_session
-                            |cancel
+                        .ui.fluid.icon.large.circular.button.cancel_answer_session(title='cancel')
+                            i.ban.icon
                 .eight.wide.column
                     .ui.header.f7 !{question.title}
                     with question 
@@ -128,8 +128,7 @@ template(name='answer_session_edit')
                 .four.wide.column
                     unless complete
                         if has_answered
-                            .ui.big.fluid.button.submit_answer(class=loading_class)
-                                |submit
+                            .ui.big.fluid.circular.button.submit_answer(class=loading_class title='submit')
                                 i.chevron.right.icon
                     if complete 
                         .ui.header complete
@@ -154,7 +153,7 @@ template(name='answer_session_edit')
                                         | incorrect
                                 div
                         a.ui.fluid.large.button(href="/answer_session/#{_id}/view")
-                            +ismall name='details'
+                            i.list.icon
                             |answer details
 
 

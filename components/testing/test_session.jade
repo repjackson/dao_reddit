@@ -7,7 +7,7 @@ template(name='test_sessions')
                 .ui.icon.button.add_test_session(title='add test_session')
                     i.plus.icon
             .twelve.wide.column
-                .ui.stackable.four.cards
+                .ui.stackable.cards
                     each test_sessions
                         +test_session_card
 
@@ -30,14 +30,14 @@ template(name='test_session_edit')
             .middle.aligned.row
                 .three.wide.center.aligned.column 
                     .ui.icon.circular.large.button.cancel_session
-                        i.remove.red.icon
+                        i.removeicon
                 .ten.wide.center.aligned.column 
                     each current_doc.questions_array
                         .ui.compact.large.circular.raw.button.select_question(class=question_button_class)
                             | #{question_number}
                 .three.wide.center.aligned.column 
                     //- a.ui.fluid.icon.circular.button(href="/test_session/#{_id}/view" title='save')
-                    //-     i.chevron.right.green.large.icon
+                    //-     i.chevron.right.large.icon
             .row
                 .four.wide.column
                     if generated
@@ -95,10 +95,10 @@ template(name='test_session_edit')
                             //-         |!{content}
                             if question_answered
                                 if is_last_question
-                                    .ui.fluid.green.large.circular.button.finish
+                                    .ui.fluid.large.circular.button.finish
                                         i.checkmark.large.icon
                                 else        
-                                    .ui.fluid.basic.large.green.button.proceed
+                                    .ui.fluid.basic.large.button.proceed
                                         i.right.chevron.large.icon
 
 
@@ -120,7 +120,7 @@ template(name='test_session_view')
             .row
                 .four.wide.column
                     a.ui.fluid.circular.button(href="/tests")
-                        i.chevron.left.large.green.icon
+                        i.chevron.left.large.icon
                     .ui.header test session 
                     if can_edit
                         a.ui.fluid.large.icon.circular.button(href="/test_session/#{_id}/edit")

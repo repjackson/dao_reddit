@@ -85,19 +85,21 @@ template(name='course_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
-                    a.ui.fluid.button(href="/courses")
+                .sixteen.wide.center.aligned.column
+                    a.ui.large.circular.button(href="/courses")
                         //- +ismall name='classroom'
-                        i.left.chevron.icon
+                        i.up.chevron.icon
                         |courses
+            
+            .row
+                .three.wide.column
                     .ui.header course view 
                     if can_edit
-                        a.ui.fluid.button(href="/course/#{_id}/edit")
+                        a.ui.icon.circular.large.button(href="/course/#{_id}/edit" title='edit course')
                             i.pencil.icon
-                            |edit
                     +bookmark_button
                     +voting_full
-                .eight.wide.column
+                .ten.wide.column
                     .ui.header 
                         small title
                         strong #{title}
@@ -106,21 +108,18 @@ template(name='course_view')
                         |totals
                     i.refresh.link.grey.icon.calc_course_total(title='refresh')
                     .ui.header #{question_count} questions
-                    .ui.header 
-                        i.clock.icon
-                        |sessions
                     .ui.large.link.list
                         each course_sessions
                             a.item(href="/session/#{_id}/view")
                                 | #{when} by #{_author_username}
                                 |#{correct_percent}
                     .ui.inline.header 
-                        +i name='module'
+                        i.cubes.grey.icon
                         |modules
                     .ui.icon.circular.button.add_module 
                         i.plus.icon 
                         //- |module
-                    .ui.small.five.cards
+                    .ui.cards
                         each modules
                             .card 
                                 img.ui.fluid.image(src="{{c.url image_id width=400 height=200 crop='fill'}}")
@@ -135,10 +134,9 @@ template(name='course_view')
                             .item #{title}
                     div
                         +comments
-                .four.wide.column
+                .three.wide.column
                     .ui.header 
-                        i.line.chart.icon
-                        |stats
+                        i.line.chart.grey.icon
                     .ui.large.list
                         .item #{views} views
                     .ui.header 
@@ -156,7 +154,8 @@ template(name='enroll_button')
             |enrolled
     else
         a.ui.fluid.large.button.enroll
-            +ismall name='internal'
+            //- +ismall name='internal'
+            i.sign.in.alternate.icon
             |enroll
                         
 

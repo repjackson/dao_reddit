@@ -208,16 +208,17 @@ template(name='question_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
-                    a.ui.fluid.button(href="/m/question")
-                        //- +ismall name='faq'
+                .sixteen.wide.center.aligned.column
+                    a.ui.large.circular.button(href="/m/question")
+                        i.up.chevron.icon
                         |questions
+            .row
+                .four.wide.column
                     .ui.header question view 
                     +image_view key='question_image_id' label='image' direct=true
                     if can_edit
-                        a.ui.fluid.button(href="/question/#{_id}/edit")
-                            i.pencil.blue.icon
-                            |edit
+                        a.ui.fluid.large.circular.button(href="/question/#{_id}/edit" title='edit')
+                            i.pencil.icon
                     each tags 
                         .ui.basic.label #{this}
                     //- .ui.small.header settings 
@@ -273,8 +274,8 @@ template(name='question_view')
                     +comments
                 .six.wide.column
                     if can_answer
-                        .ui.fluid.button.new_answer_session
-                            +ismall name='unknown-status'
+                        .ui.fluid.large.circular.button.new_answer_session
+                            i.edit.icon
                             |answer
                     .ui.header
                         |all answers

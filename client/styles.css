@@ -12,7 +12,7 @@ body {
 }
 
 /* .ui.image:not(.avatar), .label,  img:not(.avatar) { */
-.ui.image, .label,  img:not(.avatar) {
+.ui.image, img:not(.avatar) {
     filter: invert(1) !important;
 
 }
@@ -36,12 +36,14 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
+  border-radius: 7px !important;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: grey;
+  background: black;
+  border-radius: 7px !important;
 }
 
 /* .herbie {
@@ -104,7 +106,7 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: darkgrey !important;
+  background: grey !important;
 }
 
 /* Handle on hover */

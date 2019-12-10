@@ -57,41 +57,32 @@ template(name='module_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
-                    a.ui.fluid.circular.button(href="/course/#{course_id}/view")
-                        i.left.chevron.icon
-                        img.ui.avatar.image(src="{{c.url course.image_id }}")
+                .sixteen.wide.center.aligned.column
+                    a.ui.circular.large.button(href="/course/#{course_id}/view")
+                        i.up.chevron.icon
+                        if course.image_id 
+                            img.ui.avatar.image(src="{{c.url course.image_id }}")
                         |#{course.title}
+            .row
+                .three.wide.column
                     .ui.header module view 
                     if can_edit
                         a.ui.fluid.icon.circular.button(href="/module/#{_id}/edit")
                             i.pencil.icon
                     +voting_full
-                .eight.wide.column
+                .ten.wide.column
                     .ui.header 
                         small title
                         strong #{title}
                     |!{module}
                     .ui.header 
                         |total
-                    .ui.button.calc_module_total
-                        |calc module total
-                    .ui.header #{question_count} questions
-                    .ui.header 
-                        i.grey.clock.icon
-                        |sessions
-                    .ui.large.link.list
-                        each module_sessions
-                            a.item(href="/session/#{_id}/view")
-                                | #{when} by #{_author_username}
-                                |#{correct_percent}
-                    .ui.header 
+                    .ui.inline.header 
                         i.list.grey.icon
                         |sections
-                    .ui.button.add_section
+                    .ui.circular.icon.button.add_section(title='add section')
                         i.plus.icon 
-                        |section
-                    .ui.four.cards
+                    .ui.cards
                         each module_sections
                             a.ui.card(href="/section/#{_id}/view")
                                 .content
@@ -105,10 +96,9 @@ template(name='module_view')
                             .item #{title}
                     div
                         +comments
-                .four.wide.column
-                    .ui.header 
+                .three.wide.column
+                    .ui.header(title='stats')
                         i.line.chart.grey.icon
-                        |stats
                     .ui.large.list
                         .item #{views} views
                     .ui.header 

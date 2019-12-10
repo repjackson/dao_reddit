@@ -6,7 +6,7 @@ template(name='tests')
                     |tests
                 .ui.icon.large.circular.button.add_test(title='add test')
                     i.plus.large.icon
-                .ui.fluid.green.large.circular.button.take_forest_test
+                .ui.fluid.large.circular.button.take_forest_test
                     i.right.chevron.large.icon
                 +test_cloud
             .thirteen.wide.column
@@ -41,9 +41,9 @@ template(name='tests')
                         tr
                             th when
                             th 
-                                i.green.checkmark.icon(title='correct answers')
+                                i.checkmark.icon(title='correct answers')
                                 i.orange.question.icon(title='almost correct (second guess)')
-                                i.red.minus.icon(title='incorrect answers')
+                                i.minus.icon(title='incorrect answers')
                                 //- right/almost/wrong right%
                             th duration (mins)
                             th avg mins/question
@@ -55,11 +55,11 @@ template(name='tests')
                             tr.view_test
                                 td #{when}
                                 td 
-                                    span.ui.green.text #{correct_count}
+                                    span.ui.text #{correct_count}
                                     spa.ui.grey.text &nbsp;
                                     span.ui.yellow.text #{almost_correct_count}
                                     spa.ui.grey.text &nbsp;
-                                    span.ui.red.text #{incorrect_count}
+                                    span.ui.text #{incorrect_count}
                                     | =#{correct_percent}%
                                 td #{minutes_duration}
                                 td #{average_minutes_per_question}
@@ -78,7 +78,7 @@ template(name='tests')
         //-                         a.ui.header(href="/test_session/#{_id}/view") #{when} #{_author_username}
         //-                         .ui.list
         //-                             .item #{question_count} total questions 
-        //-                             .item #{answer_count} answered questions 
+        //-                             .item #{answer_count} answ questions 
         //-                             .item #{correct_count} correct answers 
         //-                             .item #{incorrect_count} incorrect answers 
         //-                             .item #{almost_correct_count} almost correct count 

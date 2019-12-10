@@ -4,11 +4,10 @@ template(name='question_edit')
             .row
                         //- | edit '!{title}' question
                 .three.wide.column
-                    .ui.inline.header 
+                    .ui.inline.center.aligned.header 
                         | edit question
-                    a.ui.big.fluid.button(href="/question/#{_id}/view" title='save')
+                    a.ui.big.fluid.icon.circular.button(href="/question/#{_id}/view" title='save')
                         i.checkmark.icon
-                        |save
                     +remove_button
                     .ui.vertical.fluid.menu
                         .disabled.item question
@@ -96,19 +95,17 @@ template(name='question_edit')
                         +boolean_edit key='has_correct_answer' label='has correct answer' direct=true
                         div
                         if has_correct_answer
-                            +number_edit key='required_answer' label='number answer' direct=true    
-                        div if single answer then answer will be marked right or wrong, otherwise just used to collect answers
+                            +number_edit key='required_answer' label='number answer' direct=true tooltip="if single answer then answer will be marked right or wrong, otherwise just used to collect answers"
                     else if is_essay
                         //- +boolean_edit key='has_' label='single answer' direct=true
                         //- div
                         //- if single_answer
                         //- 
                     else if is_text_answer
-                        +boolean_edit key='has_correct_answer' label='has correct answer' direct=true
+                        +boolean_edit key='has_correct_answer' label='has correct answer' direct=true tooltip="if single answer then answer will be marked right or wrong, otherwise just used to collect answers"
                         div
                         if has_correct_answer
-                            +text_edit key='required_answer' label='required answer' direct=true    
-                        div if single answer then answer will be marked right or wrong, otherwise just used to collect answers
+                            +text_edit key='required_answer' label='correct answer' direct=true 
                     else if is_tagging_answer
                         +array_edit key='required_answer_tags' label='required answer tags' direct=true    
                     else if is_boolean_answer
