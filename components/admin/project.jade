@@ -1,0 +1,331 @@
+ 
+template(name='projects')
+    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
+    .ui.padded.stackable.grid
+        .sixteen.wide.column
+            .ui.header projects
+            +add_button model='project'
+            each projects
+                .four.wide.column
+                    +project_card_template
+
+
+
+
+template(name='project_stats')
+    .ui.fluid.accordion
+        .title
+            .ui.inline.header 
+                +i name='line chart' classes='ui avatar image'
+                |project stats
+                .ui.large.basic.label #{project_stats_doc.total_count} total
+                .ui.large.basic.label #{project_stats_doc.complete_count} complete 
+                .ui.large.basic.label #{project_stats_doc.incomplete_count} incomplete 
+                .ui.large.basic.label #{project_stats_doc.total_updates_count} total updates 
+                i.dropdown.icon
+        .content
+            .ui.grid
+                .three.column.row
+                    .column
+                        .ui.icon.button.recalc_projects(title='recalculate')
+                            i.refresh.icon
+                        with project_stats_doc
+                            .ui.mini.header projects completed time
+                            .ui.mini.header project estimated time
+                            .ui.mini.header project monthly completion rate
+                    .column
+                        +latest_project_updates
+                    .column
+                        .ui.header 
+                            +i name='comments'
+                            |latest comments
+                        .ui.large.link.bulleted.list
+                            each latest_comments
+                                a.active.item(href="/project/#{parent_id}/view") 
+                                    strong #{body}
+                                |#{when}
+                    
+                    
+                    
+template(name='project_card_template')
+    .ui.segment
+        a.ui.inline.header(href="/project/#{_id}/feed")
+            //- if icon
+            //-     +i name=icon
+            |#{title}
+        |!{description}
+        //- |complete
+        //- if complete
+        //-     i.large.checkmark.icon(title='complete')
+        //- else
+        //-     i.large.circle.outline.icon(title='incomplete')
+        //- |approved
+        //- if approved
+        //-     +i name='approval' title='approved'
+        //- else
+        //-     i.large.circle.outline.icon(title='not approved')
+        //- +ismall name='tags' classes='ui inline image'
+        //- each tags
+        //-     .ui.basic.label #{this}
+        //- div
+        //- .ui.large.basic.label
+        //-     |estimated cost #{estimated_cost}
+        //- .ui.large.basic.label
+        //-     |actual cost #{actual_cost}
+        //- .ui.large.basic.label
+        //-     |related company #{related_company}
+        //- .ui.large.basic.label
+        //-     |estimated complete date #{estimated_complete_date}
+        //- .ui.large.basic.label
+        //-     |actual complete date #{actual_complete_date}
+        +boolean_view key='approved' label='approved' icon='approval' direct=true
+        +boolean_view key='complete' label='complete' icon='checkmark' direct=true
+        +date_view key='start_date' label='start date' icon='calendar' direct=true
+        +date_view key='end_date_proposed' label='end date (proposed)' icon='calendar' direct=true
+        +date_view key='end_date_actual' label='end date (actual)' icon='calendar' direct=true
+        +number_view key='budget' label='budget' icon='money' direct=true
+        +number_view key='end_cost' label='end cost' icon='money' direct=true
+        +boolean_view key='contract' label='contract?' icon='invoice' direct=true
+        
+        //- .ui.accordion
+        //-     .title 
+        //-         .ui.inline.header updates
+        //-         i.dropdown.icon
+        //-     .content
+        //-         +activity
+        div
+        a.ui.large.button(href="/project/#{_id}/feed")
+            |view
+            i.right.chevron.icon
+
+
+template(name='project_update_small')
+    .ui.small.header #{text}
+
+
+
+template(name='project_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        |edit project
+                    .ui.header
+                        if icon
+                            +i name=icon
+                        |#{title}
+                    a.ui.big.fluid.button(href="/project/#{_id}/feed" title='save')
+                        i.checkmark.icon
+                        |save
+                    +remove_button
+                    //- +icon_edit key='icon' label='icon' direct=true
+                    //- +array_edit key='tags' label='tags' icon='tags' direct=true
+                .twelve.wide.column 
+                    +text_edit key='title' label='title' icon='title' direct=true
+                    +image_edit key='image' label='image' icon='image' direct=true
+                    +html_edit key='description' label='description' icon='content' direct=true
+                    +boolean_edit key='approved' label='approved' icon='approval' direct=true
+                    +boolean_edit key='complete' label='complete' icon='checkmark' direct=true
+                    +date_edit key='start_date' label='start date' icon='calendar' direct=true
+                    +date_edit key='end_date_proposed' label='end date (proposed)' icon='calendar' direct=true
+                    +date_edit key='end_date_actual' label='end date (actual)' icon='calendar' direct=true
+                    +number_edit key='budget' label='budget' icon='money' direct=true
+                    +number_edit key='end_cost' label='end cost' icon='money' direct=true
+                    +boolean_edit key='contract' label='contract?' icon='invoice' direct=true
+                    
+            
+            
+template(name='project_layout') 
+    img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    +nav
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.small.fluid.button(href="/projects" title='view projects')
+                        i.left.chevron.icon
+                        +i name='work' classes='ui avatar image'
+                        |projects
+                        
+                    .ui.inline.header
+                        //- if icon
+                        //-     +i name=icon
+                        +text_view key='title' label='title' direct=true
+                    .ui.fluid.large.vertical.borderless.menu
+                        a.item(href="/project/#{_id}/feed" class="{{isActiveRoute 'project_feed'}}") 
+                            i.newspaper.icon
+                            |summary
+                        a.item(href="/project/#{_id}/finance" class="{{isActiveRoute 'project_finance'}}") 
+                            i.money.icon
+                            |finance
+                        a.item(href="/project/#{_id}/tasks" class="{{isActiveRoute 'project_tasks'}}") 
+                            i.tasks.icon
+                            |tasks
+                        a.item(href="/project/#{_id}/chat" class="{{isActiveRoute 'project_chat'}}") 
+                            i.chat.icon
+                            |chat
+                        a.item(href="/project/#{_id}/files" class="{{isActiveRoute 'project_files'}}") 
+                            i.file.outline.icon
+                            |files
+                    if is_admin
+                        a.ui.fluid.button(href="/project/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                    .ui.segment
+                        .ui.relaxed.list
+                            .item
+                                .large120
+                                    |!{description}
+                            .item
+                                +date_view key='start_date' label='start date' direct=true
+                            .item
+                                +date_view key='end_date_proposed' label='end date (proposed)' direct=true
+                            //- .item
+                                //- i.tags.icon
+                                //- each tags
+                                //-     .ui.label #{this}
+                                //- +array_view key='tags' label='tags' icon='tags' direct=true
+                            .item
+                                +number_view key='end_cost' label='end cost' direct=true prefix='$'
+                            .item
+                                +date_view key='end_date_actual' label='end date (actual)' direct=true
+                            .item
+                                +image_view key='image' icon='image' label='image' direct=true
+                            .item
+                                +number_view key='budget' label='budget' direct=true prefix='$'
+                    +voting_full
+                    .ui.small.header #{views} views
+                    +viewing
+                .twelve.wide.column 
+                    +yield
+        unless is_frontdesk
+            +footer 
+        +shortcut_modal
+            
+                     
+template(name='project_files')
+    .ui.inline.header 
+        +i name='file'
+        | documents
+    if is_admin
+        .ui.icon.button.add_file
+            i.plus.icon
+    if editing_doc
+        with editing_doc
+            +text_edit key='title' direct=true
+            +pdf_edit key='pdf' direct=true
+            +date_edit key='file_date' label='file date' direct=true
+            +array_edit key='tags' direct=true
+            .ui.divider
+            +session_edit_button
+            +remove_button
+    else 
+        .ui.link.large.list
+            each files
+                .item 
+                    .header #{title}
+                    .content
+                        //- each tags
+                        //-     .ui.basic.label #{this}
+                        |#{file_date}
+                        +session_edit_icon
+    
+    
+template(name='project_change_orders')
+    .ui.header 
+        | change orders
+    .ui.small.header budget
+    .ui.small.header expenses
+    
+    
+template(name='project_chat')
+    +comments
+    
+template(name='project_finance')
+    .ui.inline.header
+        |payments 
+    if is_admin
+        .ui.small.icon.button.add_payment
+            i.plus.icon
+    .ui.list
+        each payments
+            if is_editing
+                +text_edit key='recipient' direct=true
+                +float_edit key='amount' direct=true
+                +date_edit key='payment_date' direct=true
+                +session_edit_icon
+                +remove_button
+            else
+                .item 
+                    .content #{recipient} $#{amount} #{payment_date}
+                        +session_edit_icon
+    div
+    .ui.inline.header
+        |totals
+    if is_admin
+        i.refresh.icon(title='refresh')
+    with current_doc
+        |$#{payment_total}
+
+template(name='project_tasks')
+    .ui.header 
+        +i name='task'
+        |tasks
+    if is_admin
+        .ui.button.add_task 
+            i.plus.icon
+            | task
+
+
+template(name='project_feed')
+    .ui.inline.header 
+        |activity    
+    if is_admin
+        .ui.button.add_update
+            i.plus.icon
+            |update
+    .ui.feed
+        each updates
+            +update_item
+            
+            
+template(name='update_item')
+    if is_editing
+        +html_edit key='text' label='description' direct=true
+        +date_edit key='update_date' label='update date' direct=true
+        +session_edit_button
+    else
+        .event
+            .label
+                img.ui.avatar.image(src="{{c.url author.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
+            .content
+                //- .summary
+                .ui.small.inline.header.user #{author.username} 
+                //- |added
+                //- .date posted #{when}
+                |&nbsp;
+                .ui.inline.header {{ med_date update_date }}
+                .extra.text !{text}
+                //- .meta
+                //-     +voting_small
+                if is_admin
+                    +session_edit_button
+                    +remove_button
+
+
+
+
+template(name='latest_project_updates')
+    +ismall name='clock'
+    a.ui.inline.header(href="/projects")
+        |latest project updates
+    .ui.link.list
+        each latest_updates
+            a.item(href="/project/#{parent_id}/view") 
+                +ismall name=project.icon classes='ui middle aligned image'
+                .ui.small.inline.header 
+                    |#{project.title}: 
+                strong #{text}
+            |#{when}

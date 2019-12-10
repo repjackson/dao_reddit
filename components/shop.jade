@@ -1,0 +1,131 @@
+template(name='shop')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.inline.header 
+                    +i name='shop'
+                    |shop
+                if is_admin
+                    .ui.icon.button.add_product(title='add product')
+                        i.plus.icon
+                //- +product_cloud
+            .twelve.wide.column
+                //- .ui.button items you have
+                //- .ui.button purchasable items
+                .ui.stackable.cards
+                    each products
+                        +product_card
+
+
+template(name='product_cloud')
+    div
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    //- i.grey.tags.icon
+    //- .ui.inline.header tags
+    if selected_product_tags
+        #clear_tags.ui.active.icon.button
+            i.remove.icon
+        each selected_product_tags
+            .unselect_product_tag.ui.active.button
+                strong #{this}
+    each all_product_tags
+        .ui.compact.button.select_product_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+
+template(name='product_card')
+    .ui.card
+        img.ui.fluid.image(src="{{c.url product_image_id width=400 height=200 crop='fill'}}")
+        .content
+            a.ui.header(href="/product/#{_id}/view") #{title}
+            each tags
+                .ui.basic.label #{this}
+            +ilarge name=icon
+            .ui.button.purchase
+                |purchase
+            a.ui.button.view(href="/product/#{_id}/view")
+                |view
+
+
+template(name='product_edit')
+    img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' product
+                    a.ui.big.fluid.button(href="/product/#{_id}/view" title='save')
+                        i.checkmark.large.icon
+                        |save
+                    +remove_button
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .six.wide.column 
+                    +text_edit key='title' label='product' direct=true
+                    +icon_edit key='icon' label='icon' direct=true
+                    +number_edit key='xp_cost' label='xp cost' direct=true
+                    +boolean_edit key='has_description' label='description' direct=true
+                    if has_description
+                        +textarea_edit key='description' label='description' icon='content' direct=true
+                    //- +html_edit key='description' label='description' icon='content' direct=true
+
+
+
+template(name='product_view')
+    img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href="/shop")
+                        i.chevron.left.icon
+                        +i name='shop' classes='ui inline mini image'
+                        |shop
+                    .ui.header product view 
+                    .ui.header #{title}
+                    +ilarge name=icon
+                    .ui.header #{xp_cost}
+                    +image_view key='product_image_id' label='image' direct=true
+                    a.ui.fluid.button(href="/product/#{_id}/edit")
+                        i.pencil.icon
+                        |edit
+                    +comments
+
+template(name='product_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_product_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_product_hours}hrs total
+        .item #{average_product_cost}c / #{average_product_duration}hrs avg product
+        //- .item product ranking # reservations
+        //- .item product ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_product_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+template(name='shop_view_template')
+    .ui.header product view template

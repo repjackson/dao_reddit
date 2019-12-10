@@ -1,0 +1,12 @@
+{
+	"dependencies": {
+		"@babel/runtime": "^7.6.3",
+		"bcrypt": "^2.0.0",
+		"highcharts": "^7.2.1",
+		"ibm-watson": "^5.1.0"
+	},
+	"scripts": {
+		"start": "NO_HMR=1 MAIL_URL='smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587/' MONGO_URL=mongodb://forestadmin:forestadminpassword@aws-us-east-1-portal.21.dblayer.com:10444/forestdb?ssl=true TZ='America/Denver' meteor --settings settings.json",
+		"local": "meteor --settings settings.json"
+	}
+}

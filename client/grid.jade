@@ -1,0 +1,52 @@
+template(name='grid')
+    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
+    
+    .ui.stackable.padded.grid 
+        .ui.sixteen.wide.column
+            .ui.left.icon.input
+                input.model_filter(type='text' placeholder='search models' autofocus='autofocus')
+                if model_filter_value
+                    i.remove.link.icon
+                else 
+                    i.search.icon
+            unless model_filter_value
+                +cloud filter='model'
+            .ui.stackable.four.column.padded.grid
+                .row
+                    each role_models
+                        .column
+                            +grid_role_model
+                
+template(name='grid_role_model')
+    .ui.segment
+        a.ui.inline.header(href="/m/#{slug}" tabindex="0")
+            +i name=icon classes='ui inline mini image'
+            //- i.icon(class=icon)
+            |#{title}
+        //- i.grey.eye.icon
+        //- i.grey.thumbs.up.icon
+        //- i.grey.clock.icon
+        div
+        .ui.list
+            each model_docs
+                +model_list_item_view
+        //- span(title='views')
+        //-     |#{views}
+        if is_dev
+            span(title='views')
+                i.eye.grey.icon
+                |#{views}
+            each view_roles
+                .ui.small.basic.label(title='viewable by') #{this}
+
+
+template(name='model_list_item_view')
+    //- a.item(href="/m/#{model}/#{_id}/view") 
+    .item.pointer.goto_doc
+        if image
+            img.ui.mini.inline.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
+        if icon
+            +ismall name=icon
+        span #{title} #{name}
+        //- span.lowercase #{title} #{name}
+        div

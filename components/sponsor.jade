@@ -1,0 +1,17 @@
+template(name='sponsor')
+    .ui.stackable.padded.grid
+        .centered.row
+            .twelve.wide.column
+                .ui.inline.header 
+                    +i name='growing-money--v2'
+                    |sponsor
+                .ui.action.input
+                    input.sponsor_amount(type='number' min='1' placeholder='amount')
+                    .ui.icon.button.start_donation   
+                        i.right.chevron.icon
+                each donations
+                    .ui.header 
+                        strong $#{amount}
+                        small #{when}:
+                        | #{message}
+            

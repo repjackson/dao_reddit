@@ -1,0 +1,128 @@
+template(name='services')
+    img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 crop='fill'}}")    
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.inline.header 
+                    +i name='services'
+                    |services
+                if is_admin
+                    .ui.icon.button.add_service(title='add service')
+                        i.plus.icon
+                //- +service_cloud
+            .twelve.wide.column
+                //- .ui.button items you have
+                //- .ui.button purchasable items
+                .ui.stackable.cards
+                    each services
+                        +service_card
+
+
+template(name='service_cloud')
+    div
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    //- i.grey.tags.icon
+    //- .ui.inline.header tags
+    if selected_service_tags
+        #clear_tags.ui.active.icon.button
+            i.remove.icon
+        each selected_service_tags
+            .unselect_service_tag.ui.active.button
+                strong #{this}
+    each all_service_tags
+        .ui.compact.button.select_service_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+
+template(name='service_card')
+    .ui.card
+        img.ui.fluid.image(src="{{c.url service_image_id width=400 height=200 crop='fill'}}")
+        .content
+            a.ui.header(href="/service/#{_id}/view") #{title}
+            each tags
+                .ui.basic.label #{this}
+            +ilarge name=icon
+            .ui.button.purchase
+                |purchase
+            a.ui.button.view(href="/service/#{_id}/view")
+                |view
+
+
+template(name='service_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' service
+                    a.ui.big.fluid.button(href="/service/#{_id}/view" title='save')
+                        i.checkmark.large.icon
+                        |save
+                    +remove_button
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .six.wide.column 
+                    +text_edit key='title' label='service' direct=true
+                    +number_edit key='hourly_cost' label='hourly_cost' label='hourly cost' direct=true
+                    +html_edit key='description' label='description' icon='content' direct=true
+
+
+
+template(name='service_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href="/services")
+                        i.chevron.left.icon
+                        +i name='services' classes='ui inline mini image'
+                        |services
+                    .ui.header service view 
+                    .ui.header #{title}
+                    .ui.header $#{hourly_cost}/hr
+                    a.ui.fluid.button(href="/service/#{_id}/edit")
+                        i.pencil.icon
+                        |edit
+                .twelve.wide.column
+                    +transactions
+                    +comments
+
+
+
+template(name='service_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_service_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_service_hours}hrs total
+        .item #{average_service_cost}c / #{average_service_duration}hrs avg service
+        //- .item service ranking # reservations
+        //- .item service ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_service_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+template(name='services_view_template')
+    .ui.header service view template

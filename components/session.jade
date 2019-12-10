@@ -1,0 +1,112 @@
+template(name='sessions')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.inline.header 
+                    +i name='session'
+                    |session
+                .ui.icon.button.add_session(title='add session')
+                    i.plus.icon
+            .twelve.wide.column
+                .ui.stackable.four.cards
+                    each sessions
+                        +session_card
+
+template(name='session_card')
+    //- .ui.card    
+    a.ui.card(href="/session/#{_id}/view")
+        img.ui.fluid.image(src="{{c.url session_image_id width=400 height=200 crop='fill'}}")
+        .content
+            .ui.inline.header #{title}
+            div
+            i.grey.tags.icon
+            each tags 
+                .ui.small.label #{this}
+                    
+
+
+template(name='session_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .two.wide.column 
+                    //- .ui.header 
+                    //-     | #{passage.title}
+                    //- div
+                    .ui.small.inline.header
+                        small test session
+                    a.ui.fluid.button(href="/session/#{_id}/view" title='save')
+                        i.checkmark.large.icon
+                        |save
+                    +remove_button
+                .seven.wide.column 
+                    .ui.header #{passage.title}
+                    each passage.passage_text_array
+                        .item {{@index}}
+                            |&nbsp;
+                            |#{this}
+                    //- | !{passage.passage}
+                .seven.wide.column 
+                    each passage_questions 
+                        .ui.small.compact.button.select_question(class=question_button_class)
+                            | Q#{number}
+                    div
+                    with current_question 
+                        +text_view key='title' direct=true
+                        div
+                        each question_choices
+                            .ui.large.fluid.button.choose_choice(class=session_choice_class)
+                                |#{content}
+                        if question_answered
+                            .ui.divider
+                            if is_last_question
+                                .ui.fluid.button.finish
+                                    i.checkmark.icon
+                                    |finish
+                            else        
+                                .ui.fluid.button.proceed
+                                    |proceed
+                                    i.right.chevron.icon
+
+
+template(name='session_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href="/sessions")
+                        i.chevron.left.icon
+                        |sessions
+                    .ui.header session view 
+                    if can_edit
+                        a.ui.fluid.button(href="/session/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                .eight.wide.column
+                    .ui.header #{passage.title}
+                    .ui.header correct answers #{correct_answers}
+                    .ui.header total questions #{question_count}
+                    .ui.header correct percent #{correct_percent}
+                    
+                    +comments
+                .four.wide.column
+                    .ui.header 
+                        i.line.chart.icon
+                        |stats
+                    .ui.large.list
+                        .item #{views} views
+                    
+
+template(name='session_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_session_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_session_hours}hrs total
+        .item #{average_session_cost}c / #{average_session_duration}hrs avg session

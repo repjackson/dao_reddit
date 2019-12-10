@@ -1,0 +1,16 @@
+template(name='learn')
+    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'forestbg' width=1000 height=1000 crop='crop'}}")    
+    
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.header 
+                    +i name='test'
+                    |tests
+                a.ui.big.button(href='/tests')
+                    |tests
+                a.ui.big.button(href='/passages')
+                    |passages
+        .row
+            .sixteen.wide.column
+                +courses
