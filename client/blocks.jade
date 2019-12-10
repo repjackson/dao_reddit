@@ -13,9 +13,8 @@ template(name='comments')
                 .content
                     .ui.header #{body}
                     .meta #{when}
-                        unless is_frontdesk
-                            |by 
-                            a(href="/user/#{author.username}") #{author.first_name} #{author.last_name}
+                        |by 
+                        a(href="/user/#{author.username}") #{author.first_name} #{author.last_name}
                         if currentUser
                             +voting_small
                             if can_edit
@@ -42,6 +41,20 @@ template(name='goto_model')
         a.goto_model(href="/m/#{slug}" title="goto #{slug}")
             i.external.blue.icon
             //- +i name='external-link'
+
+
+
+template(name='print_current_doc')
+    .ui.circular.icon.button.print_doc(title='print current doc to console')
+        i.code.icon
+
+
+
+
+
+
+
+
 
 template(name='events_column')
     .ui.accordion
@@ -281,10 +294,10 @@ template(name='voting_full')
     //- .ui.inline.header 
     //-     //- +i name='elections'
     //-     |voting
-    .ui.large.icon.button.upvote(title='upvote')
+    .ui.large.icon.circular.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
         //- |like
-    .ui.large.icon.button.downvote(title='downvote')
+    .ui.large.icon.circular.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
         //- |dislike
     if points

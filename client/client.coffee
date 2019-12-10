@@ -349,6 +349,15 @@ Template.registerHelper 'part_is_question', () -> @part_type is 'question'
 Template.registerHelper 'part_is_image', () -> @part_type is 'image'
 Template.registerHelper 'part_is_video', () -> @part_type is 'video'
 Template.registerHelper 'part_is_math', () -> @part_type is 'math'
+Template.registerHelper 'part_is_text', () -> @part_type is 'text'
+Template.registerHelper 'part_is_textarea', () -> @part_type is 'textarea'
+
+Template.registerHelper 'section_parts', () ->
+    Docs.find
+        model:'part'
+        section_id: @_id
+
+
 
 
 Template.registerHelper 'user_is_student', () -> if @roles and 'student' in @roles then true else false

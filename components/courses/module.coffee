@@ -54,6 +54,7 @@ if Meteor.isClient
     Template.module_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'module_question'
+        @autorun => Meteor.subscribe 'model_docs', 'section'
         @autorun => Meteor.subscribe 'course_from_module_id', Router.current().params.doc_id
     Template.module_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->

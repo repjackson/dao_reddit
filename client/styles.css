@@ -12,12 +12,15 @@ body {
 }
 
 /* .ui.image:not(.avatar), .label,  img:not(.avatar) { */
-/* .ui.image, .label,  img:not(.avatar) {
+.ui.image, .label,  img:not(.avatar) {
     filter: invert(1) !important;
 
-} */
+}
 
 
+.corner .label {
+    border-radius: 7px !important;
+}
 
 
 .spacer {
@@ -38,7 +41,7 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: lightgrey;
+  background: grey;
 }
 
 /* .herbie {
@@ -101,12 +104,12 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: darkgrey !important;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: darkgrey !important;
 }
 
 .lowercase {
@@ -478,8 +481,8 @@ body {
 
 
 input:not(.no_format){
-    -webkit-border-radius: 8px !important; */
-    border-radius: 8px !important;
+    -webkit-border-radius: 10px !important; */
+    border-radius: 10px !important;
     margin-bottom: 3px !important;
     margin-top: 3px !important;
     /* font-size: 120% !important; */

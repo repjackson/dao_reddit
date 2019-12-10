@@ -36,12 +36,8 @@ underscore@1.0.10
 coffeescript
 ecmascript@0.13.0
 reywood:publish-composite
-lookback:emails
 percolate:synced-cron
 flowkey:hotkeys
 modules@0.14.0
-kevohagan:sweetalert
-mrgalaxy:stripe
 fourseven:scss
-yasinuslu:json-view
 http

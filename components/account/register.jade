@@ -1,17 +1,16 @@
 template(name='register')
-    img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
     .ui.padded.stackable.grid
         .centered.row
             .ten.wide.column
                 .ui.center.aligned.basic.segment
                     a.ui.icon.button(href="/")
-                        +i name='home'
-                        
+                        i.home.icon
                     div
-                    //- i.big.yin.yang.icon
-                    img.ui.rounded.medium.centered.image(src="{{c.url 'forest_logo_blue' width=400 height=400}}")
+                    i.massive.yin.yang.grey.icon
+                    //- img.ui.rounded.medium.centered.image(src="{{c.url 'forest_logo_blue' width=400 height=400}}")
                     //- +i name='add-user-male' classes='ui mini inline image'
-                    .ui.inline.header registration
+                    i.plus.icon
+                    //- .ui.inline.header register
                 //- if message
                 //-     h4.ui.center.aligned.header #{message}
                 //- .ui.small.inline.header 
@@ -25,8 +24,8 @@ template(name='register')
                 //- .ui.fluid.input(class=login_class)
                 //-     input.last_name(type='text')
                 .ui.small.inline.header 
-                    +i name='user-male'
-                    //- i.user.outline.grey.icon
+                    //- +i name='user-male'
+                    i.user.outline.grey.icon
                     |username
                 .ui.fluid.icon.input(class=login_class)
                     //- if email_valid
@@ -36,8 +35,8 @@ template(name='register')
                         i.ban.icon
                     input.username(type='text')
                 .ui.small.inline.header 
-                    +i name='lock'
-                    //- i.lock.grey.icon
+                    //- +i name='lock'
+                    i.lock.grey.icon
                     | password
                 .ui.fluid.input(class=login_class)
                     input.password(type='password')
@@ -48,23 +47,24 @@ template(name='register')
                 //-     input.password2(type='password')
                 if can_register
                     //- if registering
-                    .ui.fluid.large.button.register(class=enter_class)
-                        +i name='enter-2' classes='ui mini inline image'  
-                        //- i.user.plus.icon
+                    .ui.fluid.big.circular.button.register(class=enter_class)
+                        //- +i name='enter-2' classes='ui mini inline image'  
+                        i.user.plus.icon
                         |register '#{username}'
                 else
                     .ui.small.header username "#{username}" found
-                    a.ui.basic.fluid.button(href='/login') 
-                        +i name='enter-2' classes='ui mini inline image'                    
+                    a.ui.basic.fluid.circular.button(href='/login') 
+                        //- +i name='enter-2' classes='ui mini inline image'                    
                         |login
+                        i.right.chevron.icon
                 .ui.center.aligned.basic.segment    
-                    .ui.small.header by registering you agree to our 
-                        a(href='/p/privacy' target="_window") privacy policy
+                    //- .ui.small.header by registering you agree to our 
+                    //-     a(href='/p/privacy' target="_window") privacy policy
                     unless username
                         .ui.small.header or
                             a.ui.basic.sign.in.button(href='/login') 
-                                //- i.sign.in.alternate.icon
-                                +i name='enter-2' classes='ui mini inline image'                    
+                                i.sign.in.alternate.icon
+                                //- +i name='enter-2' classes='ui mini inline image'                    
                                 |login
                     
 template(name='choose_personas')

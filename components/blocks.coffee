@@ -475,7 +475,10 @@ if Meteor.isClient
 
 
 
-
+    Template.print_current_doc.events
+        'click .print_doc': ->
+            doc = Docs.findOne Router.current().params.doc_id
+            console.log doc
 
 
 

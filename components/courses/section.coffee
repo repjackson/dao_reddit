@@ -21,6 +21,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'section_question'
         @autorun => Meteor.subscribe 'model_docs', 'section_question_choice'
+        @autorun => Meteor.subscribe 'model_docs', 'part'
     Template.section_edit.events
         'click .select_question': ->
             Session.set 'current_question_id', @_id
@@ -33,10 +34,22 @@ if Meteor.isClient
                 model:'section_question_choice'
                 question_id: Session.get('current_question_id')
                 section_id: Router.current().params.doc_id
+
+    Template.add_part.events
         'click .add_part': ->
+            console.log @
+            part_count =
+                Docs.find({
+                    model:'part'
+                    section_id: Router.current().params.doc_id
+                    }).count()
             Docs.insert
                 model:'part'
+                number:part_count++
+                part_type:@type
                 section_id: Router.current().params.doc_id
+
+
 
     Template.section_edit.helpers
         question_button_class: ->
@@ -62,13 +75,25 @@ if Meteor.isClient
 
 
 
+
+
     Template.section_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'section'
         @autorun => Meteor.subscribe 'sections_from_module_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'part'
     Template.section_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+
     Template.section_view.helpers
+        part_template: ->
+            console.log @
+            "#{@part_type}_view"
+        part_data: ->
+            {
+                key:'text'
+                direct:true
+            }
         can_proceed: ->
             true
         section_sessions: ->
@@ -83,6 +108,11 @@ if Meteor.isClient
             section = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
                 _id: $in: section.student_ids
+
+
+
+
+
     Template.section_view.events
         'click .take_test': ->
             new_session_id = Docs.insert

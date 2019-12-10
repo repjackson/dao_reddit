@@ -322,7 +322,8 @@ template(name='pdf_view')
 template(name='image_edit')
     .ui.form
         if icon
-            +ismall name=icon classes='ui middle aligned image'
+            i.icon(class=icon)
+            //- +ismall name=icon classes='ui middle aligned image'
         .ui.inline.small.header
             if title
                 |#{title}
@@ -787,7 +788,7 @@ template(name='array_view')
 template(name='array_edit')
     div
     if icon
-        i.icon(class=icon)
+        i.grey.icon(class=icon)
         //- +ismall name=icon classes='ui middle aligned image'
     .ui.inline.small.header
         if title
