@@ -1,11 +1,7 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 
-@Bug_tags = new Meteor.Collection 'bug_tags'
-@Task_tags = new Meteor.Collection 'task_tags'
 @Question_tags = new Meteor.Collection 'question_tags'
-@Test_tags = new Meteor.Collection 'test_tags'
-@Course_tags = new Meteor.Collection 'course_tags'
 
 
 Docs.before.insert (userId, doc)->
@@ -40,17 +36,6 @@ Docs.before.insert (userId, doc)->
     # doc.upvoters = []
     return
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.cloudinary_key
-        api_secret: Meteor.settings.cloudinary_secret
-
 
 
 
@@ -68,20 +53,9 @@ Docs.helpers
     author: -> Meteor.users.findOne @_author_id
     when: -> moment(@_timestamp).fromNow()
     ten_tags: -> if @tags then @tags[..10]
-    five_tags: -> if @tags then @tags[..4]
-    three_tags: -> if @tags then @tags[..2]
-    is_visible: -> @published in [0,1]
-    is_published: -> @published is 1
-    is_anonymous: -> @published is 0
-    is_private: -> @published is -1
     from_user: ->
         if @from_user_id
             Meteor.users.findOne @from_user_id
-    to_user: ->
-        if @to_user_id
-            Meteor.users.findOne @to_user_id
-
-
     upvoters: ->
         if @upvoter_ids
             upvoters = []
@@ -104,18 +78,7 @@ Meteor.users.helpers
             "#{@first_name} #{@last_name}"
         else
             "#{@username}"
-    is_current_student: ->
-        if @roles
-            if 'admin' in @roles
-                if 'student' in @current_roles then true else false
-            else
-                if 'student' in @roles then true else false
-
-    email_address: -> if @emails and @emails[0] then @emails[0].address
-    email_verified: -> if @emails and @emails[0] then @emails[0].verified
     five_tags: -> if @tags then @tags[..4]
-    three_tags: -> if @tags then @tags[..2]
-    last_name_initial: -> if @last_name then @last_name.charAt 0
 
 Meteor.methods
     add_facet_filter: (delta_id, key, filter)->
@@ -140,28 +103,6 @@ Meteor.methods
         Docs.update { _id:delta_id, "facets.key":key},
             $pull: "facets.$.filters": filter
         Meteor.call 'fum', delta_id, (err,res)->
-
-
-
-    pin: (doc)->
-        if doc.pinned_ids and Meteor.userId() in doc.pinned_ids
-            Docs.update doc._id,
-                $pull: pinned_ids: Meteor.userId()
-                $inc: pinned_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: pinned_ids: Meteor.userId()
-                $inc: pinned_count: 1
-
-    subscribe: (doc)->
-        if doc.subscribed_ids and Meteor.userId() in doc.subscribed_ids
-            Docs.update doc._id,
-                $pull: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: 1
 
 
     upvote: (doc)->
@@ -238,9 +179,7 @@ if Meteor.isServer
             else
                 userId and doc._author_id is userId
         update: (userId, doc) ->
-            if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
-                true
-            else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
+            if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
                 true
             else
                 doc._author_id is userId

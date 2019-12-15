@@ -1,19 +1,5 @@
 @selected_tags = new ReactiveArray []
-@selected_bug_tags = new ReactiveArray []
-@selected_task_tags = new ReactiveArray []
-@selected_course_tags = new ReactiveArray []
 @selected_question_tags = new ReactiveArray []
-
-Meteor.startup ->
-    process.env.TZ='America/Denver'
-    # moment().calendar(null, {
-    #     sameDay: '[today]',
-    #     nextDay: '[tomorrow]',
-    #     nextWeek: 'dddd',
-    #     lastDay: '[yesterday]',
-    #     lastWeek: '[last] dddd',
-    #     sameElse: 'DD/MM/YYYY'
-    # });
 
 
 Tracker.autorun ->
@@ -43,11 +29,6 @@ Tracker.autorun ->
 #                 console.log('You have a strange Mouse!');
 
 
-
-$.cloudinary.config
-    cloud_name:"facet"
-# Router.notFound =
-    # action: 'not_found'
 
 Template.body.events
     'click a': ->
@@ -81,26 +62,10 @@ Template.registerHelper 'gs', () ->
 Template.registerHelper 'question', () ->
     Docs.findOne @question_id
 
-Template.registerHelper 'answer_duration', ->
-    start_moment = moment @start_timestamp
-    submit_moment = moment @submit_timestamp
-    submit_moment.diff(start_moment, 'seconds')
-
-
-Template.registerHelper 'invert_class', ->
-    # if Session.equals('dark_mode',true) then 'invert' else ''
-    if Meteor.user() and Meteor.user().invert_mode
-        'invert'
-    else
-        ''
 Template.registerHelper 'display_mode', -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'is_author', -> @_author_id is Meteor.userId()
-Template.registerHelper 'is_teacher', -> @teacher_username is Meteor.user().username
-Template.registerHelper 'is_grandparent_author', ->
-    grandparent = Template.parentData(2)
-    grandparent._author_id is Meteor.userId()
 Template.registerHelper 'to_percent', (number) -> (number*100).toFixed()
 Template.registerHelper 'long_time', (input) -> moment(input).format("h:mm a")
 Template.registerHelper 'long_date', (input) -> moment(input).format("dddd, MMMM Do h:mm a")
@@ -159,55 +124,11 @@ Template.registerHelper 'course', () ->
     Docs.findOne
         _id:@course_id
 
-Template.registerHelper 'classroom_school', () ->
-    # console.log @
-    school = Docs.findOne
-        model:'school'
-        _id: @school_id
-    # console.log school
-    school
-# Template.registerHelper 'parent_template', () -> Template.parentData()
-    # Session.get 'displaying_profile'
-
-# Template.registerHelper 'checking_in_doc', () ->
-#     Docs.findOne
-#         model:'healthclub_session'
-#         current:true
-#      # Session.get('session_document')
-
-# Template.registerHelper 'current_session_doc', () ->
-#         Docs.findOne
-#             model:'healthclub_session'
-#             current:true
-
-
-
-# Template.registerHelper 'checkin_guest_docs', () ->
-#     Docs.findOne Router.current().params.doc_id
-#     session_document = Docs.findOne Router.current().params.doc_id
-#     # console.log session_document.guest_ids
-#     Docs.find
-#         _id:$in:session_document.guest_ids
-
-
-
-Template.registerHelper 'student_status_class', ()->
-    # console.log @
-    unless @rules_and_regs_signed
-        'red_flagged'
-    else unless @email_validated
-        'orange_flagged'
-    else ''
-
 Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
 Template.registerHelper 'target_user', () -> Meteor.users.findOne @user_id
 Template.registerHelper 'is_text', () ->
     # console.log @field_type
     @field_type is 'text'
-
-Template.registerHelper 'template_parent', () ->
-    # console.log Template.parentData()
-    Template.parentData()
 
 Template.registerHelper 'fields', () ->
     model = Docs.findOne

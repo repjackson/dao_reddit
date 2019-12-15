@@ -15,35 +15,7 @@ Meteor.users.allow
         # if userId and doc._id == userId
         #     true
 
-Cloudinary.config
-    cloud_name: 'facet'
-    api_key: Meteor.settings.private.cloudinary_key
-    api_secret: Meteor.settings.private.cloudinary_secret
 
-
-
-# SyncedCron.add
-#     name: 'Update incident escalations'
-#     schedule: (parser) ->
-#         # parser is a later.parse object
-#         parser.text 'every 1 hour'
-#     job: ->
-#         Meteor.call 'update_escalation_statuses', (err,res)->
-#             # else
-
-
-SyncedCron.add({
-        name: 'class auto actions'
-        schedule: (parser) ->
-            parser.text 'every 1 week'
-        job: ->
-            Meteor.call 'checkout_students', (err, res)->
-    }
-)
-
-
-if Meteor.isProduction
-    SyncedCron.start()
 Meteor.publish 'model_from_child_id', (child_id)->
     child = Docs.findOne child_id
     Docs.find

@@ -1,38 +1,14 @@
 template(name='nav')
-    //- .ui.attached.borderless.topnav.menu(class="{{currentUser.nav_color}}")
     .ui.attached.borderless.menu(class="{{currentUser.nav_color}}")
         if is_loading
             .item
                 i.loading.large.grey.yin.yang.icon
         else 
-            a.icon.header.item(href='/' class="{{isActivePath '/'}}") 
+            a.icon.header.item(href='/questions' class="{{isActivePath '/questions'}}") 
                 i.yin.yang.large.icon
                 //- img.ui.avatar.image(src="{{c.url 'forest_logo_only' }}" title='Home')
                 //- +i name='forest' classes='ui mini inline mobile only image'
-        //- a.mobile.hidden.item(href='/dashboard' class="{{isActivePath '/dashboard'}}") 
-        //-     i.dashboard.icon
-            //- |dashboard
-        a.mobile.hidden.item(href='/learn' class="{{isActivePath '/learn'}}") 
-            //- i.book.icon
-            |learn
-        a.mobile.hidden.item(href='/flashcards' class="{{isActivePath '/flashcards'}}") 
-            //- i.clone.icon
-            |flashcards
-        a.mobile.hidden.item(href='/courses' class="{{isActivePath '/courses'}}") 
-            //- i.clone.icon
-            |courses
-        a.mobile.hidden.item(href='/tests' class="{{isActivePath '/tests'}}") 
-            //- i.edit.icon
-            |tests
-        a.mobile.hidden.item(href='/questions' class="{{isActivePath '/questions'}}") 
-            //- i.question.icon
-            |questions
-        a.mobile.hidden.item(href='/m/question' class="{{isActivePath '/m/question'}}") 
-            //- i.question.icon
-            |q2
         .right.menu
-            a.mobile.hidden.item(href='/leaderboard' class="{{isActivePath '/leaderboard'}}" title='leaderboard') 
-                i.line.chart.icon
             unless currentUser
                 a.item(href='/login') 
                     //- i.sign.in.icon 
@@ -43,30 +19,6 @@ template(name='nav')
             if currentUser
                 a.mobile.hidden.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='models') 
                     i.database.icon
-                a.mobile.hidden.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat') 
-                    i.chat.outline.icon
-                a.icon.item(href='/users' class="{{isActivePath '/users'}}")
-                    i.users.icon
-                a.icon.item(href='/help' class="{{isActivePath '/help'}}")
-                    i.question.mark.icon
-                a.icon.mobile.hidden.item(href='/mail' class="{{isActivePath '/mail'}}")
-                    i.envelope.icon
-                a.ui.simple.dropdown.mobile.hidden.item(href='/alerts' class="{{isActivePath '/alerts'}}")
-                    if unread_alert_count
-                        i.bell.icon
-                    else 
-                        i.bell.outline.icon
-                    .menu 
-                        if unread_alert_count
-                            each unread_alerts
-                                .item #{text}
-                        else
-                            .item no alerts
-                if is_admin
-                    a.icon.item(href="/grid")
-                        i.grey.th.icon
-                    a.icon.mobile.hidden.item(href="/admin" title='admin' class="{{isActivePath '/admin'}}")
-                        i.shield.icon
                 unless logging_out
                     .ui.dropdown.item(class="{{currentUser.nav_color}}")
                         if currentUser.profile_image_id
@@ -76,146 +28,18 @@ template(name='nav')
                         span.mobile.hidden #{currentUser.name} 
                             |#{currentUser.credit}
                         .menu(class="{{currentUser.nav_color}}")
-                            a.item(href='/dashboard' class="{{isActivePath '/dashboard'}}") 
-                                i.dashboard.icon
-                                |dashboard
-                            a.item(href='/learn' class="{{isActivePath '/learn'}}") 
-                                i.book.icon
-                                |learn
-                            a.item(href='/shop' class="{{isActivePath '/shop'}}") 
-                                i.shopping.cart.icon
-                                |shop
-                            a.item(href='/chat' class="{{isActivePath '/chat'}}") 
-                                i.chat.outline.icon
-                                |chat
-                            a.item(href='/users' class="{{isActivePath '/users'}}") 
-                                i.users.icon
-                                | users
-                            a.item(href='/courses' class="{{isActivePath '/courses'}}") 
-                                i.book.icon
-                                |courses
-                            .divider
                             a.item(href="/user/#{currentUser._id}")
                                 i.user.outline.icon 
                                 |profile
                             a.item(href="/user/#{currentUser._id}/edit")
                                 i.cog.icon
                                 |settings
-                            a.item(href='/mail' class="{{isActivePath '/mail'}}")
-                                i.envelope.icon
-                                |messages
-                            a.item(href="/alerts" class="{{isActivePath '/alerts'}}")
-                                i.bell.icon
-                                |alerts                    
-                            .divider
-                            a.item(href='/prime' class="{{isActivePath '/prime'}}")
-                                i.caret.up.icon 
-                                //- i.grey.upload.icon
-                                |upgrade to prime
-                            if is_dev
-                                a.icon.item.set_models(href="/m/model")
-                                    i.database.icon
-                                    |models
-                            a.item(href="/help" class="{{isActivePath '/help'}}")
-                                i.info.icon
-                                |help
                             a#logout.item(href='#')
                                 i.sign.out.icon 
                                 |log out
                 if logging_out
                     .item
                         i.loading.circle.notch.icon
-
-
-template(name='bug_reporter')
-    .ui.fluid.button.start_report
-        i.bug.icon
-        |report bug
-    if reporting_bug
-        with new_bug
-            |#{pathname}
-            +text_edit key='text' direct=true
-            .ui.icon.fluid.button.submit_report
-                i.checkmark.icon
-            .ui.small.icon.button.cancel_bug
-                i.remove.icon
-
-
-template(name='footer')
-    .ui.stackable.padded.grid.segment
-        .row
-            .four.wide.column
-                .ui.link.large.list
-                    a.item(href='/p/about')
-                        | what is forest?
-                    a.item(href='/prime')
-                        | forest prime
-                    a.item(href="/p/terms") 
-                        | terms of service
-                    a.item(href="/p/privacy") 
-                        | privacy policy
-                    a.item(href='/sponsor') 
-                        | sponsor
-                    a.item(href='https://discordapp.com/invite/d8QyR59' target='_window') 
-                        | discord
-                    a.item(href='/p/team') 
-                        | join our team
-                    a.item(href='/contact')
-                        | contact
-            .six.wide.column
-                .ui.link.large.list
-                    a.item(href='/blog')
-                        | blog
-                    a.item(href='/resources')
-                        | resources
-
-                +footer_chat
-                //- if is_admin
-                //-     with currentUser
-                //-         +role_switcher
-                unless currentUser
-                    a.ui.fluid.compact.button(href='/login')
-                        +ismall name='internal'
-                        |login
-            .six.wide.column
-                +bug_reporter 
-                .ui.grey.small.header    
-                    i.copyright.outline.icon 
-                    |2019 Forest
-                
-template(name='footer_chat')
-    .ui.grey.header 
-        i.chat.outline.icon
-        |chat
-    .ui.list.scroll
-        each chat_messages
-            .item(title="by #{author.name} #{when}")
-                if author
-                    img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                |#{text}
-                //- small #{when}
-                if is_author
-                    span
-                        i.remove.link.icon.remove_message
-    .ui.bottom.attached.fluid.icon.transparent.input
-        i.plus.icon
-        input.new_footer_chat_message(type='text' placeholder='add message')
-
-
-
-
-
-template(name='my_latest_activity')
-    .ui.grey.header 
-        i.grey.rss.icon
-        |your activity
-    .ui.list
-        each my_latest_activity
-            .item 
-                img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                |#{text} #{body}
-                small #{when}
-
 
 
 template(name='role_switcher')

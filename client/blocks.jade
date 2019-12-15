@@ -40,7 +40,6 @@ template(name='goto_model')
     if is_staff
         a.goto_model(href="/m/#{slug}" title="goto #{slug}")
             i.external.blue.icon
-            //- +i name='external-link'
 
 
 
@@ -59,7 +58,6 @@ template(name='print_current_doc')
 template(name='events_column')
     .ui.accordion
         h4.active.title
-            // +i name='edit-property' classes='ui inline image'
             //- i.rss.icon
             | log
             i.dropdown.icon
@@ -190,7 +188,6 @@ template(name='big_user_card')
 
 template(name='unit_key_checkout')
     .ui.compact.button.unit_key_checkout
-        +i name='key' classes='ui mini inline image'
         strong Checkout Unit Key
 
 
@@ -292,7 +289,6 @@ template(name='voting_small')
 template(name='voting_full')
     div
     //- .ui.inline.header 
-    //-     //- +i name='elections'
     //-     |voting
     .ui.large.icon.circular.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
@@ -322,7 +318,6 @@ template(name='voting_full')
 template(name='view_button')
     a.ui.icon.compact.basic.button.view(title='view' href="/m/#{model}/#{_id}/view")
         //- i.right.chevron.large.icon
-        +i name='chevron right' classes='ui mini inline image'
 
 
 template(name='remove_button')
@@ -387,7 +382,6 @@ template(name='email_validation_check')
     unless email_verified
         .ui.basic.fluid.button.send_verification
             //- i.user.shield.icon
-            //- +i name='user-shield' classes='ui inline image'
             |resend verification email
         if times
             .ui.label
@@ -403,7 +397,6 @@ template(name='lease_expiration_check')
     div
     if expiration_date
         i.grey.clock.icon
-        //- +i name='clock' classes='ui avatar image'
         |lease expiring 
         |#{lease_expiring}
         

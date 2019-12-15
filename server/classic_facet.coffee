@@ -4,9 +4,6 @@ Meteor.publish 'delta', (match)->
 Meteor.publish 'facet', (
     selected_theme_tags
     selected_author_ids=[]
-    selected_location_tags
-    selected_building_tags
-    selected_unit_tags
     selected_timestamp_tags
     model
     author_id
@@ -35,8 +32,6 @@ Meteor.publish 'facet', (
         if selected_author_ids.length > 0
             match.author_id = $in: selected_author_ids
             match.published = 1
-        if selected_location_tags.length > 0 then match.location_tags = $all: selected_location_tags
-        if selected_building_tags.length > 0 then match.building_tags = $all: selected_building_tags
         if selected_timestamp_tags.length > 0 then match.timestamp_tags = $all: selected_timestamp_tags
 
         if tag_limit then limit=tag_limit else limit=50
@@ -106,7 +101,7 @@ Meteor.publish 'facet', (
                 count: tag.count
                 index: i
 
-        # 
+        #
         #
         # # watson_keyword_cloud = Docs.aggregate [
         # #     { $match: match }

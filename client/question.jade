@@ -1,0 +1,99 @@
+template(name='questions')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header 
+                    i.question.mark.icon
+                    |questions
+                .ui.icon.button.add_question(title='add question')
+                    i.plus.large.icon
+                +question_cloud
+            .twelve.wide.column
+                each questions
+                    +question_small
+
+
+
+
+template(name='question_cloud')
+    div
+    i.large.tag.icon
+    .ui.left.icon.input
+        i.search.icon
+        input#search(type='text' placeholder='search')
+        //- +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+    if selected_question_tags
+        #clear_question_tags.ui.active.icon.button
+            i.remove.icon
+        each selected_question_tags
+            .unselect_question_tag.ui.active.button
+                strong #{this}
+    each all_question_tags
+        .ui.compact.button.select_question_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+
+template(name='question_small')
+    .ui.segment
+        .content
+            //- a.ui.header(href="/question/#{_id}/view") 
+            .ui.header #{question}
+            div
+            each tags
+                .ui.basic.label #{this}
+            div
+            if my_answer
+                //- .ui.header your answer
+                with my_answer
+                    .ui.small.header #{choice_content }#{when} by #{_author_username}
+            if points 
+                span #{points} points (#{upvotes} up, #{downvotes} down)
+        a.ui.large.button(href="/question/#{_id}/view")
+            i.right.chevron.icon
+        
+
+
+template(name='question_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href="/questions")
+                        |questions
+                    .ui.header question view 
+                    if can_edit
+                        a.ui.fluid.icon.button(href="/question/#{_id}/edit")
+                            i.pencil.icon
+                    each tags 
+                        .ui.basic.label #{this}
+                .six.wide.column
+                    img.ui.centered.rounded.image(src="{{c.url passage_image gravity='face' crop='fit'}}")
+                    .ui.header #{question}
+                    .ui.inline.header stats
+                    .ui.icon.small.button.calc_stats
+                        i.refresh.icon
+                    .ui.list 
+                        .item #{view_count} views
+                        .item #{answer_count} answers
+                .six.wide.column
+                    if can_answer
+                        .ui.fluid.button.new_answer_session
+                            |answer
+                    .ui.header
+                        |all answers
+                    .ui.link.list
+                        each answer_sessions
+                            a.item(href="/answer_session/#{_id}/view")
+                                .content 
+                                    .header #{number_answer} #{text_answer} #{choice_selection_content} #{boolean_choice}
+                                    .description
+                                        |#{when} by #{_author_username}
+                                        i.clock.icon 
+                                        |#{answer_duration} secs
+                                        if is_correct_answer
+                                            i.checkmark.large.icon(title='correct')
+                                        else 
+                                            i.remove.large.icon(title='incorrect')
+                            if can_edit
+                                +remove_button

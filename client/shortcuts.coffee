@@ -1,12 +1,5 @@
 globalHotkeys = new Hotkeys();
 
-Template.shortcut_modal.onCreated ->
-    Meteor.subscribe 'model_docs', 'keyboard_shortcut'
-Template.shortcut_modal.helpers
-    shortcuts: ->
-        Docs.find
-            model:'keyboard_shortcut'
-
 globalHotkeys.add
 	combo: "d r"
 	callback: ->
