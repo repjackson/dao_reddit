@@ -15,7 +15,83 @@ template(name='textarea_view')
             //-     |#{this}            
         .f6 {{nl2br field_value}}
 
+template(name='image_edit')
+    .ui.form
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}   
+        if tooltip
+            i.info.icon(title=tooltip)         
+        .field
+            if field_value
+                //- label Image
+                img.ui.centered.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}")
+                a#remove_photo.ui.right.corner.link.label
+                    i.remove.link.icon
+            else 
+                input(type='file' name='upload_image' accept='image/*' )
+
+template(name='image_link')
+    .ui.fluid.input
+        .ui.smoothed.label image link
+        i.image.icon
+        input.edit_image_link(type='link' value=field_value placeholder='image link'  autocomplete="off")
+    if field_value
+        img.ui.fluid.image(src=field_value)
+    // +call_visual
+
+
+template(name='image_link_view')
+    img.ui.image(src=field_value)
+
+
+template(name='html_view')
+    if field_value
+        div
+        //- if icon
+        //-     i.icon(class=field_value)
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+        .f6 {{nl2br field_value}}
+        if view_watson
+            if watson
+                +watson_view
+
+template(name='html_edit')
+    .ui.form
+        .field
+            label 
+                if icon
+                    i.icon(class=icon)
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+    .froala-container
+        +froalaReactive getFEContext
+    //- if is_dev
+    +call_watson mode='html' key=key
+    div
+    //- +tone mode='html'
+    if watson
+        +watson_view
         
+
+
+
 template(name='text_edit')
     div
     .ui.inline.small.header
@@ -149,3 +225,88 @@ template(name='textarea_edit')
                 //- else
                 //-     |#{this}
             textarea.edit_textarea(rows='5') #{field_value}
+
+
+
+template(name='project_lookup')
+    unless field_value
+        .ui.input
+            input.project_title_lookup(type='text' placeholder='lookup project' autocomplete="off")
+        //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
+    each selections
+        .ui.basic.label
+            |#{title}
+    if doc_results
+        .ui.attached.segment
+            .ui.middle.aligned.selection.animated.list
+                each doc_results
+                    .select_doc.item
+                        +ismall name=icon classes='ui middle aligned image'
+                        .ui.inline.small.header
+                            strong #{title}
+                        div
+        //- +clear_value                
+        //- .ui.list
+        //-     each field_value
+        //-         // |#{this}
+        //-         +user_card
+        //-         .ui.large.button
+        //-             |#{first_name} #{last_name}
+                //- with user_from_id
+                //-     .item
+                //-         .right.floated.content
+                //-             i.pull_user.remove.link.icon
+                //-         .image
+                //-             img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+                //-         .content
+                //-             h4.ui.header
+                //-                 |#{first_name} #{last_name}
+                //-                 @#{username}
+
+
+                template(name='project_lookup')
+                    //- .ui.form
+                        //- .ui.inline.header
+                        //-     if icon
+                        //-         i.icon(class=icon)
+                        //-     if title
+                        //-         |#{title}
+                        //-     else if label
+                        //-         |#{label}
+                        //-     else if key
+                        //-         |#{key}
+                        //-     else
+                        //-         |#{this}
+                    unless field_value
+                        .ui.input
+                            input.project_title_lookup(type='text' placeholder='lookup project' autocomplete="off")
+                        //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
+                    each selections
+                        .ui.basic.label
+                            |#{title}
+                    if doc_results
+                        .ui.attached.segment
+                            .ui.middle.aligned.selection.animated.list
+                                each doc_results
+                                    .select_doc.item
+                                        +ismall name=icon classes='ui middle aligned image'
+                                        .ui.inline.small.header
+                                            strong #{title}
+                                        div
+                        //- +clear_value                
+                        //- .ui.list
+                        //-     each field_value
+                        //-         // |#{this}
+                        //-         +user_card
+                        //-         .ui.large.button
+                        //-             |#{first_name} #{last_name}
+                                //- with user_from_id
+                                //-     .item
+                                //-         .right.floated.content
+                                //-             i.pull_user.remove.link.icon
+                                //-         .image
+                                //-             img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                //-         .content
+                                //-             h4.ui.header
+                                //-                 |#{first_name} #{last_name}
+                                //-                 @#{username}

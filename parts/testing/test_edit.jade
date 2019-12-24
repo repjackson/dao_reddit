@@ -1,0 +1,57 @@
+template(name='test_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .three.wide.column 
+                    .ui.header 
+                        | edit '#{title}' test
+                    a.ui.fluid.icon.button(href="/test/#{_id}/view" title='save')
+                        i.checkmark.icon
+                        //- |save
+                    +remove_button
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .thirteen.wide.column 
+                    +text_edit key='title' direct=true
+                    +text_edit key='link' direct=true
+                    +text_edit key='answers_link' direct=true
+                    +text_edit key='explanations_link' direct=true
+                    //- +text_edit key='source_link' direct=true
+                    +number_edit key='question_amount' label='number of questions' direct=true
+                    div
+                    +number_edit key='minute_amount' label='number of minutes' direct=true
+                    div
+                    +boolean_edit key='has_month' label='has month' direct=true
+                    if has_month
+                        +month_selector
+                    div
+                    +boolean_edit key='has_year' label='has year' direct=true
+                    if has_year
+                        +number_edit key='year' label='year' direct=true
+                    .ui.button.generate_questions
+                        |generate questions
+                    .ui.button.delete_questions
+                        i.remove.icon
+                        |delete
+        .ui.stackable.padded.grid 
+            .row
+                .five.wide.column
+                    .largescroll
+                        each test_questions
+                            div
+                            .ui.inline.header #{number}
+                            .ui.circular.small.compact.buttons
+                                if is_odd
+                                    +key_value_edit key='answer' value='A' label='A'
+                                    +key_value_edit key='answer' value='B' label='B'
+                                    +key_value_edit key='answer' value='C' label='C'
+                                    +key_value_edit key='answer' value='D' label='D'
+                                    +key_value_edit key='answer' value='E' label='E'
+                                else 
+                                    +key_value_edit key='answer' value='F' label='F'
+                                    +key_value_edit key='answer' value='G' label='G'
+                                    +key_value_edit key='answer' value='H' label='H'
+                                    +key_value_edit key='answer' value='I' label='I'
+                                    +key_value_edit key='answer' value='J' label='J'
+                .eleven.wide.column
+                    if link
+                        iframe(src=answers_link width="100%" height="600px")

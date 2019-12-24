@@ -1,0 +1,40 @@
+template(name='act_question_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                        //- | edit '!{title}' act_question
+                .three.wide.column
+                    .ui.inline.header 
+                        | edit act question
+                    a.ui.big.fluid.button(href="/act_question/#{_id}/view" title='save')
+                        i.checkmark.icon
+                        |save
+                    +remove_button
+                    .ui.vertical.fluid.menu
+                        .disabled.item act question
+                        .disabled.item history
+                        .disabled.item stats
+                    +boolean_edit key='published' label='published' direct=true
+                    +array_edit key='tags' label='tags' direct=true
+                .seven.wide.column 
+                    +image_edit key='passage_image' label='passage image' direct=true
+                    div
+                    +boolean_edit key='has_image' label='has image' direct=true
+                    if has_image
+                        .ui.hidden.divider
+                        +image_edit key='image_id' icon='image' label='image' direct=true
+                    .ui.header settings 
+                .six.wide.column
+                    .ui.header answers
+                    +image_edit key='answer_image' label='answer image' direct=true
+                    .ui.segment(class="{{answer_segment_class 'a'}}")
+                        +key_value_edit key='correct_choice' value='a' label='correct'
+                    .ui.segment(class="{{answer_segment_class 'b'}}")
+                        +key_value_edit key='correct_choice' value='b' label='correct'
+                    .ui.segment(class="{{answer_segment_class 'c'}}")
+                        +key_value_edit key='correct_choice' value='c' label='correct'
+                    .ui.segment(class="{{answer_segment_class 'd'}}")
+                        +key_value_edit key='correct_choice' value='d' label='correct'
+                    .ui.segment(class="{{answer_segment_class 'e'}}")
+                        +key_value_edit key='correct_choice' value='e' label='correct'
+                

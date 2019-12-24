@@ -2,6 +2,8 @@
 @Tags = new Meteor.Collection 'tags'
 
 @Question_tags = new Meteor.Collection 'question_tags'
+@Test_tags = new Meteor.Collection 'test_tags'
+@Post_tags = new Meteor.Collection 'post_tags'
 
 
 Docs.before.insert (userId, doc)->
@@ -37,6 +39,16 @@ Docs.before.insert (userId, doc)->
     return
 
 
+if Meteor.isClient
+    # console.log $
+    $.cloudinary.config
+        cloud_name:"facet"
+
+if Meteor.isServer
+    Cloudinary.config
+        cloud_name: 'facet'
+        api_key: Meteor.settings.cloudinary_key
+        api_secret: Meteor.settings.cloudinary_secret
 
 
 # Docs.after.insert (userId, doc)->
@@ -199,11 +211,11 @@ if Meteor.isServer
         # console.log filter
         self = @
         match = {}
-        if Meteor.user()
-            unless Meteor.user().roles and 'dev' in Meteor.user().roles
-                match.view_roles = $in:Meteor.user().roles
-        else
-            match.view_roles = $in:['public']
+        # if Meteor.user()
+        #     unless Meteor.user().roles and 'dev' in Meteor.user().roles
+        #         match.view_roles = $in:Meteor.user().roles
+        # else
+        #     match.view_roles = $in:['public']
 
         # if filter is 'shop'
         #     match.active = true

@@ -1,0 +1,132 @@
+template(name='posts')
+    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 crop='fill'}}")    
+    .ui.stackable.padded.grid
+        .row
+            .six.wide.column
+                .ui.inline.header 
+                    |posts
+                if currentUser
+                    .ui.icon.button.add_post(title='add post')
+                        i.plus.icon
+                +post_cloud
+            .ten.wide.column.scrolling
+                //- .ui.button items you have
+                //- .ui.button purchasable items
+                each posts
+                    +post_card
+
+
+template(name='post_cloud')
+    div
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    //- i.grey.tags.icon
+    //- .ui.inline.header tags
+    if selected_post_tags
+        #clear_post_tags.ui.active.icon.button
+            i.remove.icon
+        each selected_post_tags
+            .unselect_post_tag.ui.active.button
+                strong #{this}
+    each all_post_tags
+        .ui.compact.button.select_post_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+
+template(name='post_card')
+    .ui.segment
+        img.ui.fluid.image(src="{{c.url post_image_id width=400 height=200 crop='fill'}}")
+        .content
+            a.ui.header(href="/post/#{_id}/view") #{title}
+            |!{body}
+            each tags
+                .ui.basic.label #{this}
+            i.icon(class=icon)
+            a.ui.button.view(href="/post/#{_id}/view")
+                |view
+
+
+template(name='post_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' post
+                    a.ui.icon.fluid.button(href="/post/#{_id}/view" title='save')
+                        i.checkmark.large.icon
+                        //- |save
+                    +remove_button
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .twelve.wide.column 
+                    +text_edit key='title' label='post' direct=true
+                    +html_edit key='body' label='body' icon='content' direct=true
+                    +text_edit key='link' label='link' direct=true
+
+
+template(name='post_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href="/posts" title='posts')
+                        i.chevron.left.icon
+                        //- |posts
+                    .ui.header post view 
+                    a.ui.fluid.button(href="/post/#{_id}/edit" title='edit')
+                        i.pencil.icon
+                        //- |edit
+                    i.tags.icon 
+                    each tags 
+                        .ui.label #{this}
+                    a(href=link)
+                        |original link
+                    +transactions
+                    +finance
+                .twelve.wide.column
+                    .ui.header #{title}
+                    |!{body}
+                    +comments
+
+
+template(name='transactions')
+    .ui.header transactions
+
+
+template(name='post_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_post_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_post_hours}hrs total
+        .item #{average_post_cost}c / #{average_post_duration}hrs avg post
+        //- .item post ranking # reservations
+        //- .item post ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_post_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+template(name='posts_view_template')
+    .ui.header post view template

@@ -1,0 +1,270 @@
+template(name='profile_layout')
+    //- img.ui.fluid.image.home_banner(src="{{c.url 'nightbg' width=1000 height=1000 crop='crop'}}")    
+    +nav
+    with user
+        .ui.stackable.padded.grid
+            .three.wide.column
+                img.ui.centered.small.rounded.profile_image.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                .ui.center.aligned.basic.segment
+                    a(href="/user/#{_id}")
+                        .ui.center.aligned.inline.header
+                            | #{user.first_name} #{user.last_name}
+                        //- div
+                        //- .ui.small.inline.header @#{user.username}        
+                .ui.fluid.vertical.pointing.menu(class="{{currentUser.nav_color}}")
+                    a.item(href="/user/#{_id}/dashboard" class="{{isActiveRoute regex='user_dashboard'}}")
+                        i.grey.dashboard.icon
+                        |dashboard
+                    //- a.item(href="/user/#{_id}/profile" class="{{isActiveRoute regex=user_offers}}")
+                    //-     |profile
+                    //- a.item(href="/user/#{_id}/questions" class="{{isActiveRoute regex=user_offers}}")
+                    //-     i.question.mark.icon
+                    //-     |questions
+                    //- a.item(href="/user/#{_id}/passages" class="{{isActiveRoute regex=user_passages}}")
+                    //-     i.list.icon
+                    //-     |passages
+                    a.item(href="/user/#{_id}/tests" class="{{isActiveRoute regex='user_tests'}}")
+                        i.list.icon
+                        |tests
+                    a.item(href="/user/#{_id}/brain" class="{{isActiveRoute regex='user_brain'}}")
+                        i.grey.brain.icon
+                        |brain
+                    a.item(href="/user/#{_id}/karma" class="{{isActiveRoute regex='user_karma'}}")
+                        i.grey.yin.yang.icon
+                        |karma
+                    a.item(href="/user/#{_id}/right" class="{{isActiveRoute regex='user_right'}}")
+                        i.grey.checkmark.icon
+                        |right
+                    a.item(href="/user/#{_id}/wrong" class="{{isActiveRoute regex='user_wrong'}}")
+                        i.grey.remove.icon
+                        |wrong
+                    a.item(href="/user/#{_id}/finance" class="{{isActiveRoute regex='user_finance'}}")
+                        i.grey.coins.icon
+                        |finance
+                    a.item(href="/user/#{_id}/cart" class="{{isActiveRoute regex='user_cart'}}")
+                        i.grey.shopping.cart.icon
+                        |cart
+                    a.item(href="/user/#{_id}/groups" class="{{isActiveRoute regex='user_groups'}}")
+                        i.grey.users.icon
+                        |groups
+                    a.item(href="/user/#{_id}/tutoring" class="{{isActiveRoute regex='user_tutoring'}}")
+                        i.grey.chalkboard.icon
+                        |tutoring
+                    a.item(href="/user/#{_id}/events" class="{{isActiveRoute regex='user_events'}}")
+                        i.grey.calendar.icon
+                        |events
+                    //- a.item(href="/user/#{_id}/fiq" class="{{isActiveRoute regex=user_fiq}}")
+                    //-     i.grey.line.chart.icon
+                    //-     |fiq
+                    //- a.item(href="/user/#{_id}/awards" class="{{isActiveRoute regex=user_awards}}")
+                    //-     i.grey.award.icon
+                    //-     |awards
+                    a.item(href="/user/#{_id}/friends" class="{{isActiveRoute regex='user_friends'}}")
+                        i.grey.users.icon
+                        |friends
+                    a.item(href="/user/#{_id}/messages" class="{{isActiveRoute regex='user_messages'}}")
+                        i.grey.envelope.icon
+                        |messages
+                if is_current_user
+                    a.ui.large.fluid.button(href="/user/#{_id}/edit")
+                        i.cog.icon
+                        |account
+                    a.ui.fluid.button.logout(href="#")
+                        i.sign.out.alternate.icon
+                        |log out
+                    //- a.ui.fluid.button.logout_other_clients(href="#" title='logout other clients')
+                    //-     //- i.globe.icon
+                    //-     |log out other clients
+                if is_admin
+                    .ui.basic.segment
+                        .ui.header 
+                            i.grey.shield.small.icon
+                            |roles
+                        each roles
+                            .ui.basic.label #{this}
+                +user_friend_button            
+            .thirteen.wide.column
+                //- each user_sections
+                //-     a.ui.button(href="/user/#{_id}/#{slug}")
+                //-         i.icon(class=icon)
+                //-         |#{title}
+                +yield    
+    +footer
+
+
+
+template(name='user_dashboard')             
+    .ui.center.aligned.header 
+        i.dashboard.icon
+        |dashboard
+    i.recalc_user_act_stats.circular.refresh.link.icon
+    //- i.recalc_user_cloud.refresh.link.icon
+    //- .ui.header right cloud 
+    //-     each current_user.right_tag_cloud
+    //-         .ui.basic.large.label 
+    //-             |#{tag}
+    //-             small #{count}
+    //- .ui.header wrong cloud 
+    //-     each current_user.wrong_tag_cloud
+    //-         .ui.basic.large.label 
+    //-             |#{tag}
+    //-             small #{count}
+    //- .ui.header right tag list
+    //- each current_user.right_tag_list
+    //-     .ui.label #{this}
+    //- .ui.header wrong tag list
+    //- each current_user.wrong_tag_list
+    //-     .ui.label #{this}
+    .ui.stackable.padded.grid
+        .three.column.row
+            .column
+                +user_alerts_small
+            .column
+                +user_bookmarks_small
+            //-     +user_answered_questions_small
+            .column
+                .ui.small.header section average
+                .ui.list 
+                    .item from yesterday
+                    .item from last week
+                    .item from last month
+                .ui.header.calc_test_sessions test sessions
+                .ui.list 
+                    .item #{current_user.all_sessions_count} total
+                    .item #{current_user.todays_sessions_count} last 24 hrs
+                    .item #{current_user.weeks_sessions_count} last 7 days
+                    .item #{current_user.months_sessions_count} last 30 days
+            .column
+                .ui.indicating.tiny.progress(data-percent=site_percent_complete)
+                    .bar 
+                    .label 
+                        |#{site_percent_complete}% site complete
+                //- .ui.header #{site_percent_complete}% site complete
+                //- .ui.header #{session_count} sessions
+                .ui.header ACT sections
+                .ui.small.header 
+                    i.chalkboard.grey.icon
+                    |all #{global_section_average}%
+                .ui.indicating.tiny.progress(data-percent=global_section_average)
+                    .bar 
+                    //- .label 
+                    //-     |#{global_section_average}% total
+                .ui.teal.circular.label(title='global rank')
+                    |#{global_section_average_rank}
+                .ui.blue.circular.label(title='group rank')
+                    |#{global_section_average_rank}
+        
+                .ui.small.header 
+                    i.book.open.grey.icon
+                    |reading #{reading_average}%
+                .ui.indicating.tiny.progress(data-percent=reading_average)
+                    .bar 
+                    //- .label 
+                    //-     |#{reading_average}% reading
+                .ui.small.header 
+                    i.pencil.grey.icon
+                    |english #{english_average}%
+                .ui.indicating.tiny.progress(data-percent=english_average)
+                    .bar 
+                    //- .label 
+                    //-     |#{english_average}% english
+                    
+                .ui.small.header 
+                    i.calculator.grey.icon
+                    |math #{math_average}%
+                .ui.indicating.tiny.progress(data-percent=math_average)
+                    .bar 
+                    //- .label 
+                    //-     |#{math_average}% math
+                    
+                .ui.small.header
+                    i.flask.grey.icon
+                    | science #{science_average}%
+                .ui.indicating.tiny.progress(data-percent=science_average)
+                    .bar 
+                    //- .label 
+                    //-     |#{science_average}% science
+
+            .column
+                +user_sessions_small
+            //- .column
+            //-     +user_fiq_small
+            //- .column
+            //-     +user_brain_small
+            //- .column
+            //-     +user_authored_questions_small
+            //- .column
+            //-     +user_progress_small
+            //- .column
+            //-     +user_stats_small
+
+
+template(name='user_alerts_small')
+    .ui.header 
+        i.bell.small.icon
+        |alerts
+    .ui.list
+        each alerts 
+            .ui.item #{content}
+
+
+template(name='user_fiq_small')
+    a.ui.header(href="/user/#{_id}/fiq")
+        i.line.chart.icon
+        |#{current_user.username} fiq #{current_user.fiq}
+    .ui.small.header 
+        |your fiq #{currentUser.fiq}
+
+template(name='user_progress_small')
+    i.pie.chart.icon
+    .ui.inline.header 
+        |progress
+    div    
+
+template(name='user_authored_questions_small')
+    i.pencil.icon
+    .ui.inline.header 
+        |authored questions
+    div    
+
+template(name='user_sessions_small')
+    .ui.inline.header 
+        //- i.book.icon
+        |#{current_user.session_count} sessions
+    div    
+    .ui.list 
+        each sessions 
+            .item
+                .header 
+                    |#{test.title}    
+                .content
+                    .ui.indicating.tiny.progress(data-percent=correct_percent)
+                        .bar 
+                        //- .label 
+                        //-     |#{correct_percent}% correct percent
+    
+                .content
+                    | #{when} #{correct_count}/#{question_count} #{correct_percent}%
+                    //- each test.tags 
+                    //-     .ui.small.basic.label #{this}
+                    a.ui.icon.small.compact.circular.button(href="/test_session/#{_id}/take")
+                        i.grey.right.chevron.icon
+    
+    
+    
+template(name='user_stats_small')
+    .ui.inline.header 
+        i.bar.chart.icon
+        |stats
+    div    
+    .ui.large.list 
+        .item profile views 
+        .item comments
+        .item questions authored 
+        .item likes 
+        .item dislikes
+        .item question views
+        .item courses enrolled
+        
+    
+    

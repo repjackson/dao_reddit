@@ -1,5 +1,6 @@
 @selected_tags = new ReactiveArray []
 @selected_question_tags = new ReactiveArray []
+@selected_post_tags = new ReactiveArray []
 
 
 Tracker.autorun ->

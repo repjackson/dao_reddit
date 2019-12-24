@@ -45,7 +45,10 @@ email@1.2.3
 es5-shim@4.8.0
 fetch@0.1.1
 flowkey:hotkeys@1.2.0
+fortawesome:fontawesome@4.4.0_1
 fourseven:scss@4.12.0
+froala:editor@2.4.2
+froala:editor-reactive@2.4.2
 geojson-utils@1.0.10
 gwendall:body-events@0.1.6
 gwendall:session-json@0.1.7
@@ -65,6 +68,7 @@ iron:url@1.0.11
 jquery@1.11.11
 lai:collection-extensions@0.2.1_1
 launch-screen@1.1.1
+lepozepo:cloudinary@4.2.6
 livedata@1.0.18
 localstorage@1.2.0
 logging@1.1.20

@@ -96,11 +96,6 @@ template(name='user_list_info')
         |#{user.profile.name}
         +user_status user
 
-template(name='call_watson')
-    .ui.button.autotag
-        i.chess.icon
-        //- +ismall name='dna-helix'
-        |call watson
 
 template(name='view_full_button')
     a.ui.icon.basic.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
@@ -119,18 +114,18 @@ template(name='user_status')
     // else 
     //     |Offline
 
-template(name='user_card')
-    with user
-        .ui.small.horizontal.card
-            .image
-                img.ui.rounded.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-            .content    
-                a.header(href="/user/#{username}") #{first_name} #{last_name} 
-                //- .meta @#{username}
-                strong $#{credit}
-                small credit
-                //- +emails_edit    
-        //- +user_status user
+//- template(name='user_card')
+//-     with user
+//-         .ui.small.horizontal.card
+//-             .image
+//-                 img.ui.rounded.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+//-             .content    
+//-                 a.header(href="/user/#{username}") #{first_name} #{last_name} 
+//-                 //- .meta @#{username}
+//-                 strong $#{credit}
+//-                 small credit
+//-                 //- +emails_edit    
+//-         //- +user_status user
 
 
 template(name='small_horizontal_user_card')

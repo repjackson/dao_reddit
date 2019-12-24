@@ -1,15 +1,15 @@
-template(name='question_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .three.wide.column
-                    .ui.inline.header 
-                        | edit question
-                    a.ui.big.icon.fluid.button(href="/question/#{_id}/view" title='save')
-                        i.checkmark.icon
-                    +remove_button
-                    +array_edit key='tags' label='tags' direct=true
-                .seven.wide.column 
-                    +textarea_edit key='question' label='question' direct=true
-                        
-                
+//- template(name='question_edit')
+//-     with current_doc
+//-         .ui.stackable.padded.grid
+//-             .row
+//-                 .three.wide.column
+//-                     .ui.inline.header 
+//-                         | edit question
+//-                     a.ui.big.icon.fluid.button(href="/question/#{_id}/view" title='save')
+//-                         i.checkmark.icon
+//-                     +remove_button
+//-                     +array_edit key='tags' label='tags' direct=true
+//-                 .seven.wide.column 
+//-                     +textarea_edit key='question' label='question' direct=true
+//- 
+//- 

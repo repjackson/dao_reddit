@@ -43,9 +43,9 @@
 	},
 	"galaxy.meteor.com": {
 		"env": {
-            "MONGO_URL": "mongodb+srv://<username>:<password>@cluster0-k7imq.mongodb.net/test?retryWrites=true&w=majority",
+            "MONGO_URL": "mongodb://daoadmin:daoadminpassword@aws-us-east-1-portal.21.dblayer.com:10444/daodb?ssl=true",
             "MAIL_URL": "smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587",
-			"ROOT_URL": "https://www.forest.meteorapp.com"
+			"ROOT_URL": "https://www.dao.af"
 		}
 	}
 }

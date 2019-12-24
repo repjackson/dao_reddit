@@ -1,0 +1,226 @@
+template(name='tests')
+    .ui.stackable.padded.grid
+        .row
+            .three.wide.column
+                .ui.inline.center.aligned.big.header
+                    |tests
+                .ui.icon.button.add_test(title='add test')
+                    i.plus.icon
+                //- .ui.fluid.green.large.button.take_forest_test
+                //-     i.right.chevron.large.icon
+                +test_cloud
+            .thirteen.wide.column
+                |view
+                .ui.button taken
+                .ui.button untaken
+                |sort by
+                .ui.button toughest
+                .ui.button easiest
+                .ui.button newest
+                .ui.button most taken
+                each tests
+                    +test_segment
+                //- div
+                //- .ui.inline.header 
+                //-     i.line.chart.icon
+                //-     |stats
+                //- i.refresh.link.icon.refresh_user_stats
+                //- table.ui.definition.basic.table
+                //-     thead
+                //-         tr
+                //-             th 
+                //-             th avg.correct %
+                //-             th total sessions
+                //-             th avg duration (mins)
+                //-             th avg mins/question
+                //-             th sessions
+                //-             //- each question_fields
+                //-             //-     th #{title}
+                //-     tbody
+                //-             tr
+                //-                 td you
+                //-                 td #{currentUser.average_correct_percent}%
+                //-                 td #{currentUser.total_session_amount} total sessions 
+                //-             tr
+                //-                 td global
+                //-                 td #{gs.global_average_correct_percent}%
+                //-                 td #{gs.total_sessions}
+                //- div
+                //- table.ui.celled.selectable.very.basic.table
+                //-     thead
+                //-         tr
+                //-             th when
+                //-             th 
+                //-                 i.green.checkmark.icon(title='correct answers')
+                //-                 i.orange.question.icon(title='almost correct (second guess)')
+                //-                 i.red.minus.icon(title='incorrect answers')
+                //-                 //- right/almost/wrong right%
+                //-             th duration (mins)
+                //-             th avg mins/question
+                //-             th answers
+                //-             //- each question_fields
+                //-             //-     th #{title}
+                //-     tbody
+                //-         each test_sessions
+                //-             tr.view_test
+                //-                 td #{when}
+                //-                 td 
+                //-                     span.ui.green.text #{correct_count}
+                //-                     spa.ui.grey.text &nbsp;
+                //-                     span.ui.yellow.text #{almost_correct_count}
+                //-                     spa.ui.grey.text &nbsp;
+                //-                     span.ui.red.text #{incorrect_count}
+                //-                     | = #{correct_percent}%
+                //-                 td #{minutes_duration}
+                //-                 td #{average_minutes_per_question}
+                //-                 td #{answer_count}
+        //- .row
+        //-     .sixteen.wide.column
+        //-         .ui.header test sessions
+        //-         .ui.stackable.four.cards 
+        //-             each test_sessions 
+        //-                 .ui.card 
+        //-                     .content
+        //-                         a.ui.header(href="/test_session/#{_id}/view") #{when} #{_author_username}
+        //-                         .ui.list
+        //-                             .item #{question_count} total questions 
+        //-                             .item #{answer_count} answered questions 
+        //-                             .item #{correct_count} correct answers 
+        //-                             .item #{incorrect_count} incorrect answers 
+        //-                             .item #{almost_correct_count} almost correct count 
+        //-                             .item #{correct_percent}% correct  
+        //-                             .item #{minutes_duration} minutes duration
+        //-                             .item #{average_question_duration} avg question duration
+
+template(name='test_segment')
+    .ui.segment
+            .content
+                a.ui.header(href="/test/#{_id}/view") #{title}
+            .description
+                each tags
+                    .ui.basic.label #{this}
+                .ui.list
+                    .item #{minute_amount} mins
+                    .item #{question_amount} questions
+                    .item #{session_count} sessions
+                    .item #{total_average}% average
+                    .item #{incorrect_average} correct average
+                    .item #{correct_average} incorrect average
+                    .item #{comment_count} comments
+
+                a.ui.large.button(href="/test/#{_id}/view")
+                    |view
+                    i.right.chevron.icon
+    
+    
+    
+template(name='test_cloud')
+    div
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    //- i.grey.tags.icon
+    //- .ui.inline.header tags
+    if selected_test_tags
+        #clear_tags.ui.active.icon.button
+            i.remove.icon
+        each selected_test_tags
+            .unselect_test_tag.ui.active.button
+                strong #{this}
+    each all_test_tags
+        .ui.compact.button.select_test_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+                    
+
+
+
+                    
+
+template(name='select_english_answer')
+    .ui.compact.button.set_editing
+        |#{answer}
+    
+    if editing_this
+        .ui.buttons
+            .ui.button.save_answer A
+            .ui.button.save_answer B
+            .ui.button.save_answer C
+            .ui.button.save_answer D
+            .ui.button.save_answer E
+    //- .ui.small.input 
+    //-     input(type='text') 
+
+
+
+
+
+
+
+template(name='answer_row')
+    .ui.black.basic.icon.mini.compact.buttons
+        .ui.button A
+        .ui.button B
+        .ui.button C
+        .ui.button D
+        .ui.button E
+
+
+
+template(name='take_act_test')
+    with current_doc
+        .ui.stackable.padded.grid 
+            .middle.aligned.row 
+                .four.wide.column
+                    a.ui.button(href="/test/#{test_id}/view")
+                        i.chevron.left.icon
+                        |test 
+                .eight.wide.column
+                    .ui.header #{test.title}
+            .centered.row 
+                .twelve.wide.column 
+                    iframe(src=test.link width="100%" height="100%")
+                    //- iframe(src="https://drive.google.com/file/d/0B-SjC2QWxqXRekpHR21rWDVObHc/view" width="100%" height="100%")
+                    //- iframe(src="https://drive.google.com/file/d/0B-SjC2QWxqXRZzVQZkEzRUZoSUU/preview" width="640" height="480")
+                .four.wide.column
+                    each test_questions 
+                        .ui.inline.header #{number} 
+                            if single_digit
+                                |&nbsp;
+                                |&nbsp;
+                        .ui.black.basic.icon.mini.compact.buttons
+                            if is_odd
+                                +select_act_choice key='A'
+                                +select_act_choice key='B'
+                                +select_act_choice key='C'
+                                +select_act_choice key='D'
+                                +select_act_choice key='E'
+                                +select_act_choice key='?' title="I don't know"
+                            else 
+                                +select_act_choice key='F'
+                                +select_act_choice key='G'
+                                +select_act_choice key='H'
+                                +select_act_choice key='I'
+                                +select_act_choice key='J'
+                                +select_act_choice key='?' title="I don't know"
+                
+                        //- +answer_row
+                        div
+                    .ui.fluid.button.complete_test
+                        |calculate
+                    .ui.inline.header 
+                        |#{correct_count}
+                        i.green.checkmark.icon
+                    .ui.inline.header #{incorrect_count}
+                        i.red.remove.icon
+                    .ui.header #{correct_percent}%
+                //-     each second_row 
+                //-         div
+                //-         strong {{this}}
+                //-         +answer_row
+
+template(name='select_act_choice')
+    .ui.button.select_choice(class=choice_class title=title) #{key}

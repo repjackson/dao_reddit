@@ -1,0 +1,168 @@
+template(name='answer_sessions')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.inline.header
+                    |answer_sessions
+                .ui.icon.button.add_answer_session(title='add answer_session')
+                    i.plus.icon
+                +answer_session_cloud
+            .twelve.wide.column
+                each answer_sessions
+                    +answer_session_segment
+
+
+template(name='answer_session_cloud')
+    div
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off"
+        // .ui.hidden.fitted.divider
+    //- i.grey.tags.icon
+    //- .ui.inline.header tags
+    if selected_answer_session_tags
+        #clear_tags.ui.active.icon.button
+            i.remove.icon
+        each selected_answer_session_tags
+            .unselect_answer_session_tag.ui.active.button
+                strong #{this}
+    each all_answer_session_tags
+        .ui.compact.button.select_answer_session_tag(class=cloud_tag_class)
+            strong #{this.name}
+
+
+
+template(name='answer_session_segment')
+    //- .ui.card
+    .ui.segment
+        img.ui.fluid.image(src="{{c.url answer_session_image_id width=400 height=200 crop='fill'}}")
+        .content
+            a.ui.header(href="/answer_session/#{_id}/view") #{title}
+            each tags
+                .ui.basic.label #{this}
+
+
+
+template(name='answer_session_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    unless complete
+                        .ui.fluid.button.cancel_answer_session
+                            |cancel
+                .eight.wide.column
+                    //- with question
+                    img.ui.centered.rounded.image(src="{{c.url question.passage_image gravity='face' crop='fit'}}")
+
+                    .ui.header.f7 !{question.title}
+                    with question 
+                        +image_view key='image_id' label='image' direct=true
+                .four.wide.column
+                    .ui.large.fluid.button A: !{question.choice_a}
+                    div
+                    .ui.large.fluid.button B: !{question.choice_b}
+                    div
+                    .ui.large.fluid.button C: !{question.choice_c}
+                    div
+                    .ui.large.fluid.button D: !{question.choice_d}
+                    div
+                    .ui.large.fluid.button E: !{question.choice_e}
+                    div
+                    //- .ui.segment 
+                    //-     |!{question.choice_a}
+                    //- .ui.segment 
+                    //-     |!{question.choice_b}
+                    //- .ui.segment 
+                    //-     |!{question.choice_c}
+                    //- .ui.segment 
+                    //-     |!{question.choice_d}
+                    //- .ui.segment 
+                    //-     |!{question.choice_e}
+                    unless complete
+                        if has_answered
+                            .ui.big.fluid.button.submit_answer(class=loading_class)
+                                |submit
+                                i.chevron.right.icon
+                    if complete 
+                        .ui.header complete
+                        if is_multiple_choice
+                            if question.has_correct_answer
+                                if is_correct_answer
+                                    //- i.checkmark.icon
+                                    .ui.header correct 
+                                else 
+                                    //- i.remove.icon 
+                                    .ui.header incorrect
+                            div
+                        else 
+                            if question.has_correct_answer
+                                if is_correct_answer
+                                    .ui.header 
+                                        i.checkmark.icon
+                                        | correct 
+                                else 
+                                    .ui.header 
+                                        i.remove.icon 
+                                        | incorrect
+                                div
+                        a.ui.fluid.large.button(href="/answer_session/#{_id}/view")
+                            |answer details
+
+
+
+
+template(name='answer_session_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href="/question/#{question._id}/view")
+                        i.chevron.left.icon
+                        |question
+                        //- |#{question.title}
+                    .ui.small.header by #{_author_username} #{when}
+                    with question 
+                        +image_view key='image_id' label='image' direct=true
+                    if is_dev
+                        a.ui.fluid.button(href="/answer_session/#{_id}/edit")
+                            i.shield.icon
+                            |edit
+                    if question.has_correct_answer
+                        if is_correct_answer
+                            .ui.header 
+                                i.checkmark.icon
+                                |correct
+                        else
+                            .ui.header 
+                                i.remove.icon
+                                |incorrect
+                    .ui.header 
+                        +i name='clock'
+                        |#{answer_duration} seconds
+                        
+                .twelve.wide.column
+                    .ui.basic.segment
+                    .ui.basic.segment
+                        .ui.grey.inline.header viewing answer for
+                        with question
+                            .ui.inline.large.header.f7 !{title}
+                    .ui.basic.segment
+                        if is_multiple_choice
+                            each choices
+                                .ui.big.label.select_choice(class=choice_select_class)
+                                    .ui.header !{content}
+                            div
+                        else if is_number_test
+                            +number_view key='number_answer' direct=true
+                        else if is_text_answer
+                            if complete 
+                                .ui.segment 
+                                    +text_view key='text_answer' label='answer' direct=true
+                        else if is_essay
+                            .ui.segment 
+                                +textarea_view key='essay_answer' label='answer' direct=true
+                                //- if watson 
+                                //-     +watson_view
+                    +comments
