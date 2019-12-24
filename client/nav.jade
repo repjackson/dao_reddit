@@ -10,10 +10,10 @@ template(name='nav')
                 //- +i name='forest' classes='ui mini inline mobile only image'
         //- a.item(href='/tests' class="{{isActivePath '/tests'}}") 
         //-     span.mobile.hidden tests
-        //- a.item(href='/users' class="{{isActivePath '/users'}}") 
-        //-     span.mobile.hidden users
-        //- a.item(href='/stats' class="{{isActivePath '/stats'}}") 
-        //-     span.mobile.hidden stats
+        a.item(href='/users' class="{{isActivePath '/users'}}") 
+            span.mobile.hidden users
+        a.item(href='/stats' class="{{isActivePath '/stats'}}") 
+            span.mobile.hidden stats
         //- a.item(href='/posts' class="{{isActivePath '/posts'}}") 
         //-     //- i.line.chart.icon
         //-     span.mobile.hidden posts

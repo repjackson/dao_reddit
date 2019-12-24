@@ -2,7 +2,7 @@ template(name='posts')
     //- img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 crop='fill'}}")    
     .ui.stackable.padded.grid
         .row
-            .six.wide.column
+            .six.wide.right.aligned.column
                 .ui.inline.header 
                     |posts
                 if currentUser
@@ -26,13 +26,13 @@ template(name='post_cloud')
     //- i.grey.tags.icon
     //- .ui.inline.header tags
     if selected_post_tags
-        #clear_post_tags.ui.active.icon.button
+        #clear_post_tags.ui.active.icon.circular.button
             i.remove.icon
         each selected_post_tags
-            .unselect_post_tag.ui.active.button
+            .unselect_post_tag.ui.active.circular.button
                 strong #{this}
     each all_post_tags
-        .ui.compact.button.select_post_tag(class=cloud_tag_class) 
+        .ui.compact.circular.button.select_post_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 
@@ -88,11 +88,14 @@ template(name='post_view')
                         |original link
                     +transactions
                     +finance
-                .twelve.wide.column
+                .eight.wide.column
                     .ui.header #{title}
                     |!{body}
                     +comments
-
+                .four.wide.column
+                    .ui.header stats
+                    .ui.header user info
+                    +big_user_card user=author
 
 template(name='transactions')
     .ui.header transactions

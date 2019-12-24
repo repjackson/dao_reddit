@@ -23,6 +23,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_right'
         ), name:'user_right'
+    Router.route '/user/:user_id/credit', (->
+        @layout 'profile_layout'
+        @render 'user_credit'
+        ), name:'user_credit'
     Router.route '/user/:user_id/wrong', (->
         @layout 'profile_layout'
         @render 'user_wrong'

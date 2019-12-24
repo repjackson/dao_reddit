@@ -132,14 +132,10 @@ template(name='small_horizontal_user_card')
     with user
         .ui.small.horizontal.card
             .image
-                if profile_photo
-                    img.ui.rounded.tiny.image(src="{{c.url profile_photo width=200 height=200 gravity='face' crop='fill'}}")
-                else if image_id
-                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                else if image_id
-                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                if profile_photo_id
+                    img.ui.rounded.tiny.image(src="{{c.url profile_photo_id width=200 height=200 gravity='face' crop='fill'}}")
             .content    
-                a.header(href="/student/#{username}") #{first_initial} #{last_name} 
+                a.header(href="/user/#{_id}") #{name} 
                 //- .meta @#{username}
                 //- span(title='points')
                 //-     |#{points} pts
@@ -176,7 +172,7 @@ template(name='big_user_card')
                 img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
             .content
                 a.header(href="/user/#{username}")
-                     |#{first_name} #{last_name} 
+                     |#{name} 
                     //- .meta @#{username}
                     //- +array_view key='tags' label='Tags' direct=true
 
