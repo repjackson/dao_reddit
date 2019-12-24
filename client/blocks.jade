@@ -226,11 +226,10 @@ template(name='creation_info')
 template(name='user_list_toggle')
     if currentUser
         .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
-            //- if in_list
-            //-     i.large.icon(class=remove_icon)
-            //- else
-            //-     i.large.icon(class=add_icon)
-            +ismall name=icon
+            if in_list
+                i.large.icon(class=remove_icon)
+            else
+                i.large.icon(class=add_icon)
             |#{label}
         //- each list_users
         //-     +user_info
@@ -312,17 +311,16 @@ template(name='view_button')
 
 
 template(name='remove_button')
-    unless is_frontdesk
-        .ui.icon.circular.button.remove_doc(title='delete')
-            i.remove.icon
-            //- |Delete
+    .ui.icon.circular.button.remove_doc(title='delete')
+        i.remove.icon
+        //- |Delete
 
 template(name='add_button')
     a.ui.large.basic.button.add(title="add #{model}")
         //- |#{model.icon}
         if model.icon
-            //- i.icon(class=icon)
-            +ismall name=model.icon classes='ui inline image'
+            i.icon(class=icon)
+            //- +ismall name=model.icon classes='ui inline image'
         else 
             i.plus.icon
         if label

@@ -1,15 +1,12 @@
 template(name='register')
-    img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
+    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
     .ui.padded.stackable.grid
         .centered.row
             .ten.wide.column
                 .ui.center.aligned.basic.segment
-                    a.ui.icon.button(href="/")
-                        
-                    div
-                    //- i.big.yin.yang.icon
-                    img.ui.rounded.medium.centered.image(src="{{c.url 'forest_logo_blue' width=400 height=400}}")
-                    .ui.inline.header registration
+                    i.big.yin.yang.icon
+                    //- img.ui.rounded.medium.centered.image(src="{{c.url 'forest_logo_blue' width=400 height=400}}")
+                    .ui.inline.header register
                 //- if message
                 //-     h4.ui.center.aligned.header #{message}
                 //- .ui.small.inline.header 
@@ -44,7 +41,7 @@ template(name='register')
                     //- if registering
                     .ui.fluid.large.button.register(class=enter_class)
                         i.user.plus.icon
-                        |register '#{username}'
+                        |#{username}
                 else
                     .ui.small.header username "#{username}" found
                     a.ui.basic.fluid.button(href='/login') 

@@ -1,6 +1,6 @@
 if Meteor.isClient
     Router.route '/login', (->
-        @layout 'mlayout'
+        @layout 'layout'
         @render 'login'
         ), name:'login'
 

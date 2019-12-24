@@ -6,14 +6,14 @@ template(name='nav')
         else 
             a.icon.header.item(href='/posts' class="{{isActivePath '/posts'}}") 
                 i.yin.yang.large.icon
-                //- img.ui.avatar.image(src="{{c.url 'forest_logo_only' }}" title='Home')
-                //- +i name='forest' classes='ui mini inline mobile only image'
         //- a.item(href='/tests' class="{{isActivePath '/tests'}}") 
         //-     span.mobile.hidden tests
-        a.item(href='/users' class="{{isActivePath '/users'}}") 
-            span.mobile.hidden users
-        a.item(href='/stats' class="{{isActivePath '/stats'}}") 
-            span.mobile.hidden stats
+        a.mobile.hidden.item(href='/users' class="{{isActivePath '/users'}}") 
+            i.users.icon
+        a.mobile.hidden.item(href='/stats' class="{{isActivePath '/stats'}}") 
+            i.line.chart.icon
+        a.mobile.hidden.item(href='/shop' class="{{isActivePath '/shop'}}") 
+            i.shopping.cart.icon
         //- a.item(href='/posts' class="{{isActivePath '/posts'}}") 
         //-     //- i.line.chart.icon
         //-     span.mobile.hidden posts
@@ -23,13 +23,15 @@ template(name='nav')
                 
         .right.menu
             unless currentUser
-                a.item(href='/login') 
-                    //- i.sign.in.icon 
-                    span.mobile.hidden log in
-                a.item(href='/register')
-                    //- i.user.add.icon
-                    span.mobile.hidden sign up
+                a.icon.item(href='/login' title='enter') 
+                    i.sign.in.icon 
+                    //- span.mobile.hidden log in
+                a.icon.item(href='/register' title='register')
+                    i.user.add.icon
+                    //- span.mobile.hidden sign up
             if currentUser
+                a.mobile.hidden.icon.item(href='/m/model' class="{{isActivePath '/m/model'}}") 
+                    i.database.icon
                 //- a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
                 //-     i.chat.outline.icon
                 //- a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
@@ -38,8 +40,8 @@ template(name='nav')
                 //-     i.shopping.cart.icon(class=cart_icon_class)
 
                 unless logging_out
-                    a.item(href="/user/#{currentUser._id}/finance" title='finances')
-                        |#{currentUser.finances}
+                    a.item(href="/user/#{currentUser._id}/finance" title='credit')
+                        |#{currentUser.credit}c
                     a.item(href="/user/#{currentUser._id}")
                         if currentUser.profile_image_id
                             img.ui.avatar.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
@@ -89,19 +91,13 @@ template(name='footer')
                         | privacy policy
                     //- a.item(href='/sponsor') 
                     //-     | sponsor
-                    a.item(href='https://discordapp.com/invite/d8QyR59' target='_window') 
-                        | discord
-                    a.item(href='/p/team') 
-                        | join our team
                     //- a.item(href='/contact')
                     //-     | contact
             .six.wide.column
                 .ui.link.large.list
                     a.item(href='/posts')
                         | posts
-                    //- a.item(href='/resources')
-                    //-     | resources
-
+                +my_latest_activity
                 +footer_chat
                 if is_admin
                     with currentUser

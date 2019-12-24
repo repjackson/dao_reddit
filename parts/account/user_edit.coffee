@@ -15,6 +15,10 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_payment'
         ), name:'user_edit_payment'
+    Router.route '/user/:user_id/edit/credit', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_credit'
+        ), name:'user_edit_credit'
     Router.route '/user/:user_id/edit/account', (->
         @layout 'user_edit_layout'
         @render 'user_edit_account'

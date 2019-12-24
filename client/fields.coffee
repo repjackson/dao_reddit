@@ -1,6 +1,6 @@
 Template.clear_value.events
     'click .clear_value': ->
-        if confirm "Clear #{@title} field?"
+        if confirm "clear #{@title} field?"
             if @direct
                 parent = Template.parentData()
             else
@@ -96,7 +96,7 @@ Template.html_edit.helpers
             toolbarButtonsXS: ['bold', 'italic', 'underline']
             imageInsertButtons: ['imageBack', '|', 'imageByURL']
             tabSpaces: false
-            height: 500
+            height: 300
         }
 
 
@@ -293,3 +293,138 @@ Template.textarea_view.onRendered ->
     Meteor.setTimeout ->
         $('.accordion').accordion()
     , 1000
+
+
+
+
+
+Template.slug_edit.events
+    'blur .edit_text': (e,t)->
+        val = t.$('.edit_text').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+
+
+    'click .slugify_title': (e,t)->
+        page_doc = Docs.findOne Router.current().params.doc_id
+        # val = t.$('.edit_text').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+        doc = Docs.findOne parent._id
+        Meteor.call 'slugify', page_doc._id, (err,res)=>
+            Docs.update page_doc._id,
+                $set:slug:res
+
+
+
+Template.multi_doc_edit.onCreated ->
+    @autorun => Meteor.subscribe 'model_docs', @data.ref_model
+Template.multi_doc_edit.helpers
+    choices: ->
+        Docs.find model:@ref_model
+    choice_class: ->
+        selection = @
+        current = Template.currentData()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+        ref_field = Template.parentData(1)
+        target = Template.parentData(2)
+
+        if target["#{ref_field.key}"]
+            if @slug in target["#{ref_field.key}"] then 'active' else ''
+        else
+            ''
+
+Template.multi_doc_edit.events
+    'click .select_choice': ->
+        selection = @
+        ref_field = Template.currentData()
+        if ref_field.direct
+            parent = Template.parentData(2)
+        else
+            parent = Template.parentData(6)
+        parent = Template.parentData(1)
+        parent2 = Template.parentData(2)
+        parent3 = Template.parentData(3)
+        parent4 = Template.parentData(4)
+        parent5 = Template.parentData(5)
+        parent6 = Template.parentData(6)
+        parent7 = Template.parentData(7)
+
+        if parent["#{ref_field.key}"] and @slug in parent["#{ref_field.key}"]
+            doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
+            if doc
+                Docs.update parent._id,
+                    $pull:"#{ref_field.key}":@slug
+            else if user
+                Meteor.users.update parent._id,
+                    $pull: "#{ref_field.key}": @slug
+        else
+            doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
+            if doc
+                Docs.update parent._id,
+                    $addToSet: "#{ref_field.key}": @slug
+            else if user
+                Meteor.users.update parent._id,
+                    $addToSet: "#{ref_field.key}": @slug
+
+
+
+
+Template.number_edit.events
+    'blur .edit_number': (e,t)->
+        # console.log Template.parentData()
+        # console.log Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.parentData(3)
+        # console.log Template.parentData(4)
+        # console.log Template.parentData(5)
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(6)
+        val = parseInt t.$('.edit_number').val()
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+
+
+Template.float_edit.events
+    'blur .edit_float': (e,t)->
+
+        if @direct
+            parent = Template.parentData(2)
+        else
+            parent = Template.parentData(5)
+        console.log parent
+        val = parseFloat t.$('.edit_float').val()
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val

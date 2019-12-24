@@ -15,8 +15,8 @@ template(name='profile_layout')
                     a.item(href="/user/#{_id}/dashboard" class="{{isActiveRoute regex='user_dashboard'}}")
                         i.grey.dashboard.icon
                         |dashboard
-                    a.item(href="/user/#{_id}/credit" class="{{isActiveRoute regex=user_credit}}")
-                        i.coins.icon
+                    a.item(href="/user/#{_id}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                        i.coins.grey.icon
                         |credit
                     //- a.item(href="/user/#{_id}/questions" class="{{isActiveRoute regex=user_offers}}")
                     //-     i.question.mark.icon
@@ -24,9 +24,12 @@ template(name='profile_layout')
                     //- a.item(href="/user/#{_id}/passages" class="{{isActiveRoute regex=user_passages}}")
                     //-     i.list.icon
                     //-     |passages
-                    //- a.item(href="/user/#{_id}/tests" class="{{isActiveRoute regex='user_tests'}}")
-                    //-     i.list.icon
-                    //-     |tests
+                    a.item(href="/user/#{_id}/shop" class="{{isActiveRoute regex='user_shop'}}")
+                        i.shopping.cart.grey.icon
+                        |shop
+                    a.item(href="/user/#{_id}/social" class="{{isActiveRoute regex='user_social'}}")
+                        i.comments.grey.icon
+                        |social
                     a.item(href="/user/#{_id}/brain" class="{{isActiveRoute regex='user_brain'}}")
                         i.grey.brain.icon
                         |brain
@@ -42,18 +45,18 @@ template(name='profile_layout')
                     a.item(href="/user/#{_id}/finance" class="{{isActiveRoute regex='user_finance'}}")
                         i.grey.coins.icon
                         |finance
-                    //- a.item(href="/user/#{_id}/cart" class="{{isActiveRoute regex='user_cart'}}")
-                    //-     i.grey.shopping.cart.icon
-                    //-     |cart
-                    //- a.item(href="/user/#{_id}/groups" class="{{isActiveRoute regex='user_groups'}}")
-                    //-     i.grey.users.icon
-                    //-     |groups
-                    //- a.item(href="/user/#{_id}/tutoring" class="{{isActiveRoute regex='user_tutoring'}}")
-                    //-     i.grey.chalkboard.icon
-                    //-     |tutoring
-                    //- a.item(href="/user/#{_id}/events" class="{{isActiveRoute regex='user_events'}}")
-                    //-     i.grey.calendar.icon
-                    //-     |events
+                    a.item(href="/user/#{_id}/cart" class="{{isActiveRoute regex='user_cart'}}")
+                        i.grey.shopping.cart.icon
+                        |cart
+                    a.item(href="/user/#{_id}/groups" class="{{isActiveRoute regex='user_groups'}}")
+                        i.grey.users.icon
+                        |groups
+                    a.item(href="/user/#{_id}/tutoring" class="{{isActiveRoute regex='user_tutoring'}}")
+                        i.grey.chalkboard.icon
+                        |tutoring
+                    a.item(href="/user/#{_id}/events" class="{{isActiveRoute regex='user_events'}}")
+                        i.grey.calendar.icon
+                        |events
                     //- a.item(href="/user/#{_id}/fiq" class="{{isActiveRoute regex=user_fiq}}")
                     //-     i.grey.line.chart.icon
                     //-     |fiq

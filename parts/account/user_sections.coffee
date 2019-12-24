@@ -36,7 +36,6 @@ if Meteor.isClient
             Meteor.call 'accept_request', @
         'click .reject_request': ->
             Meteor.call 'reject_request', @
-
     Template.user_tutoring.helpers
         tutelage_requested: ->
             Docs.findOne
@@ -45,6 +44,27 @@ if Meteor.isClient
         tutalege_requests: ->
             Docs.find
                 model:'tutalege_request'
+
+
+
+    Template.user_shop.onCreated ->
+        @autorun => Meteor.subscribe 'user_shop', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'model_docs', 'product'
+    Template.user_shop.events
+        'click .add_product': ->
+            new_product_id =
+                Docs.insert
+                    model:'product'
+            Router.go "/m/product/#{new_product_id}/edit"
+            # Meteor.call 'request_tutelage', Router.current().params.user_id
+    Template.user_shop.helpers
+        tutelage_requested: ->
+            Docs.findOne
+                model:'tutalege_request'
+                _author_id:Meteor.userId()
+        products: ->
+            Docs.find
+                model:'product'
 
 
 
@@ -97,52 +117,59 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
         @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
-        if Meteor.isDevelopment
-            pub_key = Meteor.settings.public.stripe_test_publishable
-        else if Meteor.isProduction
-            pub_key = Meteor.settings.public.stripe_live_publishable
-        Template.instance().checkout = StripeCheckout.configure(
-            key: pub_key
-            image: 'http://res.cloudinary.com/facet/image/upload/c_fill,g_face,h_300,w_300/k2zt563boyiahhjb0run'
-            locale: 'auto'
-            # zipCode: true
-            token: (token) ->
-                # product = Docs.findOne Router.current().params.doc_id
-                user = Meteor.users.findOne username:Router.current().params.username
-                deposit_amount = parseInt $('.deposit_amount').val()*100
-                stripe_charge = deposit_amount*100*1.02+20
-                # calculated_amount = deposit_amount*100
-                # console.log calculated_amount
-                charge =
-                    amount: deposit_amount*1.02+20
-                    currency: 'usd'
-                    source: token.id
-                    description: token.description
-                    # receipt_email: token.email
-                Meteor.call 'STRIPE_single_charge', charge, user, (error, response) =>
-                    if error then alert error.reason, 'danger'
-                    else
-                        alert 'payment received', 'success'
-                        Docs.insert
-                            model:'deposit'
-                            deposit_amount:deposit_amount/100
-                            stripe_charge:stripe_charge
-                            amount_with_bonus:deposit_amount*1.05/100
-                            bonus:deposit_amount*.05/100
-                        Meteor.users.update user._id,
-                            $inc: credit: deposit_amount*1.05/100
-    	)
+        # if Meteor.isDevelopment
+        #     pub_key = Meteor.settings.public.stripe_test_publishable
+        # else if Meteor.isProduction
+        #     pub_key = Meteor.settings.public.stripe_live_publishable
+        # Template.instance().checkout = StripeCheckout.configure(
+        #     key: pub_key
+        #     image: 'http://res.cloudinary.com/facet/image/upload/c_fill,g_face,h_300,w_300/k2zt563boyiahhjb0run'
+        #     locale: 'auto'
+        #     # zipCode: true
+        #     token: (token) ->
+        #         # product = Docs.findOne Router.current().params.doc_id
+        #         user = Meteor.users.findOne username:Router.current().params.username
+        #         deposit_amount = parseInt $('.deposit_amount').val()*100
+        #         stripe_charge = deposit_amount*100*1.02+20
+        #         # calculated_amount = deposit_amount*100
+        #         # console.log calculated_amount
+        #         charge =
+        #             amount: deposit_amount*1.02+20
+        #             currency: 'usd'
+        #             source: token.id
+        #             description: token.description
+        #             # receipt_email: token.email
+        #         Meteor.call 'STRIPE_single_charge', charge, user, (error, response) =>
+        #             if error then alert error.reason, 'danger'
+        #             else
+        #                 alert 'payment received', 'success'
+        #                 Docs.insert
+        #                     model:'deposit'
+        #                     deposit_amount:deposit_amount/100
+        #                     stripe_charge:stripe_charge
+        #                     amount_with_bonus:deposit_amount*1.05/100
+        #                     bonus:deposit_amount*.05/100
+        #                 Meteor.users.update user._id,
+        #                     $inc: credit: deposit_amount*1.05/100
+    	# )
 
 
     Template.user_credit.events
         'click .add_credits': ->
-            deposit_amount = parseInt $('.deposit_amount').val()*100
-            calculated_amount = deposit_amount*1.02+20
-            Template.instance().checkout.open
-                name: 'credit deposit'
-                # email:Meteor.user().emails[0].address
-                description: 'gold run'
-                amount: calculated_amount
+            amount = parseInt $('.deposit_amount').val()
+            amount_times_100 = parseInt amount*100
+            calculated_amount = amount_times_100*1.02+20
+            # Template.instance().checkout.open
+            #     name: 'credit deposit'
+            #     # email:Meteor.user().emails[0].address
+            #     description: 'gold run'
+            #     amount: calculated_amount
+            Docs.insert
+                model:'deposit'
+                amount: amount
+            Meteor.users.update Meteor.userId(),
+                $inc: credit: amount_times_100
+
 
         'click .initial_withdrawal': ->
             withdrawal_amount = parseInt $('.withdrawal_amount').val()
@@ -172,12 +199,17 @@ if Meteor.isClient
         payments: ->
             Docs.find {
                 model:'payment'
-                _author_username: Router.current().params.username
+                _author_id: Router.current().params.user_id
+            }, sort:_timestamp:-1
+        deposits: ->
+            Docs.find {
+                model:'deposit'
+                _author_id: Router.current().params.user_id
             }, sort:_timestamp:-1
         withdrawals: ->
             Docs.find {
                 model:'withdrawal'
-                _author_username: Router.current().params.username
+                _author_id: Router.current().params.user_id
             }, sort:_timestamp:-1
         received_reservations: ->
             Docs.find {
@@ -187,7 +219,7 @@ if Meteor.isClient
         purchased_reservations: ->
             Docs.find {
                 model:'reservation'
-                _author_username: Router.current().params.username
+                _author_id: Router.current().params.user_id
             }, sort:_timestamp:-1
 
 

@@ -1,22 +1,22 @@
 if Meteor.isClient
     Router.route '/register', (->
-        @layout 'mlayout'
+        @layout 'layout'
         @render 'register'
         ), name:'register'
     Router.route '/choose_personas', (->
-        @layout 'mlayout'
+        @layout 'layout'
         @render 'choose_personas'
         ), name:'choose_personas'
     Router.route '/student_connect', (->
-        @layout 'mlayout'
+        @layout 'layout'
         @render 'student_connect'
         ), name:'student_connect'
     Router.route '/parent_connect', (->
-        @layout 'mlayout'
+        @layout 'layout'
         @render 'parent_connect'
         ), name:'parent_connect'
     Router.route '/choose_interests', (->
-        @layout 'mlayout'
+        @layout 'layout'
         @render 'choose_interests'
         ), name:'choose_interests'
 

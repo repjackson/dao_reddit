@@ -439,6 +439,15 @@ template(name='user_transactions')
             |add transaction
 
 
+template(name='user_shop')
+    .ui.header 
+        i.shopping.cart.icon
+        |shop
+    .ui.button.add_product
+        i.plus.icon
+        |product
+
+
 template(name='user_credit')
     //- .ui.header 
     //-     +i name='money'
@@ -451,7 +460,7 @@ template(name='user_credit')
             .column
                 .ui.header 
                     |withdraw
-                |$42 minimum, takes one business day 
+                |$10 minimum, takes one business day 
                 .ui.action.fluid.input
                     input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
                     .ui.icon.button.initial_withdrawal 
@@ -479,7 +488,7 @@ template(name='user_credit')
                         .item 
                             .content
                                 .header 
-                                    |#{deposit_amount}c + #{bonus}c
+                                    |$#{amount} + #{bonus}c
                                 .description #{when} {{long_date _timestamp}}
-                                if is_dev
-                                    +remove_button
+                                //- if is_dev
+                                +remove_button

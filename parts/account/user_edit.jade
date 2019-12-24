@@ -21,27 +21,27 @@ template(name='user_edit_layout')
                         a.item(href="/user/#{current_user._id}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
                             |friends
                             i.grey.users.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/tutoring" class="{{isActiveRoute regex='user_edit_tutoring'}}") 
-                        //-     |tutoring
-                        //-     i.grey.chalkboard.icon 
+                        a.item(href="/user/#{current_user._id}/edit/tutoring" class="{{isActiveRoute regex='user_edit_tutoring'}}") 
+                            |tutoring
+                            i.grey.chalkboard.icon 
                         a.item(href="/user/#{current_user._id}/edit/credit" class="{{isActiveRoute regex='user_edit_credit'}}") 
                             |credit
                             i.grey.coins.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
-                        //-     |styles
-                        //-     i.grey.paint.brush.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/alerts" class="{{isActiveRoute regex='user_edit_alerts'}}") 
-                        //-     |alerts
-                        //-     i.grey.bell.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/privacy" class="{{isActiveRoute regex='user_edit_privacy'}}") 
-                        //-     | privacy
-                        //-     i.grey.lock.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/membership" class="{{isActiveRoute regex='user_edit_membership'}}") 
-                        //-     | membership
-                        //-     i.grey.shield.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/ads" class="{{isActiveRoute regex='user_edit_ads'}}") 
-                        //-     |ads
-                        //-     i.grey.bullhorn.icon 
+                        a.item(href="/user/#{current_user._id}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
+                            |styles
+                            i.grey.paint.brush.icon 
+                        a.item(href="/user/#{current_user._id}/edit/alerts" class="{{isActiveRoute regex='user_edit_alerts'}}") 
+                            |alerts
+                            i.grey.bell.icon 
+                        a.item(href="/user/#{current_user._id}/edit/privacy" class="{{isActiveRoute regex='user_edit_privacy'}}") 
+                            | privacy
+                            i.grey.lock.icon 
+                        a.item(href="/user/#{current_user._id}/edit/membership" class="{{isActiveRoute regex='user_edit_membership'}}") 
+                            | membership
+                            i.grey.shield.icon 
+                        a.item(href="/user/#{current_user._id}/edit/ads" class="{{isActiveRoute regex='user_edit_ads'}}") 
+                            |ads
+                            i.grey.bullhorn.icon 
                 .twelve.wide.column
                     +yield
 
@@ -128,6 +128,12 @@ template(name='user_edit_friends')
     .ui.header
         i.users.icon
         | friends
+    
+    
+template(name='user_edit_credit')
+    .ui.header
+        i.coins.icon
+        | credit
     
     
     
