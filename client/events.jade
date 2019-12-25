@@ -1,22 +1,22 @@
-template(name='posts')
+template(name='events')
     //- img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 crop='fill'}}")    
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
+            .six.wide.right.aligned.column
                 .ui.inline.header 
-                    |posts
+                    |events
                 if currentUser
-                    .ui.icon.button.add_post(title='add post')
+                    .ui.icon.button.add_event(title='add event')
                         i.plus.icon
-                +post_cloud
-            .twelve.wide.column.scrolling
+                +event_cloud
+            .ten.wide.column.scrolling
                 //- .ui.button items you have
                 //- .ui.button purchasable items
-                each posts
-                    +post_card
+                each events
+                    +event_card
 
 
-template(name='post_cloud')
+template(name='event_cloud')
     div
     //- #cloud
         //- .ui.left.icon.input
@@ -25,60 +25,60 @@ template(name='post_cloud')
         // .ui.hidden.fitted.divider
     //- i.grey.tags.icon
     //- .ui.inline.header tags
-    if selected_post_tags
-        #clear_post_tags.ui.active.icon.circular.compact.button
+    if selected_event_tags
+        #clear_event_tags.ui.active.icon.circular.button
             i.remove.icon
-        each selected_post_tags
-            .unselect_post_tag.ui.active.circular.compact.button
+        each selected_event_tags
+            .unselect_event_tag.ui.active.circular.button
                 strong #{this}
-    each all_post_tags
-        .ui.compact.circular.button.select_post_tag(class=cloud_tag_class) 
+    each all_event_tags
+        .ui.compact.circular.button.select_event_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 
 
-template(name='post_card')
+template(name='event_card')
     .ui.segment
-        img.ui.fluid.image(src="{{c.url post_image_id width=400 height=200 crop='fill'}}")
+        img.ui.fluid.image(src="{{c.url event_image_id width=400 height=200 crop='fill'}}")
         .content
-            a.ui.header(href="/post/#{_id}/view") #{title}
+            a.ui.header(href="/event/#{_id}/view") #{title}
             |!{body}
             each tags
                 .ui.basic.label #{this}
             i.icon(class=icon)
-            a.ui.button.view(href="/post/#{_id}/view")
+            a.ui.button.view(href="/event/#{_id}/view")
                 |view
 
 
-template(name='post_edit')
+template(name='event_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
                     .ui.header 
                         i.pencil.icon
-                        | edit '#{title}' post
-                    a.ui.icon.fluid.button(href="/post/#{_id}/view" title='save')
+                        | edit '#{title}' event
+                    a.ui.icon.fluid.button(href="/event/#{_id}/view" title='save')
                         i.checkmark.large.icon
                         //- |save
                     +remove_button
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                 .twelve.wide.column 
-                    +text_edit key='title' label='post' direct=true
+                    +text_edit key='title' label='event' direct=true
                     +html_edit key='body' label='body' icon='content' direct=true
                     +text_edit key='link' label='link' direct=true
 
 
-template(name='post_view')
+template(name='event_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.fluid.button(href="/posts" title='posts')
+                    a.ui.fluid.button(href="/events" title='events')
                         i.chevron.left.icon
-                        //- |posts
-                    .ui.header post view 
-                    a.ui.fluid.button(href="/post/#{_id}/edit" title='edit')
+                        //- |events
+                    .ui.header event view 
+                    a.ui.fluid.button(href="/event/#{_id}/edit" title='edit')
                         i.pencil.icon
                         //- |edit
                     i.tags.icon 
@@ -97,14 +97,11 @@ template(name='post_view')
                     .ui.header user info
                     +big_user_card user=author
 
-template(name='transactions')
-    .ui.header transactions
 
-
-template(name='post_stats')
+template(name='event_stats')
     //- .ui.accordion
     //-     .title
-    .ui.header.refresh_post_stats
+    .ui.header.refresh_event_stats
         i.line.chart.icon
         |stats
     //- i.dropdown.icon
@@ -112,10 +109,10 @@ template(name='post_stats')
     .ui.big.list
         .item #{views} views
         .item #{reservation_count} reservations
-        .item #{total_earnings}c/#{total_post_hours}hrs total
-        .item #{average_post_cost}c / #{average_post_duration}hrs avg post
-        //- .item post ranking # reservations
-        //- .item post ranking $ earned
+        .item #{total_earnings}c/#{total_event_hours}hrs total
+        .item #{average_event_cost}c / #{average_event_duration}hrs avg event
+        //- .item event ranking # reservations
+        //- .item event ranking $ earned
         //- .item # different renters
         //- .item avg daily earnings
         //- .item avg weekly earnings
@@ -127,9 +124,9 @@ template(name='post_stats')
     //-     //- .ui.header res slot exists
     //-     +reservation_slot_template
     //- else
-    //-     if is_post_author
+    //-     if is_event_author
     //-         .ui.button.new_slot
     //-             |new slot
         
-template(name='posts_view_template')
-    .ui.header post view template
+template(name='events_view_template')
+    .ui.header event view template

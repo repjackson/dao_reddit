@@ -15,6 +15,12 @@ Meteor.users.allow
         # if userId and doc._id == userId
         #     true
 
+Cloudinary.config
+    cloud_name: 'facet'
+    api_key: Meteor.settings.private.cloudinary_key
+    api_secret: Meteor.settings.private.cloudinary_secret
+
+
 
 Meteor.publish 'model_from_child_id', (child_id)->
     child = Docs.findOne child_id

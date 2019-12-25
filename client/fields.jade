@@ -542,3 +542,39 @@ template(name='single_doc_edit')
         .ui.compact.button.select_choice(class=choice_class)
             |#{calculated_label}
             |#{slug}
+            
+            
+template(name='doc_card')
+    a.ui.header(href="/m/#{doc.model}/#{doc._id}/view") doc #{doc.model}
+
+
+template(name='phone_edit')
+    //- i.phone.icon
+    .ui.inline.header 
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+        else
+            |#{this}
+    .ui.fluid.input
+        //- +clear_value                
+        input.edit_phone(type='tel' value=field_value placeholder=placeholder autocomplete="off")
+
+template(name='phone_view')
+    if field_value
+        unless header
+            div
+            //- if icon
+            .ui.inline.header
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+        strong &nbsp; #{field_value}

@@ -2,6 +2,8 @@
 @selected_question_tags = new ReactiveArray []
 @selected_post_tags = new ReactiveArray []
 @selected_test_tags = new ReactiveArray []
+@selected_course_tags = new ReactiveArray []
+@selected_event_tags = new ReactiveArray []
 
 
 Tracker.autorun ->
@@ -59,6 +61,7 @@ Template.registerHelper 'parent_doc', () ->
 Template.registerHelper 'gs', () ->
     Docs.findOne
         model:'global_stats'
+Template.registerHelper 'is_odd', -> @number % 2 isnt 0
 
 
 Template.registerHelper 'question', () ->

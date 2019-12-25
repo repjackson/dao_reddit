@@ -37,13 +37,15 @@ if Meteor.isClient
 
 
     Template.test_edit.helpers
-        test_questions: ->
-            Docs.find
-                _id: $in: @question_ids
+        # test_questions: ->
+        #     Docs.find {
+        #         _id: $in: @question_ids
+        #     }, sort: number: -1
 
         is_odd: -> @number % 2 isnt 0
 
         test_questions: ->
-            Docs.find
+            Docs.find {
                 model:'act_question'
                 test_id: Router.current().params.doc_id
+            }, sort:number:1

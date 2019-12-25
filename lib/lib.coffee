@@ -4,6 +4,7 @@
 @Question_tags = new Meteor.Collection 'question_tags'
 @Test_tags = new Meteor.Collection 'test_tags'
 @Post_tags = new Meteor.Collection 'post_tags'
+@Course_tags = new Meteor.Collection 'course_tags'
 
 
 Docs.before.insert (userId, doc)->

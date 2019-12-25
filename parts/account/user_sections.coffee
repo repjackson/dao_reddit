@@ -47,6 +47,8 @@ if Meteor.isClient
 
 
 
+
+
     Template.user_shop.onCreated ->
         @autorun => Meteor.subscribe 'user_shop', Router.current().params.user_id
         @autorun => Meteor.subscribe 'model_docs', 'product'
@@ -110,6 +112,9 @@ if Meteor.isClient
                 model:'test'
                 _author_id:user._id
                 # _id: $in: user.all_right_ids
+
+
+
 
 
     Template.user_credit.onCreated ->

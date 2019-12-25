@@ -27,8 +27,3 @@ Router.route '*', -> @render 'not_found'
 Router.route '/forgot_password', -> @render 'forgot_password'
 
 Router.route '/settings', -> @render 'settings'
-
-Router.route '/', (->
-    @layout 'layout'
-    @render 'home'
-    ), name:'home'

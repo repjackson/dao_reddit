@@ -138,9 +138,10 @@ if Meteor.isClient
         test_questions: ->
             test_session = Docs.findOne Router.current().params.doc_id
             question_ids = _.pluck(test_session.questions,'question_id')
-            Docs.find
+            Docs.find {
                 model:'question'
                 _id: $in:question_ids
+            }, sort: number: 1
         test: ->
             Docs.findOne
                 model:'test'

@@ -59,11 +59,11 @@ if Meteor.isClient
             @number < 10
         test_questions: ->
             test_session = Docs.findOne Router.current().params.doc_id
-            Docs.find
+            Docs.find {
                 model:'act_question'
                 # test_section: test_session.current_section
                 test_id: test_session.test_id
-
+            }, sort:number:1
         test: ->
             test_session = Docs.findOne Router.current().params.doc_id
             Docs.findOne

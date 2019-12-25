@@ -1,0 +1,159 @@
+template(name='section_card')
+    //- .ui.card    
+    a.ui.card(href="/section/#{_id}/view")
+        if image_id
+            img.ui.fluid.image(src="{{c.url image_id width=400 height=200 crop='fill'}}")
+        else if icon 
+            +ilarge name=icon
+        .content
+            .ui.inline.header #{title}
+            div
+            |#{student_ids.length} students
+            div
+            each tags 
+                .ui.small.basic.label #{this}
+            //- i.dollar.icon
+            //- a.ui.large.button(href="/section/#{_id}")
+            //-     i.yellow.right.chevron.icon
+                    
+
+template(name='section_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header(title="edit '#{title}' section")
+                        i.pencil.icon
+                    a.ui.large.icon.circular.button(href="/section/#{_id}/view" title='save')
+                        i.checkmark.large.icon
+                    +remove_button
+                    +number_edit key='number' label='number' direct=true
+                    +boolean_edit key='published' label='published' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                    +text_edit key='title' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .twelve.wide.column
+                    +add_part type='image'
+                    +add_part type='video'
+                    +add_part type='question'
+                    +add_part type='html'
+                    +add_part type='text'
+                    +add_part type='textarea'
+                    //- +add_part type='math'
+                    each section_parts
+                        .ui.segment
+                            |#{part_type}
+                            +number_edit key='number' label='number' direct=true
+                            if part_is_image
+                                +image_edit key='image_id' direct=true
+                            if part_is_html
+                                +html_edit key='body' direct=true
+                            if part_is_video
+                                +youtube_edit key='youtube_id' direct=true
+                            if part_is_question
+                                +question_edit
+                            if part_is_text
+                                +text_edit key='body' direct=true
+                                +text_edit key='classes' direct=true
+                            if part_is_textarea
+                                +textarea_edit key='body' direct=true
+                            //- if part_is_math
+                                //- +math_field
+                            +remove_button
+                    //- +html_edit key='title' label='title' direct=true
+                    //- +html_edit key='body' label='body' icon='content' direct=true
+                    //- +key_value_edit key='section_type' value='article' label='article'
+                    //- +key_value_edit key='section_type' value='question' label='question'
+                    //- +key_value_edit key='section_type' value='video' label='video'
+                    //- +key_value_edit key='section_type' value='image' label='image'
+                    //- if section_is_image
+                .four.wide.column 
+
+
+template(name='add_part')
+    .ui.button.add_part
+        i.plus.icon 
+        |#{type}
+
+
+template(name='section_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .center.aligned.wide.column
+                    a.ui.circular.large.button(href="/module/#{module_id}/view")
+                        i.up.chevron.icon
+                        if module.image_id
+                            img.ui.avatar.image(src="{{c.url module.image_id }}")
+                        |#{module.title} module
+            .row
+                .three.wide.column
+                    .ui.header section view 
+                    if can_edit
+                        a.ui.large.icon.circular.button(href="/section/#{_id}/edit" title='edit')
+                            i.pencil.icon
+                    +number_view key='number' label='number' direct=true
+                    +print_current_doc
+                    +voting_full
+                .ten.wide.column
+                    .ui.header 
+                        small title
+                        strong #{title}
+                    |!{body}
+                    each section_parts
+                        //- .ui.header #{part_type} #{number}
+                        if part_is_text
+                            div(class=classes) #{body}
+                        if part_is_textarea
+                            | #{body}
+                        if part_is_html
+                            | !{body}
+                    div
+                    +comments
+                .three.wide.column
+                    if can_proceed 
+                        .ui.fluid.large.circular.button.proceed 
+                            i.right.chevron.icon
+                    .ui.header 
+                        i.line.chart.grey.icon
+                    .ui.large.list
+                        .item #{views} views
+                    .ui.header 
+                        |students
+                    .ui.large.icon.button.next_section
+                        i.right.chevron.icon
+                        //- |next
+                    .ui.list 
+                        each completed_students 
+                            .item #{username}
+                    
+                    
+
+template(name='section_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_section_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_section_hours}hrs total
+        .item #{average_section_cost}c / #{average_section_duration}hrs avg section
+
+
+
+
+
+template(name='section_view_template')
+    .ui.large.list
+        each section_sections
+            .item 
+                |#{title} #{price}
+                .ui.small.compact.icon.button.buy_section
+                    +ismall name='buy'
+                    |#{buy}
+        
+        
