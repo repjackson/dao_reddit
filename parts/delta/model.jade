@@ -45,6 +45,21 @@ template(name='model_edit')
                                 i.large.dropdown.icon
                             +field_edit
 
+                    .ui.inline.header actions
+                    .ui.icon.large.circular.button.add_action
+                        i.plus.icon
+                    .ui.styled.fluid.accordion
+                        each actions
+                            .title 
+                                |#{rank}
+                                if icon
+                                    i.icon(class=icon)
+                                |#{title} (#{action_type})
+                                each view_roles
+                                    .ui.basic.label #{this}
+                                i.large.dropdown.icon
+                            +action_edit
+
 
 template(name='model_view')
     with current_doc
@@ -119,7 +134,13 @@ template(name='model_view')
                             +array_view key='tags'
                             +edit_button
 
-                    
+template(name='action_edit')
+    .content
+        +text_edit key='title' direct=true label='title'        
+        +number_edit key='rank' label='rank' direct=true             
+        +textarea_edit key='description' label='description' direct=true
+        +single_doc_edit key='action_type' ref_model='action_type' label='action type' direct=true                 
+
 
 
 

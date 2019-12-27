@@ -22,9 +22,9 @@ template(name='delta')
                                 i.cog.icon
                         if current_delta
                             if is_dev
-                                i.refresh.link.reset.icon(title='reload session')
-                                i.code.link.icon.print_delta(title='print session doc')
-                                i.trash.delete_delta.link.icon(title='delete session')
+                                i.refresh.link.reset.circular.icon(title='reload session')
+                                i.code.link.circular.icon.print_delta(title='print session doc')
+                                i.trash.delete_delta.link.circular.icon(title='delete session')
                         else
                             .create_delta.ui.large.button(title='new session')
                                 i.plus.icon
