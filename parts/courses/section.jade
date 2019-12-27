@@ -81,7 +81,7 @@ template(name='section_view')
         .ui.stackable.padded.grid
             .row
                 .center.aligned.wide.column
-                    a.ui.circular.large.button(href="/module/#{module_id}/view")
+                    .ui.circular.large.button.goto_module
                         i.up.chevron.icon
                         if module.image_id
                             img.ui.avatar.image(src="{{c.url module.image_id }}")

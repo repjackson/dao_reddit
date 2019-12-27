@@ -1,14 +1,14 @@
 template(name='nav')
-    .ui.attached.borderless.menu(class="{{currentUser.nav_color}}")
+    #topnav.ui.attached.borderless.large.menu(class="{{currentUser.nav_color}}")
         if is_loading
             .item
                 i.loading.large.grey.yin.yang.icon
         else 
             a.icon.header.item(href='/' class="{{isActivePath '/'}}" title='home') 
                 i.yin.yang.large.icon
-        each site_sections
-            a.mobile.hidden.icon.item(href="/#{slug}" title=slug) 
-                i.icon(class=icon)
+        //- each view_models
+        //-     a.mobile.hidden.icon.item(href="/m/#{slug}" title=slug) 
+        //-         i.icon(class=icon)
         .right.menu
             unless currentUser
                 a.icon.item(href='/login' title='enter') 
@@ -20,10 +20,10 @@ template(name='nav')
             if currentUser
                 a.mobile.hidden.icon.item(href='/m/model' class="{{isActivePath '/m/model'}}") 
                     i.database.icon
-                a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
-                    i.chat.outline.icon
-                a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
-                    i.bell.icon(class=alert_icon_class)
+                //- a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
+                //-     i.chat.outline.icon
+                //- a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
+                //-     i.bell.icon(class=alert_icon_class)
                 a.mobile.hidden.icon.item(href='/cart' class="{{isActivePath '/cart'}}") 
                     i.shopping.cart.icon(class=cart_icon_class)
 

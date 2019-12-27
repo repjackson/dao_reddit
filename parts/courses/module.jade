@@ -58,7 +58,7 @@ template(name='module_view')
         .ui.stackable.padded.grid
             .row
                 .sixteen.wide.center.aligned.column
-                    a.ui.circular.large.button(href="/course/#{course_id}/view")
+                    .ui.circular.large.button.goto_course
                         i.up.chevron.icon
                         if course.image_id 
                             img.ui.avatar.image(src="{{c.url course.image_id }}")

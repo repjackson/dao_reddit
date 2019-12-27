@@ -1,8 +1,4 @@
 if Meteor.isClient
-    Router.route '/events', (->
-        @layout 'layout'
-        @render 'events'
-        ), name:'events'
     Router.route '/event/:doc_id/edit', (->
         @layout 'layout'
         @render 'event_edit'
@@ -88,24 +84,6 @@ if Meteor.isClient
 
 
 
-    Template.events.onRendered ->
-        @autorun -> Meteor.subscribe 'event_facet_docs', selected_event_tags.array()
-    Template.events.helpers
-        events: ->
-            Docs.find
-                model:'event'
-
-
-
-
-    Template.events.events
-        'click .add_event': ->
-            new_event_id = Docs.insert
-                model:'event'
-            Router.go "/event/#{new_event_id}/edit"
-
-
-
     Template.event_stats.events
         'click .refresh_event_stats': ->
             Meteor.call 'refresh_event_stats', @_id
@@ -114,11 +92,6 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'events', (event_id)->
-        Docs.find
-            model:'event'
-            event_id:event_id
-
     Meteor.methods
         refresh_event_stats: (event_id)->
             event = Docs.findOne event_id
@@ -155,47 +128,3 @@ if Meteor.isServer
             # .ui.small.header biggest renter
             # .ui.small.header predicted payback duration
             # .ui.small.header predicted payback date
-
-
-    Meteor.publish 'event_tags', (
-        selected_event_tags
-        )->
-        self = @
-        match = {}
-
-
-        if selected_event_tags.length > 0 then match.tags = $all: selected_event_tags
-        match.model = 'event'
-        cloud = Docs.aggregate [
-            { $match: match }
-            { $project: tags: 1 }
-            { $unwind: "$tags" }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $match: _id: $nin: selected_event_tags }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 50 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-
-        cloud.forEach (tag, i) ->
-            self.added 'event_tags', Random.id(),
-                name: tag.name
-                count: tag.count
-                index: i
-
-        self.ready()
-
-
-    Meteor.publish 'event_facet_docs', (
-        selected_event_tags
-        )->
-
-        self = @
-        match = {}
-        # if selected_target_id
-        #     match.target_id = selected_target_id
-        if selected_event_tags.length > 0 then match.tags = $all: selected_event_tags
-        match.model = 'event'
-        Docs.find match,
-            sort:_timestamp:1
-            # limit: 5

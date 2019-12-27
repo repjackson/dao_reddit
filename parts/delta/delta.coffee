@@ -345,7 +345,7 @@ if Meteor.isClient
                 Router.go "/m/#{model_slug}/#{@_id}/view"
 
         'click .set_model': ->
-            Meteor.call 'set_delta_facets', @slug, Meteor.userId()
+            Meteor.call 'set_facets', @slug, Meteor.userId()
 
         'click .route_model': ->
             Session.set 'loading', true

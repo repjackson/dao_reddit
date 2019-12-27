@@ -55,12 +55,12 @@ Template.keywords.onRendered ->
 
 Template.call_watson.events
     'click .autotag': ->
-        console.log @
-        console.log Template.currentData()
-        console.log Template.parentData()
-        console.log Template.parentData(1)
-        console.log Template.parentData(2)
-        console.log Template.parentData(3)
+        # console.log @
+        # console.log Template.currentData()
+        # console.log Template.parentData()
+        # console.log Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.parentData(3)
         parent = Template.parentData()
         Meteor.call 'call_watson', Router.current().params.doc_id, parent.key, @mode, ->
 

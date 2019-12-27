@@ -37,18 +37,39 @@ template(name='image_edit')
             else 
                 input(type='file' name='upload_image' accept='image/*' )
 
-template(name='image_link')
+template(name='image_link_edit')
     .ui.fluid.input
         .ui.smoothed.label image link
         i.image.icon
         input.edit_image_link(type='link' value=field_value placeholder='image link'  autocomplete="off")
     if field_value
-        img.ui.fluid.image(src=field_value)
+        img.ui.image(src=field_value)
     // +call_visual
 
-
+    
 template(name='image_link_view')
     img.ui.image(src=field_value)
+
+
+template(name='image_view')
+    if field_value
+        //- .ui.inline.header
+        //-     if icon
+                i.icon(class=icon)
+        //-     if title
+        //-         |#{title}
+        //- else if key
+        //-     |#{key}
+        //- else
+        //-     |#{this}
+        //- if classes
+        //-     img(src="{{c.url field_value gravity='face' crop='fit'}}" class=classes)
+        //- else 
+        img.ui.centered.rounded.medium.image(src="{{c.url field_value gravity='face' crop='fit'}}")
+        //- a(href="{{c.url field_value gravity='face' crop='fit'}}")
+        //-     |download
+    //- +call_visual
+
 
 
 template(name='html_view')
@@ -536,12 +557,17 @@ template(name='single_doc_view')
 
 template(name='single_doc_edit')
     div
-    .ui.inline.header(title=key) 
+    .ui.inline.header(title=key)
+        if icon 
+            i.icon(class=icon)         
         |#{label} #{title}
     each choices
         .ui.compact.button.select_choice(class=choice_class)
-            |#{calculated_label}
-            |#{slug}
+            if icon 
+                i.icon(class=icon)  
+            |#{title}          
+            //- |#{calculated_label}
+            //- |#{slug}
             
             
 template(name='doc_card')
@@ -578,3 +604,217 @@ template(name='phone_view')
                 else
                     |#{this}
         strong &nbsp; #{field_value}
+
+
+
+template(name='youtube_edit')
+    .ui.basic.labeled.fluid.icon.input
+        .ui.basic.label 
+            // if icon
+            //     i.icon(class=icon)
+            |youtube id
+        input.youtube_id(type='text' value=field_value placeholder=placeholder autocomplete="off")
+    if field_value
+        iframe.youtube_view(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+
+template(name='youtube_view')
+    if field_value
+        .ui.embed.youtube_view(data-source="youtube" data-id=field_value)
+
+        //- // iframe(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+        //- iframe(src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+
+
+
+template(name='price_edit')
+    div
+    .ui.fluid.input
+        .ui.small.inline.header
+            if icon
+                +ismall name=icon
+                //- i.icon(class=icon)
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else
+                |#{key}
+        //- +clear_value                
+        input.edit_price(type='number' value=field_value placeholder=placeholder autocomplete="off")
+            
+            
+template(name='price_view')
+    if field_value
+        div
+        .ui.small.inline.header
+            if icon
+                +ismall name=icon
+                //- i.icon(class=icon)
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}
+        strong &nbsp; #{field_value}
+        .ui.big.green.button.buy_now
+            |buy now
+
+
+
+
+
+template(name='color_edit')
+    .ui.large.form
+        .field
+            label 
+                if icon
+                    i.grey.icon(class=icon)
+                    //- +i name=icon                
+                if title
+                    |#{title}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+            input.edit_color(type='color' value=field_value placeholder='color' autocomplete="off")
+
+
+
+template(name='color_view')
+    .ui.form
+        .field
+            label 
+                if icon
+                    i.grey.icon(class=icon)
+                    //- +i name=icon                
+                if title
+                    |#{title}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+            .ui.large.basic.label(style="background:#{field_value}")
+            |#{field_value}
+
+template(name='color_icon_edit')
+    div
+    .ui.inline.header
+        if icon
+            i.grey.icon(class=icon)
+            //- +i name=icon
+        if title
+            |#{title}
+        else if key
+            |#{key}
+        else
+            |#{this}
+    input.color_icon(type='url' value=field_value placeholder='icons8 class' autocomplete="off")
+    if field_value
+        i.large.icon(class=field_value)
+        //- img.ui.inline.image(src="https://img.icons8.com/color/48/000000/#{field_value}.png")
+template(name='icon_edit')
+    div
+    if icon
+        i.grey.icon(class=icon)
+        //- +ismall name=icon classes='ui middle aligned image'
+    .ui.inline.header
+        if title
+            |#{title}
+        else if key
+            |#{key}
+        else
+            |#{this}    
+    if field_value
+        i.large.icon(class=field_value)
+        //- +ismall name=field_value
+    .ui.right.icon.input
+        input.icon_val(type='text' value=field_value placeholder='icon class' autocomplete="off")
+
+
+template(name='color_icon_view')
+    if field_value
+        img(src="https://img.icons8.com/office/48/000000/#{field_value}.png")
+        //- img(src="https://img.icons8.com/ios/48/000000/#{field_value}.png")
+
+
+template(name='icon_view')
+    i.large.link.icon
+    if field_value
+        //- span.inline.spaced
+        //-     +ismall name=field_value
+        i.icon(class=field_value)
+        i.large.link.icon
+
+        //- img(src="https://img.icons8.com/office/48/000000/#{field_value}.png")
+        //- img(src="https://img.icons8.com/color/48/000000/#{field_value}.png")
+        //- img(src="https://img.icons8.com/ios/48/000000/#{field_value}.png")
+        
+        
+        
+        
+template(name='i')
+    i.icon(class=name)
+    //- img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+    //- img.icon8(src="https://img.icons8.com/ios/50/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
+    //- if classes.length
+    //-     img(src="https://img.icons8.com/#{gs.icon_theme}/48/000000/#{name}.png" class=classes title=title)
+    //- else 
+    //-     img.ui.mini.inline.image(src="https://img.icons8.com/#{gs.icon_theme}/48/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=classes title=title)
+template(name='ioffice')
+    img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
+template(name='iios')
+    img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
+template(name='ismall')
+    i.icon(class=name)
+    //- img.ui.middle.aligned.image(src="https://img.icons8.com/cotton/24/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/office/24/000000/#{name}.png" class=classes title=title)
+    //- img.ui.middle.aligned.image(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
+    //- img.ui.inline.image(src="https://img.icons8.com/#{gs.icon_theme}/24/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/ultraviolet/24/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class=classes title=title) 
+    //- |&nbsp;
+template(name='iblue')
+    img(src="https://img.icons8.com/ultraviolet/40/000000/#{name}.png" class=classes)
+
+template(name='iflat')
+    img.ui.mini.image(src="https://img.icons8.com/flat_round/64/000000/#{name}.png")
+
+//- template(name='ioffice')
+//-     img.ui.image(src="https://img.icons8.com/office/30/000000/#{name}.png" class=classes)
+
+
+
+template(name='link_edit')
+    div
+    .ui.inline.small.header
+        |#{title} #{label}
+    .ui.fluid.input
+        input.edit_url(type='url' value=field_value placeholder='url' autocomplete="off")
+
+
+template(name='link_view')
+    if field_value
+        div
+        a.ui.header(href=field_value targe='_window' title='click to download')
+            |#{title} #{label}
+        //- a.ui.header(href=field_value target='_window') #{label}
+        a.ui.small.header(href=field_value target='_window') #{field_value}
+        //- img.ui.fluid.image(src=field_value)
+
+template(name='big_link_view')
+    if field_value
+        div
+        a.ui.big.button(href=field_value target='_window' title='click to download')
+            |#{title} #{label}
+        //- a.ui.header(href=field_value target='_window') #{label}
+        //- a.ui.header(href=field_value target='_window') #{field_value}
+        //- img.ui.fluid.image(src=field_value)

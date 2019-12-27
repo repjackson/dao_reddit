@@ -18,8 +18,6 @@ template(name='course_card')
     a.ui.card(href="/course/#{_id}/view")
         if image_id
             img.ui.fluid.image(src="{{c.url image_id width=400 height=200 crop='fill'}}")
-        else if icon 
-            +ilarge name=icon classes='ui small centered image'
         .content
             .ui.inline.header #{title}
             div

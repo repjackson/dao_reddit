@@ -23,7 +23,8 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'model_docs', 'global_stats'
         # @autorun -> Meteor.subscribe 'model_docs', 'nav_item'
         @autorun -> Meteor.subscribe 'model_docs','alert'
-        @autorun -> Meteor.subscribe 'model_docs','site_section'
+        # @autorun -> Meteor.subscribe 'model_docs','site_section'
+        @autorun -> Meteor.subscribe 'model_docs','model'
         # @autorun -> Meteor.subscribe 'role_models'
         # @autorun => Meteor.subscribe 'global_settings'
 
@@ -31,9 +32,9 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'unread_messages'
 
     Template.nav.helpers
-        site_sections: ->
+        view_models: ->
             Docs.find
-                model:'site_section'
+                model:'model'
         nav_items: ->
             Docs.find
                 model:'nav_item'

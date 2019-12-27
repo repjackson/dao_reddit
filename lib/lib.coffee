@@ -185,20 +185,6 @@ Meteor.methods
 
 
 if Meteor.isServer
-    Docs.allow
-        insert: (userId, doc) ->
-            if doc.model is 'bug'
-                true
-            else
-                userId and doc._author_id is userId
-        update: (userId, doc) ->
-            if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
-                true
-            else
-                doc._author_id is userId
-        # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-        remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-
     Meteor.publish 'doc', (id)->
         doc = Docs.findOne id
         user = Meteor.users.findOne id

@@ -225,12 +225,12 @@ template(name='creation_info')
 
 template(name='user_list_toggle')
     if currentUser
-        .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
+        .ui.icon.circular.button.toggle(class=user_list_toggle_class title=label)
             if in_list
-                i.large.icon(class=remove_icon)
+                i.large.icon(class=icon)
             else
-                i.large.icon(class=add_icon)
-            |#{label}
+                i.large.icon(class=icon)
+            //- |#{label}
         //- each list_users
         //-     +user_info
 
@@ -241,10 +241,10 @@ template(name='bookmark_button')
             i.bookmark.icon
             //- if bookmarked
             //-     |bookmarked
-            //-     //- i.large.icon(class=remove_icon)
+            //-     //- i.large.icon(class=icon)
             //- else
             //-     |bookmark
-            //-     //- i.large.icon(class=add_icon)
+            //-     //- i.large.icon(class=icon)
         //- each list_users
         //-     +user_info
 

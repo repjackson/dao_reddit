@@ -9,9 +9,9 @@ template(name='model_doc_edit')
                         .ui.header(title="model: #{model}")
                             |edit #{model}
                         +creation_info
-                        a.ui.large.circular.icon.button(href="/m/#{model}/#{_id}/view" title='save')
+                        a.ui.large.icon.button(href="/m/#{model}/#{_id}/view" title='save')
                             i.large.checkmark.icon
-                        #delete_doc.ui.icon.circular.button
+                        #delete_doc.ui.icon.button
                             i.trash.icon
                         if is_user
                             +boolean_edit key='private' direct=true
@@ -33,17 +33,16 @@ template(name='model_doc_view')
             .ui.stackable.padded.grid
                 .row
                     .four.wide.column
-                        .ui.fluid.button.back_to_model
+                        .ui.large.button.back_to_model(title=current_model.title)
                             i.chevron.left.icon
                             i.icon(class=current_model.icon)
-                            |#{current_model.title}
+                            //- |#{current_model.title}
                         if can_edit
-                            a.ui.icon.large.circular.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                            a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
                                 i.pencil.icon
                         if is_admin
-                            .ui.header 
-                                i.clock.icon
-                                |timestamp tags
+                            div
+                            i.large.clock.grey.icon(title='timestamp tags')
                             each _timestamp_tags
                                 .ui.basic.label #{this}
                         +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label='bookmark' color='red'

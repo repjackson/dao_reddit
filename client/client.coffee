@@ -11,6 +11,9 @@ Tracker.autorun ->
     Tracker.afterFlush ->
         $(window).scrollTop 0
 
+
+
+
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 # $(document).ready ()=>
 #     $(@).mousemove((e)->
@@ -35,10 +38,10 @@ Tracker.autorun ->
 
 
 Template.body.events
-    'click a': ->
-        $('.global_container')
-        .transition('fade out', 250)
-        .transition('fade in', 500)
+    # 'click a': ->
+    #     $('.global_container')
+    #     .transition('fade out', 250)
+    #     .transition('fade in', 500)
 
     # 'click .result': ->
     #     $('.global_container')
@@ -351,6 +354,7 @@ Template.registerHelper 'field_value', () ->
         if parent6._id
             parent = Template.parentData(6)
     if parent
+        # console.log parent["#{@key}"]
         parent["#{@key}"]
 
 

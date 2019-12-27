@@ -103,6 +103,22 @@ Meteor.publish 'page_children', (slug)->
         parent_id:page._id
 
 
+Docs.allow
+    insert: (userId, doc) ->
+        if doc.model in ['bug','delta']
+            true
+        else
+            userId and doc._author_id is userId
+    update: (userId, doc) ->
+        if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
+            true
+        else
+            doc._author_id is userId
+    # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
+    remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
+
+
+
 
 Meteor.publish 'checkin_guests', (doc_id)->
     session_document = Docs.findOne doc_id

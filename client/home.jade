@@ -1,8 +1,0 @@
-template(name='home')
-    .ui.stackable.padded.grid
-        each site_sections 
-            .four.wide.column
-                .ui.segment 
-                    a.ui.icon.center.aligned.header(href="/#{slug}")
-                        i.icon(class=icon)
-                        |#{title}

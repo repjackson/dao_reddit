@@ -86,8 +86,13 @@ if Meteor.isClient
         'click .calc_module_stats': ->
             Meteor.call 'calc_module_total', @_id
 
+        'click .goto_course': (e,t)->
+            module = Docs.findOne Router.current().params.doc_id
+            $(e.currentTarget).closest('.grid').transition('fade up', 500)
 
-
+            Meteor.setTimeout ->
+                Router.go "/course/#{module.course_id}/view"
+            , 500
 
 
 

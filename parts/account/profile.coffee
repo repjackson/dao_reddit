@@ -225,7 +225,7 @@ if Meteor.isClient
             )
         'click .toggle_size': -> Session.set 'view_side', !Session.get('view_side')
         'click .recalc_student_stats': -> Meteor.call 'recalc_student_stats', Router.current().params.user_id
-        'click .set_delta_model': -> Meteor.call 'set_delta_facets', @slug, null, true
+        'click .set_delta_model': -> Meteor.call 'set_facets', @slug, null, true
         'click .logout_other_clients': -> Meteor.logoutOtherClients()
         'click .logout': ->
             Router.go '/login'

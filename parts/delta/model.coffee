@@ -73,9 +73,12 @@ if Meteor.isClient
                 Router.go "/m/#{@model}"
 
     Template.model_doc_view.events
-        'click .back_to_model': ->
+        'click .back_to_model': (e,t)->
             Session.set 'loading', true
             current_model = Router.current().params.model_slug
             Meteor.call 'set_facets', current_model, ->
                 Session.set 'loading', false
-            Router.go "/m/#{current_model}"
+            $(e.currentTarget).closest('.grid').transition('fade left', 500)
+            Meteor.setTimeout ->
+                Router.go "/m/#{current_model}"
+            , 500

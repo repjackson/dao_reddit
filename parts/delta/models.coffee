@@ -60,11 +60,16 @@ if Meteor.isClient
                     Router.go "/"
 
         'click .add_field': ->
+            field_count = Docs.find(
+                model:'field'
+                parent_id: Router.current().params.doc_id
+            ).count()
             Docs.insert
                 model:'field'
                 parent_id: Router.current().params.doc_id
                 view_roles: ['dev', 'admin', 'student', 'public']
                 edit_roles: ['dev', 'admin', 'student']
+                rank: field_count*10
 
 if Meteor.isServer
     Meteor.publish 'model', (slug)->

@@ -109,11 +109,14 @@ if Meteor.isClient
             Meteor.users.find
                 _id: $in: section.student_ids
 
-
-
-
-
     Template.section_view.events
+        'click .goto_module': (e,t)->
+            section = Docs.findOne Router.current().params.doc_id
+            $(e.currentTarget).closest('.grid').transition('fade up', 500)
+            Meteor.setTimeout ->
+                Router.go "/module/#{section.module_id}/view"
+            , 500
+
         'click .take_test': ->
             new_session_id = Docs.insert
                 model:'test_session'

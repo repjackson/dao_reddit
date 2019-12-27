@@ -16,6 +16,12 @@ template(name='user_awards')
     each nonawards
         +user_segment
 
+template(name='user_social')
+    .ui.grey.inline.center.aligned.header 
+        i.comments.icon
+        | social
+    .ui.header following
+    .ui.header followers
 
 template(name='user_tutoring')
     with current_user

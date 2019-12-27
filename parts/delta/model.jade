@@ -15,7 +15,7 @@ template(name='model_edit')
                     .ui.form
                         +text_edit key='title' label='title' direct=true
                         +slug_edit key='slug' label='slug' direct=true
-                        +text_edit key='icon' label='icon' direct=true
+                        +icon_edit key='icon' label='icon' direct=true
                         +textarea_edit key='description' label='description' direct=true
                         +array_edit key='tags' label='tags' direct=true
                         +text_edit key='collection' label='collection' direct=true
@@ -129,7 +129,8 @@ template(name='field_edit')
         +text_edit key='key'  direct=true label='key'           
         +number_edit key='rank' label='rank' direct=true             
         +textarea_edit key='description' label='description' direct=true
-        +text_edit key='field_type' direct=true label='field type'              
+        //- +text_edit key='field_type' direct=true label='field type'
+        +icon_edit key='icon' label='icon' direct=true        
         +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true                 
         +multi_doc_edit key='view_roles' ref_model='role' label='view roles' direct=true icon='eye'          
         +multi_doc_edit key='edit_roles' ref_model='role' label='edit roles' direct=true icon='pencil'        
