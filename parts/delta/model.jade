@@ -136,10 +136,11 @@ template(name='model_view')
 
 template(name='action_edit')
     .content
-        +text_edit key='title' direct=true label='title'        
         +number_edit key='rank' label='rank' direct=true             
         +textarea_edit key='description' label='description' direct=true
         +single_doc_edit key='action_type' ref_model='action_type' label='action type' direct=true                 
+        div             
+        +remove_button
 
 
 

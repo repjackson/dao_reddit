@@ -22,6 +22,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'model_docs', 'global_stats'
         # @autorun -> Meteor.subscribe 'model_docs', 'nav_item'
+        @autorun -> Meteor.subscribe 'model_docs', 'cart_item'
         @autorun -> Meteor.subscribe 'model_docs','alert'
         # @autorun -> Meteor.subscribe 'model_docs','site_section'
         @autorun -> Meteor.subscribe 'model_docs','model'
@@ -70,24 +71,27 @@ if Meteor.isClient
                     model:'model'
                     view_roles: $in:['public']
                 }, sort:title:1
-
         models: ->
             Docs.find
                 model:'model'
-
         unread_count: ->
             unread_count = Docs.find({
                 model:'message'
                 to_username:Meteor.user().username
                 read_by_ids:$nin:[Meteor.userId()]
             }).count()
-
         cart_amount: ->
             cart_amount = Docs.find({
                 model:'cart_item'
                 _author_id:Meteor.userId()
             }).count()
-
+        cart_icon_class: ->
+            cart_amount = Docs.find({
+                model:'cart_item'
+                _author_id:Meteor.userId()
+            }).count()
+            console.log cart_amount
+            if cart_amount then 'red' else ''
 
         mail_icon_class: ->
             unread_count = Docs.find({
@@ -96,23 +100,17 @@ if Meteor.isClient
                 read_by_ids:$nin:[Meteor.userId()]
             }).count()
             if unread_count then 'red' else ''
-
-
         alert_icon_class: ->
             unread_count = Docs.find({
                 model:'alert'
                 target_user_id:Meteor.userId()
             }).count()
             if unread_count then 'yellow' else 'outline'
-
-
         bookmarked_models: ->
             if Meteor.userId()
                 Docs.find
                     model:'model'
                     bookmark_ids:$in:[Meteor.userId()]
-
-
         my_classrooms: ->
             if Meteor.userId()
                 Docs.find

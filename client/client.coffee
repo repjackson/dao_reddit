@@ -61,6 +61,9 @@ Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
     # Template.parentData()
+Template.registerHelper 'product', () ->
+    Docs.findOne @product_id
+    # Template.parentData()
 Template.registerHelper 'gs', () ->
     Docs.findOne
         model:'global_stats'
@@ -343,8 +346,6 @@ Template.registerHelper 'field_value', () ->
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
-
-
     if @direct
         parent = Template.parentData()
     else if parent5
@@ -363,8 +364,6 @@ Template.registerHelper 'sorted_field_values', () ->
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
-
-
     if @direct
         parent = Template.parentData()
     else if parent5._id

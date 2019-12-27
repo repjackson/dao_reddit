@@ -45,7 +45,7 @@ template(name='model_doc_view')
                             i.large.clock.grey.icon(title='timestamp tags')
                             each _timestamp_tags
                                 .ui.basic.label #{this}
-                        +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label='bookmark' color='red'
+                        +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
                         div
                         .ui.small.header #{views} views
                         .ui.small.inline.header by
@@ -56,9 +56,10 @@ template(name='model_doc_view')
                             |by
                             +author_info
                             +creation_info
-                        //- +karma_transaction
-                        //- +voting
-                    .twelve.wide.column
+                        div
+                        +karma_transaction
+                        div
+                    .eight.wide.column
                         .ui.header
                             each fields
                                 if header
@@ -70,8 +71,14 @@ template(name='model_doc_view')
                             unless header
                                 .item
                                     +Template.dynamic template=view_template 
-                        each current_model.actions
-                            +Template.dynamic template=this data=current_doc
+                    .four.wide.column                
+                        .ui.header actions 
+                        each actions
+                            .ui.header #{title} 
+                            +Template.dynamic template=slug
+                        each action_types
+                            .ui.header #{title}
+                            +Template.dynamic template=slug
                         //- +comments
                         //- div
                         //- if watson
