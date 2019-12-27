@@ -1,0 +1,73 @@
+template(name='alpha')
+    .ui.stackable.grid
+        .row
+            .fifteen.wide.center.aligned.column
+                unless is_loading
+                    // .ui.divider
+                    // // each sessions
+                    // //     .ui.icon.large.button.select_session(class=session_selector_class title='select session')
+                    // //         i.play.icon
+                // |did: #{session_alpha_id}
+                        
+                each current_alpha.facets
+                    +facet
+                if current_alpha
+                    .ui.icon.circular.button.print_alpha(title='print session doc')
+                        i.code.icon
+                    .ui.reset.icon.circular.button(title='reload session')
+                        i.refresh.icon
+                    .ui.delete_alpha.icon.circular.button(title='delete session')
+                        i.trash.icon
+                else
+                    .create_alpha.ui.button.pointer(title='new session')
+                        i.plus.icon
+                        |session
+        //- if single_doc
+        .row
+            .fifteen.wide.column
+                each current_alpha.result_ids
+                    +alpha_result
+            
+            
+template(name='alpha_result')
+    with result 
+        unless is_loading
+            .ui.result.basic.segment.two.column.stackable.grid
+                .column.scrolling
+                    each _keys
+                        +key_view
+                .column.scrolling
+                    if watson
+                        +watson_view
+                    if visual_classes
+                        +visual_classes
+                        if analyzed_text
+                            |#{nl2br analyzed_text}
+                    a.ui.header(href="/view#{_id}")
+                        each bricks
+                            if header
+                                +Template.dynamic template=view_template 
+                        // |#{title}
+                    .description
+                        each small_bricks
+                            unless header
+                                +Template.dynamic template=view_template 
+                    .description
+                        each big_bricks
+                            unless header
+                                +Template.dynamic template=view_template 
+                    .extra
+                        // +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
+                        //- if is_dev
+                        //-     +remove_button
+                        if can_edit
+                            a.ui.icon.big.button(href="/edit/#{_id}")
+                                i.pencil.icon
+                        a.ui.icon.big.button(href="/view/#{_id}")
+                            i.eye.icon
+                        //- each schema.actions
+                        //-     +Template.dynamic template=this data=..
+                        +author_info
+                        +creation_info
+                        +clone_button
+                        +detect

@@ -144,6 +144,9 @@ template(name='delta_cards')
 template(name='delta_card')            
     with result 
         .card 
+            if image_link 
+                .image.pointer.result
+                    img(src=image_link)
             .content
                 .ui.icon.header.pointer.result
                     i.icon(class=icon)
