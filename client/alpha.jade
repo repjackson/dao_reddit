@@ -9,8 +9,6 @@ template(name='alpha')
                     // //         i.play.icon
                 // |did: #{session_alpha_id}
                         
-                each current_alpha.facets
-                    +afacet
                 if current_alpha
                     .ui.icon.circular.button.print_alpha(title='print session doc')
                         i.code.icon
@@ -18,10 +16,13 @@ template(name='alpha')
                         i.refresh.icon
                     .ui.delete_alpha.icon.circular.button(title='delete session')
                         i.trash.icon
+                    each current_alpha.facets
+                        +afacet
                 else
                     .create_alpha.ui.button.pointer(title='new session')
                         i.plus.icon
                         |session
+                        
             .twelve.wide.column
                 .filter_row.ui.basic.segment(class=loading_class)
                     .ui.inline.small.grey.header(title='change sort direction')
@@ -159,13 +160,4 @@ template(name='alpha_result')
 
 
 
-template(name='key_view')
-    div
-    .ui.inline.grey.header(title='name') #{key}
-    div
-    with context
-        +Template.dynamic template=field_view
-    // .ui.divider
-    // +jsonView json=meta
-        
         

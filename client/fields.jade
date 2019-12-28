@@ -158,6 +158,7 @@ template(name='array_view')
         if label
             .ui.inline.small.header(title=title)
                 |#{label}
+        |#{key}
         each field_value
             .ui.basic.label #{this}
 
@@ -396,8 +397,8 @@ template(name='number_view')
                 |#{title}
             else if label
                 |#{label}
-            //- else if key
-            //-     |#{key}
+            else if key
+                |#{key}
             //- else
             //-     |#{this}
         .ui.inline.header &nbsp;

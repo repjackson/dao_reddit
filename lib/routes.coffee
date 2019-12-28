@@ -29,3 +29,5 @@ Router.route '/forgot_password', -> @render 'forgot_password'
 # Router.route '/', -> @render 'forgot_password'
 
 Router.route '/settings', -> @render 'settings'
+Router.route '/edit/:doc_id', -> @render 'edit'
+Router.route '/view/:doc_id', -> @render 'view'

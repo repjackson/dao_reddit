@@ -46,11 +46,11 @@ if Meteor.isClient
     #             Docs.remove @_id
     #             Router.go "/m/model"
 
-    Template.field_edit.onRendered ->
+    Template.delta_field_edit.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1000
-    Template.field_edit.helpers
+    Template.delta_field_edit.helpers
         is_ref: -> @field_type in ['single_doc', 'multi_doc','children']
         is_user_ref: -> @field_type in ['single_user', 'multi_user']
 

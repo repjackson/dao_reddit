@@ -1,0 +1,46 @@
+template(name='edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .centered.row
+                .center.aligned.sixteen.wide.column
+                    a.ui.huge.circular.icon.button(href="/view/#{_id}")
+                        i.checkmark.icon
+                    .ui.circular.button.icon.delete_doc
+                        i.remove.icon
+                    +detect
+                    +field_menu
+                //- each fields
+                //-     .ui.label #{this}
+            .centered.row
+                .ui.padded.stackable.two.column.grid
+                    each _keys
+                        .column
+                            +field_edit
+                //- if analyzed_text
+                //-     |#{nl2br analyzed_text}
+                //- if watson
+                //-     +watson_view
+                //- if visual_classes
+                //-     +visual_classes
+
+template(name='field_menu')
+    i.grey.plus.large.icon(title='add field')
+        //- |brick
+    each fields
+        .ui.large.circular.button.add_field
+            i.icon(class=icon)
+            |#{slug}
+
+
+template(name='field_edit')
+    .ui.tertiary.segment
+        i.remove.icon.large.link.remove_field(title='remove field')
+        .ui.labeled.input
+            .ui.label(title='name') #{key}
+            input.change_key(type='text' placeholder='key' value=key)
+        
+        .ui.divider
+        with context
+            +Template.dynamic template=field_edit
+        .ui.divider
+        //- +jsonView json=meta

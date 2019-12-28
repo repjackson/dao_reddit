@@ -43,7 +43,7 @@ template(name='model_edit')
                                 each view_roles
                                     .ui.basic.label #{this}
                                 i.large.dropdown.icon
-                            +field_edit
+                            +delta_field_edit
 
                     .ui.inline.header actions
                     .ui.icon.large.circular.button.add_action
@@ -145,7 +145,7 @@ template(name='action_edit')
 
 
 
-template(name='field_edit')
+template(name='delta_field_edit')
     .content
         +text_edit key='title' direct=true label='title'        
         +text_edit key='key'  direct=true label='key'           
