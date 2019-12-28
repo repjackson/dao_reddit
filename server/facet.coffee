@@ -79,6 +79,30 @@ Meteor.methods
             unless 'dev' in Meteor.user().roles
                 built_query.view_roles = $in:Meteor.user().roles
 
+        if not delta.facets
+            # console.log 'no facets'
+            Docs.update delta_id,
+                $set:
+                    facets: [{
+                        key:'_keys'
+                        filters:[]
+                        res:[]
+                    }
+                    # {
+                    #     key:'_timestamp_tags'
+                    #     filters:[]
+                    #     res:[]
+                    # }
+                    ]
+
+            delta.facets = [
+                key:'_keys'
+                filters:[]
+                res:[]
+            ]
+
+
+
         for facet in delta.facets
             if facet.filters.length > 0
                 built_query["#{facet.key}"] = $all: facet.filters

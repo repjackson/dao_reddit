@@ -94,30 +94,54 @@ Meteor.users.helpers
     five_tags: -> if @tags then @tags[..4]
 
 Meteor.methods
-    add_facet_filter: (delta_id, key, filter)->
+    add_facet_filter: (alpha_id, key, filter)->
         if key is '_keys'
             new_facet_ob = {
                 key:filter
                 filters:[]
                 res:[]
             }
-            Docs.update { _id:delta_id },
+            Docs.update { _id:alpha_id },
                 $addToSet: facets: new_facet_ob
-        Docs.update { _id:delta_id, "facets.key":key},
+        Docs.update { _id:alpha_id, "facets.key":key},
             $addToSet: "facets.$.filters": filter
 
-        Meteor.call 'fum', delta_id, (err,res)->
+        Meteor.call 'afum', alpha_id, (err,res)->
 
 
-    remove_facet_filter: (delta_id, key, filter)->
+    # add_facet_filter: (delta_id, key, filter)->
+    #     if key is '_keys'
+    #         new_facet_ob = {
+    #             key:filter
+    #             filters:[]
+    #             res:[]
+    #         }
+    #         Docs.update { _id:delta_id },
+    #             $addToSet: facets: new_facet_ob
+    #     Docs.update { _id:delta_id, "facets.key":key},
+    #         $addToSet: "facets.$.filters": filter
+    #
+    #     Meteor.call 'fum', delta_id, (err,res)->
+    #
+    #
+    remove_facet_filter: (alpha_id, key, filter)->
         if key is '_keys'
-            Docs.update { _id:delta_id },
+            Docs.update { _id:alpha_id },
                 $pull:facets: {key:filter}
-        Docs.update { _id:delta_id, "facets.key":key},
+        Docs.update { _id:alpha_id, "facets.key":key},
             $pull: "facets.$.filters": filter
-        Meteor.call 'fum', delta_id, (err,res)->
+        Meteor.call 'afum', alpha_id, (err,res)->
 
 
+    # remove_facet_filter: (delta_id, key, filter)->
+    #     if key is '_keys'
+    #         Docs.update { _id:delta_id },
+    #             $pull:facets: {key:filter}
+    #     Docs.update { _id:delta_id, "facets.key":key},
+    #         $pull: "facets.$.filters": filter
+    #     Meteor.call 'fum', delta_id, (err,res)->
+    #
+    #
     upvote: (doc)->
         if Meteor.userId()
             if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids

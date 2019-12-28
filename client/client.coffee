@@ -343,17 +343,25 @@ Template.registerHelper 'page_doc', ->
 
 Template.registerHelper 'field_value', () ->
     # console.log @
-    parent = Template.parentData()
-    parent5 = Template.parentData(5)
-    parent6 = Template.parentData(6)
-    if @direct
-        parent = Template.parentData()
-    else if parent5
-        if parent5._id
-            parent = Template.parentData(5)
-    else if parent6
-        if parent6._id
-            parent = Template.parentData(6)
+    # parent = Template.parentData()
+    # parent5 = Template.parentData(5)
+    # parent6 = Template.parentData(6)
+    # if @direct
+    #     parent = Template.parentData()
+    # else if parent5
+    #     if parent5._id
+    #         parent = Template.parentData(5)
+    # else if parent6
+    #     if parent6._id
+    #         parent = Template.parentData(6)
+    # console.log parent
+    # console.log Template.parentData(2)
+    # console.log Template.parentData(3)
+    # console.log Template.parentData(4)
+    # console.log Template.parentData(5)
+    # console.log Template.parentData(6)
+    # console.log Template.parentData(7)
+    parent = Template.parentData(6)
     if parent
         # console.log parent["#{@key}"]
         parent["#{@key}"]
@@ -394,3 +402,106 @@ Template.registerHelper 'calculated_size', (metric) ->
     else if whole is 10 then 'f10'
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
+
+
+
+
+
+Template.registerHelper 'small_bricks', () ->
+    # console.log @model
+    if @model
+        model = Docs.findOne
+            type:'model'
+            slug:@model
+    else if @roles
+        model = Docs.findOne
+            type:'model'
+            slug:$in:@roles
+        # tribe:'dao'
+    # if @model in ['field', 'brick','model','tribe','page','block']
+    # else
+    #     if Router.current().params.username
+    #         model = Docs.findOne
+    #             type:'model'
+    #             user_model:true
+    #             slug:@model
+    #     else
+    #         model = Docs.findOne
+    #             type:'model'
+    #             slug:@model
+    #             tribe:Router.current().params.tribe_slug
+
+    Docs.find {
+        type:'brick'
+        field:$in:['text','single_doc','multi_doc','boolean','color_icon','number',]
+        parent_id:model._id
+        # view_roles: $in:Meteor.user().roles
+    }, sort:rank:1
+
+
+Template.registerHelper 'big_bricks', () ->
+    # console.log @model
+    # if @model in ['field', 'brick','model','tribe','page','block']
+    if @model
+        model = Docs.findOne
+            type:'model'
+            slug:@model
+    else if @roles
+        model = Docs.findOne
+            type:'model'
+            slug:$in:@roles
+    Docs.find {
+        type:'brick'
+        parent_id:model._id
+        field:$nin:['text','single_doc','multi_doc','boolean','color_icon','number']
+        # view_roles: $in:Meteor.user().roles
+    }, sort:rank:1
+
+#
+# Template.registerHelper 'children', ->
+#     Docs.find
+#         parent_id:@_id
+#         # view_roles:$in:Meteor.user().roles
+
+
+
+
+
+Template.registerHelper 'bricks', () ->
+    # console.log @model
+    if @model
+        model = Docs.findOne
+            type:'model'
+            slug:@model
+    else if @roles
+        model = Docs.findOne
+            type:'model'
+            slug:$in:@roles
+    # else
+    #     # console.log 'looking for', @model
+    #     if Router.current().params.username
+    #         model = Docs.findOne
+    #             type:'model'
+    #             user_model:true
+    #             slug:@model
+    #     else
+    #         model = Docs.findOne
+    #             type:'model'
+    #             slug:@model
+    #             tribe:Router.current().params.tribe_slug
+    #     # console.log @model, model
+
+    Docs.find {
+        type:'brick'
+        parent_id:model._id
+        # view_roles: $in:Meteor.user().roles
+        # field:$nin:['text','single_doc','multi_doc','boolean']
+    }, sort:rank:1
+    # if 'dev' in Meteor.user().roles
+    # else
+    #     Docs.find {
+    #         type:'brick'
+    #         parent_id:model._id
+    #         view_roles: $in:Meteor.user().roles
+    #         # field:$nin:['text','single_doc','multi_doc','boolean']
+    #     }, sort:rank:1

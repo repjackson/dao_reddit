@@ -26,17 +26,6 @@ Meteor.methods
         else
             Throw.new Meteor.Error 'err creating user'
 
-    parse_keys: ->
-        cursor = Docs.find
-            model:'key'
-        for key in cursor.fetch()
-            # new_building_number = parseInt key.building_number
-            new_unit_number = parseInt key.unit_number
-            Docs.update key._id,
-                $set:
-                    unit_number:new_unit_number
-
-
     change_username:  (user_id, new_username) ->
         user = Meteor.users.findOne user_id
         Accounts.setUsername(user._id, new_username)
@@ -51,13 +40,6 @@ Meteor.methods
     remove_email: (user_id, email)->
         # user = Meteor.users.findOne username:username
         Accounts.removeEmail user_id, email
-
-
-    check_lease_status: ->
-        students =
-            Meteor.users.find(
-                roles:$in:['student']
-            ).fetch()
 
 
 
@@ -199,54 +181,6 @@ Meteor.methods
         Accounts.setPassword(user_id, new_password)
 
 
-
-    keys: (specific_key)->
-        start = Date.now()
-
-        if specific_key
-            cursor = Docs.find({
-                "#{specific_key}":$exists:true
-                _keys:$exists:false
-                }, { fields:{_id:1} })
-        else
-            cursor = Docs.find({
-                _keys:$exists:false
-            }, { fields:{_id:1} })
-
-        found = cursor.count()
-
-        for doc in cursor.fetch()
-            Meteor.call 'key', doc._id
-
-        stop = Date.now()
-
-        diff = stop - start
-
-    key: (doc_id)->
-        doc = Docs.findOne doc_id
-        keys = _.keys doc
-
-        light_fields = _.reject( keys, (key)-> key.startsWith '_' )
-
-        Docs.update doc._id,
-            $set:_keys:light_fields
-
-
-    global_remove: (keyname)->
-        result = Docs.update({"#{keyname}":$exists:true}, {
-            $unset:
-                "#{keyname}": 1
-                "_#{keyname}": 1
-            $pull:_keys:keyname
-            }, {multi:true})
-
-
-    count_key: (key)->
-        count = Docs.find({"#{key}":$exists:true}).count()
-
-
-
-
     slugify: (doc_id)->
         doc = Docs.findOne doc_id
         slug = doc.title.toString().toLowerCase().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '_').replace(/^-+/, '').replace(/-+$/,'')
@@ -254,126 +188,6 @@ Meteor.methods
         # # Docs.update { _id:doc_id, fields:field_object },
         # Docs.update { _id:doc_id, fields:field_object },
         #     { $set: "fields.$.slug": slug }
-
-
-    rename: (old, newk)->
-        old_count = Docs.find({"#{old}":$exists:true}).count()
-        new_count = Docs.find({"#{newk}":$exists:true}).count()
-        result = Docs.update({"#{old}":$exists:true}, {$rename:"#{old}":"#{newk}"}, {multi:true})
-        result2 = Docs.update({"#{old}":$exists:true}, {$rename:"_#{old}":"_#{newk}"}, {multi:true})
-
-        # > Docs.update({doc_sentiment_score:{$exists:true}},{$rename:{doc_sentiment_score:"sentiment_score"}},{multi:true})
-        cursor = Docs.find({newk:$exists:true}, { fields:_id:1 })
-
-        for doc in cursor.fetch()
-            Meteor.call 'key', doc._id
-
-
-
-
-    detect_fields: (doc_id)->
-        doc = Docs.findOne doc_id
-        keys = _.keys doc
-        light_fields = _.reject( keys, (key)-> key.startsWith '_' )
-
-        Docs.update doc._id,
-            $set:_keys:light_fields
-
-        for key in light_fields
-            value = doc["#{key}"]
-
-            meta = {}
-
-            js_type = typeof value
-
-
-            if js_type is 'object'
-                meta.object = true
-                if Array.isArray value
-                    meta.array = true
-                    meta.length = value.length
-                    meta.array_element_type = typeof value[0]
-                    meta.field = 'array'
-                else
-                    if key is 'watson'
-                        meta.field = 'object'
-                        # meta.field = 'watson'
-                    else
-                        meta.field = 'object'
-
-            else if js_type is 'boolean'
-                meta.boolean = true
-                meta.field = 'boolean'
-
-            else if js_type is 'number'
-                meta.number = true
-                d = Date.parse(value)
-                # nan = isNaN d
-                # !nan
-                if value < 0
-                    meta.negative = true
-                else if value > 0
-                    meta.positive = false
-
-                integer = Number.isInteger(value)
-                if integer
-                    meta.integer = true
-                meta.field = 'number'
-
-
-            else if js_type is 'string'
-                meta.string = true
-                meta.length = value.length
-
-                html_check = /<[a-z][\s\S]*>/i
-                html_result = html_check.test value
-
-                url_check = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
-                url_result = url_check.test value
-
-                youtube_check = /((\w|-){11})(?:\S+)?$/
-                youtube_result = youtube_check.test value
-
-                if key is 'html'
-                    meta.html = true
-                    meta.field = 'html'
-                if key is 'youtube_id'
-                    meta.youtube = true
-                    meta.field = 'youtube'
-                else if html_result
-                    meta.html = true
-                    meta.field = 'html'
-                else if url_result
-                    meta.url = true
-                    image_check = (/\.(gif|jpg|jpeg|tiff|png)$/i).test value
-                    if image_check
-                        meta.image = true
-                        meta.field = 'image'
-                    else
-                        meta.field = 'url'
-                # else if youtube_result
-                #     meta.youtube = true
-                #     meta.field = 'youtube'
-                else if Meteor.users.findOne value
-                    meta.user_id = true
-                    meta.field = 'user_ref'
-                else if Docs.findOne value
-                    meta.doc_id = true
-                    meta.field = 'doc_ref'
-                else if meta.length is 20
-                    meta.field = 'image'
-                else if meta.length > 20
-                    meta.field = 'textarea'
-                else
-                    meta.field = 'text'
-
-            Docs.update doc_id,
-                $set: "_#{key}": meta
-
-        # Docs.update doc_id,
-        #     $set:_detected:1
-
-        return doc_id
 
 
     send_enrollment_email: (user_id, email)->

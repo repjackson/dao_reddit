@@ -49,6 +49,10 @@ template(name='print_current_doc')
 
 
 
+template(name='clone_button')
+    a.ui.icon.circular.big.button.clone_doc(title='clone' href="#")
+        i.clone.icon
+
 
 
 
@@ -453,49 +457,10 @@ template(name='guest_waiver_check')
         
             
         
-template(name='kiosk_send_message')                
-    .ui.big.fluid.button.create_message 
-        i.envelope.icon
-        |send private message
-    if sending_message
-        +sending_kiosk_message
-
-template(name='sending_kiosk_message')
-    .ui.header include contact info
-    with sending_message_doc
-        +textarea_edit key='body' direct=true
-        .ui.big.fluid.button.send_message send
-    .ui.big.button.cancel_message cancel
-                    
-
-
-
-template(name='suggestion_box')
-    .ui.inline.header 
-        |suggestion box
-    .ui.icon.button.add_suggestion
-        i.plus.icon
-    .ui.bulleted.list
-        each public_suggestions
-            .item 
-                |#{content}
-                small #{when}
-                if is_admin
-                    +remove_button
-    
-    
-    .ui.new_suggestion_modal.modal 
-        i.close.icon
-        .header add suggestion
-        .content
-            with editing_suggestion
-                +textarea_edit key='content' direct=true
-                +boolean_edit key='public' direct=true
-        .actions    
-            .ui.deny.button cancel
-            .ui.positive.labeled.icon.button
-                i.checkmark.icon
-                |submit
+//- template(name='detect')
+//-     .ui.icon.big.circular.button.detect_fields(title='detect fields')
+//-         i.dna.icon
+//-         //- |Detect Fields
 
 
 template(name='user_array_list')
