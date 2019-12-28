@@ -66,3 +66,6 @@ template(name='view')
                         //- +watson_view
                         if visual_classes
                             +visual_classes
+                    .ui.header.pointer.calc_similar similar
+                    each matching_docs 
+                        .ui.header hi #{doc_id} #{matching_points}

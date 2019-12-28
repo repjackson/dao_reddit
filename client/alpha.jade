@@ -118,11 +118,11 @@ template(name='afacet')
 template(name='alpha_result')
     with result 
         unless is_loading
-            .ui.result.basic.segment.two.column.stackable.grid
-                .column.scrolling
+            .ui.result.basic.segment.stackable.grid
+                .twelve.wide.column.scrolling
                     each _keys
                         +key_view
-                .column.scrolling
+                .four.wide.column.scrolling
                     //- if watson
                     //-     +watson_view
                     //- if visual_classes

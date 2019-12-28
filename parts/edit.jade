@@ -38,7 +38,9 @@ template(name='field_edit')
         .ui.labeled.input
             .ui.label(title='name') #{key}
             input.change_key(type='text' placeholder='key' value=key)
-        
+        .ui.small.inline.header 
+            small field type
+            strong #{meta.field}
         .ui.divider
         with context
             +Template.dynamic template=field_edit
