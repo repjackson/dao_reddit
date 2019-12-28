@@ -1,13 +1,13 @@
 if Meteor.isClient
     Template.edit.onCreated ->
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-        # @autorun -> Meteor.subscribe 'schema', Router.current().params._id
+        # @autorun -> Meteor.subscribe 'schema', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'type', 'field'
 
 
     Template.edit.events
         'click .toggle_complete': (e,t)->
-            Docs.update Router.current().params._id,
+            Docs.update Router.current().params.doc_id,
                 $set:complete:!@complete
         'click .delete_doc': ->
             if confirm 'Confirm Delete'
@@ -17,14 +17,84 @@ if Meteor.isClient
 
     Template.field_menu.helpers
         fields: ->
-            Docs.find
-                type:'field'
+            [
+                {
+                    title:'text'
+                    slug:'text'
+                    icon:'i cursor'
+                }
+                {
+                    title:'number'
+                    slug:'number'
+                    icon:'hashtag'
+                }
+                {
+                    title:'html'
+                    slug:'html'
+                    icon:'html'
+                }
+                {
+                    title:'image'
+                    slug:'image'
+                    icon:'image'
+                }
+                {
+                    title:'image link'
+                    slug:'image_link'
+                    icon:'image'
+                }
+                {
+                    title:'link'
+                    slug:'link'
+                    icon:'linkify'
+                }
+                {
+                    title:'array'
+                    slug:'array'
+                    icon:'list'
+                }
+                {
+                    title:'boolean'
+                    slug:'boolean'
+                    icon:'checkmark'
+                }
+                {
+                    title:'textarea'
+                    slug:'textarea'
+                    icon:'content'
+                }
+                {
+                    title:'float'
+                    slug:'float'
+                    icon:'hashtag'
+                }
+                {
+                    title:'date'
+                    slug:'date'
+                    icon:'calendar'
+                }
+                {
+                    title:'youtube'
+                    slug:'youtube'
+                    icon:'youtube'
+                }
+                {
+                    title:'price'
+                    slug:'price'
+                    icon:'price'
+                }
+                {
+                    title:'link'
+                    slug:'link'
+                    icon:'link'
+                }
+            ]
 
 
     Template.field_menu.events
         'click .add_field': ->
             console.log @
-            Docs.update Router.current().params._id,
+            Docs.update Router.current().params.doc_id,
                 $push:
                     fields: @slug
                     _keys: "new_#{@slug}"

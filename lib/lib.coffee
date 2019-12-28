@@ -7,6 +7,7 @@
 @Course_tags = new Meteor.Collection 'course_tags'
 
 
+
 Docs.before.insert (userId, doc)->
     doc._author_id = Meteor.userId()
     timestamp = Date.now()
@@ -83,6 +84,8 @@ Docs.helpers
                 downvoter = Meteor.users.findOne downvoter_id
                 downvoters.push downvoter
             downvoters
+
+
 Meteor.users.helpers
     name: ->
         if @nickname
@@ -206,7 +209,15 @@ Meteor.methods
             Meteor.users.update doc._author_id,
                 $inc:anon_karma:-1
 
-
+    rename_key:(old_key,new_key,parent)->
+        Docs.update parent._id,
+            $pull:_keys:old_key
+        Docs.update parent._id,
+            $addToSet:_keys:new_key
+        Docs.update parent._id,
+            $rename:
+                "#{old_key}": new_key
+                "_#{old_key}": "_#{new_key}"
 
 if Meteor.isServer
     Meteor.publish 'doc', (id)->

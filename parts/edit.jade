@@ -24,8 +24,8 @@ template(name='edit')
                 //-     +visual_classes
 
 template(name='field_menu')
-    i.grey.plus.large.icon(title='add field')
-        //- |brick
+    .ui.icon.button.add_field(title='add field')
+        i.plus.icon
     each fields
         .ui.large.circular.button.add_field
             i.icon(class=icon)
@@ -33,16 +33,15 @@ template(name='field_menu')
 
 
 template(name='field_edit')
-    .ui.tertiary.segment
-        i.remove.icon.large.link.remove_field(title='remove field')
-        .ui.labeled.input
-            .ui.label(title='name') #{key}
-            input.change_key(type='text' placeholder='key' value=key)
-        .ui.small.inline.header 
-            small field type
-            strong #{meta.field}
-        .ui.divider
-        with context
-            +Template.dynamic template=field_edit
-        .ui.divider
-        //- +jsonView json=meta
+    i.remove.icon.large.link.remove_field(title='remove field')
+    .ui.labeled.input
+        .ui.label(title='name') #{key}
+        input.change_key(type='text' placeholder='key' value=key)
+    .ui.small.inline.header 
+        small field type
+        strong #{meta.field}
+    .ui.divider
+    with context
+        +Template.dynamic template=field_edit
+    .ui.divider
+    //- +jsonView json=meta

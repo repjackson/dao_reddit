@@ -4,7 +4,7 @@ Template.clear_value.events
             if @direct
                 parent = Template.parentData()
             else
-                parent = Template.parentData(5)
+                parent = Template.parentData(6)
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id
             if doc
@@ -20,7 +20,7 @@ Template.html_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
         if doc
@@ -36,7 +36,7 @@ Template.html_edit.helpers
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         # @current_doc = Docs.findOne Router.current().params.doc_id
         # @current_doc = Docs.findOne @_id
         self = @
@@ -118,7 +118,7 @@ Template.image_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         Cloudinary.upload files[0],
             # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
             # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
@@ -142,7 +142,7 @@ Template.image_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         Docs.update parent._id,
             $set:"#{@key}":cloudinary_id
 
@@ -151,7 +151,7 @@ Template.image_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
 
         if confirm 'Remove Photo?'
             # Docs.update parent._id,
@@ -174,7 +174,7 @@ Template.array_edit.events
             if @direct
                 parent = Template.parentData()
             else
-                parent = Template.parentData(5)
+                parent = Template.parentData(6)
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id
             if doc
@@ -191,7 +191,7 @@ Template.array_edit.events
         if field.direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -222,7 +222,7 @@ Template.textarea_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -248,7 +248,7 @@ Template.text_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -266,7 +266,7 @@ Template.boolean_edit.helpers
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         if parent["#{@key}"] then 'active' else ''
 
 
@@ -275,7 +275,7 @@ Template.boolean_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         # $(e.currentTarget).closest('.button').transition('pulse', 100)
 
         doc = Docs.findOne parent._id
@@ -304,7 +304,7 @@ Template.slug_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -322,7 +322,7 @@ Template.slug_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         doc = Docs.findOne parent._id
         Meteor.call 'slugify', page_doc._id, (err,res)=>
             Docs.update page_doc._id,
@@ -341,7 +341,7 @@ Template.multi_doc_edit.helpers
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         ref_field = Template.parentData(1)
         target = Template.parentData(2)
 
@@ -362,7 +362,7 @@ Template.multi_doc_edit.events
         parent2 = Template.parentData(2)
         parent3 = Template.parentData(3)
         parent4 = Template.parentData(4)
-        parent5 = Template.parentData(5)
+        parent5 = Template.parentData(6)
         parent6 = Template.parentData(6)
         parent7 = Template.parentData(7)
 
@@ -395,11 +395,11 @@ Template.number_edit.events
         # console.log Template.parentData(2)
         # console.log Template.parentData(3)
         # console.log Template.parentData(4)
-        # console.log Template.parentData(5)
+        # console.log Template.parentData(6)
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         val = parseInt t.$('.edit_number').val()
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -417,7 +417,7 @@ Template.float_edit.events
         if @direct
             parent = Template.parentData(2)
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         console.log parent
         val = parseFloat t.$('.edit_float').val()
         doc = Docs.findOne parent._id
@@ -447,7 +447,7 @@ Template.youtube_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         val = t.$('.youtube_id').val()
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -465,7 +465,7 @@ Template.color_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
         if doc
@@ -481,7 +481,7 @@ Template.clear_value.events
             if @direct
                 parent = Template.parentData()
             else
-                parent = Template.parentData(5)
+                parent = Template.parentData(6)
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id
             if doc
@@ -498,7 +498,7 @@ Template.link_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
         if doc
@@ -515,7 +515,7 @@ Template.icon_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
         if doc
@@ -558,7 +558,7 @@ Template.single_doc_edit.helpers
         if ref_field.direct
             parent = Template.parentData(2)
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         target = Template.parentData(2)
         if @direct
             if target["#{ref_field.key}"]
@@ -577,7 +577,7 @@ Template.single_doc_edit.events
         if ref_field.direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         # parent = Template.parentData(1)
 
         # key = ref_field.button_key
@@ -610,7 +610,7 @@ Template.image_link_edit.events
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id

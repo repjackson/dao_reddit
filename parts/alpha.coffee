@@ -23,6 +23,9 @@ if Meteor.isClient
             if count is 1 then true else false
 
     Template.alpha.events
+        'click .new_doc': ->
+            new_id = Docs.insert({})
+            Router.go "/edit/#{new_id}"
         'click .create_alpha': (e,t)->
             Docs.insert
                 model:'alpha'
