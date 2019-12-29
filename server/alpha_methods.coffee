@@ -78,7 +78,7 @@ Meteor.methods
         if alpha.limit
             limit = alpha.limit
         else
-            limit = 10
+            limit = 5
         modifier =
             {
                 fields:_id:1

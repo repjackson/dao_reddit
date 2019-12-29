@@ -4,15 +4,32 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'schema', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'type', 'field'
 
+    Template.edit.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 2000
 
+    Template.edit.helpers
+        viewing_full: -> Session.get('viewing_full')
     Template.edit.events
-        'click .toggle_complete': (e,t)->
-            Docs.update Router.current().params.doc_id,
-                $set:complete:!@complete
+        'click .toggle': (e,t)->
+            Session.set('viewing_full', !Session.get('viewing_full'))
         'click .delete_doc': ->
-            if confirm 'Confirm Delete'
+            if confirm 'confirm delete'
                 Docs.remove @_id
                 Router.go '/'
+
+
+    Template.key_segment.onCreated ->
+        @viewing_full = new ReactiveVar false
+
+    Template.key_segment.helpers
+        viewing_full: -> Template.instance().viewing_full.get()
+
+
+    Template.key_segment.events
+        'click .toggle': (e,t)->
+            t.viewing_full.set !t.viewing_full.get()
 
 
     Template.field_menu.helpers

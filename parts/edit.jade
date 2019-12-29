@@ -1,33 +1,43 @@
 template(name='edit')
     with current_doc
         .ui.stackable.padded.grid
-            .centered.row
-                .center.aligned.sixteen.wide.column
+            .row
+                .four.wide.column
                     a.ui.huge.circular.icon.button(href="/view/#{_id}")
                         i.checkmark.icon
                     .ui.circular.button.icon.delete_doc
                         i.remove.icon
                     +detect
                     +field_menu
-                //- each fields
-                //-     .ui.label #{this}
-            .centered.row
-                .ui.padded.stackable.two.column.grid
+                    //- each fields
+                    //-     .ui.label #{this}
+                .twelve.wide.column
                     each _keys
-                        .column
-                            +field_edit
-                //- if analyzed_text
-                //-     |#{nl2br analyzed_text}
-                //- if watson
-                //-     +watson_view
-                //- if visual_classes
-                //-     +visual_classes
+                        +key_segment
+                    //- if analyzed_text
+                    //-     |#{nl2br analyzed_text}
+                    //- if watson
+                    //-     +watson_view
+                    //- if visual_classes
+                    //-     +visual_classes
+
+template(name='key_segment')
+    .ui.basic.segment
+        .ui.inline.header.pointer.toggle 
+            if viewing_full
+                i.grey.caret.down.icon
+            else 
+                i.grey.caret.right.icon
+            |#{this}
+        if viewing_full
+            +field_edit
+
 
 template(name='field_menu')
-    .ui.icon.button.add_field(title='add field')
-        i.plus.icon
+    //- .ui.icon.button.add_field(title='add field')
+    //-     i.plus.icon
     each fields
-        .ui.large.circular.button.add_field
+        .ui.circular.button.add_field
             i.icon(class=icon)
             |#{slug}
 
@@ -40,8 +50,7 @@ template(name='field_edit')
     .ui.small.inline.header 
         small field type
         strong #{meta.field}
-    .ui.divider
+    div
     with context
         +Template.dynamic template=field_edit
-    .ui.divider
     //- +jsonView json=meta

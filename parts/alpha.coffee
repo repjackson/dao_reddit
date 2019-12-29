@@ -151,9 +151,10 @@ if Meteor.isClient
                         result
                 else
                     result
-            else if Meteor.users.findOne @_id
-                # console.log 'user'
-                Meteor.users.findOne @_id
+                
+            # else if Meteor.users.findOne @_id
+            #     # console.log 'user'
+            #     Meteor.users.findOne @_id
 
     Template.alpha_result.events
         # 'click .result': ->

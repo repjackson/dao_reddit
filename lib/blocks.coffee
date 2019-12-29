@@ -379,6 +379,19 @@ if Meteor.isClient
 
 
 
+    Template.clone_button.events
+        'click .clone_doc': (e,t)->
+            e.preventDefault()
+            doc = @
+            keys = @_keys
+            cloned_fields = {}
+            for key in keys
+                cloned_fields["#{key}"] = doc["#{key}"]
+                cloned_fields["_#{key}"] = doc["_#{key}"]
+            cloned_fields['_keys'] = keys
+            console.log cloned_fields
+            cloned_id = Docs.insert cloned_fields
+            Router.go "/edit/#{cloned_id}"
 
 
 

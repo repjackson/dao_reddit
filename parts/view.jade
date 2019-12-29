@@ -14,20 +14,21 @@ template(name='view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
+                    a.ui.fluid.button(href="/alpha")
+                        i.left.chevron.icon
                     .ui.basic.segment.large150
                         .ui.header
                             if icon
                                 i.grey.icon(class=icon)
                             |#{title}
-                        if is_dev
+                        if currentUser
                             +clone_button
-                            //- div
-                            //- +author_info
-                            //- div
-                            //- +creation_info
+                            div
+                            +author_info
+                            div
+                            +creation_info
                             div
                             if is_author
-                                //- +edit_button
                                 a.ui.big.icon.button(href="/edit/#{_id}")
                                     i.pencil.icon
                             +detect
@@ -47,7 +48,7 @@ template(name='view')
                         //-     +personality
                         //-     +consumption_preferences
                 .twelve.wide.column.scrolling
-                    .ui.basic.segment.large150
+                    .large150
                         each _keys
                             //- .ui.label #{this}
                             +key_view
