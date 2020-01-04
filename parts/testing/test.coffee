@@ -22,78 +22,6 @@ if Meteor.isClient
 
 
 
-    Template.take_act_test.onRendered ->
-        # Meteor.setTimeout ->
-        #     $('.accordion').accordion()
-        # , 1000
-    Template.take_act_test.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'test_from_test_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'act_question'
-    Template.take_act_test.events
-        'click .complete_test': ->
-            test_session = Docs.findOne Router.current().params.doc_id
-            correct_count = _.where(test_session.answers, {correct_choice:true}).length
-            incorrect_count = _.where(test_session.answers, {correct_choice:false}).length
-            test_session = Docs.findOne Router.current().params.doc_id
-            total_count =
-                Docs.find(
-                    model:'act_question'
-                    test_id:test_session.test_id
-                ).count()
-            console.log total_count
-            correct_percent = ((correct_count/total_count)*100).toFixed()
-            Docs.update test_session._id,
-                $set:
-                    correct_count:correct_count
-                    incorrect_count:incorrect_count
-                    correct_percent:correct_percent
-            test_session = Docs.findOne Router.current().params.doc_id
-            console.log test_session
-
-
-    Template.take_act_test.helpers
-        # first_row: -> [0..28]
-        # second_row: -> [28..40]
-        single_digit: ->
-            @number < 10
-        test_questions: ->
-            test_session = Docs.findOne Router.current().params.doc_id
-            Docs.find {
-                model:'act_question'
-                # test_section: test_session.current_section
-                test_id: test_session.test_id
-            }, sort:number:1
-        test: ->
-            test_session = Docs.findOne Router.current().params.doc_id
-            Docs.findOne
-                _id: test_session.test_id
-
-    Template.select_act_choice.helpers
-        choice_class: ->
-            # console.log @
-            test_session = Docs.findOne Router.current().params.doc_id
-            parent = Template.parentData()
-            # console.log parent
-            existing_choice =
-                _.findWhere(test_session.answers, {question_id:parent._id, selected_answer:@key})
-            if existing_choice then 'active' else ''
-
-
-    Template.select_act_choice.events
-        'click .select_choice': ->
-            # console.log @
-            parent = Template.parentData()
-            test_session_id = Router.current().params.doc_id
-            Meteor.call 'select_act_choice', @key, parent._id, test_session_id, ->
-
-
-
-
-
-
-
-
 
     Template.tests.onRendered ->
         @autorun -> Meteor.subscribe('test_facet_docs',
@@ -103,6 +31,12 @@ if Meteor.isClient
             Session.get('view_correct')
             Session.get('view_incorrect')
         )
+    Template.test_segment.onRendered ->
+        # $(e.currentTarget).closest('.button').transition('pulse',200)
+        #
+        # $( ".select_test" ).dblclick( ->
+        #     alert( "Handler for .dblclick() called." );
+        # );
 
         # @autorun => Meteor.subscribe 'model_docs', 'test'
         # @autorun => Meteor.subscribe 'model_docs', 'test_session'
@@ -115,6 +49,36 @@ if Meteor.isClient
                 model:'test_session'
                 _author_id: Meteor.userId()
             }, sort: _timestamp: -1
+        selected_test_doc: ->
+            Docs.findOne Session.get('selected_test_id')
+
+
+    Template.test_segment.helpers
+        select_test_class: ->
+            if Session.equals('selected_test_id', @_id) then 'inverted blue' else ''
+
+    Template.test_segment.events
+        'click .select_test': ->
+            if Session.equals('selected_test_id',@_id)
+                Session.set 'selected_test_id', null
+            else
+                Session.set 'selected_test_id', @_id
+
+    Template.selected_test.events
+        'click .delete_test': ->
+            if confirm 'delete test?'
+                Docs.remove @_id
+                Session.set('selected_test_id', null)
+        'click .save_test': ->
+            Session.set('editing_test', false)
+        'click .edit_test': ->
+            Session.set('editing_test', true)
+    Template.selected_test.helpers
+        editing_test: -> Session.get('editing_test')
+
+
+
+
     Template.tests.events
         'click .take_forest_test': ->
             Session.set 'current_question_id', null
@@ -131,6 +95,8 @@ if Meteor.isClient
             new_test_id = Docs.insert
                 model:'test'
             Router.go "/test/#{new_test_id}/edit"
+        'click .unselect_test': ->
+            Session.set('selected_test_id', null)
 
 
     Template.test_cloud.onCreated ->

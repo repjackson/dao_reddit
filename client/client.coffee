@@ -343,17 +343,19 @@ Template.registerHelper 'page_doc', ->
 
 Template.registerHelper 'field_value', () ->
     # console.log @
-    # parent = Template.parentData()
-    # parent5 = Template.parentData(5)
-    # parent6 = Template.parentData(6)
-    # if @direct
-    #     parent = Template.parentData()
-    # else if parent5
-    #     if parent5._id
-    #         parent = Template.parentData(5)
-    # else if parent6
-    #     if parent6._id
-    #         parent = Template.parentData(6)
+    parent = Template.parentData()
+    parent5 = Template.parentData(5)
+    parent6 = Template.parentData(6)
+    if @direct
+        parent = Template.parentData()
+    else if parent5 and parent5._id
+        # console.log 'p5', parent5
+        # if parent5._id
+        parent = Template.parentData(5)
+    else if parent6 and parent6._id
+        # console.log 'p6', parent6
+        # if parent6._id
+        parent = Template.parentData(6)
     # console.log parent
     # console.log Template.parentData(2)
     # console.log Template.parentData(3)
@@ -361,7 +363,7 @@ Template.registerHelper 'field_value', () ->
     # console.log Template.parentData(5)
     # console.log Template.parentData(6)
     # console.log Template.parentData(7)
-    parent = Template.parentData(6)
+    # parent = Template.parentData(6)
     if parent
         # console.log parent["#{@key}"]
         parent["#{@key}"]

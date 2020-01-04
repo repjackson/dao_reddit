@@ -1,19 +1,81 @@
 template(name='posts')
     //- img.ui.fluid.image.bg_overlay(src="{{c.url 'frontrange' width=1000 crop='fill'}}")    
-    .ui.stackable.padded.grid
+    .ui.stackable.grid
         .row
             .four.wide.column
                 .ui.inline.header 
+                    i.blog.icon
                     |posts
                 if currentUser
                     .ui.icon.button.add_post(title='add post')
                         i.plus.icon
-                +post_cloud
-            .twelve.wide.column.scrolling
+                +cloud filter='post' limit=42
+            .four.wide.column.largescroll
                 //- .ui.button items you have
                 //- .ui.button purchasable items
-                each posts
-                    +post_card
+                .ui.stackable.cards
+                    each posts
+                        +post_card
+            .eight.wide.column.largescroll
+                if selected_post_doc
+                    .ui.icon.right.floated.button.unselect_post
+                        i.remove.icon
+                    with selected_post_doc
+                        +selected_post
+                else 
+                    .ui.small.button.new_post 
+                        i.plus.icon
+                        |new post 
+                    i.refresh.link.icon.refresh_posts_stats
+                    with posts_stats_doc
+                        .ui.small.grey.header #{total_posts} total posts 
+                        .ui.small.grey.header #{week_posts_count} posts this week
+                        .ui.small.grey.header #{day_posts_count} posts today
+
+
+
+
+
+
+template(name='selected_post')
+    if editing_post 
+        +array_edit key='tags' direct=true
+        div
+        .ui.icon.large.button.save_post(title='save post') 
+            i.checkmark.green.large.icon
+        .ui.icon.small.button.delete_post(title='delete post') 
+            i.remove.icon
+    else 
+        |!{body}
+        +array_view key='tags' direct=true
+        div
+        .ui.icon.large.button.edit_post(title='edit post') 
+            i.pencil.blue.large.icon
+        div
+        +voting_full
+
+
+
+
+
+
+
+
+
+
+
+
+
+template(name='post_card')
+    .ui.pointer.card.post_card(class=post_card_class)
+        img.ui.fluid.image(src="{{c.url post_image_id width=400 height=200 crop='fill'}}")
+        .content
+            a.ui.header(href="/post/#{_id}/view") #{title}
+            each five_tags
+                .ui.basic.label #{this}
+            i.icon(class=icon)
+            a.ui.circular.icon.button.view(href="/post/#{_id}/view" title='view full')
+                i.right.chevron.icon
 
 
 template(name='post_cloud')
@@ -36,18 +98,6 @@ template(name='post_cloud')
             strong #{this.name}
 
 
-
-template(name='post_card')
-    .ui.segment
-        img.ui.fluid.image(src="{{c.url post_image_id width=400 height=200 crop='fill'}}")
-        .content
-            a.ui.header(href="/post/#{_id}/view") #{title}
-            |!{body}
-            each tags
-                .ui.basic.label #{this}
-            i.icon(class=icon)
-            a.ui.button.view(href="/post/#{_id}/view")
-                |view
 
 
 template(name='post_edit')
@@ -73,7 +123,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .six.wide.column
                     a.ui.fluid.button(href="/m/post" title='posts')
                         i.chevron.left.icon
                         //- |posts
@@ -86,16 +136,15 @@ template(name='post_view')
                         .ui.label #{this}
                     a(href=link)
                         |original link
-                    +transactions
-                    +finance
-                .eight.wide.column
-                    .ui.header #{title}
-                    |!{body}
-                    +comments
-                .four.wide.column
+                    //- +transactions
+                    //- +finance
                     .ui.header stats
                     .ui.header user info
                     +big_user_card user=author
+                .ten.wide.column
+                    .ui.header #{title}
+                    |!{body}
+                    +comments
 
 template(name='transactions')
     .ui.header transactions

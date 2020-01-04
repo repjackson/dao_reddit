@@ -23,10 +23,10 @@ force_loggedin =  ()->
 Router.route '*', -> @render 'not_found'
 
 # Router.route '/user/:username/m/:type', -> @render 'profile_layout', 'user_section'
-Router.route '/', -> @redirect '/alpha'
+# Router.route '/', -> @redirect '/alpha'
 
 Router.route '/forgot_password', -> @render 'forgot_password'
-# Router.route '/', -> @render 'forgot_password'
+Router.route '/', -> @render 'home'
 
 Router.route '/settings', -> @render 'settings'
 Router.route '/edit/:doc_id', -> @render 'edit'

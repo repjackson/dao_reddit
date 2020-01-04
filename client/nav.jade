@@ -6,6 +6,13 @@ template(name='nav')
         else 
             a.icon.header.item(href='/' class="{{isActivePath '/'}}" title='home') 
                 i.yin.yang.large.icon
+            a.icon.item(href="/alpha" title=' alpha')
+                i.mountain.icon
+            a.icon.item(href="/tests" title=' tests')
+                i.edit.icon
+            a.icon.item(href="/users" title='users')
+                i.users.icon
+                    
         //- each view_models
         //-     a.mobile.hidden.icon.item(href="/m/#{slug}" title=slug) 
         //-         i.icon(class=icon)
@@ -18,12 +25,14 @@ template(name='nav')
                     i.user.add.icon
                     //- span.mobile.hidden sign up
             if currentUser
-                //- a.mobile.hidden.icon.item(href='/m/model' class="{{isActivePath '/m/model'}}") 
-                //-     i.database.icon
-                //- a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
-                //-     i.chat.outline.icon
-                //- a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
-                //-     i.bell.icon(class=alert_icon_class)
+                a.mobile.hidden.icon.item(href='/alpha' class="{{isActivePath '/alpha'}}") 
+                    .ui.header a
+                a.mobile.hidden.icon.item(href='/m/model' class="{{isActivePath '/m/model'}}") 
+                    .ui.header d
+                a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
+                    i.chat.outline.icon
+                a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
+                    i.bell.icon(class=alert_icon_class)
                 a.mobile.hidden.icon.item(href='/cart' class="{{isActivePath '/cart'}}") 
                     i.shopping.cart.icon(class=cart_icon_class)
                 unless logging_out

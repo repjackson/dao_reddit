@@ -1,0 +1,11 @@
+template(name='reddit')
+    .ui.left.icon.inverted.input
+        i.search.icon
+        //- if selected_tags
+        //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
+        //- else
+        input#search(type='text' autofocus='' autocomplete="off")
+    each reddit_posts
+        .ui.segment 
+            .ui.header url:#{url}
+        //- .ui.header hi
