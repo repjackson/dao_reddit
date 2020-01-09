@@ -1,9 +1,9 @@
-template(name='task_edit')
+template(name='bounty_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column
-                    a.ui.fluid.large.button(href="/task/#{_id}/view") 
+                    a.ui.fluid.large.button(href="/bounty/#{_id}/view") 
                         i.checkmark.icon
                         |save
                     +remove_button
@@ -23,25 +23,25 @@ template(name='task_edit')
                     +array_edit key='tags' label='tags' direct=true
                 .four.wide.column
                     +text_edit key='parent_id' label='parent id' direct=true
-                    //- if task_list_id 
-                    //-     with task_list
+                    //- if bounty_list_id 
+                    //-     with bounty_list
                     //-         .ui.segment
                     //-             i.grey.list.icon
-                    //-             a.ui.inline.header(href="/task_list/#{_id}/view" title='view task list') #{title}
-                    //-             i.small.link.grey.remove.icon.clear_task_list(title='remove from list')
-                    //- +task_list_lookup key='task_list_id' label='task list' direct=true
-                    //- if task_list_id 
-                    //-     with task_list
+                    //-             a.ui.inline.header(href="/bounty_list/#{_id}/view" title='view bounty list') #{title}
+                    //-             i.small.link.grey.remove.icon.clear_bounty_list(title='remove from list')
+                    //- +bounty_list_lookup key='bounty_list_id' label='bounty list' direct=true
+                    //- if bounty_list_id 
+                    //-     with bounty_list
                     //-         .ui.segment
                     //-             i.grey.list.icon
-                    //-             a.ui.inline.header(href="/task_list/#{_id}/view" title='view task list') #{title}
-                    //-             i.small.link.grey.remove.icon.clear_task_list(title='remove from list')
-                    +single_user_edit key='assigned_by' label='assigned by' direct=true
-                    if assigned_by
-                        +text_view key='assigned_by' direct=true
-                    +single_user_edit key='assigned_to' label='assigned to' icon='sign out' direct=true
-                    if assigned_to
-                        +text_view key='assigned_to' icon='sign in' direct=true
+                    //-             a.ui.inline.header(href="/bounty_list/#{_id}/view" title='view bounty list') #{title}
+                    //-             i.small.link.grey.remove.icon.clear_bounty_list(title='remove from list')
+                    //- +single_user_edit key='assigned_by' label='assigned by' direct=true
+                    //- if assigned_by
+                    //-     +text_view key='assigned_by' direct=true
+                    //- +single_user_edit key='assigned_to' label='assigned to' icon='sign out' direct=true
+                    //- if assigned_to
+                    //-     +text_view key='assigned_to' icon='sign in' direct=true
                     +date_edit key='due_date' label='due date' icon='calendar' direct=true
                     +boolean_edit key='complete' label='complete' icon='checkmark' direct=true
                     +number_edit key='percent_complete' label='percent complete' icon='percent' min=0 max=100 direct=true

@@ -16,12 +16,31 @@ template(name='user_awards')
     each nonawards
         +user_segment
 
+
+
+
 template(name='user_social')
     .ui.grey.inline.center.aligned.header 
         i.comments.icon
         | social
     .ui.header following
     .ui.header followers
+
+
+
+
+template(name='user_requests')
+    .ui.grey.inline.center.aligned.header 
+        i.hand.holding.usd.icon
+        | requests
+    .ui.icon.button.add_new_request
+        i.plus.icon
+    each requests
+        .ui.header #{title}
+        
+
+
+
 
 template(name='user_tutoring')
     with current_user

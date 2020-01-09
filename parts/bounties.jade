@@ -1,13 +1,13 @@
-template(name='tasks')
+template(name='bounties')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
                 .ui.header 
-                    i.tasks.icon
-                    |tasks
-                .ui.icon.large.button.new_task
+                    i.bounties.icon
+                    |bounties
+                .ui.icon.large.button.new_bounty
                     i.green.plus.icon
-                +task_cloud
+                +bounty_cloud
                 with currentUser
                     .ui.list
                         .item(title='hours today')
@@ -28,8 +28,8 @@ template(name='tasks')
                             | #{weekly_sessions} sessions
                 
             .eight.wide.column
-                //- with top_task
-                //-     +task_card_template
+                //- with top_bounty
+                //-     +bounty_card_template
                 i.link.refresh.icon.refresh_my_time_stats
                 .ui.small.compact.icon.button.toggle_complete(title='view complete' class=view_complete_class)
                     i.checkmark.icon
@@ -41,29 +41,29 @@ template(name='tasks')
                 .ui.small.compact.button priority
             
                 .largescroll
-                    each tasks 
-                        +task_card_template
+                    each bounties 
+                        +bounty_card_template
             .four.wide.column
-                if selected_task_doc
-                    .ui.icon.right.floated.button.unselect_task
+                if selected_bounty_doc
+                    .ui.icon.right.floated.button.unselect_bounty
                         i.remove.icon
-                    with selected_task_doc
-                        +selected_task
+                    with selected_bounty_doc
+                        +selected_bounty
                 else 
-                    .ui.small.button.new_task 
+                    .ui.small.button.new_bounty 
                         i.plus.icon
-                        |new task 
-                    i.refresh.link.icon.refresh_tasks_stats
-                    with tasks_stats_doc
-                        .ui.small.grey.header #{total_tasks} total tasks 
-                        .ui.small.grey.header #{week_tasks_count} tasks this week
-                        .ui.small.grey.header #{day_tasks_count} tasks today
+                        |new bounty 
+                    i.refresh.link.icon.refresh_bounties_stats
+                    with bounties_stats_doc
+                        .ui.small.grey.header #{total_bounties} total bounties 
+                        .ui.small.grey.header #{week_bounties_count} bounties this week
+                        .ui.small.grey.header #{day_bounties_count} bounties today
                     
                     
                     
 
-template(name='task_cloud')
-    //- #task_cloud
+template(name='bounty_cloud')
+    //- #bounty_cloud
         //- .ui.left.icon.input
         //-     i.search.icon
         //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
@@ -76,15 +76,15 @@ template(name='task_cloud')
             .unselect_tag.ui.active.compact.button
                 strong #{this}
     each all_tags
-        .ui.compact.small.button.select_tag(class=task_cloud_tag_class) 
+        .ui.compact.small.button.select_tag(class=bounty_cloud_tag_class) 
             strong #{this.name}
 
 
 
 
-template(name='task_card_template')
-    .ui.segment.pointer.select_task(class=task_segment_class)
-        .ui.header.goto_task #{title}
+template(name='bounty_card_template')
+    .ui.segment.pointer.select_bounty(class=bounty_segment_class)
+        .ui.header.goto_bounty #{title}
         div
         .ui.horizontal.list 
             .item(title='views')
@@ -93,10 +93,10 @@ template(name='task_card_template')
             .item(title='points')
                 i.thumbs.up.outline.icon
                 |#{points}
-            if task_list_id 
-                .item(title='task list')
+            if bounty_list_id 
+                .item(title='bounty list')
                     i.list.icon 
-                    |#{task_list.title}
+                    |#{bounty_list.title}
             .item
                 i.grey.tags.icon 
                 each five_tags
@@ -123,37 +123,22 @@ template(name='task_card_template')
 
 
 
-template(name='selected_task')
-    if editing_task 
+template(name='selected_bounty')
+    if editing_bounty 
         +text_edit key='title' direct=true
         +array_edit key='tags' direct=true
         div
-        .ui.icon.large.button.save_task(title='save task') 
+        .ui.icon.large.button.save_bounty(title='save bounty') 
             i.checkmark.green.large.icon
-        .ui.icon.small.button.delete_task(title='delete task') 
+        .ui.icon.small.button.delete_bounty(title='delete bounty') 
             i.remove.icon
     else 
         .ui.small.header #{title}
         +array_view key='tags' direct=true
         div
-        .ui.icon.large.button.edit_task(title='edit task') 
+        .ui.icon.large.button.edit_bounty(title='edit bounty') 
             i.pencil.blue.icon
-        .ui.icon.large.button.goto_task(title='view task') 
+        .ui.icon.large.button.goto_bounty(title='view bounty') 
             i.right.chevron.large.icon
         div
         +voting_full
-
-
-template(name='subscriptions')
-    .ui.inline.grey.header 
-        i.newspaper.small.icon
-        |subscriptions
-    if subscribed 
-        .ui.icon.button.unsubscribe(title='unsubscribe')
-            i.bell.slash.outline.icon
-    else 
-        .ui.icon.button.subscribe(title='subscribe')
-            i.bell.outline.icon
-    .ui.list
-        each subscribers
-            .item #{username}

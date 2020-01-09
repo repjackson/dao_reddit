@@ -1,0 +1,184 @@
+template(name='sort_item')
+    .item.set_sort #{label}
+    
+
+
+template(name='rental_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +rental_calendar
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href='/' title='rentals')
+                        i.left.chevron.icon
+                        //- +i name='handshake' classes='ui mini inline image'
+                        |rentals
+                    .ui.large.center.aligned.inline.header #{title}
+                    +rental_status
+                    .ui.header 
+                        |#{hourly_dollars}c
+                        small /hr standard rate
+                    if security_deposit_required
+                        .ui.header 
+                            |#{security_deposit_amount}c
+                            small security deposit
+                    img.ui.centered.rounded.medium.invert.image(src="{{c.url image width=400 height=400 crop='fit'}}")
+                    if can_edit
+                        a.ui.fluid.button(href="/rental/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                    +reserve_button
+                    +rental_stats
+        
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    with _author_id
+                        +user_card
+                    +array_view key='tags' icon='tags' direct=true title='tags'
+                    div
+                    +array_view key='location_tags' icon='marker' direct=true title='location tags'
+                    div
+                    +text_view key='location' icon='marker' label='location' direct=true
+                    .ui.grey.header 
+                        i.user.shield.icon
+                        | owner
+                    +single_user_view key='owner_username' direct=true
+                    .ui.grey.header 
+                        i.user.clock.icon
+                        | handler
+                    +single_user_view key='handler_username' direct=true
+                    +comments
+                .twelve.wide.column
+                    .ui.basic.segment.f4
+                        +html_view key='description' label='description' icon='content' direct=true
+                    div
+                    +text_view key='contact_info' label='contact info' icon='info' direct=true
+                    div
+                    +link_view key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
+                    +rental_view_reservations
+
+template(name='rental_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_rental_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_rental_hours}hrs total
+        .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
+        //- .item rental ranking # reservations
+        //- .item rental ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_product_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+    
+template(name='rental_status')
+    if available 
+        .ui.green.label available now
+    else 
+        .ui.basic.label off the clock
+        
+template(name='reserve_button')
+    .ui.big.green.fluid.button.new_reservation 
+        .ui.inverted.header 
+            |reserve
+            //- +i name='play' classes='ui inline mini image'
+
+template(name='rental_view_reservations')
+    .ui.header 
+        i.clock.icon
+        |reservations
+    .ui.icon.button.set_card_view
+        i.clone.icon
+    .ui.icon.button.set_segment_view
+        i.list.icon
+    .ui.simple.dropdown
+        |sort by
+        |#{current_sort}
+        i.dropdown.icon
+        .menu
+            +sort_item key='most_expensive' label='most expensive' direction='-1'
+            +sort_item key='_timestamp' label='newest' direction='-1'
+            +sort_item key='reservation_count' label='most rented' direction='1'
+            +sort_item key='points' label='most rented' direction='1'
+    div
+    |available
+    +set_date_filter key='today' label='today'
+    +set_date_filter key='tomorrow' label='tomorrow'
+    +set_date_filter key='this_weekend' label='this weekened'
+    
+    .ui.hidden.divider
+    if view_res_cards
+        .ui.stackable.three.cards
+            each reservations
+                +res_card
+    else if view_res_segments
+        each reservations
+            +reservation_segment
+        
+template(name='set_date_filter')        
+    .ui.button.set_date_filter(class=date_filter_class)
+        |#{label}
+        
+        
+
+template(name='reservation_segment')
+    .ui.segment
+        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+            small from 
+            |{{cal_time start_datetime}}
+            //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+            //- |{{long_date start_datetime}}
+            small to 
+            |{{cal_time end_datetime}}
+        div
+        .ui.grey.inline.header #{hour_duration}hrs
+        .ui.grey.inline.header(title='credits')
+            //- i.coins.icon
+            | #{cost}c
+        .ui.small.header #{when} by #{_author_username}
+        a.ui.large.fluid.button(href="/reservation/#{_id}/view")
+            |view
+            i.right.chevron.icon
+                
+                
+                
+                
+template(name='res_card')
+    .ui.card
+        .content
+            a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+                small from 
+                |{{cal_time start_datetime}}
+                //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+                //- |{{long_date start_datetime}}
+                small to 
+                |{{cal_time end_datetime}}
+            div
+            .ui.grey.inline.header #{hour_duration} hrs
+            .ui.grey.inline.header(title='credits')
+                //- i.coins.icon
+                | #{cost}c
+            .ui.small.header #{when} by #{_author_username}
+            a.ui.large.fluid.button(href="/reservation/#{_id}/view")
+                |view
+                i.right.chevron.icon

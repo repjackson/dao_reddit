@@ -2,6 +2,8 @@ Template.doc_emotion.onCreated ->
     Meteor.setTimeout ->
         $('.progress').progress()
     , 1000
+
+Template.watson_view.onCreated ->
     Meteor.setTimeout ->
         $('.ui.accordion').accordion()
     , 1000

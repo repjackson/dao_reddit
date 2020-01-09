@@ -1,7 +1,7 @@
 template(name='doc_sentiment') 
     .ui.header 
         |sentiment
-    .ui.small.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
+    .ui.tiny.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
         .bar
         .progress
     .label
@@ -16,7 +16,7 @@ template(name='doc_sentiment')
 
 
 template(name='small_sentiment') 
-    .ui.small.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
+    .ui.tiny.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
         .bar
         .progress
 
@@ -24,23 +24,23 @@ template(name='doc_emotion')
     // .ui.dividing.header 
     //     | emotion
     with watson.emotion.document.emotion
-        .ui.blue.disabled.small.progress(data-percent=sadness_percent title="{{to_percent sadness}}% sadness")
+        .ui.blue.disabled.tiny.progress(data-percent=sadness_percent title="{{to_percent sadness}}% sadness")
             .bar
             .progress
                 .label {{to_percent sadness}}% sadness 
-        .ui.teal.disabled.small.progress(data-percent=joy_percent title="{{to_percent joy}}% joy")
+        .ui.teal.disabled.tiny.progress(data-percent=joy_percent title="{{to_percent joy}}% joy")
             .bar
             .progress
                 .label {{to_percent joy}}% joy 
-        .ui.disabled.small.progress(data-percent=fear_percent title="{{to_percent fear}}% fear")
+        .ui.disabled.tiny.progress(data-percent=fear_percent title="{{to_percent fear}}% fear")
             .bar
             .progress
                 .label {{to_percent fear}}% fear 
-        .ui.yellow.disabled.small.progress(data-percent=disgust_percent title="{{to_percent disgust}}% disgust")
+        .ui.yellow.disabled.tiny.progress(data-percent=disgust_percent title="{{to_percent disgust}}% disgust")
             .bar
             .progress
                 .label {{to_percent disgust}}% disgust 
-        .ui.disabled.small.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
+        .ui.disabled.tiny.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
             .bar
             .progress
                 .label {{to_percent anger}}% anger 
@@ -61,10 +61,11 @@ template(name='call_visual')
 template(name='keywords')
     .ui.small.grey.header 
         |#{watson.keywords.length} keywords
-    .ui.four.column.stackable.grid
+    .ui.five.column.stackable.grid
         each watson.keywords
             .ui.column
-                span(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
+                span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
+                .spacer
                 //- .meta
                 //-     |{{ to_percent relevance }}% relevant |
                 //-     |sentiment: {{ to_percent sentiment.score }}%
@@ -72,23 +73,23 @@ template(name='keywords')
                     if emotion
                         with emotion
                             span {{ to_percent sadness }}% sadness
-                            .ui.blue.small.disabled.progress(data-percent=sadness_percent title="{{to_percent sadness}}% sadness")
+                            .ui.blue.tiny.disabled.progress(data-percent=sadness_percent title="{{to_percent sadness}}% sadness")
                                 .bar
                                 //- .progress
                             span {{ to_percent joy }}% joy 
-                            .ui.teal.small.disabled.progress(data-percent=joy_percent title="{{to_percent joy}}% joy")
+                            .ui.teal.tiny.disabled.progress(data-percent=joy_percent title="{{to_percent joy}}% joy")
                                 .bar
                                 //- .progress
                             span {{ to_percent fear }}% fear
                             //- .progress
-                            .ui.small.disabled.progress(data-percent=fear_percent title="{{to_percent fear}}% fear")
+                            .ui.tiny.disabled.progress(data-percent=fear_percent title="{{to_percent fear}}% fear")
                                 .bar
                             span {{ to_percent disgust }}% disgust 
-                            .ui.yellow.small.disabled.progress(data-percent=disgust_percent title="{{to_percent disgust}}% disgust")
+                            .ui.yellow.tiny.disabled.progress(data-percent=disgust_percent title="{{to_percent disgust}}% disgust")
                                 .bar
                                     //- .progress
                             span {{ to_percent anger }}% anger 
-                            .ui.small.disabled.progress(data-percent=anger_percent title="{{to_percent anger}}% anger")
+                            .ui.tiny.disabled.progress(data-percent=anger_percent title="{{to_percent anger}}% anger")
                                 .bar
                                 //- .progress
 
@@ -98,30 +99,30 @@ template(name='keywords')
 template(name='entities')
     .ui.grey.header 
         |#{watson.entities.length} entities
-    .ui.four.column.stackable.grid
+    .ui.five.column.stackable.grid
         each watson.entities
-            .ui.column
+            x.ui.column
                 .ui.small.grey.header #{type}: #{text}
                 if emotion
                     with emotion
                         span {{ to_percent sadness }}% sadness
-                        .ui.blue.small.disabled.progress(data-percent="{{to_percent sadness}}" title="{{to_percent sadness}}% sadness")
+                        .ui.blue.tiny.disabled.progress(data-percent="{{to_percent sadness}}" title="{{to_percent sadness}}% sadness")
                             .bar
                             .progress
                         span {{ to_percent joy }}% joy 
-                        .ui.teal.small.disabled.progress(data-percent="{{to_percent joy}}" title="{{to_percent joy}}% joy")
+                        .ui.teal.tiny.disabled.progress(data-percent="{{to_percent joy}}" title="{{to_percent joy}}% joy")
                             .bar
                             .progress
                         span {{ to_percent fear }}% fear
                         //- .progress
-                        .ui.small.disabled.progress(data-percent="{{to_percent fear}}" title="{{to_percent fear}}% fear")
+                        .ui.tiny.disabled.progress(data-percent="{{to_percent fear}}" title="{{to_percent fear}}% fear")
                             .bar
                         span {{ to_percent disgust }}% disgust 
-                        .ui.yellow.small.disabled.progress(data-percent="{{to_percent disgust}}" title="{{to_percent disgust}}% disgust")
+                        .ui.yellow.tiny.disabled.progress(data-percent="{{to_percent disgust}}" title="{{to_percent disgust}}% disgust")
                             .bar
                             .progress
                         span {{ to_percent anger }}% anger 
-                        .ui.small.disabled.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
+                        .ui.tiny.disabled.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
                             .bar
                             .progress
 
@@ -176,16 +177,17 @@ template(name='categories')
 
 
 template(name='semantic_roles')
-    .title
-        .ui.header #{watson.semantic_roles.length} semantic roles
-            i.dropdown.icon
-    .content
-        +jsonView(json=watson.semantic_roles)
-        //- .ui.list
-        //-     each watson.semantic_roles
-        //-         .item
-        //-             strong #{label}
-        //-             |{{ to_percent score }}%
+    .ui.accordion
+        .title
+            .ui.header #{watson.semantic_roles.length} semantic roles
+                i.dropdown.icon
+        .content
+            +jsonView(json=watson.semantic_roles)
+            //- .ui.list
+            //-     each watson.semantic_roles
+            //-         .item
+            //-             strong #{label}
+            //-             |{{ to_percent score }}%
 
 
 template(name='relations')

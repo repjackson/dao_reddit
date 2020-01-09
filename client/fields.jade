@@ -113,6 +113,45 @@ template(name='html_edit')
 
 
 
+template(name='single_user_edit')
+    div
+    if icon
+        +ismall name=icon
+    .ui.inline.header 
+        |#{label} #{title}
+    if field_value
+        .pull_user.ui.icon.button(title='remove user')
+            i.remove.icon
+            //- |clear #{field_value}
+    unless field_value
+        .ui.input
+            input#single_user_select_input(type='text' placeholder='lookup user..')
+            each selections
+                .ui.large.basic.label
+                    |#{first_name} #{last_name} #{username} 
+        if user_results
+            .ui.attached.smoothed.segment
+                .ui.middle.aligned.selection.animated.list
+                    each user_results
+                        .select_user.item
+                            h4.ui.header
+                                img.ui.avatar.image(src="{{c.url kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
+                                |#{first_name} #{last_name} #{username}
+    if field_value
+        +user_card field_value
+        //- |#{this}
+        //- .item
+        //-     .right.floated.content
+        //-         i.pull_user.remove.link.icon
+        //-     .image
+        //-         img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+        //-     .content
+        //-         h4.ui.header
+        //-             |#{first_name} #{last_name}
+        //-             @#{username}
+
+
+
 template(name='text_edit')
     div
     .ui.inline.small.header

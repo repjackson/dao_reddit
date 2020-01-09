@@ -20,10 +20,10 @@ template(name='model_doc_edit')
                         each edit_fields
                             +Template.dynamic template=edit_template 
                             // .ui.header #{key} [#{field}] #{label}
-                //- if watson 
-                //-     .row
-                //-         .sixteen.wide.column
-                //-             +watson_view
+                if watson 
+                    .row
+                        .sixteen.wide.column
+                            +watson_view
 
 template(name='model_doc_view')
     if template_exists
@@ -79,10 +79,12 @@ template(name='model_doc_view')
                         each action_types
                             .ui.header #{title}
                             +Template.dynamic template=slug
-                        //- +comments
+                        +comments
                         //- div
-                        //- if watson
-                        //-     +watson_view
+            if watson
+                .row
+                    .sixteen.wide.column
+                        +watson_view
 
 
 template(name='karma_transaction')

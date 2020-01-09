@@ -1,4 +1,5 @@
 template(name='reddit')
+    .ui.header reddit
     .ui.left.icon.inverted.input
         i.search.icon
         //- if selected_tags
@@ -7,5 +8,9 @@ template(name='reddit')
         input#search(type='text' autofocus='' autocomplete="off")
     each reddit_posts
         .ui.segment 
-            .ui.header url:#{url}
+            .ui.header #{title}
+            .ui.list 
+                .item domain: #{domain}
+                .item permalink: #{permalink}
+                .item url: #{url}
         //- .ui.header hi

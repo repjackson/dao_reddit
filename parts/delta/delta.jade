@@ -2,7 +2,7 @@ template(name='delta')
     .ui.stackable.grid
         with current_model
             .row
-                .four.wide.column
+                .five.wide.column.largescroll
                     if is_loading
                         .ui.inline.header.pulsing
                             //- img(src='https://loading.io/spinners/hive/index.hexagon-grid-loader.gif')
@@ -39,7 +39,7 @@ template(name='delta')
                     div
                     each sorted_facets
                         +facet
-                .twelve.wide.column
+                .eleven.wide.column
                     .filter_row.ui.basic.segment(class=loading_class)
                         .ui.inline.small.grey.header(title='change sort direction')
                             |sort by

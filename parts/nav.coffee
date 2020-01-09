@@ -25,7 +25,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'model_docs', 'cart_item'
         @autorun -> Meteor.subscribe 'model_docs','alert'
         # @autorun -> Meteor.subscribe 'model_docs','site_section'
-        @autorun -> Meteor.subscribe 'model_docs','model'
+        # @autorun -> Meteor.subscribe 'model_docs','model'
         # @autorun -> Meteor.subscribe 'role_models'
         # @autorun => Meteor.subscribe 'global_settings'
 

@@ -1070,6 +1070,9 @@ h1.ui.header{
 .smallscroll::-webkit-scrollbar {
     width: 2px;
 }
+.largescroll::-webkit-scrollbar {
+    width: 2px;
+}
 .mediumscroll::-webkit-scrollbar {
     /* display: none; */
     width: 2px;

@@ -1,5 +1,5 @@
 template(name='home')
-    .ui.centered.stackable.five.cards 
+    .ui.centered.stackable.six.cards 
         a.ui.card(href="/alpha")
             .content 
                 .ui.icon.grey.header
@@ -15,6 +15,16 @@ template(name='home')
                 .ui.icon.grey.header
                     i.edit.icon
                     | tests
+        a.ui.card(href="/rentals")
+            .content 
+                .ui.icon.grey.header 
+                    i.hand.holding.usd.icon
+                    | rentals
+        a.ui.card(href="/deals")
+            .content 
+                .ui.icon.grey.header
+                    i.exchange.icon
+                    | deals
         a.ui.card(href="/chat")
             .content 
                 .ui.icon.grey.header
@@ -25,11 +35,11 @@ template(name='home')
                 .ui.icon.grey.header
                     i.calendar.icon
                     | events
-        a.ui.card(href="/finance")
+        a.ui.card(href="/bounty")
             .content 
                 .ui.icon.grey.header
                     i.money.icon
-                    | finance
+                    | bounty
         a.ui.card(href="/bitcoin")
             .content 
                 .ui.icon.grey.header
@@ -50,7 +60,7 @@ template(name='home')
                 .ui.icon.grey.header
                     i.users.icon
                     |users
-        a.ui.card(href="/reddit")
+        a.ui.card(href="/m/reddit")
             .content 
                 .ui.icon.grey.header
                     i.reddit.icon

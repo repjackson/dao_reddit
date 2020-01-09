@@ -83,6 +83,8 @@ if Meteor.isClient
 
 
 
+
+
     Template.user_right.onCreated ->
         @autorun => Meteor.subscribe 'user_right_questions', Router.current().params.user_id
     Template.user_right.events
@@ -99,6 +101,8 @@ if Meteor.isClient
 
 
 
+
+
     Template.user_tests.onCreated ->
         @autorun => Meteor.subscribe 'user_tests_questions', Router.current().params.user_id
     Template.user_tests.events
@@ -110,6 +114,31 @@ if Meteor.isClient
             user = Meteor.users.findOne Router.current().params.user_id
             Docs.find
                 model:'test'
+                _author_id:user._id
+                # _id: $in: user.all_right_ids
+
+
+
+
+    Template.user_requests.onCreated ->
+        @autorun => Meteor.subscribe 'user_requests_questions', Router.current().params.user_id
+    Template.user_requests.events
+        'click .recalc_test_stats': -> Meteor.call 'calc_user_test_stats', Router.current().params.user_id
+        'click .new_request': ->
+            new_rid = Docs.insert
+                model:'request'
+                target_user_id:Router.current().params.user_id
+            Router.go "/request/#{new_rid}/edit"
+
+
+
+    Template.user_requests.helpers
+        # sorted_right_unions: ->
+        #     sorted = _.sortBy(@right_unions, 'union_count').reverse()
+        requests: ->
+            user = Meteor.users.findOne Router.current().params.user_id
+            Docs.find
+                model:'request'
                 _author_id:user._id
                 # _id: $in: user.all_right_ids
 
