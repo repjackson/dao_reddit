@@ -620,3 +620,55 @@ Template.image_link_edit.events
         else if user
             Meteor.users.update parent._id,
                 $set:"#{@key}":val
+
+
+
+Template.range_edit.onRendered ->
+    # rental = Template.currentData()
+    $('#rangestart').calendar({
+        type: 'datetime'
+        today: true
+        # type:'time'
+        inline: true
+        endCalendar: $('#rangeend')
+        formatter: {
+            date: (date, settings)->
+                if !date then return ''
+                mst_date = moment(date)
+                mst_date.format("YYYY-MM-DD[T]hh:mm")
+        }
+    });
+    $('#rangeend').calendar({
+        type: 'datetime'
+        today: true
+        # type:'time'
+        inline: true
+        startCalendar: $('#rangestart')
+        formatter: {
+            date: (date, settings)->
+                if !date then return ''
+                mst_date = moment(date)
+                mst_date.format("YYYY-MM-DD[T]hh:mm")
+
+        }
+    })
+
+Template.range_edit.events
+    'click .get_start': ->
+        doc_id = Router.current().params.doc_id
+        result = $('.ui.calendar').calendar('get startDate')[1]
+        formatted = moment(result).format("YYYY-MM-DD[T]HH:mm")
+        # moment_ob = moment(result)
+        Docs.update doc_id,
+            $set:start_datetime:formatted
+
+
+    'click .get_end': ->
+        doc_id = Router.current().params.doc_id
+        result = $('.ui.calendar').calendar('get endDate')[0]
+        console.log result
+        formatted = moment(result).format("YYYY-MM-DD[T]HH:mm")
+        console.log moment(@end_datetime).diff(moment(@start_datetime),'minutes',true)
+        console.log moment(@end_datetime).diff(moment(@start_datetime),'hours',true)
+        Docs.update doc_id,
+            $set:end_datetime:formatted

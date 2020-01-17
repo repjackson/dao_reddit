@@ -923,3 +923,27 @@ template(name='big_link_view')
         //- a.ui.header(href=field_value target='_window') #{label}
         //- a.ui.header(href=field_value target='_window') #{field_value}
         //- img.ui.fluid.image(src=field_value)
+
+
+
+
+template(name='range_edit')
+    .ui.form
+        .field
+            label 
+                +i name='date-to'
+                start date
+            #rangestart.ui.calendar
+                .ui.input.left.icon
+                    i.calendar.icon
+                    input(type='text', placeholder='start' value=start_time)
+            .ui.button.fluid.get_start save start
+        .field
+            label 
+                +i name='date-from'
+                |end date
+            #rangeend.ui.calendar
+                .ui.input.left.icon
+                    i.calendar.icon
+                    input(type='text', placeholder='end' value=end_time)
+            .ui.button.fluid.get_end save end

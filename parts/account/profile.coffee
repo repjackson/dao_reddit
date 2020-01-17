@@ -55,6 +55,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_contact'
         ), name:'user_contact'
+    Router.route '/user/:username/info', (->
+        @layout 'profile_layout'
+        @render 'user_info'
+        ), name:'user_info'
     Router.route '/user/:username/brain', (->
         @layout 'profile_layout'
         @render 'user_brain'
@@ -135,13 +139,41 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_events'
         ), name:'user_events'
+    Router.route '/user/:username/offers', (->
+        @layout 'profile_layout'
+        @render 'user_offers'
+        ), name:'user_offers'
+    Router.route '/user/:username/bids', (->
+        @layout 'profile_layout'
+        @render 'user_bids'
+        ), name:'user_bids'
+    Router.route '/user/:username/products', (->
+        @layout 'profile_layout'
+        @render 'user_products'
+        ), name:'user_products'
+    Router.route '/user/:username/reservations', (->
+        @layout 'profile_layout'
+        @render 'user_reservations'
+        ), name:'user_reservations'
+    Router.route '/user/:username/handling', (->
+        @layout 'profile_layout'
+        @render 'user_handling'
+        ), name:'user_handling'
+    Router.route '/user/:username/rentals', (->
+        @layout 'profile_layout'
+        @render 'user_rentals'
+        ), name:'user_rentals'
+    Router.route '/user/:username/workhistory', (->
+        @layout 'profile_layout'
+        @render 'user_workhistory'
+        ), name:'user_workhistory'
 
 
     Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_events', Router.current().params.user_id
+        @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
         @autorun -> Meteor.subscribe 'model_docs', 'test'
-        # @autorun -> Meteor.subscribe 'student_stats', Router.current().params.user_id
+        # @autorun -> Meteor.subscribe 'student_stats', Router.current().params.username
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
@@ -179,11 +211,11 @@ if Meteor.isClient
 
     Template.user_dashboard.events
         'click .recalc_user_cloud': ->
-            Meteor.call 'recalc_user_cloud', Router.current().params.user_id, ->
+            Meteor.call 'recalc_user_cloud', Router.current().params.username, ->
         'click .calc_test_sessions': ->
-            Meteor.call 'calc_test_sessions', Router.current().params.user_id, ->
+            Meteor.call 'calc_test_sessions', Router.current().params.username, ->
         'click .recalc_user_act_stats': ->
-            Meteor.call 'recalc_user_act_stats', Router.current().params.user_id, ->
+            Meteor.call 'recalc_user_act_stats', Router.current().params.username, ->
 
     Template.user_dashboard.helpers
         ssd: ->
@@ -224,7 +256,7 @@ if Meteor.isClient
                 duration: 750
             )
         'click .toggle_size': -> Session.set 'view_side', !Session.get('view_side')
-        'click .recalc_student_stats': -> Meteor.call 'recalc_student_stats', Router.current().params.user_id
+        'click .recalc_student_stats': -> Meteor.call 'recalc_student_stats', Router.current().params.username
         'click .set_delta_model': -> Meteor.call 'set_facets', @slug, null, true
         'click .logout_other_clients': -> Meteor.logoutOtherClients()
         'click .logout': ->
@@ -235,7 +267,7 @@ if Meteor.isClient
 
 
     Template.user_sessions_small.onCreated ->
-        @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.user_id, 'act_test_session'
+        @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.username, 'act_test_session'
     Template.user_sessions_small.onRendered ->
     Template.user_sessions_small.helpers
         sessions: ->
@@ -253,7 +285,7 @@ if Meteor.isClient
 
 
     Template.user_bookmarks_small.onCreated ->
-        @autorun -> Meteor.subscribe 'user_bookmarks', Router.current().params.user_id
+        @autorun -> Meteor.subscribe 'user_bookmarks', Router.current().params.username
     Template.user_bookmarks_small.onRendered ->
     Template.user_bookmarks_small.helpers
         bookmarks: ->
@@ -266,7 +298,7 @@ if Meteor.isClient
 
 
     Template.user_questions.onCreated ->
-        @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.user_id, 'question'
+        @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.username, 'question'
     Template.user_questions.onRendered ->
     Template.user_questions.helpers
         questions: ->
@@ -284,25 +316,25 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'user_bookmarks', (user_id)->
-        user = Meteor.users.findOne user_id
+    Meteor.publish 'user_bookmarks', (username)->
+        user = Meteor.users.findOne username:username
         Docs.find
             _id:$in:user.bookmark_ids
 
-    Meteor.publish 'user_model_docs', (user_id, model)->
-        # user = Meteor.users.findOne user_id
+    Meteor.publish 'user_model_docs', (username, model)->
+        user = Meteor.users.findOne username:username
         Docs.find
             model:model
-            _author_id:user_id
+            _author_id:user.user_id
 
-    Meteor.publish 'user_events', (user_id)->
-        user = Meteor.users.findOne user_id
+    Meteor.publish 'user_events', (username)->
+        user = Meteor.users.findOne username:username
         Docs.find
             model:'log_event'
             user_id:user._id
 
-    Meteor.publish 'student_stats', (user_id)->
-        user = Meteor.users.findOne user_id
+    Meteor.publish 'student_stats', (username)->
+        user = Meteor.users.findOne username:username
         if user
             Docs.find
                 model:'student_stats'

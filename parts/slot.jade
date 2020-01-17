@@ -9,6 +9,7 @@ template(name='slot_edit')
                         |save
                 .twelve.wide.column
                     +number_edit key='buy_it_now_price' label='buy it now price' direct=true
+                    +range_edit
                     +datetime_edit key='start_datetime' label='start date time' direct=true 
                     +datetime_edit key='end_datetime' label='end date time' direct=true 
                     +boolean_edit key='enable_auction' label='enable auction' direct=true

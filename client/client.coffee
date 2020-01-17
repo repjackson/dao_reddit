@@ -4,6 +4,7 @@
 @selected_test_tags = new ReactiveArray []
 @selected_course_tags = new ReactiveArray []
 @selected_event_tags = new ReactiveArray []
+@selected_rental_tags = new ReactiveArray []
 
 
 Tracker.autorun ->

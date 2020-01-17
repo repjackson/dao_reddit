@@ -5,6 +5,7 @@
 @Test_tags = new Meteor.Collection 'test_tags'
 @Post_tags = new Meteor.Collection 'post_tags'
 @Course_tags = new Meteor.Collection 'course_tags'
+@Rental_tags = new Meteor.Collection 'rental_tags'
 
 
 

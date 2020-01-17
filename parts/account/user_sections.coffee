@@ -16,7 +16,7 @@ if Meteor.isClient
 
     Template.user_diq.events
         'click .recalc_fiq': ->
-            Meteor.call 'recalc_fiq', Router.current().params.user_id
+            Meteor.call 'recalc_fiq', Router.current().params.username
     Template.user_diq.helpers
         thoughts: ->
             Docs.find
@@ -27,11 +27,11 @@ if Meteor.isClient
 
 
     Template.user_tutoring.onCreated ->
-        @autorun => Meteor.subscribe 'user_students', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'user_students', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'tutalege_request'
     Template.user_tutoring.events
         'click .request_tutelage': ->
-            Meteor.call 'request_tutelage', Router.current().params.user_id
+            Meteor.call 'request_tutelage', Router.current().params.username
         'click .accept_request': ->
             Meteor.call 'accept_request', @
         'click .reject_request': ->
@@ -47,7 +47,7 @@ if Meteor.isClient
 
 
     Template.user_events.onCreated ->
-        @autorun => Meteor.subscribe 'user_students', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'user_students', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'slot'
     Template.user_events.events
         'click .new_slot': ->
@@ -61,14 +61,15 @@ if Meteor.isClient
                 model:'tutor_session'
 
         slots: ->
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
                 model:'slot'
-                _author_id: Router.current().params.user_id
+                _author_id: user._id
 
 
 
     Template.user_shop.onCreated ->
-        @autorun => Meteor.subscribe 'user_shop', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'user_shop', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'product'
     Template.user_shop.events
         'click .add_product': ->
@@ -76,7 +77,7 @@ if Meteor.isClient
                 Docs.insert
                     model:'product'
             Router.go "/m/product/#{new_product_id}/edit"
-            # Meteor.call 'request_tutelage', Router.current().params.user_id
+            # Meteor.call 'request_tutelage', Router.current().params.username
     Template.user_shop.helpers
         tutelage_requested: ->
             Docs.findOne
@@ -89,13 +90,13 @@ if Meteor.isClient
 
 
     Template.user_wrong.onCreated ->
-        @autorun => Meteor.subscribe 'user_wrong_questions', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'user_wrong_questions', Router.current().params.username
     Template.user_wrong.events
-        'click .recalc_similar': -> Meteor.call 'recalc_similar_wrong', Router.current().params.user_id
-        'click .recalc_wrong_ids': -> Meteor.call 'calc_wrong_question_ids', Router.current().params.user_id
+        'click .recalc_similar': -> Meteor.call 'recalc_similar_wrong', Router.current().params.username
+        'click .recalc_wrong_ids': -> Meteor.call 'calc_wrong_question_ids', Router.current().params.username
     Template.user_wrong.helpers
         wrong_questions: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne Router.current().params.username
             Docs.find
                 _id: $in: user.all_wrong_ids
 
@@ -104,16 +105,16 @@ if Meteor.isClient
 
 
     Template.user_right.onCreated ->
-        @autorun => Meteor.subscribe 'user_right_questions', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'user_right_questions', Router.current().params.username
     Template.user_right.events
-        'click .recalc_similar': -> Meteor.call 'recalc_similar_right', Router.current().params.user_id
-        'click .recalc_right_ids': -> Meteor.call 'calc_right_question_ids', Router.current().params.user_id
-        'click .recalc_opposite_right': -> Meteor.call 'recalc_opposite_right', Router.current().params.user_id
+        'click .recalc_similar': -> Meteor.call 'recalc_similar_right', Router.current().params.username
+        'click .recalc_right_ids': -> Meteor.call 'calc_right_question_ids', Router.current().params.username
+        'click .recalc_opposite_right': -> Meteor.call 'recalc_opposite_right', Router.current().params.username
     Template.user_right.helpers
         sorted_right_unions: ->
             sorted = _.sortBy(@right_unions, 'union_count').reverse()
         right_questions: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne Router.current().params.username
             Docs.find
                 _id: $in: user.all_right_ids
 
@@ -122,14 +123,14 @@ if Meteor.isClient
 
 
     Template.user_tests.onCreated ->
-        @autorun => Meteor.subscribe 'user_tests_questions', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'user_tests_questions', Router.current().params.username
     Template.user_tests.events
-        'click .recalc_test_stats': -> Meteor.call 'calc_user_test_stats', Router.current().params.user_id
+        'click .recalc_test_stats': -> Meteor.call 'calc_user_test_stats', Router.current().params.username
     Template.user_tests.helpers
         # sorted_right_unions: ->
         #     sorted = _.sortBy(@right_unions, 'union_count').reverse()
         tests: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne Router.current().params.username
             Docs.find
                 model:'test'
                 _author_id:user._id
@@ -139,13 +140,13 @@ if Meteor.isClient
 
 
     Template.user_requests.onCreated ->
-        @autorun => Meteor.subscribe 'user_requests_questions', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'user_requests_questions', Router.current().params.username
     Template.user_requests.events
-        'click .recalc_test_stats': -> Meteor.call 'calc_user_test_stats', Router.current().params.user_id
+        'click .recalc_test_stats': -> Meteor.call 'calc_user_test_stats', Router.current().params.username
         'click .new_request': ->
             new_rid = Docs.insert
                 model:'request'
-                target_user_id:Router.current().params.user_id
+                target_user_id:Router.current().params.username
             Router.go "/request/#{new_rid}/edit"
 
 
@@ -154,7 +155,7 @@ if Meteor.isClient
         # sorted_right_unions: ->
         #     sorted = _.sortBy(@right_unions, 'union_count').reverse()
         requests: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne Router.current().params.username
             Docs.find
                 model:'request'
                 _author_id:user._id
@@ -251,17 +252,17 @@ if Meteor.isClient
         payments: ->
             Docs.find {
                 model:'payment'
-                _author_id: Router.current().params.user_id
+                _author_id: Router.current().params.username
             }, sort:_timestamp:-1
         deposits: ->
             Docs.find {
                 model:'deposit'
-                _author_id: Router.current().params.user_id
+                _author_id: Router.current().params.username
             }, sort:_timestamp:-1
         withdrawals: ->
             Docs.find {
                 model:'withdrawal'
-                _author_id: Router.current().params.user_id
+                _author_id: Router.current().params.username
             }, sort:_timestamp:-1
         received_reservations: ->
             Docs.find {
@@ -271,7 +272,7 @@ if Meteor.isClient
         purchased_reservations: ->
             Docs.find {
                 model:'reservation'
-                _author_id: Router.current().params.user_id
+                _author_id: Router.current().params.username
             }, sort:_timestamp:-1
 
 

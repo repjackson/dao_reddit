@@ -28,6 +28,12 @@ template(name='user_social')
 
 
 
+template(name='user_handling')
+    .ui.grey.inline.center.aligned.header 
+        i.comments.icon
+        | handling
+
+
 
 template(name='user_requests')
     .ui.grey.inline.center.aligned.header 
@@ -368,6 +374,16 @@ template(name='user_answered_questions_small')
                 .item hi
     
 template(name='user_bookmarks_small')
+    .ui.inline.header
+        i.bookmark.small.icon
+        | bookmarks
+    div
+    .ui.large.link.list
+        each bookmarks
+            a.item(href="/#{model}/#{_id}/view") #{title} [#{model}]
+        
+
+template(name='user_bookmarks')
     .ui.inline.header
         i.bookmark.small.icon
         | bookmarks
