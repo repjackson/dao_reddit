@@ -138,6 +138,28 @@ if Meteor.isClient
 
 
 
+    # Template.member_connect_button.onCreated ->
+    #     # @autorun => Meteor.subscribe 'user_confirmed_transactions', Router.current().params.username
+    # Template.member_connect_button.helpers
+    #     connected: ->
+    #         Meteor.user().connected_ids and @_id in Meteor.user().connected_ids
+    # Template.member_connect_button.events
+    #     'click .toggle_connection': (e,t)->
+    #         $(e.currentTarget).closest('.button').transition('pulse', 200)
+    #
+    #         if Meteor.user().connected_ids and @_id in Meteor.user().connected_ids
+    #             Meteor.users.update Meteor.userId(),
+    #                 $pull: connected_ids: @_id
+    #         else
+    #             Meteor.users.update Meteor.userId(),
+    #                 $addToSet: connected_ids: @_id
+
+
+
+
+
+
+
 
     Template.user_info.onCreated ->
         @autorun => Meteor.subscribe 'user_from_id', @data

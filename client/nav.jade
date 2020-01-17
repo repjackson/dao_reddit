@@ -6,29 +6,20 @@ template(name='nav')
         else 
             a.icon.header.item(href='/' class="{{isActivePath '/'}}" title='home') 
                 i.yin.yang.large.icon
-            a.icon.item(href="/alpha" title=' alpha')
-                i.mountain.icon
-            a.icon.item(href="/tests" title=' tests')
-                i.edit.icon
             a.icon.item(href="/users" title='users')
                 i.users.icon
-                    
-        //- each view_models
-        //-     a.mobile.hidden.icon.item(href="/m/#{slug}" title=slug) 
-        //-         i.icon(class=icon)
         .right.menu
             unless currentUser
                 a.icon.item(href='/login' title='enter') 
                     i.sign.in.icon 
-                    //- span.mobile.hidden log in
                 a.icon.item(href='/register' title='register')
                     i.user.add.icon
-                    //- span.mobile.hidden sign up
             if currentUser
-                a.mobile.hidden.icon.item(href='/alpha' class="{{isActivePath '/alpha'}}") 
-                    .ui.header a
-                a.mobile.hidden.icon.item(href='/m/model' class="{{isActivePath '/m/model'}}") 
-                    .ui.header d
+                if is_dev
+                    a.mobile.hidden.icon.item(href='/alpha' class="{{isActivePath '/alpha'}}") 
+                        .ui.header a
+                    a.mobile.hidden.icon.item(href='/m/model' class="{{isActivePath '/m/model'}}") 
+                        .ui.header d
                 a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
                     i.chat.outline.icon
                 a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
@@ -36,9 +27,9 @@ template(name='nav')
                 a.mobile.hidden.icon.item(href='/cart' class="{{isActivePath '/cart'}}") 
                     i.shopping.cart.icon(class=cart_icon_class)
                 unless logging_out
-                    a.item(href="/user/#{currentUser._id}/finance" title='credit')
-                        |#{currentUser.credit}c
-                    a.item(href="/user/#{currentUser._id}")
+                    a.item(href="/user/#{currentUser.username}/finance" title='credit')
+                        |{{ fixed currentUser.credit }}c
+                    a.item(href="/user/#{currentUser.username}")
                         if currentUser.profile_image_id
                             img.ui.avatar.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
                             span.mobile.hidden #{currentUser.name} 
@@ -78,8 +69,8 @@ template(name='footer')
         .row
             .four.wide.column
                 .ui.link.large.list
-                    a.item(href='/prime')
-                        | dao prime
+                    //- a.item(href='/prime')
+                    //-     | dao prime
                     a.item(href="/p/terms") 
                         | terms of service
                     a.item(href="/p/privacy") 
@@ -146,3 +137,18 @@ template(name='bug_reporter')
                 i.checkmark.icon
             .ui.small.icon.button.cancel_bug
                 i.remove.icon
+
+
+
+
+template(name='latest_activity')
+    .ui.grey.header 
+        i.grey.rss.icon
+        |all activity
+    .ui.list
+        each latest_activity
+            .item 
+                img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+                |#{text} #{body} 
+                .ui.label #{log_type}
+                small #{when}

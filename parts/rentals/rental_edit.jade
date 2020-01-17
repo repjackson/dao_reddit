@@ -6,8 +6,8 @@ template(name='rental_edit')
                     .ui.header
                         i.pencil.icon
                         | edit '#{title}' rental
-                    a.ui.big.fluid.button(href="/rental/#{_id}/view" title='save')
-                        i.checkmark.large.green.icon
+                    a.ui.fluid.button(href="/rental/#{_id}/view" title='save')
+                        i.checkmark.large.icon
                         |save
                     +remove_button
                     if is_dev

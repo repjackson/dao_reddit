@@ -14,10 +14,10 @@ if Meteor.isClient
 
 
 
-    Template.user_fiq.events
+    Template.user_diq.events
         'click .recalc_fiq': ->
             Meteor.call 'recalc_fiq', Router.current().params.user_id
-    Template.user_fiq.helpers
+    Template.user_diq.helpers
         thoughts: ->
             Docs.find
                 model:'thought'
@@ -46,6 +46,24 @@ if Meteor.isClient
                 model:'tutalege_request'
 
 
+    Template.user_events.onCreated ->
+        @autorun => Meteor.subscribe 'user_students', Router.current().params.user_id
+        @autorun => Meteor.subscribe 'model_docs', 'slot'
+    Template.user_events.events
+        'click .new_slot': ->
+            new_slot_id =
+                Docs.insert
+                    model:'slot'
+            Router.go "/m/slot/#{new_slot_id}/edit"
+    Template.user_events.helpers
+        tutor_sessions: ->
+            Docs.find
+                model:'tutor_session'
+
+        slots: ->
+            Docs.find
+                model:'slot'
+                _author_id: Router.current().params.user_id
 
 
 

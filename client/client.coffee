@@ -131,6 +131,15 @@ Template.registerHelper 'hsd', () ->
     Docs.findOne
         model:'home_stats'
 
+
+Template.registerHelper 'user_from_username_param', () ->
+    found = Meteor.users.findOne username:Router.current().params.username
+    # console.log found
+    found
+
+
+
+
 Template.registerHelper 'course', () ->
     Docs.findOne
         _id:@course_id
@@ -305,7 +314,7 @@ Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() 
 
 Template.registerHelper 'current_user', () ->  Meteor.users.findOne Router.current().params.user_id
 Template.registerHelper 'is_current_user', () ->
-    if Meteor.userId() is Router.current().params.user_id
+    if Meteor.userId() and Meteor.user().username is Router.current().params.username
         true
     else
         if Meteor.user().roles and 'dev' in Meteor.user().roles

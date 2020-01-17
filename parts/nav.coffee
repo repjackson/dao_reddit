@@ -90,7 +90,7 @@ if Meteor.isClient
                 model:'cart_item'
                 _author_id:Meteor.userId()
             }).count()
-            console.log cart_amount
+            # console.log cart_amount
             if cart_amount then 'red' else ''
 
         mail_icon_class: ->

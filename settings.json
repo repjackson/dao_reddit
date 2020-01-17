@@ -39,7 +39,6 @@
 			"iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/f18c8f41459468045d98bcffc36f39d4::serviceid:ServiceId-737a486e-da22-404d-a3f2-4296dc02065d",
 			"url": "https://gateway.watsonplatform.net/personality-insights/api"
 		}
-
 	},
 	"galaxy.meteor.com": {
 		"env": {

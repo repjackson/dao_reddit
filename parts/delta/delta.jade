@@ -185,7 +185,7 @@ template(name='facet')
                 //- div
         each filtering_res
             if name
-                .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
+                .selector.ui.compact.small.button.toggle_selection(class=toggle_value_class title=count)
                     strong #{name}
                     if is_admin
                         small #{cal_count} #{count}

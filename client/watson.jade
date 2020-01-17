@@ -40,7 +40,7 @@ template(name='doc_emotion')
             .bar
             .progress
                 .label {{to_percent disgust}}% disgust 
-        .ui.disabled.tiny.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
+        .ui.red.disabled.tiny.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
             .bar
             .progress
                 .label {{to_percent anger}}% anger 
@@ -61,7 +61,7 @@ template(name='call_visual')
 template(name='keywords')
     .ui.small.grey.header 
         |#{watson.keywords.length} keywords
-    .ui.five.column.stackable.grid
+    .ui.six.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -89,7 +89,7 @@ template(name='keywords')
                                 .bar
                                     //- .progress
                             span {{ to_percent anger }}% anger 
-                            .ui.tiny.disabled.progress(data-percent=anger_percent title="{{to_percent anger}}% anger")
+                            .ui.red.tiny.disabled.progress(data-percent=anger_percent title="{{to_percent anger}}% anger")
                                 .bar
                                 //- .progress
 
@@ -99,7 +99,7 @@ template(name='keywords')
 template(name='entities')
     .ui.grey.header 
         |#{watson.entities.length} entities
-    .ui.five.column.stackable.grid
+    .ui.six.column.stackable.grid
         each watson.entities
             x.ui.column
                 .ui.small.grey.header #{type}: #{text}
@@ -122,7 +122,7 @@ template(name='entities')
                             .bar
                             .progress
                         span {{ to_percent anger }}% anger 
-                        .ui.tiny.disabled.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
+                        .ui.red.tiny.disabled.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
                             .bar
                             .progress
 
@@ -294,12 +294,12 @@ template(name='watson_view')
             .column
                 +categories
     +entities
-    +semantic_roles
+    //- +semantic_roles
     //- +keyword_list
     +keywords
     +concept_list
     //- .ui.hidden.divider
-    +relations
+    //- +relations
     //- if dev
     //-     .ui.styled.accordion
     //-         .title 

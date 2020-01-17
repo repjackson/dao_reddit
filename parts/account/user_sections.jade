@@ -88,6 +88,25 @@ template(name='user_tutoring')
                                 i.red.ban.icon
                             if is_author 
                                 +remove_button
+    div
+        .ui.stackable.grid
+            .three.column.row
+                .column
+                    .ui.header tutoring sessions
+                    each tutor_sessions
+                        .ui.segment
+                            .ui.header #{when}
+                            .ui.header #{start_timedate}
+                            .ui.header #{end_timedate}
+                            +user_info author
+                            if is_author 
+                                +remove_button
+                .column
+                    .ui.header students
+                    each students 
+                        .ui.segment
+                            .ui.header #{name}
+                                
             
         each user_students
             .ui.header #{name}
@@ -196,29 +215,44 @@ template(name='user_events')
         .ui.header #{title}
     div
     .ui.button.new_appointment book
+    unless tutor_sessions.length 
+        |no tutor sessions
+    each tutor_sessions 
+        .ui.header #{title}
+    div
+    if is_current_user 
+        .ui.button.new_slot
+            i.plus.icon
+            |slot
+    each slots 
+        .ui.segment
+            .ui.header 
+                small from {{long_date start_timedate}}
+            .ui.header 
+                small to {{long_date end_datetime}}
+            .ui.list 
+                .item #{bids}
+            if closed 
+                .ui.green.label closed
+            else 
+                .ui.label open
+            a.ui.button(href='/m/slot/#{_id}/view')
+                |view
 
 
-template(name='user_karma')
-    .ui.inline.header 
-        i.yin.yang.icon
-        |karma
-    .ui.small.header 
-        |upvoted docs
-    .ui.small.header 
-        |downvoted docs
 
-template(name='user_fiq')
+template(name='user_diq')
     .ui.inline.header 
         i.brain.icon
-        |fiq
-    .ui.icon.button.recalc_fiq
+        |diq
+    .ui.icon.button.recalc_diq
         i.refresh.icon
-    .ui.header #{current_user.username} fiq #{current_user.fiq}
-    .ui.header your fiq #{currentUser.fiq}
+    .ui.header #{current_user.username} diq #{current_user.diq}
+    .ui.header your diq #{currentUser.diq}
     .ui.list 
         .item #{answer_count} answers
     .ui.list 
-        each top_fiq_users 
+        each top_diq_users 
             .item #{username}
             
 

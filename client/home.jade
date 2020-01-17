@@ -1,15 +1,16 @@
 template(name='home')
     .ui.centered.stackable.six.cards 
-        a.ui.card(href="/alpha")
-            .content 
-                .ui.icon.grey.header
-                    i.mountain.icon
-                    | alpha
-        a.ui.card(href="/m/model")
-            .content 
-                .ui.icon.grey.header 
-                    i.shapes.icon
-                    |delta
+        if is_dev
+            a.ui.card(href="/alpha")
+                .content 
+                    .ui.icon.grey.header
+                        i.mountain.icon
+                        | alpha
+            a.ui.card(href="/m/model")
+                .content 
+                    .ui.icon.grey.header 
+                        i.shapes.icon
+                        |delta
         a.ui.card(href="/tests")
             .content 
                 .ui.icon.grey.header
@@ -40,6 +41,11 @@ template(name='home')
                 .ui.icon.grey.header
                     i.money.icon
                     | bounty
+        a.ui.card(href="/slogts")
+            .content 
+                .ui.icon.grey.header
+                    i.money.icon
+                    | bounty
         a.ui.card(href="/bitcoin")
             .content 
                 .ui.icon.grey.header
@@ -65,6 +71,11 @@ template(name='home')
                 .ui.icon.grey.header
                     i.reddit.icon
                     |reddit
+        a.ui.card(href="/reddit")
+            .content 
+                .ui.icon.grey.header
+                    i.reddit.icon
+                    | reddit admin
         a.ui.card(href="/tasks")
             .content 
                 .ui.icon.grey.header

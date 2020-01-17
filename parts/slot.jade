@@ -1,0 +1,99 @@
+template(name='slot_edit')
+    with current_doc
+        .ui.padded.stackable.grid 
+            .row 
+                .four.wide.column
+                    .ui.header slot edit
+                    a.ui.fluid.button(href="/m/slot/#{_id}/view")
+                        i.checkmark.icon
+                        |save
+                .twelve.wide.column
+                    +number_edit key='buy_it_now_price' label='buy it now price' direct=true
+                    +datetime_edit key='start_datetime' label='start date time' direct=true 
+                    +datetime_edit key='end_datetime' label='end date time' direct=true 
+                    +boolean_edit key='enable_auction' label='enable auction' direct=true
+                    if enable_auction
+                        div
+                        +number_edit key='auction_hour_cutoff' label='auction hour cutoff' direct=true
+                        div
+                        +number_edit key='auction_min' label='auction min bid' direct=true
+                    div
+                    +boolean_edit key='refundable' label='refundable' direct=true
+                    if refundable
+                        div
+                        +number_edit key='refund_hour_cutoff' label='refund hour cutoff' direct=true
+
+template(name='slot_view')
+    with current_doc
+        .ui.padded.stackable.grid 
+            .row 
+                .four.wide.column
+                    .ui.header slot edit
+                    a.ui.fluid.button(href="/m/slot/#{_id}/edit")
+                        i.pencil.icon
+                        |edit
+                .eight.wide.column
+                    +number_view key='buy_it_now_price' label='buy it now price' direct=true
+                    .ui.small.header
+                        small from 
+                        |{{ long_date start_datetime}}
+                    .ui.small.header
+                        small to 
+                        |{{ long_date end_datetime}}
+                    if enable_auction
+                        .ui.green.label auctionable
+                        .ui.small.header auction hour cutoff: #{auction_hour_cutoff}
+                        .ui.small.header auction min: $#{auction_min}
+                    +boolean_view key='refundable' label='refundable' direct=true
+                    if refundable
+                        div
+                        +number_view key='refund_hour_cutoff' label='refund hour cutoff' direct=true
+                    unless closed
+                        .ui.button.bid
+                            |bid
+                        .ui.button.buy_it_now buy now for #{buy_it_now_price}
+                    //- with your_bid
+                    //-     .ui.small.header your bid
+                    //-     +number_edit key='bid_amount' label='bid amount' direct=true
+                    each bids
+                        +bid_small
+                .four.wide.column 
+                    if closed 
+                        .ui.red.label closed
+                    else 
+                        .ui.green.label open
+                    .ui.header top bid
+                    with top_bid
+                        .ui.small.header $#{bid_amount} by #{_author_username}
+                    .ui.header 
+                        i.rss.icon
+                        |log
+                    .ui.list
+                        each log_events
+                            .item #{text}
+
+template(name='bid_small')
+    .ui.segment 
+        .ui.small.header #{bid_amount} by #{_author_username}
+        //- .ui.input 
+        //-     input(type='number' min=parent.auction_min)
+        unless submitted
+            +number_edit key='bid_amount' min=parent.auction_min direct=true
+            if bid_amount
+                .ui.button.submit_bid
+                    |submit
+        //- else 
+        //-     +number_view key='bid_amount' direct=true
+        if accepted 
+            .ui.green.label accepted
+            if is_auction_owner
+                .ui.button.unaccept_bid
+                    |unaccept
+        else 
+            if is_author
+                .ui.button.cancel_bid
+                    i.ban.icon
+                    |cancel
+            if is_auction_owner
+                .ui.button.accept_bid
+                    |accept bid

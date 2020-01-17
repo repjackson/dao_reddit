@@ -151,6 +151,71 @@ template(name='single_user_edit')
         //-             @#{username}
 
 
+        
+template(name='single_user_view')
+    if field_value
+        div
+        if icon
+            +ismall name=icon    
+        .ui.inline.header 
+            |#{title}
+            |#{label}
+        with field_value
+            .ui.inline.header #{field_value}
+                +username_info
+            
+
+
+template(name='single_person_view')
+    div
+    .ui.header #{title}
+    if field_value
+        +person_card field_value
+    div
+            
+            
+template(name='single_person_edit')
+    .ui.header #{title}
+    .ui.form
+        if field_value
+            +person_card field_value
+            .ui.circlar.button.clear_selection
+                i.remove.icon
+                |Clear
+        else
+            .field.attached
+                input#single_person_select_input(type='text' placeholder='Lookup Username..')
+            if person_results
+                .ui.top.attached.segment
+                    .ui.middle.aligned.selection.animated.large.list
+                        each person_results
+                            .select_person.item
+                                h3.ui.header
+                                    if image
+                                        img.ui.avatar.image(src="{{c.url image width=100 height=100 gravity='face' crop='fill'}}")
+                                    //- else
+                                    //-     i.user.icon
+                                    strong &nbsp; #{first_name} #{last_name}
+                                 |@#{username}
+                                .ui.sub.header #{building_number} #{address}
+            else
+                .ui.header no results
+            // .ui.list
+            //     each field_value
+            //         |#{this}
+            //         .item
+            //             .right.floated.content
+            //                 i.pull_user.remove.link.icon
+            //             .image
+            //                 img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+            //             .content
+            //                 h4.ui.header
+            //                     |#{first_name} #{last_name}
+            //                     @#{username}
+
+
+
+
 
 template(name='text_edit')
     div

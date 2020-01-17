@@ -1,144 +1,144 @@
 if Meteor.isClient
-    Router.route '/user/:user_id', (->
+    Router.route '/user/:username', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
         ), name:'profile_layout'
-    Router.route '/user/:user_id/about', (->
+    Router.route '/user/:username/about', (->
         @layout 'profile_layout'
         @render 'user_about'
         ), name:'user_about'
-    Router.route '/user/:user_id/finance', (->
+    Router.route '/user/:username/finance', (->
         @layout 'profile_layout'
         @render 'user_finance'
         ), name:'user_finance'
-    Router.route '/user/:user_id/tutoring', (->
+    Router.route '/user/:username/tutoring', (->
         @layout 'profile_layout'
         @render 'user_tutoring'
         ), name:'user_tutoring'
-    Router.route '/user/:user_id/groups', (->
+    Router.route '/user/:username/groups', (->
         @layout 'profile_layout'
         @render 'user_groups'
         ), name:'user_groups'
-    Router.route '/user/:user_id/shop', (->
+    Router.route '/user/:username/shop', (->
         @layout 'profile_layout'
         @render 'user_shop'
         ), name:'user_shop'
-    Router.route '/user/:user_id/right', (->
+    Router.route '/user/:username/right', (->
         @layout 'profile_layout'
         @render 'user_right'
         ), name:'user_right'
-    Router.route '/user/:user_id/credit', (->
+    Router.route '/user/:username/credit', (->
         @layout 'profile_layout'
         @render 'user_credit'
         ), name:'user_credit'
-    Router.route '/user/:user_id/wrong', (->
+    Router.route '/user/:username/wrong', (->
         @layout 'profile_layout'
         @render 'user_wrong'
         ), name:'user_wrong'
-    Router.route '/user/:user_id/karma', (->
+    Router.route '/user/:username/karma', (->
         @layout 'profile_layout'
         @render 'user_karma'
         ), name:'user_karma'
-    Router.route '/user/:user_id/cart', (->
+    Router.route '/user/:username/cart', (->
         @layout 'profile_layout'
         @render 'user_cart'
         ), name:'user_cart'
-    Router.route '/user/:user_id/payment', (->
+    Router.route '/user/:username/payment', (->
         @layout 'profile_layout'
         @render 'user_payment'
         ), name:'user_payment'
-    Router.route '/user/:user_id/fiq', (->
+    Router.route '/user/:username/fiq', (->
         @layout 'profile_layout'
-        @render 'user_fiq'
-        ), name:'user_fiq'
-    Router.route '/user/:user_id/contact', (->
+        @render 'user_diq'
+        ), name:'user_diq'
+    Router.route '/user/:username/contact', (->
         @layout 'profile_layout'
         @render 'user_contact'
         ), name:'user_contact'
-    Router.route '/user/:user_id/brain', (->
+    Router.route '/user/:username/brain', (->
         @layout 'profile_layout'
         @render 'user_brain'
         ), name:'user_brain'
-    Router.route '/user/:user_id/stats', (->
+    Router.route '/user/:username/stats', (->
         @layout 'profile_layout'
         @render 'user_stats'
         ), name:'user_stats'
-    Router.route '/user/:user_id/votes', (->
+    Router.route '/user/:username/votes', (->
         @layout 'profile_layout'
         @render 'user_votes'
         ), name:'user_votes'
-    Router.route '/user/:user_id/dashboard', (->
+    Router.route '/user/:username/dashboard', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
         ), name:'user_dashboard'
-    Router.route '/user/:user_id/jobs', (->
+    Router.route '/user/:username/jobs', (->
         @layout 'profile_layout'
         @render 'user_jobs'
         ), name:'user_jobs'
-    Router.route '/user/:user_id/requests', (->
+    Router.route '/user/:username/requests', (->
         @layout 'profile_layout'
         @render 'user_requests'
         ), name:'user_requests'
-    Router.route '/user/:user_id/feed', (->
+    Router.route '/user/:username/feed', (->
         @layout 'profile_layout'
         @render 'user_feed'
         ), name:'user_feed'
-    Router.route '/user/:user_id/tags', (->
+    Router.route '/user/:username/tags', (->
         @layout 'profile_layout'
         @render 'user_tags'
         ), name:'user_tags'
-    Router.route '/user/:user_id/tasks', (->
+    Router.route '/user/:username/tasks', (->
         @layout 'profile_layout'
         @render 'user_tasks'
         ), name:'user_tasks'
-    Router.route '/user/:user_id/transactions', (->
+    Router.route '/user/:username/transactions', (->
         @layout 'profile_layout'
         @render 'user_transactions'
         ), name:'user_transactions'
-    Router.route '/user/:user_id/messages', (->
+    Router.route '/user/:username/messages', (->
         @layout 'profile_layout'
         @render 'user_messages'
         ), name:'user_messages'
-    Router.route '/user/:user_id/bookmarks', (->
+    Router.route '/user/:username/bookmarks', (->
         @layout 'profile_layout'
         @render 'user_bookmarks'
         ), name:'user_bookmarks'
-    Router.route '/user/:user_id/documents', (->
+    Router.route '/user/:username/documents', (->
         @layout 'profile_layout'
         @render 'user_documents'
         ), name:'user_documents'
-    Router.route '/user/:user_id/social', (->
+    Router.route '/user/:username/social', (->
         @layout 'profile_layout'
         @render 'user_social'
         ), name:'user_social'
-    Router.route '/user/:user_id/friends', (->
+    Router.route '/user/:username/friends', (->
         @layout 'profile_layout'
         @render 'user_friends'
         ), name:'user_friends'
-    Router.route '/user/:user_id/tests', (->
+    Router.route '/user/:username/tests', (->
         @layout 'profile_layout'
         @render 'user_tests'
         ), name:'user_tests'
-    Router.route '/user/:user_id/passages', (->
+    Router.route '/user/:username/passages', (->
         @layout 'profile_layout'
         @render 'user_passages'
         ), name:'user_passages'
-    Router.route '/user/:user_id/questions', (->
+    Router.route '/user/:username/questions', (->
         @layout 'profile_layout'
         @render 'user_questions'
         ), name:'user_questions'
-    Router.route '/user/:user_id/awards', (->
+    Router.route '/user/:username/awards', (->
         @layout 'profile_layout'
         @render 'user_awards'
         ), name:'user_awards'
-    Router.route '/user/:user_id/events', (->
+    Router.route '/user/:username/events', (->
         @layout 'profile_layout'
         @render 'user_events'
         ), name:'user_events'
 
 
     Template.profile_layout.onCreated ->
-        @autorun -> Meteor.subscribe 'user_from_id', Router.current().params.user_id
+        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_events', Router.current().params.user_id
         @autorun -> Meteor.subscribe 'model_docs', 'test'
         # @autorun -> Meteor.subscribe 'student_stats', Router.current().params.user_id
@@ -155,18 +155,18 @@ if Meteor.isClient
 
     Template.profile_layout.helpers
         route_slug: -> "user_#{@slug}"
-        user: -> Meteor.users.findOne Router.current().params.user_id
+        user: -> Meteor.users.findOne username:Router.current().params.username
         user_sections: ->
             Docs.find {
                 model:'user_section'
             }, sort:title:1
         student_classrooms: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
                 model:'classroom'
                 student_ids: $in: [user._id]
         ssd: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne
                 model:'student_stats'
                 user_id:user._id
@@ -187,12 +187,12 @@ if Meteor.isClient
 
     Template.user_dashboard.helpers
         ssd: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne
                 model:'student_stats'
                 user_id:user._id
         student_classrooms: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
                 model:'classroom'
                 student_ids: $in: [user._id]
@@ -211,7 +211,7 @@ if Meteor.isClient
                 event_type:'debit'
             }, sort: _timestamp: -1
         user_models: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
                 model:'model'
                 _id:$in:user.model_ids
@@ -239,7 +239,7 @@ if Meteor.isClient
     Template.user_sessions_small.onRendered ->
     Template.user_sessions_small.helpers
         sessions: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
                 model:'act_test_session'
                 _author_id: user._id
@@ -257,7 +257,7 @@ if Meteor.isClient
     Template.user_bookmarks_small.onRendered ->
     Template.user_bookmarks_small.helpers
         bookmarks: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
                 _id:$in:user.bookmark_ids
 
@@ -270,7 +270,7 @@ if Meteor.isClient
     Template.user_questions.onRendered ->
     Template.user_questions.helpers
         questions: ->
-            user = Meteor.users.findOne Router.current().params.user_id
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
                 model:'question'
                 _author_id: user._id
