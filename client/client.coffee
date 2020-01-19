@@ -145,7 +145,7 @@ Template.registerHelper 'course', () ->
     Docs.findOne
         _id:@course_id
 
-Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
+# Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
 Template.registerHelper 'target_user', () -> Meteor.users.findOne @user_id
 Template.registerHelper 'is_text', () ->
     # console.log @field_type

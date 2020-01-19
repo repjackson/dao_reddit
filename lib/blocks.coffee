@@ -82,13 +82,13 @@ if Meteor.isClient
 
 
 
-    Template.call_watson.events
-        'click .autotag': ->
-            doc = Docs.findOne Router.current().params.doc_id
-            # console.log doc
-            # console.log @
-
-            Meteor.call 'call_watson', doc._id, @key, @mode
+    # Template.call_watson.events
+    #     'click .autotag': ->
+    #         doc = Docs.findOne Router.current().params.doc_id
+    #         # console.log doc
+    #         # console.log @
+    #
+    #         Meteor.call 'call_watson', doc._id, @key, @mode
 
     Template.voting_full.events
         'click .upvote': (e,t)->

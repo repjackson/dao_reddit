@@ -1,96 +1,164 @@
 template(name='home')
+    .spacer
+    +grid
     .ui.centered.stackable.six.cards 
-        if is_dev
-            a.ui.card(href="/alpha")
+        each home_models
+            a.ui.card(href="/m/#{slug}")
                 .content 
                     .ui.icon.grey.header
-                        i.mountain.icon
-                        | alpha
-            a.ui.card(href="/m/model")
-                .content 
-                    .ui.icon.grey.header 
-                        i.shapes.icon
-                        |delta
-        a.ui.card(href="/tests")
-            .content 
-                .ui.icon.grey.header
-                    i.edit.icon
-                    | tests
-        a.ui.card(href="/rentals")
-            .content 
-                .ui.icon.grey.header 
-                    i.hand.holding.usd.icon
-                    | rentals
-        a.ui.card(href="/deals")
-            .content 
-                .ui.icon.grey.header
-                    i.exchange.icon
-                    | deals
-        a.ui.card(href="/chat")
-            .content 
-                .ui.icon.grey.header
-                    i.comment.outline.icon
-                    | chat
-        a.ui.card(href="/events")
-            .content 
-                .ui.icon.grey.header
-                    i.calendar.icon
-                    | events
-        a.ui.card(href="/bounty")
-            .content 
-                .ui.icon.grey.header
-                    i.money.icon
-                    | bounty
-        a.ui.card(href="/slogts")
-            .content 
-                .ui.icon.grey.header
-                    i.money.icon
-                    | bounty
-        a.ui.card(href="/bitcoin")
-            .content 
-                .ui.icon.grey.header
-                    i.bitcoin.icon
-                    | bitcoin
-        a.ui.card(href="/posts")
-            .content 
-                .ui.icon.grey.header
-                    i.blog.icon
-                    | posts
-        a.ui.card(href="/alerts")
-            .content 
-                .ui.icon.grey.header
-                    i.bell.outline.icon
-                    | alerts
-        a.ui.card(href="/users")
-            .content 
-                .ui.icon.grey.header
-                    i.users.icon
-                    |users
-        a.ui.card(href="/m/reddit")
-            .content 
-                .ui.icon.grey.header
-                    i.reddit.icon
-                    |reddit
-        a.ui.card(href="/reddit")
-            .content 
-                .ui.icon.grey.header
-                    i.reddit.icon
-                    | reddit admin
-        a.ui.card(href="/tasks")
-            .content 
-                .ui.icon.grey.header
-                    i.tasks.icon
-                    |tasks
-        a.ui.card(href="/time_sessions")
-            .content 
-                .ui.icon.grey.header
-                    i.clock.icon
-                    |time
-        a.ui.card(href="/thoughts")
-            .content 
-                .ui.icon.grey.header
-                    i.brain.icon
-                    |thoughts
+                        i.icon(class=icon)
+                        | #{title}
             
-            
-            
+        //- if is_dev
+        //-     a.ui.card(href="/alpha")
+        //-         .content 
+        //-             .ui.icon.grey.header
+        //-                 i.mountain.icon
+        //-                 | alpha
+        //-     a.ui.card(href="/m/model")
+        //-         .content 
+        //-             .ui.icon.grey.header 
+        //-                 i.shapes.icon
+        //-                 |delta
+        //- a.ui.card(href="/tests")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.edit.icon
+        //-             | tests
+        //- a.ui.card(href="/rentals")
+        //-     .content 
+        //-         .ui.icon.grey.header 
+        //-             i.hand.holding.usd.icon
+        //-             | rentals
+        //- a.ui.card(href="/deals")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.exchange.icon
+        //-             | deals
+        //- a.ui.card(href="/chat")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.comment.outline.icon
+        //-             | chat
+        //- a.ui.card(href="/events")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.calendar.icon
+        //-             | events
+        //- a.ui.card(href="/bounty")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.money.icon
+        //-             | bounty
+        //- a.ui.card(href="/slogts")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.money.icon
+        //-             | bounty
+        //- a.ui.card(href="/bitcoin")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.bitcoin.icon
+        //-             | bitcoin
+        //- a.ui.card(href="/posts")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.blog.icon
+        //-             | posts
+        //- a.ui.card(href="/alerts")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.bell.outline.icon
+        //-             | alerts
+        //- a.ui.card(href="/users")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.users.icon
+        //-             |users
+        //- a.ui.card(href="/m/reddit")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.reddit.icon
+        //-             |reddit
+        //- a.ui.card(href="/reddit")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.reddit.icon
+        //-             | reddit admin
+        //- a.ui.card(href="/tasks")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.tasks.icon
+        //-             |tasks
+        //- a.ui.card(href="/time_sessions")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.clock.icon
+        //-             |time
+        //- a.ui.card(href="/thoughts")
+        //-     .content 
+        //-         .ui.icon.grey.header
+        //-             i.brain.icon
+        //-             |thoughts
+        //- 
+        //- 
+        //- 
+
+
+
+
+
+
+template(name='grid')
+    //- .ui.inline.grey.header 
+    //-     |all 
+    //-     each currentUser.roles
+    //-         .ui.label #{this}
+    //-     |models
+    .ui.left.icon.input
+        input.model_filter(type='text' autofocus='autofocus')
+        if model_filter_value
+            i.remove.link.icon
+        else 
+            i.search.icon
+    unless model_filter_value
+        +cloud filter='model'
+    .ui.stackable.four.column.grid
+        .row
+            each role_models
+                .column
+                    +grid_role_model
+                
+template(name='grid_role_model')
+    .ui.segment
+        a.ui.inline.capitalize.header(href="/m/#{slug}" tabindex="0" title=description)
+            +i name=icon
+            //- i.icon(class=icon)
+            |#{title}
+        //- i.grey.eye.icon
+        //- i.grey.thumbs.up.icon
+        //- i.grey.clock.icon
+        div
+        .ui.list
+            each model_docs
+                +model_list_item_view
+        //- span(title='views')
+        //-     |#{views}
+        if is_dev
+            span(title='views')
+                i.eye.grey.icon
+                |#{views}
+            each view_roles
+                .ui.small.label(title='viewable by') #{this}
+
+
+template(name='model_list_item_view')
+    //- a.item(href="/m/#{model}/#{_id}/view") 
+    .item.pointer.goto_doc(title="#{views} views")
+        if image
+            img.ui.mini.inline.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
+        if icon
+            +ismall name=icon
+        span.capitalize #{title} #{name}
+        //- span.lowercase #{title} #{name}
+        div

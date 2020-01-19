@@ -1,13 +1,13 @@
 template(name='nav')
-    #topnav.ui.attached.borderless.large.menu
+    #topnav.ui.attached.borderless.menu
         if is_loading
             .item
                 i.loading.large.grey.yin.yang.icon
         else 
             a.icon.header.item(href='/' class="{{isActivePath '/'}}" title='home') 
                 i.yin.yang.large.icon
-            a.icon.item(href="/users" title='users')
-                i.users.icon
+            //- a.icon.item(href="/users" title='users')
+            //-     i.users.icon
         .right.menu
             unless currentUser
                 a.icon.item(href='/login' title='enter') 
@@ -16,19 +16,19 @@ template(name='nav')
                     i.user.add.icon
             if currentUser
                 if is_dev
-                    a.mobile.hidden.icon.item(href='/alpha' class="{{isActivePath '/alpha'}}") 
-                        .ui.header a
+                    //- a.mobile.hidden.icon.item(href='/alpha' class="{{isActivePath '/alpha'}}") 
+                    //-     .ui.header a
                     a.mobile.hidden.icon.item(href='/m/model' class="{{isActivePath '/m/model'}}") 
                         .ui.header d
-                a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
-                    i.chat.outline.icon
-                a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
-                    i.bell.icon(class=alert_icon_class)
-                a.mobile.hidden.icon.item(href='/cart' class="{{isActivePath '/cart'}}") 
-                    i.shopping.cart.icon(class=cart_icon_class)
+                //- a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}") 
+                //-     i.chat.outline.icon
+                //- a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}") 
+                //-     i.bell.icon(class=alert_icon_class)
+                //- a.mobile.hidden.icon.item(href='/cart' class="{{isActivePath '/cart'}}") 
+                //-     i.shopping.cart.icon(class=cart_icon_class)
                 unless logging_out
-                    a.item(href="/user/#{currentUser.username}/finance" title='credit')
-                        |{{ fixed currentUser.credit }}c
+                    //- a.item(href="/user/#{currentUser.username}/finance" title='credit')
+                    //-     |{{ fixed currentUser.credit }}c
                     a.item(href="/user/#{currentUser.username}")
                         if currentUser.profile_image_id
                             img.ui.avatar.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")

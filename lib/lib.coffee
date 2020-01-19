@@ -1,11 +1,16 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
+@Organizations = new Meteor.Collection 'organizations'
+@People = new Meteor.Collection 'people'
+@Authors = new Meteor.Collection 'authors'
+@Companies = new Meteor.Collection 'companies'
+@Timestamp_tags = new Meteor.Collection 'timestamp_tags'
 
-@Question_tags = new Meteor.Collection 'question_tags'
-@Test_tags = new Meteor.Collection 'test_tags'
-@Post_tags = new Meteor.Collection 'post_tags'
-@Course_tags = new Meteor.Collection 'course_tags'
-@Rental_tags = new Meteor.Collection 'rental_tags'
+# @Question_tags = new Meteor.Collection 'question_tags'
+# @Test_tags = new Meteor.Collection 'test_tags'
+# @Post_tags = new Meteor.Collection 'post_tags'
+# @Course_tags = new Meteor.Collection 'course_tags'
+# @Rental_tags = new Meteor.Collection 'rental_tags'
 
 
 
@@ -228,7 +233,7 @@ if Meteor.isServer
             Docs.find id
         else if user
             Meteor.users.find id
-    Meteor.publish 'docs', (selected_tags, filter)->
+    Meteor.publish 'docs', (selected_tags, filter, limit)->
         # user = Meteor.users.findOne @userId
         # console.log selected_tags
         # console.log filter
@@ -245,4 +250,6 @@ if Meteor.isServer
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         if filter then match.model = filter
 
-        Docs.find match, sort:_timestamp:-1
+        Docs.find match,
+            sort:_timestamp:-1
+            limit: limit

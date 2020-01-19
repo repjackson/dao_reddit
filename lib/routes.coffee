@@ -26,7 +26,7 @@ Router.route '*', -> @render 'not_found'
 # Router.route '/', -> @redirect '/alpha'
 
 Router.route '/forgot_password', -> @render 'forgot_password'
-Router.route '/', -> @render 'home'
+Router.route '/', -> @render 'reddit'
 
 Router.route '/settings', -> @render 'settings'
 Router.route '/edit/:doc_id', -> @render 'edit'

@@ -59,7 +59,17 @@ template(name='model_doc_view')
                         div
                         +karma_transaction
                         div
-                    .eight.wide.column
+                        .ui.header actions 
+                        each actions
+                            .ui.header #{title} 
+                            +Template.dynamic template=slug
+                        each action_types
+                            .ui.header #{title}
+                            +Template.dynamic template=slug
+                        +comments
+                        //- div
+                        
+                    .twelve.wide.column
                         .ui.header
                             each fields
                                 if header
@@ -71,16 +81,6 @@ template(name='model_doc_view')
                             unless header
                                 .item
                                     +Template.dynamic template=view_template 
-                    .four.wide.column                
-                        .ui.header actions 
-                        each actions
-                            .ui.header #{title} 
-                            +Template.dynamic template=slug
-                        each action_types
-                            .ui.header #{title}
-                            +Template.dynamic template=slug
-                        +comments
-                        //- div
             if watson
                 .row
                     .sixteen.wide.column

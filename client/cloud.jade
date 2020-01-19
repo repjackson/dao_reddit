@@ -29,13 +29,13 @@ template(name='cloud')
         //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
         // .ui.hidden.fitted.divider
     if selected_tags
-        #clear_tags.ui.active.icon.circular.button
+        #clear_tags.ui.active.icon.button
             i.remove.icon
         each selected_tags
-            .unselect_tag.ui.active.circular.button
+            .unselect_tag.ui.active.button
                 strong #{this}
     each all_tags
-        .ui.compact.circular.button.select_tag(class=cloud_tag_class) 
+        .ui.compact.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 

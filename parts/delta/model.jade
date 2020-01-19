@@ -2,16 +2,15 @@ template(name='model_edit')
     with current_doc
         .ui.stackable.padded.grid            
             .centered.row
-                .four.wide.column
+                .six.wide.column
                     .ui.header
                         small edit model
                         | #{title}
                     +creation_info
-                    .ui.basic.center.aligned.segment
-                        a.ui.large.icon.circular.button(href="/m/#{slug}")
-                            i.big.checkmark.icon
-                        #delete_model.ui.icon.circular.button
-                            i.trash.icon
+                    a.ui.large.icon.button(href="/m/#{slug}")
+                        i.big.checkmark.icon
+                    #delete_model.ui.icon.button
+                        i.trash.icon
                     .ui.form
                         +text_edit key='title' label='title' direct=true
                         +slug_edit key='slug' label='slug' direct=true
@@ -21,13 +20,14 @@ template(name='model_edit')
                         +text_edit key='collection' label='collection' direct=true
                         +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
                         +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
-                .twelve.wide.column
+                        +boolean_edit key='view_home' label='view on home grid' direct=true
+                .ten.wide.column
                     //- |#{model}
                     //- each fields
                     //-     +Template.dynamic template=edit_template 
                     //-     // .ui.header #{key} [#{field}] #{label}
                     .ui.inline.header fields
-                    .ui.icon.large.circular.button.add_field
+                    .ui.icon.large.button.add_field
                         i.plus.icon
                     .ui.styled.fluid.accordion
                         each fields
@@ -46,7 +46,7 @@ template(name='model_edit')
                             +delta_field_edit
 
                     .ui.inline.header actions
-                    .ui.icon.large.circular.button.add_action
+                    .ui.icon.large.button.add_action
                         i.plus.icon
                     .ui.styled.fluid.accordion
                         each actions

@@ -1,11 +1,4 @@
 Meteor.methods
-    pull_subreddits: ->
-        subs = Subreddits.find().fetch()
-        for sub in subs
-            # console.log 'pulling subreddit', sub.title
-            Meteor.call 'pull_subreddit', sub.title
-
-
     search_reddit: (query)->
         console.log 'searching reddit', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")

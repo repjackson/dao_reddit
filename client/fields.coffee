@@ -672,3 +672,62 @@ Template.range_edit.events
         console.log moment(@end_datetime).diff(moment(@start_datetime),'hours',true)
         Docs.update doc_id,
             $set:end_datetime:formatted
+
+
+
+
+
+Template.multi_user_edit.onCreated ->
+    @user_results = new ReactiveVar
+Template.multi_user_edit.helpers
+    user_results: -> Template.instance().user_results.get()
+Template.multi_user_edit.events
+    'click .clear_results': (e,t)->
+        t.user_results.set null
+    'keyup #multi_user_select_input': (e,t)->
+        search_value = $(e.currentTarget).closest('#multi_user_select_input').val().trim()
+        if e.which is 8
+            t.user_results.set null
+        else if search_value and search_value.length > 1
+            Meteor.call 'lookup_user', search_value, @role_filter, (err,res)=>
+                if err then console.error err
+                else
+                    t.user_results.set res
+    'click .select_user': (e,t) ->
+        page_doc = Docs.findOne Router.current().params.id
+        val = t.$('.edit_text').val()
+        field = Template.currentData()
+
+        if field.direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $addToSet:"#{field.key}":@username
+        else if user
+            Meteor.users.update parent._id,
+                $addToSet:"#{field.key}":@username
+
+
+        t.user_results.set null
+        $('#multi_user_select_input').val ''
+        # Docs.update page_doc._id,
+        #     $set: assignment_timestamp:Date.now()
+
+    'click .pull_user': ->
+        if confirm "remove #{@username}?"
+            page_doc = Docs.findOne Router.current().params.id
+            parent = Template.parentData(5)
+            doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
+            if doc
+                Docs.update parent._id,
+                    $pull:"#{@key}":@_id
+            else if user
+                Meteor.users.update parent._id,
+                    $pull:"#{@key}":@_id
+            # Meteor.call 'unassign_user', page_doc._id, @

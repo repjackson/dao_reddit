@@ -6,7 +6,7 @@ template(name='delta')
                     if is_loading
                         .ui.inline.header.pulsing
                             //- img(src='https://loading.io/spinners/hive/index.hexagon-grid-loader.gif')
-                            i.icon(class=icon)
+                            i.loading.ok,,icon(class=icon)
                             |loading #{title}
                     else
                         .ui.inline.header(title="#{description}, #{views} views")
@@ -72,11 +72,11 @@ template(name='delta')
                                     +set_limit amount=10
                                     +set_limit amount=20
                                     +set_limit amount=50
-                        //- .ui.inline.small.grey.header
-                        //-     |search
-                        //- .ui.small.input
-                        //-     input(type='text' val=search_value)
-                        //- |&nbsp;
+                        .ui.inline.small.grey.header
+                            |search
+                        .ui.small.input
+                            input(type='text' val=search_value)
+                        |&nbsp;
                         |&nbsp;
                         .ui.inline.small.grey.header view
                         .ui.compact.menu
@@ -171,7 +171,7 @@ template(name='facet')
         //- .ui.unstyled.accordion
         //-     .active.title
         if icon
-            i.icon(class=icon)
+            i.grey.icon(class=icon)
         .ui.grey.inline.header 
             if title
                 |#{title}
@@ -181,7 +181,7 @@ template(name='facet')
         //- .ui.icon.small.transparent.input
         //-     i.search.icon
         //-     input.add_filter(type='text')
-            .active.content
+            //- .active.content
                 //- div
         each filtering_res
             if name

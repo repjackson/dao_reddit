@@ -47,11 +47,11 @@ template(name='profile_layout')
                             .ui.fluid.button.clock_out
                                 i.sign.in.icon 
                                 |clock out
-                        a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.fluid.button(href="/user/#{user_from_username_param._id}/edit" title='profile settings')
                             i.cog.icon 
                             |edit
                     else if is_admin
-                        a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.fluid.button(href="/user/#{user_from_username_param._id}/edit" title='profile settings')
                             i.cog.icon 
                             |edit
                     if is_dev

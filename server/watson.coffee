@@ -39,6 +39,7 @@ Meteor.methods
         console.log key
         console.log mode
         doc = Docs.findOne doc_id
+        console.log 'value', doc["#{key}"]
         # if doc.skip_watson is true
         #     console.log 'skipping flagged doc', doc.title
         # else
@@ -59,17 +60,20 @@ Meteor.methods
                 categories: {}
                 emotion: {}
                 metadata: {}
-                relations: {}
-                semantic_roles: {}
+                # relations: {}
+                # semantic_roles: {}
                 sentiment: {}
 
         switch mode
             when 'html'
-                parameters.html = doc["#{key}"]
+                # parameters.html = doc["#{key}"]
+                parameters.html = doc.body
+
             when 'text'
                 parameters.text = doc["#{key}"]
             when 'url'
-                parameters.url = doc["#{key}"]
+                # parameters.url = doc["#{key}"]
+                parameters.url = doc.url
                 parameters.return_analyzed_text = true
                 parameters.clean = true
 
@@ -111,7 +115,7 @@ Meteor.methods
                             # else
                             Docs.update { _id: doc_id },
                                 $addToSet:
-                                    # "#{entity.type}":entity.text
+                                    "#{entity.type}":entity.text
                                     tags:entity.text.toLowerCase()
                 #
                 concept_array = _.pluck(response.concepts, 'text')
@@ -120,8 +124,8 @@ Meteor.methods
                     $set:
                 #         body:response.analyzed_text
                         watson: response
-                #         watson_concepts: lowered_concepts
-                #         watson_keywords: lowered_keywords
+                        watson_concepts: lowered_concepts
+                        watson_keywords: lowered_keywords
                         doc_sentiment_score: response.sentiment.document.score
                         doc_sentiment_label: response.sentiment.document.label
                 Docs.update { _id: doc_id },
@@ -131,6 +135,7 @@ Meteor.methods
                     $addToSet:
                         tags:$each:lowered_keywords
                 final_doc = Docs.findOne doc_id
+                console.log final_doc
                 if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
                     console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'

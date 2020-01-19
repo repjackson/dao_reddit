@@ -50,7 +50,7 @@ if Meteor.isClient
             Session.set 'loading', false
 
     Template.footer_chat.onCreated ->
-        @autorun -> Meteor.subscribe 'model_docs', 'footer_chat'
+        # @autorun -> Meteor.subscribe 'model_docs', 'footer_chat'
     Template.footer_chat.helpers
         chat_messages: ->
             Docs.find
@@ -77,7 +77,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'role_models'
         # @autorun -> Meteor.subscribe 'users_by_role','staff'
-        @autorun => Meteor.subscribe 'global_settings'
+        # @autorun => Meteor.subscribe 'global_settings'
 
         # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'unread_messages'

@@ -1,17 +1,139 @@
 template(name='reddit')
-    .ui.header reddit
-    .ui.left.icon.inverted.input
-        .label search reddit
-        i.search.icon
-        //- if selected_tags
-        //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
-        //- else
-        input#search(type='text' autofocus='' autocomplete="off")
-    each reddit_posts
-        .ui.segment 
-            .ui.header #{title}
-            .ui.list 
-                .item domain: #{domain}
-                .item permalink: #{permalink}
-                .item url: #{url}
-        //- .ui.header hi
+    .ui.stackable.padded.grid 
+        .row 
+            .six.wide.column
+                .ui.header reddit
+                .ui.left.icon.inverted.input
+                    i.search.icon
+                        //- if selected_tags
+                        //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
+                        //- else
+                    input#search(type='text' autofocus='' autocomplete="off")
+                +tag_cloud
+                .ui.header people
+                each people 
+                    .ui.label #{this.name}
+                .ui.header companies
+                each companies 
+                    .ui.label #{this.name}
+                .ui.header organizations
+                each organizations 
+                    .ui.label #{this.name}
+            .ten.wide.column
+                .filter_row.ui.basic.segment(class=loading_class)
+                    .ui.inline.small.header(title='change sort direction')
+                        |sort by
+                    .ui.compact.small.menu
+                        .ui.simple.dropdown.item
+                            strong #{current_delta.sort_key}
+                            i.dropdown.icon
+                            .menu
+                                each sortable_fields
+                                    .item.set_sort_key 
+                                        |#{title}
+                    .ui.compact.icon.button.set_sort_direction
+                        if sorting_up
+                            i.sort.amount.down.icon
+                        else
+                            i.sort.amount.up.icon
+                    //- .ui.compact.button.set_sort_direction
+                    //-     |#{current_delta.sort_direction}
+                    |&nbsp;
+                    |&nbsp;
+                    .ui.inline.small.header
+                        |limit
+                    .ui.compact.small.menu
+                        .ui.simple.dropdown.item
+                            strong #{current_delta.limit}
+                            i.dropdown.icon
+                            .menu
+                                +set_limit amount=1
+                                +set_limit amount=5
+                                +set_limit amount=10
+                                +set_limit amount=20
+                                +set_limit amount=50
+                    .ui.inline.small.header
+                        |search
+                    .ui.small.input
+                        input(type='text' val=search_value)
+                    |&nbsp;
+                    |&nbsp;
+                    .ui.inline.small.header view
+                    .ui.compact.menu
+                        .ui.simple.dropdown.item
+                            |#{current_delta.view_mode}
+                            i.dropdown.icon
+                            .menu
+                                +set_view_mode title='table' icon='table'
+                                +set_view_mode title='list' icon='list'
+                                +set_view_mode title='cards' icon='cards'
+                                +set_view_mode title='items' icon='list'
+                                +set_view_mode title='map' icon='map'
+                                +set_view_mode title='graph' icon='graph'
+                .largescroll
+                    each reddit_posts
+                        +reddit_post
+                    
+                    
+template(name='reddit_post')                    
+    .ui.segment 
+        if thumbnail
+            img(src=thumbnail)
+        .ui.header #{title}
+        .ui.small.header 
+            i.user.outline.icon 
+            |#{author}
+        .ui.list 
+            .item domain: #{domain}
+            .item permalink: #{permalink}
+        +call_watson mode='html' 
+        div
+        .ui.small.inline.header people
+        each Person 
+            .ui.label #{this}
+        div
+        .ui.small.inline.header companies
+        each Company 
+            .ui.label #{this}
+        div
+        .ui.small.inline.header organizations
+        each Organization 
+            .ui.label #{this}
+        div
+        .ui.small.inline.header locations
+        each Location 
+            .ui.label #{this}
+        div
+        .ui.small.inline.header print media
+        each PrintMedia 
+            .ui.label #{this}
+        div
+        |!{body}
+        |#{ups}
+        i.thumbs.up.outline.icon
+        |#{downs}
+        i.thumbs.up.outline.icon
+        a(href=url target='_window') #{url}
+        +call_watson mode='url' key='url'
+        if is_dev 
+            if watson 
+                +jsonView json=watson
+
+
+
+
+template(name='tag_cloud')
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    if selected_tags
+        #clear_tags.ui.active.icon.button
+            i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.active.button
+                strong #{this}
+    each all_tags
+        .ui.compact.button.select_tag(class=cloud_tag_class) 
+            strong #{this.name}
