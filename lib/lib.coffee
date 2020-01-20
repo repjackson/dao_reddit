@@ -4,6 +4,9 @@
 @People = new Meteor.Collection 'people'
 @Authors = new Meteor.Collection 'authors'
 @Companies = new Meteor.Collection 'companies'
+@Concepts = new Meteor.Collection 'concepts'
+@Keywords = new Meteor.Collection 'keywords'
+@Subreddits = new Meteor.Collection 'subreddits'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
 
 # @Question_tags = new Meteor.Collection 'question_tags'

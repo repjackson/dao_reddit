@@ -13,14 +13,11 @@ if Meteor.isClient
         Session.setDefault 'sort_direction', -1
 
     Template.reddit.helpers
-        people: ->
-            People.find()
-        companies: ->
-            Companies.find()
-
-        organizations: ->
-            Organizations.find()
-
+        people: -> People.find()
+        companies: -> Companies.find()
+        organizations: -> Organizations.find()
+        concepts: -> Concepts.find()
+        keywords: -> Keywords.find()
         reddit_posts: ->
             Docs.find {
                 model:'reddit'

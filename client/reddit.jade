@@ -10,13 +10,28 @@ template(name='reddit')
                         //- else
                     input#search(type='text' autofocus='' autocomplete="off")
                 +tag_cloud
-                .ui.header people
+                div
+                .ui.inline.header people
                 each people 
                     .ui.label #{this.name}
-                .ui.header companies
+                div
+                .ui.inline.header subreddit
+                each subreddit 
+                    .ui.label #{this.name}
+                div
+                .ui.inline.header companies
                 each companies 
                     .ui.label #{this.name}
-                .ui.header organizations
+                div
+                .ui.inline.header concepts
+                each watson_concepts 
+                    .ui.label #{this.name}
+                div
+                .ui.inline.header keywords
+                each watson_keywords
+                    .ui.label #{this.name}
+                div
+                .ui.inline.header organizations
                 each organizations 
                     .ui.label #{this.name}
             .ten.wide.column
