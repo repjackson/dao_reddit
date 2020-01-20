@@ -3,61 +3,44 @@ if Meteor.isClient
     @selected_organizations = new ReactiveArray []
     @selected_people = new ReactiveArray []
     @selected_authors = new ReactiveArray []
+    @selected_concepts = new ReactiveArray []
+    @selected_keywords = new ReactiveArray []
     @selected_subreddits = new ReactiveArray []
     @selected_companies = new ReactiveArray []
     @selected_timestamp_tags = new ReactiveArray []
+    @selected_locations = new ReactiveArray []
 
     Template.tag_cloud.onCreated ->
-        @autorun -> Meteor.subscribe(
-            'reddit_facets',
-            selected_tags.array(),
-            selected_organizations.array()
-            selected_people.array()
-            selected_subreddits.array()
-            selected_companies.array()
-            selected_authors.array()
-            selected_timestamp_tags.array()
-            Session.get('tag_limit')
-            Session.get('doc_limit')
-            Session.get('view_nsfw')
-            Session.get('sort_key')
-            Session.get('sort_nsfw')
-
-            # Template.currentData().limit
-        )
 
     Template.tag_cloud.helpers
-        all_tags: ->
+        tags: ->
             doc_count = Docs.find().count()
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
-        tag_cloud_class: ->
-            button_class = switch
-                when @index <= 10 then 'big'
-                when @index <= 20 then 'large'
-                when @index <= 30 then ''
-                when @index <= 40 then 'small'
-                when @index <= 50 then 'tiny'
-            return button_class
+        # tag_cloud_class: ->
+        #     button_class = switch
+        #         when @index <= 10 then 'big'
+        #         when @index <= 20 then 'large'
+        #         when @index <= 30 then ''
+        #         when @index <= 40 then 'small'
+        #         when @index <= 50 then 'tiny'
+        #     return button_class
 
-        settings: -> {
-            position: 'bottom'
-            limit: 10
-            rules: [
-                {
-                    collection: Tags
-                    field: 'name'
-                    matchAll: true
-                    template: Template.tag_result
-                }
-            ]
-        }
+        # settings: -> {
+        #     position: 'bottom'
+        #     limit: 10
+        #     rules: [
+        #         {
+        #             collection: Tags
+        #             field: 'name'
+        #             matchAll: true
+        #             template: Template.tag_result
+        #         }
+        #     ]
+        # }
 
 
-        selected_tags: ->
-            # model = 'event'
-            # console.log "selected_#{model}_tags"
-            selected_tags.array()
+        selected_tags: -> selected_tags.array()
 
 
     Template.tag_cloud.events

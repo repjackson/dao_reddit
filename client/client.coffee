@@ -1,10 +1,11 @@
 @selected_tags = new ReactiveArray []
-@selected_question_tags = new ReactiveArray []
-@selected_post_tags = new ReactiveArray []
-@selected_test_tags = new ReactiveArray []
-@selected_course_tags = new ReactiveArray []
-@selected_event_tags = new ReactiveArray []
-@selected_rental_tags = new ReactiveArray []
+@selected_people = new ReactiveArray []
+@selected_companies = new ReactiveArray []
+@selected_subreddits = new ReactiveArray []
+@selected_authors = new ReactiveArray []
+@selected_keywords = new ReactiveArray []
+@selected_concepts = new ReactiveArray []
+@selected_locations = new ReactiveArray []
 
 
 Tracker.autorun ->
@@ -12,29 +13,6 @@ Tracker.autorun ->
     Tracker.afterFlush ->
         $(window).scrollTop 0
 
-
-
-
-# Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
-# $(document).ready ()=>
-#     $(@).mousemove((e)->
-#         $("#light").css
-#             "top": e.pageY - 250
-#             "left": e.pageX - 250
-#     ).mousedown (e)->
-#         switch (e.which)
-#             when 1
-#                 $("#light").toggleClass("light-off");
-#                 console.log('left Mouse button pressed.');
-#                 break;
-#             when 2
-#                 console.log('Middle Mouse button pressed.');
-#                 break;
-#             when 3
-#                 console.log('Right Mouse button pressed.');
-#                 break;
-#             else
-#                 console.log('You have a strange Mouse!');
 
 
 
@@ -57,22 +35,10 @@ Template.body.events
 
 
 Session.setDefault 'invert', false
-Template.registerHelper 'loading_checkin', () -> Session.get 'loading_checkin'
 Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
     # Template.parentData()
-Template.registerHelper 'product', () ->
-    Docs.findOne @product_id
-    # Template.parentData()
-Template.registerHelper 'gs', () ->
-    Docs.findOne
-        model:'global_stats'
-Template.registerHelper 'is_odd', -> @number % 2 isnt 0
-
-
-Template.registerHelper 'question', () ->
-    Docs.findOne @question_id
 
 Template.registerHelper 'display_mode', -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', -> Session.get 'loading'
@@ -96,15 +62,6 @@ Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
 Template.registerHelper 'last_initial', (user) ->
     @last_name[0]+'.'
 
-Template.registerHelper 'csd', () ->
-    if Router.current().params.doc_id
-        Docs.findOne
-            model:'classroom_stats'
-            classroom_id:Router.current().params.doc_id
-    else
-        Docs.findOne
-            model:'classroom_stats'
-            classroom_id:@_id
 
 Template.registerHelper 'first_letter', (user) ->
     @first_name[..0]+'.'
@@ -261,55 +218,7 @@ Template.registerHelper 'is_dev', () ->
         if 'dev' in Meteor.user().roles then true else false
 
 
-# Template.registerHelper 'is_handler', () ->
-#     if Meteor.user() and Meteor.user().roles
-#         if 'handler' in Meteor.user().roles then true else false
-Template.registerHelper 'is_student', () ->
-    if Meteor.user() and Meteor.user().roles
-        if 'student' in Meteor.user().roles then true else false
 
-Template.registerHelper 'is_student', () ->
-    if Meteor.user() and Meteor.user().roles
-        if 'student' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_student', () ->
-    if Meteor.user() and Meteor.user().roles
-        if 'student' in Meteor.user().current_roles then true else false
-
-Template.registerHelper 'is_student_or_user', () ->
-    if Meteor.user() and Meteor.user().roles
-        # console.log _.intersection(Meteor.user().roles, ['student','user']).length
-        if _.intersection(Meteor.user().roles, ['student','user']).length then true else false
-
-Template.registerHelper 'is_staff_or_manager', () ->
-    if Meteor.user() and Meteor.user().roles
-        # console.log _.intersection(Meteor.user().roles, ['student','user']).length
-        if _.intersection(Meteor.user().roles, ['manager','staff']).length then true else false
-
-
-Template.registerHelper 'part_is_article', () -> @part_type is 'article'
-Template.registerHelper 'part_is_question', () -> @part_type is 'question'
-Template.registerHelper 'part_is_image', () -> @part_type is 'image'
-Template.registerHelper 'part_is_video', () -> @part_type is 'video'
-Template.registerHelper 'part_is_html', () -> @part_type is 'html'
-Template.registerHelper 'part_is_math', () -> @part_type is 'math'
-Template.registerHelper 'part_is_text', () -> @part_type is 'text'
-Template.registerHelper 'part_is_textarea', () -> @part_type is 'textarea'
-
-Template.registerHelper 'section_parts', () ->
-    Docs.find
-        model:'part'
-        section_id: @_id
-
-
-
-
-Template.registerHelper 'user_is_student', () -> if @roles and 'student' in @roles then true else false
-Template.registerHelper 'user_is_teacher', () -> if @roles and 'teacher' in @roles then true else false
-Template.registerHelper 'user_is_staff', () -> if @roles and 'staff' in @roles then true else false
-Template.registerHelper 'user_is_admin', () -> if @roles and 'admin' in @roles then true else false
-Template.registerHelper 'user_is_student', () -> if @roles and 'student' in @roles then true else false
-Template.registerHelper 'user_is_handler', () -> if @roles and 'handler' in @roles then true else false
-Template.registerHelper 'user_is_student_or_teacher', () -> if @roles and _.intersection(@roles,['student','teacher']) then true else false
 
 Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['K77p8B9jpXbTz6nfD'] then true else false
 

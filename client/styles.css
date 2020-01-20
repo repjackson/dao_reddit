@@ -87,7 +87,7 @@ body {
 	overflow-x:hidden;
 	max-height:700px;
 	/*max-height:85vh;*/
-	padding-top: 1em;
+	padding-top: .2em;
 	/*padding-left: 1em;*/
 }
 
@@ -564,9 +564,6 @@ input.parent_code{
     padding:40px!important;
 } */
 
-.button.kiosk_facet_button {
-    margin:2px !important;
-}
 
 .button:not(.circular) {
     border-radius: 5px !important;
@@ -574,7 +571,7 @@ input.parent_code{
 .button:not(.raw) {
     /* background-color: rgba(200, 200, 200, 0.5) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
-    margin:3px !important;
+    margin:1px !important;
     font-weight: bold !important;
     /* font-size: 110% !important; */
     /* background-color: rgba(225,225,225,.6) !important; */
@@ -1071,7 +1068,7 @@ h1.ui.header{
     width: 2px;
 }
 .largescroll::-webkit-scrollbar {
-    width: 2px;
+    width: 1px;
 }
 .mediumscroll::-webkit-scrollbar {
     /* display: none; */

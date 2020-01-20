@@ -7,6 +7,7 @@
 @Concepts = new Meteor.Collection 'concepts'
 @Keywords = new Meteor.Collection 'keywords'
 @Subreddits = new Meteor.Collection 'subreddits'
+@Locations = new Meteor.Collection 'locations'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
 
 # @Question_tags = new Meteor.Collection 'question_tags'
@@ -50,16 +51,16 @@ Docs.before.insert (userId, doc)->
     return
 
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.cloudinary_key
-        api_secret: Meteor.settings.cloudinary_secret
+# if Meteor.isClient
+#     # console.log $
+#     $.cloudinary.config
+#         cloud_name:"facet"
+#
+# if Meteor.isServer
+#     Cloudinary.config
+#         cloud_name: 'facet'
+#         api_key: Meteor.settings.cloudinary_key
+#         api_secret: Meteor.settings.cloudinary_secret
 
 
 # Docs.after.insert (userId, doc)->

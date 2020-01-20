@@ -49,20 +49,20 @@ Meteor.methods
                 limit:20
             features:
                 entities:
-                    emotion: true
-                    sentiment: true
+                    emotion: false
+                    sentiment: false
                     # limit: 2
                 keywords:
-                    emotion: true
-                    sentiment: true
+                    emotion: false
+                    sentiment: false
                     # limit: 2
                 concepts: {}
                 categories: {}
-                emotion: {}
+                # emotion: {}
                 metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                sentiment: {}
+                # sentiment: {}
 
         switch mode
             when 'html'
@@ -126,8 +126,8 @@ Meteor.methods
                         watson: response
                         watson_concepts: lowered_concepts
                         watson_keywords: lowered_keywords
-                        doc_sentiment_score: response.sentiment.document.score
-                        doc_sentiment_label: response.sentiment.document.label
+                        # doc_sentiment_score: response.sentiment.document.score
+                        # doc_sentiment_label: response.sentiment.document.label
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:lowered_concepts
