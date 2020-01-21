@@ -8,6 +8,7 @@
 @Keywords = new Meteor.Collection 'keywords'
 @Subreddits = new Meteor.Collection 'subreddits'
 @Locations = new Meteor.Collection 'locations'
+@Categories = new Meteor.Collection 'categories'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
 
 # @Question_tags = new Meteor.Collection 'question_tags'

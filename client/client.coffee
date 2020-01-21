@@ -6,7 +6,12 @@
 @selected_keywords = new ReactiveArray []
 @selected_concepts = new ReactiveArray []
 @selected_locations = new ReactiveArray []
+@selected_categories = new ReactiveArray []
+@selected_organizations = new ReactiveArray []
+@selected_timestamp_tags = new ReactiveArray []
 
+
+@current_queries = new ReactiveArray []
 
 Tracker.autorun ->
     current = Router.current()
@@ -98,10 +103,6 @@ Template.registerHelper 'user_from_username_param', () ->
 
 
 
-Template.registerHelper 'course', () ->
-    Docs.findOne
-        _id:@course_id
-
 # Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
 Template.registerHelper 'target_user', () -> Meteor.users.findOne @user_id
 Template.registerHelper 'is_text', () ->
@@ -167,50 +168,6 @@ Template.registerHelper 'in_list', (key) ->
     if Meteor.userId()
         if Meteor.userId() in @["#{key}"] then true else false
 
-
-# Template.registerHelper 'is_admin', () ->
-#     Meteor.user() and Meteor.user().admin
-
-Template.registerHelper 'is_current_admin', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
-        if 'admin' in Meteor.user().current_roles then true else false
-Template.registerHelper 'is_admin', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
-        if 'admin' in Meteor.user().roles then true else false
-
-
-
-
-Template.registerHelper 'is_current_staff', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'staff' in Meteor.user().current_roles then true else false
-Template.registerHelper 'is_staff', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'staff' in Meteor.user().roles then true else false
-
-
-
-Template.registerHelper 'is_teacher', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'teacher' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_teacher', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'teacher' in Meteor.user().current_roles then true else false
-
-Template.registerHelper 'is_student', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'student' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_student', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'student' in Meteor.user().current_roles then true else false
 
 
 Template.registerHelper 'is_dev', () ->
@@ -323,106 +280,3 @@ Template.registerHelper 'calculated_size', (metric) ->
     else if whole is 10 then 'f10'
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
-
-
-
-
-
-Template.registerHelper 'small_bricks', () ->
-    # console.log @model
-    if @model
-        model = Docs.findOne
-            type:'model'
-            slug:@model
-    else if @roles
-        model = Docs.findOne
-            type:'model'
-            slug:$in:@roles
-        # tribe:'dao'
-    # if @model in ['field', 'brick','model','tribe','page','block']
-    # else
-    #     if Router.current().params.username
-    #         model = Docs.findOne
-    #             type:'model'
-    #             user_model:true
-    #             slug:@model
-    #     else
-    #         model = Docs.findOne
-    #             type:'model'
-    #             slug:@model
-    #             tribe:Router.current().params.tribe_slug
-
-    Docs.find {
-        type:'brick'
-        field:$in:['text','single_doc','multi_doc','boolean','color_icon','number',]
-        parent_id:model._id
-        # view_roles: $in:Meteor.user().roles
-    }, sort:rank:1
-
-
-Template.registerHelper 'big_bricks', () ->
-    # console.log @model
-    # if @model in ['field', 'brick','model','tribe','page','block']
-    if @model
-        model = Docs.findOne
-            type:'model'
-            slug:@model
-    else if @roles
-        model = Docs.findOne
-            type:'model'
-            slug:$in:@roles
-    Docs.find {
-        type:'brick'
-        parent_id:model._id
-        field:$nin:['text','single_doc','multi_doc','boolean','color_icon','number']
-        # view_roles: $in:Meteor.user().roles
-    }, sort:rank:1
-
-#
-# Template.registerHelper 'children', ->
-#     Docs.find
-#         parent_id:@_id
-#         # view_roles:$in:Meteor.user().roles
-
-
-
-
-
-Template.registerHelper 'bricks', () ->
-    # console.log @model
-    if @model
-        model = Docs.findOne
-            type:'model'
-            slug:@model
-    else if @roles
-        model = Docs.findOne
-            type:'model'
-            slug:$in:@roles
-    # else
-    #     # console.log 'looking for', @model
-    #     if Router.current().params.username
-    #         model = Docs.findOne
-    #             type:'model'
-    #             user_model:true
-    #             slug:@model
-    #     else
-    #         model = Docs.findOne
-    #             type:'model'
-    #             slug:@model
-    #             tribe:Router.current().params.tribe_slug
-    #     # console.log @model, model
-
-    Docs.find {
-        type:'brick'
-        parent_id:model._id
-        # view_roles: $in:Meteor.user().roles
-        # field:$nin:['text','single_doc','multi_doc','boolean']
-    }, sort:rank:1
-    # if 'dev' in Meteor.user().roles
-    # else
-    #     Docs.find {
-    #         type:'brick'
-    #         parent_id:model._id
-    #         view_roles: $in:Meteor.user().roles
-    #         # field:$nin:['text','single_doc','multi_doc','boolean']
-    #     }, sort:rank:1

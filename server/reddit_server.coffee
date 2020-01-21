@@ -139,7 +139,7 @@ Meteor.publish 'reddit_facets', (
     selected_people
     selected_subreddits
     selected_companies
-    selected_authors
+    selected_categories
     selected_keywords
     selected_concepts
     selected_locations
@@ -176,7 +176,7 @@ Meteor.publish 'reddit_facets', (
         if selected_companies.length > 0 then match.Company = $all: selected_companies
         if selected_concepts.length > 0 then match.watson_concepts = $all: selected_concepts
         if selected_keywords.length > 0 then match.watson_keywords = $all: selected_keywords
-        if selected_authors.length > 0 then match.author = $all: selected_authors
+        if selected_categories.length > 0 then match.categories = $all: selected_categories
         if selected_locations.length > 0 then match.Location = $all: selected_locations
 
         # if selected_author_ids.length > 0
@@ -245,7 +245,7 @@ Meteor.publish 'reddit_facets', (
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 100 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         # console.log 'theme_tag_cloud, ',_tag_cloud
@@ -256,6 +256,23 @@ Meteor.publish 'reddit_facets', (
                 index: i
 
         #
+
+        category_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: categories: 1 }
+            { $unwind: "$categories" }
+            { $group: _id: '$categories', count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: tag_limit }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        # console.log 'cloud, ', cloud
+        category_cloud.forEach (category, i) ->
+            self.added 'categories', Random.id(),
+                name: category.name
+                count: category.count
+                index: i
 
         keyword_cloud = Docs.aggregate [
             { $match: match }
@@ -309,22 +326,22 @@ Meteor.publish 'reddit_facets', (
                 count: concept.count
                 index: i
 
-        location_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: Location: 1 }
-            { $unwind: "$Location" }
-            { $group: _id: '$Location', count: $sum: 1 }
-            { $match: _id: $nin: selected_locations }
-            { $sort: count: -1, _id: 1 }
-            { $limit: tag_limit }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        # console.log 'cloud, ', cloud
-        location_cloud.forEach (location, i) ->
-            self.added 'locations', Random.id(),
-                name: location.name
-                count: location.count
-                index: i
+        # location_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: Location: 1 }
+        #     { $unwind: "$Location" }
+        #     { $group: _id: '$Location', count: $sum: 1 }
+        #     { $match: _id: $nin: selected_locations }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $limit: tag_limit }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        #     ]
+        # # console.log 'cloud, ', cloud
+        # location_cloud.forEach (location, i) ->
+        #     self.added 'locations', Random.id(),
+        #         name: location.name
+        #         count: location.count
+        #         index: i
 
         timestamp_tags_cloud = Docs.aggregate [
             { $match: match }
@@ -467,7 +484,7 @@ Meteor.publish 'reddit_facets', (
 
         # doc_results = []
         int_doc_limit = parseInt doc_limit
-        subHandle = Docs.find(match, {limit:5, sort: _timestamp:-1}).observeChanges(
+        subHandle = Docs.find(match, {limit:5, sort: {_timestamp:-1,ups:-1}}).observeChanges(
             added: (id, fields) ->
                 # console.log 'added doc', id, fields
                 # doc_results.push id

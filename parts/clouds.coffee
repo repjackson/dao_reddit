@@ -1,15 +1,4 @@
 if Meteor.isClient
-    @selected_tags = new ReactiveArray []
-    @selected_organizations = new ReactiveArray []
-    @selected_people = new ReactiveArray []
-    @selected_authors = new ReactiveArray []
-    @selected_concepts = new ReactiveArray []
-    @selected_keywords = new ReactiveArray []
-    @selected_subreddits = new ReactiveArray []
-    @selected_companies = new ReactiveArray []
-    @selected_timestamp_tags = new ReactiveArray []
-    @selected_locations = new ReactiveArray []
-
     Template.tag_cloud.onCreated ->
 
     Template.tag_cloud.helpers

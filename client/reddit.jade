@@ -1,7 +1,7 @@
 template(name='reddit')
     .ui.stackable.grid 
         .row 
-            .six.wide.right.aligned.column
+            .eeight.wide.right.aligned.column
                 .ui.left.icon.inverted.fluid.input
                     i.search.icon
                         //- if selected_tags
@@ -9,13 +9,32 @@ template(name='reddit')
                         //- else
                     input#search(type='text' autofocus='' autocomplete="off")
                 .largescroll
-                    //- +tag_cloud
+                    //- .ui.icon.button
+                    //-     i.marker.icon
+                    //- .ui.icon.button
+                    //-     i.reddit.icon
+                    //- .ui.icon.button
+                    //-     i.users.icon
+                    //- .ui.icon.button
+                    //-     i.building.icon
+                    +tag_cloud
                     div
                     //- .ui.inline.grey.header people
+                    i.cubes.large.icon(title='categories')
+                    if selected_categories
+                        //- #clear_categories.ui.active.icon.compact.basic.button
+                        //-     i.remove.icon
+                        each selected_categories
+                            .unselect_category.ui.active.compact.basic.button
+                                strong #{this}
+                    each categories
+                        .ui.compact.basic.button.select_category(class=cloud_tag_class) 
+                            strong #{this.name}
+                    div
                     i.user.outline.large.icon(title='people')
                     if selected_people
-                        #clear_people.ui.active.icon.compact.basic.button
-                            i.remove.icon
+                        //- #clear_people.ui.active.icon.compact.basic.button
+                        //-     i.remove.icon
                         each selected_people
                             .unselect_person.ui.active.compact.basic.button
                                 strong #{this}
@@ -24,22 +43,22 @@ template(name='reddit')
                             strong #{this.name}
                     div
                     //- .ui.inline.grey.header subreddits
-                    i.reddit.grey.large.icon(title='subreddit')
-                    if selected_subreddits
-                        #clear_subreddits.ui.active.icon.compact.basic.button
-                            i.remove.icon
-                        each selected_subreddits
-                            .unselect_subreddit.ui.active.compact.basic.button
-                                strong #{this}
-                    each subreddits
-                        .ui.compact.basic.button.select_subreddit(class=cloud_tag_class) 
-                            strong #{this.name}
-                    div
+                    //- i.reddit.grey.large.icon(title='subreddit')
+                    //- if selected_subreddits
+                    //-     //- #clear_subreddits.ui.active.icon.compact.basic.button
+                    //-     //-     i.remove.icon
+                    //-     each selected_subreddits
+                    //-         .unselect_subreddit.ui.active.compact.basic.button
+                    //-             strong #{this}
+                    //- each subreddits
+                    //-     .ui.compact.basic.button.select_subreddit(class=cloud_tag_class) 
+                    //-         strong #{this.name}
+                    //- div
                     //- .ui.inline.grey.header companies
                     i.building.grey.icon(title='companies')
                     if selected_companies
-                        #clear_companies.ui.active.icon.compact.basic.button
-                            i.remove.icon
+                        //- #clear_companies.ui.active.icon.compact.basic.button
+                        //-     i.remove.icon
                         each selected_companies
                             .unselect_company.ui.active.compact.basic.button
                                 strong #{this}
@@ -50,8 +69,8 @@ template(name='reddit')
                     //- .ui.inline.grey.header authors
                     //- //- i.pencil.icon(title='authors')
                     //- if selected_authors
-                    //-     #clear_authors.ui.active.icon.compact.basic.button
-                    //-         i.remove.icon
+                        #clear_authors.ui.active.icon.compact.basic.button
+                            i.remove.icon
                     //-     each selected_authors
                     //-         .unselect_author.ui.active.compact.basic.button
                     //-             strong #{this}
@@ -61,9 +80,9 @@ template(name='reddit')
                     //- div
                     //- .ui.inline.grey.header concepts
                     i.cubes.icon(title='concepts')
-                    if selected_concepts
-                        #clear_concepts.ui.active.icon.compact.basic.button
-                            i.remove.icon
+                    if selected_concepts.length
+                        //- #clear_concepts.ui.active.icon.compact.basic.button
+                        //-     i.remove.icon
                         each selected_concepts
                             .unselect_concept.ui.active.compact.basic.button
                                 strong #{this}
@@ -74,8 +93,8 @@ template(name='reddit')
                     //- .ui.inline.grey.header keywords
                     i.tags.icon(title='keywords')
                     if selected_keywords
-                        #clear_keywords.ui.active.icon.compact.basic.button
-                            i.remove.icon
+                        //- #clear_keywords.ui.active.icon.compact.basic.button
+                        //-     i.remove.icon
                         each selected_keywords
                             .unselect_keyword.ui.active.compact.basic.button
                                 strong #{this}
@@ -83,10 +102,12 @@ template(name='reddit')
                         .ui.compact.basic.button.select_keyword(class=cloud_tag_class) 
                             strong #{this.name}
                     div
-                    .ui.inline.grey.header locations
+                    //- .ui.inline.grey.header locations
+                    i.marker.icon(title='location')
+                    
                     if selected_locations
-                        #clear_locations.ui.active.icon.compact.basic.button
-                            i.remove.icon
+                        //- #clear_locations.ui.active.icon.compact.basic.button
+                        //-     i.remove.icon
                         each selected_locations
                             .unselect_location.ui.active.compact.basic.button
                                 strong #{this}
@@ -96,15 +117,15 @@ template(name='reddit')
                     div
                     i.users.icon(title='organizations')
                     if selected_organizations
-                        #clear_organizations.ui.active.icon.compact.basic.button
-                            i.remove.icon
+                        //- #clear_organizations.ui.active.icon.compact.basic.button
+                        //-     i.remove.icon
                         each selected_organizations
                             .unselect_organization.ui.active.compact.basic.button
                                 strong #{this}
                     each organizations
                         .ui.compact.basic.button.select_organization(class=cloud_tag_class) 
                             strong #{this.name}
-            .ten.wide.column
+            .eight.wide.column
                 //- .filter_row.ui.segment(class=loading_class)
                 //-     .ui.inline.header(title='change sort direction')
                 //-         |sort by
@@ -161,53 +182,85 @@ template(name='reddit')
                     
                     
 template(name='reddit_post')                    
-    if thumbnail
-        img(src=thumbnail)
-    .ui.inline.header #{title}
+    //- if thumbnail
+    //-     img(src=thumbnail)
+    div
+    a.ui.header(href=url target="_window") #{title}
+    div
     //- .ui.header 
     //-     i.user.outline.icon 
     //-     |#{author}
-    .ui.list 
-        .item domain: #{domain}
-        .item permalink: #{permalink}
-    +call_watson mode='html' 
-    div
-    .ui.inline.header people
-    each Person 
-        .ui.label #{this}
-    div
+    //- .ui.list 
+    //-     .item domain: #{domain}
+    //-     .item permalink: #{permalink}
+    if categories
+        i.cubes.icon(title='categories')
+        each categories
+            .ui.label #{this}    
+    if Person 
+        //- .ui.inline.header people
+        i.users.icon
+        each Person 
+            .ui.label #{this}
     if Company
-        .ui.inline.header companies
+        i.briefcase.icon(title='company')
+        //- .ui.inline.header companies
         each Company 
             .ui.label #{this}
-    div
-    .ui.inline.header organizations
-    each Organization 
-        .ui.label #{this}
-    div
-    .ui.inline.header locations
-    each Location 
-        .ui.label #{this}
-    div
+    if TelevisionShow
+        i.video.icon(title='television show')
+        //- .ui.inline.header companies
+        each TelevisionShow 
+            .ui.label #{this}
+    if Broadcaster
+        i.video.icon(title='broadcaster')
+        //- .ui.inline.header companies
+        each Broadcaster 
+            .ui.label #{this}
+    if Facility
+        i.building.icon(title='facility')
+        //- .ui.inline.header companies
+        each Facility 
+            .ui.label #{this}
+    if HealthCondition
+        i.heartbeat.icon(title='health condition')
+        //- .ui.inline.header companies
+        each HealthCondition 
+            .ui.label #{this}
+    //- .ui.inline.header organizations
+    if Organization
+        i.users.icon
+        each Organization 
+            .ui.label #{this}
+    if Award
+        i.trophy.icon
+        each Award 
+            .ui.label #{this}
+    if Location
+        i.marker.icon
+        //- .ui.inline.header locations
+        each Location 
+            .ui.label #{this}
     if PrintMedia
-        .ui.inline.header print media
+        i.newspaper.icon(title='print media')
         each PrintMedia 
             .ui.label #{this}
-        div
-    |!{body}
-    |#{ups}
-    i.thumbs.up.outline.icon
-    |#{downs}
-    i.thumbs.up.outline.icon
-    a(href=url target='_window') #{url}
-    i.circular.code.link.icon.print_this
-    .ui.label 
-        |subreddit #{subreddit}
-    +call_watson mode='url' key='url'
-    if is_dev 
-        if watson 
-            +jsonView json=watson
-    .ui.divider
+    //- |!{body}
+    //- |#{ups}
+    //- i.thumbs.up.outline.icon
+    //- |#{downs}
+    //- i.thumbs.up.outline.icon
+    //- a(href=url target='_window') #{url}
+    if in_dev
+        i.circular.code.link.icon.print_this
+        +call_watson mode='html'
+    i.reddit.icon(title='subreddit')
+    |#{subreddit}
+    //- +call_watson mode='url' key='url'
+    //- if in_dev 
+    //-     if watson 
+    //-         +jsonView json=watson
+    .ui.hidden.divider
 
 
 
@@ -218,11 +271,11 @@ template(name='tag_cloud')
         //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
         // .ui.hidden.fitted.divider
     if selected_tags
-        #clear_tags.ui.active.icon.compact.basic.button
-            i.remove.icon
+        //- #clear_tags.ui.active.icon.compact.basic.button
+        //-     i.remove.icon
         each selected_tags
             .unselect_tag.ui.active.compact.basic.button
                 strong #{this}
-    each tags
-        .ui.compact.basic.button.select_tag(class=cloud_tag_class) 
-            strong #{this.name}
+    //- each tags
+    //-     .ui.compact.basic.button.select_tag(class=cloud_tag_class) 
+    //-         strong #{this.name}

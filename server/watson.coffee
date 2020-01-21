@@ -12,23 +12,23 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 
 
 Meteor.methods
-    call_wiki: (query)->
-        console.log 'calling wiki', query
-        term = query.split(' ').join('_')
-        found_doc =
-            Docs.findOne
-                url: "https://en.wikipedia.org/wiki/#{term}"
-        if found_doc
-            console.log 'found wiki doc for term', term, found_doc
-            Docs.update found_doc._id,
-                $addToSet:tags:'wikipedia'
-            Meteor.call 'call_watson', found_doc._id, 'url','url', ->
-        else
-            new_wiki_id = Docs.insert
-                title: "wikipedia: #{query}"
-                tags:['wikipedia', query]
-                url:"https://en.wikipedia.org/wiki/#{term}"
-            Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
+    # call_wiki: (query)->
+    #     console.log 'calling wiki', query
+    #     term = query.split(' ').join('_')
+    #     found_doc =
+    #         Docs.findOne
+    #             url: "https://en.wikipedia.org/wiki/#{term}"
+    #     if found_doc
+    #         console.log 'found wiki doc for term', term, found_doc
+    #         Docs.update found_doc._id,
+    #             $addToSet:tags:'wikipedia'
+    #         Meteor.call 'call_watson', found_doc._id, 'url','url', ->
+    #     else
+    #         new_wiki_id = Docs.insert
+    #             title: "wikipedia: #{query}"
+    #             tags:['wikipedia', query]
+    #             url:"https://en.wikipedia.org/wiki/#{term}"
+    #         Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
 
 
 
@@ -101,8 +101,11 @@ Meteor.methods
                     for category in response.categories
                         console.log category.label.split('/')[1..]
                         console.log category.label.split('/')
-                        for tag in category.label.split('/')
-                            if tag.length > 0 then adding_tags.push tag
+                        for category in category.label.split('/')
+                            if category.length > 0
+                                adding_tags.push category
+                                Docs.update doc_id,
+                                    $addToSet: categories: category
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:adding_tags
@@ -135,7 +138,7 @@ Meteor.methods
                     $addToSet:
                         tags:$each:lowered_keywords
                 final_doc = Docs.findOne doc_id
-                console.log final_doc
+                # console.log final_doc
                 if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
                     console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
