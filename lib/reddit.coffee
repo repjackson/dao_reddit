@@ -56,14 +56,14 @@ if Meteor.isClient
     Template.reddit.helpers
         sorting_up: ->
             Session.equals('sort_direction', -1)
-        people: -> People.find({},limit:20)
-        authors: -> Authors.find({},limit:20)
-        companies: -> Companies.find({},limit:20)
-        subreddits: -> Subreddits.find({},limit:20)
-        organizations: -> Organizations.find({},limit:20)
-        concepts: -> Concepts.find({},limit:20)
-        keywords: -> Keywords.find({},limit:20)
-        locations: -> Locations.find({},limit:20)
+        # people: -> People.find({},limit:42)
+        # authors: -> Authors.find({},limit:42)
+        # companies: -> Companies.find({},limit:42)
+        # subreddits: -> Subreddits.find({},limit:42)
+        # organizations: -> Organizations.find({},limit:42)
+        # concepts: -> Concepts.find({},limit:42)
+        # keywords: -> Keywords.find({},limit:42)
+        # locations: -> Locations.find({},limit:42)
         reddit_posts: ->
             Docs.find {
                 model:'reddit'
@@ -77,7 +77,7 @@ if Meteor.isClient
         view_organizations: -> 'Organization' in selected_facets.array()
         view_keywords: -> 'keywords' in selected_facets.array()
         view_concepts: -> 'concepts' in selected_facets.array()
-        view_authors: -> 'author' in selected_facets.array()
+        view_authors: -> 'authors' in selected_facets.array()
 
 
 
@@ -139,69 +139,61 @@ if Meteor.isClient
 
         people: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then People.find { count: $lt: doc_count } else People.find({},limit:20)
+            if 0 < doc_count < 3 then People.find { count: $lt: doc_count } else People.find({},limit:42)
         selected_people: -> selected_people.array()
 
         subreddits: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Subreddits.find { count: $lt: doc_count } else Subreddits.find({},limit:20)
+            if 0 < doc_count < 3 then Subreddits.find { count: $lt: doc_count } else Subreddits.find({},limit:42)
         selected_subreddits: -> selected_subreddits.array()
 
         companies: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Companies.find { count: $lt: doc_count } else Companies.find({},limit:20)
+            if 0 < doc_count < 3 then Companies.find { count: $lt: doc_count } else Companies.find({},limit:42)
         selected_companies: -> selected_companies.array()
 
         concepts: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Concepts.find { count: $lt: doc_count } else Concepts.find({},limit:20)
+            if 0 < doc_count < 3 then Concepts.find { count: $lt: doc_count } else Concepts.find({},limit:42)
         selected_concepts: -> selected_concepts.array()
 
         keywords: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Keywords.find { count: $lt: doc_count } else Keywords.find({},limit:20)
+            if 0 < doc_count < 3 then Keywords.find { count: $lt: doc_count } else Keywords.find({},limit:42)
         selected_keywords: -> selected_keywords.array()
 
         authors: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find({},limit:20)
+            if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find({},limit:42)
         selected_authors: -> selected_authors.array()
 
         locations: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Locations.find { count: $lt: doc_count } else Locations.find({},limit:20)
+            if 0 < doc_count < 3 then Locations.find { count: $lt: doc_count } else Locations.find({},limit:42)
         selected_locations: -> selected_locations.array()
 
         organizations: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Organizations.find { count: $lt: doc_count } else Organizations.find({},limit:20)
+            if 0 < doc_count < 3 then Organizations.find { count: $lt: doc_count } else Organizations.find({},limit:42)
         selected_organizations: -> selected_organizations.array()
 
         categories: ->
             doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Categories.find { count: $lt: doc_count } else Categories.find({},limit:20)
+            if 0 < doc_count < 3 then Categories.find { count: $lt: doc_count } else Categories.find({},limit:42)
         selected_categories: -> selected_categories.array()
 
     Template.reddit.events
         'click .new_delta': ->
             Delta.insert {}
 
-        'click .pick_location': ->
-            current_queries.push @valueOf()
-            selected_locations.push @valueOf()
-            Meteor.call 'search_reddit', current_queries.array()
-
-
-
         'click .select_person': ->
             current_queries.push @name
             selected_people.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_person': ->
             selected_people.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_people': ->
             selected_people.clear()
 
@@ -210,11 +202,10 @@ if Meteor.isClient
             current_queries.push @name
             selected_subreddits.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_subreddit': ->
             selected_subreddits.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_subreddits': ->
             selected_subreddits.clear()
 
@@ -223,11 +214,10 @@ if Meteor.isClient
             current_queries.push @name
             selected_concepts.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_concept': ->
             selected_concepts.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_concepts': ->
             selected_concepts.clear()
 
@@ -236,11 +226,10 @@ if Meteor.isClient
             current_queries.push @name
             selected_keywords.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_keyword': ->
             selected_keywords.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_keywords': ->
             selected_keywords.clear()
 
@@ -249,11 +238,10 @@ if Meteor.isClient
             current_queries.push @name
             selected_authors.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_author': ->
             selected_authors.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_authors': ->
             selected_authors.clear()
 
@@ -262,11 +250,10 @@ if Meteor.isClient
             current_queries.push @name
             selected_locations.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_location': ->
             selected_locations.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_locations': ->
             selected_locations.clear()
 
@@ -275,11 +262,10 @@ if Meteor.isClient
             current_queries.push @name
             selected_companies.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_company': ->
             selected_companies.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_companies': ->
             selected_companies.clear()
 
@@ -288,11 +274,10 @@ if Meteor.isClient
             current_queries.push @name
             selected_organizations.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_organization': ->
             selected_organizations.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_organizations': ->
             selected_organizations.clear()
 
@@ -301,10 +286,24 @@ if Meteor.isClient
             current_queries.push @name
             selected_categories.push @name
             Meteor.call 'search_reddit', current_queries.array()
-
-
         'click .unselect_category': ->
             selected_categories.remove @valueOf()
             current_queries.remove @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
         'click #clear_categories': ->
             selected_categories.clear()
+
+
+    Template.reddit_post.events
+        'click .pick_location': ->
+            current_queries.push @valueOf()
+            selected_locations.push @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
+        'click .pick_company': ->
+            current_queries.push @valueOf()
+            selected_companies.push @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
+        'click .pick_person': ->
+            current_queries.push @valueOf()
+            selected_people.push @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()

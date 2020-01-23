@@ -75,7 +75,7 @@ Docs.before.insert (userId, doc)->
 
 
 Docs.helpers
-    author: -> Meteor.users.findOne @_author_id
+    # author: -> Meteor.users.findOne @_author_id
     when: -> moment(@_timestamp).fromNow()
     ten_tags: -> if @tags then @tags[..10]
     from_user: ->

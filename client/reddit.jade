@@ -1,5 +1,5 @@
 template(name='toggle_facet')
-    .ui.compact.small.button.toggle_facet(class=toggle_facet_class)
+    .ui.compact.large.button.toggle_facet(class=toggle_facet_class)
         if icon
             i.icon(class=icon)
         |#{label}
@@ -8,7 +8,7 @@ template(name='reddit')
     .ui.stackable.grid 
         .row 
             .eeight.wide.right.aligned.column
-                .ui.left.icon.inverted.fluid.input
+                .ui.left.icon.inverted.input
                     i.search.icon
                         //- if selected_tags
                         //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
@@ -17,47 +17,12 @@ template(name='reddit')
                 .largescsroll
                     +tag_cloud
                     //- +toggle_facet label='Anatomy' icon='exercise'
+                    div
                     +toggle_facet label='Categories' icon='list'
-                    +toggle_facet label='Award' icon='award'
-                    //- +toggle_facet label='Broadcaster' icon='manager'
-                    +toggle_facet label='Company' icon='briefcase'
-                    //- +toggle_facet label='Crime' icon='police'
-                    //- +toggle_facet label='Drug' icon='pill'
-                    +toggle_facet label='Facility' icon='building'
-                    +toggle_facet label='subreddits' icon='reddit'
-                    //- +toggle_facet label='GeographicFeature' icon='mountain'
-                    //- +toggle_facet label='HealthCondition' icon='health briefcase'
-                    +toggle_facet label='Location' icon='marker'
-                    +toggle_facet label='Movie' icon='video'
-                    +toggle_facet label='MusicGroup' icon='music'
-                    //- +toggle_facet label='NaturalEvent' icon='sun'
-                    +toggle_facet label='Organization' icon='users'
-                    +toggle_facet label='Person' icon='user'
-                    +toggle_facet label='PrintMedia' icon='newspaper'
-                    +toggle_facet label='keywords' icon='tags'
-                    +toggle_facet label='concepts' icon='cubes'
-                    +toggle_facet label='authors' icon='pencil'
-                    //- +toggle_facet label='Quantity' icon=''
-                    //- +toggle_facet label='Sport' icon='basketball ball'
-                    //- +toggle_facet label='SportingEvent' icon='calendar'
-                    +toggle_facet label='TelevisionShow' icon='television'
-                    //- +toggle_facet label='TwitterHandle' icon='twitter'
-                    //- +toggle_facet label='Vehicle' icon='car'
-                    .ui.divider
-                    //- each visible_facets
-                    //-     +cfacet
-                    //- .ui.icon.button
-                    //-     i.marker.icon
-                    //- .ui.icon.button
-                    //-     i.reddit.icon
-                    //- .ui.icon.button
-                    //-     i.users.icon
-                    //- .ui.icon.button
-                    //-     i.building.icon
                     div
                     if view_categories
-                        .ui.inline.grey.header categories
-                        i.cubes.large.icon(title='categories')
+                        //- i.cubes.large.icon(title='categories')
+                        //- .ui.inline.grey.header categories
                         if selected_categories
                             //- #clear_categories.ui.active.icon.compact.basic.button
                             //-     i.remove.icon
@@ -67,36 +32,10 @@ template(name='reddit')
                         each categories
                             .ui.compact.basic.button.select_category(class=cloud_tag_class) 
                                 strong #{this.name}
-                        div
-                    if view_people                        
-                        i.user.outline.large.icon(title='people')
-                        .ui.inline.grey.header people
-                        if selected_people
-                            //- #clear_people.ui.active.icon.compact.basic.button
-                            //-     i.remove.icon
-                            each selected_people
-                                .unselect_person.ui.active.compact.basic.button
-                                    strong #{this}
-                        each people
-                            .ui.compact.basic.button.select_person(class=cloud_tag_class) 
-                                strong #{this.name}
-                        div
-                    if view_subreddits
-                        .ui.inline.grey.header subreddits
-                        i.reddit.grey.large.icon(title='subreddit')
-                        if selected_subreddits
-                            //- #clear_subreddits.ui.active.icon.compact.basic.button
-                            //-     i.remove.icon
-                            each selected_subreddits
-                                .unselect_subreddit.ui.active.compact.basic.button
-                                    strong #{this}
-                        each subreddits
-                            .ui.compact.basic.button.select_subreddit(class=cloud_tag_class) 
-                                strong #{this.name}
-                        div
+                    div
+                    +toggle_facet label='Company' icon='briefcase'
+                    div
                     if view_companies                      
-                        .ui.inline.grey.header companies
-                        i.building.icon(title='companies')
                         if selected_companies
                             //- #clear_companies.ui.active.icon.compact.basic.button
                             //-     i.remove.icon
@@ -106,23 +45,82 @@ template(name='reddit')
                         each companies
                             .ui.compact.basic.button.select_company(class=cloud_tag_class) 
                                 strong #{this.name}
-                        div
-                    if view_authors
-                        .ui.inline.grey.header authors
-                        i.pencil.icon(title='authors')
-                        if selected_authors
-                            #clear_authors.ui.active.icon.compact.basic.button
-                                i.remove.icon
-                            each selected_authors
-                                .unselect_author.ui.active.compact.basic.button
+                    div
+                    +toggle_facet label='subreddits' icon='reddit'
+                    div
+                    if view_subreddits
+                        if selected_subreddits
+                            //- #clear_subreddits.ui.active.icon.compact.basic.button
+                            //-     i.remove.icon
+                            each selected_subreddits
+                                .unselect_subreddit.ui.active.compact.basic.button
                                     strong #{this}
-                        each authors
-                            .ui.compact.basic.button.select_author(class=cloud_tag_class) 
+                        each subreddits
+                            .ui.compact.basic.button.select_subreddit(class=cloud_tag_class) 
+                                strong #{this.name}
+                    //- +toggle_facet label='GeographicFeature' icon='mountain'
+                    //- +toggle_facet label='HealthCondition' icon='health briefcase'
+                    div
+                    +toggle_facet label='Location' icon='marker'
+                    div
+                    if view_locations
+                        if selected_locations
+                            //- #clear_locations.ui.active.icon.compact.basic.button
+                            //-     i.remove.icon
+                            each selected_locations
+                                .unselect_location.ui.active.compact.basic.button
+                                    strong #{this}
+                        each locations
+                            .ui.compact.basic.button.select_location(class=cloud_tag_class) 
                                 strong #{this.name}
                     div
+                    //- +toggle_facet label='Movie' icon='video'
+                    //- +toggle_facet label='MusicGroup' icon='music'
+                    //- +toggle_facet label='NaturalEvent' icon='sun'
+                    //- div
+                    +toggle_facet label='Organization' icon='users'
+                    div
+                    if view_organizations
+                        if selected_organizations
+                            //- #clear_organizations.ui.active.icon.compact.basic.button
+                            //-     i.remove.icon
+                            each selected_organizations
+                                .unselect_organization.ui.active.compact.basic.button
+                                    strong #{this}
+                        each organizations
+                            .ui.compact.basic.button.select_organization(class=cloud_tag_class) 
+                                strong #{this.name}
+                    
+                    div
+                    +toggle_facet label='Person' icon='user'
+                    div
+                    if view_people                        
+                        if selected_people
+                            //- #clear_people.ui.active.icon.compact.basic.button
+                            //-     i.remove.icon
+                            each selected_people
+                                .unselect_person.ui.active.compact.basic.button
+                                    strong #{this}
+                        each people
+                            .ui.compact.basic.button.select_person(class=cloud_tag_class) 
+                                strong #{this.name}
+                    div
+                    +toggle_facet label='keywords' icon='tags'
+                    div
+                    if view_keywords
+                        if selected_keywords
+                            //- #clear_keywords.ui.active.icon.compact.basic.button
+                            //-     i.remove.icon
+                            each selected_keywords
+                                .unselect_keyword.ui.active.compact.basic.button
+                                    strong #{this}
+                        each keywords
+                            .ui.compact.basic.button.select_keyword(class=cloud_tag_class) 
+                                strong #{this.name}
+                    div
+                    +toggle_facet label='concepts' icon='cubes'
+                    div
                     if view_concepts
-                        .ui.inline.grey.header concepts
-                        i.cubes.icon(title='concepts')
                         if selected_concepts.length
                             //- #clear_concepts.ui.active.icon.compact.basic.button
                             //-     i.remove.icon
@@ -133,44 +131,20 @@ template(name='reddit')
                             .ui.compact.basic.button.select_concept(class=cloud_tag_class) 
                                 strong #{this.name}
                     div
-                    if view_keywords
-                        .ui.inline.grey.header keywords
-                        i.tags.icon(title='keywords')
-                        if selected_keywords
-                            //- #clear_keywords.ui.active.icon.compact.basic.button
-                            //-     i.remove.icon
-                            each selected_keywords
-                                .unselect_keyword.ui.active.compact.basic.button
+                    +toggle_facet label='authors' icon='pencil'
+                    div
+                    if view_authors
+                        if selected_authors
+                            #clear_authors.ui.active.icon.compact.basic.button
+                                i.remove.icon
+                            each selected_authors
+                                .unselect_author.ui.active.compact.basic.button
                                     strong #{this}
-                        each keywords
-                            .ui.compact.basic.button.select_keyword(class=cloud_tag_class) 
+                        each authors
+                            .ui.compact.basic.button.select_author(class=cloud_tag_class) 
                                 strong #{this.name}
-                        div
-                    if view_locations
-                        .ui.inline.grey.header locations
-                        i.marker.icon(title='location')
-                        
-                        if selected_locations
-                            //- #clear_locations.ui.active.icon.compact.basic.button
-                            //-     i.remove.icon
-                            each selected_locations
-                                .unselect_location.ui.active.compact.basic.button
-                                    strong #{this}
-                        each locations
-                            .ui.compact.basic.button.select_location(class=cloud_tag_class) 
-                                strong #{this.name}
-                        div
-                    if view_organizations
-                        i.users.icon(title='organizations')
-                        if selected_organizations
-                            //- #clear_organizations.ui.active.icon.compact.basic.button
-                            //-     i.remove.icon
-                            each selected_organizations
-                                .unselect_organization.ui.active.compact.basic.button
-                                    strong #{this}
-                        each organizations
-                            .ui.compact.basic.button.select_organization(class=cloud_tag_class) 
-                                strong #{this.name}
+                    
+                    div
             .eight.wide.column
                 //- .ui.header cart
                 //- each delta_docs
@@ -236,78 +210,84 @@ template(name='reddit')
 template(name='reddit_post')                    
     //- if thumbnail
     //-     img(src=thumbnail)
-    div
-    a.ui.inline.header(href=url target="_window") #{title}
     //- div
-    //- .ui.header 
+    a.ui.inline.grey.header(href=url target="_window") #{title}
+    //- div
+    //- .ui.small.inline.header 
     //-     i.user.outline.icon 
     //-     |#{author}
     //- .ui.list 
     //-     .item domain: #{domain}
     //-     .item permalink: #{permalink}
-    if categories
-        i.cubes.icon(title='categories')
-        each categories
-            .ui.small.label #{this}    
-    if Person 
-        .ui.inline.header people
-        i.users.icon
-        each Person 
-            .ui.small.label #{this}
-    if Company
-        i.briefcase.icon(title='company')
-        .ui.inline.header companies
-        each Company 
-            .ui.small.label #{this}
-    if TelevisionShow
-        i.video.icon(title='television show')
-        .ui.inline.header companies
-        each TelevisionShow 
-            .ui.small.label #{this}
-    if Broadcaster
-        i.video.icon(title='broadcaster')
-        .ui.inline.header companies
-        each Broadcaster 
-            .ui.small.label #{this}
-    if Facility
-        i.building.icon(title='facility')
-        .ui.inline.header companies
-        each Facility 
-            .ui.small.label #{this}
-    if HealthCondition
-        i.heartbeat.icon(title='health condition')
-        .ui.inline.header companies
-        each HealthCondition 
-            .ui.small.label #{this}
-    if Organization
-        .ui.inline.header organizations
-        i.users.icon
-        each Organization 
-            .ui.small.label #{this}
-    if Award
-        i.trophy.icon
-        each Award 
-            .ui.small.label #{this}
-    if Location
-        i.marker.icon
-        .ui.inline.header locations
-        each Location 
-            .ui.small.label.pick_location #{this}
-    if PrintMedia
-        i.newspaper.icon(title='print media')
-        each PrintMedia 
-            .ui.small.label #{this}
-    |!{body}
-    //- |#{ups}
-    //- i.thumbs.up.outline.icon
-    //- |#{downs}
-    //- i.thumbs.up.outline.icon
-    a(href=url target='_window') #{url}
+    //- if categories
+    //-     i.cubes.icon(title='categories')
+    //-     each categories
+    //-         .ui.small.label #{this}    
+    //- if Person 
+    //-     .ui.inline.small.grey.header people
+    //-     i.users.icon
+    //-     each Person 
+    //-         .ui.small.label.pick_person #{this}
+    //- if Company
+    //-     i.briefcase.icon(title='company')
+    //-     .ui.inline.small.grey.header companies
+    //-     each Company 
+    //-         .ui.small.label.pick_company #{this}
+    //- if TelevisionShow
+    //-     i.video.icon(title='television show')
+    //-     .ui.inline.small.grey.header companies
+    //-     each TelevisionShow 
+    //-         .ui.small.label #{this}
+    //- if Broadcaster
+    //-     i.video.icon(title='broadcaster')
+    //-     .ui.inline.small.grey.header companies
+    //-     each Broadcaster 
+    //-         .ui.small.label #{this}
+    //- if Facility
+    //-     i.building.icon(title='facility')
+    //-     .ui.inline.small.grey.header companies
+    //-     each Facility 
+    //-         .ui.small.label #{this}
+    //- if HealthCondition
+    //-     i.heartbeat.icon(title='health condition')
+    //-     .ui.inline.small.grey.header companies
+    //-     each HealthCondition 
+    //-         .ui.small.label #{this}
+    //- if Organization
+    //-     .ui.inline.small.grey.header organizations
+    //-     i.users.icon
+    //-     each Organization 
+    //-         .ui.small.label #{this}
+    //- if Award
+    //-     i.trophy.icon
+    //-     each Award 
+    //-         .ui.small.label #{this}
+    //- if Location
+    //-     i.marker.icon
+    //-     .ui.inline.small.grey.header locations
+    //-     each Location 
+    //-         .ui.small.label.pick_location #{this}
+    //- if PrintMedia
+    //-     i.newspaper.icon(title='print media')
+    //-     each PrintMedia 
+    //-         .ui.small.label #{this}
+    //- //- |!{body}
+    //- .ui.inline.small.grey.header concepts
+    //- each watson_concepts
+    //-     .ui.small.label #{this}
+    //- .ui.inline.small.grey.header keywords
+    //- each watson_keywords
+    //-     .ui.small.label #{this}
+    //- //- |#{ups}
+    //- //- i.thumbs.up.outline.icon
+    //- //- |#{downs}
+    //- //- i.thumbs.up.outline.icon
+    //- a(href=url target='_window') #{url}
     if in_dev
         i.circular.code.link.icon.print_this
-        +call_watson mode='html'
-    i.reddit.icon(title='subreddit')
-    |#{subreddit}
+    //-     +call_watson mode='html'
+    //- i.reddit.icon(title='subreddit')
+    //- |#{subreddit}
     //- +call_watson mode='url' key='url'
     //- if in_dev 
     //-     if watson 

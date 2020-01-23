@@ -50,11 +50,11 @@ Meteor.methods
             else
                 console.log 'NO found data'
 
-        _.each(response.data.data.children, (item)->
-            # data = item.data
-            # len = 200
-            console.log item.data
-        )
+        # _.each(response.data.data.children, (item)->
+        #     # data = item.data
+        #     # len = 200
+        #     console.log item.data
+        # )
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
@@ -105,7 +105,7 @@ Meteor.methods
                         over_18: rd.over_18
                     # $addToSet:
                     #     tags: $each: [rd.subreddit.toLowerCase(), rd.author.toLowerCase()]
-                console.log Docs.findOne(doc_id)
+                # console.log Docs.findOne(doc_id)
 
 
 
@@ -182,7 +182,7 @@ Meteor.publish 'reddit_facets', (
         #     match.published = 1
         if selected_timestamp_tags.length > 0 then match.timestamp_tags = $all: selected_timestamp_tags
 
-        if tag_limit then tag_limit=tag_limit else tag_limit=20
+        if tag_limit then tag_limit=tag_limit else tag_limit=42
         if doc_limit then doc_limit=doc_limit else doc_limit=5
         # if author_id then match.author_id = author_id
 

@@ -33,13 +33,13 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson'
+        # console.log 'calling watson'
         self = @
-        console.log doc_id
-        console.log key
-        console.log mode
+        # console.log doc_id
+        # console.log key
+        # console.log mode
         doc = Docs.findOne doc_id
-        console.log 'value', doc["#{key}"]
+        # console.log 'value', doc["#{key}"]
         # if doc.skip_watson is true
         #     console.log 'skipping flagged doc', doc.title
         # else
@@ -89,7 +89,7 @@ Meteor.methods
                     console.log '403 error api key'
             else
                 # console.log response.result
-                console.log 'adding watson info', doc.title
+                # console.log 'adding watson info', doc.title
                 response = response.result
                 keyword_array = _.pluck(response.keywords, 'text')
                 lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
@@ -99,8 +99,8 @@ Meteor.methods
                 adding_tags = []
                 if response.categories
                     for category in response.categories
-                        console.log category.label.split('/')[1..]
-                        console.log category.label.split('/')
+                        # console.log category.label.split('/')[1..]
+                        # console.log category.label.split('/')
                         for category in category.label.split('/')
                             if category.length > 0
                                 adding_tags.push category
@@ -139,7 +139,7 @@ Meteor.methods
                         tags:$each:lowered_keywords
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
-                if Meteor.isDevelopment
+                # if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
-                    console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
+                    # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )
