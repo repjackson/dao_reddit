@@ -4,10 +4,11 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)->
             # console.log response.data
-            if response.data.data.dist > 1
+            if err then console.log err
+            else if response.data.data.dist > 1
                 console.log 'found data'
                 _.each(response.data.data.children, (item)=>
-                    console.log item
+                    # console.log item
                     data = item.data
                     len = 200
                     reddit_post =
@@ -29,7 +30,7 @@ Meteor.methods
                     # if image_result
                     #     if Meteor.isDevelopment
                     #         console.log 'skipping image'
-                    if data.domain in ['youtu.be','youtube.com', 'i.redd.it','i.imgur.com']
+                    if data.domain in ['youtu.be','youtube.com', 'i.redd.it','i.imgur.com','imgur.com']
                         if Meteor.isDevelopment
                             console.log 'skipping youtube and imgur'
                     else
@@ -58,7 +59,7 @@ Meteor.methods
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        # console.log 'getting reddit post'
+        console.log 'getting reddit post'
         HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
             if err then console.error err
             else
@@ -482,7 +483,7 @@ Meteor.publish 'reddit_facets', (
 
         # doc_results = []
         int_doc_limit = parseInt doc_limit
-        subHandle = Docs.find(match, {limit:5, sort: {_timestamp:sort_direction,ups:sort_direction}}).observeChanges(
+        subHandle = Docs.find(match, {limit:7, sort: {_timestamp:sort_direction,ups:sort_direction}}).observeChanges(
             added: (id, fields) ->
                 # console.log 'added doc', id, fields
                 # doc_results.push id

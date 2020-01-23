@@ -11,18 +11,5 @@ head
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.1/dist/semantic.min.js')
 
-template(name='layout')
-    //- #app
-    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'nightbg' width=1000 height=1000 crop='crop'}}")        
-    //- +nav
-    #main.global_container
-        +yield
-    //- +footer
-
-
-
-template(name='not_found')
-    .ui.basic.center.aligned.padded.segment
-        .ui.center.aligned.header page not found
-        a.ui.icon.circular.button(href="/") 
-            i.large.home.icon
+body 
+    +reddit

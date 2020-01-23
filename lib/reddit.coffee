@@ -56,25 +56,17 @@ if Meteor.isClient
     Template.reddit.helpers
         sorting_up: ->
             Session.equals('sort_direction', -1)
-        # people: -> People.find({},limit:42)
-        # authors: -> Authors.find({},limit:42)
-        # companies: -> Companies.find({},limit:42)
-        # subreddits: -> Subreddits.find({},limit:42)
-        # organizations: -> Organizations.find({},limit:42)
-        # concepts: -> Concepts.find({},limit:42)
-        # keywords: -> Keywords.find({},limit:42)
-        # locations: -> Locations.find({},limit:42)
         reddit_posts: ->
             Docs.find {
                 model:'reddit'
             },
                 sort: _timestamp: -1
-        view_categories: -> 'Categories' in selected_facets.array()
-        view_people: -> 'Person' in selected_facets.array()
+        view_categories: -> 'categories' in selected_facets.array()
+        view_people: -> 'people' in selected_facets.array()
         view_subreddits: -> 'subreddits' in selected_facets.array()
-        view_companies: -> 'Company' in selected_facets.array()
-        view_locations: -> 'Location' in selected_facets.array()
-        view_organizations: -> 'Organization' in selected_facets.array()
+        view_companies: -> 'companies' in selected_facets.array()
+        view_locations: -> 'locations' in selected_facets.array()
+        view_organizations: -> 'organizations' in selected_facets.array()
         view_keywords: -> 'keywords' in selected_facets.array()
         view_concepts: -> 'concepts' in selected_facets.array()
         view_authors: -> 'authors' in selected_facets.array()
@@ -181,6 +173,18 @@ if Meteor.isClient
             doc_count = Docs.find().count()
             if 0 < doc_count < 3 then Categories.find { count: $lt: doc_count } else Categories.find({},limit:42)
         selected_categories: -> selected_categories.array()
+        category_settings: -> {
+            position: 'bottom'
+            limit: 10
+            rules: [
+                {
+                    collection: Categories
+                    field: 'name'
+                    matchAll: true
+                    template: Template.tag_result
+                }
+            ]
+        }
 
     Template.reddit.events
         'click .new_delta': ->
@@ -292,6 +296,8 @@ if Meteor.isClient
             Meteor.call 'search_reddit', current_queries.array()
         'click #clear_categories': ->
             selected_categories.clear()
+        'autocompleteselect input': (event, template, doc)->
+            console.log("selected ", doc);
 
 
     Template.reddit_post.events

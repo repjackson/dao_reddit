@@ -33,7 +33,7 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        # console.log 'calling watson'
+        console.log 'calling watson'
         self = @
         # console.log doc_id
         # console.log key
@@ -43,7 +43,7 @@ Meteor.methods
         # if doc.skip_watson is true
         #     console.log 'skipping flagged doc', doc.title
         # else
-        # console.log 'analyzing', doc.title, 'tags', doc.tags
+        console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
             concepts:
                 limit:20
@@ -92,7 +92,7 @@ Meteor.methods
                 # console.log 'adding watson info', doc.title
                 response = response.result
                 keyword_array = _.pluck(response.keywords, 'text')
-                lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
+                # lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
@@ -112,31 +112,31 @@ Meteor.methods
                 if response.entities and response.entities.length > 0
                     for entity in response.entities
                         # console.log entity.type, entity.text
-                        unless entity.type is 'Quantity'
-                            # if Meteor.isDevelopment
-                            #     console.log('quantity', entity.text)
-                            # else
-                            Docs.update { _id: doc_id },
-                                $addToSet:
-                                    "#{entity.type}":entity.text
-                                    tags:entity.text.toLowerCase()
+                        # unless entity.type is 'Quantity'
+                        # if Meteor.isDevelopment
+                        #     console.log('quantity', entity.text)
+                        # else
+                        Docs.update { _id: doc_id },
+                            $addToSet:
+                                "#{entity.type}":entity.text
+                                tags:entity.text.toLowerCase()
                 #
                 concept_array = _.pluck(response.concepts, 'text')
-                lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
+                # lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
                 Docs.update { _id: doc_id },
                     $set:
                 #         body:response.analyzed_text
                         watson: response
-                        watson_concepts: lowered_concepts
-                        watson_keywords: lowered_keywords
+                        watson_concepts: concept_array
+                        watson_keywords: keyword_array
                         # doc_sentiment_score: response.sentiment.document.score
                         # doc_sentiment_label: response.sentiment.document.label
                 Docs.update { _id: doc_id },
                     $addToSet:
-                        tags:$each:lowered_concepts
+                        tags:$each:concept_array
                 Docs.update { _id: doc_id },
                     $addToSet:
-                        tags:$each:lowered_keywords
+                        tags:$each:keyword_array
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
                 # if Meteor.isDevelopment
