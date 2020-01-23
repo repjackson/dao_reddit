@@ -6,7 +6,7 @@ template(name='model_edit')
                     .ui.header
                         small edit model
                         | #{title}
-                    +creation_info
+                    //- +creation_info
                     a.ui.large.icon.button(href="/m/#{slug}")
                         i.big.checkmark.icon
                     #delete_model.ui.icon.button
@@ -92,7 +92,7 @@ template(name='model_view')
                     each model.actions
                         +Template.dynamic template=this data=current_doc
                     +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
-                    +creation_info
+                    //- +creation_info
                 .twelve.wide.column
                     .ui.header
                         each fields

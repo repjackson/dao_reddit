@@ -8,7 +8,7 @@ template(name='model_doc_edit')
                     .four.wide.column
                         .ui.header(title="model: #{model}")
                             |edit #{model}
-                        +creation_info
+                        //- +creation_info
                         a.ui.large.icon.button(href="/m/#{model}/#{_id}/view" title='save')
                             i.large.checkmark.icon
                         #delete_doc.ui.icon.button
@@ -54,8 +54,8 @@ template(name='model_doc_view')
                         
                         .ui.small.header
                             |by
-                            +author_info
-                            +creation_info
+                            //- +author_info
+                            //- +creation_info
                         div
                         +karma_transaction
                         div
@@ -100,4 +100,4 @@ template(name='karma_transaction')
         
 template(name='offer')
     .ui.small.inline.header amount #{amount}
-    +author_info
+    //- +author_info

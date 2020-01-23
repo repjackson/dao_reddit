@@ -1,4 +1,28 @@
 if Meteor.isClient
+    # create a local collection
+    # delta = new (Meteor.Collection)(null)
+    # # create a local persistence observer
+    # deltaObserver = new LocalPersist(delta, 'delta',
+    #     maxDocuments: 99
+    #     storageFull: (col, doc) ->
+    #         # function to handle maximum being exceeded
+    #         col.remove _id: doc._id
+    #         alert 'Shopping cart is full.'
+    #         return
+    # )
+    # # create a helper to fetch the data
+    # UI.registerHelper 'delta_docs', ->
+    #     delta.find()
+    # # that's it. just use the collection normally and the observer
+    # # will keep it sync'd to browser storage. the data will be stored
+    # # back into the collection when returning to the app (depending,
+    # # of course, on availability of localStorage in the browser).
+    # delta.insert
+    #     item: 'DMB-01'
+    #     desc: 'Discover Meteor Book'
+    #     quantity: 1
+
+
     Template.reddit.onCreated ->
         # @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'model_docs', 'global_stats'
@@ -14,6 +38,7 @@ if Meteor.isClient
             selected_keywords.array()
             selected_concepts.array()
             selected_locations.array()
+            selected_authors.array()
             selected_timestamp_tags.array()
             Session.get('tag_limit')
             Session.get('doc_limit')
@@ -29,6 +54,8 @@ if Meteor.isClient
         Session.setDefault 'sort_direction', -1
 
     Template.reddit.helpers
+        sorting_up: ->
+            Session.equals('sort_direction', -1)
         people: -> People.find({},limit:20)
         authors: -> Authors.find({},limit:20)
         companies: -> Companies.find({},limit:20)
@@ -42,7 +69,24 @@ if Meteor.isClient
                 model:'reddit'
             },
                 sort: _timestamp: -1
+        view_categories: -> 'Categories' in selected_facets.array()
+        view_people: -> 'Person' in selected_facets.array()
+        view_subreddits: -> 'subreddits' in selected_facets.array()
+        view_companies: -> 'Company' in selected_facets.array()
+        view_locations: -> 'Location' in selected_facets.array()
+        view_organizations: -> 'Organization' in selected_facets.array()
+        view_keywords: -> 'keywords' in selected_facets.array()
+        view_concepts: -> 'concepts' in selected_facets.array()
+        view_authors: -> 'author' in selected_facets.array()
+
+
+
     Template.reddit.events
+        'click .set_sort_direction': ->
+            if Session.equals('sort_direction', -1)
+                Session.set('sort_direction', 1)
+            else
+                Session.set('sort_direction', -1)
         'click .print_this': ->
             console.log @
         # 'click .import_subreddit': ->
@@ -57,16 +101,42 @@ if Meteor.isClient
                 search = $('#search').val()
                 Meteor.call 'search_reddit', search
                 selected_tags.push search
+                $('#search').val('')
         'click .import_site': ->
             site = $('.site').val()
             Meteor.call 'import_site', site
 
 
+    Template.toggle_facet.events
+        'click .toggle_facet': ->
+            # console.log @
+            if @label in selected_facets.array()
+                selected_facets.remove @label
+            else
+                selected_facets.push @label
 
+    Template.toggle_facet.helpers
+        toggle_facet_class: ->
+            if @label in selected_facets.array()
+                'active'
+            else
+                'basic'
+
+
+    Template.cfacet.helpers
+        label: ->
+            @valueOf()
 
 
 
     Template.reddit.helpers
+        # cd: ->
+        #     Delta.findOne()
+
+
+        visible_facets: ->
+            selected_facets.array()
+
         people: ->
             doc_count = Docs.find().count()
             if 0 < doc_count < 3 then People.find { count: $lt: doc_count } else People.find({},limit:20)
@@ -113,6 +183,16 @@ if Meteor.isClient
         selected_categories: -> selected_categories.array()
 
     Template.reddit.events
+        'click .new_delta': ->
+            Delta.insert {}
+
+        'click .pick_location': ->
+            current_queries.push @valueOf()
+            selected_locations.push @valueOf()
+            Meteor.call 'search_reddit', current_queries.array()
+
+
+
         'click .select_person': ->
             current_queries.push @name
             selected_people.push @name

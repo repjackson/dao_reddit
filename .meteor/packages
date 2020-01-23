@@ -25,7 +25,6 @@ shell-server@0.4.0
 accounts-base@1.4.5
 momentjs:moment
 reactive-var@1.0.11
-raix:handlebar-helpers
 matb33:collection-hooks
 mquandalle:jade
 underscore@1.0.10
@@ -33,5 +32,4 @@ coffeescript
 ecmascript@0.13.0
 modules@0.14.0
 fourseven:scss
-yasinuslu:json-view
 http

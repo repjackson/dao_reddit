@@ -10,6 +10,9 @@
 @selected_organizations = new ReactiveArray []
 @selected_timestamp_tags = new ReactiveArray []
 
+@selected_facets = new ReactiveArray []
+
+# Delta = new Mongo.Collection(null);
 
 @current_queries = new ReactiveArray []
 
@@ -18,6 +21,32 @@ Tracker.autorun ->
     Tracker.afterFlush ->
         $(window).scrollTop 0
 
+# Anatomy
+# Award
+# Broadcaster
+# Company
+# Crime
+# Drug
+# EmailAddress
+# Facility
+# GeographicFeature
+# HealthCondition
+# Hashtag
+# IPAddress
+# JobTitle
+# Location
+# Movie
+# MusicGroup
+# NaturalEvent
+# Organization
+# Person
+# PrintMedia
+# Quantity
+# Sport
+# SportingEvent
+# TelevisionShow
+# TwitterHandle
+# Vehicle
 
 
 

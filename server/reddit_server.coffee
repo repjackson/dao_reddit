@@ -143,11 +143,8 @@ Meteor.publish 'reddit_facets', (
     selected_keywords
     selected_concepts
     selected_locations
-    # selected_author_ids=[]
+    selected_authors
     selected_timestamp_tags
-    # model
-    # author_id
-    # parent_id
     tag_limit
     doc_limit
     view_nsfw
@@ -178,6 +175,7 @@ Meteor.publish 'reddit_facets', (
         if selected_keywords.length > 0 then match.watson_keywords = $all: selected_keywords
         if selected_categories.length > 0 then match.categories = $all: selected_categories
         if selected_locations.length > 0 then match.Location = $all: selected_locations
+        if selected_authors.length > 0 then match.author = $all: selected_authors
 
         # if selected_author_ids.length > 0
         #     match.author_id = $in: selected_author_ids
@@ -434,22 +432,22 @@ Meteor.publish 'reddit_facets', (
                 index: i
 
 
-        # author_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: author: 1 }
-        #     { $unwind: "$author" }
-        #     { $group: _id: '$author', count: $sum: 1 }
-        #     { $match: _id: $nin: selected_authors }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: tag_limit }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        #     ]
-        # # console.log 'author_cloud', author_cloud
-        # author_cloud.forEach (author, i) ->
-        #     self.added 'authors', Random.id(),
-        #         name: author.name
-        #         count: author.count
-        #         index: i
+        author_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: author: 1 }
+            { $unwind: "$author" }
+            { $group: _id: '$author', count: $sum: 1 }
+            { $match: _id: $nin: selected_authors }
+            { $sort: count: -1, _id: 1 }
+            { $limit: tag_limit }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        # console.log 'author_cloud', author_cloud
+        author_cloud.forEach (author, i) ->
+            self.added 'authors', Random.id(),
+                name: author.name
+                count: author.count
+                index: i
 
 
         # author_match = match
@@ -484,7 +482,7 @@ Meteor.publish 'reddit_facets', (
 
         # doc_results = []
         int_doc_limit = parseInt doc_limit
-        subHandle = Docs.find(match, {limit:5, sort: {_timestamp:-1,ups:-1}}).observeChanges(
+        subHandle = Docs.find(match, {limit:5, sort: {_timestamp:sort_direction,ups:sort_direction}}).observeChanges(
             added: (id, fields) ->
                 # console.log 'added doc', id, fields
                 # doc_results.push id
