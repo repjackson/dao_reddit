@@ -4,18 +4,17 @@
 @People = new Meteor.Collection 'people'
 @Authors = new Meteor.Collection 'authors'
 @Companies = new Meteor.Collection 'companies'
+@Health_conditions = new Meteor.Collection 'health_conditions'
+@Print_medias = new Meteor.Collection 'print_medias'
 @Concepts = new Meteor.Collection 'concepts'
+@Facilities = new Meteor.Collection 'facilities'
+@Movies = new Meteor.Collection 'movies'
+@Sports = new Meteor.Collection 'sports'
 @Keywords = new Meteor.Collection 'keywords'
 @Subreddits = new Meteor.Collection 'subreddits'
 @Locations = new Meteor.Collection 'locations'
 @Categories = new Meteor.Collection 'categories'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
-
-# @Question_tags = new Meteor.Collection 'question_tags'
-# @Test_tags = new Meteor.Collection 'test_tags'
-# @Post_tags = new Meteor.Collection 'post_tags'
-# @Course_tags = new Meteor.Collection 'course_tags'
-# @Rental_tags = new Meteor.Collection 'rental_tags'
 
 
 

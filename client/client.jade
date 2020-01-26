@@ -1,5 +1,7 @@
 head
     title dao
+    script(data-ad-client='ca-pub-5593374176518194' async='' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
+    
     meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
@@ -11,5 +13,407 @@ head
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.1/dist/semantic.min.js')
 
+
 body 
     +reddit
+
+
+
+
+template(name='toggle_facet')
+    //- .spacer
+    //- if count
+    //- .ui.large.button.toggle_facet(class=toggle_facet_class)
+    //- .ui.large.disabled.button.toggle_facet
+    .spacer
+    .ui.inline.small.grey.header
+        if icon
+            i.icon(class=icon)
+        //- if count
+        //-     |#{count}
+        | #{label}
+
+template(name='reddit')
+    .ui.stackable.grid 
+        .row 
+            .five.wide.column
+                i.large.yin.yang.icon(title='dao')
+                .ui.left.icon.large.input
+                    i.search.icon
+                        //- if selected_tags
+                        //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
+                        //- else
+                    input#search(type='text' autofocus='' autocomplete="off")
+                    +tag_cloud
+                    if selected_health_conditions
+                        //- #clear_health_conditions.ui.active.icon.compact.basic.circular.button
+                        //-     i.remove.icon
+                        each selected_health_conditions
+                            .unselect_health_condition.ui.active.compact.basic.circular.button
+                                strong #{this}
+                .largescroll
+                    if categories.count
+                        .column
+                            //- +toggle_facet label='Anatomy' icon='exercise'
+                            div
+                            +toggle_facet label='Categories' icon='list' count=categories.count
+                            //- div
+                            //- if view_categories
+                            //- .ui.left.icon.input
+                            //-     i.search.icon
+                            //-     +inputAutocomplete settings=category_settings id="search_categories" class="" autocomplete="off" 
+                
+                            //- i.cubes.large.icon(title='categories')
+                            //- .ui.inline.grey.header categories
+                            if selected_categories
+                                //- #clear_categories.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_categories
+                                    .unselect_category.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each categories
+                                .ui.compact.basic.circular.button.select_category(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
+                    if companies.count
+                        .column
+                            +toggle_facet label='Companies' icon='briefcase' count=companies.count
+                            //- div
+                            //- if view_companies                      
+                            if selected_companies
+                                //- #clear_companies.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_companies
+                                    .unselect_company.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each companies
+                                .ui.compact.basic.circular.button.select_company(class=cloud_tag_class) 
+                                        strong #{this.name}
+                            //- div
+                            //- +toggle_facet label='subreddits' icon='reddit' count=subreddits.count
+                            //- //- div
+                            //- if view_subreddits
+                            //-     if selected_subreddits
+                            //-         //- #clear_subreddits.ui.active.icon.compact.basic.circular.button
+                            //-         //-     i.remove.icon
+                            //-         each selected_subreddits
+                            //-             .unselect_subreddit.ui.active.compact.basic.circular.button
+                            //-                 strong #{this}
+                            //-     each subreddits
+                            //-         .ui.compact.basic.circular.button.select_subreddit(class=cloud_tag_class) 
+                            //-             strong #{this.name}
+                            //- +toggle_facet label='GeographicFeature' icon='mountain'
+                            //- +toggle_facet label='HealthCondition' icon='health briefcase'
+                            div
+                    if print_medias.count
+                        .column
+                            +toggle_facet label='Print Media' icon='newspaper'
+                            //- div
+                            //- if view_print_medias
+                            if selected_print_medias
+                                //- #clear_print_medias.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_print_medias
+                                    .unselect_print_media.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each print_medias
+                                .ui.compact.basic.circular.button.select_print_media(class=cloud_tag_class) 
+                                    strong #{this.name}
+                    if sports.count   
+                        .column
+                            div
+                            +toggle_facet label='Sports' icon='basketball ball'
+                            //- div
+                            //- if view_sports
+                            if selected_sports
+                                //- #clear_sports.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_sports
+                                    .unselect_sport.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each sports
+                                .ui.compact.basic.circular.button.select_sport(class=cloud_tag_class) 
+                                    strong #{this.name}
+                    if health_conditions.count
+                        .column
+                            +toggle_facet label='HealthCondition' icon='health briefcase'
+                            //- div
+                            //- if view_health_conditions
+                            if selected_health_conditions
+                                //- #clear_health_conditions.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_health_conditions
+                                    .unselect_health_condition.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each health_conditions
+                                .ui.compact.basic.circular.button.select_health_condition(class=cloud_tag_class) 
+                                    strong #{this.name}
+                    if movies.count
+                        .column
+                            div
+                            +toggle_facet label='Movies' icon='video'
+                            //- div
+                            //- if view_movies
+                            if selected_movies
+                                //- #clear_movies.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_movies
+                                    .unselect_movie.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each movies
+                                .ui.compact.basic.circular.button.select_movie(class=cloud_tag_class) 
+                                    strong #{this.name}
+                    if facilities.count
+                        .column
+                            div
+                            +toggle_facet label='Facilities' icon='building'
+                            //- div
+                            //- if view_facilities
+                            if selected_facilities
+                                //- #clear_facilities.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_facilities
+                                    .unselect_facility.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each facilities
+                                .ui.compact.basic.circular.button.select_facility 
+                                    strong #{this.name}
+                            div
+                    if locations.count
+                        .column
+                            +toggle_facet label='Locations' icon='marker' count=locations.count
+                            //- div
+                            //- if view_locations
+                            if selected_locations
+                                //- #clear_locations.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_locations
+                                    .unselect_location.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each locations
+                                .ui.compact.basic.circular.button.select_location(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
+                    if organizations.count
+                        .column
+                            +toggle_facet label='Organizations' icon='users' count=organizations.count
+                            //- div
+                            //- if view_organizations
+                            if selected_organizations
+                                //- #clear_organizations.ui.active.icon.compact.basic.circular.button
+                                //-     i.remove.icon
+                                each selected_organizations
+                                    .unselect_organization.ui.active.compact.basic.circular.button
+                                        strong #{this}
+                            each organizations
+                                .ui.compact.basic.circular.button.select_organization(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
+                    .column
+                        +toggle_facet label='People' icon='user' count=people.count
+                        //- div
+                        //- if view_people                        
+                        if selected_people
+                            //- #clear_people.ui.active.icon.compact.basic.circular.button
+                            //-     i.remove.icon
+                            each selected_people
+                                .unselect_person.ui.active.compact.basic.circular.button
+                                    strong #{this}
+                        each people
+                            .ui.compact.basic.circular.button.select_person(class=cloud_tag_class) 
+                                strong #{this.name}
+                        div
+                    .column
+                        +toggle_facet label='Keywords' icon='tags' count=keywords.count
+                        //- div
+                        //- if view_keywords
+                        if selected_keywords
+                            //- #clear_keywords.ui.active.icon.compact.basic.circular.button
+                            //-     i.remove.icon
+                            each selected_keywords
+                                .unselect_keyword.ui.active.compact.basic.circular.button
+                                    strong #{this}
+                        each keywords
+                            .ui.compact.basic.circular.button.select_keyword(class=cloud_tag_class) 
+                                strong #{this.name}
+                        div
+                    .column
+                        +toggle_facet label='Concepts' icon='cubes' count=concepts.count
+                        //- div
+                        //- if view_concepts
+                        if selected_concepts.count
+                            //- #clear_concepts.ui.active.icon.compact.basic.circular.button
+                            //-     i.remove.icon
+                            each selected_concepts
+                                .unselect_concept.ui.active.compact.basic.circular.button
+                                    strong #{this}
+                        each concepts
+                            .ui.compact.basic.circular.button.select_concept(class=cloud_tag_class) 
+                                strong #{this.name}
+                        //- div
+                        //- +toggle_facet label='authors' icon='pencil' count=authors.count
+                        //- //- div
+                        //- if view_authors
+                        //-     if selected_authors
+                        //-         #clear_authors.ui.active.icon.compact.basic.circular.button
+                        //-             i.remove.icon
+                        //-         each selected_authors
+                        //-             .unselect_author.ui.active.compact.basic.circular.button
+                        //-                 strong #{this}
+                        //-     each authors
+                        //-         .ui.compact.basic.circular.button.select_author(class=cloud_tag_class) 
+                        //-             strong #{this.name}
+                        //- 
+                        //- div
+            .ten.wide.column.largescroll
+                each reddit_posts
+                    +reddit_post
+                    
+                    
+                    
+template(name='reddit_post')      
+    .ui.segment              
+        if thumbnail.length
+            img(src=thumbnail)
+        //- div
+        a.ui.inline.grey.header(href=url target="_window") #{title}
+        if is_video
+            i.video.icon
+        //- 
+        if in_dev
+            //- .ui.small.inline.header 
+            //-     i.user.outline.icon 
+            //-     |#{author}
+            .ui.list 
+                .item domain: #{domain}
+                //- .item permalink: #{permalink}
+            div 
+            if categories
+                i.cubes.icon(title='categories')
+                |categories
+                each categories
+                    .ui.small.basic.label #{this}    
+            div 
+            if Person 
+                i.users.icon
+                .ui.inline.small.grey.header people
+                each Person 
+                    .ui.small.basic.label.pick_person #{this}
+            div 
+            if Company
+                i.briefcase.icon(title='company')
+                .ui.inline.small.grey.header companies
+                each Company 
+                    .ui.small.basic.label.pick_company #{this}
+            div 
+            if TelevisionShow
+                i.video.icon(title='television show')
+                .ui.inline.small.grey.header television show
+                each TelevisionShow 
+                    .ui.small.basic.label #{this}
+            div 
+            if Broadcaster
+                i.video.icon(title='broadcaster')
+                .ui.inline.small.grey.header broadcaster
+                each Broadcaster 
+                    .ui.small.basic.label #{this}
+            div 
+            if Facility
+                i.building.icon(title='facility')
+                .ui.inline.small.grey.header facilities
+                each Facility 
+                    .ui.small.basic.label #{this}
+            div 
+            if HealthCondition
+                i.heartbeat.icon(title='health condition')
+                .ui.inline.small.grey.header health condition
+                each HealthCondition 
+                    .ui.small.basic.label #{this}
+            div 
+            if Organization
+                i.users.icon
+                .ui.inline.small.grey.header organizations
+                each Organization 
+                    .ui.small.basic.label #{this}
+            div 
+            if Award
+                i.trophy.icon
+                each Award 
+                    .ui.small.basic.label #{this}
+            div 
+            if Location
+                i.marker.icon
+                .ui.inline.small.grey.header locations
+                each Location 
+                    .ui.small.basic.label.pick_location #{this}
+            div 
+            if PrintMedia
+                i.newspaper.icon(title='print media')
+                each PrintMedia 
+                    .ui.small.basic.label #{this}
+            div 
+        .large-text    
+            |!{body}
+        //- .ui.inline.small.grey.header concepts
+        //- each watson_concepts
+        //-     .ui.small.basic.label #{this}
+        //- .ui.inline.small.grey.header keywords
+        //- each watson_keywords
+        //-     .ui.small.basic.label #{this}
+        //- |#{ups}
+        //- i.thumbs.up.outline.icon
+        //- |#{downs}
+        //- i.thumbs.up.outline.icon
+        //- a(href=url target='_window') #{url}
+        if in_dev
+            i.circular.code.link.icon.print_this
+            +call_watson mode='url' key='url'
+        //-     +call_watson mode='html'
+        //- i.reddit.icon(title='subreddit')
+        //- |#{subreddit}
+        //- if in_dev 
+        //-     if watson 
+        //-         +jsonView json=watson
+        //- .ui.divider
+
+
+
+template(name='tag_cloud')
+    //- #cloud
+        .ui.left.icon.input
+            i.search.icon
+            +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    if selected_tags
+        //- #clear_tags.ui.active.icon.compact.basic.circular.button
+        //-     i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.active.large.compact.basic.circular.button
+                strong #{this}
+    //- each tags
+    //-     .ui.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
+    //-         strong #{this.name}
+    
+    
+template(name='cfacet')
+    .ui.header 
+        |#{label}
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    if selected_tags
+        //- #clear_tags.ui.active.icon.compact.basic.circular.button
+        //-     i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.active.compact.basic.circular.button
+                strong #{this}
+    //- each tags
+    //-     .ui.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
+    //-         strong #{this.name}
+
+
+
+template(name='tag_result')
+    .item #{name}

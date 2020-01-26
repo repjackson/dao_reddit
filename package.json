@@ -1,7 +1,6 @@
 {
 	"dependencies": {
 		"@babel/runtime": "^7.6.3",
-		"bcrypt": "^2.0.0",
 		"ibm-watson": "^5.1.0"
 	},
 	"scripts": {

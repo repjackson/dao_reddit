@@ -112,15 +112,14 @@ Meteor.methods
                 if response.entities and response.entities.length > 0
                     for entity in response.entities
                         # console.log entity.type, entity.text
-                        # unless entity.type is 'Quantity'
-                        # if Meteor.isDevelopment
-                        #     console.log('quantity', entity.text)
-                        # else
-                        Docs.update { _id: doc_id },
-                            $addToSet:
-                                "#{entity.type}":entity.text
-                                tags:entity.text.toLowerCase()
-                #
+                        unless entity.type is 'Quantity'
+                            # if Meteor.isDevelopment
+                            #     console.log('quantity', entity.text)
+                            # else
+                            Docs.update { _id: doc_id },
+                                $addToSet:
+                                    "#{entity.type}":entity.text
+                                    tags:entity.text.toLowerCase()
                 concept_array = _.pluck(response.concepts, 'text')
                 # lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
                 Docs.update { _id: doc_id },
