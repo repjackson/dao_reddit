@@ -1,8 +1,8 @@
 @selected_tags = new ReactiveArray []
 @selected_people = new ReactiveArray []
 @selected_companies = new ReactiveArray []
-# @selected_subreddits = new ReactiveArray []
-# @selected_authors = new ReactiveArray []
+@selected_subreddits = new ReactiveArray []
+@selected_authors = new ReactiveArray []
 @selected_keywords = new ReactiveArray []
 @selected_concepts = new ReactiveArray []
 @selected_locations = new ReactiveArray []
@@ -54,16 +54,13 @@ Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
 
-Template.reddit.onCreated ->
-    # @autorun -> Meteor.subscribe 'me'
-    # @autorun -> Meteor.subscribe 'model_docs', 'global_stats'
-    # @autorun -> Meteor.subscribe 'reddit_posts', selected_tags.array(), 'reddit', 10
+Template.home.onCreated ->
     @autorun -> Meteor.subscribe(
         'reddit_facets'
         selected_tags.array()
         selected_organizations.array()
         selected_people.array()
-        # selected_subreddits.array()
+        selected_subreddits.array()
         selected_companies.array()
         selected_categories.array()
         selected_health_conditions.array()
@@ -74,7 +71,7 @@ Template.reddit.onCreated ->
         selected_movies.array()
         selected_print_medias.array()
         selected_sports.array()
-        # selected_authors.array()
+        selected_authors.array()
         selected_timestamp_tags.array()
         Session.get('tag_limit')
         Session.get('doc_limit')
@@ -85,14 +82,15 @@ Template.reddit.onCreated ->
         # Template.currentData().limit
     )
 
-    Session.setDefault 'limit', 5
-    Session.setDefault 'sort_by', 'timestamp'
+    Session.setDefault 'doc_limit', 5
+    Session.setDefault 'sort_label', 'added'
+    Session.setDefault 'sort_key', '_timestamp'
     Session.setDefault 'sort_up', false
+    Session.setDefault 'view_detail', true
 
-Template.reddit.helpers
-    sorting_up: ->
-        Session.equals('sort_up', true)
-    reddit_posts: ->
+Template.home.helpers
+    sorting_up: -> Session.equals('sort_up', true)
+    posts: ->
         Docs.find {
             model:'reddit'
         },
@@ -102,12 +100,17 @@ Template.reddit.helpers
 
 
 
-Template.reddit.events
-    'click .set_sort_up': ->
+Template.home.events
+    'click .set_sort_direction': ->
         if Session.equals('sort_up', false)
             Session.set('sort_up', true)
         else
             Session.set('sort_up', false)
+    'click .toggle_detail': ->
+        if Session.equals('view_detail', false)
+            Session.set('view_detail', true)
+        else
+            Session.set('view_detail', false)
     'click .print_this': ->
         console.log @
     'click .call_reddit_post': ->
@@ -151,19 +154,23 @@ Template.toggle_facet.helpers
             'basic'
 
 
-Template.reddit.helpers
-    visible_facets: ->
-        selected_facets.array()
+Template.home.helpers
+    view_detail: -> Session.get('view_detail')
+    current_sort_key: -> Session.get('sort_key')
+    current_sort_label: -> Session.get('sort_label')
+    current_doc_limit: -> Session.get('doc_limit')
+    current_tag_limit: -> Session.get('tag_limit')
+    visible_facets: -> selected_facets.array()
 
     people: ->
         doc_count = Docs.find().count()
         if 0 < doc_count < 3 then People.find { count: $lt: doc_count } else People.find({},limit:20)
     selected_people: -> selected_people.array()
 
-    # subreddits: ->
-    #     doc_count = Docs.find().count()
-    #     if 0 < doc_count < 3 then Subreddits.find { count: $lt: doc_count } else Subreddits.find({},limit:20)
-    # selected_subreddits: -> selected_subreddits.array()
+    subreddits: ->
+        doc_count = Docs.find().count()
+        if 0 < doc_count < 3 then Subreddits.find { count: $lt: doc_count } else Subreddits.find({},limit:20)
+    selected_subreddits: -> selected_subreddits.array()
 
     companies: ->
         doc_count = Docs.find().count()
@@ -190,10 +197,10 @@ Template.reddit.helpers
         if 0 < doc_count < 3 then Keywords.find { count: $lt: doc_count } else Keywords.find({},limit:20)
     selected_keywords: -> selected_keywords.array()
 
-    # authors: ->
-    #     doc_count = Docs.find().count()
-    #     if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find({},limit:20)
-    # selected_authors: -> selected_authors.array()
+    authors: ->
+        doc_count = Docs.find().count()
+        if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find({},limit:20)
+    selected_authors: -> selected_authors.array()
 
     locations: ->
         doc_count = Docs.find().count()
@@ -236,8 +243,18 @@ Template.reddit.helpers
     #         }
     #     ]
     # }
+Template.set_limit.events
+    'click .set_limit': ->
+        console.log @
+        Session.set('doc_limit', @amount)
 
-Template.reddit.events
+Template.set_sort_key.events
+    'click .set_sort': ->
+        console.log @
+        Session.set('sort_key', @key)
+        Session.set('sort_label', @label)
+
+Template.home.events
     'click .calc_tone': ->
         console.log @
         Meteor.call 'call_tone', @_id, 'body', 'text', ->
@@ -261,16 +278,16 @@ Template.reddit.events
         selected_people.clear()
 
 
-    # 'click .select_subreddit': ->
-    #     current_queries.push @name
-    #     selected_subreddits.push @name
-    #     Meteor.call 'search_reddit', current_queries.array()
-    # 'click .unselect_subreddit': ->
-    #     selected_subreddits.remove @valueOf()
-    #     current_queries.remove @valueOf()
-    #     Meteor.call 'search_reddit', current_queries.array()
-    # 'click #clear_subreddits': ->
-    #     selected_subreddits.clear()
+    'click .select_subreddit': ->
+        current_queries.push @name
+        selected_subreddits.push @name
+        Meteor.call 'search_reddit', current_queries.array()
+    'click .unselect_subreddit': ->
+        selected_subreddits.remove @valueOf()
+        current_queries.remove @valueOf()
+        Meteor.call 'search_reddit', current_queries.array()
+    'click #clear_subreddits': ->
+        selected_subreddits.clear()
 
 
     'click .select_concept': ->
@@ -360,7 +377,6 @@ Template.reddit.events
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
-
     'click #clear_health_conditions': ->
         selected_health_conditions.clear()
 
@@ -389,7 +405,6 @@ Template.reddit.events
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
-
     'click .unselect_keyword': ->
         selected_keywords.remove @valueOf()
         current_queries.remove @valueOf()
@@ -397,21 +412,20 @@ Template.reddit.events
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
-
     'click #clear_keywords': ->
         selected_keywords.clear()
 
 
-    # 'click .select_author': ->
-    #     current_queries.push @name
-    #     selected_authors.push @name
-    #     Meteor.call 'search_reddit', current_queries.array()
-    # 'click .unselect_author': ->
-    #     selected_authors.remove @valueOf()
-    #     current_queries.remove @valueOf()
-    #     Meteor.call 'search_reddit', current_queries.array()
-    # 'click #clear_authors': ->
-    #     selected_authors.clear()
+    'click .select_author': ->
+        current_queries.push @name
+        selected_authors.push @name
+        Meteor.call 'search_reddit', current_queries.array()
+    'click .unselect_author': ->
+        selected_authors.remove @valueOf()
+        current_queries.remove @valueOf()
+        Meteor.call 'search_reddit', current_queries.array()
+    'click #clear_authors': ->
+        selected_authors.clear()
 
 
     'click .select_location': ->
@@ -488,31 +502,6 @@ Template.reddit.events
     'autocompleteselect input': (event, template, doc)->
         console.log("selected ", doc);
 
-
-Template.reddit_post.events
-    'click .pick_location': ->
-        current_queries.push @valueOf()
-        selected_locations.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
-
-    'click .pick_company': ->
-        current_queries.push @valueOf()
-        selected_companies.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
-
-    'click .pick_person': ->
-        current_queries.push @valueOf()
-        selected_people.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
 
 
 

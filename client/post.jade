@@ -1,0 +1,129 @@
+template(name='post')      
+    .ui.segment              
+        a.ui.inline.header(href=url target="_window") 
+            if thumbnail.length
+                img.ui.big.image(src=thumbnail)
+            else if watson.metadata.image.length
+                img.ui.big.image(src=watson.metadata.image)
+            if title 
+                |#{title}
+            else 
+                |#{watson.metadata.title}
+        //- div
+        //- if watson.metadata.
+        if is_video
+            i.video.icon
+        //- 
+        //- if in_dev
+        div
+        if view_detail
+            .ui.tiny.grey.inline.header(title='reddit user') 
+                i.user.outline.icon 
+                |#{author}
+            .ui.mini.inline.header domain: #{domain}
+            .ui.mini.inline.header permalink: #{permalink}
+            div 
+            if categories
+                i.grey.cubes.icon(title='categories')
+                |categories
+                each categories
+                    .ui.small.basic.label #{this}    
+            div 
+            if Person 
+                i.grey.users.icon
+                .ui.inline.small.grey.header people
+                each Person 
+                    .ui.small.basic.label.pick_person #{this}
+            div 
+            if Company
+                i.grey.briefcase.icon(title='company')
+                .ui.inline.small.grey.header companies
+                each Company 
+                    .ui.small.basic.label.pick_company #{this}
+            div 
+            if TelevisionShow
+                i.grey.video.icon(title='television show')
+                .ui.inline.small.grey.header television show
+                each TelevisionShow 
+                    .ui.small.basic.label #{this}
+            div 
+            if Broadcaster
+                i.grey.video.icon(title='broadcaster')
+                .ui.inline.small.grey.header broadcaster
+                each Broadcaster 
+                    .ui.small.basic.label #{this}
+            div 
+            if Facility
+                i.grey.building.icon(title='facility')
+                .ui.inline.small.grey.header facilities
+                each Facility 
+                    .ui.small.basic.label #{this}
+            div 
+            if HealthCondition
+                i.grey.heartbeat.icon(title='health condition')
+                .ui.inline.small.grey.header health condition
+                each HealthCondition 
+                    .ui.small.basic.label #{this}
+            div 
+            if Organization
+                i.grey.users.icon
+                .ui.inline.small.grey.header organizations
+                each Organization 
+                    .ui.small.basic.label #{this}
+            div 
+            if Award
+                i.grey.trophy.icon
+                each Award 
+                    .ui.small.basic.label #{this}
+            div 
+            if Location
+                i.grey.marker.icon
+                .ui.inline.small.grey.header locations
+                each Location 
+                    .ui.small.basic.label.pick_location #{this}
+            div 
+            if PrintMedia
+                i.grey.newspaper.icon(title='print media')
+                each PrintMedia 
+                    .ui.small.basic.label #{this}
+            div 
+            each tone.result.sentences_tone 
+                |#{sentence_id}:
+                |#{text}
+                each tones 
+                    .ui.basic.label #{tone_name}
+                div
+            //- .large-text    
+            //-     |!{body}
+            .ui.inline.small.grey.header concepts
+            each watson_concepts
+                .ui.tiny.basic.label #{this}
+            .ui.inline.small.grey.header keywords
+            each watson_keywords
+                .ui.tiny.basic.label #{this}
+            |#{ups}
+            i.thumbs.up.outline.icon
+            |#{downs}
+            i.thumbs.up.outline.icon
+            .ui.small.inline.header
+                |sentiment
+                |#{doc_sentiment_label}
+                |#{doc_sentiment_score}
+            span(title='comment_count')
+                i.comments.icon
+                |#{comment_count}
+            span(title='subreddit')
+                i.reddit.icon
+                |#{subreddit}
+            a(href=url target='_window') #{url}
+        if in_dev
+            i.reddit.circular.link.icon.call_reddit_post
+            i.code.circular.link.icon.print_this
+            i.brain.circular.link.icon.calc_tone
+            +call_watson mode='url' key='url'
+            i.remove.link.icon
+        //-     +call_watson mode='html'
+        //- if in_dev 
+        //-     if watson 
+        //-         +jsonView json=watson
+        //- .ui.divider

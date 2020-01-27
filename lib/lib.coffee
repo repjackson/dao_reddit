@@ -71,31 +71,31 @@ Meteor.methods
                 "#{old_key}": new_key
                 "_#{old_key}": "_#{new_key}"
 
-if Meteor.isServer
-    Meteor.publish 'doc', (id)->
-        doc = Docs.findOne id
-        user = Meteor.users.findOne id
-        if doc
-            Docs.find id
-        else if user
-            Meteor.users.find id
-    Meteor.publish 'docs', (selected_tags, filter, limit)->
-        # user = Meteor.users.findOne @userId
-        # console.log selected_tags
-        # console.log filter
-        self = @
-        match = {}
-        # if Meteor.user()
-        #     unless Meteor.user().roles and 'dev' in Meteor.user().roles
-        #         match.view_roles = $in:Meteor.user().roles
-        # else
-        #     match.view_roles = $in:['public']
-
-        # if filter is 'shop'
-        #     match.active = true
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
-        if filter then match.model = filter
-
-        Docs.find match,
-            sort:_timestamp:-1
-            limit: limit
+# if Meteor.isServer
+#     Meteor.publish 'doc', (id)->
+#         doc = Docs.findOne id
+#         user = Meteor.users.findOne id
+#         if doc
+#             Docs.find id
+#         else if user
+#             Meteor.users.find id
+#     Meteor.publish 'docs', (selected_tags, filter, limit)->
+#         # user = Meteor.users.findOne @userId
+#         # console.log selected_tags
+#         # console.log filter
+#         self = @
+#         match = {}
+#         # if Meteor.user()
+#         #     unless Meteor.user().roles and 'dev' in Meteor.user().roles
+#         #         match.view_roles = $in:Meteor.user().roles
+#         # else
+#         #     match.view_roles = $in:['public']
+#
+#         # if filter is 'shop'
+#         #     match.active = true
+#         if selected_tags.length > 0 then match.tags = $all: selected_tags
+#         if filter then match.model = filter
+#
+#         Docs.find match,
+#             sort:_timestamp:-1
+#             limit: limit
