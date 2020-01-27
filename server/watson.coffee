@@ -1,5 +1,17 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
-{ IamAuthenticator } = require('ibm-watson/auth');
+ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
+{ IamAuthenticator } = require('ibm-watson/auth')
+
+
+tone_analyzer = new ToneAnalyzerV3(
+    version: '2017-09-21'
+    authenticator: new IamAuthenticator({
+        apikey: Meteor.settings.private.tone.apikey
+    })
+    url: Meteor.settings.private.tone.url)
+
+
+
 
 # console.log Meteor.settings.private.language.apikey
 # console.log Meteor.settings.private.language.url
@@ -12,24 +24,87 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 
 
 Meteor.methods
-    # call_wiki: (query)->
-    #     console.log 'calling wiki', query
-    #     term = query.split(' ').join('_')
-    #     found_doc =
-    #         Docs.findOne
-    #             url: "https://en.wikipedia.org/wiki/#{term}"
-    #     if found_doc
-    #         console.log 'found wiki doc for term', term, found_doc
-    #         Docs.update found_doc._id,
-    #             $addToSet:tags:'wikipedia'
-    #         Meteor.call 'call_watson', found_doc._id, 'url','url', ->
-    #     else
-    #         new_wiki_id = Docs.insert
-    #             title: "wikipedia: #{query}"
-    #             tags:['wikipedia', query]
-    #             url:"https://en.wikipedia.org/wiki/#{term}"
-    #         Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
+    call_wiki: (query)->
+        console.log 'calling wiki', query
+        term = query.split(' ').join('_')
+        found_doc =
+            Docs.findOne
+                url: "https://en.wikipedia.org/wiki/#{term}"
+        if found_doc
+            console.log 'found wiki doc for term', term, found_doc
+            Docs.update found_doc._id,
+                $addToSet:tags:'wikipedia'
+            Meteor.call 'call_watson', found_doc._id, 'url','url', ->
+        else
+            new_wiki_id = Docs.insert
+                title: "wikipedia: #{query}"
+                tags:['wikipedia', query]
+                url:"https://en.wikipedia.org/wiki/#{term}"
+            Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
 
+
+
+    # call_tone:
+    #     const toneParams = {
+    #       toneInput: { 'text': text },
+    #       contentType: 'application/json',
+    #     };
+
+    # toneAnalyzer.tone(toneParams)
+    #   .then(toneAnalysis => {
+    #     console.log(JSON.stringify(toneAnalysis, null, 2));
+    #   })
+    #   .catch(err => {
+    #     console.log('error:', err);
+    #   });
+
+    call_tone: (doc_id, key, mode)->
+        self = @
+        doc = Docs.findOne doc_id
+        # console.log key
+        # console.log mode
+        # if doc.html or doc.body
+        #     # stringed = JSON.stringify(doc.html, null, 2)
+        if mode is 'html'
+            params =
+                toneInput:doc["#{key}"]
+                content_type:'text/html'
+        if mode is 'text'
+            params =
+                toneInput: { 'text': doc.body }
+                contentType: 'application/json'
+        console.log 'params', params
+        tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
+            if err
+                console.log err
+            else
+                console.dir response
+                Docs.update { _id: doc_id},
+                    $set:
+                        tone: response
+                # console.log(JSON.stringify(response, null, 2))
+            )
+        # else return
+
+
+    call_visual_link: (doc_id, field)->
+        self = @
+        doc = Docs.findOne doc_id
+        link = doc["#{field}"]
+
+        params =
+            url:link
+            # images_file: images_file
+            # classifier_ids: classifier_ids
+        visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
+            if err
+                console.log err
+            else
+                console.log(JSON.stringify(response, null, 2))
+                Docs.update { _id: doc_id},
+                    $set:
+                        visual_classes: response.images[0].classifiers[0].classes
+        )
 
 
     call_watson: (doc_id, key, mode) ->
@@ -46,7 +121,7 @@ Meteor.methods
         console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
             concepts:
-                limit:20
+                limit:10
             features:
                 entities:
                     emotion: false
@@ -62,7 +137,7 @@ Meteor.methods
                 metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                # sentiment: {}
+                sentiment: {}
 
         switch mode
             when 'html'
@@ -88,7 +163,7 @@ Meteor.methods
                 else
                     console.log '403 error api key'
             else
-                # console.log response.result
+                console.log 'analy text', response.analyzed_text
                 # console.log 'adding watson info', doc.title
                 response = response.result
                 keyword_array = _.pluck(response.keywords, 'text')
@@ -124,12 +199,12 @@ Meteor.methods
                 # lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
                 Docs.update { _id: doc_id },
                     $set:
-                #         body:response.analyzed_text
+                        body:response.analyzed_text
                         watson: response
                         watson_concepts: concept_array
                         watson_keywords: keyword_array
-                        # doc_sentiment_score: response.sentiment.document.score
-                        # doc_sentiment_label: response.sentiment.document.label
+                        doc_sentiment_score: response.sentiment.document.score
+                        doc_sentiment_label: response.sentiment.document.label
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:concept_array
@@ -138,7 +213,7 @@ Meteor.methods
                         tags:$each:keyword_array
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
-                # if Meteor.isDevelopment
+                if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
-                    # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
+                    console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )

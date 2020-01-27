@@ -11,17 +11,20 @@
 		"cloudinary_key": "754714459692734",
 		"cloudinary_secret": "rPPXD3rZM_GCjODvh0T70XeDCSw",
 		"tone": {
-			"url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-			"apikey": "LoYmT-a3MSsEOtHgYef1rf6xIkHZ_zf8ICXcIud9UNtu",
-			"password": "OzX5px2EtWGt"
+            "apikey": "CvSC111bZ19-JqtN1lgSVQK949fRIyM6QFERAfUdWmTU",
+            "iam_apikey_description": "Auto-generated for key 50cef3ae-44f3-4547-b9d3-a0ecfcb7501a",
+            "iam_apikey_name": "Auto-generated service credentials",
+            "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+            "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/af60429c879aa2f2c4eb7ef8cc8f8892::serviceid:ServiceId-25a1a2a3-6359-4d29-baaa-091ec039c668",
+            "url": "https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/fc548825-3a07-4d09-ab79-c102105a4f72"
 		},
 		"language": {
-			"apikey": "TPGFMcYYuDnzMMAHStzIv-hNHcwWgC7quweInlBuYtKM",
+			"apikey": "wfHNSJGDfXwL3kzctjyFc1A42915AI7skje35rVxvA9t",
             "iam_apikey_description": "Auto-generated for key d3cc8d83-b3f9-40c6-8df6-c9b3d41cb511",
             "iam_apikey_name": "Auto-generated service credentials",
             "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
             "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/5e77759c402ab64aaba3f4b42e74814c::serviceid:ServiceId-09ac47da-4023-491e-922b-e73b00525187",
-            "url": "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/e3a08920-531c-4861-ac3d-b8b0be004f8e"
+            "url": "https://gateway.watsonplatform.net/natural-language-understanding/api"
 		},
 		"visual": {
 			"apikey": "dKgeK3U6JYQn235P2f4y1JchqFROfW9ZwlhGe_5ffRA-",

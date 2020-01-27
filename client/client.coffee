@@ -110,6 +110,9 @@ Template.reddit.events
             Session.set('sort_up', false)
     'click .print_this': ->
         console.log @
+    'click .call_reddit_post': ->
+        console.log @
+        Meteor.call 'get_reddit_post', @doc_id, @reddit_id, ->
     # 'click .import_subreddit': ->
     #     subreddit = $('.subreddit').val()
     #     Meteor.call 'pull_subreddit', subreddit
@@ -235,6 +238,10 @@ Template.reddit.helpers
     # }
 
 Template.reddit.events
+    'click .calc_tone': ->
+        console.log @
+        Meteor.call 'call_tone', @_id, 'body', 'text', ->
+
     'click .select_person': ->
         current_queries.push @name
         selected_people.push @name

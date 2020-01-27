@@ -19,7 +19,7 @@ Meteor.methods
                         permalink: data.permalink
                         title: data.title
                         # root: query
-                        # selftext: false
+                        selftext: false
                         # thumbnail: false
                         tags:[query, data.title.toLowerCase()]
                         # tags:[query, data.domain.toLowerCase(), data.author.toLowerCase(), data.title.toLowerCase()]
@@ -63,6 +63,7 @@ Meteor.methods
         HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
             if err then console.error err
             else
+                console.log rd
                 rd = res.data.data.children[0].data
                 if rd.selftext
                     unless rd.is_video
