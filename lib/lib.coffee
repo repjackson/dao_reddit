@@ -16,6 +16,7 @@
 @Categories = new Meteor.Collection 'categories'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
 
+@Results = new Meteor.Collection 'results'
 
 
 Docs.before.insert (userId, doc)->

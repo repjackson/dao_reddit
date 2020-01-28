@@ -31,8 +31,8 @@ template(name='toggle_facet')
             i.icon(class=icon)
         //- if count
         //-     |#{count}
-        if view_label
-            | #{label}
+        //- if view_label
+        | #{label}
 
 template(name='home')
     .ui.stackable.grid 
@@ -46,51 +46,59 @@ template(name='home')
                         //- else
                     input#search(type='text' autofocus='' autocomplete="off")
                 +tag_cloud
-                +toggle_facet label='categories' icon='list'
-                +toggle_facet label='subreddit' icon='reddit'
-                +toggle_facet label='concepts' icon='cubes'
-                +toggle_facet label='keywords' icon='tags'
-                +toggle_facet label='location' icon='marker'
+                //- +toggle_facet label='categories' icon='list'
+                //- +toggle_facet label='subreddit' icon='reddit'
+                //- +toggle_facet label='companies' icon='building'
+                //- +toggle_facet label='concepts' icon='cubes'
+                //- +toggle_facet label='keywords' icon='tags'
+                //- +toggle_facet label='location' icon='marker'
+                //- +toggle_facet label='authors' icon='pencil'
                 .largescroll
+                    +facet key='categories'
+                    +toggle_facet label='sentiment' icon='smile outline'  view_label=true
+                    if view_sentiment
+                        div
+                        if selected_sentiments
+                            #clear_sentiments.ui.active.icon.compact.small.basic.button
+                                i.remove.icon
+                            each selected_sentiments
+                                .unselect_category.ui.active.compact.small.basic.button
+                                    strong #{this}
+                                    //- if sentiments.count
+                        each sentiments
+                            .ui.compact.small.basic.button.select_category(class=cloud_tag_class) 
+                                strong #{this.name}
+                        div
+                    +toggle_facet label='categories' icon='list' count=categories.count view_label=true
                     if view_categories
-                        if categories.count
-                            //- +toggle_facet label='Anatomy' icon='exercise'
-                            div
-                            +toggle_facet label='categories' icon='list' count=categories.count
-                            //- div
-                            //- .ui.left.icon.input
-                            //-     i.search.icon
-                            //-     +inputAutocomplete settings=category_settings id="search_categories" class="" autocomplete="off" 
-                    
-                            //- i.cubes.large.icon(title='categories')
-                            //- .ui.inline.grey.header categories
-                            if selected_categories
-                                #clear_categories.ui.active.icon.compact.small.basic.button
-                                    i.remove.icon
-                                each selected_categories
-                                    .unselect_category.ui.active.compact.small.basic.button
-                                        strong #{this}
-                            each categories
-                                .ui.compact.small.basic.button.select_category(class=cloud_tag_class) 
-                                    strong #{this.name}
-                            div
+                        if selected_categories
+                            #clear_categories.ui.active.icon.compact.small.basic.button
+                                i.remove.icon
+                            each selected_categories
+                                .unselect_category.ui.active.compact.small.basic.button
+                                    strong #{this}
+                                    //- if categories.count
+                        each categories
+                            .ui.compact.small.basic.button.select_category(class=cloud_tag_class) 
+                                strong #{this.name}
+                        div
+                    +toggle_facet label='companies' icon='briefcase' count=companies.count
                     if view_companies                      
-                        if companies.count
-                            +toggle_facet label='companies' icon='briefcase' count=companies.count
-                            //- div
-                            if selected_companies
-                                //- #clear_companies.ui.active.icon.compact.small.basic.button
-                                //-     i.remove.icon
-                                each selected_companies
-                                    .unselect_company.ui.active.compact.small.basic.button
-                                        strong #{this}
-                            each companies
-                                .ui.compact.small.basic.button.select_company(class=cloud_tag_class) 
-                                        strong #{this.name}
-                            div
+                        //- if companies.count
+                        //- div
+                        if selected_companies
+                            //- #clear_companies.ui.active.icon.compact.small.basic.button
+                            //-     i.remove.icon
+                            each selected_companies
+                                .unselect_company.ui.active.compact.small.basic.button
+                                    strong #{this}
+                        each companies
+                            .ui.compact.small.basic.button.select_company(class=cloud_tag_class) 
+                                    strong #{this.name}
+                        div
+                    +toggle_facet label='subreddits' icon='reddit' count=subreddits.count
                     if view_subreddits
                         if view_subreddits
-                            +toggle_facet label='subreddits' icon='reddit' count=subreddits.count
                             //- div
                             if selected_subreddits
                                 //- #clear_subreddits.ui.active.icon.compact.small.basic.button
@@ -119,7 +127,7 @@ template(name='home')
                     if view_sports
                         if sports.count   
                             div
-                            +toggle_facet label='sports' icon='basketball ball'
+                            +toggle_facet label='sports' icon='basketball ball' view_label=true
                             //- div
                             if selected_sports
                                 #clear_sports.ui.active.icon.compact.small.basic.button
@@ -130,131 +138,131 @@ template(name='home')
                             each sports
                                 .ui.compact.small.basic.button.select_sport(class=cloud_tag_class) 
                                     strong #{this.name}
-                    if view_health_conditions
-                        if health_conditions.count
-                            +toggle_facet label='health conditions' icon='health briefcase'
-                        div
-                        if selected_health_conditions
-                            //- #clear_health_conditions.ui.active.icon.compact.small.basic.button
-                            //-     i.remove.icon
-                            each selected_health_conditions
-                                .unselect_health_condition.ui.active.compact.small.basic.button
-                                    strong #{this}
-                        each health_conditions
-                            .ui.compact.small.basic.button.select_health_condition
-                                strong #{this.name}
-                    //- if view_movies
-                    //-     if movies.count
-                    //-         div
-                    //-         +toggle_facet label='movies' icon='video'
-                    //-         //- div
-                    //-         if selected_movies
-                    //-             #clear_movies.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_movies
-                    //-                 .unselect_movie.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each movies
-                    //-             .ui.compact.small.basic.button.select_movie(class=cloud_tag_class) 
-                    //-                 strong #{this.name}
-                    //- if view_facilities
-                    //-     if facilities.count
-                    //-         div
-                    //-         +toggle_facet label='facilities' icon='building'
-                    //-         //- div
-                    //-         if selected_facilities
-                    //-             #clear_facilities.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_facilities
-                    //-                 .unselect_facility.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each facilities
-                    //-             .ui.compact.small.basic.button.select_facility 
-                    //-                 strong #{this.name}
-                    //-         div
-                    //- if view_locations
-                    //-     if locations.count
-                    //-         +toggle_facet label='locations' icon='marker' count=locations.count
-                    //-         //- div
-                    //-         if selected_locations
-                    //-             #clear_locations.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_locations
-                    //-                 .unselect_location.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each locations
-                    //-             .ui.compact.small.basic.button.select_location(class=cloud_tag_class) 
-                    //-                 strong #{this.name}
-                    //-         div
-                    //- if view_organizations
-                    //-     if organizations.count
-                    //-         +toggle_facet label='organizations' icon='users' count=organizations.count
-                    //-         //- div
-                    //-         if selected_organizations
-                    //-             #clear_organizations.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_organizations
-                    //-                 .unselect_organization.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each organizations
-                    //-             .ui.compact.small.basic.button.select_organization(class=cloud_tag_class) 
-                    //-                 strong #{this.name}
-                    //-         div
-                    //- if view_people                        
-                    //-     if people.count
-                    //-         +toggle_facet label='people' icon='user' count=people.count
-                    //-         //- div
-                    //-         if selected_people
-                    //-             #clear_people.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_people
-                    //-                 .unselect_person.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each people
-                    //-             .ui.compact.small.basic.button.select_person(class=cloud_tag_class) 
-                    //-                 strong #{this.name}
-                    //-         div
-                    //- if view_keywords
-                    //-     if keywords.count
-                    //-         +toggle_facet label='keywords' icon='tags' count=keywords.count
-                    //-         //- div
-                    //-         if selected_keywords
-                    //-             #clear_keywords.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_keywords
-                    //-                 .unselect_keyword.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each keywords
-                    //-             .ui.compact.small.basic.button.select_keyword(class=cloud_tag_class) 
-                    //-                 strong #{this.name}
-                    //-         div
-                    //- if view_concepts
-                    //-     if concepts.count
-                    //-         +toggle_facet label='concepts' icon='cubes' count=concepts.count
-                    //-         //- div
-                    //-         if selected_concepts.count
-                    //-             #clear_concepts.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_concepts
-                    //-                 .unselect_concept.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each concepts
-                    //-             .ui.compact.small.basic.button.select_concept(class=cloud_tag_class) 
-                    //-                 strong #{this.name}
-                    //- if view_authors
-                    //-     if authors.count
-                    //-         +toggle_facet label='authors' icon='pencil' count=authors.count
-                    //-         //- div
-                    //-         if selected_authors
-                    //-             #clear_authors.ui.active.icon.compact.small.basic.button
-                    //-                 i.remove.icon
-                    //-             each selected_authors
-                    //-                 .unselect_author.ui.active.compact.small.basic.button
-                    //-                     strong #{this}
-                    //-         each authors
-                    //-             .ui.compact.small.basic.button.select_author(class=cloud_tag_class) 
-                    //-                 strong #{this.name}
-                    //-         div
+                    +toggle_facet label='health conditions' icon='health briefcase'
+                        if view_health_conditions
+                            //- if health_conditions.count
+                            div
+                            if selected_health_conditions
+                                #clear_health_conditions.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_health_conditions
+                                    .unselect_health_condition.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each health_conditions
+                                .ui.compact.small.basic.button.select_health_condition
+                                    strong #{this.name}
+                    if view_movies
+                        if movies.count
+                            div
+                            +toggle_facet label='movies' icon='video' view_label=true
+                            //- div
+                            if selected_movies
+                                #clear_movies.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_movies
+                                    .unselect_movie.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each movies
+                                .ui.compact.small.basic.button.select_movie(class=cloud_tag_class) 
+                                    strong #{this.name}
+                    if view_facilities
+                        if facilities.count
+                            div
+                            +toggle_facet label='facilities' icon='building' view_label=true
+                            //- div
+                            if selected_facilities
+                                #clear_facilities.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_facilities
+                                    .unselect_facility.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each facilities
+                                .ui.compact.small.basic.button.select_facility 
+                                    strong #{this.name}
+                            div
+                    if view_locations
+                        if locations.count
+                            +toggle_facet label='locations' icon='marker' count=locations.count
+                            //- div
+                            if selected_locations
+                                #clear_locations.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_locations
+                                    .unselect_location.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each locations
+                                .ui.compact.small.basic.button.select_location(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
+                    if view_organizations
+                        if organizations.count
+                            +toggle_facet label='organizations' icon='users' count=organizations.count
+                            //- div
+                            if selected_organizations
+                                #clear_organizations.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_organizations
+                                    .unselect_organization.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each organizations
+                                .ui.compact.small.basic.button.select_organization(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
+                    if view_people                        
+                        if people.count
+                            +toggle_facet label='people' icon='user' count=people.count
+                            //- div
+                            if selected_people
+                                #clear_people.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_people
+                                    .unselect_person.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each people
+                                .ui.compact.small.basic.button.select_person(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
+                    if view_keywords
+                        if keywords.count
+                            +toggle_facet label='keywords' icon='tags' count=keywords.count
+                            //- div
+                            if selected_keywords
+                                #clear_keywords.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_keywords
+                                    .unselect_keyword.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each keywords
+                                .ui.compact.small.basic.button.select_keyword(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
+                    if view_concepts
+                        if concepts.count
+                            +toggle_facet label='concepts' icon='cubes' count=concepts.count
+                            //- div
+                            if selected_concepts.count
+                                #clear_concepts.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_concepts
+                                    .unselect_concept.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each concepts
+                                .ui.compact.small.basic.button.select_concept(class=cloud_tag_class) 
+                                    strong #{this.name}
+                    if view_authors
+                        if authors.count
+                            +toggle_facet label='authors' icon='pencil' count=authors.count
+                            //- div
+                            if selected_authors
+                                #clear_authors.ui.active.icon.compact.small.basic.button
+                                    i.remove.icon
+                                each selected_authors
+                                    .unselect_author.ui.active.compact.small.basic.button
+                                        strong #{this}
+                            each authors
+                                .ui.compact.small.basic.button.select_author(class=cloud_tag_class) 
+                                    strong #{this.name}
+                            div
             .ten.wide.column
                 .filter_row(class=loading_class)
                     .ui.inline.small.grey.header(title='change sort direction')

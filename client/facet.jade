@@ -1,0 +1,19 @@
+template(name='facet')
+    .ui.header filter #{key}
+    .ui.header results
+    each results
+        .ui.label #{name} #{count}
+    //- #cloud
+        .ui.left.icon.input
+            i.search.icon
+            +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    if selected_tags
+        //- #clear_tags.ui.active.icon.compact.small.basic.button
+        //-     i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.active.large.compact.small.basic.button
+                strong #{this}
+    //- each tags
+    //-     .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
+    //-         strong #{this.name}

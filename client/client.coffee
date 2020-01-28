@@ -15,10 +15,9 @@
 @selected_print_medias = new ReactiveArray []
 @selected_sports = new ReactiveArray []
 
-@selected_facets = new ReactiveArray []
+@selected_filters = new ReactiveArray []
 
-# Delta = new Mongo.Collection(null);
-
+@selected_facets = new ReactiveArray ['categories', 'subreddits']
 @current_queries = new ReactiveArray []
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
@@ -78,7 +77,6 @@ Template.home.onCreated ->
         Session.get('view_nsfw')
         Session.get('sort_key')
         Session.get('sort_up')
-
         # Template.currentData().limit
     )
 
@@ -86,6 +84,7 @@ Template.home.onCreated ->
     Session.setDefault 'sort_label', 'added'
     Session.setDefault 'sort_key', '_timestamp'
     Session.setDefault 'sort_up', false
+    Session.setDefault 'view_detail', true
     Session.setDefault 'view_detail', true
 
 Template.home.helpers
@@ -100,6 +99,13 @@ Template.home.helpers
     view_categories: -> 'categories' in selected_facets.array()
     view_companies: -> 'companies' in selected_facets.array()
     view_subreddits: -> 'subreddits' in selected_facets.array()
+    view_locations: -> 'location' in selected_facets.array()
+    view_keywords: -> 'keywords' in selected_facets.array()
+    view_concepts: -> 'concepts' in selected_facets.array()
+    view_people: -> 'people' in selected_facets.array()
+    view_facilities: -> 'facilities' in selected_facets.array()
+    view_movies: -> 'movies' in selected_facets.array()
+    view_health_conditions: -> 'health_conditions' in selected_facets.array()
 
 
 
@@ -143,7 +149,7 @@ Template.home.events
 
 Template.toggle_facet.events
     'click .toggle_facet': ->
-        console.log @
+        # console.log @
         if @label in selected_facets.array()
             selected_facets.remove @label
         else
@@ -250,6 +256,12 @@ Template.home.helpers
     #         }
     #     ]
     # }
+
+
+
+
+
+
 Template.set_limit.events
     'click .set_limit': ->
         console.log @

@@ -32,3 +32,4 @@ modules@0.14.0
 fourseven:scss
 http
 mizzao:autocomplete
+reactive-dict
