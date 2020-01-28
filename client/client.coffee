@@ -86,6 +86,7 @@ Template.home.onCreated ->
     Session.setDefault 'sort_up', false
     Session.setDefault 'view_detail', true
     Session.setDefault 'view_detail', true
+    Session.setDefault 'match', {}
 
 Template.home.helpers
     sorting_up: -> Session.equals('sort_up', true)
@@ -164,6 +165,7 @@ Template.toggle_facet.helpers
 
 
 Template.home.helpers
+    match: -> Session.get('match')
     view_detail: -> Session.get('view_detail')
     current_sort_key: -> Session.get('sort_key')
     current_sort_label: -> Session.get('sort_label')
@@ -173,89 +175,89 @@ Template.home.helpers
         console.log selected_facets.array()
         selected_facets.array()
 
-    people: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then People.find { count: $lt: doc_count } else People.find({},limit:20)
-    selected_people: -> selected_people.array()
-
-    subreddits: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Subreddits.find { count: $lt: doc_count } else Subreddits.find({},limit:20)
-    selected_subreddits: -> selected_subreddits.array()
-
-    companies: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Companies.find { count: $lt: doc_count } else Companies.find({},limit:20)
-    selected_companies: -> selected_companies.array()
-
-    health_conditions: ->
-        doc_count = Docs.find().count()
-        # console.log Health_conditions.find().count()
-        # Health_conditions.find()
-        if 0 < doc_count < 3 then Health_conditions.find { count: $lt: doc_count } else Health_conditions.find({},limit:20)
-    selected_health_conditions: -> selected_health_conditions.array()
-
-    sports: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Sports.find { count: $lt: doc_count } else Sports.find({},limit:20)
-    selected_sports: -> selected_sports.array()
-
-    concepts: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Concepts.find { count: $lt: doc_count } else Concepts.find({},limit:20)
-    selected_concepts: -> selected_concepts.array()
-
-    keywords: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Keywords.find { count: $lt: doc_count } else Keywords.find({},limit:20)
-    selected_keywords: -> selected_keywords.array()
-
-    authors: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find({},limit:20)
-    selected_authors: -> selected_authors.array()
-
-    locations: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Locations.find { count: $lt: doc_count } else Locations.find({},limit:20)
-    selected_locations: -> selected_locations.array()
-
-    organizations: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Organizations.find { count: $lt: doc_count } else Organizations.find({},limit:20)
-    selected_organizations: -> selected_organizations.array()
-
-    facilities: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Facilities.find { count: $lt: doc_count } else Facilities.find({},limit:20)
-    selected_facilities: -> selected_facilities.array()
-
-    movies: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Movies.find { count: $lt: doc_count } else Movies.find({},limit:20)
-    selected_movies: -> selected_movies.array()
-
-    # print_medias: ->
+    # people: ->
     #     doc_count = Docs.find().count()
-    #     if 0 < doc_count < 3 then Print_medias.find { count: $lt: doc_count } else Print_medias.find({},limit:20)
-    # selected_print_medias: -> selected_print_medias.array()
-
-    categories: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Categories.find { count: $lt: doc_count } else Categories.find({},limit:20)
-    selected_categories: -> selected_categories.array()
-    # category_settings: -> {
-    #     position: 'bottom'
-    #     limit: 10
-    #     rules: [
-    #         {
-    #             collection: Categories
-    #             field: 'name'
-    #             matchAll: true
-    #             template: Template.tag_result
-    #         }
-    #     ]
-    # }
+    #     if 0 < doc_count < 3 then People.find { count: $lt: doc_count } else People.find({},limit:20)
+    # selected_people: -> selected_people.array()
+    #
+    # subreddits: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Subreddits.find { count: $lt: doc_count } else Subreddits.find({},limit:20)
+    # selected_subreddits: -> selected_subreddits.array()
+    #
+    # companies: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Companies.find { count: $lt: doc_count } else Companies.find({},limit:20)
+    # selected_companies: -> selected_companies.array()
+    #
+    # health_conditions: ->
+    #     doc_count = Docs.find().count()
+    #     # console.log Health_conditions.find().count()
+    #     # Health_conditions.find()
+    #     if 0 < doc_count < 3 then Health_conditions.find { count: $lt: doc_count } else Health_conditions.find({},limit:20)
+    # selected_health_conditions: -> selected_health_conditions.array()
+    #
+    # sports: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Sports.find { count: $lt: doc_count } else Sports.find({},limit:20)
+    # selected_sports: -> selected_sports.array()
+    #
+    # concepts: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Concepts.find { count: $lt: doc_count } else Concepts.find({},limit:20)
+    # selected_concepts: -> selected_concepts.array()
+    #
+    # keywords: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Keywords.find { count: $lt: doc_count } else Keywords.find({},limit:20)
+    # selected_keywords: -> selected_keywords.array()
+    #
+    # authors: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find({},limit:20)
+    # selected_authors: -> selected_authors.array()
+    #
+    # locations: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Locations.find { count: $lt: doc_count } else Locations.find({},limit:20)
+    # selected_locations: -> selected_locations.array()
+    #
+    # organizations: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Organizations.find { count: $lt: doc_count } else Organizations.find({},limit:20)
+    # selected_organizations: -> selected_organizations.array()
+    #
+    # facilities: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Facilities.find { count: $lt: doc_count } else Facilities.find({},limit:20)
+    # selected_facilities: -> selected_facilities.array()
+    #
+    # movies: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Movies.find { count: $lt: doc_count } else Movies.find({},limit:20)
+    # selected_movies: -> selected_movies.array()
+    #
+    # # print_medias: ->
+    # #     doc_count = Docs.find().count()
+    # #     if 0 < doc_count < 3 then Print_medias.find { count: $lt: doc_count } else Print_medias.find({},limit:20)
+    # # selected_print_medias: -> selected_print_medias.array()
+    #
+    # categories: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Categories.find { count: $lt: doc_count } else Categories.find({},limit:20)
+    # selected_categories: -> selected_categories.array()
+    # # category_settings: -> {
+    # #     position: 'bottom'
+    # #     limit: 10
+    # #     rules: [
+    # #         {
+    # #             collection: Categories
+    # #             field: 'name'
+    # #             matchAll: true
+    # #             template: Template.tag_result
+    # #         }
+    # #     ]
+    # # }
 
 
 

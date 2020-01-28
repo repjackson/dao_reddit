@@ -12,7 +12,7 @@ body {
 }
 
 /* .ui.image:not(.avatar), .label,  img:not(.avatar) { */
-.ui.image, img:not(.avatar), .ui.embed, .green.header, .red.header{
+.ui.image, img:not(.avatar), .ui.embed, .green.header, .red.header, .blue.header, .orange.header{
     border-radius: 7px !important;
     filter: invert(1) !important;
 }

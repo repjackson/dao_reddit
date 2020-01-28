@@ -1,16 +1,35 @@
 if Meteor.isClient
     Template.facet.onCreated ->
-        # console.log Template.currentData().key
         # @autorun => Meteor.subscribe 'results'
         @autorun => Meteor.subscribe(
             'facet_results'
             Template.currentData().key
-            selected_filters.array()
+            Session.get('match')
         )
 
+    Template.facet.events
+        'click .toggle_filter': ->
+            console.log @
+            match = Session.get('match')
+            match["#{@key}"] = ["#{@name}"]
+            Session.set('match', match)
+            console.log Session.get('match')
+
     Template.facet.helpers
+        toggle_filter_class: ->
+            match = Session.get('match')
+            key = Template.currentData().key
+            if match["#{key}"]
+                if @name in match["#{key}"]
+                    'active'
+        match: ->
+            console.log Session.get('match')
+            Session.get('match')
         results: ->
-            Results.find()
+            # console.log Template.currentData().key
+            Results.find(
+                key:Template.currentData().key
+            )
 
 
 
@@ -20,11 +39,18 @@ if Meteor.isServer
     #     Results.find()
     Meteor.publish 'facet_results', (
         key
-        filters=[]
+        pre_match
     )->
-        console.log 'this is key', key
+        console.log 'key', key
+        console.log 'match', pre_match
         self = @
+        # current_facet_filter_array = _.where(pre_match, {key:key})
+        current_facet_filter_array = pre_match["#{key}"]
+        console.log 'current facet filter array', current_facet_filter_array
+
         match = {}
+        if current_facet_filter_array and current_facet_filter_array.length > 0
+            match["#{key}"] = $all: current_facet_filter_array
 
         # match.tags = $all: selected_tags
         # match.model = 'reddit'
@@ -39,7 +65,7 @@ if Meteor.isServer
         # if selected_tags.length > 0 then match.tags = $all: selected_tags
         # if selected_organizations.length > 0 then match.Organization = $all: selected_organizations
         # if selected_people.length > 0 then match.Person = $all: selected_people
-
+        filters = []
         result_array = []
 
         console.log 'match:', match
@@ -54,8 +80,8 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         result_cloud.forEach (result, i) =>
-            console.log 'result ', result
-            console.log 'key', key
+            # console.log 'result ', result
+            # console.log 'key', key
             self.added 'results', Random.id(),
                 name: result.name
                 count: result.count
@@ -65,4 +91,4 @@ if Meteor.isServer
         #
         self.ready()
 
-        self.onStop ()-> subHandle.stop()
+        # self.onStop ()-> subHandle.stop()

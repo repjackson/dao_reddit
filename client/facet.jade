@@ -1,8 +1,9 @@
 template(name='facet')
-    .ui.header filter #{key}
-    .ui.header results
+    .ui.inline.header #{key}
+    //- .ui.header results
     each results
-        .ui.label #{name} #{count}
+        .ui.compact.small.button.toggle_filter(class=toggle_filter_class title=count) #{name}
+         //- #{count}
     //- #cloud
         .ui.left.icon.input
             i.search.icon
@@ -17,3 +18,4 @@ template(name='facet')
     //- each tags
     //-     .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
     //-         strong #{this.name}
+    div
