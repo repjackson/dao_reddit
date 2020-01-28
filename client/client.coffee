@@ -95,8 +95,11 @@ Template.home.helpers
             model:'reddit'
         },
             sort: _timestamp: -1
-    # view_subreddits: -> 'subreddits' in selected_facets.array()
-    # view_authors: -> 'authors' in selected_facets.array()
+    view_subreddits: -> 'subreddits' in selected_facets.array()
+    view_authors: -> 'authors' in selected_facets.array()
+    view_categories: -> 'categories' in selected_facets.array()
+    view_companies: -> 'companies' in selected_facets.array()
+    view_subreddits: -> 'subreddits' in selected_facets.array()
 
 
 
@@ -140,7 +143,7 @@ Template.home.events
 
 Template.toggle_facet.events
     'click .toggle_facet': ->
-        # console.log @
+        console.log @
         if @label in selected_facets.array()
             selected_facets.remove @label
         else
@@ -160,7 +163,9 @@ Template.home.helpers
     current_sort_label: -> Session.get('sort_label')
     current_doc_limit: -> Session.get('doc_limit')
     current_tag_limit: -> Session.get('tag_limit')
-    visible_facets: -> selected_facets.array()
+    visible_facets: ->
+        console.log selected_facets.array()
+        selected_facets.array()
 
     people: ->
         doc_count = Docs.find().count()
@@ -179,6 +184,8 @@ Template.home.helpers
 
     health_conditions: ->
         doc_count = Docs.find().count()
+        # console.log Health_conditions.find().count()
+        # Health_conditions.find()
         if 0 < doc_count < 3 then Health_conditions.find { count: $lt: doc_count } else Health_conditions.find({},limit:20)
     selected_health_conditions: -> selected_health_conditions.array()
 
@@ -222,10 +229,10 @@ Template.home.helpers
         if 0 < doc_count < 3 then Movies.find { count: $lt: doc_count } else Movies.find({},limit:20)
     selected_movies: -> selected_movies.array()
 
-    print_medias: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Print_medias.find { count: $lt: doc_count } else Print_medias.find({},limit:20)
-    selected_print_medias: -> selected_print_medias.array()
+    # print_medias: ->
+    #     doc_count = Docs.find().count()
+    #     if 0 < doc_count < 3 then Print_medias.find { count: $lt: doc_count } else Print_medias.find({},limit:20)
+    # selected_print_medias: -> selected_print_medias.array()
 
     categories: ->
         doc_count = Docs.find().count()

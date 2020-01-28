@@ -1,6 +1,6 @@
 template(name='post')      
-    .ui.segment              
-        a.ui.inline.header(href=url target="_window") 
+    .ui.secondary.segment              
+        a.ui.inline.header(href=url target="_window" class=post_header_class) 
             if thumbnail.length
                 img.ui.big.image(src=thumbnail)
             else if watson.metadata.image.length
@@ -105,7 +105,7 @@ template(name='post')
             i.thumbs.up.outline.icon
             |#{downs}
             i.thumbs.up.outline.icon
-            .ui.small.inline.header
+            .ui.small.header
                 |sentiment
                 |#{doc_sentiment_label}
                 |#{doc_sentiment_score}

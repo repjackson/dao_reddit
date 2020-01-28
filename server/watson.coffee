@@ -10,11 +10,6 @@ tone_analyzer = new ToneAnalyzerV3(
     })
     url: Meteor.settings.private.tone.url)
 
-
-
-
-# console.log Meteor.settings.private.language.apikey
-# console.log Meteor.settings.private.language.url
 natural_language_understanding = new NaturalLanguageUnderstandingV1(
     version: '2019-07-12'
     authenticator: new IamAuthenticator({
@@ -133,7 +128,7 @@ Meteor.methods
                     # limit: 2
                 concepts: {}
                 categories: {}
-                # emotion: {}
+                emotion: {}
                 metadata: {}
                 # relations: {}
                 # semantic_roles: {}

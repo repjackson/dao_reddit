@@ -1,5 +1,16 @@
 Template.post.helpers
     view_detail: -> Session.get('view_detail')
+    post_header_class: ->
+        if @doc_sentiment_label is 'positive'
+            if @doc_sentiment_score > .5
+                'green'
+            else
+                'blue'
+        else if @doc_sentiment_label is 'negative'
+            if @doc_sentiment_score < -.5
+                'red'
+            else
+                'orange'
 Template.post.events
     'click .pick_location': ->
         current_queries.push @valueOf()
