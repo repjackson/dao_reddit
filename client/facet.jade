@@ -1,21 +1,19 @@
 template(name='facet')
-    .ui.inline.header #{key}
+    .ui.large.compact.circular.button.toggle_facet(class=toggle_facet_class)
+        if icon 
+            i.icon(class=icon)
+        if label
+            |#{label}
+        else 
+            |#{key}
     //- .ui.header results
-    each results
-        .ui.compact.small.button.toggle_filter(class=toggle_filter_class title=count) #{name}
-         //- #{count}
-    //- #cloud
-        .ui.left.icon.input
-            i.search.icon
-            +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
-        // .ui.hidden.fitted.divider
-    if selected_tags
-        //- #clear_tags.ui.active.icon.compact.small.basic.button
-        //-     i.remove.icon
-        each selected_tags
-            .unselect_tag.ui.active.large.compact.small.basic.button
-                strong #{this}
-    //- each tags
-    //-     .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
-    //-         strong #{this.name}
-    div
+    if view_facet
+        each results
+            .ui.compact.small.circular.button.toggle_filter(class=toggle_filter_class title=count) #{name}
+             //- #{count}
+        //- #cloud
+            .ui.left.icon.input
+                i.search.icon
+                +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+            // .ui.hidden.fitted.divider
+    .spacer

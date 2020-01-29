@@ -20,30 +20,30 @@
 //-         .bar
 //-         .progress
 //- 
-//- template(name='doc_emotion') 
-//-     // .ui.dividing.header 
-//-     //     | emotion
-//-     with watson.emotion.document.emotion
-//-         .ui.blue.disabled.tiny.progress(data-percent=sadness_percent title="{{to_percent sadness}}% sadness")
-//-             .bar
-//-             .progress
-//-                 .label {{to_percent sadness}}% sadness 
-//-         .ui.teal.disabled.tiny.progress(data-percent=joy_percent title="{{to_percent joy}}% joy")
-//-             .bar
-//-             .progress
-//-                 .label {{to_percent joy}}% joy 
-//-         .ui.disabled.tiny.progress(data-percent=fear_percent title="{{to_percent fear}}% fear")
-//-             .bar
-//-             .progress
-//-                 .label {{to_percent fear}}% fear 
-//-         .ui.yellow.disabled.tiny.progress(data-percent=disgust_percent title="{{to_percent disgust}}% disgust")
-//-             .bar
-//-             .progress
-//-                 .label {{to_percent disgust}}% disgust 
-//-         .ui.red.disabled.tiny.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
-//-             .bar
-//-             .progress
-//-                 .label {{to_percent anger}}% anger 
+template(name='doc_emotion') 
+    // .ui.dividing.header 
+    //     | emotion
+    with watson.emotion.document.emotion
+        .ui.blue.disabled.tiny.progress(data-percent=sadness_percent title="{{to_percent sadness}}% sadness")
+            .bar
+            .progress
+                .label {{to_percent sadness}}% sadness 
+        .ui.teal.disabled.tiny.progress(data-percent=joy_percent title="{{to_percent joy}}% joy")
+            .bar
+            .progress
+                .label {{to_percent joy}}% joy 
+        .ui.disabled.tiny.progress(data-percent=fear_percent title="{{to_percent fear}}% fear")
+            .bar
+            .progress
+                .label {{to_percent fear}}% fear 
+        .ui.yellow.disabled.tiny.progress(data-percent=disgust_percent title="{{to_percent disgust}}% disgust")
+            .bar
+            .progress
+                .label {{to_percent disgust}}% disgust 
+        .ui.red.disabled.tiny.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
+            .bar
+            .progress
+                .label {{to_percent anger}}% anger 
 //- 
 //- 
 //- 
@@ -263,23 +263,23 @@ template(name='call_watson')
 //- 
 //- 
 //- 
-//- template(name='tone')
-//-     h3 Tone
-//-     .ui.horizontal.list
-//-         each tone.document_tone.tones
-//-             .item #{tone_id} {{ to_percent score }}%
-//-     .ui.list
-//-         each tone.sentences_tone
-//-             .item
-//-                 span #{sentence_id}
-//-                 span.large120(title="#{sentence_id}") #{text}
-//-                 each tones
-//-                     .ui.basic.large.label(class="{{calculated_size 'score'}}") &nbsp; #{tone_id} {{ to_percent score }}% 
-//-     // unless tone                
-//-     //- #call_tone.ui.icon.button
-//-     //-     i.refresh.icon
-//-             // +jsonView(json=tone)
-//- 
+template(name='tone')
+    h3 Tone
+    .ui.horizontal.list
+        each tone.document_tone.tones
+            .item #{tone_id} {{ to_percent score }}%
+    .ui.list
+        each tone.sentences_tone
+            .item
+                span #{sentence_id}
+                span.large120(title="#{sentence_id}") #{text}
+                each tones
+                    .ui.basic.large.label(class="{{calculated_size 'score'}}") &nbsp; #{tone_id} {{ to_percent score }}% 
+    // unless tone                
+    //- #call_tone.ui.icon.button
+    //-     i.refresh.icon
+            // +jsonView(json=tone)
+
 //- 
 //- 
 //- template(name='watson_view')
