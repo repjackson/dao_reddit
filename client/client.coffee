@@ -39,14 +39,12 @@ Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
 
 Template.home.onCreated ->
-    @autorun -> Meteor.subscribe 'docs', Session.get('match')
-    #     Session.get('tag_limit')
-    #     Session.get('doc_limit')
-    #     Session.get('view_nsfw')
-    #     Session.get('sort_key')
-    #     Session.get('sort_up')
-    #     # Template.currentData().limit
-    # )
+    @autorun -> Meteor.subscribe 'docs',
+        Session.get('match')
+        Session.get('doc_limit')
+        # Session.get('view_nsfw')
+        Session.get('sort_key')
+        Session.get('sort_direction')
 
     Session.setDefault 'doc_limit', 5
     Session.setDefault 'sort_label', 'added'
@@ -63,18 +61,6 @@ Template.home.helpers
             model:'reddit'
         },
             sort: _timestamp: -1
-    # view_subreddits: -> 'subreddits' in selected_facets.array()
-    # view_authors: -> 'authors' in selected_facets.array()
-    # view_categories: -> 'categories' in selected_facets.array()
-    # view_companies: -> 'companies' in selected_facets.array()
-    # view_subreddits: -> 'subreddits' in selected_facets.array()
-    # view_locations: -> 'location' in selected_facets.array()
-    # view_keywords: -> 'keywords' in selected_facets.array()
-    # view_concepts: -> 'concepts' in selected_facets.array()
-    # view_people: -> 'people' in selected_facets.array()
-    # view_facilities: -> 'facilities' in selected_facets.array()
-    # view_movies: -> 'movies' in selected_facets.array()
-    # view_health_conditions: -> 'health_conditions' in selected_facets.array()
 
 
 
@@ -104,8 +90,12 @@ Template.home.events
     'keyup #search': (e,t)->
         if e.which is 13
             search = $('#search').val()
-            Meteor.call 'search_reddit', search
+
+            current_queries.push search
             selected_tags.push search
+
+
+            Meteor.call 'search_reddit', search, ->
 
             match = Session.get('match')
             # tags_array = match["#{@key}"]
@@ -249,9 +239,9 @@ Template.call_watson.events
         # console.log Template.parentData(3)
         parent = Template.parentData()
         current = Template.currentData()
-        console.log @
-        console.log parent
-        console.log current
+        # console.log @
+        # console.log parent
+        # console.log current
         Meteor.call 'call_watson', parent._id, 'key', @mode, ->
 
 
@@ -266,21 +256,6 @@ Template.facet.onCreated ->
         Session.get('match')
     )
 
-
-# Template.toggle_facet.events
-#     'click .toggle_facet': ->
-#         # console.log @
-#         if @label in selected_facets.array()
-#             selected_facets.remove @label
-#         else
-#             selected_facets.push @label
-#
-# Template.toggle_facet.helpers
-#     toggle_facet_class: ->
-#         if @label in selected_facets.array()
-#             'active'
-#         else
-#             'basic'
 
 
 
@@ -318,9 +293,11 @@ Template.facet.helpers
         key = Template.currentData().key
         if match["#{key}"]
             if @name in match["#{key}"]
-                ''
+                'active'
             else
                 'basic'
+        else
+            'basic'
     match: ->
         console.log Session.get('match')
         Session.get('match')
@@ -337,12 +314,18 @@ Template.facet.helpers
 
 Template.array_view.helpers
     values: ->
-        console.log @key
+        # console.log @key
         Template.parentData()["#{@key}"]
+
+    post_label_class: ->
+        'basic'
 
 
 Template.post.helpers
     view_detail: -> Session.get('view_detail')
+    tone_sentence_class: ->
+        # console.log @
+        # switch htin
     post_header_class: ->
         if @doc_sentiment_label is 'positive'
             if @doc_sentiment_score > .5
@@ -380,6 +363,6 @@ Template.post.events
         , 4000
 
 
-    'click .calc_tone': ->
+    'click .call_tone': ->
         console.log @
         Meteor.call 'call_tone', @_id, 'body', 'text', ->

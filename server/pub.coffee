@@ -1,26 +1,10 @@
-# Meteor.publish 'reddit_posts', (selected_tags, filter, limit)->
-#     # user = Meteor.users.findOne @userId
-#     # console.log selected_tags
-#     # console.log filter
-#     self = @
-#     match = {}
-#     # if Meteor.user()
-#     #     unless Meteor.user().roles and 'dev' in Meteor.user().roles
-#     #         match.view_roles = $in:Meteor.user().roles
-#     # else
-#     #     match.view_roles = $in:['public']
-#
-#     # if filter is 'shop'
-#     #     match.active = true
-#     if selected_tags.length > 0 then match.tags = $all: selected_tags
-#     # if filter then match.model = filter
-#     match.model = 'reddit'
-#     Docs.find match,
-#         sort:_timestamp:-1
-#         limit: limit
-
-Meteor.publish 'docs', (pre_match, filter, sort_key='_timestamp', sort_direction=-1, limit=5)->
-    console.log 'pre match', pre_match
+Meteor.publish 'docs', (
+    pre_match
+    doc_limit=5
+    sort_key='_timestamp'
+    sort_direction=-1
+    )->
+    # console.log 'pre match', pre_match
     # console.log selected_tags
     # console.log filter
     self = @
@@ -37,12 +21,8 @@ Meteor.publish 'docs', (pre_match, filter, sort_key='_timestamp', sort_direction
     console.log 'doc match', match
     Docs.find match,
         sort:"#{sort_key}":sort_direction
-        limit: limit
+        limit: doc_limit
 
-
-    # Meteor.publish 'results', ->
-    #     console.log Results.find().fetch()
-    #     Results.find()
 Meteor.publish 'facet_results', (
     key
     pre_match
@@ -58,7 +38,7 @@ Meteor.publish 'facet_results', (
     # if current_facet_filter_array and current_facet_filter_array.length > 0
     #     match["#{key}"] = $all: current_facet_filter_array
     keys = _.keys(pre_match)
-    console.log 'facet keys', key, keys
+    # console.log 'facet keys', key, keys
     for match_key in keys
         key_array = pre_match["#{match_key}"]
         if key_array and key_array.length > 0

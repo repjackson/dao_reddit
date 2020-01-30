@@ -12,6 +12,7 @@ head
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.1/dist/semantic.min.js')
+    script(async='' src='//embed.redditmedia.com/widgets/platform.js' charset='UTF-8')
 
 
 body 
@@ -37,7 +38,7 @@ template(name='toggle_facet')
 template(name='home')
     .ui.stackable.grid 
         .row 
-            .eight.wide.right.aligned.column
+            .six.wide.column
                 i.big.yin.yang.grey.icon(title='dao')
                 .ui.left.icon.input
                     i.search.icon
@@ -59,7 +60,7 @@ template(name='home')
                     +facet key='HealthCondition' icon='heart'
                     +facet key='author' icon='pencil'
                     +facet key='domain' icon='globe'
-            .eight.wide.column
+            .ten.wide.column
                 .filter_row(class=loading_class)
                     .ui.inline.small.grey.header(title='change sort direction')
                         |sort by
@@ -71,6 +72,7 @@ template(name='home')
                                 +set_sort_key key='ups' label='upvotes'
                                 +set_sort_key key='_timestamp' label='added'
                                 +set_sort_key key='doc_sentiment_label' label='sentiment'
+                                +set_sort_key key='comment_count' label='comment count'
                     .ui.compact.icon.basic.large.button.set_sort_direction(title='toggle sort direction')
                         if sorting_up
                             i.sort.amount.down.icon
@@ -157,93 +159,105 @@ template(name='tag_result')
 
 
 template(name='post')      
-    .ui.secondary.segment              
-        a.ui.inline.header(href=url target="_window" class=post_header_class) 
-            if thumbnail.length
-                img.ui.big.image(src=thumbnail)
-            else if watson.metadata.image.length
-                img.ui.big.image(src=watson.metadata.image)
-            if title 
-                |#{title}
-            else 
-                |#{watson.metadata.title}
-        //- div
-        //- if watson.metadata.
-        if is_video
-            i.video.icon
-        //- 
-        //- if in_dev
+    //- .ui.segment              
+    a.ui.inline.header(href=url target="_window" class=post_header_class) 
+        if thumbnail.length
+            img.ui.big.image(src=thumbnail)
+        else if watson.metadata.image.length
+            img.ui.big.image(src=watson.metadata.image)
+        if title 
+            |#{title}
+        else 
+            |#{watson.metadata.title}
+    //- div
+    //- if watson.metadata.
+    if is_video
+        i.video.icon
+        //- img(src=url)
+        blockquote.reddit-card
+            a(href="https://www.reddit.com#{permalink}")
+                i.right.chevron.circular.link.icon
+                //- |#{title}
+            a(href="http://www.reddit.com/r/#{subreddit}") #{subreddit}
+        +call_watson mode='video'
+
+    //- 
+    //- if in_dev
+    div
+    if view_detail
+        .ui.label(title='reddit author') 
+            i.user.outline.icon 
+            |#{author}
+        .ui.label(title='domain') #{domain}
+        a.ui.mini.inline.header(href="http://www.reddit.com#{permalink}" target="_window" title='permalink') #{permalink}
         div
-        if view_detail
-            .ui.tiny.grey.inline.header(title='reddit user') 
-                i.user.outline.icon 
-                |#{author}
-            .ui.mini.header domain: #{domain}
-            a.ui.mini.header(href="http://www.reddit.com#{permalink}" target="_window") permalink: #{permalink}
-            div 
-            +array_view key='categories' icon='cubes' 
-            +array_view key='Person' icon='users' 
-            +array_view key='Company' icon='briefcase' 
-            +array_view key='TelevisionShow' icon='television' 
-            +array_view key='Broadcaster' icon='video' 
-            +array_view key='Facility' icon='building' 
-            +array_view key='HealthCondition' icon='heartbeat' 
-            +array_view key='Organization' icon='users' 
-            +array_view key='Award' icon='trophy' 
-            +array_view key='Location' icon='marker'
-            +array_view key='PrintMedia' icon='newspaper'
-            +array_view key='watson_concepts' label='concepts' icon='newspaper'
-            +array_view key='watson_keywords' label='keywords' icon='newspaper'
-            div 
+        if tone 
             each tone.result.sentences_tone 
-                |#{sentence_id}:
-                |#{text}
+                //- |#{sentence_id}:
+                span.large-text(title=sentence_id class=tone_sentence_class) #{text}
                 each tones 
-                    .ui.basic.circular.small.compact.button #{tone_name}
+                    //- .ui.basic.circular.small.compact.button
+                    .ui.small.basic.label {{to_percent score}}% #{tone_name}
                 div
-            //- +tone
-            //- .large-text    
-            //-     |!{body}
-            div
-            |#{ups}
-            i.thumbs.up.outline.icon
-            |#{downs}
-            i.thumbs.up.outline.icon
-            .ui.small.header
-                |sentiment
-                //- |#{doc_sentiment_label}
-                |#{doc_sentiment_score}
-            span(title='comment_count')
-                i.comments.icon
-                |#{comment_count}
-            .ui.label(title='subreddit')
-                i.reddit.icon
-                |#{subreddit}
-            div
-            a(href=url target='_window') #{url}
-        if in_dev
-            i.reddit.circular.link.icon.call_reddit_post
-            i.code.circular.link.icon.print_this
-            i.brain.circular.link.icon.call_tone
-            +call_watson mode='url' key='url'
-            i.remove.link.icon
-        //-     +call_watson mode='html'
-        //- if in_dev 
-        //-     if watson 
-        //-         +jsonView json=watson
-        //- .ui.divider
+        else 
+            .large-text    
+                |!{body}
+                //- |!{html}
+
+        div 
+        +array_view key='categories' icon='cubes' 
+        +array_view key='Person' icon='users' 
+        +array_view key='Company' icon='briefcase' 
+        +array_view key='TelevisionShow' icon='television' 
+        +array_view key='Broadcaster' icon='video' 
+        +array_view key='Facility' icon='building' 
+        +array_view key='HealthCondition' icon='heartbeat' 
+        +array_view key='Organization' icon='users' 
+        +array_view key='Award' icon='trophy' 
+        +array_view key='Location' icon='marker'
+        +array_view key='PrintMedia' icon='newspaper'
+        +array_view key='watson_concepts' icon='cubes'
+        +array_view key='watson_keywords' icon='tags'
+        div
+        |#{ups}
+        i.thumbs.up.outline.icon
+        |#{downs}
+        i.thumbs.up.outline.icon
+        .ui.small.header
+            |sentiment
+            //- |#{doc_sentiment_label}
+            |#{doc_sentiment_score}
+        span(title='comment_count')
+            i.comments.icon
+            |#{comment_count}
+        .ui.label(title='subreddit')
+            i.reddit.icon
+            |#{subreddit}
+        div
+        a(href=url target='_window') #{url}
+    if in_dev
+        i.reddit.circular.link.icon.call_reddit_post
+        i.code.circular.link.icon.print_this
+        i.brain.circular.link.icon.call_tone
+        +call_watson mode='url' key='url'
+        i.remove.link.icon
+    //-     +call_watson mode='html'
+    //- if in_dev 
+    //-     if watson 
+    //-         +jsonView json=watson
+    .ui.divider
 
 
 template(name='array_view')
     if values 
         .ui.inline.small.header 
             if icon 
-                i.icon(class=icon)
+                i.small.grey.icon(class=icon)
             if label
                 |#{label}
             else 
                 #{key}
         each values 
-            .ui.small.compact.button 
+            .ui.small.compact.circular.button(class=post_label_class)
                 |#{this}
         div

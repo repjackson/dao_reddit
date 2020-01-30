@@ -56,8 +56,8 @@ Meteor.methods
     call_tone: (doc_id, key, mode)->
         self = @
         doc = Docs.findOne doc_id
-        # console.log key
-        # console.log mode
+        console.log key
+        console.log mode
         # if doc.html or doc.body
         #     # stringed = JSON.stringify(doc.html, null, 2)
         if mode is 'html'
@@ -138,14 +138,21 @@ Meteor.methods
             when 'html'
                 # parameters.html = doc["#{key}"]
                 parameters.html = doc.body
-
             when 'text'
                 parameters.text = doc["#{key}"]
             when 'url'
                 # parameters.url = doc["#{key}"]
                 parameters.url = doc.url
-                parameters.return_analyzed_text = true
+                parameters.returnAnalyzedText = true
                 parameters.clean = true
+            when 'video'
+                parameters.url = "https://www.reddit.com#{doc.permalink}"
+                console.log 'calling video'
+
+
+
+        # console.log 'parameters', parameters
+
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) ->
             if err
@@ -158,7 +165,8 @@ Meteor.methods
                 else
                     console.log '403 error api key'
             else
-                console.log 'analy text', response.analyzed_text
+                # console.log 'analy text', response.analyzed_text
+                # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 response = response.result
                 keyword_array = _.pluck(response.keywords, 'text')
@@ -208,6 +216,7 @@ Meteor.methods
                         tags:$each:keyword_array
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
+                Meteor.call 'call_tone', doc_id, 'body', 'text', ->
                 if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
                     console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
