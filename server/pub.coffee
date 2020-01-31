@@ -18,7 +18,9 @@ Meteor.publish 'docs', (
             match["#{key}"] = $all: key_array
         # console.log 'current facet filter array', current_facet_filter_array
 
-    console.log 'doc match', match
+    # console.log 'doc match', match
+    # console.log 'sort key', sort_key
+    # console.log 'sort direction', sort_direction
     Docs.find match,
         sort:"#{sort_key}":sort_direction
         limit: doc_limit
@@ -26,6 +28,9 @@ Meteor.publish 'docs', (
 Meteor.publish 'facet_results', (
     key
     pre_match
+    doc_limit=5
+    sort_key='_timestamp'
+    sort_direction=-1
 )->
     # console.log 'key', key
     # console.log 'match', pre_match

@@ -26,7 +26,6 @@ constellation:session@0.4.5
 constellation:subscriptions@0.4.5
 constellation:tiny@0.4.4
 dandv:caret-position@2.1.1
-dburles:collection-helpers@1.1.0
 dburles:mongo-collection-instances@0.3.5
 ddp@1.4.0
 ddp-client@2.3.3

@@ -7,35 +7,36 @@
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
-Template.registerHelper 'to_percent', (number) -> (number*100).toFixed()
-Template.registerHelper 'long_time', (input) -> moment(input).format("h:mm a")
-Template.registerHelper 'long_date', (input) -> moment(input).format("dddd, MMMM Do h:mm a")
-Template.registerHelper 'short_date', (input) -> moment(input).format("dddd, MMMM Do")
-Template.registerHelper 'med_date', (input) -> moment(input).format("MMM D 'YY")
-Template.registerHelper 'medium_date', (input) -> moment(input).format("MMMM Do YYYY")
-# Template.registerHelper 'medium_date', (input) -> moment(input).format("dddd, MMMM Do YYYY")
+Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
+Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
+Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
+Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
+Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
+Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
+# Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do YYYY")
 Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
-Template.registerHelper 'int', (input) -> input.toFixed(0)
-Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
-Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
-Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
+Template.registerHelper 'int', (input)-> input.toFixed(0)
+Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
+Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
+Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
+Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
+Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
+Template.registerHelper 'is', (one,two)-> one is two
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
     new Spacebars.SafeString(nl2br)
 
 
-Template.registerHelper 'loading_class', () ->
+Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 
-Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['K77p8B9jpXbTz6nfD'] then true else false
-Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
+Template.registerHelper 'is_eric', ()-> if Meteor.userId() and Meteor.userId() in ['K77p8B9jpXbTz6nfD'] then true else false
+Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
-Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
+Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 
 Template.home.onCreated ->
@@ -49,13 +50,12 @@ Template.home.onCreated ->
     Session.setDefault 'doc_limit', 5
     Session.setDefault 'sort_label', 'added'
     Session.setDefault 'sort_key', '_timestamp'
-    Session.setDefault 'sort_up', false
     Session.setDefault 'view_detail', true
-    Session.setDefault 'view_detail', true
+    Session.setDefault 'sort_direction', -1
     Session.setDefault 'match', {}
 
 Template.home.helpers
-    sorting_up: -> Session.equals('sort_up', true)
+    sorting_up: -> Session.equals('sort_direction', -1)
     posts: ->
         Docs.find {
             model:'reddit'
@@ -65,11 +65,13 @@ Template.home.helpers
 
 
 Template.home.events
+    'click .toggle_theme': ->
+        Session.set('invert_mode', !Session.get('invert_mode'))
     'click .set_sort_direction': ->
-        if Session.equals('sort_up', false)
-            Session.set('sort_up', true)
+        if Session.equals('sort_direction', -1)
+            Session.set('sort_direction', 1)
         else
-            Session.set('sort_up', false)
+            Session.set('sort_direction', -1)
     'click .toggle_detail': ->
         if Session.equals('view_detail', false)
             Session.set('view_detail', true)
@@ -95,7 +97,7 @@ Template.home.events
             selected_tags.push search
 
 
-            Meteor.call 'search_reddit', search, ->
+            Meteor.call 'search_reddit', current_queries.array(), ->
 
             match = Session.get('match')
             # tags_array = match["#{@key}"]
@@ -106,7 +108,6 @@ Template.home.events
                 tags_array = [search]
             match.tags = tags_array
 
-            Session.set('match', match)
             Session.set('match', match)
             console.log Session.get('match')
 
@@ -122,6 +123,11 @@ Template.home.events
 
 
 Template.home.helpers
+    invert_class: ->
+        if Session.get('invert_mode')
+            'inverted'
+        else
+            ''
     match: -> Session.get('match')
     view_detail: -> Session.get('view_detail')
     current_sort_key: -> Session.get('sort_key')
@@ -131,27 +137,6 @@ Template.home.helpers
     visible_facets: ->
         console.log selected_facets.array()
         selected_facets.array()
-
-    # categories: ->
-    #     doc_count = Docs.find().count()
-    #     if 0 < doc_count < 3 then Categories.find { count: $lt: doc_count } else Categories.find({},limit:20)
-    # selected_categories: -> selected_categories.array()
-    # # category_settings: -> {
-    # #     position: 'bottom'
-    # #     limit: 10
-    # #     rules: [
-    # #         {
-    # #             collection: Categories
-    # #             field: 'name'
-    # #             matchAll: true
-    # #             template: Template.tag_result
-    # #         }
-    # #     ]
-    # # }
-
-
-
-
 
 
 Template.set_limit.events
@@ -165,37 +150,8 @@ Template.set_sort_key.events
         Session.set('sort_key', @key)
         Session.set('sort_label', @label)
 
-# Template.home.events
-    # 'click .select_concept': ->
-    #     current_queries.push @name
-    #     selected_concepts.push @name
-    #     Meteor.call 'search_reddit', current_queries.array()
-    #     Meteor.setTimeout ->
-    #         Session.set('sort_up', !Session.get('sort_up'))
-    #     , 4000
-    # 'click .unselect_concept': ->
-    #     selected_concepts.remove @valueOf()
-    #     current_queries.remove @valueOf()
-    #     Meteor.call 'search_reddit', current_queries.array()
-    #     Meteor.setTimeout ->
-    #         Session.set('sort_up', !Session.get('sort_up'))
-    #     , 4000
-    # 'click #clear_concepts': ->
-    #     selected_concepts.clear()
-
-    # 'autocompleteselect input': (event, template, doc)->
-    #     console.log("selected ", doc);
-
-
-
-
-
-
 
 Template.tag_cloud.helpers
-    tags: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
     selected_tags: -> selected_tags.array()
 
 
@@ -204,25 +160,25 @@ Template.tag_cloud.events
     'click .unselect_tag': -> selected_tags.remove @valueOf()
     'click #clear_tags': -> selected_tags.clear()
 
-    'keyup #search': (e,t)->
-        e.preventDefault()
-        val = $('#search').val().toLowerCase().trim()
-        switch e.which
-            when 13 #enter
-                switch val
-                    when 'clear'
-                        selected_tags.clear()
+    # 'keyup #search': (e,t)->
+    #     e.preventDefault()
+    #     val = $('#search').val().toLowerCase().trim()
+    #     switch e.which
+    #         when 13 #enter
+    #             switch val
+    #                 when 'clear'
+    #                     selected_tags.clear()
+    #
+    #                     $('#search').val ''
+    #                 else
+    #                     unless val.length is 0
+    #                         selected_tags.push val.toString()
+    #                         $('#search').val ''
+    #         when 8
+    #             if val.length is 0
+    #                 selected_tags.pop()
 
-                        $('#search').val ''
-                    else
-                        unless val.length is 0
-                            selected_tags.push val.toString()
-                            $('#search').val ''
-            when 8
-                if val.length is 0
-                    selected_tags.pop()
-
-    'autocompleteselect #search': (event, template, doc) ->
+    'autocompleteselect #search': (event, template, doc)->
         # console.log 'selected ', doc
         selected_tags.push doc.name
         $('#search').val ''
@@ -248,36 +204,47 @@ Template.call_watson.events
 
 
 Template.facet.onCreated ->
-    @view_facet = new ReactiveVar true
+    @view_facet = new ReactiveVar false
     # @autorun => Meteor.subscribe 'results'
     @autorun => Meteor.subscribe(
         'facet_results'
         Template.currentData().key
         Session.get('match')
+        Session.get('doc_limit')
+        # Session.get('view_nsfw')
+        Session.get('sort_key')
+        Session.get('sort_direction')
     )
 
 
 
 
 Template.facet.events
-    'click .toggle_facet': (e,t)->
-        t.view_facet.set !t.view_facet.get()
+    'click .toggle_facet': (e,t)-> t.view_facet.set !t.view_facet.get()
     'click .toggle_filter': ->
-        console.log @
+        # console.log @
         match = Session.get('match')
         key_array = match["#{@key}"]
         if key_array
             if @name in key_array
                 key_array = _.without(key_array, @name)
                 match["#{@key}"] = key_array
+                current_queries.remove @name
                 Session.set('match', match)
             else
                 key_array.push @name
+                current_queries.push @name
                 Session.set('match', match)
+                Meteor.call 'search_reddit', current_queries.array(), ->
                 # match["#{@key}"] = ["#{@name}"]
         else
             match["#{@key}"] = ["#{@name}"]
+            current_queries.push @name
+            console.log current_queries.array()
         Session.set('match', match)
+        console.log current_queries.array()
+        if current_queries.array().length > 0
+            Meteor.call 'search_reddit', current_queries.array(), ->
         console.log Session.get('match')
 
 Template.facet.helpers
@@ -288,6 +255,7 @@ Template.facet.helpers
             ''
         else
             'basic'
+
     toggle_filter_class: ->
         match = Session.get('match')
         key = Template.currentData().key
@@ -298,9 +266,11 @@ Template.facet.helpers
                 'basic'
         else
             'basic'
+
     match: ->
-        console.log Session.get('match')
+        # console.log Session.get('match')
         Session.get('match')
+
     results: ->
         # console.log Template.currentData().key
         Results.find(
@@ -321,11 +291,39 @@ Template.array_view.helpers
         'basic'
 
 
+
+Template.emotion_circle.helpers
+    emotion_circle_class: ->
+        emotion = @watson.emotion.document.emotion
+        console.log emotion
+        console.log @color
+        console.log @emotion
+        classes = "#{@color}"
+        # switch emotion.
+
+
+
 Template.post.helpers
+    when: -> moment(@_timestamp).fromNow()
     view_detail: -> Session.get('view_detail')
     tone_sentence_class: ->
-        # console.log @
-        # switch htin
+        # console.log @tones
+        if @tones.length > 0
+            majority = _.filter(@tones,(tone)-> tone.score>0.5)
+            max = _.max(majority,(tone)->tone.score)
+            # console.log max
+            classes = ""
+            classes = switch max.tone_id
+                when 'analytical' then 'violet'
+                when 'confident' then 'blue'
+                when 'anger' then 'red'
+                when 'sadness' then 'blue'
+                when 'tentative' then 'yellow'
+                when 'joy' then 'green'
+                when 'fear' then 'orange'
+                else ''
+            # console.log "ui text #{classes}"
+            "ui text #{classes}"
     post_header_class: ->
         if @doc_sentiment_label is 'positive'
             if @doc_sentiment_score > .5
@@ -338,6 +336,8 @@ Template.post.helpers
             else
                 'orange'
 Template.post.events
+    'click .remove': ->
+        Docs.remove @_id
     'click .pick_location': ->
         current_queries.push @valueOf()
         selected_locations.push @valueOf()
@@ -353,7 +353,6 @@ Template.post.events
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
-
     'click .pick_person': ->
         current_queries.push @valueOf()
         selected_people.push @valueOf()
@@ -361,8 +360,6 @@ Template.post.events
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
-
-
     'click .call_tone': ->
         console.log @
         Meteor.call 'call_tone', @_id, 'body', 'text', ->

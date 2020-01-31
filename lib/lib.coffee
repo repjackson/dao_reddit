@@ -27,10 +27,3 @@ Docs.before.insert (userId, doc)->
         doc._timestamp_tags = date_array
 
     return
-
-
-
-Docs.helpers
-    # author: -> Meteor.users.findOne @_author_id
-    when: -> moment(@_timestamp).fromNow()
-    ten_tags: -> if @tags then @tags[..10]

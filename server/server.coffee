@@ -10,7 +10,8 @@ Docs.allow
         else
             doc._author_id is userId
     # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-    remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
+    remove: (userId, doc) -> true
+    # remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
 
 Meteor.methods
     rename_key:(old_key,new_key,parent)->
@@ -23,10 +24,35 @@ Meteor.methods
                 "#{old_key}": new_key
                 "_#{old_key}": "_#{new_key}"
 
-
-
-
 Meteor.methods
+    move_emotion: ->
+        emotion_docs = Docs.find({
+            sadness_percent:
+                $exists:true
+            main_emotions:
+                $exists:false
+            }, limit:500)
+        console.log 'emotion docs', emotion_docs.count()
+        emotions = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+        for emotion_doc in emotion_docs.fetch()
+            console.log 'converting', emotion_doc._id
+            # old_emotion = watson.emotion.document.emotion
+            main_emotions = []
+            for emotion in emotions
+                if emotion_doc["#{emotion}_percent"] > .5
+                    # console.log emotion_doc["#{emotion}_percent"]
+                    main_emotions.push emotion
+
+            Docs.update({_id:emotion_doc._id},
+                $set:
+                    main_emotions: main_emotions
+            )
+            console.log main_emotions
+            # console.log Docs.findOne(emotion_doc._id)
+            # updated_doc = Docs.findOne emotion_doc._id
+            # console.log updated_doc
+        console.log 'main_emotions count', Docs.find(main_emotions:$exists:true).count()
+
     search_reddit: (query)->
         console.log 'searching reddit', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")

@@ -23,27 +23,19 @@
 template(name='doc_emotion') 
     // .ui.dividing.header 
     //     | emotion
-    with watson.emotion.document.emotion
-        .ui.blue.disabled.tiny.progress(data-percent=sadness_percent title="{{to_percent sadness}}% sadness")
-            .bar
-            .progress
-                .label {{to_percent sadness}}% sadness 
-        .ui.teal.disabled.tiny.progress(data-percent=joy_percent title="{{to_percent joy}}% joy")
-            .bar
-            .progress
-                .label {{to_percent joy}}% joy 
-        .ui.disabled.tiny.progress(data-percent=fear_percent title="{{to_percent fear}}% fear")
-            .bar
-            .progress
-                .label {{to_percent fear}}% fear 
-        .ui.yellow.disabled.tiny.progress(data-percent=disgust_percent title="{{to_percent disgust}}% disgust")
-            .bar
-            .progress
-                .label {{to_percent disgust}}% disgust 
-        .ui.red.disabled.tiny.progress(data-percent="{{to_percent anger}}" title="{{to_percent anger}}% anger")
-            .bar
-            .progress
-                .label {{to_percent anger}}% anger 
+    with emotion
+        div
+        span {{ to_percent joy }}% joy
+        .rounded.inverted(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% green")
+        span {{ to_percent sadness}}% sadness
+        .rounded.inverted(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad")
+        span {{ to_percent fear }}% fear
+        .rounded.inverted(style="height:5px;width:{{to_percent fear}}%;background-color:grey" title="{{to_percent fear}}% green")
+        span {{ to_percent disgust }}% disgust
+        .rounded.inverted(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% green")
+        span {{ to_percent anger }}% anger
+        .rounded.inverted(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% green")
+    
 //- 
 //- 
 //- 
