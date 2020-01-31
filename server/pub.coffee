@@ -1,19 +1,19 @@
 Meteor.publish 'docs', (
-    pre_match
+    prematch
     doc_limit=5
     sort_key='_timestamp'
     sort_direction=-1
     )->
-    # console.log 'pre match', pre_match
+    # console.log 'pre match', prematch
     # console.log selected_tags
     # console.log filter
     self = @
     match = {}
     # if selected_tags.length > 0 then match.tags = $all: selected_tags
     # if filter then match.model = filter
-    keys = _.keys(pre_match)
+    keys = _.keys(prematch)
     for key in keys
-        key_array = pre_match["#{key}"]
+        key_array = prematch["#{key}"]
         if key_array and key_array.length > 0
             match["#{key}"] = $all: key_array
         # console.log 'current facet filter array', current_facet_filter_array
@@ -27,25 +27,25 @@ Meteor.publish 'docs', (
 
 Meteor.publish 'facet_results', (
     key
-    pre_match
+    prematch
     doc_limit=5
     sort_key='_timestamp'
     sort_direction=-1
 )->
     # console.log 'key', key
-    # console.log 'match', pre_match
+    # console.log 'match', prematch
     self = @
-    # current_facet_filter_array = _.where(pre_match, {key:key})
-    # current_facet_filter_array = pre_match["#{key}"]
+    # current_facet_filter_array = _.where(prematch, {key:key})
+    # current_facet_filter_array = prematch["#{key}"]
     # console.log 'current facet filter array', current_facet_filter_array
 
     match = {}
     # if current_facet_filter_array and current_facet_filter_array.length > 0
     #     match["#{key}"] = $all: current_facet_filter_array
-    keys = _.keys(pre_match)
+    keys = _.keys(prematch)
     # console.log 'facet keys', key, keys
     for match_key in keys
-        key_array = pre_match["#{match_key}"]
+        key_array = prematch["#{match_key}"]
         if key_array and key_array.length > 0
             match["#{match_key}"] = $all: key_array
 
@@ -76,13 +76,47 @@ Meteor.publish 'facet_results', (
             key:key
             # index: i
 
-    #
     self.ready()
+
 
     # self.onStop ()-> subHandle.stop()
 
 
 
+Meteor.publish 'emotion_averages', (prematch)->
+    match = {}
+    # if current_facet_filter_array and current_facet_filter_array.length > 0
+    #     match["#{key}"] = $all: current_facet_filter_array
+    self = @
+
+
+    keys = _.keys(prematch)
+    # console.log 'facet keys', key, keys
+    for match_key in keys
+        key_array = prematch["#{match_key}"]
+        if key_array and key_array.length > 0
+            match["#{match_key}"] = $all: key_array
+
+
+    emotion_averages = Docs.aggregate [
+        { $match: match }
+        # { $project: "sadness_percent": 1 }
+        { $group:
+            _id: null
+            sadness_average:
+                $avg: "$sadness_percent"
+        }
+        { $project: _id: 0, name: 'sadness_average', sadness_average: 1 }
+        ]
+    emotion_averages.forEach (result)=>
+        console.log 'avg', result
+        self.added 'results', Random.id(),
+            sadness_average: result.sadness_average
+            key:'sadness_average'
+
+
+        #
+    self.ready()
 
 
 

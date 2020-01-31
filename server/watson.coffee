@@ -115,24 +115,24 @@ Meteor.methods
         # else
         # console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
-            # concepts:
-            #     limit:10
+            concepts:
+                limit:10
             features:
-                # entities:
-                #     emotion: false
-                #     sentiment: false
-                #     # limit: 2
-                # keywords:
-                #     emotion: false
-                #     sentiment: false
-                #     # limit: 2
-                # concepts: {}
-                # categories: {}
+                entities:
+                    emotion: false
+                    sentiment: false
+                    # limit: 2
+                keywords:
+                    emotion: false
+                    sentiment: false
+                    # limit: 2
+                concepts: {}
+                categories: {}
                 emotion: {}
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                # sentiment: {}
+                sentiment: {}
 
         switch mode
             when 'html'
@@ -188,53 +188,59 @@ Meteor.methods
                 joy_percent = emotions.joy
                 fear_percent = emotions.fear
                 anger_percent = emotions.anger
+                disgust_percent = emotions.disgust
                 console.log 'main_emotions', main_emotions
 
 
-                # adding_tags = []
-                # if response.categories
-                #     for category in response.categories
-                #         # console.log category.label.split('/')[1..]
-                #         # console.log category.label.split('/')
-                #         for category in category.label.split('/')
-                #             if category.length > 0
-                #                 adding_tags.push category
-                #                 Docs.update doc_id,
-                #                     $addToSet: categories: category
-                # Docs.update { _id: doc_id },
-                #     $addToSet:
-                #         tags:$each:adding_tags
-                # if response.entities and response.entities.length > 0
-                #     for entity in response.entities
-                #         # console.log entity.type, entity.text
-                #         unless entity.type is 'Quantity'
-                #             # if Meteor.isDevelopment
-                #             #     console.log('quantity', entity.text)
-                #             # else
-                #             Docs.update { _id: doc_id },
-                #                 $addToSet:
-                #                     "#{entity.type}":entity.text
-                #                     tags:entity.text.toLowerCase()
-                # concept_array = _.pluck(response.concepts, 'text')
-                # # lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
-                # Docs.update { _id: doc_id },
-                #     $set:
-                #         body:response.analyzed_text
-                #         watson: response
-                #         watson_concepts: concept_array
-                #         watson_keywords: keyword_array
-                #         doc_sentiment_score: response.sentiment.document.score
-                #         doc_sentiment_label: response.sentiment.document.label
-                # Docs.update { _id: doc_id },
-                #     $addToSet:
-                #         tags:$each:concept_array
-                # Docs.update { _id: doc_id },
-                #     $addToSet:
-                #         tags:$each:keyword_array
-                # final_doc = Docs.findOne doc_id
-                # # console.log final_doc
-                # Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-                # if Meteor.isDevelopment
-                #     # console.log 'all tags', final_doc.tags
-                #     console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
+                adding_tags = []
+                if response.categories
+                    for category in response.categories
+                        # console.log category.label.split('/')[1..]
+                        # console.log category.label.split('/')
+                        for category in category.label.split('/')
+                            if category.length > 0
+                                adding_tags.push category
+                                Docs.update doc_id,
+                                    $addToSet: categories: category
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:adding_tags
+                if response.entities and response.entities.length > 0
+                    for entity in response.entities
+                        # console.log entity.type, entity.text
+                        unless entity.type is 'Quantity'
+                            # if Meteor.isDevelopment
+                            #     console.log('quantity', entity.text)
+                            # else
+                            Docs.update { _id: doc_id },
+                                $addToSet:
+                                    "#{entity.type}":entity.text
+                                    tags:entity.text.toLowerCase()
+                concept_array = _.pluck(response.concepts, 'text')
+                # lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
+                Docs.update { _id: doc_id },
+                    $set:
+                        body:response.analyzed_text
+                        watson: response
+                        sadness_percent: sadness_percent
+                        joy_percent: joy_percent
+                        fear_percent: fear_percent
+                        anger_percent: anger_percent
+                        disgust_percent: disgust_percent
+                        watson_concepts: concept_array
+                        watson_keywords: keyword_array
+                        doc_sentiment_score: response.sentiment.document.score
+                        doc_sentiment_label: response.sentiment.document.label
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:concept_array
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:keyword_array
+                final_doc = Docs.findOne doc_id
+                # console.log final_doc
+                Meteor.call 'call_tone', doc_id, 'body', 'text', ->
+                if Meteor.isDevelopment
+                    # console.log 'all tags', final_doc.tags
+                    console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )

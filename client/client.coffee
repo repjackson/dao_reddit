@@ -46,6 +46,8 @@ Template.home.onCreated ->
         # Session.get('view_nsfw')
         Session.get('sort_key')
         Session.get('sort_direction')
+    @autorun -> Meteor.subscribe 'emotion_averages',
+        Session.get('match')
 
     Session.setDefault 'doc_limit', 5
     Session.setDefault 'sort_label', 'added'
@@ -55,6 +57,9 @@ Template.home.onCreated ->
     Session.setDefault 'match', {}
 
 Template.home.helpers
+    sadness_average_doc: ->
+        Results.findOne
+            key:'sadness_average'
     sorting_up: -> Session.equals('sort_direction', -1)
     posts: ->
         Docs.find {

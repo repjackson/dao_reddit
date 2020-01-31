@@ -47,6 +47,10 @@ template(name='home')
                         //- else
                     input#search(type='text' autofocus='' autocomplete="off")
                 +tag_cloud
+                with sadness_average_doc
+                    span {{ to_percent sadness_average }}% sadness
+                        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sadness")
+
                 .largescroll
                     +facet key='main_emotions' icon='smile'
                     +facet key='categories' icon='list'
