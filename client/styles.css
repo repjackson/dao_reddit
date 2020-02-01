@@ -12,6 +12,10 @@ body {
     /* background: #0e0e44 !important; */
 }
 
+/* .empty.label {
+    min-height: 100px !important;
+} */
+
 /* .ui.image:not(.avatar), .label,  img:not(.avatar) { */
 /* .ui.image, img:not(.avatar), .ui.embed, .ui.text, .green.header, .red.header, .blue.header, .orange.header, .inverted{
     border-radius: 7px !important;

@@ -57,9 +57,9 @@ Template.home.onCreated ->
     Session.setDefault 'match', {}
 
 Template.home.helpers
-    sadness_average_doc: ->
+    emotion_average_doc: ->
         Results.findOne
-            key:'sadness_average'
+            key:'emotion_average'
     sorting_up: -> Session.equals('sort_direction', -1)
     posts: ->
         Docs.find {
@@ -209,7 +209,7 @@ Template.call_watson.events
 
 
 Template.facet.onCreated ->
-    @view_facet = new ReactiveVar false
+    @view_facet = new ReactiveVar true
     # @autorun => Meteor.subscribe 'results'
     @autorun => Meteor.subscribe(
         'facet_results'
@@ -299,11 +299,33 @@ Template.array_view.helpers
 
 Template.emotion_circle.helpers
     emotion_circle_class: ->
-        emotion = @watson.emotion.document.emotion
-        console.log emotion
-        console.log @color
-        console.log @emotion
+        # emotion = @watson.emotion.document.emotion
+        # console.log @emotion
+        # console.log @color
+        console.log @percent
         classes = "#{@color}"
+        size = switch
+            when @percent < .2
+                classes += ' mini'
+            when @percent < .3
+                classes += ' tiny'
+                # console.log 'small'
+            when @percent < .4
+                classes += ' small'
+            when @percent < .6
+                classes += ' '
+                # console.log 'reg'
+            when @percent < .7
+                classes += ' large'
+                # console.log 'large'
+            when @percent < .9
+                classes += ' big'
+                # console.log 'big'
+            when @percent < 1.1
+                classes += ' massive'
+                # console.log 'massive'
+        console.log classes
+        classes
         # switch emotion.
 
 

@@ -36,7 +36,7 @@ template(name='toggle_facet')
         | #{label}
 
 template(name='home')
-    .ui.stackable.grid(class=invert_class)
+    .ui.stackable.padded.grid(class=invert_class)
         .row 
             .five.wide.column
                 i.big.yin.yang.grey.icon.toggle_theme(title='dao')
@@ -47,15 +47,24 @@ template(name='home')
                         //- else
                     input#search(type='text' autofocus='' autocomplete="off")
                 +tag_cloud
-                with sadness_average_doc
+                .spacer
+                with emotion_average_doc
                     span {{ to_percent sadness_average }}% sadness
-                        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sadness")
+                        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
+                    span {{ to_percent joy_average }}% joy
+                        .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% sadness")
+                    span {{ to_percent disgust_average }}% disgust
+                        .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% disgust")
+                    span {{ to_percent fear_average }}% fear
+                        .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:black" title="{{to_percent fear_average}}% fear")
+                    span {{ to_percent anger_average }}% anger
+                        .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% anger")
 
                 .largescroll
                     +facet key='main_emotions' icon='smile'
                     +facet key='categories' icon='list'
                     +facet key='domain' icon='globe'
-                    +facet key='subreddit' icon='reddit'
+                    //- +facet key='subreddit' icon='reddit'
                     +facet key='Person' icon='user outline'
                     +facet key='doc_sentiment_label' label='sentiment' icon='smile'
                     +facet key='watson_keywords' label='keywords' icon='tags'
@@ -64,7 +73,7 @@ template(name='home')
                     +facet key='Company' icon='briefcase'
                     +facet key='Organization' icon='users'
                     +facet key='HealthCondition' icon='heart'
-                    +facet key='author' icon='pencil'
+                    //- +facet key='author' icon='pencil'
             .eleven.wide.column
                 .filter_row(class=loading_class)
                     .ui.inline.small.grey.header(title='change sort direction')
@@ -162,26 +171,13 @@ template(name='tag_result')
     .item #{name}
 
 template(name='emotion_circle')
-    .ui.circular.empty.label(class=emotion_circle_class)
+    .ui.circular.label(class=emotion_circle_class)
+        span {{ to_percent percent }}% #{emotion}
+        
+    //- .ui.circular.empty.label(class=color style="min-height:30%")
 
 template(name='post')      
-    //- .ui.segment         
-    +emotion_circle color='green' emotion='joy'
-    +emotion_circle color='blue' emotion='sadness'
-    +emotion_circle color='black' emotion='fear'
-    +emotion_circle color='yellow' emotion='disgust'
-    +emotion_circle color='red' emotion='anger'
-    with emotion
-        span {{ to_percent joy }}% joy
-            .rounded.inverted(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% green")
-        span {{ to_percent sadness}}% sadness
-            .rounded.inverted(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad")
-        span {{ to_percent fear }}% fear
-            .rounded.inverted(style="height:5px;width:{{to_percent fear}}%;background-color:grey" title="{{to_percent fear}}% green")
-        span {{ to_percent disgust }}% disgust
-            .rounded.inverted(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% green")
-        span {{ to_percent anger }}% anger
-            .rounded.inverted(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% green")
+    //- .ui.segment   
       
     a.ui.inline.header(href=url target="_window" class=post_header_class) 
         if thumbnail.length
@@ -192,7 +188,17 @@ template(name='post')
             |#{title}
         else 
             |#{watson.metadata.title}
-    //- div
+    //- .emotion_circles(style="height:100px")       
+    +emotion_circle color='green' emotion='joy' percent=joy_percent
+    //- span {{ to_percent joy_percent }}% joy
+    +emotion_circle color='blue' emotion='sadness' percent=sadness_percent
+    //- span {{ to_percent sadness_percent}}% sadness
+    +emotion_circle color='black' emotion='fear' percent=fear_percent
+    //- span {{ to_percent fear_percent }}% fear
+    +emotion_circle color='yellow' emotion='disgust' percent=disgust_percent
+    //- span {{ to_percent disgust_percent }}% disgust
+    +emotion_circle color='red' emotion='anger' percent=anger_percent
+    //- span {{ to_percent anger_percent }}% anger
     //- if watson.metadata.
     if is_video
         i.video.icon

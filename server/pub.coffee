@@ -103,16 +103,27 @@ Meteor.publish 'emotion_averages', (prematch)->
         # { $project: "sadness_percent": 1 }
         { $group:
             _id: null
-            sadness_average:
-                $avg: "$sadness_percent"
+            sadness_average: $avg: "$sadness_percent"
+            joy_average: $avg: "$joy_percent"
+            disgust_average: $avg: "$disgust_percent"
+            fear_average: $avg: "$fear_percent"
+            anger_average: $avg: "$anger_percent"
         }
-        { $project: _id: 0, name: 'sadness_average', sadness_average: 1 }
+        # { $project: _id: 0, name: 'sadness_average', sadness_average: 1 }
+        # { $project: _id: 0, name: 'joy_average', joy_average: 1 }
+        # { $project: _id: 0, name: 'disgust_average', disgust_average: 1 }
+        # { $project: _id: 0, name: 'fear_average', fear_average: 1 }
+        # { $project: _id: 0, name: 'anger_average', anger_average: 1 }
         ]
     emotion_averages.forEach (result)=>
         console.log 'avg', result
         self.added 'results', Random.id(),
             sadness_average: result.sadness_average
-            key:'sadness_average'
+            joy_average: result.joy_average
+            disgust_average: result.disgust_average
+            fear_average: result.fear_average
+            anger_average: result.anger_average
+            key:'emotion_average'
 
 
         #
