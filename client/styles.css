@@ -17,7 +17,7 @@ body {
 } */
 
 /* .ui.image:not(.avatar), .label,  img:not(.avatar) { */
-/* .ui.image, img:not(.avatar), .ui.embed, .ui.text, .green.header, .red.header, .blue.header, .orange.header, .inverted{
+/* .ui.image, img:not(.avatar), .ui.embed, .ui.text, .green.header, .red.header, .blue.header, .label, .orange.header, .inverted{
     border-radius: 7px !important;
     filter: invert(1) !important;
 } */
@@ -102,7 +102,7 @@ body {
 .largescroll{
 	overflow-y:scroll;
 	overflow-x:hidden;
-	max-height:90vh;
+	max-height:100vh;
 	padding-top: .2em;
 	/*padding-left: 1em;*/
 }
@@ -233,9 +233,9 @@ td {
     transition: all .25s !important;
 }
 
-.button {
+/* .button {
     transition: all .25s !important;
-}
+} */
 
 body {
     transition: all .25s !important;
@@ -485,7 +485,7 @@ textarea{
 
 
 .button, .selector, .card, body, .item{
-    animation: fadein .5s;
+    animation: fadein .25s;
     /* -webkit-transition: opacity 2s ease-out; */
     /* animation: fadeout 1s; */
 }
@@ -627,7 +627,7 @@ h1.ui.header{
   height: 300px;
 }
 .large-text {
-  font-size: 115%;
+  font-size: 110%;
   line-height: 130%;
 }
 .center-aligned {

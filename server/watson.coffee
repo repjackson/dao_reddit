@@ -19,23 +19,23 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 
 
 Meteor.methods
-    call_wiki: (query)->
-        console.log 'calling wiki', query
-        term = query.split(' ').join('_')
-        found_doc =
-            Docs.findOne
-                url: "https://en.wikipedia.org/wiki/#{term}"
-        if found_doc
-            console.log 'found wiki doc for term', term, found_doc
-            Docs.update found_doc._id,
-                $addToSet:tags:'wikipedia'
-            Meteor.call 'call_watson', found_doc._id, 'url','url', ->
-        else
-            new_wiki_id = Docs.insert
-                title: "wikipedia: #{query}"
-                tags:['wikipedia', query]
-                url:"https://en.wikipedia.org/wiki/#{term}"
-            Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
+    # call_wiki: (query)->
+    #     console.log 'calling wiki', query
+    #     term = query.split(' ').join('_')
+    #     found_doc =
+    #         Docs.findOne
+    #             url: "https://en.wikipedia.org/wiki/#{term}"
+    #     if found_doc
+    #         console.log 'found wiki doc for term', term, found_doc
+    #         Docs.update found_doc._id,
+    #             $addToSet:tags:'wikipedia'
+    #         Meteor.call 'call_watson', found_doc._id, 'url','url', ->
+    #     else
+    #         new_wiki_id = Docs.insert
+    #             title: "wikipedia: #{query}"
+    #             tags:['wikipedia', query]
+    #             url:"https://en.wikipedia.org/wiki/#{term}"
+    #         Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
 
 
 
@@ -147,7 +147,14 @@ Meteor.methods
                 parameters.clean = true
             when 'video'
                 parameters.url = "https://www.reddit.com#{doc.permalink}"
+                parameters.returnAnalyzedText = true
+                parameters.clean = true
                 console.log 'calling video'
+            when 'image'
+                parameters.url = "https://www.reddit.com#{doc.permalink}"
+                parameters.returnAnalyzedText = true
+                parameters.clean = true
+                console.log 'calling image'
 
 
 

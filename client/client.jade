@@ -12,7 +12,7 @@ head
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.1/dist/semantic.min.js')
-    script(async='' src='//embed.redditmedia.com/widgets/platform.js' charset='UTF-8')
+    //- /* script(async='' src='//embed.redditmedia.com/widgets/platform.js' charset='UTF-8') */
 
 
 body 
@@ -37,30 +37,19 @@ template(name='toggle_facet')
 
 template(name='home')
     .ui.stackable.padded.grid(class=invert_class)
-        .row 
-            .five.wide.column
+        .centered.row 
+            .sixteen.wide.column
                 i.big.yin.yang.grey.icon.toggle_theme(title='dao')
-                .ui.left.icon.input
+                .ui.left.icon.large.input
                     i.search.icon
                         //- if selected_tags
                         //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
                         //- else
                     input#search(type='text' autofocus='' autocomplete="off")
                 +tag_cloud
-                .spacer
-                with emotion_average_doc
-                    span {{ to_percent sadness_average }}% sadness
-                        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
-                    span {{ to_percent joy_average }}% joy
-                        .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% sadness")
-                    span {{ to_percent disgust_average }}% disgust
-                        .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% disgust")
-                    span {{ to_percent fear_average }}% fear
-                        .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:black" title="{{to_percent fear_average}}% fear")
-                    span {{ to_percent anger_average }}% anger
-                        .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% anger")
-
-                .largescroll
+        .two.column.row
+            .column
+                .six.column.row
                     +facet key='main_emotions' icon='smile'
                     +facet key='categories' icon='list'
                     +facet key='domain' icon='globe'
@@ -73,66 +62,102 @@ template(name='home')
                     +facet key='Company' icon='briefcase'
                     +facet key='Organization' icon='users'
                     +facet key='HealthCondition' icon='heart'
+            .column
+                .eleven.wide.column
+                    .filter_row(class=loading_class)
+                        .ui.compact.icon.button.toggle_video(class=toggle_video_class)
+                            i.video.icon
+                        .ui.inline.small.grey.header(title='change sort direction')
+                            |sort by
+                        .ui.compact.small.menu
+                            .ui.simple.dropdown.item
+                                strong #{current_sort_label}
+                                i.dropdown.icon
+                                .menu
+                                    +set_sort_key key='ups' label='upvotes'
+                                    +set_sort_key key='sadness_percent' label='sadness'
+                                    +set_sort_key key='joy_percent' label='joy'
+                                    +set_sort_key key='fear_percent' label='fear'
+                                    +set_sort_key key='disgust_percent' label='disgust'
+                                    +set_sort_key key='anger_percent' label='anger'
+                                    +set_sort_key key='_timestamp' label='added'
+                                    +set_sort_key key='doc_sentiment_label' label='sentiment'
+                                    +set_sort_key key='comment_count' label='comment count'
+                        .ui.compact.icon.basic.large.button.set_sort_direction(title='toggle sort direction')
+                            if sorting_up
+                                i.sort.amount.down.icon
+                            else
+                                i.sort.amount.up.icon
+                        .ui.compact.icon.basic.large.button.toggle_detail(title='toggle detail')
+                            if view_detail 
+                                i.stream.icon 
+                            else 
+                                i.window.minimize.icon
+                        |&nbsp;
+                        |&nbsp;
+                        .ui.inline.small.grey.header
+                            |limit
+                        .ui.compact.menu
+                            .ui.simple.dropdown.item
+                                strong #{current_doc_limit}
+                                i.dropdown.icon
+                                .menu
+                                    +set_limit amount=1
+                                    +set_limit amount=5
+                                    +set_limit amount=10
+                                    +set_limit amount=20
+                                    +set_limit amount=50
+                        //- .ui.inline.header
+                        //-     |search
+                        .ui.small.input
+                            input(type='text' placeholder='filter' val=search_value)
+                        |&nbsp;
+                        |&nbsp;
+                        //- .ui.inline.header view
+                        //- .ui.compact.menu
+                        //-     .ui.simple.dropdown.item
+                        //-         |#{current_delta.view_mode}
+                        //-         i.dropdown.icon
+                        //-         .menu
+                        //-             +set_view_mode title='table' icon='table'
+                        //-             +set_view_mode title='list' icon='list'
+                        //-             +set_view_mode title='cards' icon='cards'
+                        //-             +set_view_mode title='items' icon='list'
+                        //-             +set_view_mode title='map' icon='map'
+                        //-             +set_view_mode title='graph' icon='graph'
+                
+                    .largescroll
+                        each posts
+                            +post
+            .four.wide.column
+                with emotion_average_doc
+                    span {{ to_percent sentiment_average }}% sentiment
+                        .rounded.inverted(style="height:5px;width:{{to_percent sentiment_average}}%;background-color:green" title="{{to_percent sentiment_average}}% sad")
+                    span {{ to_percent sadness_average }}% sad
+                        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
+                    span {{ to_percent joy_average }}% joy
+                        .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% sadness")
+                    span {{ to_percent disgust_average }}% disgust
+                        .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% disgust")
+                    span {{ to_percent fear_average }}% fear
+                        .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:black" title="{{to_percent fear_average}}% fear")
+                    span {{ to_percent anger_average }}% anger
+                        .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% anger")
+
+                //- .largescroll
+                    //- +facet key='main_emotions' icon='smile'
+                    //- +facet key='categories' icon='list'
+                    //- +facet key='domain' icon='globe'
+                    //- //- +facet key='subreddit' icon='reddit'
+                    //- +facet key='Person' icon='user outline'
+                    //- +facet key='doc_sentiment_label' label='sentiment' icon='smile'
+                    //- +facet key='watson_keywords' label='keywords' icon='tags'
+                    //- +facet key='watson_concepts' label='concepts' icon='cubes'
+                    //- +facet key='Location' icon='marker'
+                    //- +facet key='Company' icon='briefcase'
+                    //- +facet key='Organization' icon='users'
+                    //- +facet key='HealthCondition' icon='heart'
                     //- +facet key='author' icon='pencil'
-            .eleven.wide.column
-                .filter_row(class=loading_class)
-                    .ui.inline.small.grey.header(title='change sort direction')
-                        |sort by
-                    .ui.compact.small.menu
-                        .ui.simple.dropdown.item
-                            strong #{current_sort_label}
-                            i.dropdown.icon
-                            .menu
-                                +set_sort_key key='ups' label='upvotes'
-                                +set_sort_key key='_timestamp' label='added'
-                                +set_sort_key key='doc_sentiment_label' label='sentiment'
-                                +set_sort_key key='comment_count' label='comment count'
-                    .ui.compact.icon.basic.large.button.set_sort_direction(title='toggle sort direction')
-                        if sorting_up
-                            i.sort.amount.down.icon
-                        else
-                            i.sort.amount.up.icon
-                    .ui.compact.icon.basic.large.button.toggle_detail(title='toggle detail')
-                        if view_detail 
-                            i.stream.icon 
-                        else 
-                            i.window.minimize.icon
-                    |&nbsp;
-                    |&nbsp;
-                    .ui.inline.small.grey.header
-                        |limit
-                    .ui.compact.menu
-                        .ui.simple.dropdown.item
-                            strong #{current_doc_limit}
-                            i.dropdown.icon
-                            .menu
-                                +set_limit amount=1
-                                +set_limit amount=5
-                                +set_limit amount=10
-                                +set_limit amount=20
-                                +set_limit amount=50
-                    //- .ui.inline.header
-                    //-     |search
-                    .ui.small.input
-                        input(type='text' placeholder='filter' val=search_value)
-                    |&nbsp;
-                    |&nbsp;
-                    //- .ui.inline.header view
-                    //- .ui.compact.menu
-                    //-     .ui.simple.dropdown.item
-                    //-         |#{current_delta.view_mode}
-                    //-         i.dropdown.icon
-                    //-         .menu
-                    //-             +set_view_mode title='table' icon='table'
-                    //-             +set_view_mode title='list' icon='list'
-                    //-             +set_view_mode title='cards' icon='cards'
-                    //-             +set_view_mode title='items' icon='list'
-                    //-             +set_view_mode title='map' icon='map'
-                    //-             +set_view_mode title='graph' icon='graph'
-            
-                .largescroll
-                    each posts
-                        +post
 
 template(name='set_sort_key')
     .item.set_sort
@@ -156,12 +181,18 @@ template(name='tag_cloud')
             i.search.icon
             +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
         // .ui.hidden.fitted.divider
-    if selected_tags
-        //- #clear_tags.ui.active.icon.compact.small.basic.button
-        //-     i.remove.icon
-        each selected_tags
-            .unselect_tag.ui.active.large.compact.small.basic.button
-                strong #{this}
+    each current_queries
+        .ui.active.circular.compact.button.unselect_query
+            i.remove.icon
+            | #{this}
+        
+    //- if selected_tags
+    //-     //- #clear_tags.ui.active.icon.compact.small.basic.button
+    //-     //-     i.remove.icon
+    //-     each selected_tags
+    //-         .unselect_tag.ui.active.compact.circular.button
+    //-             i.remove.icon
+    //-             strong #{this}
     //- each tags
     //-     .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
     //-         strong #{this.name}
@@ -171,10 +202,10 @@ template(name='tag_result')
     .item #{name}
 
 template(name='emotion_circle')
-    .ui.circular.label(class=emotion_circle_class)
+    .ui.label(class=emotion_circle_class)
         span {{ to_percent percent }}% #{emotion}
         
-    //- .ui.circular.empty.label(class=color style="min-height:30%")
+    //- .ui.empty.label(class=color style="min-height:30%")
 
 template(name='post')      
     //- .ui.segment   
@@ -203,15 +234,19 @@ template(name='post')
     if is_video
         i.video.icon
         //- img(src=url)
+        iframe(width="560" height="315" src="https://www.youtube.com/embed/C0Jmm7_v-iU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
         blockquote.reddit-card
             a(href="https://www.reddit.com#{permalink}")
-                i.right.chevron.circular.link.icon
+                i.right.chevron.link.icon
                 //- |#{title}
             a(href="http://www.reddit.com/r/#{subreddit}") #{subreddit}
         +call_watson mode='video'
     if is_spotify
         iframe(src="https://open.spotify.com/embed/track/5GQ8H3M5fwIU0oTXO3NmQV" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media")
-    //- 
+    if is_image 
+        i.large.image.icon
+        img.ui.fluid.image(src=url)
+        +call_watson mode='image'
     //- if in_dev
     div
     if view_detail
@@ -224,10 +259,12 @@ template(name='post')
         if tone 
             each tone.result.sentences_tone 
                 //- |#{sentence_id}:
-                span.large-text(title=sentence_id class=tone_sentence_class) #{text}
+                span.large-text #{text}
+                //- span.large-text(title=sentence_id class=tone_sentence_class) #{text}
                 each tones 
-                    //- .ui.basic.circular.small.compact.button
-                    .ui.small.basic.label {{to_percent score}}% #{tone_id}
+                    //- .ui.basic.small.compact.button
+                    .ui.small.basic.label #{tone_id}
+                    //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
                 div
         else 
             .large-text    
@@ -255,7 +292,7 @@ template(name='post')
         .ui.small.inline.header
             |sentiment
             //- |#{doc_sentiment_label}
-            |#{doc_sentiment_score}
+            |{{to_percent doc_sentiment_score}}
         span(title='comment_count')
             i.comments.icon
             |#{comment_count}
@@ -266,14 +303,14 @@ template(name='post')
         a(href=url target='_window') #{url}
         +doc_emotion        
     if in_dev
-        i.reddit.circular.link.icon.call_reddit_post
-        i.code.circular.link.icon.print_this
-        i.brain.circular.link.icon.call_tone
+        i.reddit.link.icon.call_reddit_post
+        i.code.link.icon.print_this
+        i.brain.link.icon.call_tone
         +call_watson mode='url' key='url'
         i.remove.link.icon
     //-     +call_watson mode='html'
     if in_dev 
-        i.remove.circular.link.icon
+        i.remove.link.icon
     //-     if watson 
     //-         +jsonView json=watson
     .ui.inline.small.header added #{when}
@@ -284,35 +321,73 @@ template(name='array_view')
     if values 
         .ui.inline.small.header 
             if icon 
-                i.small.grey.icon(class=icon)
+                i.grey.icon(class=icon title=key)
             if label
                 |#{label}
             else 
                 #{key}
         each values 
-            .ui.small.compact.circular.button(class=post_label_class)
+            .ui.small.compact.circular.button.toggle_post_filter(class=post_label_class)
                 |#{this}
-        div
+        //- div
 
 
 
 template(name='facet')
-    .ui.large.compact.circular.button.toggle_facet(class=toggle_facet_class)
-        if icon 
-            i.icon(class=icon)
-        if label
-            |#{label}
-        else 
-            |#{key}
-    //- .ui.header results
-    if view_facet
+    //- if top_results.count
+    //-     .column
+    //-         //- i.icon(class=icon)
+    //-         //- select(name=key multiple="" class="ui search long dropdown")
+    //-         //-     //- if icon
+    //-         //-     option(value='') #{key}
+    //-         //-     each results
+    //-         //-         option.toggle_filter(value=name) #{name}
+    //-         .ui.small.header 
+    //-             i.icon(class=icon)
+    //-             |#{key}
+    //-         .ui.link.list
+    //-             each top_results
+    //-                 a.item.toggle_filter(class=toggle_filter_class title=count) #{name}
+    //-         if bottom_results.count
+    //-             .ui.simple.dropdown.item
+    //-                 |more
+    //-                 i.dropdown.icon
+    //-                 //- if icon 
+    //-                 //-     i.icon(class=icon)
+    //-                 //- if label
+    //-                 //-     |#{label}
+    //-                 //- else 
+    //-                 //-     |#{key}
+    //-                 .small.menu
+    //-                     each bottom_results
+    //-                         .item.toggle_filter(class=toggle_filter_class title=count) #{name}
+    //-                 //- #{count}
+    //-         //- if view_facet
+    //-             //- .spacer
+    //-             each results
+    //-             //- #cloud
+    //-                 .ui.left.icon.input
+    //-                     i.search.icon
+    //-                     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+    //-                 // .ui.hidden.fitted.divider
+    //-         //- .spacer
+    if top_results.count
+        .ui.large.compact.circular.button.toggle_facet(class=toggle_facet_class)
+            if icon 
+                i.icon(class=icon)
+            if label
+                |#{label}
+            else 
+                |#{key}
+        //- .ui.header results
+        //- if view_facet
         //- .spacer
         each results
-            .ui.compact.small.circular.button.toggle_filter(class=toggle_filter_class title=count) #{name}
+            .ui.compact.button.toggle_filter(class=toggle_filter_class title=count) #{name}
              //- #{count}
         //- #cloud
-            .ui.left.icon.input
-                i.search.icon
-                +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
-            // .ui.hidden.fitted.divider
-    .spacer
+                .ui.left.icon.input
+                    i.search.icon
+                    +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+                // .ui.hidden.fitted.divider
+        .spacer

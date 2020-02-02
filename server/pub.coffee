@@ -3,12 +3,15 @@ Meteor.publish 'docs', (
     doc_limit=5
     sort_key='_timestamp'
     sort_direction=-1
+    only_videos
     )->
     # console.log 'pre match', prematch
     # console.log selected_tags
     # console.log filter
     self = @
     match = {}
+    if only_videos
+        match.is_video = true
     # if selected_tags.length > 0 then match.tags = $all: selected_tags
     # if filter then match.model = filter
     keys = _.keys(prematch)
@@ -103,6 +106,7 @@ Meteor.publish 'emotion_averages', (prematch)->
         # { $project: "sadness_percent": 1 }
         { $group:
             _id: null
+            sentiment_average: $avg: "$doc_sentiment_score"
             sadness_average: $avg: "$sadness_percent"
             joy_average: $avg: "$joy_percent"
             disgust_average: $avg: "$disgust_percent"
@@ -118,6 +122,7 @@ Meteor.publish 'emotion_averages', (prematch)->
     emotion_averages.forEach (result)=>
         console.log 'avg', result
         self.added 'results', Random.id(),
+            sentiment_average: result.sentiment_average
             sadness_average: result.sadness_average
             joy_average: result.joy_average
             disgust_average: result.disgust_average

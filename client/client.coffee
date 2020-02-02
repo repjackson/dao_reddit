@@ -46,9 +46,11 @@ Template.home.onCreated ->
         # Session.get('view_nsfw')
         Session.get('sort_key')
         Session.get('sort_direction')
+        Session.get('only_videos')
     @autorun -> Meteor.subscribe 'emotion_averages',
         Session.get('match')
 
+    Session.setDefault 'only_videos', false
     Session.setDefault 'doc_limit', 5
     Session.setDefault 'sort_label', 'added'
     Session.setDefault 'sort_key', '_timestamp'
@@ -56,20 +58,12 @@ Template.home.onCreated ->
     Session.setDefault 'sort_direction', -1
     Session.setDefault 'match', {}
 
-Template.home.helpers
-    emotion_average_doc: ->
-        Results.findOne
-            key:'emotion_average'
-    sorting_up: -> Session.equals('sort_direction', -1)
-    posts: ->
-        Docs.find {
-            model:'reddit'
-        },
-            sort: _timestamp: -1
-
 
 
 Template.home.events
+    'click .toggle_video': ->
+        Session.set('only_videos', !Session.get('only_videos'))
+
     'click .toggle_theme': ->
         Session.set('invert_mode', !Session.get('invert_mode'))
     'click .set_sort_direction': ->
@@ -77,6 +71,7 @@ Template.home.events
             Session.set('sort_direction', 1)
         else
             Session.set('sort_direction', -1)
+        console.log Session.get('sort_direction')
     'click .toggle_detail': ->
         if Session.equals('view_detail', false)
             Session.set('view_detail', true)
@@ -128,6 +123,9 @@ Template.home.events
 
 
 Template.home.helpers
+    toggle_video_class: ->
+        if Session.equals('only_videos') then 'active' else ''
+
     invert_class: ->
         if Session.get('invert_mode')
             'inverted'
@@ -142,28 +140,69 @@ Template.home.helpers
     visible_facets: ->
         console.log selected_facets.array()
         selected_facets.array()
+    emotion_average_doc: ->
+        Results.findOne
+            key:'emotion_average'
+    sorting_up: -> Session.equals('sort_direction', -1)
+    posts: ->
+        Docs.find {
+            model:'reddit'
+        },
+            sort: "#{Session.get('sort_key')}": Session.get('sort_direction')
+
+    toggle_video: -> Session.set('only_videos', !Session.get('only_videos'))
 
 
 Template.set_limit.events
     'click .set_limit': ->
-        console.log @
+        # console.log @
         Session.set('doc_limit', @amount)
 
 Template.set_sort_key.events
     'click .set_sort': ->
-        console.log @
+        # console.log @
         Session.set('sort_key', @key)
         Session.set('sort_label', @label)
 
 
 Template.tag_cloud.helpers
     selected_tags: -> selected_tags.array()
+    current_queries: ->
+        current_queries.array()
 
 
 Template.tag_cloud.events
-    'click .select_tag': -> selected_tags.push @name
-    'click .unselect_tag': -> selected_tags.remove @valueOf()
-    'click #clear_tags': -> selected_tags.clear()
+    'click .select_query': -> current_queries.push @name
+    'click .unselect_query': ->
+        current_queries.remove @valueOf()
+        match = Session.get('match')
+        key_array = match["#{@key}"]
+        if key_array
+            if @name in key_array
+                key_array = _.without(key_array, @name)
+                match["#{@key}"] = key_array
+                current_queries.remove @name
+                Session.set('match', match)
+            else
+                key_array.push @name
+                current_queries.push @name
+                Session.set('match', match)
+                Meteor.call 'search_reddit', current_queries.array(), ->
+                # match["#{@key}"] = ["#{@name}"]
+        else
+            match["#{@key}"] = ["#{@name}"]
+            current_queries.push @name
+            # console.log current_queries.array()
+        Session.set('match', match)
+        # console.log current_queries.array()
+        if current_queries.array().length > 0
+            Meteor.call 'search_reddit', current_queries.array(), ->
+        # console.log Session.get('match')
+
+
+
+
+    'click #clear_queries': -> current_queries.clear()
 
     # 'keyup #search': (e,t)->
     #     e.preventDefault()
@@ -209,7 +248,7 @@ Template.call_watson.events
 
 
 Template.facet.onCreated ->
-    @view_facet = new ReactiveVar true
+    @view_facet = new ReactiveVar false
     # @autorun => Meteor.subscribe 'results'
     @autorun => Meteor.subscribe(
         'facet_results'
@@ -221,6 +260,11 @@ Template.facet.onCreated ->
         Session.get('sort_direction')
     )
 
+Template.facet.onRendered ->
+    # Meteor.setTimeout ->
+    #     $('.ui.dropdown')
+    #       .dropdown()
+    # , 2000
 
 
 
@@ -245,12 +289,12 @@ Template.facet.events
         else
             match["#{@key}"] = ["#{@name}"]
             current_queries.push @name
-            console.log current_queries.array()
+            # console.log current_queries.array()
         Session.set('match', match)
         console.log current_queries.array()
         if current_queries.array().length > 0
             Meteor.call 'search_reddit', current_queries.array(), ->
-        console.log Session.get('match')
+        # console.log Session.get('match')
 
 Template.facet.helpers
     view_facet: ->
@@ -283,9 +327,56 @@ Template.facet.helpers
         )
 
 
+    top_results: ->
+        # console.log Template.currentData().key
+        Results.find({
+            key:Template.currentData().key
+        }, {limit:7}
+        )
+
+
+    bottom_results: ->
+        # console.log Template.currentData().key
+        Results.find({
+            key:Template.currentData().key
+        }, {skip:7}
+        )
 
 
 
+
+
+
+Template.array_view.events
+    'click .toggle_post_filter': ->
+        console.log @
+        value = @valueOf()
+        console.log Template.currentData()
+        current = Template.currentData()
+        console.log Template.parentData()
+        match = Session.get('match')
+        key_array = match["#{current.key}"]
+        if key_array
+            if value in key_array
+                key_array = _.without(key_array, value)
+                match["#{current.key}"] = key_array
+                current_queries.remove value
+                Session.set('match', match)
+            else
+                key_array.push value
+                current_queries.push value
+                Session.set('match', match)
+                Meteor.call 'search_reddit', current_queries.array(), ->
+                # match["#{current.key}"] = ["#{value}"]
+        else
+            match["#{current.key}"] = ["#{value}"]
+            current_queries.push value
+            # console.log current_queries.array()
+        Session.set('match', match)
+        # console.log current_queries.array()
+        if current_queries.array().length > 0
+            Meteor.call 'search_reddit', current_queries.array(), ->
+        # console.log Session.get('match')
 
 Template.array_view.helpers
     values: ->
@@ -293,7 +384,19 @@ Template.array_view.helpers
         Template.parentData()["#{@key}"]
 
     post_label_class: ->
-        'basic'
+        match = Session.get('match')
+        key = Template.parentData().key
+        doc = Template.parentData(2)
+        # console.log key
+        # console.log doc
+        # console.log @
+        if match["#{key}"]
+            if @valueOf() in match["#{key}"]
+                'active'
+            else
+                'basic'
+        else
+            'basic'
 
 
 
@@ -302,7 +405,7 @@ Template.emotion_circle.helpers
         # emotion = @watson.emotion.document.emotion
         # console.log @emotion
         # console.log @color
-        console.log @percent
+        # console.log @percent
         classes = "#{@color}"
         size = switch
             when @percent < .2
@@ -324,7 +427,7 @@ Template.emotion_circle.helpers
             when @percent < 1.1
                 classes += ' massive'
                 # console.log 'massive'
-        console.log classes
+        # console.log classes
         classes
         # switch emotion.
 
