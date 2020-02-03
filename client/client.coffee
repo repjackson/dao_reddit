@@ -23,6 +23,44 @@ Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
+Template.registerHelper 'calculated_size', (metric) ->
+    # console.log metric
+    # console.log typeof parseFloat(@relevance)
+    # console.log typeof (@relevance*100).toFixed()
+    whole = parseInt(@["#{metric}"]*10)
+    # console.log whole
+
+    if whole is 2 then 'f2'
+    else if whole is 3 then 'f3'
+    else if whole is 4 then 'f4'
+    else if whole is 5 then 'f5'
+    else if whole is 6 then 'f6'
+    else if whole is 7 then 'f7'
+    else if whole is 8 then 'f8'
+    else if whole is 9 then 'f9'
+    else if whole is 10 then 'f10'
+
+
+Template.registerHelper 'calc_size', (metric) ->
+    console.log metric
+    # console.log typeof parseFloat(@relevance)
+    # console.log typeof (@relevance*100).toFixed()
+    whole = parseInt(metric)
+    console.log whole
+
+    if whole is 2 then 'f2'
+    else if whole is 3 then 'f3'
+    else if whole is 4 then 'f4'
+    else if whole is 5 then 'f5'
+    else if whole is 6 then 'f6'
+    else if whole is 7 then 'f7'
+    else if whole is 8 then 'f8'
+    else if whole is 9 then 'f9'
+    else if whole is 10 then 'f10'
+
+
+
+
 Template.registerHelper 'is', (one,two)-> one is two
 
 Template.registerHelper 'nl2br', (text)->
@@ -40,14 +78,14 @@ Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 
 Template.home.onCreated ->
-    @autorun -> Meteor.subscribe 'docs',
+    @autorun => @subscribe 'docs',
         Session.get('match')
         Session.get('doc_limit')
         # Session.get('view_nsfw')
         Session.get('sort_key')
         Session.get('sort_direction')
         Session.get('only_videos')
-    @autorun -> Meteor.subscribe 'emotion_averages',
+    @autorun => @subscribe 'emotion_averages',
         Session.get('match')
 
     Session.setDefault 'only_videos', false
@@ -61,6 +99,8 @@ Template.home.onCreated ->
 
 
 Template.home.events
+    'click .print_match': ->
+        console.log Session.get('match')
     'click .toggle_video': ->
         Session.set('only_videos', !Session.get('only_videos'))
 
@@ -123,6 +163,8 @@ Template.home.events
 
 
 Template.home.helpers
+    subs_ready: ->
+        Template.instance().subscriptionsReady()
     toggle_video_class: ->
         if Session.equals('only_videos') then 'active' else ''
 
@@ -250,7 +292,7 @@ Template.call_watson.events
 Template.facet.onCreated ->
     @view_facet = new ReactiveVar false
     # @autorun => Meteor.subscribe 'results'
-    @autorun => Meteor.subscribe(
+    @autorun => @subscribe(
         'facet_results'
         Template.currentData().key
         Session.get('match')
@@ -341,155 +383,3 @@ Template.facet.helpers
             key:Template.currentData().key
         }, {skip:7}
         )
-
-
-
-
-
-
-Template.array_view.events
-    'click .toggle_post_filter': ->
-        console.log @
-        value = @valueOf()
-        console.log Template.currentData()
-        current = Template.currentData()
-        console.log Template.parentData()
-        match = Session.get('match')
-        key_array = match["#{current.key}"]
-        if key_array
-            if value in key_array
-                key_array = _.without(key_array, value)
-                match["#{current.key}"] = key_array
-                current_queries.remove value
-                Session.set('match', match)
-            else
-                key_array.push value
-                current_queries.push value
-                Session.set('match', match)
-                Meteor.call 'search_reddit', current_queries.array(), ->
-                # match["#{current.key}"] = ["#{value}"]
-        else
-            match["#{current.key}"] = ["#{value}"]
-            current_queries.push value
-            # console.log current_queries.array()
-        Session.set('match', match)
-        # console.log current_queries.array()
-        if current_queries.array().length > 0
-            Meteor.call 'search_reddit', current_queries.array(), ->
-        # console.log Session.get('match')
-
-Template.array_view.helpers
-    values: ->
-        # console.log @key
-        Template.parentData()["#{@key}"]
-
-    post_label_class: ->
-        match = Session.get('match')
-        key = Template.parentData().key
-        doc = Template.parentData(2)
-        # console.log key
-        # console.log doc
-        # console.log @
-        if match["#{key}"]
-            if @valueOf() in match["#{key}"]
-                'active'
-            else
-                'basic'
-        else
-            'basic'
-
-
-
-Template.emotion_circle.helpers
-    emotion_circle_class: ->
-        # emotion = @watson.emotion.document.emotion
-        # console.log @emotion
-        # console.log @color
-        # console.log @percent
-        classes = "#{@color}"
-        size = switch
-            when @percent < .2
-                classes += ' mini'
-            when @percent < .3
-                classes += ' tiny'
-                # console.log 'small'
-            when @percent < .4
-                classes += ' small'
-            when @percent < .6
-                classes += ' '
-                # console.log 'reg'
-            when @percent < .7
-                classes += ' large'
-                # console.log 'large'
-            when @percent < .9
-                classes += ' big'
-                # console.log 'big'
-            when @percent < 1.1
-                classes += ' massive'
-                # console.log 'massive'
-        # console.log classes
-        classes
-        # switch emotion.
-
-
-
-Template.post.helpers
-    when: -> moment(@_timestamp).fromNow()
-    view_detail: -> Session.get('view_detail')
-    tone_sentence_class: ->
-        # console.log @tones
-        if @tones.length > 0
-            majority = _.filter(@tones,(tone)-> tone.score>0.5)
-            max = _.max(majority,(tone)->tone.score)
-            # console.log max
-            classes = ""
-            classes = switch max.tone_id
-                when 'analytical' then 'violet'
-                when 'confident' then 'blue'
-                when 'anger' then 'red'
-                when 'sadness' then 'blue'
-                when 'tentative' then 'yellow'
-                when 'joy' then 'green'
-                when 'fear' then 'orange'
-                else ''
-            # console.log "ui text #{classes}"
-            "ui text #{classes}"
-    post_header_class: ->
-        if @doc_sentiment_label is 'positive'
-            if @doc_sentiment_score > .5
-                'green'
-            else
-                'blue'
-        else if @doc_sentiment_label is 'negative'
-            if @doc_sentiment_score < -.5
-                'red'
-            else
-                'orange'
-Template.post.events
-    'click .remove': ->
-        Docs.remove @_id
-    'click .pick_location': ->
-        current_queries.push @valueOf()
-        selected_locations.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
-
-    'click .pick_company': ->
-        current_queries.push @valueOf()
-        selected_companies.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
-    'click .pick_person': ->
-        current_queries.push @valueOf()
-        selected_people.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
-    'click .call_tone': ->
-        console.log @
-        Meteor.call 'call_tone', @_id, 'body', 'text', ->
