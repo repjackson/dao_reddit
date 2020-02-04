@@ -67,29 +67,72 @@ Meteor.methods
         else
             idea_id = Ideas.insert match
         # if type is 'entity'
+        doc_mention_ids =
+            Docs.find({
+                "#{key}": $in: [idea]
+                # "watson.entities": $exists:true
+            }, {
+                fields: _id:1
+                # limit:5
+            }).fetch()
+        analyzed_ids =
+            Docs.find({
+                "#{key}": $in: [idea]
+                "watson.entities": $exists:true
+            }, {
+                fields: _id:1
+                # limit:5
+            }).fetch()
+        console.log 'doc mention ids', doc_mention_ids
+        console.log 'analyzed ids', analyzed_ids
+        console.log 'doc mention id length', doc_mention_ids.length
+        console.log 'analyzed ids length', analyzed_ids.length
+
         doc_mentions =
-            Docs.find "#{key}": $in: [idea]
-        console.log 'doc mentions count', doc_mentions.count(), 'for', key, idea
+            Docs.find({
+                "#{key}": $in: [idea]
+                "watson.entities": $exists:true
+            }, {
+                fields: _id:1
+                # limit:5
+            }).count()
 
+        # console.log 'doc mentions count', doc_mentions.count(), 'for', key, idea
+        #
         total_sentiment_score = 0
-        for doc in doc_mentions.fetch()
-            if doc.watson and doc.watson.entities
-                console.log _.findWhere(doc.watson.entities, {text:idea})
-                entity_object = _.findWhere(doc.watson.entities, {text:idea})
-                total_sentiment_score += entity_object.sentiment.score
+        emotion_doc_count = 0
 
-        console.log total_sentiment_score
-        average_sentiment_score = total_sentiment_score/doc_mentions.count()
+        analyzed_doc_ids = []
+
+        for doc in doc_mention_ids
+            doc = Docs.findOne({_id:doc._id},{fields:"watson.entities":1})
+            console.log doc
+            # console.log _.findWhere(doc.watson.entities, {text:idea})
+            entity_object = _.findWhere(doc.watson.entities, {text:idea})
+            # console.log entity_object
+            if entity_object
+                if entity_object.sentiment
+                    if entity_object.sentiment.score
+                        console.log entity_object.sentiment.score
+                        total_sentiment_score += entity_object.sentiment.score
+                        emotion_doc_count++
+                        analyzed_doc_ids.push doc._id
+        #
+        console.log 'total sentiment score', total_sentiment_score
+        console.log 'mentioned count', doc_mention_ids.length
+        console.log 'emotional count', emotion_doc_count
+        mention_emotion_difference = _.without(doc_mention_ids,analyzed_doc_ids)
+        console.log 'mention_emotion_difference', mention_emotion_difference
+        for id in mention_emotion_difference
+            Meteor.call 'analyze_entities', id
+        average_sentiment_score = total_sentiment_score/emotion_doc_count
         Ideas.update idea_id,
             $set:
-                doc_mention_count: doc_mentions.count()
-                average_sentiment_score: total_sentiment_score/doc_mentions.count()
-        # doc_mentions =
-        #     Docs.find
-        #         tags: $in: [idea]
-        #         tags: $in: [idea]
-        # console.log 'doc mentions', doc_mentions.count()
-
+                doc_mention_count: doc_mention_ids.length
+                doc_mention_ids:doc_mention_ids
+                analyzed_doc_count: emotion_doc_count
+                average_sentiment_score: average_sentiment_score
+                analyzed_doc_ids: analyzed_doc_ids
 
     search_reddit: (query)->
         console.log 'searching reddit', query

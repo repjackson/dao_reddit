@@ -11,12 +11,12 @@
 		"cloudinary_key": "754714459692734",
 		"cloudinary_secret": "rPPXD3rZM_GCjODvh0T70XeDCSw",
 		"tone": {
-            "apikey": "CvSC111bZ19-JqtN1lgSVQK949fRIyM6QFERAfUdWmTU",
-            "iam_apikey_description": "Auto-generated for key 50cef3ae-44f3-4547-b9d3-a0ecfcb7501a",
+            "apikey": "wDsUCpvjNiwBjDs5C1GvHwb970BDHBOcah_KXs-boFgG",
+            "iam_apikey_description": "Auto-generated for key e64fad1b-3834-4775-baab-3e1dbaa6d62f",
             "iam_apikey_name": "Auto-generated service credentials",
             "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-            "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/af60429c879aa2f2c4eb7ef8cc8f8892::serviceid:ServiceId-25a1a2a3-6359-4d29-baaa-091ec039c668",
-            "url": "https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/fc548825-3a07-4d09-ab79-c102105a4f72"
+            "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/34a2c275aeff460081c2074ab5abe5c6::serviceid:ServiceId-fb595bbc-0851-4600-b24a-ad5907094a81",
+            "url": "https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/6755dca9-6933-4529-81df-a985e6447170"
 		},
 		"language": {
 			"apikey": "wfHNSJGDfXwL3kzctjyFc1A42915AI7skje35rVxvA9t",

@@ -90,15 +90,15 @@ Meteor.methods
     call_watson: (doc_id, key, mode) ->
         console.log 'calling watson'
         self = @
-        # console.log doc_id
-        # console.log key
-        # console.log mode
+        console.log doc_id
+        console.log key
+        console.log mode
         doc = Docs.findOne doc_id
         # console.log 'value', doc["#{key}"]
         # if doc.skip_watson is true
         #     console.log 'skipping flagged doc', doc.title
         # else
-        # console.log 'analyzing', doc.title, 'tags', doc.tags
+        console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
             concepts:
                 limit:10
@@ -234,3 +234,59 @@ Meteor.methods
                     # console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )
+
+
+    analyze_entities: (doc_id, key) ->
+        console.log 'calling watson'
+        self = @
+        # console.log doc_id
+        # console.log key
+        # console.log mode
+        doc = Docs.findOne doc_id
+        # console.log 'value', doc["#{key}"]
+        # console.log 'analyzing', doc.title, 'tags', doc.tags
+        parameters =
+            features:
+                entities:
+                    emotion: true
+                    sentiment: true
+                    # limit: 2
+
+        if doc.body
+            parameters.body = doc.body
+            natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) ->
+                if err
+                    # console.log 'watson error for', parameters.url
+                    console.log err
+                    unless err.code is 403
+                        Docs.update doc_id,
+                            $set:skip_watson:true
+                        console.log 'not html, flaggged doc for future skip', parameters.url
+                    else
+                        console.log '403 error api key'
+                else
+                    # console.log 'analy text', response.analyzed_text
+                    # console.log(JSON.stringify(response, null, 2));
+                    # console.log 'adding watson info', doc.title
+                    response = response.result
+                    # emotions = response.emotion.document.emotion
+
+                    adding_tags = []
+                    if response.entities and response.entities.length > 0
+                        for entity in response.entities
+                            # console.log entity.type, entity.text
+                            Docs.update { _id: doc_id },
+                                $set:
+                                    watson: response
+                                $addToSet:
+                                    "#{entity.type}":entity.text
+                                    tags:entity.text.toLowerCase()
+                    final_doc = Docs.findOne doc_id
+                    console.log 'analyzed entities', doc
+                    # if Meteor.isDevelopment
+                        # console.log 'all tags', final_doc.tags
+                        # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
+            )
+
+        else
+            console.log 'no body found'

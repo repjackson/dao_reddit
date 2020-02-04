@@ -339,7 +339,8 @@ Template.facet.events
                 key_array.push @name
                 current_queries.push @name
                 Session.set('match', match)
-                Meteor.call 'search_reddit', current_queries.array(), ->
+                Meteor.call 'agg_idea', @name, @key, 'entity', ->
+                # Meteor.call 'search_reddit', current_queries.array(), ->
                 # match["#{@key}"] = ["#{@name}"]
         else
             match["#{@key}"] = ["#{@name}"]
@@ -348,8 +349,8 @@ Template.facet.events
             # console.log current_queries.array()
         Session.set('match', match)
         console.log current_queries.array()
-        if current_queries.array().length > 0
-            Meteor.call 'search_reddit', current_queries.array(), ->
+        # if current_queries.array().length > 0
+        #     Meteor.call 'search_reddit', current_queries.array(), ->
         # console.log Session.get('match')
 
 Template.facet.helpers
@@ -397,3 +398,8 @@ Template.facet.helpers
             key:Template.currentData().key
         }, {skip:7}
         )
+
+
+Template.idea_segment.events
+    'click .calc_emotion': ->
+        Meteor.call 'agg_idea', @name, @key, 'entity'

@@ -1,11 +1,11 @@
 template(name='post')      
     .ui.segment   
-          
-        a.ui.inline.header(href=url target="_window" class=post_header_class) 
-            if thumbnail.length
-                img.ui.big.image(src=thumbnail)
-            else if watson.metadata.image.length
-                img.ui.big.image(src=watson.metadata.image)
+        //- a.ui.inline.header(href=url target="_window" class=post_header_class) 
+        a.ui.inline.header(href=url target="_window") 
+            //- if thumbnail.length
+            //-     img.ui.big.image(src=thumbnail)
+            //- else if watson.metadata.image.length
+            //-     img.ui.big.image(src=watson.metadata.image)
             if title 
                 |#{title}
             else 
