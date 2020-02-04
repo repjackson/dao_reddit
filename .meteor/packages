@@ -30,5 +30,4 @@ ecmascript@0.13.0
 modules@0.14.0
 fourseven:scss
 http
-mizzao:autocomplete
 reactive-dict

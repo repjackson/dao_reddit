@@ -42,11 +42,11 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 
 Template.registerHelper 'calc_size', (metric) ->
-    console.log metric
+    # console.log metric
     # console.log typeof parseFloat(@relevance)
     # console.log typeof (@relevance*100).toFixed()
     whole = parseInt(metric)
-    console.log whole
+    # console.log whole
 
     if whole is 2 then 'f2'
     else if whole is 3 then 'f3'
@@ -87,6 +87,11 @@ Template.home.onCreated ->
         Session.get('only_videos')
     @autorun => @subscribe 'emotion_averages',
         Session.get('match')
+
+    @autorun => @subscribe 'ideas',
+        current_queries.array()
+
+
 
     Session.setDefault 'only_videos', false
     Session.setDefault 'doc_limit', 5
@@ -163,6 +168,8 @@ Template.home.events
 
 
 Template.home.helpers
+    ideas: ->
+        Ideas.find()
     subs_ready: ->
         Template.instance().subscriptionsReady()
     toggle_video_class: ->
@@ -217,23 +224,24 @@ Template.tag_cloud.events
     'click .select_query': -> current_queries.push @name
     'click .unselect_query': ->
         current_queries.remove @valueOf()
+
         match = Session.get('match')
-        key_array = match["#{@key}"]
-        if key_array
-            if @name in key_array
-                key_array = _.without(key_array, @name)
-                match["#{@key}"] = key_array
-                current_queries.remove @name
-                Session.set('match', match)
-            else
-                key_array.push @name
-                current_queries.push @name
-                Session.set('match', match)
-                Meteor.call 'search_reddit', current_queries.array(), ->
+        # key_array = match["#{@key}"]
+        # if key_array
+        #     if @name in key_array
+        #         key_array = _.without(key_array, @name)
+        #         match["#{@key}"] = key_array
+        #         current_queries.remove @name
+        #         Session.set('match', match)
+        #         Meteor.call 'search_reddit', current_queries.array(), ->
+            # else
+            #     key_array.push @name
+            #     current_queries.push @name
+            #     Session.set('match', match)
                 # match["#{@key}"] = ["#{@name}"]
-        else
-            match["#{@key}"] = ["#{@name}"]
-            current_queries.push @name
+        # else
+        #     match["#{@key}"] = ["#{@name}"]
+        #     current_queries.push @name
             # console.log current_queries.array()
         Session.set('match', match)
         # console.log current_queries.array()
@@ -330,6 +338,7 @@ Template.facet.events
                 # match["#{@key}"] = ["#{@name}"]
         else
             match["#{@key}"] = ["#{@name}"]
+            Meteor.call 'agg_idea', @name, @key, ->
             current_queries.push @name
             # console.log current_queries.array()
         Session.set('match', match)

@@ -1,3 +1,14 @@
+Meteor.publish 'ideas', (
+    selected_queries=[]
+    prematch
+    doc_limit=5
+    )->
+    Ideas.find(
+        name:$in:selected_queries
+    )
+
+
+
 Meteor.publish 'docs', (
     prematch
     doc_limit=5
@@ -67,7 +78,7 @@ Meteor.publish 'facet_results', (
         { $group: _id: "$#{key}", count: $sum: 1 }
         { $match: _id: $nin: filters }
         { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
+        { $limit: 10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     result_cloud.forEach (result, i) =>
@@ -88,10 +99,7 @@ Meteor.publish 'facet_results', (
 
 Meteor.publish 'emotion_averages', (prematch)->
     match = {}
-    # if current_facet_filter_array and current_facet_filter_array.length > 0
-    #     match["#{key}"] = $all: current_facet_filter_array
     self = @
-
 
     keys = _.keys(prematch)
     # console.log 'facet keys', key, keys
@@ -113,14 +121,9 @@ Meteor.publish 'emotion_averages', (prematch)->
             fear_average: $avg: "$fear_percent"
             anger_average: $avg: "$anger_percent"
         }
-        # { $project: _id: 0, name: 'sadness_average', sadness_average: 1 }
-        # { $project: _id: 0, name: 'joy_average', joy_average: 1 }
-        # { $project: _id: 0, name: 'disgust_average', disgust_average: 1 }
-        # { $project: _id: 0, name: 'fear_average', fear_average: 1 }
-        # { $project: _id: 0, name: 'anger_average', anger_average: 1 }
-        ]
+    ]
     emotion_averages.forEach (result)=>
-        console.log 'avg', result
+        # console.log 'avg', result
         self.added 'results', Random.id(),
             sentiment_average: result.sentiment_average
             sadness_average: result.sadness_average
@@ -129,121 +132,5 @@ Meteor.publish 'emotion_averages', (prematch)->
             fear_average: result.fear_average
             anger_average: result.anger_average
             key:'emotion_average'
-
-
         #
     self.ready()
-
-
-
-# Meteor.publish 'reddit_facets', (
-#     selected_tags
-#     tag_limit
-#     doc_limit
-#     view_nsfw
-#     sort_key
-#     sort_up
-#     # sort_object
-#     )->
-#
-#         self = @
-#         match = {}
-#
-#         # match.tags = $all: selected_tags
-#         match.model = 'reddit'
-#         # if parent_id then match.parent_id = parent_id
-#
-#         # if view_private is true
-#         #     match.author_id = Meteor.userId()
-#
-#         # if view_private is false
-#         #     match.published = $in: [0,1]
-#
-#         if selected_tags.length > 0 then match.tags = $all: selected_tags
-#         if selected_organizations.length > 0 then match.Organization = $all: selected_organizations
-#         if selected_timestamp_tags.length > 0 then match.timestamp_tags = $all: selected_timestamp_tags
-#
-#         if tag_limit then tag_limit=tag_limit else tag_limit=20
-#         if doc_limit then doc_limit=doc_limit else doc_limit=5
-#         # if author_id then match.author_id = author_id
-#
-#         # 5749 arapahoe suite 2b
-#         # 130pm
-#
-#         # if view_private is true then match.author_id = @userId
-#         # if view_resonates?
-#         #     if view_resonates is true then match.favoriters = $in: [@userId]
-#         #     else if view_resonates is false then match.favoriters = $nin: [@userId]
-#         # if view_read?
-#         #     if view_read is true then match.read_by = $in: [@userId]
-#         #     else if view_read is false then match.read_by = $nin: [@userId]
-#         # if view_published is true
-#         #     match.published = $in: [1,0]
-#         # else if view_published is false
-#         #     match.published = -1
-#         #     match.author_id = Meteor.userId()
-#
-#         # if view_bookmarked?
-#         #     if view_bookmarked is true then match.bookmarked_ids = $in: [@userId]
-#         #     else if view_bookmarked is false then match.bookmarked_ids = $nin: [@userId]
-#         # if view_complete? then match.complete = view_complete
-#         # console.log view_complete
-#
-#
-#
-#         # match.site = Meteor.settings.public.site
-#
-#         console.log 'match:', match
-#         # if view_images? then match.components?.image = view_images
-#
-#         # lightbank models
-#         # if view_lightbank_type? then match.lightbank_type = view_lightbank_type
-#         # match.lightbank_type = $ne:'journal_prompt'
-#
-#
-#         # found_docs = Docs.find(match).fetch()
-#         # found_docs.forEach (found_doc) ->
-#         #     self.added 'docs', doc._id, fields
-#         #         text: author_id.text
-#         #         count: author_id.count
-#
-#         # doc_results = []
-#         int_doc_limit = parseInt doc_limit
-#         console.log sort_up
-#         if sort_up
-#             sort_direction = 1
-#         else sort_direction = -1
-#         subHandle = Docs.find(match, {limit:int_doc_limit, sort: {"#{sort_key}":sort_direction}}).observeChanges(
-#             added: (id, fields) ->
-#                 # console.log 'added doc', id, fields
-#                 # doc_results.push id
-#                 self.added 'docs', id, fields
-#             changed: (id, fields) ->
-#                 # console.log 'changed doc', id, fields
-#                 self.changed 'docs', id, fields
-#             removed: (id) ->
-#                 # console.log 'removed doc', id, fields
-#                 # doc_results.pull id
-#                 self.removed 'docs', id
-#         )
-#
-#         # for doc_result in doc_results
-#
-#         # user_results = Meteor.users.find(_id:$in:doc_results).observeChanges(
-#         #     added: (id, fields) ->
-#         #         # console.log 'added doc', id, fields
-#         #         self.added 'docs', id, fields
-#         #     changed: (id, fields) ->
-#         #         # console.log 'changed doc', id, fields
-#         #         self.changed 'docs', id, fields
-#         #     removed: (id) ->
-#         #         # console.log 'removed doc', id, fields
-#         #         self.removed 'docs', id
-#         # )
-#
-#
-#         # console.log 'doc handle count', subHandle
-#
-#         self.ready()
-#
-#         self.onStop ()-> subHandle.stop()

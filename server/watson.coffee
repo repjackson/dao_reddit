@@ -38,26 +38,11 @@ Meteor.methods
     #         Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
 
 
-
-    # call_tone:
-    #     const toneParams = {
-    #       toneInput: { 'text': text },
-    #       contentType: 'application/json',
-    #     };
-
-    # toneAnalyzer.tone(toneParams)
-    #   .then(toneAnalysis => {
-    #     console.log(JSON.stringify(toneAnalysis, null, 2));
-    #   })
-    #   .catch(err => {
-    #     console.log('error:', err);
-    #   });
-
     call_tone: (doc_id, key, mode)->
         self = @
         doc = Docs.findOne doc_id
-        console.log key
-        console.log mode
+        # console.log key
+        # console.log mode
         # if doc.html or doc.body
         #     # stringed = JSON.stringify(doc.html, null, 2)
         if mode is 'html'
@@ -156,8 +141,6 @@ Meteor.methods
                 parameters.clean = true
                 console.log 'calling image'
 
-
-
         # console.log 'parameters', parameters
 
 
@@ -190,13 +173,13 @@ Meteor.methods
                         # console.log emotion_doc["#{emotion}_percent"]
                         main_emotions.push emotion
 
-                console.log 'emotions', emotions
+                # console.log 'emotions', emotions
                 sadness_percent = emotions.sadness
                 joy_percent = emotions.joy
                 fear_percent = emotions.fear
                 anger_percent = emotions.anger
                 disgust_percent = emotions.disgust
-                console.log 'main_emotions', main_emotions
+                # console.log 'main_emotions', main_emotions
 
 
                 adding_tags = []
@@ -247,7 +230,7 @@ Meteor.methods
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
                 Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-                if Meteor.isDevelopment
+                # if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
-                    console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
+                    # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )

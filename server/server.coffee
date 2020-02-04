@@ -53,6 +53,24 @@ Meteor.methods
             # console.log updated_doc
         console.log 'main_emotions count', Docs.find(main_emotions:$exists:true).count()
 
+    agg_idea: (idea, type)->
+        console.log idea
+        match = {name:idea}
+        if type
+            match.type = type
+
+        found_idea =
+            Ideas.findOne match
+        if found_idea
+            console.log found_idea
+        else
+            Ideas.insert match
+        doc_mentions =
+            Docs.find
+                tags: $in: [idea]
+        console.log 'doc mentions', doc_mentions.count()
+
+
     search_reddit: (query)->
         console.log 'searching reddit', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
@@ -62,7 +80,7 @@ Meteor.methods
             else if response.data.data.dist > 1
                 console.log 'found data'
                 _.each(response.data.data.children, (item)=>
-                    console.log item
+                    # console.log item
                     data = item.data
                     len = 200
                     reddit_post =
@@ -87,7 +105,7 @@ Meteor.methods
                     #         console.log 'skipping image'
                     if data.domain in ['youtu.be','youtube.com']
                         reddit_post.is_video = true
-
+                        reddit_post.is_youtube = true
                     else if data.domain in ['i.redd.it','i.imgur.com','imgur.com']
                         reddit_post.is_image = true
                         # if Meteor.isDevelopment
@@ -170,6 +188,6 @@ Meteor.methods
                         ups: rd.ups
                         downs: rd.downs
                         over_18: rd.over_18
-                    # $addToSet:
-                    #     tags: $each: [rd.subreddit.toLowerCase(), rd.author.toLowerCase()]
+                    $addToSet:
+                        tags: $each: [rd.subreddit, rd.author]
                 # console.log Docs.findOne(doc_id)

@@ -12,8 +12,9 @@ template(name='post')
                 |#{watson.metadata.title}
         if is_video
             i.video.icon
+                if is_youtube
+                    iframe(width="560" height="315" src="https://www.youtube.com/embed/C0Jmm7_v-iU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
             //- img(src=url)
-            iframe(width="560" height="315" src="https://www.youtube.com/embed/C0Jmm7_v-iU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
             blockquote.reddit-card
                 a(href="https://www.reddit.com#{permalink}")
                     i.right.chevron.link.icon
@@ -30,10 +31,10 @@ template(name='post')
         .ui.compact.basic.large.button.toggle_detail(title='toggle detail')
             if view_detail 
                 i.stream.icon 
-                |full
+                |minimize
             else 
                 i.window.minimize.icon
-                |min
+                |expand
         div
         if view_detail
             +emotion_circle color='green' emotion='joy' percent=joy_percent
