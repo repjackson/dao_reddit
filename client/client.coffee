@@ -104,6 +104,11 @@ Template.home.onCreated ->
 
 
 Template.home.events
+    'click .clear_match': ->
+        $('.yin.yang').transition('jiggle')
+        $('.clear_match').transition('jiggle')
+        Session.set('match', {})
+        current_queries.clear()
     'click .print_match': ->
         console.log Session.get('match')
     'click .toggle_video': ->
@@ -338,7 +343,7 @@ Template.facet.events
                 # match["#{@key}"] = ["#{@name}"]
         else
             match["#{@key}"] = ["#{@name}"]
-            Meteor.call 'agg_idea', @name, @key, ->
+            Meteor.call 'agg_idea', @name, @key, 'entity', ->
             current_queries.push @name
             # console.log current_queries.array()
         Session.set('match', match)

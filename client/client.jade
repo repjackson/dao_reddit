@@ -34,8 +34,9 @@ template(name='home')
                         //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
                         //- else
                     input#search(type='text' autofocus='' autocomplete="off")
+                i.circular.remove.link.icon.clear_match(title='clear search')
+                i.circular.code.link.icon.print_match
                 +tag_cloud
-                i.circular.code.icon.print_match
                 +facet key='main_emotions' label='emotions' icon='smile'
                 +facet key='categories' icon='list'
                 +facet key='domain' icon='globe'
@@ -50,6 +51,7 @@ template(name='home')
                 +facet key='SportingEvent' icon='baseball ball' label='sporting event'
                 +facet key='Hashtag' icon='hashtag' label='hashtag'
                 +facet key='PrintMedia' icon='newspaper' label='print media'
+                +facet key='Broadcaster' icon='television' label='broadcaster'
                 +facet key='Organization' icon='users' label='organization'
                 +facet key='HealthCondition' icon='heart' label='health condition'
                 +facet key='author' icon='pencil' label='reddit author'
@@ -74,6 +76,8 @@ template(name='home')
                 .ui.segment
                     .ui.small.header name: #{name}
                     .ui.small.header type: #{type}
+                    .item doc mention count #{doc_mention_count}
+                    .item average sentiment {{to_percent average_sentiment_score}}%
         .twelve.wide.column
             .filter_row(class=loading_class)
                 .ui.compact.icon.button.toggle_video(class=toggle_video_class)

@@ -53,22 +53,42 @@ Meteor.methods
             # console.log updated_doc
         console.log 'main_emotions count', Docs.find(main_emotions:$exists:true).count()
 
-    agg_idea: (idea, type)->
+    agg_idea: (idea, key, type)->
         console.log idea
         match = {name:idea}
-        if type
-            match.type = type
-
+        if key
+            match.key = key
+        match.type = type
         found_idea =
             Ideas.findOne match
         if found_idea
             console.log found_idea
+            idea_id = found_idea._id
         else
-            Ideas.insert match
+            idea_id = Ideas.insert match
+        # if type is 'entity'
         doc_mentions =
-            Docs.find
-                tags: $in: [idea]
-        console.log 'doc mentions', doc_mentions.count()
+            Docs.find "#{key}": $in: [idea]
+        console.log 'doc mentions count', doc_mentions.count(), 'for', key, idea
+
+        total_sentiment_score = 0
+        for doc in doc_mentions.fetch()
+            if doc.watson and doc.watson.entities
+                console.log _.findWhere(doc.watson.entities, {text:idea})
+                entity_object = _.findWhere(doc.watson.entities, {text:idea})
+                total_sentiment_score += entity_object.sentiment.score
+
+        console.log total_sentiment_score
+        average_sentiment_score = total_sentiment_score/doc_mentions.count()
+        Ideas.update idea_id,
+            $set:
+                doc_mention_count: doc_mentions.count()
+                average_sentiment_score: total_sentiment_score/doc_mentions.count()
+        # doc_mentions =
+        #     Docs.find
+        #         tags: $in: [idea]
+        #         tags: $in: [idea]
+        # console.log 'doc mentions', doc_mentions.count()
 
 
     search_reddit: (query)->
