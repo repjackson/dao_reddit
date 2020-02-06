@@ -813,7 +813,7 @@ h1.ui.header{
     width: 2px;
 }
 .largescroll::-webkit-scrollbar {
-    width: 1px;
+    width: 10px;
 }
 .mediumscroll::-webkit-scrollbar {
     /* display: none; */

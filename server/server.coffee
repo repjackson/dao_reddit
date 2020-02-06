@@ -62,26 +62,64 @@ Meteor.methods
         found_idea =
             Ideas.findOne match
         if found_idea
-            console.log found_idea
+            # console.log found_idea
             idea_id = found_idea._id
         else
             idea_id = Ideas.insert match
 
+        agg_match = {"watson.entities":$exists:true}
 
-        # idea_averages = Docs.aggregate [
-        #     { $match: match }
-        #     # { $project: "sadness_percent": 1 }
-        #     { $group:
-        #         _id: null
-        #         sentiment_average: $avg: "$doc_sentiment_score"
-        #         sadness_average: $avg: "$sadness_percent"
-        #         joy_average: $avg: "$joy_percent"
-        #         disgust_average: $avg: "$disgust_percent"
-        #         fear_average: $avg: "$fear_percent"
-        #         anger_average: $avg: "$anger_percent"
-        #     }
-        # ]
 
+        idea_averages = Docs.aggregate [
+            { $match: agg_match }
+            # { $limit: 100 }
+            { $project: "watson.entities": 1 }
+            { $unwind: "$watson.entities" }
+            { $match:
+                "watson.entities.type": "#{key}"
+                "watson.entities.text": "#{idea}"
+            }
+            { $group:
+                _id: null
+                sentiment_average: $avg: "$watson.entities.sentiment.score"
+                sadness_average: $avg: "$watson.entities.emotion.sadness"
+                joy_average: $avg: "$watson.entities.emotion.joy"
+                disgust_average: $avg: "$watson.entities.emotion.disgust"
+                fear_average: $avg: "$watson.entities.emotion.fear"
+                anger_average: $avg: "$watson.entities.emotion.anger"
+            }
+        ]
+        idea_averages.forEach (result, i) =>
+            console.log 'result ', result
+            console.log 'key', key
+            # self.added 'results', Random.id(),
+            #     name: result.name
+            #     count: result.count
+            #     key:key
+            #     # index: i
+
+        # db.col.aggregate([
+        #   {"$match":{
+        #   "history":{
+        #     "$elemMatch":{
+        #       "startDate":{"$gte":ISODate("2018-01-15T11:13:14.000Z")},
+        #       "endDate":{"$lte":ISODate("2018-02-12T11:13:14.000Z")}
+        #      }
+        #    }
+        #  }},
+        #  {"$unwind":"$history"},
+        #  {"$match":{
+        #    "history.startDate":{"$gte":ISODate("2018-01-15T11:13:14.000Z")},
+        #    "history.endDate":{"$lte":ISODate("2018-02-12T11:13:14.000Z")}
+        #  }},
+        #  {"$match":{
+        #    "$or":[
+        #      {"history.APTCChange":{"$gt":10}},
+        #      {"history.PremChange":{"$gt":10}},
+        #      {"history.MbrRespChg":{"$gt":10}}
+        #     ]
+        #  }}
+        # ])
 
 
         # # if type is 'entity'

@@ -27,7 +27,7 @@ template(name='post')
             +call_watson mode='image'
         if is_image 
             i.large.image.icon
-            img.ui.fluid.image(src=url)
+            img.ui.large.image(src=url)
             +call_watson mode='image'
         //- if in_dev
         .ui.compact.basic.large.button.toggle_detail(title='toggle detail')

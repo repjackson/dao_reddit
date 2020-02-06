@@ -57,7 +57,7 @@ template(name='home')
                 +facet key='Organization' icon='users' label='organization'
                 +facet key='HealthCondition' icon='heart' label='health condition'
                 +facet key='author' icon='pencil' label='reddit author'
-        .four.wide.column
+        .three.wide.column
             .ui.header results stats
             with emotion_average_doc
                 span sentiment {{ to_percent sentiment_average }}% 
@@ -76,7 +76,7 @@ template(name='home')
             .ui.header ideas 
             each ideas
                 +idea_segment
-        .twelve.wide.column
+        .thirteen.wide.column
             .filter_row(class=loading_class)
                 .ui.compact.icon.button.toggle_video(class=toggle_video_class)
                     i.video.icon
