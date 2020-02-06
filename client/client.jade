@@ -40,7 +40,7 @@ template(name='home')
                 +facet key='main_emotions' label='emotions' icon='smile'
                 +facet key='categories' icon='list'
                 +facet key='domain' icon='globe'
-                +facet key='subreddit' icon='reddit'
+                //- +facet key='subreddit' icon='reddit'
                 +facet key='Person' icon='user outline' label='person'
                 +facet key='doc_sentiment_label' label='sentiment' icon='smile'
                 +facet key='watson_keywords' label='keyword' icon='tags'
@@ -56,7 +56,7 @@ template(name='home')
                 +facet key='Broadcaster' icon='television' label='broadcaster'
                 +facet key='Organization' icon='users' label='organization'
                 +facet key='HealthCondition' icon='heart' label='health condition'
-                +facet key='author' icon='pencil' label='reddit author'
+                //- +facet key='author' icon='pencil' label='reddit author'
         .three.wide.column
             .ui.header results stats
             with emotion_average_doc
@@ -140,15 +140,27 @@ template(name='home')
 
 template(name='idea_segment')
     .ui.segment
-        .ui.small.header name: #{name}
-        .ui.small.header key: #{key}
-        .ui.small.header doc mentions: #{doc_mention_count}
-        .ui.small.header type: #{type}
-        .item(title='docs with emotional data to average') docs analyzed #{analyzed_doc_count}
-        .item(title='docs with emotional data to average') analyzed ids count #{analyzed_doc_ids.length}
-        .item average sentiment
-            .large {{to_percent average_sentiment_score}}%
-        i.refresh.circular.link.icon.calc_emotion
+        .ui.header #{name}
+        .ui.basic.label #{key}
+        //- .ui.small.header doc mentions: #{doc_mention_count}
+        //- .ui.small.header type: #{type}
+        //- .item(title='docs with emotional data to average') docs analyzed #{analyzed_doc_count}
+        //- .item(title='docs with emotional data to average') analyzed ids count #{analyzed_doc_ids.length}
+        .item sentiment: {{to_percent sentiment_average}}%
+        span {{ to_percent joy_average }}% joy
+        .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% green")
+        span {{ to_percent sadness_average}}% sadness
+        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
+        span {{ to_percent fear_average }}% fear
+        .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:grey" title="{{to_percent fear_average}}% green")
+        span {{ to_percent disgust_average }}% disgust
+        .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% green")
+        span {{ to_percent anger_average }}% anger
+        .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% green")
+
+        //- .item average sentiment
+        //-     .large {{to_percent average_sentiment_score}}%
+        //- i.refresh.circular.link.icon.calc_emotion
 
 
 

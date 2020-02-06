@@ -2,7 +2,7 @@
 
 @selected_filters = new ReactiveArray []
 
-@selected_facets = new ReactiveArray ['categories', 'subreddits']
+# @selected_facets = new ReactiveArray ['categories', 'subreddits']
 @current_queries = new ReactiveArray []
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
@@ -105,7 +105,6 @@ Template.home.onCreated ->
 
 Template.home.events
     'click .clear_match': ->
-        $('.yin.yang').transition('jiggle')
         $('.clear_match').transition('jiggle')
         Session.set('match', {})
         current_queries.clear()
@@ -174,7 +173,9 @@ Template.home.events
 
 Template.home.helpers
     ideas: ->
-        Ideas.find()
+        Results.find(
+            model:'idea'
+        )
     subs_ready: ->
         Template.instance().subscriptionsReady()
     toggle_video_class: ->
@@ -339,12 +340,12 @@ Template.facet.events
                 key_array.push @name
                 current_queries.push @name
                 Session.set('match', match)
-                Meteor.call 'agg_idea', @name, @key, 'entity', ->
+                # Meteor.call 'agg_idea', @name, @key, 'entity', ->
                 # Meteor.call 'search_reddit', current_queries.array(), ->
                 # match["#{@key}"] = ["#{@name}"]
         else
             match["#{@key}"] = ["#{@name}"]
-            Meteor.call 'agg_idea', @name, @key, 'entity', ->
+            # Meteor.call 'agg_idea', @name, @key, 'entity', ->
             current_queries.push @name
             # console.log current_queries.array()
         Session.set('match', match)

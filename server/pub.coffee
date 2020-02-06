@@ -1,14 +1,3 @@
-Meteor.publish 'ideas', (
-    selected_queries=[]
-    prematch
-    doc_limit=5
-    )->
-    Ideas.find(
-        name:$in:selected_queries
-    )
-
-
-
 Meteor.publish 'docs', (
     prematch
     doc_limit=5
@@ -100,9 +89,9 @@ Meteor.publish 'facet_results', (
 Meteor.publish 'emotion_averages', (prematch)->
     match = {}
     self = @
-
+    console.log 'prematch', prematch
     keys = _.keys(prematch)
-    # console.log 'facet keys', key, keys
+    console.log 'facet keys', keys
     for match_key in keys
         key_array = prematch["#{match_key}"]
         if key_array and key_array.length > 0
@@ -133,4 +122,71 @@ Meteor.publish 'emotion_averages', (prematch)->
             anger_average: result.anger_average
             key:'emotion_average'
         #
+
+    entities = [
+        'Person'
+        'Sport'
+        'Company'
+        'Organization'
+        'Facility'
+        'PrintMedia'
+        'Location'
+        'HealthCondition'
+        'Broadcaster'
+        'SportingEvent'
+        'Facility'
+        'Hashtag'
+        'GeographicFeature'
+    ]
+
+    queried_entities = _.intersection(entities,keys)
+    console.log 'queried_entities', queried_entities
+
+    agg_match = match
+    index = 0
+    for key in queried_entities
+        ideas = prematch["#{key}"]
+        for idea in ideas
+        # idea = prematch["#{key}"][index]
+            console.log 'idea',idea
+            if idea
+                idea_averages = Docs.aggregate [
+                    { $match: agg_match }
+                    # { $limit: 100 }
+                    { $project: "watson.entities": 1 }
+                    { $unwind: "$watson.entities" }
+                    { $match:
+                        "watson.entities.type": "#{key}"
+                        "watson.entities.text": "#{idea}"
+                    }
+                    { $group:
+                        _id: idea
+                        sentiment_average: $avg: "$watson.entities.sentiment.score"
+                        sadness_average: $avg: "$watson.entities.emotion.sadness"
+                        joy_average: $avg: "$watson.entities.emotion.joy"
+                        disgust_average: $avg: "$watson.entities.emotion.disgust"
+                        fear_average: $avg: "$watson.entities.emotion.fear"
+                        anger_average: $avg: "$watson.entities.emotion.anger"
+                    }
+                ]
+
+                idea_averages.forEach((result) =>
+                    console.log 'result ', result
+                    console.log 'key', key
+                    self.added 'results', Random.id(),
+                        key:key
+                        name:result._id
+                        model:'idea'
+                        sentiment_average:result.sentiment_average
+                        sadness_average:result.sadness_average
+                        joy_average:result.joy_average
+                        disgust_average:result.disgust_average
+                        fear_average:result.fear_average
+                        anger_average:result.anger_average
+                    )
+                # console.log 'index', index
+                # index++
+
+
+
     self.ready()

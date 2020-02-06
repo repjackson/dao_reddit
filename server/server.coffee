@@ -89,9 +89,18 @@ Meteor.methods
                 anger_average: $avg: "$watson.entities.emotion.anger"
             }
         ]
-        idea_averages.forEach (result, i) =>
+        idea_averages.forEach(Meteor.bindEnvironment((result) =>
             console.log 'result ', result
             console.log 'key', key
+            Ideas.update idea_id,
+                $set:
+                    sentiment_average:result.sentiment_average
+                    sadness_average:result.sadness_average
+                    joy_average:result.joy_average
+                    disgust_average:result.disgust_average
+                    fear_average:result.fear_average
+                    anger_average:result.anger_average
+            ))
             # self.added 'results', Random.id(),
             #     name: result.name
             #     count: result.count
@@ -203,7 +212,7 @@ Meteor.methods
 
 
     search_reddit: (query)->
-        console.log 'searching reddit', query
+        # console.log 'searching reddit', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)->
             # console.log response.data
@@ -267,7 +276,7 @@ Meteor.methods
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        console.log 'getting reddit post'
+        # console.log 'getting reddit post'
         HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
             if err then console.error err
             else

@@ -88,17 +88,17 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson'
+        # console.log 'calling watson'
         self = @
-        console.log doc_id
-        console.log key
-        console.log mode
+        # console.log doc_id
+        # console.log key
+        # console.log mode
         doc = Docs.findOne doc_id
         # console.log 'value', doc["#{key}"]
         # if doc.skip_watson is true
         #     console.log 'skipping flagged doc', doc.title
         # else
-        console.log 'analyzing', doc.title, 'tags', doc.tags
+        # console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
             concepts:
                 limit:10
