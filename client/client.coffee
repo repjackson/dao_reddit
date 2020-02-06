@@ -349,8 +349,8 @@ Template.facet.events
             # console.log current_queries.array()
         Session.set('match', match)
         console.log current_queries.array()
-        # if current_queries.array().length > 0
-        #     Meteor.call 'search_reddit', current_queries.array(), ->
+        if current_queries.array().length > 0
+            Meteor.call 'search_reddit', current_queries.array(), ->
         # console.log Session.get('match')
 
 Template.facet.helpers

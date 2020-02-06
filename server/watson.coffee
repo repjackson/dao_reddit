@@ -106,13 +106,15 @@ Meteor.methods
                 entities:
                     emotion: true
                     sentiment: true
+                    mentions: true
                     # limit: 2
                 keywords:
                     emotion: true
                     sentiment: true
                     # limit: 2
                 concepts: {}
-                categories: {}
+                categories:
+                    explanation:true
                 emotion: {}
                 # metadata: {}
                 # relations: {}
@@ -253,6 +255,7 @@ Meteor.methods
                     entities:
                         emotion: true
                         sentiment: true
+                        mentions: true
                         # limit: 2
 
             natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) ->

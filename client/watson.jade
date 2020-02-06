@@ -95,10 +95,10 @@ template(name='entities')
                 .meta 
                     with disambiguation
                         .ui.small.header subtypes
-                        .ui.list
+                        .ui.bulleted.list
                             each subtype
                                 .item #{this}
-                        a.ui.small.header(href=dbpedia_resource target='_windwo') name
+                        a.ui.tiny.grey.header(href=dbpedia_resource target='_window') name
                             |#{name}
                 if emotion
                     with emotion

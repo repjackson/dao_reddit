@@ -156,3 +156,6 @@ Template.post.events
     'click .call_tone': ->
         console.log @
         Meteor.call 'call_tone', @_id, 'body', 'text', ->
+    'click .call_entities': ->
+        console.log @
+        Meteor.call 'analyze_entities', @_id, 'body', ->
