@@ -237,7 +237,7 @@ Meteor.methods
 
 
     analyze_entities: (doc_id, key) ->
-        console.log 'calling watson'
+        console.log 'analyzing entities'
         self = @
         # console.log doc_id
         # console.log key
@@ -245,15 +245,16 @@ Meteor.methods
         doc = Docs.findOne doc_id
         # console.log 'value', doc["#{key}"]
         # console.log 'analyzing', doc.title, 'tags', doc.tags
-        parameters =
-            features:
-                entities:
-                    emotion: true
-                    sentiment: true
-                    # limit: 2
 
         if doc.body
-            parameters.body = doc.body
+            parameters =
+                text: doc.body
+                features:
+                    entities:
+                        emotion: true
+                        sentiment: true
+                        # limit: 2
+
             natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) ->
                 if err
                     # console.log 'watson error for', parameters.url
@@ -282,7 +283,7 @@ Meteor.methods
                                     "#{entity.type}":entity.text
                                     tags:entity.text.toLowerCase()
                     final_doc = Docs.findOne doc_id
-                    console.log 'analyzed entities', doc
+                    console.log 'analyzed entities', doc.watson.entities
                     # if Meteor.isDevelopment
                         # console.log 'all tags', final_doc.tags
                         # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'

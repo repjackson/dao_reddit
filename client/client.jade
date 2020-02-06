@@ -40,7 +40,7 @@ template(name='home')
                 +facet key='main_emotions' label='emotions' icon='smile'
                 +facet key='categories' icon='list'
                 +facet key='domain' icon='globe'
-                //- +facet key='subreddit' icon='reddit'
+                +facet key='subreddit' icon='reddit'
                 +facet key='Person' icon='user outline' label='person'
                 +facet key='doc_sentiment_label' label='sentiment' icon='smile'
                 +facet key='watson_keywords' label='keyword' icon='tags'
@@ -48,13 +48,15 @@ template(name='home')
                 +facet key='Location' icon='marker' label='location'
                 +facet key='Company' icon='briefcase' label='company'
                 +facet key='Facility' icon='building' label='facility'
+                +facet key='GeographicFeature' icon='mountain' label='geographic feature'
+                +facet key='Sport' icon='basketball ball' label='sport'
                 +facet key='SportingEvent' icon='baseball ball' label='sporting event'
-                //- +facet key='Hashtag' icon='hashtag' label='hashtag'
+                +facet key='Hashtag' icon='hashtag' label='hashtag'
                 +facet key='PrintMedia' icon='newspaper' label='print media'
                 +facet key='Broadcaster' icon='television' label='broadcaster'
                 +facet key='Organization' icon='users' label='organization'
                 +facet key='HealthCondition' icon='heart' label='health condition'
-                //- +facet key='author' icon='pencil' label='reddit author'
+                +facet key='author' icon='pencil' label='reddit author'
         .four.wide.column
             .ui.header results stats
             with emotion_average_doc
@@ -85,14 +87,14 @@ template(name='home')
                         strong #{current_sort_label}
                         i.dropdown.icon
                         .menu
-                            +set_sort_key key='ups' label='upvotes' icon='thumbs up icon'
-                            +set_sort_key key='sadness_percent' label='sadness' icon='frown outline'
+                            +set_sort_key key='ups' label='upvotes' icon='thumbs up icon' emoji='smile'
+                            +set_sort_key key='sadness_percent' label='sadness' emoji='cry' icon='frown outline'
                             +set_sort_key key='joy_percent' label='joy' icon='green smile'
                             +set_sort_key key='fear_percent' label='fear' icon='fear' emoji='fearful'
                             +set_sort_key key='disgust_percent' label='disgust' icon='disgust' emoji='astonished'
                             +set_sort_key key='anger_percent' label='anger' icon='frown' emoji='angry'
                             +set_sort_key key='_timestamp' label='added' icon='clock'
-                            +set_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang'
+                            +set_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang' emoji='woman_judge'
                             +set_sort_key key='comment_count' label='comment count' icon='chat'
                 .ui.compact.icon.basic.large.button.set_sort_direction(title='toggle sort direction')
                     if sorting_up
@@ -181,16 +183,16 @@ template(name='tag_cloud')
             i.remove.icon
             | #{this}
         
-    //- if selected_tags
-    //-     //- #clear_tags.ui.active.icon.compact.small.basic.button
-    //-     //-     i.remove.icon
-    //-     each selected_tags
-    //-         .unselect_tag.ui.active.compact.circular.button
-    //-             i.remove.icon
-    //-             strong #{this}
-    //- each tags
-    //-     .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
-    //-         strong #{this.name}
+    if selected_tags
+        //- #clear_tags.ui.active.icon.compact.small.basic.button
+        //-     i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.active.compact.circular.button
+                i.remove.icon
+                strong #{this}
+    each tags
+        .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
+            strong #{this.name}
     
     
 template(name='tag_result')

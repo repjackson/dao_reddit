@@ -1,7 +1,7 @@
 template(name='post')      
     .ui.segment   
-        //- a.ui.inline.header(href=url target="_window" class=post_header_class) 
-        a.ui.inline.header(href=url target="_window") 
+        //- a.ui.inline.header(href=url target="_window") 
+        a.ui.inline.header(href=url target="_window" class=post_header_class) 
             //- if thumbnail.length
             //-     img.ui.big.image(src=thumbnail)
             //- else if watson.metadata.image.length
@@ -23,6 +23,8 @@ template(name='post')
             +call_watson mode='video'
         if is_spotify
             iframe(src="https://open.spotify.com/embed/track/5GQ8H3M5fwIU0oTXO3NmQV" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media")
+        if is_youtube 
+            +call_watson mode='image'
         if is_image 
             i.large.image.icon
             img.ui.fluid.image(src=url)
@@ -53,12 +55,12 @@ template(name='post')
                 each tone.result.sentences_tone 
                     //- |#{sentence_id}:
                     //- span.large-text #{text}
-                    span(class="{{calc_size top_score}}" title="{{ to_percent top_score }}% significant") #{text}
+                    span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
                 
                     //- span.large-text(title=sentence_id class=tone_sentence_class) #{text}
                     each tones 
                         //- .ui.basic.small.compact.button
-                        .ui.small.basic.label #{tone_id}
+                        .ui.small.basic.label {{to_percent score}}% #{tone_id}
                         //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
                     div
             else 
@@ -70,6 +72,8 @@ template(name='post')
             +array_view key='Person' icon='users' 
             +array_view key='Company' icon='briefcase' 
             +array_view key='TelevisionShow' icon='television' 
+            +array_view key='GeographicFeature' icon='mountain' 
+            +array_view key='Sport' icon='baseball ball' 
             +array_view key='Broadcaster' icon='video' 
             +array_view key='Facility' icon='building' 
             +array_view key='HealthCondition' icon='heartbeat' 
@@ -120,10 +124,10 @@ template(name='array_view')
         .ui.inline.small.header 
             if icon 
                 i.grey.icon(class=icon title=key)
-            if label
-                |#{label}
-            else 
-                #{key}
+            //- if label
+            //-     |#{label}
+            //- else 
+            |#{key}
         each values 
             .ui.small.compact.circular.button.toggle_post_filter(class=post_label_class)
                 |#{this}
