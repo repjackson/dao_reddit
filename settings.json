@@ -19,7 +19,7 @@
             "url": "https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/6755dca9-6933-4529-81df-a985e6447170"
 		},
 		"language": {
-			"apikey": "wfHNSJGDfXwL3kzctjyFc1A42915AI7skje35rVxvA9t",
+			"apikey": "NNPM77_CjQv7IyPrhwjyA34SGd8BLLP103TnPuVmd8Qn",
             "iam_apikey_description": "Auto-generated for key d3cc8d83-b3f9-40c6-8df6-c9b3d41cb511",
             "iam_apikey_name": "Auto-generated service credentials",
             "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",

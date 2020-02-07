@@ -67,16 +67,16 @@ Meteor.publish 'facet_results', (
         { $group: _id: "$#{key}", count: $sum: 1 }
         { $match: _id: $nin: filters }
         { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
+        { $limit: 10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     result_cloud.forEach (result, i) =>
         # console.log 'result ', result
         # console.log 'key', key
         self.added 'results', Random.id(),
-            name: result.name
+            title: result.name
             count: result.count
-            key:key
+            category:key
             # index: i
 
     self.ready()

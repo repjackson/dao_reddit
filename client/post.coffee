@@ -89,6 +89,8 @@ Template.post.onCreated ->
     @view_detail = new ReactiveVar false
 
 Template.post.helpers
+    view_tone: -> Session.get('view_tone')
+
     when: -> moment(@_timestamp).fromNow()
     view_detail: -> Template.instance().view_detail.get()
     top_score: ->

@@ -24,62 +24,101 @@ template(name='home')
     .ui.stackable.padded.grid(class=invert_class)
         .centered.row 
             .sixteen.wide.column
-                if subs_ready
-                    i.big.yin.yang.grey.icon.toggle_theme(title='dao')
-                else 
-                    i.big.yin.yang.grey.loading.icon.toggle_theme(title='dao')
-                .ui.left.icon.input
-                    i.search.icon
-                        //- if selected_tags
-                        //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
-                        //- else
-                    input#search(type='text' autofocus='' autocomplete="off")
-                i.circular.remove.link.icon.clear_match(title='clear search')
-                i.circular.code.link.icon.print_match
+                .ui.circular.nav.dropdown.icon.button 
+                    if subs_ready
+                        i.yin.yang.grey.large.icon.toggle_theme(title='dao')
+                    else 
+                        i.yin.yang.loading.large.icon.toggle_theme(title='dao')
+                    .menu 
+                        .nav.item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+                        .nav.item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+    
+                .ui.search.inline.nav.dropdown
+                    .ui.left.icon.large.input
+                        i.search.icon
+                            //- if selected_tags
+                            //-     +inputAutocomplete settings=tag_settings id="tag_search" class="" autofocus='' autocomplete="off" 
+                            //- else
+                        input#search.prompt(type='text' autofocus='' autocomplete="off")
+                    .menu 
+                        .item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+                        .item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+                        .item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+                        .item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+                        .item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+                        .item 
+                            i.dropdown.icon
+                            span.text society
+                            .menu 
+                                .item work
+                                .item crime
+
+                .ui.circular.basic.icon.button.clear_match(title='clear search')
+                    i.remove.icon
+                if in_dev
+                    i.circular.code.link.icon.print_match
                 +tag_cloud
-                +facet key='main_emotions' label='emotions' icon='smile'
-                +facet key='categories' icon='list'
-                +facet key='domain' icon='globe'
-                //- +facet key='subreddit' icon='reddit'
-                +facet key='Person' icon='user outline' label='person'
-                +facet key='doc_sentiment_label' label='sentiment' icon='smile'
-                +facet key='watson_keywords' label='keyword' icon='tags'
-                +facet key='watson_concepts' label='concept' icon='cubes'
-                +facet key='Location' icon='marker' label='location'
-                +facet key='Company' icon='briefcase' label='company'
-                +facet key='Facility' icon='building' label='facility'
-                +facet key='GeographicFeature' icon='mountain' label='geographic feature'
-                +facet key='Sport' icon='basketball ball' label='sport'
-                +facet key='SportingEvent' icon='baseball ball' label='sporting event'
-                +facet key='Hashtag' icon='hashtag' label='hashtag'
-                +facet key='PrintMedia' icon='newspaper' label='print media'
-                +facet key='Broadcaster' icon='television' label='broadcaster'
-                +facet key='Organization' icon='users' label='organization'
-                +facet key='HealthCondition' icon='heart' label='health condition'
+                //- +facet key='main_emotions' label='emotions' icon='smile'
+                //- +facet key='categories' icon='list'
+                //- +facet key='domain' icon='globe'
+                //- //- +facet key='subreddit' icon='reddit'
+                //- +facet key='Person' icon='user outline' label='person'
+                //- +facet key='doc_sentiment_label' label='sentiment' icon='smile'
+                //- +facet key='watson_keywords' label='keyword' icon='tags'
+                //- +facet key='watson_concepts' label='concept' icon='cubes'
+                //- +facet key='Location' icon='marker' label='location'
+                //- +facet key='Company' icon='briefcase' label='company'
+                //- +facet key='Facility' icon='building' label='facility'
+                //- +facet key='GeographicFeature' icon='mountain' label='geographic feature'
+                //- +facet key='Sport' icon='basketball ball' label='sport'
+                //- +facet key='SportingEvent' icon='baseball ball' label='sporting event'
+                //- +facet key='Hashtag' icon='hashtag' label='hashtag'
+                //- +facet key='PrintMedia' icon='newspaper' label='print media'
+                //- +facet key='Broadcaster' icon='television' label='broadcaster'
+                //- +facet key='Organization' icon='users' label='organization'
+                //- +facet key='HealthCondition' icon='heart' label='health condition'
                 //- +facet key='author' icon='pencil' label='reddit author'
-        .three.wide.column
-            .ui.header results stats
-            with emotion_average_doc
-                span sentiment {{ to_percent sentiment_average }}% 
-                div
-                    //- .rounded.inverted(style="height:5px;width:{{to_percent sentiment_average}}%;background-color:green" title="{{to_percent sentiment_average}}% sad")
-                span {{ to_percent sadness_average }}% sad
-                    .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
-                span {{ to_percent joy_average }}% joy
-                    .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% sadness")
-                span {{ to_percent disgust_average }}% disgust
-                    .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% disgust")
-                span {{ to_percent fear_average }}% fear
-                    .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:black" title="{{to_percent fear_average}}% fear")
-                span {{ to_percent anger_average }}% anger
-                    .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% anger")
-            .ui.header ideas 
-            each ideas
-                +idea_segment
-        .thirteen.wide.column
+        .twelve.wide.column.back
             .filter_row(class=loading_class)
-                .ui.compact.icon.button.toggle_video(class=toggle_video_class)
+                .ui.compact.basic.icon.button.toggle_video(class=toggle_video_class title='toggle videos only')
                     i.video.icon
+                .ui.compact.icon.button.toggle_tone(class=toggle_tone_class title='toggle tone overlay')
+                    i.smile.icon
                 .ui.inline.small.grey.header(title='change sort direction')
                     |sort by
                 .ui.compact.small.menu
@@ -87,14 +126,14 @@ template(name='home')
                         strong #{current_sort_label}
                         i.dropdown.icon
                         .menu
-                            +set_sort_key key='ups' label='upvotes' icon='thumbs up icon' emoji='smile'
-                            +set_sort_key key='sadness_percent' label='sadness' emoji='cry' icon='frown outline'
-                            +set_sort_key key='joy_percent' label='joy' icon='green smile'
-                            +set_sort_key key='fear_percent' label='fear' icon='fear' emoji='fearful'
-                            +set_sort_key key='disgust_percent' label='disgust' icon='disgust' emoji='astonished'
-                            +set_sort_key key='anger_percent' label='anger' icon='frown' emoji='angry'
+                            +set_sort_key key='ups' label='upvotes' icon='thumbs up outline'
+                            +set_sort_key key='sadness_percent' label='sadness' color='blue'
+                            +set_sort_key key='joy_percent' label='joy' color='green'
+                            +set_sort_key key='fear_percent' label='fear' color='black'
+                            +set_sort_key key='disgust_percent' label='disgust' color='yellow'
+                            +set_sort_key key='anger_percent' label='anger' color='red'
                             +set_sort_key key='_timestamp' label='added' icon='clock'
-                            +set_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang' emoji='woman_judge'
+                            +set_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang'
                             +set_sort_key key='comment_count' label='comment count' icon='chat'
                 .ui.compact.icon.basic.large.button.set_sort_direction(title='toggle sort direction')
                     if sorting_up
@@ -117,8 +156,8 @@ template(name='home')
                             +set_limit amount=50
                 //- .ui.inline.header
                 //-     |search
-                .ui.small.input
-                    input(type='text' placeholder='filter' val=search_value)
+                //- .ui.small.input
+                //-     input(type='text' placeholder='filter' val=search_value)
                 |&nbsp;
                 |&nbsp;
                 //- .ui.inline.header view
@@ -137,6 +176,25 @@ template(name='home')
             .largescroll
                 each posts
                     +post
+        .four.wide.column.back
+            //- .ui.header results stats
+            //- with emotion_average_doc
+            //-     span sentiment {{ to_percent sentiment_average }}% 
+            //-     div
+            //-         //- .rounded.inverted(style="height:5px;width:{{to_percent sentiment_average}}%;background-color:green" title="{{to_percent sentiment_average}}% sad")
+            //-     span {{ to_percent sadness_average }}% sad
+            //-         .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
+            //-     span {{ to_percent joy_average }}% joy
+            //-         .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% joy")
+            //-     span {{ to_percent disgust_average }}% disgust
+            //-         .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% disgust")
+            //-     span {{ to_percent fear_average }}% fear
+            //-         .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:black" title="{{to_percent fear_average}}% fear")
+            //-     span {{ to_percent anger_average }}% anger
+            //-         .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% anger")
+            //- .ui.header ideas 
+            each ideas
+                +idea_segment
 
 template(name='idea_segment')
     .ui.segment
@@ -147,16 +205,22 @@ template(name='idea_segment')
         //- .item(title='docs with emotional data to average') docs analyzed #{analyzed_doc_count}
         //- .item(title='docs with emotional data to average') analyzed ids count #{analyzed_doc_ids.length}
         .item sentiment: {{to_percent sentiment_average}}%
+        .rounded.inverted(style="height:5px;width:{{to_percent sentiment_average}}%;background-color:green" title="{{to_percent sentiment_average}}%")
+        //- span joy
         span {{ to_percent joy_average }}% joy
-        .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% green")
+        .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}%")
+        //- span sad
         span {{ to_percent sadness_average}}% sadness
-        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
+        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}%")
+        //- span fear
         span {{ to_percent fear_average }}% fear
-        .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:grey" title="{{to_percent fear_average}}% green")
+        .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:grey" title="{{to_percent fear_average}}%")
+        //- span disgust
         span {{ to_percent disgust_average }}% disgust
-        .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% green")
+        .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}%")
+        //- span anger
         span {{ to_percent anger_average }}% anger
-        .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% green")
+        .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}%")
 
         //- .item average sentiment
         //-     .large {{to_percent average_sentiment_score}}%
@@ -166,11 +230,15 @@ template(name='idea_segment')
 
 template(name='set_sort_key')
     .item.set_sort
-        if emoji
-            em(data-emoji=emoji)
-        else if icon
-            i.icon(class=icon)
-        |#{label}
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
+        
 
 template(name='set_view_mode')
     .item.set_view
@@ -195,16 +263,16 @@ template(name='tag_cloud')
             i.remove.icon
             | #{this}
         
-    if selected_tags
-        //- #clear_tags.ui.active.icon.compact.small.basic.button
-        //-     i.remove.icon
-        each selected_tags
-            .unselect_tag.ui.active.compact.circular.button
-                i.remove.icon
-                strong #{this}
-    each tags
-        .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
-            strong #{this.name}
+    //- if selected_tags
+    //-     //- #clear_tags.ui.active.icon.compact.small.basic.button
+    //-     //-     i.remove.icon
+    //-     each selected_tags
+    //-         .unselect_tag.ui.active.compact.circular.button
+    //-             i.remove.icon
+    //-             strong #{this}
+    //- each tags
+    //-     .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
+    //-         strong #{this.name}
     
     
 template(name='tag_result')
@@ -215,17 +283,15 @@ template(name='tag_result')
 
 
 template(name='facet')
-    if top_results.count
-        .ui.compact.small.menu
-            .ui.simple.dropdown.item
-                if icon 
-                    i.icon(class=icon)
-                if label
-                    |#{label}
-                else 
-                    |#{key}
-                .menu
-                    each results
-                        .item.toggle_filter(class=toggle_filter_class title=count) #{name}
-                            small (#{count})
-        //- .spacer
+    //- if top_results.count
+    .ui.compact.small.menu
+        .ui.simple.dropdown.item
+            if icon 
+                i.icon(class=icon)
+            //- else 
+            |#{key}
+            .menu
+                each results
+                    .item.toggle_filter(class=toggle_filter_class title=count) #{title}
+                        small (#{count})
+    //-     //- .spacer

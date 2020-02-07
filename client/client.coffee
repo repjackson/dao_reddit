@@ -92,7 +92,6 @@ Template.home.onCreated ->
         current_queries.array()
 
 
-
     Session.setDefault 'only_videos', false
     Session.setDefault 'doc_limit', 5
     Session.setDefault 'sort_label', 'added'
@@ -102,8 +101,71 @@ Template.home.onCreated ->
     Session.setDefault 'match', {}
 
 
+Template.home.onRendered ->
+    Meteor.setTimeout ->
+        $('.ui.nav.dropdown').dropdown()
+    , 2300
 
 Template.home.events
+    'click .ui.search': ->
+        categoryContent =
+            Results.find({}).fetch()
+            # [
+            # { category: 'South America', title: 'Brazil' },
+            # { category: 'South America', title: 'Peru' },
+            # { category: 'North America', title: 'Canada' },
+            # { category: 'Asia', title: 'South Korea' },
+            # { category: 'Asia', title: 'Japan' },
+            # { category: 'Asia', title: 'China' },
+            # { category: 'Europe', title: 'Denmark' },
+            # { category: 'Europe', title: 'England' },
+            # { category: 'Europe', title: 'France' },
+            # { category: 'Europe', title: 'Germany' },
+            # { category: 'Africa', title: 'Ethiopia' },
+            # { category: 'Africa', title: 'Nigeria' },
+            # { category: 'Africa', title: 'Zimbabwe' },
+            # ];
+        $('.ui.search')
+            .search({
+                # apiSettings: {
+                #   url: 'http://www.reddit.com/search/?q={query}'
+                # },
+                type: 'category'
+                hideDelay: 0
+                selectFirstResult: false
+                source: categoryContent
+                action:
+                    text: 'test'
+                onSelect: (result, response)->
+                    console.log result
+                    # console.log response
+                    match = Session.get('match')
+                    category_array = match["#{result.category}"]
+                    if category_array
+                        if result.title in category_array
+                            category_array = _.without(category_array, result.title)
+                            match["#{result.category}"] = category_array
+                            current_queries.remove result.title
+                            Session.set('match', match)
+                        else
+                            category_array.push result.title
+                            current_queries.push result.title
+                            Session.set('match', match)
+                            # Meteor.call 'agg_idea', result.title, result.category, 'entity', ->
+                            # Meteor.call 'search_reddit', current_queries.array(), ->
+                            # match["#{result.category}"] = ["#{result.title}"]
+                    else
+                        match["#{result.category}"] = ["#{result.title}"]
+                        # Meteor.call 'agg_idea', result.title, result.key, 'entity', ->
+                        current_queries.push result.title
+                        # console.log current_queries.array()
+                    Session.set('match', match)
+                    console.log current_queries.array()
+                    if current_queries.array().length > 0
+                        Meteor.call 'search_reddit', current_queries.array(), ->
+            })
+
+
     'click .clear_match': ->
         $('.clear_match').transition('jiggle')
         Session.set('match', {})
@@ -126,6 +188,11 @@ Template.home.events
             Session.set('view_detail', true)
         else
             Session.set('view_detail', false)
+    'click .toggle_tone': ->
+        if Session.equals('view_tone', false)
+            Session.set('view_tone', true)
+        else
+            Session.set('view_tone', false)
     'click .print_this': ->
         console.log @
     'click .call_reddit_post': ->
@@ -180,6 +247,9 @@ Template.home.helpers
         Template.instance().subscriptionsReady()
     toggle_video_class: ->
         if Session.equals('only_videos') then 'active' else ''
+    toggle_tone_class: ->
+        if Session.get('show_tone') then 'active' else 'basic'
+    show_tone: -> Session.get('show_tone')
 
     invert_class: ->
         if Session.get('invert_mode')
@@ -227,7 +297,7 @@ Template.tag_cloud.helpers
 
 
 Template.tag_cloud.events
-    'click .select_query': -> current_queries.push @name
+    'click .select_query': -> current_queries.push @title
     'click .unselect_query': ->
         current_queries.remove @valueOf()
 
@@ -381,7 +451,7 @@ Template.facet.helpers
     results: ->
         # console.log Template.currentData().key
         Results.find(
-            key:Template.currentData().key
+            category:Template.currentData().key
         )
 
 

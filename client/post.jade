@@ -1,7 +1,12 @@
 template(name='post')      
-    .ui.segment   
+    .ui.pointer.segment.toggle_detail  
+        if view_detail
+            i.large.chevron.up.icon
+        else
+            i.large.chevron.down.icon    
+    
         //- a.ui.inline.header(href=url target="_window") 
-        a.ui.inline.header(href=url target="_window" class=post_header_class) 
+        .ui.inline.header(class=post_header_class) 
             //- if thumbnail.length
             //-     img.ui.big.image(src=thumbnail)
             //- else if watson.metadata.image.length
@@ -10,6 +15,13 @@ template(name='post')
                 |#{title}
             else 
                 |#{watson.metadata.title}
+        div
+        +emotion_circle color='green' emotion='joy' percent=joy_percent
+        +emotion_circle color='blue' emotion='sadness' label='sad' percent=sadness_percent
+        +emotion_circle color='black' emotion='fear' percent=fear_percent
+        +emotion_circle color='yellow' emotion='disgust' percent=disgust_percent
+        +emotion_circle color='red' emotion='anger' percent=anger_percent
+                
         if is_video
             i.video.icon
                 if is_youtube
@@ -23,50 +35,57 @@ template(name='post')
             +call_watson mode='video'
         if is_spotify
             iframe(src="https://open.spotify.com/embed/track/5GQ8H3M5fwIU0oTXO3NmQV" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media")
-        if is_youtube 
-            +call_watson mode='image'
+        //- if is_youtube 
+        //- .ui.small.inline.header secondary
         if is_image 
             i.large.image.icon
             img.ui.large.image(src=url)
             +call_watson mode='image'
         //- if in_dev
-        .ui.compact.basic.large.button.toggle_detail(title='toggle detail')
-            if view_detail 
-                i.stream.icon 
-                |minimize
-            else 
-                i.window.minimize.icon
-                |expand
-        div
-        if view_detail
-            +emotion_circle color='green' emotion='joy' percent=joy_percent
-            +emotion_circle color='blue' emotion='sadness' label='sad' percent=sadness_percent
-            +emotion_circle color='black' emotion='fear' percent=fear_percent
-            +emotion_circle color='yellow' emotion='disgust' percent=disgust_percent
-            +emotion_circle color='red' emotion='anger' percent=anger_percent
+        //- .ui.compact.basic.large.button.toggle_detail(title='toggle detail')
+        //-     if view_detail 
+        //-         i.stream.icon 
+        //-         |minimize
+        //-     else 
+        //-         i.window.minimize.icon
+        //-         |expand
+    if view_detail
+        .ui.basic.segment
             
-            .ui.label(title='reddit author') 
-                i.user.outline.icon 
-                |#{author}
-            .ui.label(title='domain') #{domain}
-            a.ui.mini.inline.header(href="http://www.reddit.com#{permalink}" target="_window" title='permalink') #{permalink}
             div
             if tone 
                 each tone.result.sentences_tone 
                     //- |#{sentence_id}:
-                    //- span.large-text #{text}
-                    span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
+                    if view_tone
+                        span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
+                        each tones 
+                            //- .ui.basic.small.compact.button
+                            //- .ui.small.basic.label #{tone_id}
+                            .ui.small.basic.label {{to_percent score}}% #{tone_id}
+                            //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
+
+                    else 
+                        span.large-text #{text}
+                    //- span(class="{{calc_size top_score}}" title="{{ top_score }}% significant") #{text}
                 
                     //- span.large-text(title=sentence_id class=tone_sentence_class) #{text}
-                    each tones 
-                        //- .ui.basic.small.compact.button
-                        .ui.small.basic.label {{to_percent score}}% #{tone_id}
-                        //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
+                    //- span(title=sentence_id class=tone_sentence_class) #{text}
+                    //- span.large-text(title=sentence_id) #{text}
                     div
             else 
                 .large-text    
                     |!{body}
                     //- |!{html}
+            +call_watson mode='image'
+            a.ui.button(href=url target="_window")
+                i.external.icon 
+                |view link 
+            .ui.label(title='reddit author') 
+                i.user.outline.icon 
+                |#{author}
+            .ui.label(title='domain') #{domain}
+            a.ui.mini.inline.header(href="http://www.reddit.com#{permalink}" target="_window" title='permalink') #{permalink}
+                    
             div 
             +array_view key='categories' icon='cubes' 
             +array_view key='Person' icon='user' 
@@ -101,22 +120,22 @@ template(name='post')
             div
             a(href=url target='_window') #{url}
             +doc_emotion    
-            +watson_view
-        //- unless sadness_percent    
-        +call_watson mode='url' key='url'
-        if in_dev
-            i.reddit.link.circular.icon.call_reddit_post
-            i.code.link.circular.icon.print_this
-            i.brain.link.circular.icon.call_tone
-            i.cubes.link.circular.icon.call_entities
-            i.remove.link.circular.icon
-        //-     +call_watson mode='html'
-        if in_dev 
-            i.remove.link.icon
-        //-     if watson 
-        //-         +jsonView json=watson
-        .ui.inline.small.header added #{when}
-        //- .ui.divider
+            //- +watson_view
+            //- unless sadness_percent    
+            +call_watson mode='url' key='url'
+            if in_dev
+                i.reddit.link.circular.icon.call_reddit_post
+                i.code.link.circular.icon.print_this
+                i.brain.link.circular.icon.call_tone
+                i.cubes.link.circular.icon.call_entities
+                i.remove.link.circular.icon
+            //-     +call_watson mode='html'
+            if in_dev 
+                i.remove.link.icon
+            //-     if watson 
+            //-         +jsonView json=watson
+            .ui.inline.small.header added #{when}
+            //- .ui.divider
 
 
 
@@ -137,10 +156,10 @@ template(name='array_view')
 
 
 template(name='emotion_circle')
-    .ui.label(class=emotion_circle_class)
+    .ui.circular.label(class=emotion_circle_class title=emotion)
         span {{ to_percent percent }}%
-            if label 
-                |#{label}
-            else 
-                |#{emotion}
+            //- if label 
+            //-     |#{label}
+            //- else 
+            //-     |#{emotion}
         

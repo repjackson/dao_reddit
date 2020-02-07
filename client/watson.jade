@@ -100,6 +100,9 @@ template(name='entities')
                                 .item #{this}
                         a.ui.tiny.grey.header(href=dbpedia_resource target='_window') name
                             |#{name}
+                each mentions 
+                    each location 
+                        .ui.label #{this}
                 if emotion
                     with emotion
                         span {{ to_percent sadness }}% sad
