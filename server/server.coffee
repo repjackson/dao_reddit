@@ -14,6 +14,21 @@ Docs.allow
     # remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
 
 Meteor.methods
+    stringify_tags: ->
+        docs = Docs.find({
+            tags: $exists: true
+            tags_string: $exists: false
+        },{limit:1000})
+        for id in docs
+            doc = Docs.findOne id
+            console.log 'about to stingify', doc
+            tags_string = doc.tags.toString()
+            console.log 'tags_string', tags_string
+            Docs.update doc._id,
+                $set: tags_string:tags_string
+            # console.log 'result doc', Docs.findOne doc._id
+
+
     rename_key:(old_key,new_key,parent)->
         Docs.update parent._id,
             $pull:_keys:old_key

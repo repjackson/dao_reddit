@@ -27,10 +27,10 @@ body {
 } */
 
 /* .ui.image:not(.avatar), .label,  img:not(.avatar) { */
-/* .ui.image, img:not(.avatar), .ui.embed, .ui.text, .green.header, .red.header, .blue.header, .label, .orange.header, .inverted{
-    border-radius: 7px !important;
+.ui.image, img:not(.avatar), .label, .ui.embed, .ui.text, .green.header, .red.header, .blue.header, .orange.header, .inverted{
+    /* border-radius: 7px !important; */
     filter: invert(1) !important;
-} */
+}
 
 /* .inverted{
     background: rgba(0,0,0,.85) !important; */

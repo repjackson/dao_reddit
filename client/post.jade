@@ -1,10 +1,10 @@
 template(name='post')      
-    .ui.pointer.segment.toggle_detail  
-        if view_detail
-            i.large.chevron.up.icon
-        else
-            i.large.chevron.down.icon    
-    
+    .ui.pointer.basic.segment.toggle_detail  
+        //- if view_detail
+        //-     i.large.chevron.up.icon
+        //- else
+        //-     i.large.chevron.down.icon    
+        //- 
         //- a.ui.inline.header(href=url target="_window") 
         .ui.inline.header(class=post_header_class) 
             //- if thumbnail.length
@@ -15,7 +15,7 @@ template(name='post')
                 |#{title}
             else 
                 |#{watson.metadata.title}
-        div
+        //- div
         +emotion_circle color='green' emotion='joy' percent=joy_percent
         +emotion_circle color='blue' emotion='sadness' label='sad' percent=sadness_percent
         +emotion_circle color='black' emotion='fear' percent=fear_percent
@@ -51,7 +51,6 @@ template(name='post')
         //-         |expand
     if view_detail
         .ui.basic.segment
-            
             div
             if tone 
                 each tone.result.sentences_tone 
@@ -61,7 +60,7 @@ template(name='post')
                         each tones 
                             //- .ui.basic.small.compact.button
                             //- .ui.small.basic.label #{tone_id}
-                            .ui.small.basic.label {{to_percent score}}% #{tone_id}
+                            .ui.small.black.label {{to_percent score}} #{tone_id}
                             //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
 
                     else 
@@ -85,7 +84,6 @@ template(name='post')
                 |#{author}
             .ui.label(title='domain') #{domain}
             a.ui.mini.inline.header(href="http://www.reddit.com#{permalink}" target="_window" title='permalink') #{permalink}
-                    
             div 
             +array_view key='categories' icon='cubes' 
             +array_view key='Person' icon='user' 
@@ -135,7 +133,7 @@ template(name='post')
             //-     if watson 
             //-         +jsonView json=watson
             .ui.inline.small.header added #{when}
-            //- .ui.divider
+    .ui.divider
 
 
 
@@ -157,7 +155,7 @@ template(name='array_view')
 
 template(name='emotion_circle')
     .ui.circular.label(class=emotion_circle_class title=emotion)
-        span {{ to_percent percent }}%
+        //- span {{ to_percent percent }}
             //- if label 
             //-     |#{label}
             //- else 
