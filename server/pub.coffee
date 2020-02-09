@@ -1,3 +1,33 @@
+Meteor.publish 'ideas', (
+    prematch
+    idea_limit=5
+    sort_key='_timestamp'
+    sort_direction=-1
+    # only_videos
+    )->
+    # console.log 'pre match', prematch
+    # console.log selected_tags
+    # console.log filter
+    self = @
+    match = {}
+    # if only_videos
+    #     match.is_video = true
+    # if selected_tags.length > 0 then match.tags = $all: selected_tags
+    # if filter then match.model = filter
+    keys = _.keys(prematch)
+    for key in keys
+        key_array = prematch["#{key}"]
+        if key_array and key_array.length > 0
+            match["#{key}"] = $all: key_array
+        # console.log 'current facet filter array', current_facet_filter_array
+
+    # console.log 'doc match', match
+    # console.log 'sort key', sort_key
+    # console.log 'sort direction', sort_direction
+    Ideas.find match,
+        sort:"#{sort_key}":sort_direction
+        limit: idea_limit
+
 Meteor.publish 'docs', (
     prematch
     doc_limit=5
@@ -43,7 +73,7 @@ Meteor.publish 'facet_results', (
     # current_facet_filter_array = prematch["#{key}"]
     # console.log 'current facet filter array', current_facet_filter_array
     match = {}
-    if current_query.length > 2
+    if current_query and current_query.length > 3
         match.tags_string = {$regex:"#{current_query}", $options: 'i'}
         # if current_facet_filter_array and current_facet_filter_array.length > 0
         #     match["#{key}"] = $all: current_facet_filter_array

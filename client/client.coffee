@@ -8,6 +8,7 @@
 
 
 Template.home.onCreated ->
+    # @autorun => @subscribe 'docs',
     @autorun => @subscribe 'docs',
         Session.get('match')
         Session.get('doc_limit')
@@ -18,8 +19,6 @@ Template.home.onCreated ->
     @autorun => @subscribe 'emotion_averages',
         Session.get('match')
 
-    @autorun => @subscribe 'ideas',
-        current_queries.array()
 
     Session.setDefault 'only_videos', false
     Session.setDefault 'doc_limit', 5
@@ -64,12 +63,10 @@ Template.home.onRendered ->
     #                         category_array.push result.title
     #                         current_queries.push result.title
     #                         Session.set('match', match)
-    #                         # Meteor.call 'agg_idea', result.title, result.category, 'entity', ->
     #                         # Meteor.call 'search_reddit', current_queries.array(), ->
     #                         # match["#{result.category}"] = ["#{result.title}"]
     #                 else
     #                     match["#{result.category}"] = ["#{result.title}"]
-    #                     # Meteor.call 'agg_idea', result.title, result.key, 'entity', ->
     #                     current_queries.push result.title
     #                     # console.log current_queries.array()
     #                 Session.set('match', match)
@@ -109,12 +106,10 @@ Template.home.events
         #                     category_array.push result.title
         #                     current_queries.push result.title
         #                     Session.set('match', match)
-        #                     # Meteor.call 'agg_idea', result.title, result.category, 'entity', ->
         #                     # Meteor.call 'search_reddit', current_queries.array(), ->
         #                     # match["#{result.category}"] = ["#{result.title}"]
         #             else
         #                 match["#{result.category}"] = ["#{result.title}"]
-        #                 # Meteor.call 'agg_idea', result.title, result.key, 'entity', ->
         #                 current_queries.push result.title
         #                 # console.log current_queries.array()
         #             Session.set('match', match)
@@ -163,11 +158,15 @@ Template.home.events
     #     if e.which is 13
     #         subreddit = $('.subreddit').val()
     #         Meteor.call 'pull_subreddit', subreddit
+    'keyup #auto_search': (e,t)->
+        query = $('#auto_search').val()
+        Session.set('current_query', query)
+
     'keyup #search': (e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
         categoryContent =
-            Results.find({},{sort:count:1}).fetch()
+            Ideas.find({},{sort:count:1}).fetch()
         $('.ui.search')
             .search({
                 # apiSettings: {
@@ -175,9 +174,10 @@ Template.home.events
                 # },
                 type: 'category'
                 hideDelay: 0
+                fullTextSearch:true
                 selectFirstResult: false
                 source: categoryContent
-                minCharacters: 2
+                minCharacters: 3
                 maxResults: 10
                 onSelect: (result, response)->
                     console.log result
@@ -194,12 +194,10 @@ Template.home.events
                             category_array.push result.title
                             current_queries.push result.title
                             Session.set('match', match)
-                            # Meteor.call 'agg_idea', result.title, result.category, 'entity', ->
                             # Meteor.call 'search_reddit', current_queries.array(), ->
                             # match["#{result.category}"] = ["#{result.title}"]
                     else
                         match["#{result.category}"] = ["#{result.title}"]
-                        # Meteor.call 'agg_idea', result.title, result.key, 'entity', ->
                         current_queries.push result.title
                         # console.log current_queries.array()
                     Session.set('match', match)
@@ -248,17 +246,18 @@ Template.home.helpers
         rules: [
           {
             # token: '@'
-            collection: Results
-            field: 'title'
-            template: Template.result
+            collection: Ideas
+            field: 'name'
+            template: Template.idea_result
           }
         ]
       }
 
     ideas: ->
-        Results.find(
-            model:'idea'
-        )
+        Ideas.find()
+        # Results.find(
+        #     model:'idea'
+        # )
     subs_ready: ->
         Template.instance().subscriptionsReady()
     toggle_video_class: ->
@@ -415,24 +414,22 @@ Template.facet.events
     'click .toggle_facet': (e,t)-> t.view_facet.set !t.view_facet.get()
     'click .toggle_filter': ->
         # console.log @
-        match = Session.get('match')
-        key_array = match["#{@key}"]
+        idea_match = Session.get('idea_match')
+        key_array = idea_match["#{@key}"]
         if key_array
             if @name in key_array
                 key_array = _.without(key_array, @name)
-                match["#{@key}"] = key_array
+                idea_match["#{@key}"] = key_array
                 current_queries.remove @name
-                Session.set('match', match)
+                Session.set('idea_match', idea_match)
             else
                 key_array.push @name
                 current_queries.push @name
-                Session.set('match', match)
-                # Meteor.call 'agg_idea', @name, @key, 'entity', ->
+                Session.set('idea_match', idea_match)
                 # Meteor.call 'search_reddit', current_queries.array(), ->
                 # match["#{@key}"] = ["#{@name}"]
         else
             match["#{@key}"] = ["#{@name}"]
-            # Meteor.call 'agg_idea', @name, @key, 'entity', ->
             current_queries.push @name
             # console.log current_queries.array()
         Session.set('match', match)
@@ -489,5 +486,6 @@ Template.facet.helpers
 
 
 Template.idea_segment.events
-    'click .calc_emotion': ->
-        Meteor.call 'agg_idea', @name, @key, 'entity'
+    'click .agg_idea': ->
+        Meteor.call 'agg_idea', @_id
+        # Meteor.call 'agg_idea', @name, @key, 'entity'

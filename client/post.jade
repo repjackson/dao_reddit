@@ -71,9 +71,9 @@ template(name='post')
                     //- span(title=sentence_id class=tone_sentence_class) #{text}
                     //- span.large-text(title=sentence_id) #{text}
                     div
-            else 
-                .large-text    
-                    |!{body}
+            //- else 
+            //-     .large-text    
+            //-         |!{body}
                     //- |!{html}
             +call_watson mode='image'
             a.ui.button(href=url target="_window")
@@ -155,7 +155,7 @@ template(name='array_view')
 
 template(name='emotion_circle')
     .ui.circular.label(class=emotion_circle_class title=emotion)
-        //- span {{ to_percent percent }}
+        span {{ to_percent percent }}
             //- if label 
             //-     |#{label}
             //- else 

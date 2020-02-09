@@ -54,7 +54,10 @@ Template.registerHelper 'calc_size', (metric) ->
 
 
 
-Template.registerHelper 'is', (one,two)-> one is two
+Template.registerHelper 'is', (one,two)->
+    # console.log 'one', one
+    # console.log 'two', two
+    one is two
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')

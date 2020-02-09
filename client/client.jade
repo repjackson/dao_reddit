@@ -31,7 +31,7 @@ template(name='home')
                         else 
                             i.yin.yang.loading.icon(title='dao')
                         input#search.prompt(type='text' autofocus='' autocomplete="off")
-                    +inputAutocomplete(settings=settings id="auto_search" class="input-xlarge" placeholder="Chat...")
+                    +inputAutocomplete(settings=settings id="auto_search" class="ui input" autocomplete='off' placeholder="search...")
 
                 .ui.circular.basic.icon.button.clear_match(title='clear search')
                     i.remove.icon
@@ -58,7 +58,9 @@ template(name='home')
                 +facet key='Organization' icon='users' label='organization'
                 +facet key='HealthCondition' icon='heart' label='health condition'
                 +facet key='author' icon='pencil' label='reddit author'
-        .twelve.wide.column.back
+        .eight.wide.column.back
+            +idea_section
+        .eight.wide.column.back
             .filter_row(class=loading_class)
                 .ui.compact.basic.icon.button.toggle_video(class=toggle_video_class title='toggle videos only')
                     i.video.icon
@@ -121,56 +123,7 @@ template(name='home')
             .largescroll
                 each posts
                     +post
-        .four.wide.column.back
-            //- .ui.header results stats
-            //- with emotion_average_doc
-            //-     span sentiment {{ to_percent sentiment_average }}% 
-            //-     div
-            //-         //- .rounded.inverted(style="height:5px;width:{{to_percent sentiment_average}}%;background-color:green" title="{{to_percent sentiment_average}}% sad")
-            //-     span {{ to_percent sadness_average }}% sad
-            //-         .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}% sad")
-            //-     span {{ to_percent joy_average }}% joy
-            //-         .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}% joy")
-            //-     span {{ to_percent disgust_average }}% disgust
-            //-         .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}% disgust")
-            //-     span {{ to_percent fear_average }}% fear
-            //-         .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:black" title="{{to_percent fear_average}}% fear")
-            //-     span {{ to_percent anger_average }}% anger
-            //-         .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% anger")
-            //- .ui.header ideas 
-            each ideas
-                +idea_segment
 
-template(name='idea_segment')
-    .ui.basic.segment
-        .ui.header #{name}
-        .ui.basic.inverted.label #{key}
-        //- .ui.small.header doc mentions: #{doc_mention_count}
-        //- .ui.small.header type: #{type}
-        //- .item(title='docs with emotional data to average') docs analyzed #{analyzed_doc_count}
-        //- .item(title='docs with emotional data to average') analyzed ids count #{analyzed_doc_ids.length}
-        .item sentiment: {{to_percent sentiment_average}}%
-        .rounded.inverted(style="height:5px;width:{{to_percent sentiment_average}}%;background-color:green" title="{{to_percent sentiment_average}}%")
-        //- span joy
-        span {{ to_percent joy_average }}% joy
-        .rounded.inverted(style="height:5px;width:{{to_percent joy_average}}%;background-color:green" title="{{to_percent joy_average}}%")
-        //- span sad
-        span {{ to_percent sadness_average}}% sadness
-        .rounded.inverted(style="height:5px;width:{{to_percent sadness_average}}%;background-color:blue" title="{{to_percent sadness_average}}%")
-        //- span fear
-        span {{ to_percent fear_average }}% fear
-        .rounded.inverted(style="height:5px;width:{{to_percent fear_average}}%;background-color:grey" title="{{to_percent fear_average}}%")
-        //- span disgust
-        span {{ to_percent disgust_average }}% disgust
-        .rounded.inverted(style="height:5px;width:{{to_percent disgust_average}}%;background-color:orange" title="{{to_percent disgust_average}}%")
-        //- span anger
-        span {{ to_percent anger_average }}% anger
-        .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}%")
-
-        //- .item average sentiment
-        //-     .large {{to_percent average_sentiment_score}}%
-        //- i.refresh.circular.link.icon.calc_emotion
-    .ui.divider
 
 
 template(name='set_sort_key')
@@ -221,7 +174,8 @@ template(name='tag_cloud')
     
     
 template(name='result')
-    .item #{title}
+    .item 
+        | #{category}:  #{title}
 
     //- .ui.empty.label(class=color style="min-height:30%")
 
@@ -240,3 +194,5 @@ template(name='facet')
     //-                 .item.toggle_filter(class=toggle_filter_class title=count) #{title}
     //-                     small (#{count})
     //-     //- .spacer
+    
+    

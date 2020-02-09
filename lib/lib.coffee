@@ -1,7 +1,8 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
-# @Ideas = new Meteor.Collection 'ideas'
+@Ideas = new Meteor.Collection 'ideas'
 
+@Idea_results = new Meteor.Collection 'idea_results'
 @Results = new Meteor.Collection 'results'
 
 

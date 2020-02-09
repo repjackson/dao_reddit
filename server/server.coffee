@@ -14,6 +14,28 @@ Docs.allow
     # remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
 
 Meteor.methods
+    calc_idea_stats: (idea_id)->
+        idea = Ideas.findOne idea_id
+        console.log idea
+    extract_ideas: ->
+        doc = Docs.findOne
+            # ideas_extracted: $ne: true
+            categories:$exists:true
+            # "watson.entities":$exists:true
+        console.log doc
+        for category in doc.categories
+            console.log 'looking up category'
+            existing_idea =
+                Ideas.findOne
+                    model:'category'
+                    title:category
+            if existing_idea
+                console.log 'found existing idea'
+            else
+                Ideas.insert
+                    model:'category'
+                    title:category
+
     stringify_tags: ->
         docs = Docs.find({
             tags: $exists: true
@@ -21,7 +43,7 @@ Meteor.methods
         },{limit:1000})
         for id in docs
             doc = Docs.findOne id
-            console.log 'about to stingify', doc
+            console.log 'about to stringify', doc
             tags_string = doc.tags.toString()
             console.log 'tags_string', tags_string
             Docs.update doc._id,
@@ -39,7 +61,6 @@ Meteor.methods
                 "#{old_key}": new_key
                 "_#{old_key}": "_#{new_key}"
 
-Meteor.methods
     move_emotion: ->
         emotion_docs = Docs.find({
             sadness_percent:
@@ -68,54 +89,68 @@ Meteor.methods
             # console.log updated_doc
         console.log 'main_emotions count', Docs.find(main_emotions:$exists:true).count()
 
-    agg_idea: (idea, key, type)->
-        console.log idea
-        match = {name:idea}
-        if key
-            match.key = key
-        match.type = type
-        found_idea =
-            Ideas.findOne match
-        if found_idea
-            # console.log found_idea
-            idea_id = found_idea._id
-        else
-            idea_id = Ideas.insert match
+    # agg_idea: (idea, key, type)->
+    agg_idea: (idea_id)->
+        # console.log idea
 
-        agg_match = {"watson.entities":$exists:true}
-
-
-        idea_averages = Docs.aggregate [
-            { $match: agg_match }
-            # { $limit: 100 }
-            { $project: "watson.entities": 1 }
-            { $unwind: "$watson.entities" }
-            { $match:
-                "watson.entities.type": "#{key}"
-                "watson.entities.text": "#{idea}"
-            }
-            { $group:
-                _id: null
-                sentiment_average: $avg: "$watson.entities.sentiment.score"
-                sadness_average: $avg: "$watson.entities.emotion.sadness"
-                joy_average: $avg: "$watson.entities.emotion.joy"
-                disgust_average: $avg: "$watson.entities.emotion.disgust"
-                fear_average: $avg: "$watson.entities.emotion.fear"
-                anger_average: $avg: "$watson.entities.emotion.anger"
-            }
-        ]
-        idea_averages.forEach(Meteor.bindEnvironment((result) =>
-            console.log 'result ', result
-            console.log 'key', key
+        # match = {name:idea}
+        # if key
+        #     match.key = key
+        # match.type = type
+        # found_idea =
+        #     Ideas.findOne match
+        # if found_idea
+        #     # console.log found_idea
+        #     idea_id = found_idea._id
+        # else
+        #     idea_id = Ideas.insert match
+        #
+        # agg_match = {"watson.entities":$exists:true}
+        idea = Ideas.findOne idea_id
+        console.log 'idea', idea
+        # agg_match = {"watson.entities":$exists:true}
+        #
+        #
+        if idea.type is 'subreddit'
+            downloaded_reddit_posts =
+                Docs.find({
+                    subreddit:idea.name
+                }).count()
+            console.log 'post count', downloaded_reddit_posts
             Ideas.update idea_id,
-                $set:
-                    sentiment_average:result.sentiment_average
-                    sadness_average:result.sadness_average
-                    joy_average:result.joy_average
-                    disgust_average:result.disgust_average
-                    fear_average:result.fear_average
-                    anger_average:result.anger_average
-            ))
+                $set: downloaded_reddit_posts:downloaded_reddit_posts
+        if idea.type is 'entity'
+            idea_averages = Docs.aggregate [
+                { $match: agg_match }
+                # { $limit: 100 }
+                { $project: "watson.entities": 1 }
+                { $unwind: "$watson.entities" }
+                { $match:
+                    "watson.entities.type": "#{key}"
+                    "watson.entities.text": "#{idea}"
+                }
+                { $group:
+                    _id: null
+                    sentiment_average: $avg: "$watson.entities.sentiment.score"
+                    sadness_average: $avg: "$watson.entities.emotion.sadness"
+                    joy_average: $avg: "$watson.entities.emotion.joy"
+                    disgust_average: $avg: "$watson.entities.emotion.disgust"
+                    fear_average: $avg: "$watson.entities.emotion.fear"
+                    anger_average: $avg: "$watson.entities.emotion.anger"
+                }
+            ]
+            idea_averages.forEach(Meteor.bindEnvironment((result) =>
+                console.log 'result ', result
+                console.log 'key', key
+                Ideas.update idea_id,
+                    $set:
+                        sentiment_average:result.sentiment_average
+                        sadness_average:result.sadness_average
+                        joy_average:result.joy_average
+                        disgust_average:result.disgust_average
+                        fear_average:result.fear_average
+                        anger_average:result.anger_average
+                ))
             # self.added 'results', Random.id(),
             #     name: result.name
             #     count: result.count
