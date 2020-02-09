@@ -8,20 +8,21 @@ template(name='idea_section')
             |sort by
         .ui.compact.small.menu
             .ui.simple.dropdown.item
-                strong #{current_sort_label}
+                strong #{current_idea_sort_label}
                 i.dropdown.icon
                 .menu
-                    +set_sort_key key='ups' label='upvotes' icon='thumbs up outline'
-                    +set_sort_key key='sadness_percent' label='sadness' color='blue'
-                    +set_sort_key key='joy_percent' label='joy' color='green'
-                    +set_sort_key key='fear_percent' label='fear' color='black'
-                    +set_sort_key key='disgust_percent' label='disgust' color='yellow'
-                    +set_sort_key key='anger_percent' label='anger' color='red'
-                    +set_sort_key key='_timestamp' label='added' icon='clock'
-                    +set_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang'
-                    +set_sort_key key='comment_count' label='comment count' icon='chat'
-        .ui.compact.icon.basic.large.button.set_sort_direction(title='toggle sort direction')
-            if sorting_up
+                    +set_idea_sort_key key='downloaded_reddit_posts' label='downloaded_reddit_posts' icon='download'
+                    +set_idea_sort_key key='ups' label='upvotes' icon='thumbs up outline'
+                    +set_idea_sort_key key='sadness_percent' label='sadness' color='blue'
+                    +set_idea_sort_key key='joy_percent' label='joy' color='green'
+                    +set_idea_sort_key key='fear_percent' label='fear' color='black'
+                    +set_idea_sort_key key='disgust_percent' label='disgust' color='yellow'
+                    +set_idea_sort_key key='anger_percent' label='anger' color='red'
+                    +set_idea_sort_key key='_timestamp' label='added' icon='clock'
+                    +set_idea_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang'
+                    +set_idea_sort_key key='comment_count' label='comment count' icon='chat'
+        .ui.compact.icon.basic.large.button.set_idea_sort_direction(title='toggle sort direction')
+            if idea_sorting_up
                 i.sort.amount.down.icon
             else
                 i.sort.amount.up.icon
@@ -86,7 +87,7 @@ template(name='idea_facet')
     //- else 
     |#{key}
     each results
-        .ui.button.toggle_filter(class=toggle_filter_class title=count) #{title}
+        .ui.button.toggle_idea_filter(class=toggle_idea_filter_class title=count) #{title}
             small (#{count})
         //- .spacer
 
@@ -133,3 +134,18 @@ template(name='idea_result')
         | #{type}:  #{name}
 
     //- .ui.empty.label(class=color style="min-height:30%")
+
+
+
+
+template(name='set_idea_sort_key')
+    .item.set_sort
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
+        

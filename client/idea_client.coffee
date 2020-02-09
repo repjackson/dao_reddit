@@ -6,10 +6,26 @@ Template.idea_section.onCreated ->
 
 Template.idea_section.helpers
     ideas: ->
-        Ideas.find()
+        Ideas.find {},
+            sort: "#{Session.get('idea_sort_key')}": Session.get('idea_sort_direction')
+
         # Results.find(
         #     model:'idea'
         # )
+    current_idea_sort_key: -> Session.get('idea_sort_key')
+    current_idea_sort_label: -> Session.get('idea_sort_label')
+    current_idea_limit: -> Session.get('idea_limit')
+    idea_sorting_up: -> Session.equals('idea_sort_direction', -1)
+    idea_subs_ready: ->
+        Template.instance().subscriptionsReady()
+
+Template.idea_section.events
+    'click .set_idea_sort_direction': ->
+        if Session.equals('idea_sort_direction', -1)
+            Session.set('idea_sort_direction', 1)
+        else
+            Session.set('idea_sort_direction', -1)
+        # console.log Session.get('idea_sort_direction')
 
 
 Template.idea_facet.onCreated ->
@@ -38,8 +54,8 @@ Template.idea_facet.onRendered ->
 
 
 Template.idea_facet.events
-    'click .toggle_facet': (e,t)-> t.view_facet.set !t.view_facet.get()
-    'click .toggle_filter': ->
+    # 'click .toggle_facet': (e,t)-> t.view_facet.set !t.view_facet.get()
+    'click .toggle_idea_filter': ->
         console.log @
         prematch = Session.get('idea_prematch')
         key_array = prematch["#{@category}"]
@@ -68,26 +84,32 @@ Template.idea_facet.events
 Template.idea_facet.helpers
     view_facet: ->
         Template.instance().view_facet.get()
-    toggle_facet_class: ->
+    toggle_idea_facet_class: ->
         if Template.instance().view_facet.get()
             ''
         else
             'basic'
 
-    toggle_filter_class: ->
-        match = Session.get('match')
-        key = Template.currentData().key
-        if match["#{key}"]
-            if @name in match["#{key}"]
+    toggle_idea_filter_class: ->
+        console.log @
+        prematch = Session.get('idea_prematch')
+        key = Template.parentData().key
+        console.log 'current data', Template.currentData()
+        current = Template.currentData()
+        console.log 'parent data', Template.parentData()
+        parent = Template.parentData()
+        console.log prematch
+        if prematch["#{key}"]
+            if current.title in prematch["#{key}"]
                 'active'
             else
                 'basic'
         else
             'basic'
 
-    match: ->
+    idea_prematch: ->
         # console.log Session.get('match')
-        Session.get('match')
+        Session.get('idea_prematch')
 
     results: ->
         # console.log Template.currentData().key
@@ -110,3 +132,12 @@ Template.idea_facet.helpers
             key:Template.currentData().key
         }, {skip:7}
         )
+
+
+
+
+Template.set_idea_sort_key.events
+    'click .set_sort': ->
+        # console.log @
+        Session.set('idea_sort_key', @key)
+        Session.set('idea_sort_label', @label)

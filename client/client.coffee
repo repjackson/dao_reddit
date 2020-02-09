@@ -253,11 +253,6 @@ Template.home.helpers
         ]
       }
 
-    ideas: ->
-        Ideas.find()
-        # Results.find(
-        #     model:'idea'
-        # )
     subs_ready: ->
         Template.instance().subscriptionsReady()
     toggle_video_class: ->
