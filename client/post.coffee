@@ -18,8 +18,8 @@ Template.array_view.events
                 current_queries.push value
                 Session.set('match', match)
                 Meteor.call 'search_reddit', current_queries.array(), ->
-                Meteor.call 'agg_idea', value, current.key, 'entity', ->
-
+                # Meteor.call 'agg_idea', value, current.key, 'entity', ->
+                console.log @
                 # match["#{current.key}"] = ["#{value}"]
         else
             match["#{current.key}"] = ["#{value}"]

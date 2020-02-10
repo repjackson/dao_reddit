@@ -1,32 +1,3 @@
-Meteor.publish 'ideas', (
-    prematch
-    idea_limit=5
-    sort_key='_timestamp'
-    sort_direction=-1
-    # only_videos
-    )->
-    # console.log 'pre match', prematch
-    # console.log selected_tags
-    # console.log filter
-    self = @
-    match = {}
-    # if only_videos
-    #     match.is_video = true
-    # if selected_tags.length > 0 then match.tags = $all: selected_tags
-    # if filter then match.model = filter
-    keys = _.keys(prematch)
-    for key in keys
-        key_array = prematch["#{key}"]
-        if key_array and key_array.length > 0
-            match["#{key}"] = $all: key_array
-        # console.log 'current facet filter array', current_facet_filter_array
-
-    # console.log 'doc match', match
-    # console.log 'sort key', sort_key
-    # console.log 'sort direction', sort_direction
-    Ideas.find match,
-        sort:"#{sort_key}":sort_direction
-        limit: idea_limit
 
 Meteor.publish 'docs', (
     prematch
@@ -61,7 +32,7 @@ Meteor.publish 'docs', (
 Meteor.publish 'facet_results', (
     key
     prematch
-    current_query
+    # current_query
     doc_limit=5
     sort_key='_timestamp'
     sort_direction=-1
@@ -73,46 +44,46 @@ Meteor.publish 'facet_results', (
     # current_facet_filter_array = prematch["#{key}"]
     # console.log 'current facet filter array', current_facet_filter_array
     match = {}
-    if current_query and current_query.length > 3
-        match.tags_string = {$regex:"#{current_query}", $options: 'i'}
-        # if current_facet_filter_array and current_facet_filter_array.length > 0
-        #     match["#{key}"] = $all: current_facet_filter_array
-        found_docs =
-            Docs.find({tags_string: {$regex:"#{current_query}", $options: 'i'}}).count()
-        console.log 'found ', found_docs, 'with string', current_query
-        keys = _.keys(prematch)
-        # console.log 'facet keys', key, keys
-        for match_key in keys
-            key_array = prematch["#{match_key}"]
-            if key_array and key_array.length > 0
-                match["#{match_key}"] = $all: key_array
-        # match.tags = $all: selected_tags
-        # match.model = 'reddit'
-        # if parent_id then match.parent_id = parent_id
-        console.log 'looking up facets with match', match
-        filters = []
-        result_array = []
+    # if current_query and current_query.length > 3
+    # match.tags_string = {$regex:"#{current_query}", $options: 'i'}
+    # if current_facet_filter_array and current_facet_filter_array.length > 0
+    #     match["#{key}"] = $all: current_facet_filter_array
+    found_docs =
+        Docs.find({tags_string: {$regex:"#{current_query}", $options: 'i'}}).count()
+    console.log 'found ', found_docs, 'with string', current_query
+    keys = _.keys(prematch)
+    # console.log 'facet keys', key, keys
+    for match_key in keys
+        key_array = prematch["#{match_key}"]
+        if key_array and key_array.length > 0
+            match["#{match_key}"] = $all: key_array
+    # match.tags = $all: selected_tags
+    # match.model = 'reddit'
+    # if parent_id then match.parent_id = parent_id
+    console.log 'looking up facets with match', match
+    filters = []
+    result_array = []
 
-        # console.log key, 'facet match:', match
-        result_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "#{key}": 1 }
-            { $unwind: "$#{key}" }
-            { $group: _id: "$#{key}", count: $sum: 1 }
-            { $match: _id: $nin: filters }
-            { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        result_cloud.forEach (result, i) =>
-            # console.log 'result ', result
-            # console.log 'key', key
-            self.added 'results', Random.id(),
-                title: result.name
-                count: result.count
-                category:key
-                # index: i
+    # console.log key, 'facet match:', match
+    result_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "#{key}": 1 }
+        { $unwind: "$#{key}" }
+        { $group: _id: "$#{key}", count: $sum: 1 }
+        { $match: _id: $nin: filters }
+        { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        { $sort: count: -1, _id: 1 }
+        { $limit: 10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    result_cloud.forEach (result, i) =>
+        # console.log 'result ', result
+        # console.log 'key', key
+        self.added 'results', Random.id(),
+            title: result.name
+            count: result.count
+            category:key
+            # index: i
 
     self.ready()
 

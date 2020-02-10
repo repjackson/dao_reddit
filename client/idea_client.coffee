@@ -1,23 +1,23 @@
 # @selected_idea_types = new ReactiveArray []
 
 Template.idea_section.onCreated ->
+    Session.setDefault('idea_limit', 5)
     @autorun => @subscribe 'ideas',
         Session.get('idea_prematch')
+        Session.get('idea_limit')
+        # Session.get('view_nsfw')
+        Session.get('idea_sort_key')
+        Session.get('idea_sort_direction')
 
 Template.idea_section.helpers
     ideas: ->
         Ideas.find {},
             sort: "#{Session.get('idea_sort_key')}": Session.get('idea_sort_direction')
-
-        # Results.find(
-        #     model:'idea'
-        # )
     current_idea_sort_key: -> Session.get('idea_sort_key')
     current_idea_sort_label: -> Session.get('idea_sort_label')
     current_idea_limit: -> Session.get('idea_limit')
     idea_sorting_up: -> Session.equals('idea_sort_direction', -1)
-    idea_subs_ready: ->
-        Template.instance().subscriptionsReady()
+    idea_subs_ready: -> Template.instance().subscriptionsReady()
 
 Template.idea_section.events
     'click .set_idea_sort_direction': ->
@@ -26,6 +26,15 @@ Template.idea_section.events
         else
             Session.set('idea_sort_direction', -1)
         # console.log Session.get('idea_sort_direction')
+Template.set_idea_limit.events
+    'click .set_idea_limit': ->
+        # console.log @
+        Session.set('idea_limit', @amount)
+
+
+Template.idea_segment.events
+    'click .print_idea': ->
+        console.log @
 
 
 Template.idea_facet.onCreated ->
@@ -91,14 +100,14 @@ Template.idea_facet.helpers
             'basic'
 
     toggle_idea_filter_class: ->
-        console.log @
+        # console.log @
         prematch = Session.get('idea_prematch')
         key = Template.parentData().key
-        console.log 'current data', Template.currentData()
+        # console.log 'current data', Template.currentData()
         current = Template.currentData()
-        console.log 'parent data', Template.parentData()
+        # console.log 'parent data', Template.parentData()
         parent = Template.parentData()
-        console.log prematch
+        # console.log prematch
         if prematch["#{key}"]
             if current.title in prematch["#{key}"]
                 'active'

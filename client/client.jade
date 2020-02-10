@@ -38,29 +38,29 @@ template(name='home')
                 if in_dev
                     i.circular.code.link.icon.print_match
                 +tag_cloud
-                +facet key='main_emotions' label='emotions' icon='smile'
-                +facet key='categories' icon='list'
-                +facet key='domain' icon='globe'
-                +facet key='subreddit' icon='reddit'
-                +facet key='Person' icon='user outline' label='person'
-                +facet key='doc_sentiment_label' label='sentiment' icon='smile'
-                +facet key='watson_keywords' label='keyword' icon='tags'
-                +facet key='watson_concepts' label='concept' icon='cubes'
-                +facet key='Location' icon='marker' label='location'
-                +facet key='Company' icon='briefcase' label='company'
-                +facet key='Facility' icon='building' label='facility'
-                +facet key='GeographicFeature' icon='mountain' label='geographic feature'
-                +facet key='Sport' icon='basketball ball' label='sport'
-                +facet key='SportingEvent' icon='baseball ball' label='sporting event'
-                +facet key='Hashtag' icon='hashtag' label='hashtag'
-                +facet key='PrintMedia' icon='newspaper' label='print media'
-                +facet key='Broadcaster' icon='television' label='broadcaster'
-                +facet key='Organization' icon='users' label='organization'
-                +facet key='HealthCondition' icon='heart' label='health condition'
-                +facet key='author' icon='pencil' label='reddit author'
-        .eight.wide.column.back
+                //- +facet key='main_emotions' label='emotions' icon='smile'
+                //- +facet key='categories' icon='list'
+                //- +facet key='domain' icon='globe'
+                //- +facet key='subreddit' icon='reddit'
+                //- +facet key='Person' icon='user outline' label='person'
+                //- +facet key='doc_sentiment_label' label='sentiment' icon='smile'
+                //- +facet key='watson_keywords' label='keyword' icon='tags'
+                //- +facet key='watson_concepts' label='concept' icon='cubes'
+                //- +facet key='Location' icon='marker' label='location'
+                //- +facet key='Company' icon='briefcase' label='company'
+                //- +facet key='Facility' icon='building' label='facility'
+                //- +facet key='GeographicFeature' icon='mountain' label='geographic feature'
+                //- +facet key='Sport' icon='basketball ball' label='sport'
+                //- +facet key='SportingEvent' icon='baseball ball' label='sporting event'
+                //- +facet key='Hashtag' icon='hashtag' label='hashtag'
+                //- +facet key='PrintMedia' icon='newspaper' label='print media'
+                //- +facet key='Broadcaster' icon='television' label='broadcaster'
+                //- +facet key='Organization' icon='users' label='organization'
+                //- +facet key='HealthCondition' icon='heart' label='health condition'
+                //- +facet key='author' icon='pencil' label='reddit author'
+        .six.wide.column.back
             +idea_section
-        .eight.wide.column.back
+        .ten.wide.column.back
             .filter_row(class=loading_class)
                 .ui.compact.basic.icon.button.toggle_video(class=toggle_video_class title='toggle videos only')
                     i.video.icon
@@ -120,9 +120,8 @@ template(name='home')
                 //-             +set_view_mode title='map' icon='map'
                 //-             +set_view_mode title='graph' icon='graph'
         
-            .largescroll
-                each posts
-                    +post
+            each posts
+                +post
 
 
 

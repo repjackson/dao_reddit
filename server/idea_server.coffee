@@ -1,10 +1,43 @@
+Meteor.publish 'ideas', (
+    prematch
+    idea_limit=5
+    idea_sort_key='_timestamp'
+    idea_sort_direction=-1
+    # only_videos
+    )->
+    # console.log 'pre match', prematch
+    # console.log selected_tags
+    # console.log filter
+    self = @
+    match = {}
+    # if only_videos
+    #     match.is_video = true
+    # if selected_tags.length > 0 then match.tags = $all: selected_tags
+    # if filter then match.model = filter
+    keys = _.keys(prematch)
+    for key in keys
+        key_array = prematch["#{key}"]
+        if key_array and key_array.length > 0
+            match["#{key}"] = $all: key_array
+        # console.log 'current facet filter array', current_facet_filter_array
+
+    # console.log 'doc match', match
+    # console.log 'sort key', idea_sort_key
+    # console.log 'sort direction', idea_sort_direction
+    Ideas.find match,
+        sort:"#{idea_sort_key}":idea_sort_direction
+        limit: idea_limit
+
+
+
+
 Meteor.publish 'idea_facet_results', (
     key
     prematch
     current_query
     doc_limit=5
-    sort_key='_timestamp'
-    sort_direction=-1
+    idea_sort_key='_timestamp'
+    idea_sort_direction=-1
 )->
     # console.log 'key', key
     # console.log 'match', prematch
@@ -101,7 +134,7 @@ Meteor.methods
         # agg_match = {"watson.entities":$exists:true}
         idea = Ideas.findOne idea_id
         console.log 'idea', idea
-        # agg_match = {"watson.entities":$exists:true}
+        agg_match = {"watson.entities":$exists:true}
         #
         #
         if idea.type is 'subreddit'
@@ -112,6 +145,25 @@ Meteor.methods
             console.log 'post count', downloaded_reddit_posts
             Ideas.update idea_id,
                 $set: downloaded_reddit_posts:downloaded_reddit_posts
+        entities = [
+            'entity'
+            'Person'
+            'Sport'
+            'Company'
+            'Organization'
+            'Facility'
+            'PrintMedia'
+            'Location'
+            'HealthCondition'
+            'Broadcaster'
+            'SportingEvent'
+            'Facility'
+            'Hashtag'
+            'GeographicFeature'
+            'SportingEvent'
+        ]
+        console.log 'idea type is', idea.type
+        console.log 'idea name is', idea.name
         if idea.type is 'entity'
             idea_averages = Docs.aggregate [
                 { $match: agg_match }
@@ -119,8 +171,8 @@ Meteor.methods
                 { $project: "watson.entities": 1 }
                 { $unwind: "$watson.entities" }
                 { $match:
-                    "watson.entities.type": "#{key}"
-                    "watson.entities.text": "#{idea}"
+                    "watson.entities.type": "#{idea.key}"
+                    "watson.entities.text": "#{idea.name}"
                 }
                 { $group:
                     _id: null
@@ -132,9 +184,10 @@ Meteor.methods
                     anger_average: $avg: "$watson.entities.emotion.anger"
                 }
             ]
+            # console.log idea_averages
             idea_averages.forEach(Meteor.bindEnvironment((result) =>
                 console.log 'result ', result
-                console.log 'key', key
+                console.log 'idea type', idea.type
                 Ideas.update idea_id,
                     $set:
                         sentiment_average:result.sentiment_average
@@ -197,16 +250,17 @@ Meteor.methods
         # console.log 'doc mention id length', doc_mention_ids.length
         # console.log 'analyzed ids length', analyzed_ids.length
         #
-        # doc_mentions =
-        #     Docs.find({
-        #         "#{key}": $in: [idea]
-        #         "watson.entities": $exists:true
-        #     }, {
-        #         fields: _id:1
-        #         # limit:5
-        #     }).count()
-        #
-        # # console.log 'doc mentions count', doc_mentions.count(), 'for', key, idea
+        doc_mention_count =
+            Docs.find({
+                tags: $in: [idea.name]
+                # "#{key}": $in: [idea]
+                # "watson.entities": $exists:true
+            }, {
+                # fields: _id:1
+                # limit:5
+            }).count()
+
+        console.log 'doc mentions count', doc_mention_count, 'for', idea.type, idea.name
         # #
         # total_sentiment_score = 0
         # emotion_doc_count = 0
@@ -237,9 +291,9 @@ Meteor.methods
         # for id in no_emotion_ids
         #     Meteor.call 'analyze_entities', id
         # average_sentiment_score = total_sentiment_score/emotion_doc_count
-        # Ideas.update idea_id,
-        #     $set:
-        #         doc_mention_count: doc_mention_ids.length
+        Ideas.update idea_id,
+            $set:
+                doc_mention_count: doc_mention_count
         #         doc_mention_ids:doc_mention_ids
         #         analyzed_doc_count: emotion_doc_count
         #         average_sentiment_score: average_sentiment_score

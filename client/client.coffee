@@ -390,7 +390,7 @@ Template.facet.onCreated ->
         'facet_results'
         Template.currentData().key
         Session.get('match')
-        Session.get('current_query')
+        # Session.get('current_query')
         Session.get('doc_limit')
         # Session.get('view_nsfw')
         Session.get('sort_key')

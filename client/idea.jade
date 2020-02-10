@@ -11,6 +11,7 @@ template(name='idea_section')
                 strong #{current_idea_sort_label}
                 i.dropdown.icon
                 .menu
+                    +set_idea_sort_key key='doc_mention_count' label='doc_mention_count' icon='document'
                     +set_idea_sort_key key='downloaded_reddit_posts' label='downloaded_reddit_posts' icon='download'
                     +set_idea_sort_key key='ups' label='upvotes' icon='thumbs up outline'
                     +set_idea_sort_key key='sadness_percent' label='sadness' color='blue'
@@ -32,14 +33,14 @@ template(name='idea_section')
             |limit
         .ui.compact.menu
             .ui.simple.dropdown.item
-                strong #{current_doc_limit}
+                strong #{current_idea_limit}
                 i.dropdown.icon
                 .menu
-                    +set_limit amount=1
-                    +set_limit amount=5
-                    +set_limit amount=10
-                    +set_limit amount=20
-                    +set_limit amount=50
+                    +set_idea_limit amount=1
+                    +set_idea_limit amount=5
+                    +set_idea_limit amount=10
+                    +set_idea_limit amount=20
+                    +set_idea_limit amount=50
         //- .ui.inline.header
         //-     |search
         //- .ui.small.input
@@ -77,17 +78,20 @@ template(name='idea_section')
     //-         .rounded.inverted(style="height:5px;width:{{to_percent anger_average}}%;background-color:red" title="{{to_percent anger_average}}% anger")
     //- .ui.header ideas 
     +idea_facet key='type'
+    +idea_facet key='key'
+    //- .largescroll
     each ideas
         +idea_segment
 
 
 template(name='idea_facet')
+    div
     if icon 
         i.icon(class=icon)
     //- else 
     |#{key}
     each results
-        .ui.button.toggle_idea_filter(class=toggle_idea_filter_class title=count) #{title}
+        .ui.compact.button.toggle_idea_filter(class=toggle_idea_filter_class title=count) #{title}
             small (#{count})
         //- .spacer
 
@@ -95,10 +99,12 @@ template(name='idea_facet')
 
 template(name='idea_segment')
     .ui.basic.segment
-        .ui.inline.header #{name}
-        .ui.basic.inverted.label #{category} #{type}
+        .ui.inline.header name: #{name}
+        .ui.header title: #{title}
+        .ui.basic.inverted.label #{category} #{type} #{model}
         .ui.small.header doc mentions: #{doc_mention_count}
         .ui.small.header type: #{type}
+        .ui.small.header key: #{key}
         .item(title='docs with emotional data to average') docs analyzed #{analyzed_doc_count}
         .item(title='docs with emotional data to average') analyzed ids count #{analyzed_doc_ids.length}
         //- span joy
@@ -125,6 +131,7 @@ template(name='idea_segment')
         //- .item average sentiment
         //-     .large {{to_percent average_sentiment_score}}%
         i.refresh.circular.link.icon.agg_idea
+        i.code.circular.link.icon.print_idea
     .ui.divider
 
 
@@ -135,6 +142,9 @@ template(name='idea_result')
 
     //- .ui.empty.label(class=color style="min-height:30%")
 
+template(name='set_idea_limit')
+    .item.set_idea_limit #{amount}
+                    
 
 
 
