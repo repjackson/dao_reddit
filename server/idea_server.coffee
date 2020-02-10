@@ -1,3 +1,7 @@
+Meteor.publish 'all_ideas', (
+    Ideas.find()
+)
+
 Meteor.publish 'ideas', (
     prematch
     idea_limit=5
@@ -27,6 +31,13 @@ Meteor.publish 'ideas', (
     Ideas.find match,
         sort:"#{idea_sort_key}":idea_sort_direction
         limit: idea_limit
+
+
+Meteor.publish 'ideas_from_query', (query)->
+    Ideas.find
+        name:
+            $regex:{"#{query}", $options: 'i'}
+
 
 
 

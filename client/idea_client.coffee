@@ -2,6 +2,7 @@
 
 Template.idea_section.onCreated ->
     Session.setDefault('idea_limit', 5)
+    @autorun => @subscribe 'ideas_from_query', Session.get('current_query')
     @autorun => @subscribe 'ideas',
         Session.get('idea_prematch')
         Session.get('idea_limit')
@@ -72,22 +73,22 @@ Template.idea_facet.events
             if @title in key_array
                 key_array = _.without(key_array, @title)
                 prematch["#{@category}"] = key_array
-                # current_queries.remove @title
+                # queries.remove @title
                 Session.set('prematch', prematch)
             else
                 key_array.push @title
-                # current_queries.push @title
+                # queries.push @title
                 Session.set('prematch', prematch)
-                # Meteor.call 'search_reddit', current_queries.array(), ->
+                # Meteor.call 'search_reddit', queries.array(), ->
                 # prematch["#{@category}"] = ["#{@title}"]
         else
             prematch["#{@category}"] = ["#{@title}"]
-            # current_queries.push @title
-            # console.log current_queries.array()
+            # queries.push @title
+            # console.log queries.array()
         Session.set('idea_prematch', prematch)
-        console.log current_queries.array()
-        if current_queries.array().length > 0
-            Meteor.call 'search_reddit', current_queries.array(), ->
+        console.log queries.array()
+        if queries.array().length > 0
+            Meteor.call 'search_reddit', queries.array(), ->
         # console.log Session.get('match')
 
 Template.idea_facet.helpers

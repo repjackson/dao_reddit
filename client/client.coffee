@@ -3,12 +3,13 @@
 @selected_filters = new ReactiveArray []
 
 # @selected_facets = new ReactiveArray ['categories', 'subreddits']
-@current_queries = new ReactiveArray []
+@queries = new ReactiveArray []
 
 
 
 Template.home.onCreated ->
     # @autorun => @subscribe 'docs',
+    @autorun => @subscribe 'ideas',
     @autorun => @subscribe 'docs',
         Session.get('match')
         Session.get('doc_limit')
@@ -57,72 +58,77 @@ Template.home.onRendered ->
     #                     if result.title in category_array
     #                         category_array = _.without(category_array, result.title)
     #                         match["#{result.category}"] = category_array
-    #                         current_queries.remove result.title
+    #                         queries.remove result.title
     #                         Session.set('match', match)
     #                     else
     #                         category_array.push result.title
-    #                         current_queries.push result.title
+    #                         queries.push result.title
     #                         Session.set('match', match)
-    #                         # Meteor.call 'search_reddit', current_queries.array(), ->
+    #                         # Meteor.call 'search_reddit', queries.array(), ->
     #                         # match["#{result.category}"] = ["#{result.title}"]
     #                 else
     #                     match["#{result.category}"] = ["#{result.title}"]
-    #                     current_queries.push result.title
-    #                     # console.log current_queries.array()
+    #                     queries.push result.title
+    #                     # console.log queries.array()
     #                 Session.set('match', match)
-    #                 console.log current_queries.array()
-    #                 if current_queries.array().length > 0
-    #                     Meteor.call 'search_reddit', current_queries.array(), ->
+    #                 console.log queries.array()
+    #                 if queries.array().length > 0
+    #                     Meteor.call 'search_reddit', queries.array(), ->
     #         })
     # , 2300
 
 Template.home.events
-    'click .ui.search': ->
-        # categoryContent =
-        #     Results.find({},{sort:count:1}).fetch()
-        # $('.ui.search')
-        #     .search({
-        #         # apiSettings: {
-        #         #   url: 'http://www.reddit.com/search/?q={query}'
-        #         # },
-        #         type: 'category'
-        #         hideDelay: 0
-        #         selectFirstResult: false
-        #         source: categoryContent
-        #         minCharacters: 2
-        #         maxResults: 10
-        #         onSelect: (result, response)->
-        #             console.log result
-        #             # console.log response
-        #             match = Session.get('match')
-        #             category_array = match["#{result.category}"]
-        #             if category_array
-        #                 if result.title in category_array
-        #                     category_array = _.without(category_array, result.title)
-        #                     match["#{result.category}"] = category_array
-        #                     current_queries.remove result.title
-        #                     Session.set('match', match)
-        #                 else
-        #                     category_array.push result.title
-        #                     current_queries.push result.title
-        #                     Session.set('match', match)
-        #                     # Meteor.call 'search_reddit', current_queries.array(), ->
-        #                     # match["#{result.category}"] = ["#{result.title}"]
-        #             else
-        #                 match["#{result.category}"] = ["#{result.title}"]
-        #                 current_queries.push result.title
-        #                 # console.log current_queries.array()
-        #             Session.set('match', match)
-        #             console.log current_queries.array()
-        #             if current_queries.array().length > 0
-        #                 Meteor.call 'search_reddit', current_queries.array(), ->
-        #     })
+    'focus .ui.search': ->
+        Session.set('searching', true)
+    'blur .ui.search': ->
+        Session.set('searching', false)
+    # 'click .ui.search': ->
+    #     console.log @
+    #     categoryContent =
+    #         Ideas.find({},{sort:count:1}).fetch()
+    #     $('.ui.search')
+    #         .search({
+    #             # apiSettings: {
+    #             #   url: 'http://www.reddit.com/search/?q={query}'
+    #             # },
+    #             type: 'category'
+    #             hideDelay: 0
+    #             selectFirstResult: false
+    #             source: categoryContent
+    #             minCharacters: 2
+    #             maxResults: 10
+    #             onSelect: (result, response)->
+    #                 console.log result
+    #                 # console.log response
+    #                 match = Session.get('match')
+    #                 category_array = match["#{result.category}"]
+    #                 if category_array
+    #                     if result.title in category_array
+    #                         category_array = _.without(category_array, result.title)
+    #                         match["#{result.category}"] = category_array
+    #                         queries.remove result.title
+    #                         Session.set('match', match)
+    #                     else
+    #                         category_array.push result.title
+    #                         queries.push result.title
+    #                         Session.set('match', match)
+    #                         # Meteor.call 'search_reddit', queries.array(), ->
+    #                         # match["#{result.category}"] = ["#{result.title}"]
+    #                 else
+    #                     match["#{result.category}"] = ["#{result.title}"]
+    #                     queries.push result.title
+    #                     # console.log queries.array()
+    #                 Session.set('match', match)
+    #                 console.log queries.array()
+    #                 if queries.array().length > 0
+    #                     Meteor.call 'search_reddit', queries.array(), ->
+    #         })
 
 
     'click .clear_match': ->
         $('.clear_match').transition('pulse')
         Session.set('match', {})
-        current_queries.clear()
+        queries.clear()
     'click .print_match': ->
         console.log Session.get('match')
     'click .toggle_video': ->
@@ -162,58 +168,95 @@ Template.home.events
         query = $('#auto_search').val()
         Session.set('current_query', query)
 
-    'keyup #search': (e,t)->
+    'keyup .ui.search': (e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
-        categoryContent =
-            Ideas.find({},{sort:count:1}).fetch()
-        $('.ui.search')
-            .search({
-                # apiSettings: {
-                #   url: 'http://www.reddit.com/search/?q={query}'
-                # },
-                type: 'category'
-                hideDelay: 0
-                fullTextSearch:true
-                selectFirstResult: false
-                source: categoryContent
-                minCharacters: 3
-                maxResults: 10
-                onSelect: (result, response)->
-                    console.log result
-                    # console.log response
-                    match = Session.get('match')
-                    category_array = match["#{result.category}"]
-                    if category_array
-                        if result.title in category_array
-                            category_array = _.without(category_array, result.title)
-                            match["#{result.category}"] = category_array
-                            current_queries.remove result.title
-                            Session.set('match', match)
-                        else
-                            category_array.push result.title
-                            current_queries.push result.title
-                            Session.set('match', match)
-                            # Meteor.call 'search_reddit', current_queries.array(), ->
-                            # match["#{result.category}"] = ["#{result.title}"]
-                    else
-                        match["#{result.category}"] = ["#{result.title}"]
-                        current_queries.push result.title
-                        # console.log current_queries.array()
-                    Session.set('match', match)
-                    console.log current_queries.array()
-                    if current_queries.array().length > 0
-                        Meteor.call 'search_reddit', current_queries.array(), ->
-            })
+        ideas = Ideas.find({},{sort:count:1}).fetch()
+        console.log ideas
+        # categoryContent = ideas
+        categoryContent = [
+          { category: 'South America', title: 'Brazil' },
+          { category: 'South America', title: 'Peru' },
+          { category: 'North America', title: 'Canada' },
+          { category: 'Asia', title: 'South Korea' },
+          { category: 'Asia', title: 'Japan' },
+          { category: 'Asia', title: 'China' },
+          { category: 'Europe', title: 'Denmark' },
+          { category: 'Europe', title: 'England' },
+          { category: 'Europe', title: 'France' },
+          { category: 'Europe', title: 'Germany' },
+          { category: 'Africa', title: 'Ethiopia' },
+          { category: 'Africa', title: 'Nigeria' },
+          { category: 'Africa', title: 'Zimbabwe' },
+        ];
+
+        # $('.ui.search')
+        #     .search({
+        #         # apiSettings: {
+        #         #   url: 'http://www.reddit.com/search/?q={query}'
+        #         # },
+        #         type: 'category'
+        #         hideDelay: 0
+        #         fullTextSearch:true
+        #         selectFirstResult: false
+        #         source: categoryContent
+        #         minCharacters: 2
+        #         # fields: {
+        #         #     title: 'title',       # result title
+        #         # }
+        #         #     categories      : 'results',     # array of categories (category view)
+        #         #     categoryName    : 'type',        # name of category (category view)
+        #         #     categoryResults : 'results',     # array of results (category view)
+        #         #     description     : 'description', # result description
+        #         #     image           : 'image',       # result image
+        #         #     price           : 'price',       # result price
+        #         #     results         : 'results',     # array of results (standard)
+        #         #     # action          : 'action',      # "view more" object name
+        #         #     # actionText      : 'text',        # "view more" text
+        #         #     # actionURL       : 'url'          # "view more" url (if set to false the text will appear as a div)
+        #         # }
+        #         # searchFields:
+        #         #     [
+        #         #       'name',
+        #         #       'type'
+        #         #     ]
+        #         showNoResults:true
+        #         maxResults: 10
+        #         onSelect: (result, response)->
+        #             console.log result
+        #             # console.log response
+        #             match = Session.get('match')
+        #             category_array = match["#{result.category}"]
+        #             if category_array
+        #                 if result.title in category_array
+        #                     category_array = _.without(category_array, result.title)
+        #                     match["#{result.category}"] = category_array
+        #                     queries.remove result.title
+        #                     Session.set('match', match)
+        #                 else
+        #                     category_array.push result.title
+        #                     queries.push result.title
+        #                     Session.set('match', match)
+        #                     # Meteor.call 'search_reddit', queries.array(), ->
+        #                     # match["#{result.category}"] = ["#{result.title}"]
+        #             else
+        #                 match["#{result.category}"] = ["#{result.title}"]
+        #                 queries.push result.title
+        #                 # console.log queries.array()
+        #             Session.set('match', match)
+        #             console.log queries.array()
+        #             if queries.array().length > 0
+        #                 Meteor.call 'search_reddit', queries.array(), ->
+        #     })
 
         if e.which is 13
             search = $('#search').val()
 
-            current_queries.push search
+            queries.push search
             selected_tags.push search
 
 
-            Meteor.call 'search_reddit', current_queries.array(), ->
+            Meteor.call 'search_reddit', queries.array(), ->
 
             match = Session.get('match')
             # tags_array = match["#{@key}"]
@@ -239,6 +282,9 @@ Template.home.events
 
 
 Template.home.helpers
+    results: ->
+        Ideas.find()
+    searching: -> Session.get('searching')
     settings: ->
       {
         position: 'bottom'
@@ -302,14 +348,14 @@ Template.set_sort_key.events
 
 Template.tag_cloud.helpers
     selected_tags: -> selected_tags.array()
-    current_queries: ->
-        current_queries.array()
+    queries: ->
+        queries.array()
 
 
 Template.tag_cloud.events
-    'click .select_query': -> current_queries.push @title
+    'click .select_query': -> queries.push @title
     'click .unselect_query': ->
-        current_queries.remove @valueOf()
+        queries.remove @valueOf()
 
         match = Session.get('match')
         # key_array = match["#{@key}"]
@@ -317,28 +363,28 @@ Template.tag_cloud.events
         #     if @name in key_array
         #         key_array = _.without(key_array, @name)
         #         match["#{@key}"] = key_array
-        #         current_queries.remove @name
+        #         queries.remove @name
         #         Session.set('match', match)
-        #         Meteor.call 'search_reddit', current_queries.array(), ->
+        #         Meteor.call 'search_reddit', queries.array(), ->
             # else
             #     key_array.push @name
-            #     current_queries.push @name
+            #     queries.push @name
             #     Session.set('match', match)
                 # match["#{@key}"] = ["#{@name}"]
         # else
         #     match["#{@key}"] = ["#{@name}"]
-        #     current_queries.push @name
-            # console.log current_queries.array()
+        #     queries.push @name
+            # console.log queries.array()
         Session.set('match', match)
-        # console.log current_queries.array()
-        if current_queries.array().length > 0
-            Meteor.call 'search_reddit', current_queries.array(), ->
+        # console.log queries.array()
+        if queries.array().length > 0
+            Meteor.call 'search_reddit', queries.array(), ->
         # console.log Session.get('match')
 
 
 
 
-    'click #clear_queries': -> current_queries.clear()
+    'click #clear_queries': -> queries.clear()
 
     # 'keyup #search': (e,t)->
     #     e.preventDefault()
@@ -415,22 +461,22 @@ Template.facet.events
             if @name in key_array
                 key_array = _.without(key_array, @name)
                 idea_match["#{@key}"] = key_array
-                current_queries.remove @name
+                queries.remove @name
                 Session.set('idea_match', idea_match)
             else
                 key_array.push @name
-                current_queries.push @name
+                queries.push @name
                 Session.set('idea_match', idea_match)
-                # Meteor.call 'search_reddit', current_queries.array(), ->
+                # Meteor.call 'search_reddit', queries.array(), ->
                 # match["#{@key}"] = ["#{@name}"]
         else
             match["#{@key}"] = ["#{@name}"]
-            current_queries.push @name
-            # console.log current_queries.array()
+            queries.push @name
+            # console.log queries.array()
         Session.set('match', match)
-        console.log current_queries.array()
-        if current_queries.array().length > 0
-            Meteor.call 'search_reddit', current_queries.array(), ->
+        console.log queries.array()
+        if queries.array().length > 0
+            Meteor.call 'search_reddit', queries.array(), ->
         # console.log Session.get('match')
 
 Template.facet.helpers

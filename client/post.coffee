@@ -11,24 +11,24 @@ Template.array_view.events
             if value in key_array
                 key_array = _.without(key_array, value)
                 match["#{current.key}"] = key_array
-                current_queries.remove value
+                queries.remove value
                 Session.set('match', match)
             else
                 key_array.push value
-                current_queries.push value
+                queries.push value
                 Session.set('match', match)
-                Meteor.call 'search_reddit', current_queries.array(), ->
+                Meteor.call 'search_reddit', queries.array(), ->
                 # Meteor.call 'agg_idea', value, current.key, 'entity', ->
                 console.log @
                 # match["#{current.key}"] = ["#{value}"]
         else
             match["#{current.key}"] = ["#{value}"]
-            current_queries.push value
-            # console.log current_queries.array()
+            queries.push value
+            # console.log queries.array()
         Session.set('match', match)
-        # console.log current_queries.array()
-        if current_queries.array().length > 0
-            Meteor.call 'search_reddit', current_queries.array(), ->
+        # console.log queries.array()
+        if queries.array().length > 0
+            Meteor.call 'search_reddit', queries.array(), ->
         # console.log Session.get('match')
 
 Template.array_view.helpers
@@ -136,24 +136,24 @@ Template.post.events
     'click .remove': ->
         Docs.remove @_id
     'click .pick_location': ->
-        current_queries.push @valueOf()
+        queries.push @valueOf()
         selected_locations.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
+        Meteor.call 'search_reddit', queries.array()
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
 
     'click .pick_company': ->
-        current_queries.push @valueOf()
+        queries.push @valueOf()
         selected_companies.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
+        Meteor.call 'search_reddit', queries.array()
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
     'click .pick_person': ->
-        current_queries.push @valueOf()
+        queries.push @valueOf()
         selected_people.push @valueOf()
-        Meteor.call 'search_reddit', current_queries.array()
+        Meteor.call 'search_reddit', queries.array()
         Meteor.setTimeout ->
             Session.set('sort_up', !Session.get('sort_up'))
         , 4000
