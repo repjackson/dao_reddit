@@ -7,9 +7,9 @@
 
 Template.body.events
     'keydown':(e,t)->
-        console.log e.keyCode
+        # console.log e.keyCode
         if e.keyCode is 27
-            console.log 'hi'
+            # console.log 'hi'
             Session.set('current_query', null)
             $('#search').val('')
             $('#search').blur()
@@ -39,9 +39,9 @@ Template.home.onCreated ->
 
 
 Template.home.onRendered ->
-    Meteor.setTimeout ->
-        $('.ui.nav.dropdown').dropdown()
-    , 2300
+    # Meteor.setTimeout ->
+    #     $('.ui.nav.dropdown').dropdown()
+    # , 2300
 
 Template.home.events
     'focus .ui.search': ->
@@ -53,7 +53,11 @@ Template.home.events
             Session.set('searching', false)
 
     'click .result': ->
-        console.log @
+        # console.log @
+        queries.push @name
+        $('#search').val('')
+        Session.set('searching', false)
+        Meteor.call 'search_reddit', queries.array(), ->
 
 
     'click .clear_match': ->
@@ -192,6 +196,7 @@ Template.set_sort_key.events
 Template.tag_cloud.helpers
     selected_tags: -> selected_tags.array()
     queries: ->
+        console.log queries.array()
         queries.array()
 
 
