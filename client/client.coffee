@@ -5,11 +5,19 @@
 # @selected_facets = new ReactiveArray ['categories', 'subreddits']
 @queries = new ReactiveArray []
 
+Template.body.events
+    'keydown':(e,t)->
+        console.log e.keyCode
+        if e.keyCode is 27
+            console.log 'hi'
+            Session.set('current_query', null)
+            $('#search').val('')
+            $('#search').blur()
 
 
 Template.home.onCreated ->
     # @autorun => @subscribe 'docs',
-    @autorun => @subscribe 'ideas',
+    @autorun => @subscribe 'ideas_from_query', Session.get('current_query')
     @autorun => @subscribe 'docs',
         Session.get('match')
         Session.get('doc_limit')
@@ -19,7 +27,6 @@ Template.home.onCreated ->
         Session.get('only_videos')
     @autorun => @subscribe 'emotion_averages',
         Session.get('match')
-
 
     Session.setDefault 'only_videos', false
     Session.setDefault 'doc_limit', 5
@@ -35,94 +42,18 @@ Template.home.onRendered ->
     Meteor.setTimeout ->
         $('.ui.nav.dropdown').dropdown()
     , 2300
-    # Meteor.setTimeout ->
-    #     categoryContent =
-    #         Results.find({},{sort:count:1}).fetch()
-    #     $('.ui.search')
-    #         .search({
-    #             # apiSettings: {
-    #             #   url: 'http://www.reddit.com/search/?q={query}'
-    #             # },
-    #             type: 'category'
-    #             hideDelay: 0
-    #             selectFirstResult: false
-    #             source: categoryContent
-    #             minCharacters: 2
-    #             maxResults: 10
-    #             onSelect: (result, response)->
-    #                 console.log result
-    #                 # console.log response
-    #                 match = Session.get('match')
-    #                 category_array = match["#{result.category}"]
-    #                 if category_array
-    #                     if result.title in category_array
-    #                         category_array = _.without(category_array, result.title)
-    #                         match["#{result.category}"] = category_array
-    #                         queries.remove result.title
-    #                         Session.set('match', match)
-    #                     else
-    #                         category_array.push result.title
-    #                         queries.push result.title
-    #                         Session.set('match', match)
-    #                         # Meteor.call 'search_reddit', queries.array(), ->
-    #                         # match["#{result.category}"] = ["#{result.title}"]
-    #                 else
-    #                     match["#{result.category}"] = ["#{result.title}"]
-    #                     queries.push result.title
-    #                     # console.log queries.array()
-    #                 Session.set('match', match)
-    #                 console.log queries.array()
-    #                 if queries.array().length > 0
-    #                     Meteor.call 'search_reddit', queries.array(), ->
-    #         })
-    # , 2300
 
 Template.home.events
     'focus .ui.search': ->
         Session.set('searching', true)
     'blur .ui.search': ->
-        Session.set('searching', false)
-    # 'click .ui.search': ->
-    #     console.log @
-    #     categoryContent =
-    #         Ideas.find({},{sort:count:1}).fetch()
-    #     $('.ui.search')
-    #         .search({
-    #             # apiSettings: {
-    #             #   url: 'http://www.reddit.com/search/?q={query}'
-    #             # },
-    #             type: 'category'
-    #             hideDelay: 0
-    #             selectFirstResult: false
-    #             source: categoryContent
-    #             minCharacters: 2
-    #             maxResults: 10
-    #             onSelect: (result, response)->
-    #                 console.log result
-    #                 # console.log response
-    #                 match = Session.get('match')
-    #                 category_array = match["#{result.category}"]
-    #                 if category_array
-    #                     if result.title in category_array
-    #                         category_array = _.without(category_array, result.title)
-    #                         match["#{result.category}"] = category_array
-    #                         queries.remove result.title
-    #                         Session.set('match', match)
-    #                     else
-    #                         category_array.push result.title
-    #                         queries.push result.title
-    #                         Session.set('match', match)
-    #                         # Meteor.call 'search_reddit', queries.array(), ->
-    #                         # match["#{result.category}"] = ["#{result.title}"]
-    #                 else
-    #                     match["#{result.category}"] = ["#{result.title}"]
-    #                     queries.push result.title
-    #                     # console.log queries.array()
-    #                 Session.set('match', match)
-    #                 console.log queries.array()
-    #                 if queries.array().length > 0
-    #                     Meteor.call 'search_reddit', queries.array(), ->
-    #         })
+        current_query = $('#search').val()
+        Session.set('current_query', current_query)
+        unless Session.get('current_query')
+            Session.set('searching', false)
+
+    'click .result': ->
+        console.log @
 
 
     'click .clear_match': ->
@@ -171,90 +102,15 @@ Template.home.events
     'keyup .ui.search': (e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
-        ideas = Ideas.find({},{sort:count:1}).fetch()
-        console.log ideas
+        console.log Session.get('current_query')
+        # ideas = Ideas.find({},{sort:count:1}).fetch()
+        # console.log ideas
         # categoryContent = ideas
-        categoryContent = [
-          { category: 'South America', title: 'Brazil' },
-          { category: 'South America', title: 'Peru' },
-          { category: 'North America', title: 'Canada' },
-          { category: 'Asia', title: 'South Korea' },
-          { category: 'Asia', title: 'Japan' },
-          { category: 'Asia', title: 'China' },
-          { category: 'Europe', title: 'Denmark' },
-          { category: 'Europe', title: 'England' },
-          { category: 'Europe', title: 'France' },
-          { category: 'Europe', title: 'Germany' },
-          { category: 'Africa', title: 'Ethiopia' },
-          { category: 'Africa', title: 'Nigeria' },
-          { category: 'Africa', title: 'Zimbabwe' },
-        ];
-
-        # $('.ui.search')
-        #     .search({
-        #         # apiSettings: {
-        #         #   url: 'http://www.reddit.com/search/?q={query}'
-        #         # },
-        #         type: 'category'
-        #         hideDelay: 0
-        #         fullTextSearch:true
-        #         selectFirstResult: false
-        #         source: categoryContent
-        #         minCharacters: 2
-        #         # fields: {
-        #         #     title: 'title',       # result title
-        #         # }
-        #         #     categories      : 'results',     # array of categories (category view)
-        #         #     categoryName    : 'type',        # name of category (category view)
-        #         #     categoryResults : 'results',     # array of results (category view)
-        #         #     description     : 'description', # result description
-        #         #     image           : 'image',       # result image
-        #         #     price           : 'price',       # result price
-        #         #     results         : 'results',     # array of results (standard)
-        #         #     # action          : 'action',      # "view more" object name
-        #         #     # actionText      : 'text',        # "view more" text
-        #         #     # actionURL       : 'url'          # "view more" url (if set to false the text will appear as a div)
-        #         # }
-        #         # searchFields:
-        #         #     [
-        #         #       'name',
-        #         #       'type'
-        #         #     ]
-        #         showNoResults:true
-        #         maxResults: 10
-        #         onSelect: (result, response)->
-        #             console.log result
-        #             # console.log response
-        #             match = Session.get('match')
-        #             category_array = match["#{result.category}"]
-        #             if category_array
-        #                 if result.title in category_array
-        #                     category_array = _.without(category_array, result.title)
-        #                     match["#{result.category}"] = category_array
-        #                     queries.remove result.title
-        #                     Session.set('match', match)
-        #                 else
-        #                     category_array.push result.title
-        #                     queries.push result.title
-        #                     Session.set('match', match)
-        #                     # Meteor.call 'search_reddit', queries.array(), ->
-        #                     # match["#{result.category}"] = ["#{result.title}"]
-        #             else
-        #                 match["#{result.category}"] = ["#{result.title}"]
-        #                 queries.push result.title
-        #                 # console.log queries.array()
-        #             Session.set('match', match)
-        #             console.log queries.array()
-        #             if queries.array().length > 0
-        #                 Meteor.call 'search_reddit', queries.array(), ->
-        #     })
-
         if e.which is 13
             search = $('#search').val()
 
             queries.push search
             selected_tags.push search
-
 
             Meteor.call 'search_reddit', queries.array(), ->
 
@@ -285,19 +141,6 @@ Template.home.helpers
     results: ->
         Ideas.find()
     searching: -> Session.get('searching')
-    settings: ->
-      {
-        position: 'bottom'
-        limit: 10
-        rules: [
-          {
-            # token: '@'
-            collection: Ideas
-            field: 'name'
-            template: Template.idea_result
-          }
-        ]
-      }
 
     subs_ready: ->
         Template.instance().subscriptionsReady()

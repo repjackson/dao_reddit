@@ -24,7 +24,7 @@ template(name='home')
     .ui.stackable.padded.grid(class=invert_class)
         .centered.row 
             .sixteen.wide.center.aligned.column
-                .ui.search.inline
+                .ui.big.search.inline
                     .ui.left.icon.large.input
                         if subs_ready
                             i.yin.yang.grey.icon(title='dao')
@@ -61,7 +61,8 @@ template(name='home')
                 each categories
                     .ui.large.circular.button #{this}
             each results
-                .ui.large.circular.button #{title}
+                button.ui.large.circular.button.result(tabindex="0") #{name}
+                    .ui.label #{type}
     
         unless searching
             .six.wide.column.back

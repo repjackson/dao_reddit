@@ -1,6 +1,10 @@
-Meteor.publish 'all_ideas', (
-    Ideas.find()
-)
+Meteor.publish 'ideas_from_query', (query)->
+    console.log query
+    Ideas.find
+        name:
+            $regex:"#{query}", $options: 'i'
+
+
 
 Meteor.publish 'ideas', (
     prematch
@@ -33,10 +37,6 @@ Meteor.publish 'ideas', (
         limit: idea_limit
 
 
-Meteor.publish 'ideas_from_query', (query)->
-    Ideas.find
-        name:
-            $regex:{"#{query}", $options: 'i'}
 
 
 
