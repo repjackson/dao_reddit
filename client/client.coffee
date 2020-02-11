@@ -3,20 +3,20 @@
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
-Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
-Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
-Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
-Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
-Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
+# Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
+# Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
+# Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
+# Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
+# Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
 # Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do YYYY")
-Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
-Template.registerHelper 'int', (input)-> input.toFixed(0)
+# Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
+# Template.registerHelper 'int', (input)-> input.toFixed(0)
 Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
+# Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
+# Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
-Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
+# Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
+# Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
@@ -53,9 +53,6 @@ Template.registerHelper 'calc_size', (metric) ->
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
 
-
-
-
 Template.registerHelper 'is', (one,two)->
     # console.log 'one', one
     # console.log 'two', two
@@ -69,7 +66,7 @@ Template.registerHelper 'nl2br', (text)->
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 
-Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
+# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
@@ -88,7 +85,7 @@ Template.body.events
 Template.home.onCreated ->
 
     # @autorun => @subscribe 'docs',
-    @autorun => @subscribe 'ideas_from_query', selected_tags.array(), Session.get('current_query')
+    @autorun => @subscribe 'results', selected_tags.array(), Session.get('current_query')
     @autorun => @subscribe 'docs',
         selected_tags.array()
         Session.get('doc_limit')
@@ -154,7 +151,7 @@ Template.home.events
             Session.set('searching', false)
 
     'click .result': ->
-        console.log @
+        # console.log @
         selected_tags.push @title
         $('#search').val('')
         Session.set('current_query', null)
@@ -162,27 +159,22 @@ Template.home.events
         Meteor.call 'search_reddit', selected_tags.array(), ->
 
 
-    'click .clear_match': ->
-        $('.clear_match').transition('pulse', 250)
-        selected_tags.clear()
-    'click .print_match': ->
-        console.log Session.get('match')
     'click .toggle_video': ->
         Session.set('only_videos', !Session.get('only_videos'))
 
-    'click .toggle_theme': ->
-        Session.set('invert_mode', !Session.get('invert_mode'))
+    # 'click .toggle_theme': ->
+    #     Session.set('invert_mode', !Session.get('invert_mode'))
     'click .set_sort_direction': ->
         if Session.equals('sort_direction', -1)
             Session.set('sort_direction', 1)
         else
             Session.set('sort_direction', -1)
         console.log Session.get('sort_direction')
-    'click .toggle_detail': ->
-        if Session.equals('view_detail', false)
-            Session.set('view_detail', true)
-        else
-            Session.set('view_detail', false)
+    # 'click .toggle_detail': ->
+    #     if Session.equals('view_detail', false)
+    #         Session.set('view_detail', true)
+    #     else
+    #         Session.set('view_detail', false)
     'click .toggle_tone': ->
         if Session.equals('view_tone', false)
             Session.set('view_tone', true)
@@ -190,9 +182,9 @@ Template.home.events
             Session.set('view_tone', false)
     'click .print_this': ->
         console.log @
-    'click .call_reddit_post': ->
-        console.log @
-        Meteor.call 'get_reddit_post', @doc_id, @reddit_id, ->
+    # 'click .call_reddit_post': ->
+    #     console.log @
+    #     Meteor.call 'get_reddit_post', @doc_id, @reddit_id, ->
     # 'click .import_subreddit': ->
     #     subreddit = $('.subreddit').val()
     #     Meteor.call 'pull_subreddit', subreddit
@@ -200,11 +192,8 @@ Template.home.events
     #     if e.which is 13
     #         subreddit = $('.subreddit').val()
     #         Meteor.call 'pull_subreddit', subreddit
-    'keyup #auto_search': (e,t)->
-        query = $('#auto_search').val()
-        Session.set('current_query', query)
 
-    'keyup .ui.search': (e,t)->
+    'keyup .ui.search': _.throttle((e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
         console.log Session.get('current_query')
@@ -216,20 +205,18 @@ Template.home.events
             # Meteor.setTimeout ->
             #     Session.set('sort_up', !Session.get('sort_up'))
             # , 4000
-
-    'click .import_site': ->
-        site = $('.site').val()
-        Meteor.call 'import_site', site
+    , 1000)
+    # 'click .import_site': ->
+    #     site = $('.site').val()
+    #     Meteor.call 'import_site', site
 
 
 
 Template.home.helpers
     tags: ->
         Tags.find()
-    results: ->
-        Ideas.find()
     selected_tags: ->
-        console.log selected_tags.array()
+        # console.log selected_tags.array()
         selected_tags.array()
 
     searching: -> Session.get('searching')
@@ -249,16 +236,13 @@ Template.home.helpers
     current_sort_label: -> Session.get('sort_label')
     current_doc_limit: -> Session.get('doc_limit')
     current_tag_limit: -> Session.get('tag_limit')
-    visible_facets: ->
-        console.log selected_facets.array()
-        selected_facets.array()
-    emotion_average_doc: ->
-        Results.findOne
-            key:'emotion_average'
+    # emotion_average_doc: ->
+    #     Results.findOne
+    #         key:'emotion_average'
     sorting_up: -> Session.equals('sort_direction', -1)
     posts: ->
         Docs.find {
-            model:'reddit'
+            # model:'reddit'
         },
             sort: "#{Session.get('sort_key')}": Session.get('sort_direction')
 

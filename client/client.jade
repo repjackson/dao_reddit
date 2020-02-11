@@ -42,23 +42,10 @@ template(name='home')
                 
                 .ui.circular.basic.icon.button.clear_selected_tags(title='clear search')
                     i.remove.icon
-                //- if in_dev
-                //-     i.circular.code.link.icon.print_match
-                //- +tag_cloud
-                //- if searching 
-                    //- unless current_query
-                    //-     each categories
-                    //-         .ui.large.circular.button #{this}
-                //- each results
-                //-     button.ui.large.circular.button.result(tabindex="0") #{name}
-                            //- .ui.small.circular.inverted.black.label #{key}
                 each tags
                     button.ui.circular.button.result(tabindex="0") #{title}
 
-        //- unless searching
-        //- .six.wide.column.back
-        //-     +idea_section
-        .sixteen.wide.column.back
+        .sixteen.wide.column
             .filter_row(class=loading_class)
                 //- .ui.compact.basic.icon.button.toggle_video(class=toggle_video_class title='toggle videos only')
                 //-     i.video.icon
