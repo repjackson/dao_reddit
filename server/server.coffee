@@ -23,13 +23,33 @@ Meteor.methods
             tags: $exists: true
             tags_string: $exists: false
         },{limit:1000})
-        for id in docs
-            doc = Docs.findOne id
+        for doc in docs.fetch()
+            # doc = Docs.findOne id
             console.log 'about to stringify', doc
             tags_string = doc.tags.toString()
             console.log 'tags_string', tags_string
             Docs.update doc._id,
                 $set: tags_string:tags_string
+            # console.log 'result doc', Docs.findOne doc._id
+
+
+    flatten: ->
+        docs = Docs.find({
+            tags: $exists: true
+            flattened: $ne: true
+        },{limit:1000})
+        for doc in docs.fetch()
+            # doc = Docs.findOne id
+            # console.log 'about to flatten', doc
+
+            flattened_tags = _.flatten(doc.tags)
+
+            # console.log 'flattened_tags', flattened_tags
+            Docs.update doc._id,
+                $set:
+                    tags:flattened_tags
+                    flattened:true
+            console.log 'flattened', doc._id
             # console.log 'result doc', Docs.findOne doc._id
 
 
@@ -79,7 +99,7 @@ Meteor.methods
 
 
     search_reddit: (query)->
-        # console.log 'searching reddit', query
+        console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)->
             # console.log response.data
@@ -90,6 +110,9 @@ Meteor.methods
                     # console.log item
                     data = item.data
                     len = 200
+                    added_tags = query
+                    added_tags.push data.title
+                    console.log 'added_tags', added_tags
                     reddit_post =
                         reddit_id: data.id
                         url: data.url
@@ -100,7 +123,7 @@ Meteor.methods
                         # root: query
                         selftext: false
                         # thumbnail: false
-                        tags:[query, data.title.toLowerCase()]
+                        tags:added_tags
                         # tags:[query, data.domain.toLowerCase(), data.author.toLowerCase(), data.title.toLowerCase()]
                         model:'reddit'
                     # console.log reddit_post
@@ -152,7 +175,7 @@ Meteor.methods
                 if rd.is_video
                     console.log 'pulling image comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'video'
-                if rd.is_image
+                else if rd.is_image
                     console.log 'pulling image comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'image'
 

@@ -5,30 +5,33 @@ Template.array_view.events
         console.log Template.currentData()
         current = Template.currentData()
         console.log Template.parentData()
-        match = Session.get('match')
-        key_array = match["#{current.key}"]
-        if key_array
-            if value in key_array
-                key_array = _.without(key_array, value)
-                match["#{current.key}"] = key_array
-                queries.remove value
-                Session.set('match', match)
-            else
-                key_array.push value
-                queries.push value
-                Session.set('match', match)
-                Meteor.call 'search_reddit', queries.array(), ->
-                # Meteor.call 'agg_idea', value, current.key, 'entity', ->
-                console.log @
-                # match["#{current.key}"] = ["#{value}"]
+        # match = Session.get('match')
+        # key_array = match["#{current.key}"]
+        # if key_array
+        #     if value in key_array
+        #         key_array = _.without(key_array, value)
+        #         match["#{current.key}"] = key_array
+        #         selected_tags.remove value
+        #         Session.set('match', match)
+        #     else
+        #         key_array.push value
+        #         selected_tags.push value
+        #         Session.set('match', match)
+        #         Meteor.call 'search_reddit', selected_tags.array(), ->
+        #         # Meteor.call 'agg_idea', value, current.key, 'entity', ->
+        #         console.log @
+        #         # match["#{current.key}"] = ["#{value}"]
+        # else
+        if value in selected_tags.array()
+            selected_tags.remove value
         else
-            match["#{current.key}"] = ["#{value}"]
-            queries.push value
-            # console.log queries.array()
-        Session.set('match', match)
-        # console.log queries.array()
-        if queries.array().length > 0
-            Meteor.call 'search_reddit', queries.array(), ->
+            # match["#{current.key}"] = ["#{value}"]
+            selected_tags.push value
+            # console.log selected_tags.array()
+        # Session.set('match', match)
+        # console.log selected_tags.array()
+        if selected_tags.array().length > 0
+            Meteor.call 'search_reddit', selected_tags.array(), ->
         # console.log Session.get('match')
 
 Template.array_view.helpers
@@ -43,13 +46,17 @@ Template.array_view.helpers
         # console.log key
         # console.log doc
         # console.log @
-        if match["#{key}"]
-            if @valueOf() in match["#{key}"]
-                'active'
-            else
-                'basic'
+        if @valueOf() in selected_tags.array()
+            'active'
         else
             'basic'
+        # if match["#{key}"]
+        #     if @valueOf() in match["#{key}"]
+        #         'active'
+        #     else
+        #         'basic'
+        # else
+        #     'basic'
 
 
 
@@ -135,28 +142,6 @@ Template.post.events
         t.view_detail.set !t.view_detail.get()
     'click .remove': ->
         Docs.remove @_id
-    'click .pick_location': ->
-        queries.push @valueOf()
-        selected_locations.push @valueOf()
-        Meteor.call 'search_reddit', queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
-
-    'click .pick_company': ->
-        queries.push @valueOf()
-        selected_companies.push @valueOf()
-        Meteor.call 'search_reddit', queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
-    'click .pick_person': ->
-        queries.push @valueOf()
-        selected_people.push @valueOf()
-        Meteor.call 'search_reddit', queries.array()
-        Meteor.setTimeout ->
-            Session.set('sort_up', !Session.get('sort_up'))
-        , 4000
     'click .call_tone': ->
         console.log @
         Meteor.call 'call_tone', @_id, 'body', 'text', ->

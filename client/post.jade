@@ -1,5 +1,5 @@
 template(name='post')      
-    .ui.pointer.basic.segment.toggle_detail  
+    .ui.pointer.toggle_detail  
         //- if view_detail
         //-     i.large.chevron.up.icon
         //- else
@@ -15,7 +15,7 @@ template(name='post')
                 |#{title}
             else 
                 |#{watson.metadata.title}
-        //- div
+        div
         +emotion_circle color='green' emotion='joy' percent=joy_percent
         +emotion_circle color='blue' emotion='sadness' label='sad' percent=sadness_percent
         +emotion_circle color='black' emotion='fear' percent=fear_percent
@@ -40,7 +40,7 @@ template(name='post')
         if is_image 
             i.large.image.icon
             img.ui.large.image(src=url)
-            +call_watson mode='image'
+            //- +call_watson mode='image'
         //- if in_dev
         //- .ui.compact.basic.large.button.toggle_detail(title='toggle detail')
         //-     if view_detail 
