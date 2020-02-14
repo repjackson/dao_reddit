@@ -15,12 +15,12 @@ template(name='post')
                 |#{title}
             else 
                 |#{watson.metadata.title}
-        div
-        +emotion_circle color='green' emotion='joy' percent=joy_percent
-        +emotion_circle color='blue' emotion='sadness' label='sad' percent=sadness_percent
-        +emotion_circle color='black' emotion='fear' percent=fear_percent
-        +emotion_circle color='yellow' emotion='disgust' percent=disgust_percent
-        +emotion_circle color='red' emotion='anger' percent=anger_percent
+        //- div
+        //- +emotion_circle color='green' emotion='joy' percent=joy_percent
+        //- +emotion_circle color='blue' emotion='sadness' label='sad' percent=sadness_percent
+        //- +emotion_circle color='black' emotion='fear' percent=fear_percent
+        //- +emotion_circle color='yellow' emotion='disgust' percent=disgust_percent
+        //- +emotion_circle color='red' emotion='anger' percent=anger_percent
                 
         if is_video
             i.video.icon
@@ -60,7 +60,7 @@ template(name='post')
                         each tones 
                             //- .ui.basic.small.compact.button
                             //- .ui.small.basic.label #{tone_id}
-                            .ui.small.black.label {{to_percent score}} #{tone_id}
+                            //- .ui.small.basic.inverted.label {{to_percent score}} #{tone_id}
                             //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
 
                     else 
@@ -79,9 +79,9 @@ template(name='post')
             a.ui.button(href=url target="_window")
                 i.external.icon 
                 |view link 
-            .ui.label(title='reddit author') 
-                i.user.outline.icon 
-                |#{author}
+            //- .ui.label(title='reddit author') 
+            //-     i.user.outline.icon 
+            //-     |#{author}
             .ui.label(title='domain') #{domain}
             a.ui.mini.inline.header(href="http://www.reddit.com#{permalink}" target="_window" title='permalink') #{permalink}
             div 
@@ -100,7 +100,7 @@ template(name='post')
             +array_view key='PrintMedia' icon='newspaper'
             +array_view key='watson_concepts' icon='cubes'
             +array_view key='watson_keywords' icon='tags'
-            div
+            //- div
             |#{ups}
             i.thumbs.up.outline.icon
             |#{downs}

@@ -11,7 +11,7 @@
 		"cloudinary_key": "754714459692734",
 		"cloudinary_secret": "rPPXD3rZM_GCjODvh0T70XeDCSw",
 		"tone": {
-            "apikey": "TZC50LJSVMaPI3PAENndLE432lDBGev0im5vwIPNOnxr",
+            "apikey": "34O3lgeI-jpRkiyaZ9HVUEny2istqAbDyAOgjI1shnaq",
             "iam_apikey_description": "Auto-generated for key e64fad1b-3834-4775-baab-3e1dbaa6d62f",
             "iam_apikey_name": "Auto-generated service credentials",
             "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
@@ -19,7 +19,7 @@
             "url": "https://gateway.watsonplatform.net/tone-analyzer/api"
 		},
 		"language": {
-			"apikey": "NNPM77_CjQv7IyPrhwjyA34SGd8BLLP103TnPuVmd8Qn",
+			"apikey": "mkdgRJwYEJnuJUhCv0Ny7REL4scA27el5mdPKrnGMEMg",
             "iam_apikey_description": "Auto-generated for key d3cc8d83-b3f9-40c6-8df6-c9b3d41cb511",
             "iam_apikey_name": "Auto-generated service credentials",
             "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",

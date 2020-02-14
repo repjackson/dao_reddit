@@ -96,7 +96,7 @@ Template.home.onCreated ->
     #     Session.get('match')
 
     Session.setDefault 'only_videos', false
-    Session.setDefault 'doc_limit', 5
+    Session.setDefault 'doc_limit', 10
     Session.setDefault 'sort_label', 'added'
     Session.setDefault 'sort_key', '_timestamp'
     Session.setDefault 'view_detail', true
@@ -201,7 +201,8 @@ Template.home.events
             search = $('#search').val()
             selected_tags.push search
             Meteor.call 'search_reddit', selected_tags.array(), ->
-            $('#search').val('')
+            $('#search').val('').blur()
+            # $( "p" ).blur();
             # Meteor.setTimeout ->
             #     Session.set('sort_up', !Session.get('sort_up'))
             # , 4000

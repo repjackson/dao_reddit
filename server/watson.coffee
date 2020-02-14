@@ -121,28 +121,63 @@ Meteor.methods
                 # semantic_roles: {}
                 sentiment: {}
 
-        switch mode
-            when 'html'
-                # parameters.html = doc["#{key}"]
-                parameters.html = doc.body
-            when 'text'
-                parameters.text = doc["#{key}"]
-            when 'url'
-                # parameters.url = doc["#{key}"]
-                parameters.url = doc.url
-                parameters.returnAnalyzedText = true
-                parameters.clean = true
-            when 'video'
-                parameters.url = "https://www.reddit.com#{doc.permalink}"
-                parameters.returnAnalyzedText = true
-                parameters.clean = true
-                console.log 'calling video'
-            when 'image'
-                parameters.url = "https://www.reddit.com#{doc.permalink}"
-                parameters.returnAnalyzedText = true
-                parameters.clean = true
-                console.log 'calling image'
+        if doc.is_video or doc.is_image or doc.is_twitter
+            console.log 'lookup comments'
+            parameters.url = "https://www.reddit.com#{doc.permalink}"
+            parameters.returnAnalyzedText = true
+            parameters.clean = true
 
+        else
+            console.log 'lookup site'
+            parameters.url = doc.url
+            parameters.returnAnalyzedText = true
+            parameters.clean = true
+
+            # when 'html'
+            #     # parameters.html = doc["#{key}"]
+            #     parameters.html = doc.body
+            # when 'text'
+            #     parameters.text = doc["#{key}"]
+            # when 'url'
+            #     # parameters.url = doc["#{key}"]
+            #     # parameters.url = doc.url
+            #     parameters.url = "https://www.reddit.com#{doc.permalink}"
+            #     parameters.returnAnalyzedText = true
+            #     parameters.clean = true
+            # when 'video'
+            #     parameters.url = "https://www.reddit.com#{doc.permalink}"
+            #     parameters.returnAnalyzedText = true
+            #     parameters.clean = true
+            #     console.log 'calling video'
+            # when 'image'
+            #     parameters.url = "https://www.reddit.com#{doc.permalink}"
+            #     parameters.returnAnalyzedText = true
+            #     parameters.clean = true
+            #     console.log 'calling image'
+
+        # switch mode
+        #     when 'html'
+        #         # parameters.html = doc["#{key}"]
+        #         parameters.html = doc.body
+        #     when 'text'
+        #         parameters.text = doc["#{key}"]
+        #     when 'url'
+        #         # parameters.url = doc["#{key}"]
+        #         # parameters.url = doc.url
+        #         parameters.url = "https://www.reddit.com#{doc.permalink}"
+        #         parameters.returnAnalyzedText = true
+        #         parameters.clean = true
+        #     when 'video'
+        #         parameters.url = "https://www.reddit.com#{doc.permalink}"
+        #         parameters.returnAnalyzedText = true
+        #         parameters.clean = true
+        #         console.log 'calling video'
+        #     when 'image'
+        #         parameters.url = "https://www.reddit.com#{doc.permalink}"
+        #         parameters.returnAnalyzedText = true
+        #         parameters.clean = true
+        #         console.log 'calling image'
+        #
         # console.log 'parameters', parameters
 
 
@@ -231,7 +266,7 @@ Meteor.methods
                         tags:$each:keyword_array
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
-                Meteor.call 'call_tone', doc_id, 'body', 'text', ->
+                # Meteor.call 'call_tone', doc_id, 'body', 'text', ->
                 # if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
