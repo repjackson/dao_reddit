@@ -215,7 +215,14 @@ Template.home.events
 
 Template.home.helpers
     tags: ->
-        Tags.find()
+        doc_count = Docs.find().count()
+        console.log 'doc count', doc_count
+        if doc_count < 3
+            Tags.find({count: $lt: doc_count})
+        else
+            Tags.find()
+
+
     selected_tags: ->
         # console.log selected_tags.array()
         selected_tags.array()

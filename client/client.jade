@@ -41,7 +41,7 @@ template(name='home')
                         input#search(type='text' autofocus='' autocomplete="off")
                 each tags
                     button.ui.basic.large.compact.button.result(tabindex="0") #{title} 
-                        //- small #{count}
+                        small #{count}
             .ten.wide.column.largescroll
                 .filter_row(class=loading_class)
                     .ui.compact.basic.icon.button.toggle_video(class=toggle_video_class title='toggle videos only')

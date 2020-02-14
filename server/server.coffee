@@ -23,20 +23,24 @@ Meteor.methods
         docs = Docs.find({
             tags: $exists: true
             lowered: $exists: false
-        },{limit:1})
+        },{limit:1000})
         for doc in docs.fetch()
             # doc = Docs.findOne id
-            console.log 'about to lower', doc
+            # console.log 'about to lower', doc
             lowered_tags = []
             # tags_string = doc.tags.toString()
             for tag in doc.tags
+                console.log tag
+                # if tag.toLowerCase()
                 lowered_tag = tag.toLowerCase()
                 lowered_tags.push lowered_tag
 
-            console.log 'lowered_tags', lowered_tags
-            # Docs.update doc._id,
-            #     $set: tags_string:tags_string
-            # console.log 'result doc', Docs.findOne doc._id
+            # console.log 'lowered_tags', lowered_tags
+            Docs.update doc._id,
+                $set:
+                    tags:lowered_tags
+                    lowered: true
+            console.log 'lowered tags', doc._id
 
 
     flatten: ->
@@ -170,6 +174,10 @@ Meteor.methods
                     if existing_doc
                         if Meteor.isDevelopment
                             console.log 'skipping existing url', data.url
+                            console.log 'adding', query, 'to tags'
+                        Docs.update existing_doc._id,
+                            $addToSet: tags: query
+
                             # console.log 'existing doc', existing_doc
                         # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                     unless existing_doc
@@ -275,8 +283,8 @@ Meteor.publish 'results', (selected_tags, query)->
             ]
 
     else
-        # if selected_tags.length > 0 then match.tags = $all: selected_tags
-        match.tags = $all: selected_tags
+        if selected_tags.length > 0 then match.tags = $all: selected_tags
+        # match.tags = $all: selected_tags
 
         tag_cloud = Docs.aggregate [
             { $match: match }

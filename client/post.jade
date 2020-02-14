@@ -56,21 +56,21 @@ template(name='post')
                 each tone.result.sentences_tone 
                     //- |#{sentence_id}:
                     if view_tone
-                        span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
                         each tones 
+                            span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
                             //- .ui.basic.small.compact.button
                             //- .ui.small.basic.label #{tone_id}
                             //- .ui.small.basic.inverted.label {{to_percent score}} #{tone_id}
                             //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
-
+                            span(class="{{calc_size top_score}}" title="{{ top_score }}% significant") #{text}
+            
                     else 
                         span.large-text #{text}
-                    //- span(class="{{calc_size top_score}}" title="{{ top_score }}% significant") #{text}
-                
-                    //- span.large-text(title=sentence_id class=tone_sentence_class) #{text}
-                    //- span(title=sentence_id class=tone_sentence_class) #{text}
-                    //- span.large-text(title=sentence_id) #{text}
-                    div
+            //- 
+            //-         //- span.large-text(title=sentence_id class=tone_sentence_class) #{text}
+            //-         //- span(title=sentence_id class=tone_sentence_class) #{text}
+            //-         //- span.large-text(title=sentence_id) #{text}
+            //-         div
             //- else 
             //-     .large-text    
             //-         |!{body}
@@ -84,40 +84,41 @@ template(name='post')
             //-     |#{author}
             .ui.label(title='domain') #{domain}
             a.ui.mini.inline.header(href="http://www.reddit.com#{permalink}" target="_window" title='permalink') #{permalink}
-            div 
-            +array_view key='categories' icon='cubes' 
-            +array_view key='Person' icon='user' 
-            +array_view key='Company' icon='briefcase' 
-            +array_view key='TelevisionShow' icon='television' 
-            +array_view key='GeographicFeature' icon='mountain' 
-            +array_view key='Sport' icon='baseball ball' 
-            +array_view key='Broadcaster' icon='video' 
-            +array_view key='Facility' icon='building' 
-            +array_view key='HealthCondition' icon='heartbeat' 
-            +array_view key='Organization' icon='users' 
-            +array_view key='Award' icon='trophy' 
-            +array_view key='Location' icon='marker'
-            +array_view key='PrintMedia' icon='newspaper'
-            +array_view key='watson_concepts' icon='cubes'
-            +array_view key='watson_keywords' icon='tags'
-            //- div
-            |#{ups}
-            i.thumbs.up.outline.icon
-            |#{downs}
-            i.thumbs.up.outline.icon
+            //- if in_dev
+            //-     +array_view key='tags' icon='tags' 
+            //-     +array_view key='categories' icon='cubes' 
+            //-     +array_view key='Person' icon='user' 
+            //-     +array_view key='Company' icon='briefcase' 
+            //-     +array_view key='TelevisionShow' icon='television' 
+            //-     +array_view key='GeographicFeature' icon='mountain' 
+            //-     +array_view key='Sport' icon='baseball ball' 
+            //-     +array_view key='Broadcaster' icon='video' 
+            //-     +array_view key='Facility' icon='building' 
+            //-     +array_view key='HealthCondition' icon='heartbeat' 
+            //-     +array_view key='Organization' icon='users' 
+            //-     +array_view key='Award' icon='trophy' 
+            //-     +array_view key='Location' icon='marker'
+            //-     +array_view key='PrintMedia' icon='newspaper'
+            //-     +array_view key='watson_concepts' icon='cubes'
+            //-     +array_view key='watson_keywords' icon='tags'
+                //- div
+            //- |#{ups}
+            //- i.thumbs.up.outline.icon
+            //- |#{downs}
+            //- i.thumbs.up.outline.icon
             .ui.small.inline.header
                 |sentiment
                 //- |#{doc_sentiment_label}
                 |{{to_percent doc_sentiment_score}}
-            span(title='comment_count')
-                i.comments.icon
-                |#{comment_count}
-            .ui.label(title='subreddit')
-                i.reddit.icon
-                |#{subreddit}
-            div
+            //- span(title='comment_count')
+            //-     i.comments.icon
+            //-     |#{comment_count}
+            //- .ui.label(title='subreddit')
+            //-     i.reddit.icon
+            //-     |#{subreddit}
+            //- div
             a(href=url target='_window') #{url}
-            +doc_emotion    
+            //- +doc_emotion    
             //- +watson_view
             //- unless sadness_percent    
             +call_watson mode='url' key='url'

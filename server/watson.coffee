@@ -115,7 +115,7 @@ Meteor.methods
                 concepts: {}
                 categories:
                     explanation:false
-                emotion: {}
+                # emotion: {}
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
@@ -197,25 +197,25 @@ Meteor.methods
                 # console.log 'adding watson info', doc.title
                 response = response.result
                 keyword_array = _.pluck(response.keywords, 'text')
-                # lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
+                lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
-                emotions = response.emotion.document.emotion
+                # emotions = response.emotion.document.emotion
 
-                emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-                main_emotions = []
-                for emotion in emotion_list
-                    if emotions["#{emotion}"] > .5
-                        # console.log emotion_doc["#{emotion}_percent"]
-                        main_emotions.push emotion
+                # emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+                # main_emotions = []
+                # for emotion in emotion_list
+                #     if emotions["#{emotion}"] > .5
+                #         # console.log emotion_doc["#{emotion}_percent"]
+                #         main_emotions.push emotion
 
                 # console.log 'emotions', emotions
-                sadness_percent = emotions.sadness
-                joy_percent = emotions.joy
-                fear_percent = emotions.fear
-                anger_percent = emotions.anger
-                disgust_percent = emotions.disgust
+                # sadness_percent = emotions.sadness
+                # joy_percent = emotions.joy
+                # fear_percent = emotions.fear
+                # anger_percent = emotions.anger
+                # disgust_percent = emotions.disgust
                 # console.log 'main_emotions', main_emotions
 
 
@@ -229,9 +229,13 @@ Meteor.methods
                                 adding_tags.push category
                                 Docs.update doc_id,
                                     $addToSet: categories: category
+                lowered_adding_tags = []
+                for tag in adding_tags
+                    lowered_adding_tags.push tag.toLowerCase()
+
                 Docs.update { _id: doc_id },
                     $addToSet:
-                        tags:$each:adding_tags
+                        tags:$each:lowered_adding_tags
                 if response.entities and response.entities.length > 0
                     for entity in response.entities
                         # console.log entity.type, entity.text
@@ -244,18 +248,18 @@ Meteor.methods
                                     "#{entity.type}":entity.text
                                     tags:entity.text.toLowerCase()
                 concept_array = _.pluck(response.concepts, 'text')
-                # lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
+                lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
                 Docs.update { _id: doc_id },
                     $set:
                         body:response.analyzed_text
                         watson: response
-                        sadness_percent: sadness_percent
-                        joy_percent: joy_percent
-                        fear_percent: fear_percent
-                        anger_percent: anger_percent
-                        disgust_percent: disgust_percent
-                        watson_concepts: concept_array
-                        watson_keywords: keyword_array
+                        # sadness_percent: sadness_percent
+                        # joy_percent: joy_percent
+                        # fear_percent: fear_percent
+                        # anger_percent: anger_percent
+                        # disgust_percent: disgust_percent
+                        concepts: concept_array
+                        keywords: keyword_array
                         doc_sentiment_score: response.sentiment.document.score
                         doc_sentiment_label: response.sentiment.document.label
                 Docs.update { _id: doc_id },
@@ -264,8 +268,17 @@ Meteor.methods
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:keyword_array
+
+                lowered_tags = []
+                for tag in doc.tags
+                    lowered_tags.push tag.toLowerCase()
+
+                Docs.update { _id: doc_id },
+                    $set:
+                        tags:lowered_tags
+
                 final_doc = Docs.findOne doc_id
-                # console.log final_doc
+                console.log 'final doc', final_doc.tags
                 # Meteor.call 'call_tone', doc_id, 'body', 'text', ->
                 # if Meteor.isDevelopment
                     # console.log 'all tags', final_doc.tags
