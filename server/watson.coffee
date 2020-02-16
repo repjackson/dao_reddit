@@ -19,74 +19,6 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 
 
 Meteor.methods
-    # call_wiki: (query)->
-    #     console.log 'calling wiki', query
-    #     term = query.split(' ').join('_')
-    #     found_doc =
-    #         Docs.findOne
-    #             url: "https://en.wikipedia.org/wiki/#{term}"
-    #     if found_doc
-    #         console.log 'found wiki doc for term', term, found_doc
-    #         Docs.update found_doc._id,
-    #             $addToSet:tags:'wikipedia'
-    #         Meteor.call 'call_watson', found_doc._id, 'url','url', ->
-    #     else
-    #         new_wiki_id = Docs.insert
-    #             title: "wikipedia: #{query}"
-    #             tags:['wikipedia', query]
-    #             url:"https://en.wikipedia.org/wiki/#{term}"
-    #         Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
-
-
-    call_tone: (doc_id, key, mode)->
-        self = @
-        doc = Docs.findOne doc_id
-        # console.log key
-        # console.log mode
-        # if doc.html or doc.body
-        #     # stringed = JSON.stringify(doc.html, null, 2)
-        if mode is 'html'
-            params =
-                toneInput:doc["#{key}"]
-                content_type:'text/html'
-        if mode is 'text'
-            params =
-                toneInput: { 'text': doc.body }
-                contentType: 'application/json'
-        # console.log 'params', params
-        tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
-            if err
-                console.log err
-            else
-                # console.dir response
-                Docs.update { _id: doc_id},
-                    $set:
-                        tone: response
-                # console.log(JSON.stringify(response, null, 2))
-            )
-        # else return
-
-
-    call_visual_link: (doc_id, field)->
-        self = @
-        doc = Docs.findOne doc_id
-        link = doc["#{field}"]
-
-        params =
-            url:link
-            # images_file: images_file
-            # classifier_ids: classifier_ids
-        visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
-            if err
-                console.log err
-            else
-                console.log(JSON.stringify(response, null, 2))
-                Docs.update { _id: doc_id},
-                    $set:
-                        visual_classes: response.images[0].classifiers[0].classes
-        )
-
-
     call_watson: (doc_id, key, mode) ->
         # console.log 'calling watson'
         self = @
@@ -119,7 +51,7 @@ Meteor.methods
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                sentiment: {}
+                # sentiment: {}
 
         if doc.is_video or doc.is_image or doc.is_twitter
             console.log 'lookup comments'
@@ -249,33 +181,33 @@ Meteor.methods
                                     tags:entity.text.toLowerCase()
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
-                Docs.update { _id: doc_id },
-                    $set:
-                        body:response.analyzed_text
-                        watson: response
-                        # sadness_percent: sadness_percent
-                        # joy_percent: joy_percent
-                        # fear_percent: fear_percent
-                        # anger_percent: anger_percent
-                        # disgust_percent: disgust_percent
-                        concepts: concept_array
-                        keywords: keyword_array
-                        doc_sentiment_score: response.sentiment.document.score
-                        doc_sentiment_label: response.sentiment.document.label
-                Docs.update { _id: doc_id },
-                    $addToSet:
-                        tags:$each:concept_array
+                # Docs.update { _id: doc_id },
+                #     $set:
+                #         body:response.analyzed_text
+                #         watson: response
+                #         # sadness_percent: sadness_percent
+                #         # joy_percent: joy_percent
+                #         # fear_percent: fear_percent
+                #         # anger_percent: anger_percent
+                #         # disgust_percent: disgust_percent
+                #         # concepts: concept_array
+                #         # keywords: keyword_array
+                #         # doc_sentiment_score: response.sentiment.document.score
+                #         # doc_sentiment_label: response.sentiment.document.label
                 Docs.update { _id: doc_id },
                     $addToSet:
-                        tags:$each:keyword_array
-
-                lowered_tags = []
-                for tag in doc.tags
-                    lowered_tags.push tag.toLowerCase()
-
+                        tags:$each:lowered_concepts
                 Docs.update { _id: doc_id },
-                    $set:
-                        tags:lowered_tags
+                    $addToSet:
+                        tags:$each:lowered_keywords
+
+                # lowered_tags = []
+                # for tag in doc.tags
+                #     lowered_tags.push tag.toLowerCase()
+                #
+                # Docs.update { _id: doc_id },
+                #     $set:
+                #         tags:lowered_tags
 
                 final_doc = Docs.findOne doc_id
                 console.log 'final doc', final_doc.tags

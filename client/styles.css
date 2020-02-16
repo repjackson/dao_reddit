@@ -12,6 +12,14 @@ body {
     /* background: #0e0e44 !important; */
 }
 
+.large {
+    font-size: 120%;
+}
+
+.button {
+    margin: 50px !important;
+}
+
 .pointer:hover {
     cursor: pointer;
 }
@@ -35,6 +43,10 @@ body {
 
 .spacer {
   height: 10px;
+}
+
+input {
+  border-radius: 20px !important;
 }
 
 ::-webkit-scrollbar {
@@ -80,9 +92,9 @@ body {
 
 
 
-body {
+/* body {
     transition: all .25s !important;
-}
+} */
 
 
 .button:not(.raw) {
@@ -108,11 +120,11 @@ body {
 }
 
 
-.button, .selector, .card, body, .item{
+/* .button, .selector, .card, body, .item{
     animation: fadein .25s;
     /* -webkit-transition: opacity 2s ease-out; */
     /* animation: fadeout 1s; */
-}
+/*  */
 
 .spinning{
     animation-name: spin;
@@ -162,18 +174,12 @@ body {
   animation: fadein .5s;
 }
 
-.icon.item {
-  animation: fadein .5s;
-}
 
 @keyframes fadein {
   from { opacity: 0}
   to   { opacity: 1}
 }
 
-#main {
-  animation: fadein .5s;
-}
 .result_column {
   animation: fadein .5s;
 }

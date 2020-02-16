@@ -11,7 +11,7 @@
 		"cloudinary_key": "754714459692734",
 		"cloudinary_secret": "rPPXD3rZM_GCjODvh0T70XeDCSw",
 		"tone": {
-            "apikey": "34O3lgeI-jpRkiyaZ9HVUEny2istqAbDyAOgjI1shnaq",
+            "apikey": "QEDjdS8Btn2Qq1IFKWu1wirCfdCziCEJhaWt_Tn5MY87",
             "iam_apikey_description": "Auto-generated for key e64fad1b-3834-4775-baab-3e1dbaa6d62f",
             "iam_apikey_name": "Auto-generated service credentials",
             "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
