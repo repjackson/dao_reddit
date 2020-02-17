@@ -3,13 +3,6 @@ Docs.allow
     update: (userId, doc) -> false
     remove: (userId, doc) -> false
 
-# Meteor.startup(() =>
-#     console.log 'create index'
-#     Docs.rawCollection().createIndex({tags:1}, (err,res)->
-#         console.log res
-#     )
-# )
-
 
 Meteor.publish 'results', (selected_tags, query)->
     console.log 'query', query
@@ -19,37 +12,37 @@ Meteor.publish 'results', (selected_tags, query)->
     match = {}
     # if selected_tags.length > 0 then match.tags = $all: selected_tags
         # match.$regex:"#{current_query}", $options: 'i'}
-    # if query and query.length > 2
-    #     match.tags = {$regex:"#{query}", $options: 'i'}
-    #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-    #
-    #     tag_cloud = Docs.aggregate [
-    #         { $match: match }
-    #         { $project: "tags": 1 }
-    #         { $unwind: "$tags" }
-    #         { $group: _id: "$tags", count: $sum: 1 }
-    #         { $match: _id: $nin: selected_tags }
-    #         { $match: _id: {$regex:"#{query}", $options: 'i'} }
-    #         { $sort: count: -1, _id: 1 }
-    #         { $limit: 42 }
-    #         { $project: _id: 0, name: '$_id', count: 1 }
-    #         ]
-    #
-    # else
-    # if selected_tags.length > 0 then match.tags = $all: selected_tags
-    match.tags = $all: selected_tags
+    if query and query.length > 2
+        match.tags = {$regex:"#{query}", $options: 'i'}
+        # match.tags_string = {$regex:"#{query}", $options: 'i'}
 
-    tag_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "tags": 1 }
-        { $unwind: "$tags" }
-        { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
-        # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-        { $sort: count: -1, _id: 1 }
-        { $limit: 42 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-        ]
+        tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            { $match: _id: {$regex:"#{query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 42 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+
+    else
+        if selected_tags.length > 0 then match.tags = $all: selected_tags
+        # match.tags = $all: selected_tags
+        console.log 'match for tags', match
+        tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 42 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
 
     tag_cloud.forEach (tag, i) =>
         console.log 'queried tag ', tag
@@ -66,15 +59,12 @@ Meteor.publish 'results', (selected_tags, query)->
 
 Meteor.publish 'docs', (
     selected_tags
-    doc_limit=7
-    only_videos
     )->
-    # console.log 'pre match', prematch
     # console.log selected_tags
-    # console.log filter
     self = @
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
+    # match.tags = $all: selected_tags
     # if filter then match.model = filter
     # keys = _.keys(prematch)
     # for key in keys
@@ -87,5 +77,5 @@ Meteor.publish 'docs', (
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
     Docs.find match,
-        sort:upvotes:1
+        sort:_timestamp:1
         limit: 7

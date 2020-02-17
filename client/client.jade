@@ -41,15 +41,19 @@ template(name='home')
                     .ui.black.large.compact.circular.button.unselect_tag
                         i.remove.icon
                         | #{this}
-                div
+                //- div
                 each tags
-                    button.ui.tertiary.big.compact.circular.button.result(tabindex="0" class=result_class) #{title} 
-                div
+                    button.ui.basic.big.compact.circular.button.result(tabindex="0" class=result_class) #{title} 
+                .ui.divider
                 each posts
                     +post
 
 
 template(name='post')
     .ui.hidden.divider
-    a.ui.grey.header(href=url target='_window') #{title}
+    if title 
+        a.ui.grey.header(href=url target='_window') #{title}
+    else if watson.metadata.title 
+        a.ui.grey.header(href=url target='_window') #{watson.metadata.title}
+        
     

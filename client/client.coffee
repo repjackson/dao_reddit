@@ -59,6 +59,7 @@ Template.home.events
         if e.which is 13
             search = $('#search').val().toLowerCase()
             selected_tags.push search
+            console.log 'search', search
             Meteor.call 'search_reddit', selected_tags.array(), ->
             $('#search').val('')
             # $('#search').val('').blur()

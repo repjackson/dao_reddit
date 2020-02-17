@@ -1,18 +1,18 @@
 Meteor.methods
-    stringify_tags: ->
-        docs = Docs.find({
-            tags: $exists: true
-            tags_string: $exists: false
-        },{limit:1000})
-        for doc in docs.fetch()
-            # doc = Docs.findOne id
-            console.log 'about to stringify', doc
-            tags_string = doc.tags.toString()
-            console.log 'tags_string', tags_string
-            Docs.update doc._id,
-                $set: tags_string:tags_string
-            # console.log 'result doc', Docs.findOne doc._id
-#
+#     stringify_tags: ->
+#         docs = Docs.find({
+#             tags: $exists: true
+#             tags_string: $exists: false
+#         },{limit:1000})
+#         for doc in docs.fetch()
+#             # doc = Docs.findOne id
+#             console.log 'about to stringify', doc
+#             tags_string = doc.tags.toString()
+#             console.log 'tags_string', tags_string
+#             Docs.update doc._id,
+#                 $set: tags_string:tags_string
+#             # console.log 'result doc', Docs.findOne doc._id
+# #
 
     lower_tags: ->
         docs = Docs.find({
@@ -97,45 +97,12 @@ Meteor.methods
             res = Docs.update doc._id,
                 $pull: tags: tag
             console.log res
-    move_emotion: ->
-        emotion_docs = Docs.find({
-            sadness_percent:
-                $exists:true
-            main_emotions:
-                $exists:false
-            }, limit:500)
-        console.log 'emotion docs', emotion_docs.count()
-        emotions = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-        for emotion_doc in emotion_docs.fetch()
-            console.log 'converting', emotion_doc._id
-            # old_emotion = watson.emotion.document.emotion
-            main_emotions = []
-            for emotion in emotions
-                if emotion_doc["#{emotion}_percent"] > .5
-                    # console.log emotion_doc["#{emotion}_percent"]
-                    main_emotions.push emotion
-
-            Docs.update({_id:emotion_doc._id},
-                $set:
-                    main_emotions: main_emotions
-            )
-            console.log main_emotions
-            # console.log Docs.findOne(emotion_doc._id)
-            # updated_doc = Docs.findOne emotion_doc._id
-            # console.log updated_doc
-        console.log 'main_emotions count', Docs.find(main_emotions:$exists:true).count()
-
-    # agg_idea: (idea, tag, type)->
-
-
-
-
 
 
     search_reddit: (query)->
         console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
-        HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)->
+        HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -145,7 +112,7 @@ Meteor.methods
                     data = item.data
                     len = 200
                     added_tags = query
-                    added_tags.push data.domain.toLowerCase()
+                    # added_tags.push data.domain.toLowerCase()
                     # console.log 'added_tags', added_tags
                     reddit_post =
                         reddit_id: data.id
@@ -161,21 +128,21 @@ Meteor.methods
                         # tags:[query, data.domain.toLowerCase(), data.author.toLowerCase(), data.title.toLowerCase()]
                         model:'reddit'
                     # console.log reddit_post
-                    image_check = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
-                    image_result = image_check.test data.url
-                    if image_result
-                        reddit_post.is_image = true
+                    # image_check = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
+                    # image_result = image_check.test data.url
+                    # if image_result
+                    #     reddit_post.is_image = true
                     #     if Meteor.isDevelopment
                     #         console.log 'skipping image'
-                    if data.domain in ['youtu.be','youtube.com']
-                        reddit_post.is_video = true
-                        reddit_post.is_youtube = true
-                    else if data.domain in ['i.redd.it','i.imgur.com','imgur.com']
-                        reddit_post.is_image = true
-                        # if Meteor.isDevelopment
-                        #     console.log 'skipping youtube and imgur'
-                    else if data.domain in ['twitter.com']
-                        reddit_post.is_twitter = true
+                    # if data.domain in ['youtu.be','youtube.com']
+                    #     reddit_post.is_video = true
+                    #     reddit_post.is_youtube = true
+                    # else if data.domain in ['i.redd.it','i.imgur.com','imgur.com']
+                    #     reddit_post.is_image = true
+                    #     # if Meteor.isDevelopment
+                    #     #     console.log 'skipping youtube and imgur'
+                    # else if data.domain in ['twitter.com']
+                    #     reddit_post.is_twitter = true
                         # if Meteor.isDevelopment
                         #     console.log 'skipping youtube and imgur'
                     # else
@@ -186,7 +153,7 @@ Meteor.methods
                             console.log 'skipping existing url', data.url
                             console.log 'adding', query, 'to tags'
                         Docs.update existing_doc._id,
-                            $addToSet: tags: query
+                            $addToSet: tags: $each: query
 
                             # console.log 'existing doc', existing_doc
                         # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
@@ -258,8 +225,8 @@ Meteor.methods
                         author: rd.author
                         # is_video: rd.is_video
                         ups: rd.ups
-                        downs: rd.downs
-                        over_18: rd.over_18
-                    $addToSet:
-                        tags: $each: [rd.subreddit, rd.author]
+                        # downs: rd.downs
+                        # over_18: rd.over_18
+                    # $addToSet:
+                        # tags: $each: [rd.subreddit]
                 # console.log Docs.findOne(doc_id)
