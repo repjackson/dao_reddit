@@ -14,34 +14,6 @@ Meteor.methods
 #             # console.log 'result doc', Docs.findOne doc._id
 # #
 
-    lower_tags: ->
-        docs = Docs.find({
-            tags: $exists: true
-            lowered: $exists: false
-        },{limit:1000})
-        for doc in docs.fetch()
-            # doc = Docs.findOne id
-            # console.log 'about to lower', doc
-            lowered_tags = []
-            # tags_string = doc.tags.toString()
-            for tag in doc.tags
-                # console.log tag
-                if tag and tag.toLowerCase
-                    lowered_tag = tag.toLowerCase()
-                    lowered_tags.push lowered_tag
-                else
-                    console.log 'cant lower', tag, 'on', doc._id
-                    lowered_tags.push tag
-                    Meteor.call 'flatten', doc._id
-                    # break
-            # console.log 'lowered_tags', lowered_tags
-            Docs.update doc._id,
-                $set:
-                    tags:lowered_tags
-                    lowered: true
-            console.log 'lowered tags', doc._id
-
-
     flatten: (doc_id)->
         if doc_id
             doc = Docs.findOne doc_id
@@ -102,7 +74,8 @@ Meteor.methods
     search_reddit: (query)->
         console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
-        HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
+        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -128,21 +101,21 @@ Meteor.methods
                         # tags:[query, data.domain.toLowerCase(), data.author.toLowerCase(), data.title.toLowerCase()]
                         model:'reddit'
                     # console.log reddit_post
-                    # image_check = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
-                    # image_result = image_check.test data.url
-                    # if image_result
-                    #     reddit_post.is_image = true
+                    image_check = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
+                    image_result = image_check.test data.url
+                    if image_result
+                        reddit_post.is_image = true
                     #     if Meteor.isDevelopment
                     #         console.log 'skipping image'
-                    # if data.domain in ['youtu.be','youtube.com']
-                    #     reddit_post.is_video = true
-                    #     reddit_post.is_youtube = true
-                    # else if data.domain in ['i.redd.it','i.imgur.com','imgur.com']
-                    #     reddit_post.is_image = true
+                    if data.domain in ['youtu.be','youtube.com']
+                        reddit_post.is_video = true
+                        reddit_post.is_youtube = true
+                    else if data.domain in ['i.redd.it','i.imgur.com','imgur.com']
+                        reddit_post.is_image = true
                     #     # if Meteor.isDevelopment
                     #     #     console.log 'skipping youtube and imgur'
-                    # else if data.domain in ['twitter.com']
-                    #     reddit_post.is_twitter = true
+                    else if data.domain in ['twitter.com']
+                        reddit_post.is_twitter = true
                         # if Meteor.isDevelopment
                         #     console.log 'skipping youtube and imgur'
                     # else
@@ -150,7 +123,7 @@ Meteor.methods
                     existing_doc = Docs.findOne url:data.url
                     if existing_doc
                         if Meteor.isDevelopment
-                            console.log 'skipping existing url', data.url
+                            # console.log 'skipping existing url', data.url
                             console.log 'adding', query, 'to tags'
                         Docs.update existing_doc._id,
                             $addToSet: tags: $each: query
@@ -179,8 +152,8 @@ Meteor.methods
         HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
             if err then console.error err
             else
-                console.log rd
                 rd = res.data.data.children[0].data
+                console.log rd.url
                 # if rd.is_video
                 #     console.log 'pulling image comments watson'
                 #     Meteor.call 'call_watson', doc_id, 'url', 'video'

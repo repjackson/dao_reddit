@@ -32,6 +32,17 @@ Template.home.onCreated ->
     @autorun => @subscribe 'docs',
         selected_tags.array()
 
+Template.body.events
+    'keydown':(e,t)->
+        console.log e.keyCode
+        # console.log e.keyCode
+        if e.keyCode is 27
+            console.log 'hi'
+            # console.log 'hi'
+            Session.set('current_query', null)
+            selected_tags.clear()
+            $('#search').val('')
+            $('#search').blur()
 
 Template.home.events
     'click .result': ->
@@ -55,25 +66,34 @@ Template.home.events
     'keyup #search': _.throttle((e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
-        console.log Session.get('current_query')
+        # console.log Session.get('current_query')
         if e.which is 13
-            search = $('#search').val().toLowerCase()
+            search = $('#search').val().trim().toLowerCase()
             selected_tags.push search
-            console.log 'search', search
+            # console.log 'search', search
             Meteor.call 'search_reddit', selected_tags.array(), ->
             $('#search').val('')
+            Session.set('current_query', null)
             # $('#search').val('').blur()
             # $( "p" ).blur();
             # Meteor.setTimeout ->
             #     Session.set('sort_up', !Session.get('sort_up'))
             # , 4000
+        else if e.which is 8
+            search = $('#search').val()
+            if search.length is 0
+                last_val = selected_tags.array().slice(-1)
+                console.log last_val
+                $('#search').val(last_val)
+                selected_tags.pop()
+                Meteor.call 'search_reddit', selected_tags.array(), ->
     , 1000)
 
 
 Template.home.helpers
     tags: ->
         doc_count = Docs.find().count()
-        console.log 'doc count', doc_count
+        # console.log 'doc count', doc_count
         if doc_count < 3
             Tags.find({count: $lt: doc_count})
         else

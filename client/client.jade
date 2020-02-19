@@ -18,33 +18,33 @@ body
     +home
 
 
-
 template(name='home')
     .ui.stackable.padded.grid(class=invert_class)
         .centered.row 
             .sixteen.wide.center.aligned.column
+                each selected_tags
+                    .ui.black.big.compact.circular.button.unselect_tag
+                        //- i.remove.icon
+                        | #{this}
                 //- if subs_ready
-                //-     i.yin.yang.grey.large.icon(title='dao')
+                //-     i.yin.yang.grey.big.grey.icon(title='dao')
                 unless subs_ready 
                     i.yin.yang.loading.big.grey.icon(title='dao')
-                .ui.left.icon.large.input
+                .ui.left.icon.large.search.input
                     i.search.icon
                     //- if subs_ready
                     //- else
                     //-     i.yin.yang.loading.large.icon
-                    input#search(type='text' autofocus='' autocomplete="off")
-                div
-                if selected_tags
-                    .ui.black.icon.large.compact.circular.button.clear_selected_tags(title='clear search')
-                        i.remove.icon
-                each selected_tags
-                    .ui.black.large.compact.circular.button.unselect_tag
-                        i.remove.icon
-                        | #{this}
+                    input#search.prompt(type='text' autofocus='' autocomplete="off")
+                //- .spacer
+                //- if selected_tags
+                //-     .ui.black.icon.large.compact.circular.button.clear_selected_tags(title='clear search')
+                //-         i.remove.icon
                 //- div
                 each tags
-                    button.ui.basic.big.compact.circular.button.result(tabindex="0" class=result_class) #{title} 
-                .ui.divider
+                    button.ui.basic.circular.compact.big.button.result(tabindex="0" class=result_class title=count) #{title} 
+                        //- small #{count}
+                //- .ui.divider
                 each posts
                     +post
 
@@ -55,5 +55,9 @@ template(name='post')
         a.ui.grey.header(href=url target='_window') #{title}
     else if watson.metadata.title 
         a.ui.grey.header(href=url target='_window') #{watson.metadata.title}
-        
+    //- div
+    //- .ui.small.basic.white.label #{domain}
+    //- if body
+    //-     .ui.basic.segment
+    //-         |!{body}
     

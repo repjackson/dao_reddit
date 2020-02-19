@@ -77,5 +77,5 @@ Meteor.publish 'docs', (
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
     Docs.find match,
-        sort:_timestamp:1
+        sort:ups:1
         limit: 7
