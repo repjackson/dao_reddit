@@ -45,7 +45,7 @@ Template.body.events
             $('#search').blur()
 
 Template.home.events
-    'click .result': ->
+    'click .result': (event,template)->
         # console.log @
         selected_tags.push @title
         $('#search').val('')
@@ -69,16 +69,17 @@ Template.home.events
         # console.log Session.get('current_query')
         if e.which is 13
             search = $('#search').val().trim().toLowerCase()
-            selected_tags.push search
-            # console.log 'search', search
-            Meteor.call 'search_reddit', selected_tags.array(), ->
-            $('#search').val('')
-            Session.set('current_query', null)
-            # $('#search').val('').blur()
-            # $( "p" ).blur();
-            # Meteor.setTimeout ->
-            #     Session.set('sort_up', !Session.get('sort_up'))
-            # , 4000
+            if search.length > 0
+                selected_tags.push search
+                # console.log 'search', search
+                Meteor.call 'search_reddit', selected_tags.array(), ->
+                $('#search').val('')
+                Session.set('current_query', null)
+                # $('#search').val('').blur()
+                # $( "p" ).blur();
+                # Meteor.setTimeout ->
+                #     Session.set('sort_up', !Session.get('sort_up'))
+                # , 4000
         else if e.which is 8
             search = $('#search').val()
             if search.length is 0

@@ -23,15 +23,16 @@ template(name='home')
         .centered.row 
             .sixteen.wide.center.aligned.column
                 each selected_tags
-                    .ui.black.big.compact.circular.button.unselect_tag
+                    button.ui.black.big.compact.circular.button.unselect_tag(tabindex='0')
                         //- i.remove.icon
                         | #{this}
                 //- if subs_ready
                 //-     i.yin.yang.grey.big.grey.icon(title='dao')
-                unless subs_ready 
-                    i.yin.yang.loading.big.grey.icon(title='dao')
                 .ui.left.icon.large.search.input
-                    i.search.icon
+                    unless subs_ready 
+                        i.yin.yang.loading.big.grey.icon(title='dao')
+                    else 
+                        i.search.icon
                     //- if subs_ready
                     //- else
                     //-     i.yin.yang.loading.large.icon

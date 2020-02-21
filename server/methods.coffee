@@ -13,37 +13,13 @@ Meteor.methods
 #                 $set: tags_string:tags_string
 #             # console.log 'result doc', Docs.findOne doc._id
 # #
-
-    flatten: (doc_id)->
-        if doc_id
-            doc = Docs.findOne doc_id
-            flattened_tags = _.flatten(doc.tags)
-
-            # console.log 'flattened_tags', flattened_tags
-            Docs.update doc._id,
-                $set:
-                    tags:flattened_tags
-                    flattened:true
-            console.log 'flattened', doc._id
-        else
-            docs = Docs.find({
-                tags: $exists: true
-                flattened: $ne: true
-            },{limit:1000})
-            for doc in docs.fetch()
-                # doc = Docs.findOne id
-                console.log 'about to flatten', doc
-
-                flattened_tags = _.flatten(doc.tags)
-
-                # console.log 'flattened_tags', flattened_tags
-                Docs.update doc._id,
-                    $set:
-                        tags:flattened_tags
-                        flattened:true
-                console.log 'flattened', doc._id
-                # console.log 'result doc', Docs.findOne doc._id
-
+    lookup: =>
+        selection = @words[3000..]
+        for word in selection
+            console.log 'searching ', word
+            # Meteor.setTimeout ->
+            Meteor.call 'search_reddit', ([word])
+            # , 5000
 
     rename_key:(old_key,new_key,parent)->
         Docs.update parent._id,
@@ -75,7 +51,7 @@ Meteor.methods
         console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=100",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -101,21 +77,21 @@ Meteor.methods
                         # tags:[query, data.domain.toLowerCase(), data.author.toLowerCase(), data.title.toLowerCase()]
                         model:'reddit'
                     # console.log reddit_post
-                    image_check = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
-                    image_result = image_check.test data.url
-                    if image_result
-                        reddit_post.is_image = true
+                    # image_check = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
+                    # image_result = image_check.test data.url
+                    # if image_result
+                    #     reddit_post.is_image = true
                     #     if Meteor.isDevelopment
                     #         console.log 'skipping image'
-                    if data.domain in ['youtu.be','youtube.com']
-                        reddit_post.is_video = true
-                        reddit_post.is_youtube = true
-                    else if data.domain in ['i.redd.it','i.imgur.com','imgur.com']
-                        reddit_post.is_image = true
-                    #     # if Meteor.isDevelopment
-                    #     #     console.log 'skipping youtube and imgur'
-                    else if data.domain in ['twitter.com']
-                        reddit_post.is_twitter = true
+                    # if data.domain in ['youtu.be','youtube.com']
+                    #     reddit_post.is_video = true
+                    #     reddit_post.is_youtube = true
+                    # else if data.domain in ['i.redd.it','i.imgur.com','imgur.com']
+                    #     reddit_post.is_image = true
+                    # #     # if Meteor.isDevelopment
+                    # #     #     console.log 'skipping youtube and imgur'
+                    # else if data.domain in ['twitter.com']
+                    #     reddit_post.is_twitter = true
                         # if Meteor.isDevelopment
                         #     console.log 'skipping youtube and imgur'
                     # else
@@ -125,13 +101,18 @@ Meteor.methods
                         if Meteor.isDevelopment
                             # console.log 'skipping existing url', data.url
                             console.log 'adding', query, 'to tags'
+                        console.log 'type of tags', typeof(existing_doc.tags)
+                        if typeof(existing_doc.tags) is 'string'
+                            console.log 'unsetting tags because string', existing_doc.tags
+                            Doc.update
+                                $unset: tags: 1
                         Docs.update existing_doc._id,
                             $addToSet: tags: $each: query
 
                             # console.log 'existing doc', existing_doc
                         # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                     unless existing_doc
-                        # console.log 'importing url', data.url
+                        console.log 'importing url', data.url
                         new_reddit_post_id = Docs.insert reddit_post
                         # console.log 'calling watson on ', reddit_post.title
                         Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
@@ -161,15 +142,15 @@ Meteor.methods
                 #     console.log 'pulling image comments watson'
                 #     Meteor.call 'call_watson', doc_id, 'url', 'image'
 
-                if rd.selftext
-                    unless rd.is_video
-                        # if Meteor.isDevelopment
-                        #     console.log "self text", rd.selftext
-                        Docs.update doc_id, {
-                            $set: body: rd.selftext
-                        }, ->
-                        #     Meteor.call 'pull_site', doc_id, url
-                            # console.log 'hi'
+                # if rd.selftext
+                #     unless rd.is_video
+                #         # if Meteor.isDevelopment
+                #         #     console.log "self text", rd.selftext
+                #         Docs.update doc_id, {
+                #             $set: body: rd.selftext
+                #         }, ->
+                #         #     Meteor.call 'pull_site', doc_id, url
+                #             # console.log 'hi'
                 # if rd.selftext_html
                 #     unless rd.is_video
                 #         Docs.update doc_id, {
