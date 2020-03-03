@@ -12,27 +12,67 @@ head
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.1/dist/semantic.min.js')
     //- /* script(async='' src='//embed.redditmedia.com/widgets/platform.js' charset='UTF-8') */
+    //- // Global site tag (gtag.js) - Google Analytics
+    script(async='' src='https://www.googletagmanager.com/gtag/js?id=UA-156965333-1')
+    script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-156965333-1');
 
 
-body 
-    +home
+template(name='layout')
+    +nav
+    #main
+        +yield
+    //- +footer
+
+
+template(name='not_found')
+    .ui.basic.center.aligned.padded.segment
+        .ui.center.aligned.header page not found
+
+
+template(name='nav')
+    .ui.attached.fluid.borderless.menu
+        a.icon.item(href="/")
+            unless subs_ready 
+                i.yin.yang.loading.large.grey.icon(title='dao')
+            else 
+                i.large.yin.yang.link.icon.toggle_menu
+        .right.menu
+            a.icon.item(href="/stats")
+                i.line.chart.icon
+            if currentUser
+                a.item(href="/profile")
+                    |#{currentUser.karma}
+                    //- i.line.chart.icon
+                //- a.item(href="/profile/#{currentUser.username}") 
+                a.item(href="/profile") 
+                    i.user.icon
+                    |#{currentUser.username}
+            else 
+                a.icon.item(href="/profile")
+                    i.sign.in.alternate.icon
 
 
 template(name='home')
     .ui.stackable.padded.grid(class=invert_class)
         .centered.row 
             .sixteen.wide.center.aligned.column
+                //- .ui.header #{connection.status}
+                unless connected
+                    .ui.header not connected
+                    a.ui.inline.header.reconnect reconnect
                 each selected_tags
                     button.ui.black.big.compact.circular.button.unselect_tag(tabindex='0')
                         //- i.remove.icon
                         | #{this}
                 //- if subs_ready
                 //-     i.yin.yang.grey.big.grey.icon(title='dao')
+                //- div
                 .ui.left.icon.large.search.input
-                    unless subs_ready 
-                        i.yin.yang.loading.big.grey.icon(title='dao')
-                    else 
-                        i.search.icon
+                    i.search.icon
                     //- if subs_ready
                     //- else
                     //-     i.yin.yang.loading.large.icon
@@ -43,22 +83,54 @@ template(name='home')
                 //-         i.remove.icon
                 //- div
                 each tags
-                    button.ui.basic.circular.compact.big.button.result(tabindex="0" class=result_class title=count) #{title} 
+                    button.ui.basic.circular.compact.big.button.result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
                 //- .ui.divider
-                each posts
-                    +post
+                //- if one_post
+                .ui.divided.items
+                    each posts
+                        +post
 
 
 template(name='post')
-    .ui.hidden.divider
-    if title 
-        a.ui.grey.header(href=url target='_window') #{title}
-    else if watson.metadata.title 
-        a.ui.grey.header(href=url target='_window') #{watson.metadata.title}
-    //- div
-    //- .ui.small.basic.white.label #{domain}
-    //- if body
-    //-     .ui.basic.segment
-    //-         |!{body}
-    
+    .item 
+        if has_thumbnail
+            .image.rounded
+                img(src=thumbnail)
+        .content
+            .header
+                if title 
+                    .ui.grey.small.header(title=ups) !{title}
+                else if watson.metadata.title 
+                    .ui.grey.small.header(title=ups) !{watson.metadata.title}
+            .meta
+                a.ui.compact.circular.icon.button(href=url target='_window')
+                    i.external.icon
+                span.ui.grey.text #{domain}
+                if is_vidoe
+                    i.video.large.icon
+                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                    i.comments.spaced.icon
+                    |#{comment_count}
+                .ui.basic.inverted.label 
+                    i.thumbs.up.outline.icon
+                    |#{ups}
+                    //-     i.thumbs.down.outline.icon
+                    //-     |#{downs}
+                .ui.basic.inverted.button 
+                    i.pencil.icon
+                    |#{author}
+                //- .ui.basic.inverted.label 
+                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
+                    i.reddit.icon
+                    |#{subreddit}
+                i.refresh.circular.link.icon.calc_post
+            //- if tags
+            //-     each tags
+            //-         .ui.circular.inverted.black.label
+            //-             |#{this}
+            //- div
+            //- if body
+            //-     .ui.basic.segment
+            //-         |!{body}
+        

@@ -1,5 +1,10 @@
 @selected_tags = new ReactiveArray []
 
+Accounts.ui.config
+    passwordSignupFields: 'USERNAME_ONLY'
+
+
+
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
@@ -26,18 +31,29 @@ Template.registerHelper 'loading_class', ()->
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
+Router.route '/', (->
+    @layout 'layout'
+    @render 'home'
+    ), name:'home'
+
+
+Template.nav.helpers
+    subs_ready: -> Template.instance().subscriptionsReady()
+
+
 
 Template.home.onCreated ->
-    @autorun => @subscribe 'results', selected_tags.array(), Session.get('current_query')
+    @autorun => @subscribe 'me'
+    @autorun => @subscribe 'results', selected_tags.array(), Session.get('current_query'), Session.get('dummy')
     @autorun => @subscribe 'docs',
         selected_tags.array()
 
 Template.body.events
     'keydown':(e,t)->
-        console.log e.keyCode
+        # console.log e.keyCode
         # console.log e.keyCode
         if e.keyCode is 27
-            console.log 'hi'
+            # console.log 'hi'
             # console.log 'hi'
             Session.set('current_query', null)
             selected_tags.clear()
@@ -45,13 +61,22 @@ Template.body.events
             $('#search').blur()
 
 Template.home.events
+    'click .toggle_dark': ->
+        Meteor.users.update Meteor.userId(),
+            $set: dark_mode: !Meteor.user().dark_mode
+    'click .toggle_menu': ->
+        Session.set('view_menu', !Session.get('view_menu'))
     'click .result': (event,template)->
         # console.log @
+        Meteor.call 'log_term', @title, ->
         selected_tags.push @title
         $('#search').val('')
         Session.set('current_query', null)
         Session.set('searching', false)
         Meteor.call 'search_reddit', selected_tags.array(), ->
+        Meteor.setTimeout ->
+            Session.set('dummy', !Session.get('dummy'))
+        , 8000
     'click .select_query': -> queries.push @title
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
@@ -73,6 +98,7 @@ Template.home.events
                 selected_tags.push search
                 # console.log 'search', search
                 Meteor.call 'search_reddit', selected_tags.array(), ->
+                Meteor.call 'log_term', search, ->
                 $('#search').val('')
                 Session.set('current_query', null)
                 # $('#search').val('').blur()
@@ -80,7 +106,18 @@ Template.home.events
                 # Meteor.setTimeout ->
                 #     Session.set('sort_up', !Session.get('sort_up'))
                 # , 4000
-        else if e.which is 8
+    , 1000)
+
+    'click .calc_doc_count': ->
+        Meteor.call 'calc_doc_count', ->
+
+    'click .calc_post': ->
+        console.log @
+        # Meteor.call 'get_reddit_post', (@_id)->
+
+
+    'keydown #search': _.throttle((e,t)->
+        if e.which is 8
             search = $('#search').val()
             if search.length is 0
                 last_val = selected_tags.array().slice(-1)
@@ -90,15 +127,31 @@ Template.home.events
                 Meteor.call 'search_reddit', selected_tags.array(), ->
     , 1000)
 
+    'click .reconnect': ->
+        Meteor.reconnect()
+
 
 Template.home.helpers
+    connection: ->
+        console.log Meteor.status()
+        Meteor.status()
+    connected: ->
+        Meteor.status().connected
+    invert_class: ->
+        if Meteor.user()
+            if Meteor.user().dark_mode
+                'invert'
+    view_menu: -> Session.get('view_menu')
     tags: ->
-        doc_count = Docs.find().count()
-        # console.log 'doc count', doc_count
-        if doc_count < 3
-            Tags.find({count: $lt: doc_count})
+        if Session.get('current_query') and Session.get('current_query').length > 1
+            Terms.find()
         else
-            Tags.find()
+            doc_count = Docs.find().count()
+            # console.log 'doc count', doc_count
+            if doc_count < 3
+                Tags.find({count: $lt: doc_count})
+            else
+                Tags.find()
 
     result_class: ->
         if Template.instance().subscriptionsReady()
@@ -110,9 +163,18 @@ Template.home.helpers
 
     searching: -> Session.get('searching')
 
-    subs_ready: -> Template.instance().subscriptionsReady()
+    one_post: ->
+        Docs.find().count() is 1
     posts: ->
-        Docs.find {
-            # model:'reddit'
-        },
-            sort: "#{Session.get('sort_key')}": Session.get('sort_direction')
+        if selected_tags.array().length > 0
+            Docs.find {
+                # model:'reddit'
+            },
+                sort: ups:-1
+
+
+
+Template.post.helpers
+    has_thumbnail: ->
+        # console.log @thumbnail
+        @thumbnail not in ['self','default']

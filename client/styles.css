@@ -16,8 +16,12 @@ body {
     font-size: 120%;
 }
 
+.rounded {
+    border-radius: : 10px !important;
+}
+
 .ui.button.result {
-    margin: 2px !important;
+    margin: 3px !important;
 }
 
 .pointer:hover {
@@ -28,6 +32,19 @@ body {
     /* border-radius: 7px !important; */
     filter: invert(1) !important;
 }
+
+.invert{
+    /* border-radius: 7px !important; */
+    background: rgba(0,0,0,.85) !important;
+    /* filter: invert(1) !important; */
+}
+
+i.invert{
+    /* border-radius: 7px !important; */
+    /* background: rgba(0,0,0,.85) !important; */
+    filter: invert(1) !important;
+}
+
 
 /* .inverted{
     background: rgba(0,0,0,.85) !important; */
@@ -43,6 +60,10 @@ body {
 
 .spacer {
   height: 10px;
+}
+
+.label {
+  margin: 2px !important;
 }
 
 input {
@@ -100,7 +121,7 @@ input {
 .button:not(.raw) {
     /* background-color: rgba(200, 200, 200, 0.5) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
-    margin:1px !important;
+    margin:3px !important;
     font-weight: bold !important;
     /* font-size: 110% !important; */
     /* background-color: rgba(225,225,225,.6) !important; */
