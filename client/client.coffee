@@ -40,10 +40,11 @@ Router.route '/', (->
 Template.nav.helpers
     subs_ready: -> Template.instance().subscriptionsReady()
 
+Template.nav.onCreated ->
+    @autorun => @subscribe 'me'
 
 
 Template.home.onCreated ->
-    @autorun => @subscribe 'me'
     @autorun => @subscribe 'results', selected_tags.array(), Session.get('current_query'), Session.get('dummy')
     @autorun => @subscribe 'docs',
         selected_tags.array()
