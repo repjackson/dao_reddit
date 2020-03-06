@@ -24,16 +24,25 @@ Meteor.methods
                     doc_count: doc_count
                     term_count:term_count
 
+    log_doc_terms: (doc_id)->
+        doc = Docs.findOne doc_id
+        if doc.tags
+            for tag in doc.tags
+                Meteor.call 'log_term', tag, ->
 
     log_term: (term)->
-        console.log 'logging term', term
+        # console.log 'logging term', term
         found_term = Terms.findOne title:term
         unless found_term
             Terms.insert
                 title:term
-            console.log 'added term', term
+            # if Meteor.user()
+            #     Meteor.users.update({_id:Meteor.userId()},{$inc: karma: 1}, -> )
+            # console.log 'added term', term
+        else
+            Terms.update({_id:found_term._id},{$inc: count: 1}, -> )
+            # console.log 'found term', term
 
-        console.log 'found term', term
 
     lookup: =>
         selection = @words[4000..4500]
@@ -106,10 +115,10 @@ Meteor.methods
                                 # console.log 'skipping existing url', data.url
                                 # console.log 'adding', query, 'to tags'
                             # console.log 'type of tags', typeof(existing_doc.tags)
-                            if typeof(existing_doc.tags) is 'string'
-                                # console.log 'unsetting tags because string', existing_doc.tags
-                                Doc.update
-                                    $unset: tags: 1
+                            # if typeof(existing_doc.tags) is 'string'
+                            #     # console.log 'unsetting tags because string', existing_doc.tags
+                            #     Doc.update
+                            #         $unset: tags: 1
                             Docs.update existing_doc._id,
                                 $addToSet: tags: $each: query
 
@@ -118,9 +127,9 @@ Meteor.methods
                         unless existing_doc
                             console.log 'importing url', data.url
                             new_reddit_post_id = Docs.insert reddit_post
-                            if Meteor.userId()
-                                Meteor.users.update(Meteor.userId(),
-                                    {$inc: karma: 1}, -> )
+                            # if Meteor.userId()
+                            #     Meteor.users.update(Meteor.userId(),
+                            #         {$inc: karma: 1}, -> )
                             # console.log 'calling watson on ', reddit_post.title
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                                 # console.log 'get post res', res
@@ -142,12 +151,14 @@ Meteor.methods
             else
                 rd = res.data.data.children[0].data
                 # console.log rd.url
-                # if rd.is_video
-                #     console.log 'pulling image comments watson'
-                #     Meteor.call 'call_watson', doc_id, 'url', 'video'
-                # else if rd.is_image
-                #     console.log 'pulling image comments watson'
-                #     Meteor.call 'call_watson', doc_id, 'url', 'image'
+                if rd.is_video
+                    console.log 'pulling video comments watson'
+                    Meteor.call 'call_watson', doc_id, 'url', 'video'
+                else if rd.is_image
+                    console.log 'pulling image comments watson'
+                    Meteor.call 'call_watson', doc_id, 'url', 'image'
+                else
+                    Meteor.call 'call_watson', doc_id, 'url', 'url', ->
 
                 # if rd.selftext
                 #     unless rd.is_video
@@ -163,8 +174,8 @@ Meteor.methods
                 #         Docs.update doc_id, {
                 #             $set: html: rd.selftext_html
                 #         }, ->
-                        #     Meteor.call 'pull_site', doc_id, url
-                            # console.log 'hi'
+                #             # Meteor.call 'pull_site', doc_id, url
+                #             console.log 'hi'
                 # if rd.url
                 #     unless rd.is_video￼
                 #         url = rd.url
@@ -181,6 +192,7 @@ Meteor.methods
                 Docs.update doc_id,
                     $set:
                         # rd: rd
+                        url: rd.url
                         thumbnail: rd.thumbnail
                         subreddit: rd.subreddit
                         author: rd.author

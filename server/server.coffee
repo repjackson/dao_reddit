@@ -39,8 +39,9 @@ Meteor.publish 'results', (selected_tags, query, dummy)->
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
     #
-        Terms.find
+        Terms.find {
             title: {$regex:"#{query}", $options: 'i'}
+        }, limit: 20
 
         # tag_cloud = Docs.aggregate [
         #     { $match: match }

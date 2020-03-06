@@ -22,7 +22,7 @@ head
 
 
 template(name='layout')
-    +nav
+    //- +nav
     #main
         +yield
     //- +footer
@@ -62,8 +62,8 @@ template(name='home')
             .sixteen.wide.center.aligned.column
                 //- .ui.header #{connection.status}
                 unless connected
-                    .ui.header not connected
-                    a.ui.inline.header.reconnect reconnect
+                    .ui.inline.header not connected
+                    .ui.red.basic.circular.button.reconnect reconnect
                 each selected_tags
                     button.ui.black.big.compact.circular.button.unselect_tag(tabindex='0')
                         //- i.remove.icon
@@ -72,10 +72,10 @@ template(name='home')
                 //-     i.yin.yang.grey.big.grey.icon(title='dao')
                 //- div
                 .ui.left.icon.large.search.input
-                    i.search.icon
-                    //- if subs_ready
-                    //- else
-                    //-     i.yin.yang.loading.large.icon
+                    if subs_ready
+                        i.search.icon
+                    else
+                        i.yin.yang.loading.large.icon
                     input#search.prompt(type='text' autofocus='' autocomplete="off")
                 //- .spacer
                 //- if selected_tags
@@ -87,9 +87,15 @@ template(name='home')
                         //- small #{count}
                 //- .ui.divider
                 //- if one_post
-                .ui.divided.items
-                    each posts
-                        +post
+        if subs_ready
+            .centered.row 
+                .sixteen.wide.column
+                    
+                    .ui.divided.items
+                        each posts
+                            +post
+
+
 
 
 template(name='post')
@@ -97,38 +103,60 @@ template(name='post')
         if has_thumbnail
             .image.rounded
                 img(src=thumbnail)
-        .content
+        .content        
             .header
                 if title 
                     .ui.grey.small.header(title=ups) !{title}
                 else if watson.metadata.title 
                     .ui.grey.small.header(title=ups) !{watson.metadata.title}
+            if is_image
+                img.ui.image(src=url)
             .meta
                 a.ui.compact.circular.icon.button(href=url target='_window')
                     i.external.icon
-                span.ui.grey.text #{domain}
-                if is_vidoe
-                    i.video.large.icon
-                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
-                    i.comments.spaced.icon
-                    |#{comment_count}
-                .ui.basic.inverted.label 
-                    i.thumbs.up.outline.icon
-                    |#{ups}
-                    //-     i.thumbs.down.outline.icon
-                    //-     |#{downs}
-                .ui.basic.inverted.button 
-                    i.pencil.icon
-                    |#{author}
+                //- span.ui.grey.text #{domain}
+                //- if is_video
+                //-     i.video.large.icon
+                //- a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                //-     i.comments.spaced.icon
+                //-     |#{comment_count}
                 //- .ui.basic.inverted.label 
-                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
-                    i.reddit.icon
-                    |#{subreddit}
+                //-     i.thumbs.up.outline.icon
+                //-     |#{ups}
+                //-     //-     i.thumbs.down.outline.icon
+                //-     //-     |#{downs}
+                //- a.ui.basic.compact.inverted.button(href="https://www.reddit.com/user/#{author}" target='_window')
+                //-     i.pencil.icon
+                //-     |#{author}
+                //- //- .ui.basic.inverted.label 
+                //- a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
+                //-     i.reddit.icon
+                //-     |#{subreddit}
                 i.refresh.circular.link.icon.calc_post
-            //- if tags
-            //-     each tags
-            //-         .ui.circular.inverted.black.label
-            //-             |#{this}
+                //- +voting_small
+                //- if tone 
+                //-     each first_three_tones
+                //-         .item
+                //-             //- span #{sentence_id}
+                //-             span.large120(title="#{sentence_id}") #{text}
+                //-             //- each tones
+                //-             //-     .ui.basic.large.label(class="{{calculated_size 'score'}}") &nbsp; #{tone_id} {{ to_percent score }}% 
+                //- else 
+            //- unless tone
+            .ui.button.call_watson 
+                i.chess.icon
+                |tag url
+            .ui.button.call_watson_image
+                i.chess.icon
+                |tag image
+            .ui.button.print_me
+                |print me
+            if tone 
+                +tone
+            if tags
+                each tags
+                    .ui.circular.large.inverted.black.label
+                        |#{this}
             //- div
             //- if body
             //-     .ui.basic.segment
