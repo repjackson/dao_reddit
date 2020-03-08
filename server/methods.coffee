@@ -32,7 +32,9 @@ Meteor.methods
 
     log_term: (term)->
         # console.log 'logging term', term
-        found_term = Terms.findOne title:term
+        found_term =
+            Terms.findOne
+                title:term
         unless found_term
             Terms.insert
                 title:term
@@ -41,7 +43,7 @@ Meteor.methods
             # console.log 'added term', term
         else
             Terms.update({_id:found_term._id},{$inc: count: 1}, -> )
-            # console.log 'found term', term
+            console.log 'found term', term
 
 
     lookup: =>
@@ -82,6 +84,7 @@ Meteor.methods
         # console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+        # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
         HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=100",(err,response)=>
             # console.log response.data
             if err then console.log err
@@ -153,12 +156,13 @@ Meteor.methods
                 # console.log rd.url
                 if rd.is_video
                     console.log 'pulling video comments watson'
-                    Meteor.call 'call_watson', doc_id, 'url', 'video'
+                    Meteor.call 'call_watson', doc_id, 'url', 'video', ->
                 else if rd.is_image
                     console.log 'pulling image comments watson'
-                    Meteor.call 'call_watson', doc_id, 'url', 'image'
+                    Meteor.call 'call_watson', doc_id, 'url', 'image', ->
                 else
                     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                    Meteor.call 'call_watson', doc_id, 'url', 'image', ->
 
                 # if rd.selftext
                 #     unless rd.is_video

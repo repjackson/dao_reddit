@@ -1,8 +1,5 @@
 @selected_tags = new ReactiveArray []
 
-Accounts.ui.config
-    passwordSignupFields: 'USERNAME_ONLY'
-
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
     # console.log typeof parseFloat(@relevance)
@@ -67,15 +64,15 @@ Template.registerHelper 'loading_class', ()->
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
-Router.route '/', (->
-    @layout 'layout'
-    @render 'home'
-    ), name:'home'
-
-
 
 Template.home.onCreated ->
-    @autorun => @subscribe 'results', selected_tags.array(), Session.get('current_query'), Session.get('dummy')
+    @autorun => @subscribe 'results',
+        selected_tags.array(),
+        Session.get('current_query'),
+        Session.get('dummy')
+        Session.get('view_images')
+        Session.get('view_videos')
+        Session.get('view_articles')
     @autorun => @subscribe 'docs',
         selected_tags.array()
 
@@ -92,11 +89,16 @@ Template.body.events
             $('#search').blur()
 
 Template.home.events
-    'click .toggle_dark': ->
-        Meteor.users.update Meteor.userId(),
-            $set: dark_mode: !Meteor.user().dark_mode
-    'click .toggle_menu': ->
-        Session.set('view_menu', !Session.get('view_menu'))
+    # 'click .toggle_dark': ->
+    #     Meteor.users.update Meteor.userId(),
+    #         $set: dark_mode: !Meteor.user().dark_mode
+    # 'click .toggle_menu': ->
+    #     Session.set('view_menu', !Session.get('view_menu'))
+    'click .toggle_images': -> Session.set('view_images', !Session.get('view_images'))
+    'click .toggle_videos': -> Session.set('view_videos', !Session.get('view_videos'))
+    'click .toggle_articles': -> Session.set('view_articles', !Session.get('view_articles'))
+
+
     'click .result': (event,template)->
         # console.log @
         Meteor.call 'log_term', @title, ->
@@ -107,13 +109,16 @@ Template.home.events
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
-        , 8000
+        , 10000
     'click .select_query': -> queries.push @title
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
         # console.log selected_tags.array()
         if selected_tags.array().length > 0
             Meteor.call 'search_reddit', selected_tags.array(), ->
+
+    'click .refresh_tags': ->
+        Session.set('dummy', !Session.get('dummy'))
 
     'click .clear_selected_tags': ->
         Session.set('current_query',null)
@@ -129,14 +134,14 @@ Template.home.events
                 selected_tags.push search
                 # console.log 'search', search
                 Meteor.call 'search_reddit', selected_tags.array(), ->
-                Meteor.call 'log_term', search, ->
+                # Meteor.call 'log_term', search, ->
                 $('#search').val('')
                 Session.set('current_query', null)
                 # $('#search').val('').blur()
                 # $( "p" ).blur();
-                # Meteor.setTimeout ->
-                #     Session.set('sort_up', !Session.get('sort_up'))
-                # , 4000
+                Meteor.setTimeout ->
+                    Session.set('dummy', !Session.get('dummy'))
+                , 10000
     , 1000)
 
     'click .calc_doc_count': ->
@@ -147,22 +152,26 @@ Template.home.events
         # Meteor.call 'get_reddit_post', (@_id)->
 
 
-    'keydown #search': _.throttle((e,t)->
-        if e.which is 8
-            search = $('#search').val()
-            if search.length is 0
-                last_val = selected_tags.array().slice(-1)
-                console.log last_val
-                $('#search').val(last_val)
-                selected_tags.pop()
-                Meteor.call 'search_reddit', selected_tags.array(), ->
-    , 1000)
+    # 'keydown #search': _.throttle((e,t)->
+    #     if e.which is 8
+    #         search = $('#search').val()
+    #         if search.length is 0
+    #             last_val = selected_tags.array().slice(-1)
+    #             console.log last_val
+    #             $('#search').val(last_val)
+    #             selected_tags.pop()
+    #             Meteor.call 'search_reddit', selected_tags.array(), ->
+    # , 1000)
 
     'click .reconnect': ->
         Meteor.reconnect()
 
 
 Template.home.helpers
+    view_images_class: -> if Session.get('view_images') then 'white' else 'grey'
+    view_videos_class: -> if Session.get('view_videos') then 'white' else 'grey'
+    view_articles_class: -> if Session.get('view_articles') then 'white' else 'grey'
+    view_tweets_class: -> if Session.get('view_tweets') then 'white' else 'grey'
     subs_ready: -> Template.instance().subscriptionsReady()
     connection: ->
         console.log Meteor.status()
@@ -203,17 +212,38 @@ Template.home.helpers
                 # model:'reddit'
             },
                 sort: ups:-1
+                # limit:1
 
 
 
+Template.post.onCreated ->
+    @view_more = new ReactiveVar(false)
 Template.post.events
+    'click .collapse': (e,t)->
+        t.view_more.set(false)
+    'click .expand': (e,t)->
+        t.view_more.set(true)
+    'click .toggle_tag': ->
+        # console.log @
+        if @valueOf() in selected_tags.array()
+            selected_tags.remove(@valueOf())
+        else
+            selected_tags.push(@valueOf())
     'click .call_watson': ->
-        Meteor.call 'call_watson', @_id, 'url', 'url'
+        Meteor.call 'call_watson', @_id, 'url', 'url', ->
     'click .call_watson_image': ->
-        Meteor.call 'call_watson', @_id, 'url', 'image'
+        Meteor.call 'call_watson', @_id, 'url', 'image', ->
+    'click .pull_tone': ->
+        Meteor.call 'call_tone', @_id, 'url', 'text', ->
     'click .print_me': ->
         console.log @
+    'click .toggle_more': (e,t)->
+        t.view_more.set(!t.view_more.get())
 Template.post.helpers
+    post_tag_class: ->
+        if @valueOf() in selected_tags.array() then 'active' else ''
+    view_more: ->
+        Template.instance().view_more.get()
     has_thumbnail: ->
         # console.log @thumbnail
         @thumbnail not in ['self','default']

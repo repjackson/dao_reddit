@@ -25,13 +25,23 @@ Meteor.publish 'me', ()->
         Meteor.users.find Meteor.userId()
     else
         []
-Meteor.publish 'results', (selected_tags, query, dummy)->
+Meteor.publish 'results', (selected_tags,
+    query,
+    dummy
+    view_images
+    view_videos
+    view_articles
+    )->
     console.log 'dummy', dummy
     console.log 'query', query
     console.log 'selected tags', selected_tags
 
     self = @
     match = {}
+    if view_images
+        match.is_image = $ne:false
+    if view_videos
+        match.is_video = $ne:false
     # if selected_tags.length > 0 then match.tags = $all: selected_tags
         # match.$regex:"#{current_query}", $options: 'i'}
     if query and query.length > 1
@@ -41,8 +51,9 @@ Meteor.publish 'results', (selected_tags, query, dummy)->
     #
         Terms.find {
             title: {$regex:"#{query}", $options: 'i'}
-        }, limit: 20
-
+        },
+            sort: count: 1
+            limit: 20
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
@@ -59,7 +70,7 @@ Meteor.publish 'results', (selected_tags, query, dummy)->
         # unless query and query.length > 2
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         # match.tags = $all: selected_tags
-        # console.log 'match for tags', match
+        console.log 'match for tags', match
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -68,7 +79,7 @@ Meteor.publish 'results', (selected_tags, query, dummy)->
             { $match: _id: $nin: selected_tags }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 30 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
 

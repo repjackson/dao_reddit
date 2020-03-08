@@ -211,90 +211,92 @@ Meteor.methods
                 keyword_array = _.pluck(response.keywords, 'text')
                 lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
 
-
-                Docs.update { _id: doc_id },
-                    $set:
-                        body:response.analyzed_text
-                #         watson: response
-                #         sadness_percent: sadness_percent
-                #         joy_percent: joy_percent
-                #         fear_percent: fear_percent
-                #         anger_percent: anger_percent
-                #         disgust_percent: disgust_percent
-                #         watson_concepts: concept_array
-                #         watson_keywords: keyword_array
-                #         doc_sentiment_score: response.sentiment.document.score
-                #         doc_sentiment_label: response.sentiment.document.label
+                if mode is 'url'
+                    Docs.update { _id: doc_id },
+                        $set:
+                            body:response.analyzed_text
+                    #         watson: response
+                    #         sadness_percent: sadness_percent
+                    #         joy_percent: joy_percent
+                    #         fear_percent: fear_percent
+                    #         anger_percent: anger_percent
+                    #         disgust_percent: disgust_percent
+                    #         watson_concepts: concept_array
+                    #         watson_keywords: keyword_array
+                    #         doc_sentiment_score: response.sentiment.document.score
+                    #         doc_sentiment_label: response.sentiment.document.label
+                keywords_concepts = lowered_keywords.concat lowered_keywords
+                # Docs.update { _id: doc_id },
+                #     $addToSet:
+                #         tags:$each:lowered_concepts
                 Docs.update { _id: doc_id },
                     $addToSet:
-                        tags:$each:lowered_concepts
-                Docs.update { _id: doc_id },
-                    $addToSet:
-                        tags:$each:lowered_keywords
+                        tags:$each:keywords_concepts
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
-                if mode is 'url'
-                    Meteor.call 'call_tone', doc_id, 'body', 'text', ->
+                # if mode is 'url'
+                #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
                 Meteor.call 'log_doc_terms', doc_id, ->
+                Meteor.call 'clear_blacklist_doc', doc_id, ->
                 if Meteor.isDevelopment
                     console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )
 
 
-    analyze_entities: (doc_id, key) ->
-        console.log 'analyzing entities'
-        self = @
-        # console.log doc_id
-        # console.log key
-        # console.log mode
-        doc = Docs.findOne doc_id
-        # console.log 'value', doc["#{key}"]
-        # console.log 'analyzing', doc.title, 'tags', doc.tags
-
-        if doc.body
-            parameters =
-                text: doc.body
-                features:
-                    entities:
-                        emotion: false
-                        sentiment: false
-                        mentions: false
-                        # limit: 2
-
-            natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) ->
-                if err
-                    # console.log 'watson error for', parameters.url
-                    console.log err
-                    unless err.code is 403
-                        Docs.update doc_id,
-                            $set:skip_watson:false
-                        console.log 'not html, flaggged doc for future skip', parameters.url
-                    else
-                        console.log '403 error api key'
-                else
-                    # console.log 'analy text', response.analyzed_text
-                    # console.log(JSON.stringify(response, null, 2));
-                    # console.log 'adding watson info', doc.title
-                    response = response.result
-                    # emotions = response.emotion.document.emotion
-
-                    adding_tags = []
-                    if response.entities and response.entities.length > 0
-                        for entity in response.entities
-                            # console.log entity.type, entity.text
-                            Docs.update { _id: doc_id },
-                                $set:
-                                    watson: response
-                                $addToSet:
-                                    "#{entity.type}":entity.text
-                                    tags:entity.text.toLowerCase()
-                    final_doc = Docs.findOne doc_id
-                    console.log 'analyzed entities', doc.watson.entities
-                    # if Meteor.isDevelopment
-                        # console.log 'all tags', final_doc.tags
-                        # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
-            )
-
-        else
-            console.log 'no body found'
+    # analyze_entities: (doc_id, key) ->
+    #     console.log 'analyzing entities'
+    #     self = @
+    #     # console.log doc_id
+    #     # console.log key
+    #     # console.log mode
+    #     doc = Docs.findOne doc_id
+    #     # console.log 'value', doc["#{key}"]
+    #     # console.log 'analyzing', doc.title, 'tags', doc.tags
+    #
+    #     if doc.body
+    #         parameters =
+    #             text: doc.body
+    #             features:
+    #                 entities:
+    #                     emotion: false
+    #                     sentiment: false
+    #                     mentions: false
+    #                     # limit: 2
+    #
+    #         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) ->
+    #             if err
+    #                 # console.log 'watson error for', parameters.url
+    #                 console.log err
+    #                 unless err.code is 403
+    #                     Docs.update doc_id,
+    #                         $set:skip_watson:false
+    #                     console.log 'not html, flaggged doc for future skip', parameters.url
+    #                 else
+    #                     console.log '403 error api key'
+    #             else
+    #                 # console.log 'analy text', response.analyzed_text
+    #                 # console.log(JSON.stringify(response, null, 2));
+    #                 # console.log 'adding watson info', doc.title
+    #                 response = response.result
+    #                 # emotions = response.emotion.document.emotion
+    #
+    #                 adding_tags = []
+    #                 if response.entities and response.entities.length > 0
+    #                     for entity in response.entities
+    #                         # console.log entity.type, entity.text
+    #                         Docs.update { _id: doc_id },
+    #                             $set:
+    #                                 watson: response
+    #                             $addToSet:
+    #                                 "#{entity.type}":entity.text
+    #                                 tags:entity.text.toLowerCase()
+    #                 final_doc = Docs.findOne doc_id
+    #                 console.log 'analyzed entities', doc.watson.entities
+    #                 # if Meteor.isDevelopment
+    #                     # console.log 'all tags', final_doc.tags
+    #                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
+    #         )
+    #
+    #     else
+    #         console.log 'no body found'
