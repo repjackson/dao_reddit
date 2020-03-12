@@ -33,6 +33,8 @@
     'bit'
     'moderators of this subreddit'
     'main article'
+    'facebook pages'
+    'personal attacks'
     'lot'
     'list'
     'blocklist'

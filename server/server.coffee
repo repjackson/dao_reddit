@@ -1,7 +1,8 @@
 Docs.allow
-    insert: (userId, doc) -> false
-    update: (userId, doc) -> false
-    remove: (userId, doc) -> false
+    insert: (userId, doc) -> true
+    update: (userId, doc) -> true
+    # userId is doc._author_id
+    remove: (userId, doc) -> userId is doc._author_id
 
 Meteor.users.allow
     insert: (user_id, doc, fields, modifier) ->
@@ -20,11 +21,18 @@ Meteor.users.allow
         # if userId and doc._id == userId
         #     true
 
-Meteor.publish 'me', ()->
-    if Meteor.user()
-        Meteor.users.find Meteor.userId()
-    else
-        []
+# Meteor.publish 'me', ()->
+#     if Meteor.user()
+#         Meteor.users.find Meteor.userId()
+#     else
+#         []
+#
+
+Meteor.publish 'current_doc ', (doc_id)->
+    console.log 'pulling doc'
+    Docs.find doc_id
+
+
 Meteor.publish 'results', (selected_tags,
     query
     dummy
@@ -38,6 +46,7 @@ Meteor.publish 'results', (selected_tags,
 
     self = @
     match = {}
+    match.model = 'reddit'
     # if view_images
     #     match.is_image = $ne:false
     # if view_videos
@@ -80,7 +89,7 @@ Meteor.publish 'results', (selected_tags,
             { $match: _id: $nin: selected_tags }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true

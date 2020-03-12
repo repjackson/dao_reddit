@@ -1,0 +1,10 @@
+template(name='stats')
+    .ui.stackable.padded.grid
+        .ui.sixteen.wide.column
+            .ui.header.calc_site_stats stats
+            .ui.header #{ssd.total_user_count} total users
+            .ui.header #{ssd.total_doc_count} total docs
+            .ui.header #{ssd.total_term_count} total terms
+            .ui.header users
+            each users
+                .ui.small.header #{username}, #{karma}

@@ -1,0 +1,36 @@
+template(name='admin')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.header 
+                    |admin
+                +call_method name='calculate_model_doc_count'
+        .two.column.row
+            .column
+                .ui.header 
+                    |withdrawals
+                each withdrawals
+                    .item
+                        .ui.header #{when} for #{amount} credit
+                        |status: #{status}
+                        .ui.button.cancel_withdrawal
+                            i.ban.icon
+                            |cancel
+                        +author_info
+            .column
+                .ui.header 
+                    |payments
+                .largescroll
+                    each payments
+                        .item
+                            .ui.header #{sender_username} to #{recipient_username} #{when} for #{amount} credit
+                            +author_info
+                        
+            .column
+                +my_latest_activity
+                +latest_activity
+
+
+template(name='call_method')
+    .ui.button.call_method
+        |#{name}

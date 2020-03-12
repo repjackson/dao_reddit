@@ -1,7 +1,7 @@
 @selected_tags = new ReactiveArray []
 
-Accounts.ui.config
-    passwordSignupFields: 'USERNAME_ONLY'
+# Accounts.ui.config
+#     passwordSignupFields: 'USERNAME_ONLY'
 
 Router.route '/', (->
     @layout 'layout'
@@ -46,6 +46,28 @@ Template.registerHelper 'calc_size', (metric) ->
 
 
 
+Template.registerHelper 'cd', () ->
+    console.log 'looking for cd', Router.current().params.doc_id
+    # Meteor.users.findOne username:Router.current().params.username
+    Docs.findOne Router.current().params.doc_id
+
+
+
+Template.registerHelper 'current_user', () ->
+    # Meteor.users.findOne username:Router.current().params.username
+    Meteor.users.findOne Router.current().params.user_id
+Template.registerHelper 'is_current_user', () ->
+    if Meteor.user()
+        # if Meteor.user().username is Router.current().params.username
+        if Meteor.userId() is Router.current().params.user_id
+            true
+    else
+        if Meteor.user().roles and 'dev' in Meteor.user().roles
+            true
+        else
+            false
+
+
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
@@ -72,6 +94,9 @@ Template.registerHelper 'loading_class', ()->
 # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
+
+Template.registerHelper 'is_eric', ()-> if Meteor.userId() and Meteor.userId() in ['K77p8B9jpXbTz6nfD'] then true else false
+Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 
 Template.home.onCreated ->

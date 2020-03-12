@@ -1,0 +1,14 @@
+template(name='calendar')
+    .ui.stackable.padded.grid
+        .one.column.row
+            .column
+                .ui.center.aligned.header 
+                    i.calendar.icon
+                    |calendar
+        .row 
+            .twelve.wide.column
+                each events
+                    .ui.header #{product.title}
+            .four.wide.column
+                .ui.segment 
+                    .ui.small.header cart item count

@@ -28,12 +28,10 @@ underscore@1.0.10
 coffeescript
 fourseven:scss
 http@1.4.2
-jquery
 ecmascript
 modules
 reactive-var
-mdg:meteor-apm-agent
-accounts-ui
 accounts-password
 zimme:active-route
 reywood:publish-composite
+flowkey:hotkeys

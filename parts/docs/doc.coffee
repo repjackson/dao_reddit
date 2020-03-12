@@ -2,8 +2,7 @@ if Meteor.isClient
     Template.post.onCreated ->
         @view_more = new ReactiveVar(false)
     Template.post.events
-        'click .collapse': (e,t)->
-            t.view_more.set(false)
+        'click .collapse': (e,t)-> t.view_more.set(false)
         'click .expand': (e,t)->
             unless @tone
                 Meteor.call 'call_tone', @_id, 'url', 'text', ->
@@ -15,7 +14,6 @@ if Meteor.isClient
             else
                 Meteor.call 'call_wiki', @valueOf(), ->
                 selected_tags.push(@valueOf())
-
         'click .call_watson': ->
             Meteor.call 'call_watson', @_id, 'url', 'url', ->
         'click .call_watson_image': ->
@@ -43,8 +41,6 @@ if Meteor.isClient
         two_tone: ->
             if @tone
                 @tone.result.sentences_tone[..1]
-
-
 
 
 

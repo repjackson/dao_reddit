@@ -19,23 +19,7 @@ template(name='user_card')
         .content
             a.ui.header(href="/user/#{_id}") #{username}
             .ui.list
-                .item #{site_percent_complete} site % complete
-                .item #{global_section_average} section average
-                .item #{session_count} sessions
-            .ui.horizontal.list
-                .item(title='reading')
-                    i.book.open.icon
-                    |#{reading_average}%
-                .item(title='english')
-                    i.pencil.icon
-                    |#{english_average}%
-                .item(title='math')
-                    i.calculator.icon
-                    |#{math_average}%
-                .item
-                    i.flask.icon 
-                    | #{science_average}%
-
-            a.ui.fluid.button(href="/user/#{_id}")
-                |view
+                .item #{karma} karma
+            a.ui.fluid.circular.button(href="/user/#{_id}")
+                //- |view
                 i.chevron.right.icon

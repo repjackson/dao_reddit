@@ -14,8 +14,8 @@ Router.configure
 
 Docs.before.insert (userId, doc)->
     if Meteor.user()
-        doc.author_id = Meteor.userId()
-        doc.author_username = Meteor.user().username
+        doc._author_id = Meteor.userId()
+        doc._author_username = Meteor.user().username
     timestamp = Date.now()
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
@@ -41,8 +41,8 @@ Docs.before.insert (userId, doc)->
 
 Terms.before.insert (userId, doc)->
     if Meteor.user()
-        doc.author_id = Meteor.userId()
-        doc.author_username = Meteor.user().username
+        doc._author_id = Meteor.userId()
+        doc._author_username = Meteor.user().username
     timestamp = Date.now()
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")

@@ -1,0 +1,30 @@
+template(name='session_edit_button')
+    if currentUser
+        if is_editing
+            .save_doc.ui.icon.large.button(class=button_classes)
+                i.check.icon
+                //- |save
+        else
+            .edit_this.ui.small.button(title="edit #{tags}" class=button_classes)
+                i.pencil.icon
+                |edit
+
+
+template(name='detect')
+    .ui.icon.button.detect_fields(title='detect fields')
+        i.dna.icon
+        //- |Detect Fields
+
+
+template(name='session_edit_icon')
+    if currentUser
+        unless is_editing
+            i.pencil.link.icon.edit_this(title=tags class=button_classes)
+        else
+            .save_doc.ui.icon.button(class=button_classes title='save')
+                i.check.icon
+
+template(name='edit_button')
+    a.ui.icon.compact.basic.button(href="/m/#{model}/#{_id}/edit" title='edit')
+        i.pencil.icon
+        

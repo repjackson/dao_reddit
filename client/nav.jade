@@ -1,20 +1,26 @@
 template(name='nav')
     .ui.attached.fluid.borderless.menu
         a.icon.item(href="/")
-            unless subs_ready 
+            //- unless subs_ready 
                 i.yin.yang.loading.large.grey.icon(title='dao')
-            else 
-                i.large.yin.yang.link.icon.toggle_menu
+            //- else 
+            i.large.yin.yang.link.icon.toggle_menu
+        a.icon.item.mobile.hidden(href='/users' title='users')
+            i.users.icon
+        a.icon.item(href='/grid' title='apps')
+            i.th.icon
+        a.icon.item.mobile.hidden(href='/cart' title='shopping cart')
+            i.shopping.cart.icon
         .right.menu
             a.mobile.hidden.icon.item(href='/events' class="{{isActivePath '/events'}}" title='events') 
                 i.calendar.icon
-            a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat') 
+            a.icon.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat') 
                 i.chat.outline.icon
-            a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}" title='alerts') 
-                //- i.bell.icon(class=alert_icon_class)
-                i.rss.icon
+            a.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}" title='alerts') 
+                i.bell.icon(class=alert_icon_class)
+                //- i.rss.icon
             
-            a.icon.item(href="/stats")
+            a.icon.item.mobile.hidden(href="/stats")
                 i.line.chart.icon
             if currentUser
                 a.item(href="/user/#{currentUser._id}/karma")
@@ -24,5 +30,142 @@ template(name='nav')
                     i.user.icon
                     |#{currentUser.username}
             else 
-                a.icon.item(href="/login")
+                a.item(href="/login")
                     i.sign.in.alternate.icon
+                    |login
+
+
+
+
+template(name='footer')
+    .ui.stackable.padded.grid.basic.segment
+        .row
+            .four.wide.column
+                .ui.link.large.list
+                    a.item(href='/p/about')
+                        | what is dao?
+                    //- a.item(href='/prime')
+                    //-     | forest prime
+                    a.item(href="/p/terms") 
+                        | terms of service
+                    a.item(href="/p/privacy") 
+                        | privacy policy
+                    //- a.item(href='/sponsor') 
+                    //-     | sponsor
+                    //- a.item(href='/p/team') 
+                    //-     | join our team
+                    //- a.item(href='/p/about')
+                    //-     | about
+                    //- a.item(href='/contact')
+                    //-     | contact
+            .four.wide.column
+                .ui.link.large.list
+                    a.item(href='/blog')
+                        i.blog.icon
+                        | blog
+                    a.item(href='/m/model' class="{{isActivePath '/m/model'}}")
+                        i.database.icon
+                        |models
+                    a.icon.item(href='/events' class="{{isActivePath '/events'}}")
+                        i.calendar.icon
+                        |events
+                    a.icon.item(href='/chat' class="{{isActivePath '/chat'}}")
+                        i.chat.outline.icon
+                        |chat
+                    a.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}")
+                        //- i.bell.icon(class=alert_icon_class)
+                        i.rss.icon
+                        |alerts
+            .four.wide.column
+                //- if is_admin
+                if currentUser
+                    .ui.link.large.list
+                        a.item(href='/users')
+                            i.users.icon
+                            | users
+                        a.item(href='/stats')
+                            i.line.chart.icon
+                            | stats
+                unless currentUser
+                    .ui.link.large.list
+                        a.item(href='/login')
+                            |login
+
+                +footer_chat
+                if is_admin
+                    with currentUser
+                        +role_switcher
+            .four.wide.column
+                +bug_reporter 
+                .ui.grey.small.header    
+                    i.copyright.outline.icon 
+                    |2020 DAO
+            //- 
+template(name='footer_chat')
+    .ui.grey.header 
+        i.chat.outline.small.icon
+        |chat
+    .ui.list.scroll
+        each chat_messages
+            .item(title="by #{author.name} #{when}")
+                if author
+                    img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                |#{text}
+                //- small #{when}
+                if is_author
+                    span
+                        i.remove.link.icon.remove_message
+    .ui.bottom.attached.fluid.icon.transparent.input
+        i.plus.icon
+        input.new_footer_chat_message(type='text' placeholder='add message')
+
+
+template(name='bug_reporter')
+    a.ui.small.grey.header.start_report(href="#")
+        i.bug.small.icon
+        |report bug
+    if reporting_bug
+        with new_bug
+            |#{pathname}
+            +text_edit key='text' direct=true
+            .ui.icon.fluid.button.submit_report
+                i.checkmark.icon
+            .ui.small.icon.button.cancel_bug
+                i.remove.icon
+
+
+
+
+template(name='my_latest_activity')
+    .ui.grey.header 
+        i.grey.rss.icon
+        |your activity
+    .ui.list
+        each my_latest_activity
+            .item 
+                img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                |#{text} #{body}
+                small #{when}
+
+
+
+template(name='role_switcher')
+    .ui.inline.center.aligned.small.grey.header 
+        |#{username} role switcher
+    //- if is_eric
+    //-     +multi_doc key='roles' label='roles' ref_model='role' direct=true
+    //-     div
+        //- +user_array_element_toggle key='roles' value='dev' user=currentUser
+    //- if current_user
+    //-     with current_user
+    //- else if currentUser
+    //-     with currentUser
+    //- +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+    //- if is_admin
+        //- +multi_doc_edit key='current_roles' label='current roles' ref_model='role' direct=true
+    //- +user_array_element_toggle key='current_roles' value='admin' user=currentUser
+    //- +user_array_element_toggle key='current_roles' value='student' user=currentUser
+    //- +user_array_element_toggle key='current_roles' value='staff' user=currentUser
+    +user_array_element_toggle key='roles' value='student' user=currentUser
+    +user_array_element_toggle key='roles' value='teacher' user=currentUser
+    +user_array_element_toggle key='roles' value='parent' user=currentUser
