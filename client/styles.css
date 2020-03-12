@@ -8,6 +8,8 @@ body {
     /* background: rgba(0,0,0,.05) !important; */
     background: rgba(0,0,0,.85) !important;
     filter: invert(.9) !important;
+    overscroll-behavior: none;
+    transition: all 1s !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -16,6 +18,11 @@ body {
     font-size: 120%;
     line-height: 150%;
 }
+
+.home {
+    overscroll-behavior: none;
+}
+
 
 .rounded {
     border-radius: : 10px !important;
@@ -90,11 +97,11 @@ input {
 ::-webkit-scrollbar-thumb:hover {
   background: darkgrey !important;
 }
-.largescroll{
+.scrolling{
 	overflow-y:scroll;
 	overflow-x:hidden;
-	max-height:100vh;
-	padding-top: .2em;
+	max-height:80vh;
+	/* padding-top: .2em; */
 	/*padding-left: 1em;*/
 }
 
@@ -216,7 +223,7 @@ input {
 }
 
 
-.largescroll::-webkit-scrollbar {
+.scrolling::-webkit-scrollbar {
     width: 10px;
 }
 

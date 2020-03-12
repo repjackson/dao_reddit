@@ -2,6 +2,15 @@
 @Tags = new Meteor.Collection 'tags'
 @Terms = new Meteor.Collection 'terms'
 
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'not_found'
+    loadingTemplate: 'splash'
+    trackPageView: false
+
+
+
+
 
 Docs.before.insert (userId, doc)->
     if Meteor.user()

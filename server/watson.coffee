@@ -19,25 +19,6 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 
 
 Meteor.methods
-    # call_wiki: (query)->
-    #     console.log 'calling wiki', query
-    #     term = query.split(' ').join('_')
-    #     found_doc =
-    #         Docs.findOne
-    #             url: "https://en.wikipedia.org/wiki/#{term}"
-    #     if found_doc
-    #         console.log 'found wiki doc for term', term, found_doc
-    #         Docs.update found_doc._id,
-    #             $addToSet:tags:'wikipedia'
-    #         Meteor.call 'call_watson', found_doc._id, 'url','url', ->
-    #     else
-    #         new_wiki_id = Docs.insert
-    #             title: "wikipedia: #{query}"
-    #             tags:['wikipedia', query]
-    #             url:"https://en.wikipedia.org/wiki/#{term}"
-    #         Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
-
-
     call_tone: (doc_id, key, mode)->
         self = @
         doc = Docs.findOne doc_id
@@ -90,9 +71,9 @@ Meteor.methods
     call_watson: (doc_id, key, mode) ->
         # console.log 'calling watson'
         self = @
-        console.log doc_id
-        console.log key
-        console.log mode
+        # console.log doc_id
+        # console.log key
+        # console.log mode
         doc = Docs.findOne doc_id
         # console.log 'value', doc["#{key}"]
         # if doc.skip_watson is false
@@ -136,12 +117,12 @@ Meteor.methods
                 parameters.url = "https://www.reddit.com#{doc.permalink}"
                 parameters.returnAnalyzedText = false
                 parameters.clean = false
-                console.log 'calling video'
+                # console.log 'calling video'
             when 'image'
                 parameters.url = "https://www.reddit.com#{doc.permalink}"
                 parameters.returnAnalyzedText = false
                 parameters.clean = false
-                console.log 'calling image'
+                # console.log 'calling image'
 
         # console.log 'parameters', parameters
 
@@ -161,6 +142,7 @@ Meteor.methods
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 response = response.result
+                # console.log response
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
@@ -215,7 +197,7 @@ Meteor.methods
                     Docs.update { _id: doc_id },
                         $set:
                             body:response.analyzed_text
-                    #         watson: response
+                            watson: response
                     #         sadness_percent: sadness_percent
                     #         joy_percent: joy_percent
                     #         fear_percent: fear_percent
@@ -236,10 +218,10 @@ Meteor.methods
                 # console.log final_doc
                 # if mode is 'url'
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-                Meteor.call 'log_doc_terms', doc_id, ->
-                Meteor.call 'clear_blacklist_doc', doc_id, ->
-                if Meteor.isDevelopment
-                    console.log 'all tags', final_doc.tags
+                # Meteor.call 'log_doc_terms', doc_id, ->
+                Meteor.call 'clear_blocklist_doc', doc_id, ->
+                # if Meteor.isDevelopment
+                #     console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )
 

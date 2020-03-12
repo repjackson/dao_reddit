@@ -20,18 +20,44 @@ head
         gtag('js', new Date());
         gtag('config', 'UA-156965333-1');
 
-body
-    +home
+
+template(name='layout')
+    +nav
+    #main
+        +yield
+    +footer
+
+
+
+template(name='not_found')
+    .ui.basic.center.aligned.padded.segment
+        .ui.center.aligned.header page not found
+
+
+
+
 
 template(name='home')
-    .ui.stackable.padded.grid(class=invert_class)
+    .ui.stackable.grid.home(class=invert_class)
         .centered.row 
-            .sixteen.wide.center.aligned.column
+            .sixteen.wide.column
                 //- .ui.header #{connection.status}
                 unless connected
-                    .ui.inline.header not connected
+                    .ui.inline.header disconnected
                     .ui.red.basic.circular.button.reconnect reconnect
-                if selected_tags
+                //- else 
+                //-     i.image.circular.link.icon.toggle_images(title='toggle images' class=view_images_class)
+                //-     i.video.circular.link.icon.toggle_videos(title='toggle video' class=view_videos_class)
+                //-     i.twitter.circular.link.icon.toggle_tweets(title='toggle tweets' class=view_tweets_class)
+                //-     i.list.circular.link.icon.toggle_articles(title='toggle articles' class=view_articles_class)
+                .ui.left.icon.large.search.input
+                    if subs_ready
+                        i.search.icon.refresh_tags
+                    else
+                        i.yin.yang.loading.large.icon
+                    input#search.prompt(type='text' autofocus='' autocomplete="off")
+
+                if selected_tags_plural
                     .ui.icon.circular.big.black.compact.button.clear_selected_tags
                         i.remove.icon
                 each selected_tags
@@ -41,12 +67,6 @@ template(name='home')
                 //- if subs_ready
                 //-     i.yin.yang.grey.big.grey.icon(title='dao')
                 //- div
-                .ui.left.icon.large.search.input
-                    if subs_ready
-                        i.search.icon.refresh_tags
-                    else
-                        i.yin.yang.loading.large.icon
-                    input#search.prompt(type='text' autofocus='' autocomplete="off")
                 //- .spacer
                 //- if selected_tags
                 //-     .ui.black.icon.large.compact.circular.button.clear_selected_tags(title='clear search')
@@ -56,46 +76,45 @@ template(name='home')
                     button.ui.basic.circular.compact.big.button.result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
                 //- .ui.divider
-            .twelve.wide.center.aligned.column
-                i.large.image.circular.link.icon.toggle_images(title='toggle images' class=view_images_class)
-                i.large.video.circular.link.icon.toggle_videos(title='toggle video' class=view_videos_class)
-                i.large.twitter.circular.link.icon.toggle_tweets(title='toggle tweets' class=view_tweets_class)
-                i.large.list.circular.link.icon.toggle_articles(title='toggle articles' class=view_articles_class)
         //- if one_post
-        if subs_ready
-            .centered.row 
-                .sixteen.wide.column
-                    
-                    .ui.divided.items
-                        each posts
-                            +post
-
+        
+        //- if subs_ready
+        //- .centered.row.scrolling
+        .centered.row
+            .sixteen.wide.column
+                .ui.items
+                    each posts
+                        +post
+                        .ui.hidden.divider
 
 
 
 template(name='post')
     .item 
         if has_thumbnail
-            .image.rounded
+            a.small.image.rounded.toggle_more
                 img(src=thumbnail)
         .content        
             .header
                 if title 
-                    a.ui.grey.small.header.toggle_more(title=ups) !{title}
+                    a.ui.grey.small.inline.header.toggle_more(title="#{ups} upvotes") !{title}
                 else if watson.metadata.title 
-                    a.ui.grey.small.header.toggle_more(title=ups) !{watson.metadata.title}
+                    a.ui.grey.small.inline.header.toggle_more(title="#{ups} upvotes") !{watson.metadata.title}
+                if is_video 
+                    i.video.grey.icon
                 //- if view_more
                 //-     i.chevron.down.grey.icon
                 //- else     
                 //-     i.chevron.right.grey.icon    
-            .meta
-                .ui.small.inline.grey.header 
-                    i.tags.small.icon
-                    |#{tags.length}
+                //- .meta
+                //- if dev
+                //-     .ui.small.inline.grey.header 
+                //-         i.tags.small.icon
+                //-         |#{tags.length}
 
-                a.ui.compact.circular.button(href=url target='_window')
+                a.ui.compact.circular.icon.basic.grey.button(href=url target='_window' title="goto #{url}")
                     i.external.icon
-                    |goto link
+                    //- |goto link
                 //- span.ui.grey.text #{domain}
                 //- if is_video
                 //-     i.video.large.icon
@@ -119,7 +138,7 @@ template(name='post')
                 //- if dev
             if view_more
                 //- if is_image
-                img.ui.image(src=url)
+                img.ui.image.collapse(src=url)
                 //- if view_more
                 
                 if tone 
@@ -127,10 +146,10 @@ template(name='post')
                         each tone.result.sentences_tone
                             .item
                                 //- span #{sentence_id}
-                                span.large120.pointer.collapse(title="#{sentence_id}") #{text}                
-                else    
-                    .ui.circular.compact.large.icon.button.pull_tone
-                        i.download.icon
+                                span.large120.pointer.collapse #{text}                
+                //- else    
+                .ui.circular.compact.large.icon.button.pull_tone
+                    i.download.icon
                 .ui.circular.compact.button.call_watson 
                     i.chess.icon
                     |tag url
@@ -143,13 +162,13 @@ template(name='post')
                 i.refresh.circular.link.icon.calc_post
                 
                 each tags
-                    .ui.circular.small.basic.compact.button.toggle_tag(class=post_tag_class)
+                    .ui.circular.basic.compact.button.toggle_tag(class=post_tag_class)
                         |#{this}
             else 
                 if tone 
-                    each first_three_tones
+                    each two_tone
                         .item
-                            .pointer.large120.expand(title="#{sentence_id}") #{text}
+                            span.ui.grey.text.pointer.large120.expand #{text}
                             //- each tones
                             //-     .ui.basic.large.label(class="{{calculated_size 'score'}}") &nbsp; #{tone_id} {{ to_percent score }}% 
                 
@@ -158,3 +177,6 @@ template(name='post')
             //-     .ui.basic.segment
             //-         |!{body}
         
+
+
+template(name='footer')

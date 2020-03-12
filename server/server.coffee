@@ -26,22 +26,22 @@ Meteor.publish 'me', ()->
     else
         []
 Meteor.publish 'results', (selected_tags,
-    query,
+    query
     dummy
     view_images
     view_videos
     view_articles
     )->
-    console.log 'dummy', dummy
-    console.log 'query', query
-    console.log 'selected tags', selected_tags
+    # console.log 'dummy', dummy
+    # console.log 'query', query
+    # console.log 'selected tags', selected_tags
 
     self = @
     match = {}
-    if view_images
-        match.is_image = $ne:false
-    if view_videos
-        match.is_video = $ne:false
+    # if view_images
+    #     match.is_image = $ne:false
+    # if view_videos
+    #     match.is_video = $ne:false
     # if selected_tags.length > 0 then match.tags = $all: selected_tags
         # match.$regex:"#{current_query}", $options: 'i'}
     if query and query.length > 1
@@ -52,7 +52,8 @@ Meteor.publish 'results', (selected_tags,
         Terms.find {
             title: {$regex:"#{query}", $options: 'i'}
         },
-            sort: count: 1
+            sort:
+                count: -1
             limit: 20
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
@@ -70,7 +71,7 @@ Meteor.publish 'results', (selected_tags,
         # unless query and query.length > 2
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         # match.tags = $all: selected_tags
-        console.log 'match for tags', match
+        # console.log 'match for tags', match
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -79,9 +80,11 @@ Meteor.publish 'results', (selected_tags,
             { $match: _id: $nin: selected_tags }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 30 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
-            ]
+        ], {
+            allowDiskUse: true
+        }
 
         tag_cloud.forEach (tag, i) =>
             # console.log 'queried tag ', tag
@@ -91,7 +94,7 @@ Meteor.publish 'results', (selected_tags,
                 count: tag.count
                 # category:key
                 # index: i
-        console.log 'ready'
+        # console.log 'ready'
         self.ready()
 
 
@@ -99,11 +102,25 @@ Meteor.publish 'results', (selected_tags,
 
 Meteor.publish 'docs', (
     selected_tags
+    view_images
+    view_videos
+    view_articles
     )->
     # console.log selected_tags
     self = @
     match = {}
-    if selected_tags.length > 0 then match.tags = $all: selected_tags
+    if selected_tags.length > 0
+        match.tags = $all: selected_tags
+        sort = 'ups'
+    else
+        match.tags = $nin: ['wikipedia']
+        sort = '_timestamp'
+        # match.source = $ne:'wikipedia'
+    if view_images
+        match.is_image = $ne:false
+    if view_videos
+        match.is_video = $ne:false
+
     # match.tags = $all: selected_tags
     # if filter then match.model = filter
     # keys = _.keys(prematch)
@@ -117,6 +134,6 @@ Meteor.publish 'docs', (
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
     Docs.find match,
-        sort:ups:-1
+        sort:"#{sort}":-1
         # sort:_timestamp:-1
-        limit: 7
+        limit: 20

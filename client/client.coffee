@@ -1,5 +1,14 @@
 @selected_tags = new ReactiveArray []
 
+Accounts.ui.config
+    passwordSignupFields: 'USERNAME_ONLY'
+
+Router.route '/', (->
+    @layout 'layout'
+    @render 'home'
+    ), name:'home'
+
+
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
     # console.log typeof parseFloat(@relevance)
@@ -76,12 +85,17 @@ Template.home.onCreated ->
     @autorun => @subscribe 'docs',
         selected_tags.array()
 
+Template.home.onCreated ->
+    Session.setDefault 'view_images', true
+    Session.setDefault 'view_videos', true
+    Session.setDefault 'view_articles', true
+    Session.setDefault 'view_tweets', true
 Template.body.events
     'keydown':(e,t)->
         # console.log e.keyCode
         # console.log e.keyCode
         if e.keyCode is 27
-            # console.log 'hi'
+            console.log 'hi'
             # console.log 'hi'
             Session.set('current_query', null)
             selected_tags.clear()
@@ -101,9 +115,12 @@ Template.home.events
 
     'click .result': (event,template)->
         # console.log @
+        if selected_tags.array().length is 1
+            Meteor.call 'call_wiki', search, ->
         Meteor.call 'log_term', @title, ->
         selected_tags.push @title
         $('#search').val('')
+        Meteor.call 'call_wiki', @title, ->
         Session.set('current_query', null)
         Session.set('searching', false)
         Meteor.call 'search_reddit', selected_tags.array(), ->
@@ -114,6 +131,9 @@ Template.home.events
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
         # console.log selected_tags.array()
+        if selected_tags.array().length is 1
+            Meteor.call 'call_wiki', search, ->
+
         if selected_tags.array().length > 0
             Meteor.call 'search_reddit', selected_tags.array(), ->
 
@@ -132,13 +152,14 @@ Template.home.events
             search = $('#search').val().trim().toLowerCase()
             if search.length > 0
                 selected_tags.push search
-                # console.log 'search', search
+                console.log 'search', search
+                Meteor.call 'call_wiki', search, ->
                 Meteor.call 'search_reddit', selected_tags.array(), ->
-                # Meteor.call 'log_term', search, ->
+                Meteor.call 'log_term', search, ->
                 $('#search').val('')
                 Session.set('current_query', null)
-                # $('#search').val('').blur()
-                # $( "p" ).blur();
+                # # $('#search').val('').blur()
+                # # $( "p" ).blur();
                 Meteor.setTimeout ->
                     Session.set('dummy', !Session.get('dummy'))
                 , 10000
@@ -185,7 +206,7 @@ Template.home.helpers
     view_menu: -> Session.get('view_menu')
     tags: ->
         if Session.get('current_query') and Session.get('current_query').length > 1
-            Terms.find()
+            Terms.find({}, sort:count:-1)
         else
             doc_count = Docs.find().count()
             # console.log 'doc count', doc_count
@@ -201,53 +222,15 @@ Template.home.helpers
             'disabled'
 
     selected_tags: -> selected_tags.array()
-
+    selected_tags_plural: -> selected_tags.array().length > 1
     searching: -> Session.get('searching')
 
     one_post: ->
         Docs.find().count() is 1
     posts: ->
-        if selected_tags.array().length > 0
-            Docs.find {
-                # model:'reddit'
-            },
-                sort: ups:-1
-                # limit:1
-
-
-
-Template.post.onCreated ->
-    @view_more = new ReactiveVar(false)
-Template.post.events
-    'click .collapse': (e,t)->
-        t.view_more.set(false)
-    'click .expand': (e,t)->
-        t.view_more.set(true)
-    'click .toggle_tag': ->
-        # console.log @
-        if @valueOf() in selected_tags.array()
-            selected_tags.remove(@valueOf())
-        else
-            selected_tags.push(@valueOf())
-    'click .call_watson': ->
-        Meteor.call 'call_watson', @_id, 'url', 'url', ->
-    'click .call_watson_image': ->
-        Meteor.call 'call_watson', @_id, 'url', 'image', ->
-    'click .pull_tone': ->
-        Meteor.call 'call_tone', @_id, 'url', 'text', ->
-    'click .print_me': ->
-        console.log @
-    'click .toggle_more': (e,t)->
-        t.view_more.set(!t.view_more.get())
-Template.post.helpers
-    post_tag_class: ->
-        if @valueOf() in selected_tags.array() then 'active' else ''
-    view_more: ->
-        Template.instance().view_more.get()
-    has_thumbnail: ->
-        # console.log @thumbnail
-        @thumbnail not in ['self','default']
-
-    first_three_tones: ->
-        if @tone
-            @tone.result.sentences_tone[..3]
+        # if selected_tags.array().length > 0
+        Docs.find {
+            # model:'reddit'
+        },
+            sort: ups:-1
+            # limit:1

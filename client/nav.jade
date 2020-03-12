@@ -1,0 +1,28 @@
+template(name='nav')
+    .ui.attached.fluid.borderless.menu
+        a.icon.item(href="/")
+            unless subs_ready 
+                i.yin.yang.loading.large.grey.icon(title='dao')
+            else 
+                i.large.yin.yang.link.icon.toggle_menu
+        .right.menu
+            a.mobile.hidden.icon.item(href='/events' class="{{isActivePath '/events'}}" title='events') 
+                i.calendar.icon
+            a.mobile.hidden.icon.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat') 
+                i.chat.outline.icon
+            a.mobile.hidden.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}" title='alerts') 
+                //- i.bell.icon(class=alert_icon_class)
+                i.rss.icon
+            
+            a.icon.item(href="/stats")
+                i.line.chart.icon
+            if currentUser
+                a.item(href="/user/#{currentUser._id}/karma")
+                    |#{currentUser.karma}
+                    //- i.line.chart.icon
+                a.item(href="/user/#{currentUser._id}") 
+                    i.user.icon
+                    |#{currentUser.username}
+            else 
+                a.icon.item(href="/login")
+                    i.sign.in.alternate.icon

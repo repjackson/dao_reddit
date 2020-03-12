@@ -13,6 +13,70 @@ Meteor.methods
 #                 $set: tags_string:tags_string
 #             # console.log 'result doc', Docs.findOne doc._id
 # #
+
+    call_wiki: (query)->
+        console.log 'calling wiki', query
+        term = query.split(' ').join('_')
+        HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
+            # console.log response.data
+            if err
+                console.log 'error'
+                console.log err
+            else
+
+                # console.log response
+                console.log 'response'
+
+                found_doc =
+                    Docs.findOne
+                        url: "https://en.wikipedia.org/wiki/#{term}"
+                if found_doc
+                    console.log 'found wiki doc for term', term, found_doc
+                    Docs.update found_doc._id,
+                        $addToSet:tags:'wikipedia'
+                    Meteor.call 'call_watson', found_doc._id, 'url','url', ->
+                else
+                    new_wiki_id = Docs.insert
+                        title: query
+                        tags:['wikipedia', query]
+                        source: 'wikipedia'
+                        ups: 1000000
+                        url:"https://en.wikipedia.org/wiki/#{term}"
+                    Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
+
+
+    call_imdb: (query)->
+        console.log 'calling imdb', query
+        term = query.split(' ').join('_')
+        HTTP.get "https://www.imdb.com/title/#{title_id}",(err,response)=>
+            # console.log response.data
+            if err
+                console.log 'error'
+                console.log err
+            else
+
+                console.log response
+                console.log 'response'
+
+                # found_doc =
+                #     Docs.findOne
+                #         url: "https://en.wikipedia.org/wiki/#{term}"
+                # if found_doc
+                #     console.log 'found wiki doc for term', term, found_doc
+                #     Docs.update found_doc._id,
+                #         $addToSet:tags:'wikipedia'
+                #     Meteor.call 'call_watson', found_doc._id, 'url','url', ->
+                # else
+                #     new_wiki_id = Docs.insert
+                #         title: query
+                #         tags:['wikipedia', query]
+                #         source: 'wikipedia'
+                #         ups: 1000000
+                #         url:"https://en.wikipedia.org/wiki/#{term}"
+                #     Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
+
+
+
     calc_doc_count: ->
         if Meteor.user()
             doc_count = Docs.find(author_id:Meteor.userId()).count()
@@ -29,6 +93,7 @@ Meteor.methods
         if doc.tags
             for tag in doc.tags
                 Meteor.call 'log_term', tag, ->
+
 
     log_term: (term)->
         # console.log 'logging term', term
@@ -70,7 +135,7 @@ Meteor.methods
             Docs.find {
                 tags: $in: [tag]
             }
-        console.log 'pulling tags', results.count()
+        # console.log 'pulling tags', results.count()
         # Docs.remove(
         #     tags: $in: [tag]
         # )
@@ -89,8 +154,8 @@ Meteor.methods
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
-                console.log 'found data'
-                console.log 'data length', response.data.data.children.length
+                # console.log 'found data'
+                # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
                     # console.log item
                     unless item.domain is "OneWordBan"
@@ -128,7 +193,7 @@ Meteor.methods
                                 # console.log 'existing doc', existing_doc
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                         unless existing_doc
-                            console.log 'importing url', data.url
+                            # console.log 'importing url', data.url
                             new_reddit_post_id = Docs.insert reddit_post
                             # if Meteor.userId()
                             #     Meteor.users.update(Meteor.userId(),
@@ -155,10 +220,10 @@ Meteor.methods
                 rd = res.data.data.children[0].data
                 # console.log rd.url
                 if rd.is_video
-                    console.log 'pulling video comments watson'
+                    # console.log 'pulling video comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
                 else if rd.is_image
-                    console.log 'pulling image comments watson'
+                    # console.log 'pulling image comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
                 else
                     Meteor.call 'call_watson', doc_id, 'url', 'url', ->

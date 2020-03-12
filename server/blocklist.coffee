@@ -24,7 +24,7 @@
 #
 
 
-@blacklist = [
+@blocklist = [
     'reddit app reddit'
     'user account menu'
     'reddit premium reddit'
@@ -32,13 +32,43 @@
     'english-language films'
     'bit'
     'moderators of this subreddit'
+    'main article'
     'lot'
+    'list'
+    'blocklist'
+    'browser extension'
+    'case sensitive'
+    'aug'
+    'question'
+    'sub'
+    'blog'
+    'sep'
+    'example'
+    'person'
+    'work'
+    'times'
+    'guys'
+    'answer'
+    'social media'
+    'post facebook comments'
     'rights'
     'old embed code'
+    'first time'
     'love imgur'
     'thanks'
+    'original post'
+    'hours'
+    'following post'
+    'mods'
+    'original comment'
+    'troll accusations'
+    'career-related posts'
     'advertise blog'
+    'last year'
     'jan'
+    'guy'
+    'man'
+    'us'
     'questions'
     'youtube'
     'month'
@@ -127,10 +157,15 @@
     'communities'
     'point'
     'reddit'
+    'original submission'
+    'network of subreddits'
+    'days'
+    'blog terms'
     'sign'
     'level'
     'gif'
     'votes'
+    'careers press'
     'feed'
     'hide report'
     'reactiongifs community'
@@ -152,17 +187,17 @@
 
 
 Meteor.methods
-    clear_blacklist: =>
-        # console.log @blacklist
-        for black_tag in @blacklist
+    clear_blocklist: =>
+        # console.log @blocklist
+        for black_tag in @blocklist
             # console.log 'removing', black_tag
             # console.log 'count', Docs.find({tags:$in:[black_tag]}).count()
 
             result = Docs.update({tags:$in:[black_tag]}, {$pull:tags:black_tag}, {multi:true})
             console.log 'removed', result, black_tag
 
-    clear_blacklist_doc: (doc_id)=>
-        console.log 'pulling blacklist from doc', doc_id
+    clear_blocklist_doc: (doc_id)=>
+        # console.log 'pulling blocklist from doc', doc_id
         Docs.update doc_id,
             $pullAll:
-                tags:@blacklist
+                tags:@blocklist

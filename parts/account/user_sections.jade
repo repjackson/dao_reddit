@@ -1,0 +1,404 @@
+template(name='user_awards')
+    .ui.grey.inline.center.aligned.header 
+        i.people.carry.icon
+        | awards
+    .ui.middle.aligned.selection.animated.large.list
+        each awards
+            +user_segment
+    .ui.segment.profile_block
+        .ui.inline.center.aligned.header 
+            i.badge.icon
+            | awards
+        .ui.link.items
+            each awards
+                +award
+    .ui.header nonawards    
+    each nonawards
+        +user_segment
+
+
+template(name='user_tutoring')
+    with current_user
+        .ui.center.aligned.header 
+            i.chalkboard.icon
+            | tutoring
+        .ui.stackable.grid
+            .three.column.row
+                .column
+                    .ui.header tutoring sessions
+                    each tutor_sessions
+                        .ui.segment
+                            .ui.header #{when}
+                            .ui.header #{start_timedate}
+                            .ui.header #{end_timedate}
+                            +user_info author
+                            if is_author 
+                                +remove_button
+                .column
+                    .ui.header students
+                    each students 
+                        .ui.segment
+                            .ui.header #{name}
+        
+
+template(name='user_groups')
+    .ui.center.aligned.header 
+        i.users.icon
+        | groups
+
+
+
+template(name='user_brain')
+    .ui.inline.header 
+        i.brain.icon
+        |brain
+    .ui.icon.button.add_thought
+        i.plus.icon 
+    with editing_doc
+        +array_edit key='tags' direct=true
+        +session_edit_button
+    unless editing_doc
+        +cloud filter='thought'
+    .ui.header thoughts
+    each thoughts 
+        .ui.segment 
+            each tags 
+                .ui.large.basic.label #{this}
+            |#{when}
+
+
+template(name='user_right')
+    .ui.inline.header 
+        i.remove.icon
+        |right concepts
+    i.recalc_right_ids.link.refresh.icon
+    .ui.two.column.stackable.grid 
+        .column
+            each current_user.right_tag_cloud
+                .ui.basic.large.label 
+                    |#{tag}
+                    small #{count}
+            .ui.header right questions
+            //- each current_user.all_right_ids
+            //-     .ui.header #{this}
+            .ui.bulleted.list 
+                each right_questions  
+                    .item
+                        |!{title}
+        .column
+            .ui.header most similar 
+            i.link.refresh.icon.recalc_similar
+            .ui.header union
+            .ui.large.list
+                each sorted_right_unions
+                    .item 
+                        |user id #{username} #{union_count}
+                        each union 
+                            .ui.label #{this}
+            .ui.header most right opposite
+            i.link.refresh.icon.recalc_opposite_right
+            .ui.header right opposite union
+            .ui.large.link.list
+                each right_opposite_unions
+                    a.item(href="/user/#{user_id}") user id 
+                        #{username} #{union_count}
+                    each union 
+                        .ui.label #{this}
+        
+
+
+template(name='user_wrong')
+    .ui.header 
+        i.remove.icon
+        |wrong concepts
+    .ui.two.column.stackable.grid 
+        .column
+            i.recalc_wrong_ids.link.refresh.icon
+            each current_user.wrong_tag_cloud
+                .ui.basic.large.label 
+                    |#{tag}
+                    small #{count}
+            //- each current_user.all_wrong_ids
+            //-     .ui.header #{this}
+            .ui.header wrong questions
+            .ui.bulleted.list 
+                each wrong_questions
+                    .item !{title}
+        .column
+            .ui.header most similar 
+            i.link.refresh.icon.recalc_similar
+                
+            .ui.header most opposite     
+            i.link.refresh.icon.recalc_similar
+            
+
+
+template(name='user_events')
+    .ui.inline.header 
+        i.calendar.icon
+        |events
+    unless tutor_sessions.length 
+        |no tutor sessions
+    each tutor_sessions 
+        .ui.header #{title}
+    div
+    if is_current_user 
+        .ui.button.new_slot
+            i.plus.icon
+            |slot
+    each slots 
+        .ui.segment
+            .ui.header 
+                small from {{long_date start_timedate}}
+            .ui.header 
+                small to {{long_date end_datetime}}
+            .ui.list 
+                .item #{bids}
+            if closed 
+                .ui.green.label closed
+            else 
+                .ui.label open
+            a.ui.button(href='/m/slot/#{_id}/view')
+                |view
+    
+
+
+template(name='user_karma')
+    .ui.inline.header 
+        i.yin.yang.icon
+        |karma
+    .ui.small.header 
+        |upvoted docs
+    .ui.small.header 
+        |downvoted docs
+
+
+
+template(name='user_friends')
+    .ui.center.aligned.header 
+        i.people.carry.icon
+        | friends
+    +user_friend_button
+    .ui.middle.aligned.selection.animated.large.list
+        each friends
+            +user_segment
+
+
+
+template(name='user_questions')
+    .ui.header user questions
+    each questions 
+        .ui.segment
+            a(href="/question/#{_id}/view") !{title}
+            each tags 
+                .ui.small.label #{this}
+
+
+template(name='user_brain_small')
+    a.ui.header(href="/user/#{_id}/brain")
+        i.brain.icon
+        |your brain
+    +cloud filter='thought'
+
+
+
+
+template(name='user_segment')
+    a.item(href="/user/#{_id}")
+        img.ui.avatar.image(src="{{c.url profile_image_id gravity='face' crop='fit'}}")
+        .content
+            .header
+                |#{name}
+            .description
+                each tags
+                    .ui.basic.label #{this}
+
+    //- .ui.horizontal.card
+    //-     .image
+    //-         if image_id
+    //-             img(src="{{c.url image_id gravity='face' crop='crop'}}")
+    //-     .content
+    //-         a.ui.header(href="/user/#{username}")
+    //-             |#{first_name} #{last_name}
+    //-             //- |#{username}
+    //-         //- .ui.header Tags
+    //-         each tags
+    //-             .ui.basic.label #{this}
+    //-         +user_status user
+    //-         .ui.header #{body}
+    //-         +user_friend_button
+
+template(name='user_friend_button')
+    if is_friend
+        .ui.blue.fade.animated.button.unfriend
+            .visible.content
+                |friend
+            .hidden.content
+                i.minus.icon
+    else
+        .ui.basic.button.friend
+            i.plus.icon
+            |friend
+
+
+            
+template(name='user_tests')
+    .ui.center.aligned.header 
+        i.edit.icon
+        |tests uploaded
+    i.link.refresh.icon.recalc_test_stats
+    .ui.stackable.padded.grid 
+        .two.column.row 
+            .column
+                .ui.large.link.list
+                    each tests 
+                        a.item(href="/test/#{_id}/view") 
+                            .content 
+                                .header 
+                                    |#{title}
+                                .description 
+                                    i.grey.thumbs.up.outline.icon
+                                    |#{upvotes}
+                                    i.grey.thumbs.down.outline.icon
+                                    |#{downvotes}
+                                    |= 
+                                    |#{points}
+                                    |pts
+            .column
+                .ui.header stats
+                with current_user
+                    .ui.large.list 
+                        .item #{total_test_points} total test points
+                        .item #{total_test_upvotes} total test upvotes
+                        .item #{total_test_downvotes} total test downvotes
+    
+    
+    
+template(name='user_answered_questions_small')
+    .ui.segment 
+        .ui.header
+            i.tasks.icon
+            |answered questions
+        .ui.link.list 
+            each answered_questions 
+                .item hi
+    
+template(name='user_bookmarks_small')
+    .ui.inline.header
+        i.bookmark.small.icon
+        | bookmarks
+    div
+    .ui.large.link.list
+        each bookmarks
+            a.item(href="/#{model}/#{_id}/view") #{title} [#{model}]
+        
+
+
+template(name='user_cart')
+    +cart
+
+
+
+template(name='user_finance')  
+    .ui.grid      
+        .three.column.row
+            .column
+                .ui.segment
+                    .ui.small.header 
+                        strong $#{ssd.total_credit_amount}
+                        small total weekly income
+                    .ui.small.header
+                        strong #{ssd.credit_count}
+                        small credits
+            .column
+                .ui.segment
+                    .ui.small.header
+                        strong $#{ssd.total_debit_amount}
+                        small total weekly expenses
+                    .ui.small.header
+                        strong #{ssd.debit_count}
+                        small debits
+            .column
+                .ui.segment
+                    .ui.small.header
+                        |growth from last week
+        .two.column.row
+            .column
+                .ui.segment
+                    .ui.header 
+                        |weekly credits
+                    //- .ui.bulleted.list
+                    //-     each user_credits
+                    //-         .item 
+                    //-             |#{amount}
+                    //-             if icon
+                    //-                 +i name=icon
+                    //-             strong #{text}
+                    //-             small #{when}
+                    .ui.feed.mediumscroll
+                        each user_credits
+                            .event 
+                                .label
+                                    if is_credit
+                                        i.grey.chevron.up.icon
+                                    if is_debit
+                                        i.grey.chevron.down.icon
+                                    else if icon
+                                        i.grey.icon(class=icon)
+                                .content
+                                    .summary
+                                        a.user(href="/user/#{target_user.username}")
+                                            |#{target_user.name}
+                                        |#{text}
+                                        .date #{when}
+                                    .meta
+                                        +voting_small
+                                        //- a.like
+                                        //-     i.like.icon 
+                                        //-     |4 likes
+                                        a.remove
+                                            i.grey.undo.icon
+                                        //- if is_dev
+                                        //-     +remove_button
+            .column
+                .ui.segment
+                    .ui.header 
+                        i.chevron.down.icon
+                        |weekly debits
+                    .ui.feed.mediumscroll
+                        each user_debits
+                            .event 
+                                .label
+                                    if is_credit
+                                        i.chevron.up.icon
+                                    if is_debit
+                                        i.chevron.down.icon
+                                    else if icon
+                                        i.icon(class=icon)
+                                .content
+                                    .summary
+                                        a.user(href="/user/#{target_user.username}")
+                                            |#{target_user.name}
+                                        |#{text}
+                                        .date #{when}
+                                    .meta
+                                        +voting_small
+                                        //- a.like
+                                        //-     i.like.icon 
+                                        //-     |4 likes
+                                        a.remove
+                                            i.grey.undo.icon
+                                        //- if is_dev
+                                        //-     +remove_button
+                        //- +range_edit                
+            .column
+                +user_tutor_sessions
+            .column
+                .ui.header admin 
+                +number_edit key='credit' label='credit' direct=true
+                
+                
+                
+template(name='user_tutor_sessions')
+    .ui.header 
+        |tutor sessions
