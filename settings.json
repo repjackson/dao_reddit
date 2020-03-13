@@ -1,5 +1,14 @@
 {
+    "public": {
+		"stripe_test_publishable": "pk_test_UM1EaHvlITKHumbXFvnlQuVu00pCUf4rPJ",
+		"stripe_live_publishable": "pk_live_cm4NqXlOHWwhbVchdmbV4xQh00FhbiXfnM",
+		"stripe_client_id": "ca_6xrceWlIdjoZ0ebtxSUDBMG1yazAn5et"
+    },
 	"private": {
+		"stripe_test_secret": "sk_test_6QfNJiwUC94nsS3DCax248Ir00fv9fPijc",
+		"stripe_live_secret": "sk_live_zI09tiGK1RoMXX1KVJ7Mmhow00KLXdfHOU",
+		"cloudinary_key": "754714459692734",
+		"cloudinary_secret": "rPPXD3rZM_GCjODvh0T70XeDCSw",
 		"tone": {
             "apikey": "pIDLJyNdM8r4AB0lLmMNdGZtPSWUD3wXQfmXFBWxJ_l-",
             "iam_apikey_description": "Auto-generated for key e64fad1b-3834-4775-baab-3e1dbaa6d62f",
@@ -36,6 +45,7 @@
 	"galaxy.meteor.com": {
 		"env": {
             "MONGO_URL": "mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb",
+            "MAIL_URL": "smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587",
 			"ROOT_URL": "https://www.dao.af"
 		}
 	}

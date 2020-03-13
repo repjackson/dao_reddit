@@ -1,7 +1,7 @@
 if Meteor.isClient
-    Template.post.onCreated ->
+    Template.doc.onCreated ->
         @view_more = new ReactiveVar(false)
-    Template.post.events
+    Template.doc.events
         'click .collapse': (e,t)-> t.view_more.set(false)
         'click .expand': (e,t)->
             unless @tone
@@ -29,7 +29,7 @@ if Meteor.isClient
                 unless @tone
                     Meteor.call 'call_tone', @_id, 'url', 'text', ->
                 t.view_more.set(true)
-    Template.post.helpers
+    Template.doc.helpers
         post_tag_class: ->
             if @valueOf() in selected_tags.array() then 'active' else ''
         view_more: ->
@@ -44,14 +44,14 @@ if Meteor.isClient
 
 
 
-    Template.post.events
+    Template.doc.events
         'click .call_watson': ->
             Meteor.call 'call_watson', @_id, 'url', 'url'
         'click .call_watson_image': ->
             Meteor.call 'call_watson', @_id, 'url', 'image'
         'click .print_me': ->
             console.log @
-    Template.post.helpers
+    Template.doc.helpers
         has_thumbnail: ->
             # console.log @thumbnail
             @thumbnail not in ['self','default']

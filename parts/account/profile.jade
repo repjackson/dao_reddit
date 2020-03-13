@@ -89,25 +89,35 @@ template(name='user_dashboard')
     .ui.center.aligned.header 
         i.dashboard.icon
         |dashboard
-    i.recalc_user_act_stats.refresh.link.icon
-    i.recalc_user_cloud.refresh.link.icon
-    .ui.header right cloud 
-        each current_user.right_tag_cloud
-            .ui.basic.large.label 
-                |#{tag}
-                small #{count}
-    .ui.header wrong cloud 
-        each current_user.wrong_tag_cloud
-            .ui.basic.large.label 
-                |#{tag}
-                small #{count}
-    .ui.header right tag list
-    each current_user.right_tag_list
-        .ui.label #{this}
-    .ui.header wrong tag list
-    each current_user.wrong_tag_list
-        .ui.label #{this}
     .ui.stackable.padded.grid
+        .three.column.row
+            .column
+                i.recalc_user_act_stats.refresh.link.icon
+                i.recalc_user_cloud.refresh.link.icon
+                .ui.header upvote cloud 
+                    each current_user.upvote_tag_cloud
+                        .ui.basic.large.label 
+                            |#{tag}
+                            small #{count}
+                .ui.header downvote cloud 
+                    each current_user.downvote_tag_cloud
+                        .ui.basic.large.label 
+                            |#{tag}
+                            small #{count}
+                .ui.header upvote tag list
+                each current_user.upvote_tag_list
+                    .ui.label #{this}
+                .ui.header downvote tag list
+                each current_user.downvote_tag_list
+                    .ui.label #{this}
+            .column
+                .ui.header karma
+                .ui.header #{current_user.karma} karma
+                .ui.button.send_karma
+                    |send karma
+                .ui.button.request_karma
+                    |request
+            .column
         .three.column.row
             .column
                 //- .ui.header 
@@ -129,18 +139,10 @@ template(name='user_dashboard')
                     .item #{current_user.weeks_sessions_count} last 7 days
                     .item #{current_user.months_sessions_count} last 30 days
             .column
-                .ui.indicating.tiny.progress(data-percent=site_percent_complete)
-                    .bar 
-                    .label 
-                        |#{site_percent_complete}% site complete
                 //- .ui.header #{site_percent_complete}% site complete
                 //- .ui.header #{session_count} sessions
-                .ui.header ACT sections
-                .ui.small.header 
-                    i.chalkboard.grey.icon
-                    |all #{global_section_average}%
-                .ui.indicating.tiny.progress(data-percent=global_section_average)
-                    .bar 
+                //- .ui.indicating.tiny.progress(data-percent=global_section_average)
+                //-     .bar 
                     //- .label 
                     //-     |#{global_section_average}% total
                 .ui.teal.label(title='global rank')
@@ -148,36 +150,6 @@ template(name='user_dashboard')
                 .ui.blue.label(title='group rank')
                     |#{global_section_average_rank}
             
-                .ui.small.header 
-                    i.book.open.grey.icon
-                    |reading #{reading_average}%
-                .ui.indicating.tiny.progress(data-percent=reading_average)
-                    .bar 
-                    //- .label 
-                    //-     |#{reading_average}% reading
-                .ui.small.header 
-                    i.pencil.grey.icon
-                    |english #{english_average}%
-                .ui.indicating.tiny.progress(data-percent=english_average)
-                    .bar 
-                    //- .label 
-                    //-     |#{english_average}% english
-            
-                .ui.small.header 
-                    i.calculator.grey.icon
-                    |math #{math_average}%
-                .ui.indicating.tiny.progress(data-percent=math_average)
-                    .bar 
-                    //- .label 
-                    //-     |#{math_average}% math
-            
-                .ui.small.header
-                    i.flask.grey.icon
-                    | science #{science_average}%
-                .ui.indicating.tiny.progress(data-percent=science_average)
-                    .bar 
-                    //- .label 
-                    //-     |#{science_average}% science
         .three.column.row
             //- .column
             //-     +user_sessions_small

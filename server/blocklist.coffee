@@ -39,6 +39,8 @@
     'list'
     'blocklist'
     'browser extension'
+    'google'
+    'reason'
     'case sensitive'
     'aug'
     'question'

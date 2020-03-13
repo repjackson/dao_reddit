@@ -1,0 +1,62 @@
+template(name='docs')
+    .ui.stackable.grid.home(class=invert_class)
+        .centered.row 
+            .four.wide.column
+                //- .ui.header #{connection.status}
+                unless connected
+                    .ui.inline.header disconnected
+                    .ui.red.basic.circular.button.reconnect reconnect
+                //- else 
+                //-     i.image.circular.link.icon.toggle_images(title='toggle images' class=view_images_class)
+                //-     i.video.circular.link.icon.toggle_videos(title='toggle video' class=view_videos_class)
+                //-     i.twitter.circular.link.icon.toggle_tweets(title='toggle tweets' class=view_tweets_class)
+                //-     i.list.circular.link.icon.toggle_articles(title='toggle articles' class=view_articles_class)
+                .ui.left.icon.large.search.input
+                    if subs_ready
+                        i.search.icon.refresh_tags
+                    else
+                        i.yin.yang.loading.large.icon
+                    input#search.prompt(type='text' autofocus='' autocomplete="off")
+
+                if selected_tags_plural
+                    .ui.icon.circular.big.black.compact.button.clear_selected_tags
+                        i.remove.icon
+                each selected_tags
+                    button.ui.black.big.compact.circular.button.unselect_tag(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                //- if subs_ready
+                //-     i.yin.yang.grey.big.grey.icon(title='dao')
+                //- div
+                //- .spacer
+                //- if selected_tags
+                //-     .ui.black.icon.large.compact.circular.button.clear_selected_tags(title='clear search')
+                //-         i.remove.icon
+                //- div
+                each tags
+                    button.ui.basic.circular.compact.big.button.result(tabindex="0" class=result_class title=count) #{title}
+                        //- small #{count}
+                //- .ui.divider
+                .u
+            .twelve.wide.column
+                .div 
+                    |sort by
+                    +session_edit_value_button key='sort_key' value='_timestamp' label='created'
+                    +session_edit_value_button key='sort_key' value='upvotes' label='upvotes'
+                    |view
+                    +session_edit_value_button key='view_mode' value='cards' label='cards' icon='grip horizontal' icon_view=true classes='circular icon'
+                    +session_edit_value_button key='view_mode' value='list' label='list' icon='list' icon_view=true classes='circular icon'
+                    +session_edit_value_button key='view_mode' value='items' label='items' icon='grip horizontal' icon_view=true classes='circular icon'
+                .scrolling
+                    .ui.stackable.cards
+                        each docs
+                            +doc
+                            //- .ui.hidden.divider
+
+
+template(name='session_edit_value_button')
+    .ui.button.set_session_value(class=classes)
+        if icon_view 
+            i.icon(class=icon)
+        else 
+            |#{value}

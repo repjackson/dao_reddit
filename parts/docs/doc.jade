@@ -1,14 +1,14 @@
-template(name='post')
-    .ui.fluid.horizontal.card 
+template(name='doc')
+    .ui.card
         if has_thumbnail
             a.small.image.rounded.toggle_more
                 img(src=thumbnail)
         .content        
             .header
                 if title 
-                    a.ui.grey.small.header(href="/post/#{_id}/view" title="#{ups} upvotes") !{title}
+                    a.ui.grey.small.header(href="/doc/#{_id}/view" title="#{ups} upvotes") !{title}
                 else if watson.metadata.title
-                    a.ui.grey.small.header(href="/post/#{_id}/view" title="#{ups} upvotes") !{watson.metadata.title}
+                    a.ui.grey.small.header(href="/doc/#{_id}/view" title="#{ups} upvotes") !{watson.metadata.title}
                 if is_video 
                     i.video.grey.icon
             .meta
@@ -35,6 +35,10 @@ template(name='post')
                     |#{ups}
                 //- i.thumbs.down.outline.icon
                 //-     |#{downs}
+            if view_more
+                //- if is_image
+                img.ui.image.collapse(src=url)
+                //- if view_more
                 a.ui.basic.compact.inverted.button(href="https://www.reddit.com/user/#{author}" target='_window')
                     i.pencil.icon
                     |#{author}
@@ -42,14 +46,7 @@ template(name='post')
                 a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
                     i.reddit.icon
                     |#{subreddit}
-                //- else 
-                //- unless tone
-                //- if dev
-            if view_more
-                //- if is_image
-                img.ui.image.collapse(src=url)
-                //- if view_more
-                
+
                 if tone 
                     .ui.list
                         each tone.result.sentences_tone

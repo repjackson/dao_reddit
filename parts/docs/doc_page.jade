@@ -1,12 +1,14 @@
-template(name='post_page')
+template(name='doc_page')
     with cd
         .ui.stackable.padded.grid 
             .row
                 .sixteen.wide.column 
+                    a.ui.circular.icon.large.button(href="/")
+                        i.left.chevron.icon
                     if title 
-                        .ui.grey.header(title=ups) !{title}
+                        .ui.grey.inline.header(title=ups) !{title}
                     else if watson.metadata.title 
-                        .ui.grey.header(title=ups) !{watson.metadata.title}
+                        .ui.grey.inline.header(title=ups) !{watson.metadata.title}
                 
             .row
                 .four.wide.column 
@@ -19,6 +21,7 @@ template(name='post_page')
                     .meta
                         a.ui.compact.circular.icon.button(href=url target='_window')
                             i.external.icon
+                            |view link
                         //- span.ui.grey.text #{domain}
                         if is_video
                             i.video.large.icon
@@ -54,6 +57,9 @@ template(name='post_page')
                     .ui.button.call_watson_image
                         i.chess.icon
                         |tag image
+                    .ui.button.pull_tone
+                        i.download.icon
+                        |download content
                     .ui.button.print_me
                         |print me
                 .twelve.wide.column 

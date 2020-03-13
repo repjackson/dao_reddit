@@ -1,4 +1,8 @@
 if Meteor.isClient
+    Router.route '/user/:user_id/dashboard', (->
+        @layout 'profile_layout'
+        @render 'user_dashboard'
+        ), name:'user_dashboard'
     Router.route '/user/:user_id', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
@@ -19,14 +23,14 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_groups'
         ), name:'user_groups'
-    Router.route '/user/:user_id/right', (->
+    Router.route '/user/:user_id/upvotes', (->
         @layout 'profile_layout'
-        @render 'user_right'
-        ), name:'user_right'
-    Router.route '/user/:user_id/wrong', (->
+        @render 'user_upvotes'
+        ), name:'user_upvotes'
+    Router.route '/user/:user_id/downvotes', (->
         @layout 'profile_layout'
-        @render 'user_wrong'
-        ), name:'user_wrong'
+        @render 'user_downvotes'
+        ), name:'user_downvotes'
     Router.route '/user/:user_id/karma', (->
         @layout 'profile_layout'
         @render 'user_karma'
@@ -39,10 +43,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_payment'
         ), name:'user_payment'
-    Router.route '/user/:user_id/fiq', (->
-        @layout 'profile_layout'
-        @render 'user_fiq'
-        ), name:'user_fiq'
     Router.route '/user/:user_id/contact', (->
         @layout 'profile_layout'
         @render 'user_contact'
@@ -59,10 +59,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_votes'
         ), name:'user_votes'
-    Router.route '/user/:user_id/dashboard', (->
-        @layout 'profile_layout'
-        @render 'user_dashboard'
-        ), name:'user_dashboard'
     Router.route '/user/:user_id/jobs', (->
         @layout 'profile_layout'
         @render 'user_jobs'

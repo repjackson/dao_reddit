@@ -75,18 +75,18 @@ template(name='doc_cloud')
                 strong #{this.name}
 
 
-template(name='docs')
-    .ui.container
-        div
-            #add.ui.green.button
-                i.plus.icon
-                | Full Add
-            .ui.icon.input
-                i.lightning.icon
-                input#quick_add(type='text' placeholder='Quick Add')
-        +doc_cloud
-        each docs
-            +view
+//- template(name='docs')
+//-     .ui.container
+//-         div
+//-             #add.ui.green.button
+//-                 i.plus.icon
+//-                 | Full Add
+//-             .ui.icon.input
+//-                 i.lightning.icon
+//-                 input#quick_add(type='text' placeholder='Quick Add')
+//-         +doc_cloud
+//-         each docs
+//-             +view
 
         
 
