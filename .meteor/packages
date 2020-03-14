@@ -38,3 +38,4 @@ zimme:active-route
 reywood:publish-composite
 flowkey:hotkeys
 mdg:meteor-apm-agent
+dburles:collection-helpers

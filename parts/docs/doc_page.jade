@@ -9,7 +9,6 @@ template(name='doc_page')
                         .ui.grey.inline.header(title=ups) !{title}
                     else if watson.metadata.title 
                         .ui.grey.inline.header(title=ups) !{watson.metadata.title}
-                
             .row
                 .four.wide.column 
                     if has_thumbnail
@@ -19,38 +18,34 @@ template(name='doc_page')
                         if is_image
                             img.ui.image(src=url)
                     .meta
-                        a.ui.compact.circular.icon.button(href=url target='_window')
+                        a.ui.circular.button(href=url target='_window')
                             i.external.icon
                             |view link
                         //- span.ui.grey.text #{domain}
                         if is_video
                             i.video.large.icon
-                        a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
-                            i.comments.spaced.icon
-                            |#{comment_count}
-                        .ui.basic.inverted.label 
-                            i.thumbs.up.outline.icon
-                            |#{ups}
-                            //-     i.thumbs.down.outline.icon
-                            //-     |#{downs}
-                        a.ui.basic.compact.inverted.button(href="https://www.reddit.com/user/#{author}" target='_window')
-                            i.pencil.icon
-                            |#{author}
-                        //- .ui.basic.inverted.label 
-                        a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
-                            i.reddit.icon
-                            |#{subreddit}
+                        if permalink
+                            a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                                i.comments.spaced.icon
+                                |#{comment_count}
+                        if ups
+                            .ui.basic.inverted.label 
+                                i.thumbs.up.outline.icon
+                                |#{ups}
+                                //-     i.thumbs.down.outline.icon
+                                //-     |#{downs}
+                        if author
+                            a.ui.basic.compact.inverted.button(href="https://www.reddit.com/user/#{author}" target='_window')
+                                i.pencil.icon
+                                |#{author}
+                            //- .ui.basic.inverted.label 
+                        if subreddit
+                            a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
+                                i.reddit.icon
+                                |#{subreddit}
                         i.refresh.circular.link.icon.calc_post
-                        +voting_small
-                        if tone 
-                            each first_three_tones
-                                .item
-                                    //- span #{sentence_id}
-                                    span.large120(title="#{sentence_id}") #{text}
-                                    //- each tones
-                                    //-     .ui.basic.large.label(class="{{calculated_size 'score'}}") &nbsp; #{tone_id} {{ to_percent score }}% 
-                        //- else 
-                    //- unless tone
+                        div
+                        +voting_full
                     .ui.button.call_watson 
                         i.chess.icon
                         |tag url
@@ -62,9 +57,38 @@ template(name='doc_page')
                         |download content
                     .ui.button.print_me
                         |print me
+                    +array_view key='categories' icon='cubes' 
+                    +array_view key='Person' icon='user' 
+                    +array_view key='Company' icon='briefcase' 
+                    +array_view key='TelevisionShow' icon='television' 
+                    +array_view key='GeographicFeature' icon='mountain' 
+                    +array_view key='Sport' icon='baseball ball' 
+                    +array_view key='Broadcaster' icon='video' 
+                    +array_view key='Facility' icon='building' 
+                    +array_view key='HealthCondition' icon='heartbeat' 
+                    +array_view key='Organization' icon='users' 
+                    +array_view key='Award' icon='trophy' 
+                    +array_view key='Location' icon='marker'
+                    +array_view key='PrintMedia' icon='newspaper'
+                    +array_view key='watson_concepts' icon='cubes'
+                    +array_view key='watson_keywords' icon='tags'
+                        
                 .twelve.wide.column 
+                    +session_edit_value_button key='view_tone' value=true label='yes'
+                    +session_edit_value_button key='view_tone' value=false label='no'
                     if tone 
-                        +tone
+                        each tone.result.sentences_tone
+                            .item
+                                if view_tone
+                                    //- span #{sentence_id}
+                                    span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
+                                    //- .ui.basic.small.compact.button
+                                    //- .ui.small.basic.label #{tone_id}
+                                    .ui.small.basic.inverted.label {{to_percent score}} #{tone_id}
+                                    //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
+                                else 
+                                    span.large120(title="#{sentence_id}") #{text}
+                                    //- span.large-text #{text}
                     if tags
                         each tags
                             .ui.circular.large.inverted.black.label
@@ -75,3 +99,14 @@ template(name='doc_page')
                     //-         |!{body}
                     if watson 
                         +watson_view
+
+
+
+template(name='emotion_circle')
+    .ui.circular.label(class=emotion_circle_class title=emotion)
+        span {{ to_percent percent }}
+            //- if label 
+            //-     |#{label}
+            //- else 
+            //-     |#{emotion}
+        

@@ -68,10 +68,34 @@ Template.registerHelper 'is_current_user', () ->
             false
 
 
+Template.registerHelper 'upvote_class', () ->
+    if Meteor.userId()
+        if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
+    else ''
+Template.registerHelper 'downvote_class', () ->
+    if Meteor.userId()
+        if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
+    else ''
+
+Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
+Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
+
+
+Template.registerHelper 'current_delta', () -> Docs.findOne model:'delta'
+
+Template.registerHelper 'hsd', () ->
+    Docs.findOne
+        model:'home_stats'
+
+
+Template.registerHelper 'session_is', (key, value)->
+    Session.equals(key, value)
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
-Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
+Template.registerHelper 'to_percent', (number)->
+    console.log number
+    (number*100).toFixed()
 # Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
 # Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
 # Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")

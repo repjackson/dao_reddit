@@ -4,6 +4,8 @@ if Meteor.isClient
         Session.setDefault 'view_videos', true
         Session.setDefault 'view_articles', true
         Session.setDefault 'view_tweets', true
+        Session.setDefault 'view_mode', 'cards'
+
     # Template.body.events
     #     'keydown':(e,t)->
     #         # console.log e.keyCode
@@ -164,6 +166,19 @@ if Meteor.isClient
 
 
 
-    Template.session_edit_button.events
+    Template.session_edit_value_button.events
         'click .set_session_value': ->
+            # console.log @key
+            # console.log @value
             Session.set(@key, @value)
+
+    Template.session_edit_value_button.helpers
+        calculated_class: ->
+            res = ''
+            # console.log @
+            if @classes
+                res += @classes
+            if Session.equals(@key,@value)
+                res += ' active'
+            # console.log res
+            res
