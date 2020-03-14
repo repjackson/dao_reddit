@@ -111,7 +111,7 @@ Meteor.publish 'results', (selected_tags,
         if selected_tags.length > 0
             # console.log 'looking for top redditors 2', selected_tags
             match.tags = $all: selected_tags
-            redditor_cloud = Docs.aggregate [
+            redditor_leader_cloud = Docs.aggregate [
                 { $match: match }
                 { $project: "author": 1 }
                 { $group: _id: "$author", count: $sum: 1 }
@@ -122,9 +122,9 @@ Meteor.publish 'results', (selected_tags,
                 allowDiskUse: true
             }
 
-            redditor_cloud.forEach (redditor, i) =>
+            redditor_leader_cloud.forEach (redditor, i) =>
                 console.log 'queried redditor ', redditor
-                self.added 'redditors', Random.id(),
+                self.added 'redditor_leaders', Random.id(),
                     title: redditor.title
                     count: redditor.count
                     # category:key
@@ -137,6 +137,8 @@ Meteor.publish 'results', (selected_tags,
 
 
 
+Meteor.publish 'all_redditors', ->
+    Redditors.find()
 
 Meteor.publish 'docs', (
     selected_tags

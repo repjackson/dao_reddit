@@ -5,13 +5,15 @@ template(name='nav')
                 i.yin.yang.loading.large.grey.icon(title='dao')
             //- else 
             i.large.yin.yang.link.icon.toggle_menu
-        a.icon.item.mobile.hidden(href='/users' title='users')
+        a.icon.item.mobile.hidden(href='/users' class="{{isActivePath '/users'}}" title='users')
             i.users.icon
-        a.icon.item(href='/grid' title='apps')
+        a.icon.item(href='/grid' class="{{isActivePath '/grid'}}" title='apps')
             i.th.icon
-        a.icon.item.mobile.hidden(href='/cart' title='shopping cart')
-            i.shopping.cart.icon
+        a.icon.item.mobile.hidden(href='/shop' class="{{isActivePath '/shop'}}" title='shop')
+            i.store.icon
         .right.menu
+            a.icon.item.mobile.hidden(href='/cart' class="{{isActivePath '/cart'}}" title='shopping cart')
+                i.shopping.cart.icon
             a.mobile.hidden.icon.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks') 
                 i.tasks.icon
             a.mobile.hidden.icon.item(href='/events' class="{{isActivePath '/events'}}" title='events') 

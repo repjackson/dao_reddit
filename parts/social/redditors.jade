@@ -1,0 +1,67 @@
+template(name='redditors')
+    .ui.stackable.padded.grid
+        .one.column.row
+            .column
+                .ui.center.aligned.header
+                    i.redditors.icon
+                    |redditors
+        .one.column.row 
+            .column
+                .ui.stackable.centered.five.cards 
+                    each redditors 
+                        +redditor_card
+                        
+template(name='redditor_card')                        
+    .ui.card 
+        if profile_image_id 
+            a.image(href="/redditor/#{_id}")
+                img.ui.image(src="{{c.url profile_image_id gravity='face' height='300' crop='crop'}}")
+        .content
+            a.ui.header(href="/redditor/#{_id}") #{redditorname}
+            .ui.list
+                .item #{karma} karma
+            a.ui.fluid.circular.button(href="/redditor/#{_id}")
+                //- |view
+                i.chevron.right.icon
+                
+                
+template(name='redditor_page')  
+    .ui.stackable.padded.grid
+        if redditor
+            with redditor 
+                .four.wide.column
+                    .ui.center.aligned.header
+                        i.user.icon
+                        |redditor: #{handle}
+                    .ui.header 
+                        i.line.chart.icon
+                        |stats
+                    i.refresh.circular.link.icon
+                    .ui.header #{submission_count} submissions
+                    .ui.header #{submission_rank} rank
+                .twelve.wide.column
+                    .ui.header submissions
+                    .scrolling
+                        each submissions
+                            .ui.fluid.segment
+                                .ui.header #{title}
+                                .ui.list
+                                    .item
+                                        |domain: #{domain}
+                                    .item
+                                        |upvotes: #{ups}
+                                    .item
+                                        |comment count: #{comment_count}
+                                    .item 
+                                        |url: #{url}
+                                    .item 
+                                        |permalink: #{permalink}
+                                    .item 
+                                        |subreddit: #{subreddit}
+                                each tags
+                                    .ui.black.small.label #{this}
+        else 
+            .twelve.wide.column
+                .ui.header redditor file not found
+                .ui.button.pull_redditor
+                    |create

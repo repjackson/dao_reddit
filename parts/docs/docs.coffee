@@ -27,6 +27,7 @@ if Meteor.isClient
             Session.get('view_videos')
             Session.get('view_articles')
         @autorun => @subscribe 'docs', selected_tags.array()
+        @autorun => @subscribe 'all_redditors'
 
 
 
@@ -104,6 +105,12 @@ if Meteor.isClient
         'click .calc_doc_count': ->
             Meteor.call 'calc_doc_count', ->
 
+        'click .create_redditor': ->
+            Meteor.call 'create_redditor', @title, ->
+
+        'click .calc_redditor': ->
+            Meteor.call 'calc_redditor_stats', @handle, ->
+
         'click .calc_post': ->
             console.log @
             # Meteor.call 'get_reddit_post', (@_id)->
@@ -172,13 +179,17 @@ if Meteor.isClient
                 # limit:1
 
 
-        redditors: ->
+        redditor_leaders: ->
             # if selected_tags.array().length > 0
-            Redditors.find {
+            Redditor_leaders.find {
                 # model:'reddit'
             },
                 sort: count:-1
                 # limit:1
+
+        redditor: ->
+            Redditors.findOne
+                handle:@title
 
 
 

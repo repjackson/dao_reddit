@@ -3,7 +3,7 @@
 @Terms = new Meteor.Collection 'terms'
 @Redditors = new Meteor.Collection 'redditors'
 
-@Author_leaders = new Meteor.Collection 'author_leaders'
+@Redditor_leaders = new Meteor.Collection 'redditor_leaders'
 
 
 Router.configure

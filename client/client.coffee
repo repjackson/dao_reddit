@@ -1,4 +1,5 @@
 @selected_tags = new ReactiveArray []
+@selected_shop_tags = new ReactiveArray []
 
 # Accounts.ui.config
 #     passwordSignupFields: 'USERNAME_ONLY'
@@ -94,7 +95,7 @@ Template.registerHelper 'session_is', (key, value)->
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'to_percent', (number)->
-    console.log number
+    # console.log number
     (number*100).toFixed()
 # Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
 # Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")

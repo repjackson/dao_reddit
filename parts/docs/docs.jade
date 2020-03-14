@@ -102,11 +102,26 @@ template(name='docs')
                                 +doc_item
                                 .ui.divider
             .four.wide.column
-                .ui.header leaderboard
-                .ui.circular.icon.button.calc_leaderboard
-                    i.refresh.icon
-                each redditors
-                    .ui.small.header #{title} #{count}
+                .ui.header 
+                    |leaderboard
+                //- .ui.circular.icon.button.calc_leaderboard
+                //-     i.refresh.icon
+                .ui.list
+                    each redditor_leaders
+                        .item
+                            a.ui.small.header(href="/redditor/#{title}")
+                                i.user.icon
+                                |#{title}
+                            | #{count} submissions
+                            | #{count} submissions
+                        unless redditor
+                            i.circular.link.plus.icon.create_redditor
+                        with redditor
+                            i.circular.link.refresh.icon.calc_redditor
+                            .ui.header handle: #{handle}
+                            .ui.small.header #{submission_rank} rank
+                            .ui.small.header #{submission_count} count
+                    
                         
                         
 template(name='session_edit_value_button')
