@@ -108,30 +108,30 @@ Meteor.publish 'results', (selected_tags,
         # console.log 'redditor cloud match', match
         # console.log 'looking for top redditors', selected_tags
 
-        if selected_tags.length > 0
-            # console.log 'looking for top redditors 2', selected_tags
-            match.tags = $all: selected_tags
-            redditor_leader_cloud = Docs.aggregate [
-                { $match: match }
-                { $project: "author": 1 }
-                { $group: _id: "$author", count: $sum: 1 }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 10 }
-                { $project: _id: 0, title: '$_id', count: 1 }
-            ], {
-                allowDiskUse: true
-            }
+        # if selected_tags.length > 0
+        # console.log 'looking for top redditors 2', selected_tags
+        if selected_tags.length > 0 then match.tags = $all: selected_tags
+        redditor_leader_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "author": 1 }
+            { $group: _id: "$author", count: $sum: 1 }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, title: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
 
-            redditor_leader_cloud.forEach (redditor, i) =>
-                console.log 'queried redditor ', redditor
-                self.added 'redditor_leaders', Random.id(),
-                    title: redditor.title
-                    count: redditor.count
-                    # category:key
-                    # index: i
-            # console.log 'ready'
+        redditor_leader_cloud.forEach (redditor, i) =>
+            console.log 'queried redditor ', redditor
+            self.added 'redditor_leaders', Random.id(),
+                title: redditor.title
+                count: redditor.count
+                # category:key
+                # index: i
+        # console.log 'ready'
 
-            # console.log doc_tag_cloud.count()
+        # console.log doc_tag_cloud.count()
 
         self.ready()
 
@@ -176,4 +176,4 @@ Meteor.publish 'docs', (
     Docs.find match,
         sort:"#{sort}":-1
         # sort:_timestamp:-1
-        limit: 20
+        limit: 10

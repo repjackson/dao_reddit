@@ -5,12 +5,18 @@ template(name='nav')
                 i.yin.yang.loading.large.grey.icon(title='dao')
             //- else 
             i.large.yin.yang.link.icon.toggle_menu
-        a.icon.item.mobile.hidden(href='/users' class="{{isActivePath '/users'}}" title='users')
-            i.users.icon
+        a.icon.item.mobile.hidden(href='/users' class="{{isActivePath '/users'}}" title='daoists')
+            i.large.icons
+                i.yin.yang.icon
+                i.corner.user.outline.icon
         a.icon.item(href='/grid' class="{{isActivePath '/grid'}}" title='apps')
             i.th.icon
         a.icon.item.mobile.hidden(href='/shop' class="{{isActivePath '/shop'}}" title='shop')
             i.store.icon
+        a.icon.item.mobile.hidden(href='/redditors' class="{{isActivePath '/redditors'}}" title='redditors')
+            i.large.icons
+                i.reddit.icon
+                i.corner.user.outline.icon
         .right.menu
             a.icon.item.mobile.hidden(href='/cart' class="{{isActivePath '/cart'}}" title='shopping cart')
                 i.shopping.cart.icon

@@ -19,7 +19,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'redditors'
     Template.redditors.helpers
         redditors: ->
-            Redditors.find()
+            Redditors.find( {},
+            sort:submission_rank:1
+            )
 
 
     Template.redditor_page.onRendered ->
@@ -45,6 +47,12 @@ if Meteor.isClient
         'click .refresh': ->
             console.log @
             Meteor.call 'calc_redditor_stats', Router.current().params.handle, ->
+
+
+    Template.redditor_card.events
+        'click .refresh': ->
+            console.log @
+            Meteor.call 'calc_redditor_stats', @handle, ->
 
 
 

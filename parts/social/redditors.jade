@@ -3,7 +3,9 @@ template(name='redditors')
         .one.column.row
             .column
                 .ui.center.aligned.header
-                    i.redditors.icon
+                    i.large.icons
+                        i.reddit.icon
+                        i.corner.user.outline.icon
                     |redditors
         .one.column.row 
             .column
@@ -13,14 +15,17 @@ template(name='redditors')
                         
 template(name='redditor_card')                        
     .ui.card 
-        if profile_image_id 
-            a.image(href="/redditor/#{_id}")
-                img.ui.image(src="{{c.url profile_image_id gravity='face' height='300' crop='crop'}}")
+        //- if profile_image_id 
+        //-     a.image(href="/redditor/#{handle}")
+        //-         img.ui.image(src="{{c.url profile_image_id gravity='face' height='300' crop='crop'}}")
         .content
-            a.ui.header(href="/redditor/#{_id}") #{redditorname}
+            a.ui.header(href="/redditor/#{handle}") #{handle}
+            .ui.inline.header(title='submission rank') ##{submission_rank}
             .ui.list
                 .item #{karma} karma
-            a.ui.fluid.circular.button(href="/redditor/#{_id}")
+                .item #{submission_count} submissions
+            i.refresh.link.circular.icon
+            a.ui.fluid.circular.button(href="/redditor/#{handle}")
                 //- |view
                 i.chevron.right.icon
                 

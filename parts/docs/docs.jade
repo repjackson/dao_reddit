@@ -101,7 +101,8 @@ template(name='docs')
                             each docs
                                 +doc_item
                                 .ui.divider
-            .four.wide.column
+            .four.wide.column.scrolling
+                .spacer
                 .ui.header 
                     |leaderboard
                 //- .ui.circular.icon.button.calc_leaderboard
@@ -113,14 +114,16 @@ template(name='docs')
                                 i.user.icon
                                 |#{title}
                             | #{count} submissions
-                            | #{count} submissions
                         unless redditor
                             i.circular.link.plus.icon.create_redditor
                         with redditor
                             i.circular.link.refresh.icon.calc_redditor
-                            .ui.header handle: #{handle}
-                            .ui.small.header #{submission_rank} rank
-                            .ui.small.header #{submission_count} count
+                            span(title='submission count ranking')
+                                i.globe.icon
+                                | ##{submission_rank}
+                            span(title='submissions')
+                                i.file.alternate.outline.icon
+                                | #{submission_count}
                     
                         
                         
