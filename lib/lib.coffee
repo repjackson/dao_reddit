@@ -1,6 +1,10 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 @Terms = new Meteor.Collection 'terms'
+@Redditors = new Meteor.Collection 'redditors'
+
+@Author_leaders = new Meteor.Collection 'author_leaders'
+
 
 Router.configure
     layoutTemplate: 'layout'

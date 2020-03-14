@@ -26,8 +26,7 @@ if Meteor.isClient
             Session.get('view_images')
             Session.get('view_videos')
             Session.get('view_articles')
-        @autorun => @subscribe 'docs',
-            selected_tags.array()
+        @autorun => @subscribe 'docs', selected_tags.array()
 
 
 
@@ -37,6 +36,14 @@ if Meteor.isClient
         #         $set: dark_mode: !Meteor.user().dark_mode
         # 'click .toggle_menu': ->
         #     Session.set('view_menu', !Session.get('view_menu'))
+        'click .calc_leaderboard': ->
+            # console.log @
+            # console.log selected_tags.array()
+            Meteor.call 'calc_leaders', selected_tags.array(), (err,res)->
+                console.log res
+
+
+
         'click .toggle_images': -> Session.set('view_images', !Session.get('view_images'))
         'click .toggle_videos': -> Session.set('view_videos', !Session.get('view_videos'))
         'click .toggle_articles': -> Session.set('view_articles', !Session.get('view_articles'))
@@ -162,6 +169,15 @@ if Meteor.isClient
                 # model:'reddit'
             },
                 sort: ups:-1
+                # limit:1
+
+
+        redditors: ->
+            # if selected_tags.array().length > 0
+            Redditors.find {
+                # model:'reddit'
+            },
+                sort: count:-1
                 # limit:1
 
 

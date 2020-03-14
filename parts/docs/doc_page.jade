@@ -74,8 +74,8 @@ template(name='doc_page')
                     +array_view key='watson_keywords' icon='tags'
                         
                 .twelve.wide.column 
-                    +session_edit_value_button key='view_tone' value=true label='yes'
-                    +session_edit_value_button key='view_tone' value=false label='no'
+                    +session_edit_value_button key='view_tone' value=true label='tone'
+                    +session_edit_value_button key='view_tone' value=false label='plain'
                     if tone 
                         each tone.result.sentences_tone
                             .item

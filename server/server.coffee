@@ -42,7 +42,7 @@ Meteor.publish 'results', (selected_tags,
     )->
     # console.log 'dummy', dummy
     # console.log 'query', query
-    # console.log 'selected tags', selected_tags
+    console.log 'selected tags', selected_tags
 
     self = @
     match = {}
@@ -104,6 +104,35 @@ Meteor.publish 'results', (selected_tags,
                 # category:key
                 # index: i
         # console.log 'ready'
+
+        # console.log 'redditor cloud match', match
+        # console.log 'looking for top redditors', selected_tags
+
+        if selected_tags.length > 0
+            # console.log 'looking for top redditors 2', selected_tags
+            match.tags = $all: selected_tags
+            redditor_cloud = Docs.aggregate [
+                { $match: match }
+                { $project: "author": 1 }
+                { $group: _id: "$author", count: $sum: 1 }
+                { $sort: count: -1, _id: 1 }
+                { $limit: 10 }
+                { $project: _id: 0, title: '$_id', count: 1 }
+            ], {
+                allowDiskUse: true
+            }
+
+            redditor_cloud.forEach (redditor, i) =>
+                console.log 'queried redditor ', redditor
+                self.added 'redditors', Random.id(),
+                    title: redditor.title
+                    count: redditor.count
+                    # category:key
+                    # index: i
+            # console.log 'ready'
+
+            # console.log doc_tag_cloud.count()
+
         self.ready()
 
 

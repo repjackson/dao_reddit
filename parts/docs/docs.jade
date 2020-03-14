@@ -19,10 +19,10 @@ template(name='docs')
                     input#search.prompt(type='text' autofocus='' autocomplete="off")
 
                 if selected_tags_plural
-                    .ui.icon.circular.black.compact.button.clear_selected_tags
+                    .ui.icon.circular.black.compact.large.button.clear_selected_tags
                         i.remove.icon
                 each selected_tags
-                    button.ui.black.compact.circular.button.unselect_tag(tabindex='0')
+                    button.ui.black.compact.circular.large.button.unselect_tag(tabindex='0')
                         //- i.remove.icon
                         | #{this}
                 //- if subs_ready
@@ -34,7 +34,7 @@ template(name='docs')
                 //-         i.remove.icon
                 //- div
                 each tags
-                    button.ui.basic.circular.compact.button.result(tabindex="0" class=result_class title=count) #{title}
+                    button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
                 //- .ui.divider
                 
@@ -84,9 +84,9 @@ template(name='docs')
                     //-             +set_view_mode title='items' icon='list'
                     //-             +set_view_mode title='map' icon='map'
                     //-             +set_view_mode title='graph' icon='graph'
-                    |sort by
-                    +session_edit_value_button key='sort_key' value='_timestamp' label='created'
-                    +session_edit_value_button key='sort_key' value='upvotes' label='upvotes'
+                    //- |sort by
+                    //- +session_edit_value_button key='sort_key' value='_timestamp' label='created'
+                    //- +session_edit_value_button key='sort_key' value='upvotes' label='upvotes'
                     +session_edit_value_button key='view_mode' value='cards' label='cards' icon='grip horizontal' icon_view=true classes='circular icon'
                     +session_edit_value_button key='view_mode' value='list' label='list' icon='list' icon_view=true classes='circular icon'
                     //- +session_edit_value_button key='view_mode' value='items' label='items' icon='grip horizontal' icon_view=true classes='circular icon'
@@ -100,9 +100,15 @@ template(name='docs')
                         .ui.list
                             each docs
                                 +doc_item
-                                //- .ui.hidden.divider
+                                .ui.divider
             .four.wide.column
                 .ui.header leaderboard
+                .ui.circular.icon.button.calc_leaderboard
+                    i.refresh.icon
+                each redditors
+                    .ui.small.header #{title} #{count}
+                        
+                        
 template(name='session_edit_value_button')
     .ui.button.set_session_value(class=calculated_class)
         if icon_view 

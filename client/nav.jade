@@ -12,6 +12,8 @@ template(name='nav')
         a.icon.item.mobile.hidden(href='/cart' title='shopping cart')
             i.shopping.cart.icon
         .right.menu
+            a.mobile.hidden.icon.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks') 
+                i.tasks.icon
             a.mobile.hidden.icon.item(href='/events' class="{{isActivePath '/events'}}" title='events') 
                 i.calendar.icon
             a.icon.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat') 

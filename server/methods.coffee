@@ -14,6 +14,36 @@ Meteor.methods
 #             # console.log 'result doc', Docs.findOne doc._id
 # #
 
+    calc_leaders: (selected_tags)->
+        # console.log selected_tags
+        match = {}
+        match.model = 'reddit'
+
+        if selected_tags.length > 0 then match.tags = $all: selected_tags
+        # match.tags = $all: selected_tags
+        # console.log 'match for tags', match
+        tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+        res = []
+        # tag_cloud.toArray()
+        res = tag_cloud.toArray()
+        # tag_cloud.forEach (tag, i)=>
+        #     console.log tag
+        #     res.push tag
+        res
+
+
     call_wiki: (query)->
         console.log 'calling wiki', query
         term = query.split(' ').join('_')
@@ -25,13 +55,13 @@ Meteor.methods
             else
 
                 # console.log response
-                console.log 'response'
+                # console.log 'response'
 
                 found_doc =
                     Docs.findOne
                         url: "https://en.wikipedia.org/wiki/#{term}"
                 if found_doc
-                    console.log 'found wiki doc for term', term, found_doc
+                    # console.log 'found wiki doc for term', term, found_doc
                     Docs.update found_doc._id,
                         $addToSet:tags:'wikipedia'
                     Meteor.call 'call_watson', found_doc._id, 'url','url', ->
@@ -40,6 +70,7 @@ Meteor.methods
                         title: query
                         tags:['wikipedia', query]
                         source: 'wikipedia'
+                        model:'wikipedia'
                         ups: 1000000
                         url:"https://en.wikipedia.org/wiki/#{term}"
                     Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
