@@ -121,6 +121,11 @@ if Meteor.isClient
     Template.doc_page.onCreated ->
         @view_detail = new ReactiveVar false
 
+    Template.doc_page.onRendered ->
+        Meteor.setTimeout ->
+            $('.ui.embed').embed();
+        , 1000
+
     Template.doc_page.helpers
         view_tone: -> Session.get('view_tone')
 

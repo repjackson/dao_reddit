@@ -1,7 +1,7 @@
 template(name='docs')
-    .ui.stackable.grid.home(class=invert_class)
+    .ui.stackable.padded.grid.home(class=invert_class)
         .centered.row 
-            .four.wide.column
+            .four.wide.column.scrolling
                 //- .ui.header #{connection.status}
                 unless connected
                     .ui.inline.header disconnected
@@ -11,6 +11,7 @@ template(name='docs')
                 //-     i.video.circular.link.icon.toggle_videos(title='toggle video' class=view_videos_class)
                 //-     i.twitter.circular.link.icon.toggle_tweets(title='toggle tweets' class=view_tweets_class)
                 //-     i.list.circular.link.icon.toggle_articles(title='toggle articles' class=view_articles_class)
+                i.large.grey.tags.icon
                 .ui.left.icon.large.search.input
                     if subs_ready
                         i.search.icon.refresh_tags
@@ -25,15 +26,25 @@ template(name='docs')
                     button.ui.black.compact.circular.large.button.unselect_tag(tabindex='0')
                         //- i.remove.icon
                         | #{this}
-                //- if subs_ready
-                //-     i.yin.yang.grey.big.grey.icon(title='dao')
-                //- div
-                //- .spacer
-                //- if selected_tags
-                //-     .ui.black.icon.large.compact.circular.button.clear_selected_tags(title='clear search')
-                //-         i.remove.icon
-                //- div
                 each tags
+                    button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
+                        //- small #{count}
+                .ui.hidden.divider
+                i.large.grey.users.icon
+                .ui.left.icon.large.search.input
+                    if subs_ready
+                        i.search.icon.refresh_tags
+                    else
+                        i.reddit.loading.large.icon
+                    input#search_redditor.prompt(type='text' autofocus='' autocomplete="off")
+                if selected_redditors_plural
+                    .ui.icon.circular.black.compact.large.button.clear_selected_redditors
+                        i.remove.icon
+                each selected_redditors
+                    button.ui.black.compact.circular.large.button.unselect_redditor(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each redditor_leaders
                     button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
                 //- .ui.divider
@@ -73,17 +84,17 @@ template(name='docs')
                                 +set_limit amount=10
                                 +set_limit amount=20
                                 +set_limit amount=50
-                    //- .ui.compact.menu
-                    //-     .ui.simple.dropdown.item
-                    //-         |#{current_delta.view_mode}
-                    //-         i.dropdown.icon
-                    //-         .menu
-                    //-             +set_view_mode title='table' icon='table'
-                    //-             +set_view_mode title='list' icon='list'
-                    //-             +set_view_mode title='cards' icon='cards'
-                    //-             +set_view_mode title='items' icon='list'
-                    //-             +set_view_mode title='map' icon='map'
-                    //-             +set_view_mode title='graph' icon='graph'
+                    .ui.compact.menu
+                        .ui.simple.dropdown.item
+                            |#{current_delta.view_mode}
+                            i.dropdown.icon
+                            .menu
+                                +set_view_mode_docs title='table' icon='table'
+                                +set_view_mode_docs title='list' icon='list'
+                                +set_view_mode_docs title='cards' icon='clone'
+                                +set_view_mode_docs title='items' icon='list'
+                                +set_view_mode_docs title='map' icon='map'
+                                +set_view_mode_docs title='graph' icon='line chart'
                     //- |sort by
                     //- +session_edit_value_button key='sort_key' value='_timestamp' label='created'
                     //- +session_edit_value_button key='sort_key' value='upvotes' label='upvotes'
@@ -102,18 +113,17 @@ template(name='docs')
                                 +doc_item
                                 .ui.divider
             .four.wide.column.scrolling
-                .spacer
                 .ui.header 
                     |leaderboard
                 //- .ui.circular.icon.button.calc_leaderboard
                 //-     i.refresh.icon
-                .ui.list
+                .ui.relaxed.list
                     each redditor_leaders
                         .item
                             a.ui.small.header(href="/redditor/#{title}")
                                 i.user.icon
                                 |#{title}
-                            | #{count} submissions
+                            span.ui.grey.text #{count} results
                         unless redditor
                             i.circular.link.plus.icon.create_redditor
                         with redditor

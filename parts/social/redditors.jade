@@ -32,41 +32,46 @@ template(name='redditor_card')
                 
 template(name='redditor_page')  
     .ui.stackable.padded.grid
-        if redditor
-            with redditor 
-                .four.wide.column
-                    .ui.center.aligned.header
-                        i.user.icon
-                        |redditor: #{handle}
-                    .ui.header 
-                        i.line.chart.icon
-                        |stats
-                    i.refresh.circular.link.icon
-                    .ui.header #{submission_count} submissions
-                    .ui.header #{submission_rank} rank
+        if subs_ready
+            if redditor
+                with redditor 
+                    .four.wide.column
+                        .ui.header(title='redditor')
+                            i.large.icons
+                                i.reddit.icon
+                                i.user.icon.corner.icon
+                            |#{handle}
+                        .ui.header 
+                            i.line.chart.icon
+                            |stats
+                        i.refresh.circular.link.icon
+                        .ui.header #{submission_count} submissions
+                        .ui.header #{submission_rank} rank
+                    .twelve.wide.column
+                        .ui.header submissions
+                        .scrolling
+                            each submissions
+                                .ui.fluid.segment
+                                    a.ui.header(href="/doc/#{_id}/view") #{title}
+                                    .ui.list
+                                        .item
+                                            |domain: #{domain}
+                                        .item
+                                            |upvotes: #{ups}
+                                        .item
+                                            |comment count: #{comment_count}
+                                        .item 
+                                            |url: #{url}
+                                        .item 
+                                            |permalink: #{permalink}
+                                        .item 
+                                            |subreddit: #{subreddit}
+                                    each tags
+                                        .ui.black.small.label #{this}
+            else 
                 .twelve.wide.column
-                    .ui.header submissions
-                    .scrolling
-                        each submissions
-                            .ui.fluid.segment
-                                .ui.header #{title}
-                                .ui.list
-                                    .item
-                                        |domain: #{domain}
-                                    .item
-                                        |upvotes: #{ups}
-                                    .item
-                                        |comment count: #{comment_count}
-                                    .item 
-                                        |url: #{url}
-                                    .item 
-                                        |permalink: #{permalink}
-                                    .item 
-                                        |subreddit: #{subreddit}
-                                each tags
-                                    .ui.black.small.label #{this}
+                    .ui.header redditor file not found
+                    .ui.button.pull_redditor
+                        |create
         else 
-            .twelve.wide.column
-                .ui.header redditor file not found
-                .ui.button.pull_redditor
-                    |create
+            i.large.yin.yang.loading.icon

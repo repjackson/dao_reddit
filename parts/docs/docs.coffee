@@ -136,7 +136,6 @@ if Meteor.isClient
         view_videos_class: -> if Session.get('view_videos') then 'white' else 'grey'
         view_articles_class: -> if Session.get('view_articles') then 'white' else 'grey'
         view_tweets_class: -> if Session.get('view_tweets') then 'white' else 'grey'
-        subs_ready: -> Template.instance().subscriptionsReady()
         connection: ->
             console.log Meteor.status()
             Meteor.status()

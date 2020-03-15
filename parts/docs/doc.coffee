@@ -1,8 +1,17 @@
 if Meteor.isClient
+    Template.doc_card.onRendered ->
+        Meteor.setTimeout ->
+            $('.ui.embed').embed();
+        , 1000
+
     Template.doc_card.onCreated ->
         @view_more = new ReactiveVar(false)
     Template.doc_card.events
         'click .collapse': (e,t)-> t.view_more.set(false)
+        'click .goto_article': ->
+            console.log @
+            Meteor.call 'log_view', @_id, ->
+            Router.go "/doc/#{@_id}/view"
         'click .expand': (e,t)->
             unless @tone
                 Meteor.call 'call_tone', @_id, 'url', 'text', ->
@@ -51,6 +60,11 @@ if Meteor.isClient
             Meteor.call 'call_watson', @_id, 'url', 'image'
         'click .print_me': ->
             console.log @
+        'click .goto_article': ->
+            console.log @
+            Meteor.call 'log_view', @_id, ->
+            Router.go "/doc/#{@_id}/view"
+
     Template.doc_item.helpers
         has_thumbnail: ->
             # console.log @thumbnail

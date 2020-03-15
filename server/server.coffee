@@ -123,7 +123,7 @@ Meteor.publish 'results', (selected_tags,
         }
 
         redditor_leader_cloud.forEach (redditor, i) =>
-            console.log 'queried redditor ', redditor
+            # console.log 'queried redditor ', redditor
             self.added 'redditor_leaders', Random.id(),
                 title: redditor.title
                 count: redditor.count

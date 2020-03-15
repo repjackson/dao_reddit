@@ -14,6 +14,9 @@ Meteor.methods
 #             # console.log 'result doc', Docs.findOne doc._id
 # #
 
+    calc_redditor_tag_cloud: (handle)->
+        redditor = Redditors.findOne handle
+
     calc_leaders: (selected_tags)->
         # console.log selected_tags
         match = {}

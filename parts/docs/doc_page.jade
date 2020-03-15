@@ -11,9 +11,9 @@ template(name='doc_page')
                         .ui.grey.inline.header(title=ups) !{watson.metadata.title}
             .row
                 .four.wide.column 
-                    if has_thumbnail
-                        .image.rounded
-                            img(src=thumbnail)
+                    //- if has_thumbnail
+                    .ui.fluid.image.rounded
+                        img(src=thumbnail)
                     .content        
                         if is_image
                             img.ui.image(src=url)
@@ -28,6 +28,10 @@ template(name='doc_page')
                             a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
                                 i.comments.spaced.icon
                                 |#{comment_count}
+                        if domain
+                            .ui.basic.circular.inverted.label(title='domain')
+                                i.globe.icon
+                                |#{domain}
                         if ups
                             .ui.basic.inverted.label 
                                 i.thumbs.up.outline.icon
@@ -74,21 +78,27 @@ template(name='doc_page')
                     +array_view key='watson_keywords' icon='tags'
                         
                 .twelve.wide.column 
+                    if is_youtube
+                        .ui.embed.youtube_view(data-source="youtube" data-id=youtube_id)
+                        //- iframe(width="560" height="315" src=url frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    img.invert(src=url)
+                    div
                     +session_edit_value_button key='view_tone' value=true label='tone'
                     +session_edit_value_button key='view_tone' value=false label='plain'
                     if tone 
-                        each tone.result.sentences_tone
-                            .item
-                                if view_tone
-                                    //- span #{sentence_id}
-                                    span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
-                                    //- .ui.basic.small.compact.button
-                                    //- .ui.small.basic.label #{tone_id}
-                                    .ui.small.basic.inverted.label {{to_percent score}} #{tone_id}
-                                    //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
-                                else 
-                                    span.large120(title="#{sentence_id}") #{text}
-                                    //- span.large-text #{text}
+                        .scrolling
+                            each tone.result.sentences_tone
+                                .item
+                                    if view_tone
+                                        //- span #{sentence_id}
+                                        span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
+                                        //- .ui.basic.small.compact.button
+                                        //- .ui.small.basic.label #{tone_id}
+                                        .ui.small.basic.inverted.label {{to_percent score}} #{tone_id}
+                                        //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
+                                    else 
+                                        span.large120(title="#{sentence_id}") #{text}
+                                        //- span.large-text #{text}
                     if tags
                         each tags
                             .ui.circular.large.inverted.black.label
@@ -98,7 +108,8 @@ template(name='doc_page')
                     //-     .ui.basic.segment
                     //-         |!{body}
                     if watson 
-                        +watson_view
+                        .scrolling
+                            +watson_view
 
 
 

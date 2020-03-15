@@ -27,7 +27,22 @@ Template.registerHelper 'calculated_size', (metric) ->
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
 
+Template.registerHelper 'subs_ready', () ->
+    Template.instance().subscriptionsReady()
 
+Template.registerHelper 'youtube_id', () ->
+    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+    match = @url.match(regExp)
+    if (match && match[2].length == 11)
+        console.log 'match 2', match[2]
+        match[2]
+    else
+        console.log 'error'
+
+
+
+Template.registerHelper 'is_youtube', () ->
+    @domain is 'youtube.com'
 Template.registerHelper 'calc_size', (metric) ->
     # console.log metric
     # console.log typeof parseFloat(@relevance)

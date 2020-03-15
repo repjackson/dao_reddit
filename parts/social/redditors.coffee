@@ -82,17 +82,17 @@ if Meteor.isServer
         calc_redditor_stats: (handle)->
             console.log handle
             found_redditor = Redditors.findOne(handle:handle)
-            if found_redditor
-                console.log 'found_redditor', found_redditor
+            # if found_redditor
+            #     console.log 'found_redditor', found_redditor
             submission_count =
                 Docs.find(
                     model:'reddit'
                     author:handle
                 ).count()
-            console.log 'submission count', submission_count
+            # console.log 'submission count', submission_count
             redditor_count =
                 Redditors.find().count()
-            console.log 'redditor count', redditor_count
+            # console.log 'redditor count', redditor_count
             redditor_index =
                 Redditors.find({},
                     fields:
@@ -100,14 +100,14 @@ if Meteor.isServer
                     sort:submission_count:-1
                 ).fetch()
 
-            console.log 'index', redditor_index
-            values = _.values(redditor_index)
-            console.log 'values', values
+            # console.log 'index', redditor_index
+            # values = _.values(redditor_index)
+            # console.log 'values', values
             element = {
                 _id: found_redditor._id
                 # submission_count: found_redditor.submission_count
             }
-            console.log 'element', element
+            # console.log 'element', element
 
             # submission_rank =
             #     _.indexOf(values, element)
