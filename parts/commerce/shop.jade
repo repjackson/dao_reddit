@@ -2,13 +2,16 @@ template(name='shop')
     .ui.stackable.grid
         .row
             .four.wide.column
-                a.ui.circular.fluid.button(href='/')
-                    i.left.chevron.grey.icon
-                    .ui.inline.grey.header back
+                //- a.ui.circular.fluid.button(href='/')
+                //-     i.left.chevron.grey.icon
+                //-     .ui.inline.grey.header back
                 .ui.grey.inline.header 
                     i.shop.icon
                     //- +i name='shop'
                     |shop
+                if currentUser 
+                    .ui.large.compact.icon.button.add_product
+                        i.plus.large.icon
                 //- .ui.inline.header type
                 //- +shop_cloud
             .twelve.wide.column.scrolling

@@ -50,16 +50,16 @@ template(name='doc_page')
                         i.refresh.circular.link.icon.calc_post
                         div
                         +voting_full
-                    .ui.button.call_watson 
+                    .ui.circular.button.call_watson 
                         i.chess.icon
                         |tag url
-                    .ui.button.call_watson_image
+                    .ui.circular.button.call_watson_image
                         i.chess.icon
                         |tag image
-                    .ui.button.pull_tone
+                    .ui.circular.button.pull_tone
                         i.download.icon
                         |download content
-                    .ui.button.print_me
+                    .ui.circular.button.print_me
                         |print me
                     +array_view key='categories' icon='cubes' 
                     +array_view key='Person' icon='user' 
@@ -86,31 +86,46 @@ template(name='doc_page')
                     +session_edit_value_button key='view_tone' value=true label='tone'
                     +session_edit_value_button key='view_tone' value=false label='plain'
                     if tone 
-                        .scrolling
-                            each tone.result.sentences_tone
-                                .item
-                                    if view_tone
-                                        //- span #{sentence_id}
-                                        span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
-                                        //- .ui.basic.small.compact.button
-                                        //- .ui.small.basic.label #{tone_id}
-                                        .ui.small.basic.inverted.label {{to_percent score}} #{tone_id}
-                                        //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
-                                    else 
-                                        span.large120(title="#{sentence_id}") #{text}
-                                        //- span.large-text #{text}
+                        .ui.accordion
+                            .title 
+                                .ui.header content
+                                    i.dropdown.icon
+                            .content
+                                .scrolling
+                                    each tone.result.sentences_tone
+                                        .item
+                                            if view_tone
+                                                //- span #{sentence_id}
+                                                span(class="{{calc_size top_score}} #{tone_sentence_class}" title="{{ top_score }}% significant") #{text}
+                                                //- .ui.basic.small.compact.button
+                                                //- .ui.small.basic.label #{tone_id}
+                                                .ui.small.basic.inverted.label {{to_percent score}} #{tone_id}
+                                                //- .ui.small.basic.inverted.label {{to_percent score}}% #{tone_id}
+                                            else 
+                                                span.large120(title="#{sentence_id}") #{text}
+                                                //- span.large-text #{text}
                     if tags
-                        each tags
-                            .ui.circular.large.inverted.black.label
-                                |#{this}
+                        .ui.accordion
+                            .title
+                                .ui.header #{tags.length} tags
+                                    i.dropdown.icon
+                            .content
+                                each tags
+                                    .ui.circular.large.inverted.black.label
+                                        |#{this}
                     div
                     //- if body
                     //-     .ui.basic.segment
                     //-         |!{body}
                     if watson 
-                        .scrolling
-                            +watson_view
-
+                        .ui.accordion
+                            .title 
+                                .ui.header emotional analysis
+                                    i.dropdown.icon
+                            .content 
+                                .scrolling
+                                    +watson_view
+                    +comments
 
 
 template(name='emotion_circle')

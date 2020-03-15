@@ -7,7 +7,6 @@
 
 @Redditor_leaders = new Meteor.Collection 'redditor_leaders'
 
-
 Router.configure
     layoutTemplate: 'layout'
     notFoundTemplate: 'not_found'
@@ -84,6 +83,8 @@ Terms.before.insert (userId, doc)->
         doc._timestamp_tags = date_array
 
     return
+
+
 
 
 

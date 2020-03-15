@@ -180,6 +180,16 @@ if Meteor.isClient
                 sort: ups:-1
                 # limit:1
 
+        home_subs_ready: ->
+            Template.instance().subscriptionsReady()
+
+        home_subs_ready: ->
+            if Template.instance().subscriptionsReady()
+                Session.set('global_subs_ready', true)
+            else
+                Session.set('global_subs_ready', false)
+
+
 
         redditor_leaders: ->
             # if selected_tags.array().length > 0

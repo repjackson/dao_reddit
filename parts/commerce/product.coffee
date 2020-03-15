@@ -39,3 +39,9 @@ if Meteor.isClient
                   hideMethod   : 'fade',
                   hideDuration : 250
                 })
+
+
+
+# if Meteor.isServer
+    # Meteor.publish 'product', (pid)->
+    #     Products.find pid

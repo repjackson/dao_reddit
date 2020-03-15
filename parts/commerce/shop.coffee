@@ -7,6 +7,11 @@ if Meteor.isClient
 
     Template.shop.onCreated ->
         @autorun -> Meteor.subscribe 'shop_docs', selected_shop_tags.array()
+    Template.shop.events
+        'click .add_product': ->
+            new_id = Docs.insert
+                model:'product'
+            Router.go "/m/product/#{new_id}/edit"
     Template.shop.helpers
         shop_items: ->
             Docs.find

@@ -30,8 +30,11 @@ Template.registerHelper 'calculated_size', (metric) ->
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
 
-Template.registerHelper 'subs_ready', () ->
+Template.registerHelper 'template_subs_ready', () ->
     Template.instance().subscriptionsReady()
+
+Template.registerHelper 'global_subs_ready', () ->
+    Session.get('global_subs_ready')
 
 Template.registerHelper 'youtube_id', () ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/

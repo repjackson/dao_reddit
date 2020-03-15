@@ -12,6 +12,10 @@ if Meteor.isClient
         Meteor.subscribe 'current_doc', Router.current().params.doc_id
         Meteor.subscribe 'users'
         console.log @
+    Template.doc_page.onRendered ->
+        Meteor.setTimeout ->
+            $('.ui.accordion').accordion()
+        , 1000
 
     Template.doc_page.events
         'click .call_watson': ->

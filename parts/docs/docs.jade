@@ -13,7 +13,7 @@ template(name='docs')
                 //-     i.list.circular.link.icon.toggle_articles(title='toggle articles' class=view_articles_class)
                 i.large.grey.tags.icon
                 .ui.left.icon.large.search.input
-                    if subs_ready
+                    if template_subs_ready
                         i.search.icon.refresh_tags
                     else
                         i.yin.yang.loading.large.icon
@@ -30,60 +30,65 @@ template(name='docs')
                     button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
                 .spacer
-                i.large.grey.users.icon
-                .ui.left.icon.large.search.input
-                    if subs_ready
-                        i.search.icon.refresh_tags
-                    else
-                        i.users.loading.large.icon
-                    input#search_redditor.prompt(type='text' autofocus='' autocomplete="off")
-                if selected_redditors_plural
-                    .ui.icon.circular.black.compact.large.button.clear_selected_redditors
-                        i.remove.icon
-                each selected_redditors
-                    button.ui.black.compact.circular.large.button.unselect_redditor(tabindex='0')
-                        //- i.remove.icon
-                        | #{this}
-                each redditor_leaders
-                    button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
-                .spacer
-                i.large.grey.reddit.icon
-                .ui.left.icon.large.search.input
-                    if subs_ready
-                        i.search.icon.refresh_tags
-                    else
-                        i.reddit.loading.large.icon
-                    input#search_subreddit.prompt(type='text' autofocus='' autocomplete="off")
-                if selected_subreddit_results
-                    .ui.icon.circular.black.compact.large.button.clear_selected_subreddits
-                        i.remove.icon
-                each selected_subreddits
-                    button.ui.black.compact.circular.large.button.unselect_subreddit(tabindex='0')
-                        //- i.remove.icon
-                        | #{this}
-                each subreddit_results
-                    button.ui.basic.circular.compact.large.button.subreddit_result(tabindex="0" class=result_class title=count) #{title}
-                        //- small #{count}
-                .spacer
+                +session_toggle_button key='view_redditor_filter' title='toggle redditor filter' icon='user outline'
+                if session_is 'view_redditor_filter' true
+                    //- i.large.grey.users.icon
+                    .ui.left.icon.large.search.input
+                        if template_subs_ready
+                            i.search.icon.refresh_tags
+                        else
+                            i.users.loading.large.icon
+                        input#search_redditor.prompt(type='text' autofocus='' autocomplete="off")
+                    if selected_redditors_plural
+                        .ui.icon.circular.black.compact.large.button.clear_selected_redditors
+                            i.remove.icon
+                    each selected_redditors
+                        button.ui.black.compact.circular.large.button.unselect_redditor(tabindex='0')
+                            //- i.remove.icon
+                            | #{this}
+                    each redditor_leaders
+                        button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
+                    .spacer
+                +session_toggle_button key='view_subreddit_filter' title='toggle subreddit filter' icon='reddit'
+                if session_is 'view_subreddit_filter' true
+                    .ui.left.icon.large.search.input
+                        if template_subs_ready
+                            i.search.icon.refresh_tags
+                        else
+                            i.reddit.loading.large.icon
+                        input#search_subreddit.prompt(type='text' autofocus='' autocomplete="off")
+                    if selected_subreddit_results
+                        .ui.icon.circular.black.compact.large.button.clear_selected_subreddits
+                            i.remove.icon
+                    each selected_subreddits
+                        button.ui.black.compact.circular.large.button.unselect_subreddit(tabindex='0')
+                            //- i.remove.icon
+                            | #{this}
+                    each subreddit_results
+                        button.ui.basic.circular.compact.large.button.subreddit_result(tabindex="0" class=result_class title=count) #{title}
+                            //- small #{count}
+                    .spacer
                 //- timestamp tags
-                i.large.grey.clock.icon
-                .ui.left.icon.large.search.input
-                    if subs_ready
-                        i.search.icon.refresh_tags
-                    else
-                        i.clock.loading.large.icon
-                    input#search_timestamp_tag.prompt(type='text' autofocus='' autocomplete="off")
-                if selected_timestamp_tags
-                    .ui.icon.circular.black.compact.large.button.clear_selected_timestamp_tags
-                        i.remove.icon
-                each selected_timestamp_tags
-                    button.ui.black.compact.circular.large.button.unselect_timestamp_tag(tabindex='0')
-                        //- i.remove.icon
-                        | #{this}
-                each timestamp_tags
-                    button.ui.basic.circular.compact.large.button.timestamp_tag_result(tabindex="0" class=result_class title=count) #{title}
-                        //- small #{count}
-                //- .ui.divider
+                +session_toggle_button key='view_timestamp_tags' title='toggle time tags' icon='clock'
+                //- i.large.grey.clock.icon
+                if session_is 'view_timestamp_tags' true
+                    .ui.left.icon.large.search.input
+                        if template_subs_ready
+                            i.search.icon.refresh_tags
+                        else
+                            i.clock.loading.large.icon
+                        input#search_timestamp_tag.prompt(type='text' autofocus='' autocomplete="off")
+                    if selected_timestamp_tags
+                        .ui.icon.circular.black.compact.large.button.clear_selected_timestamp_tags
+                            i.remove.icon
+                    each selected_timestamp_tags
+                        button.ui.black.compact.circular.large.button.unselect_timestamp_tag(tabindex='0')
+                            //- i.remove.icon
+                            | #{this}
+                    each timestamp_tags
+                        button.ui.basic.circular.compact.large.button.timestamp_tag_result(tabindex="0" class=result_class title=count) #{title}
+                            //- small #{count}
+                    //- .ui.divider
                 
             .eight.wide.column
                 .sorting_row

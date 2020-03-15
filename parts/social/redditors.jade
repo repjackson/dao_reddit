@@ -32,7 +32,7 @@ template(name='redditor_card')
                 
 template(name='redditor_page')  
     .ui.stackable.padded.grid
-        if subs_ready
+        if template_subs_ready
             if redditor
                 with redditor 
                     .four.wide.column
