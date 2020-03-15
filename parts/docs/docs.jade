@@ -1,5 +1,5 @@
 template(name='docs')
-    .ui.stackable.padded.grid.home(class=invert_class)
+    .ui.stackable.grid.home(class=invert_class)
         .centered.row 
             .four.wide.column.scrolling
                 //- .ui.header #{connection.status}
@@ -29,13 +29,13 @@ template(name='docs')
                 each tags
                     button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
-                .ui.hidden.divider
+                .spacer
                 i.large.grey.users.icon
                 .ui.left.icon.large.search.input
                     if subs_ready
                         i.search.icon.refresh_tags
                     else
-                        i.reddit.loading.large.icon
+                        i.users.loading.large.icon
                     input#search_redditor.prompt(type='text' autofocus='' autocomplete="off")
                 if selected_redditors_plural
                     .ui.icon.circular.black.compact.large.button.clear_selected_redditors
@@ -46,6 +46,42 @@ template(name='docs')
                         | #{this}
                 each redditor_leaders
                     button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
+                .spacer
+                i.large.grey.reddit.icon
+                .ui.left.icon.large.search.input
+                    if subs_ready
+                        i.search.icon.refresh_tags
+                    else
+                        i.reddit.loading.large.icon
+                    input#search_subreddit.prompt(type='text' autofocus='' autocomplete="off")
+                if selected_subreddit_results
+                    .ui.icon.circular.black.compact.large.button.clear_selected_subreddits
+                        i.remove.icon
+                each selected_subreddits
+                    button.ui.black.compact.circular.large.button.unselect_subreddit(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each subreddit_results
+                    button.ui.basic.circular.compact.large.button.subreddit_result(tabindex="0" class=result_class title=count) #{title}
+                        //- small #{count}
+                .spacer
+                //- timestamp tags
+                i.large.grey.clock.icon
+                .ui.left.icon.large.search.input
+                    if subs_ready
+                        i.search.icon.refresh_tags
+                    else
+                        i.clock.loading.large.icon
+                    input#search_timestamp_tag.prompt(type='text' autofocus='' autocomplete="off")
+                if selected_timestamp_tags
+                    .ui.icon.circular.black.compact.large.button.clear_selected_timestamp_tags
+                        i.remove.icon
+                each selected_timestamp_tags
+                    button.ui.black.compact.circular.large.button.unselect_timestamp_tag(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each timestamp_tags
+                    button.ui.basic.circular.compact.large.button.timestamp_tag_result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
                 //- .ui.divider
                 
@@ -113,6 +149,7 @@ template(name='docs')
                                 +doc_item
                                 .ui.divider
             .four.wide.column.scrolling
+                .spacer
                 .ui.header 
                     |leaderboard
                 //- .ui.circular.icon.button.calc_leaderboard

@@ -33,7 +33,11 @@ Meteor.publish 'current_doc ', (doc_id)->
     Docs.find doc_id
 
 
-Meteor.publish 'results', (selected_tags,
+Meteor.publish 'results', (
+    selected_tags
+    selected_authors
+    selected_subreddits
+    selected_timestamp_tags
     query
     dummy
     view_images
@@ -103,14 +107,6 @@ Meteor.publish 'results', (selected_tags,
                 count: tag.count
                 # category:key
                 # index: i
-        # console.log 'ready'
-
-        # console.log 'redditor cloud match', match
-        # console.log 'looking for top redditors', selected_tags
-
-        # if selected_tags.length > 0
-        # console.log 'looking for top redditors 2', selected_tags
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
         redditor_leader_cloud = Docs.aggregate [
             { $match: match }
             { $project: "author": 1 }
@@ -129,7 +125,47 @@ Meteor.publish 'results', (selected_tags,
                 count: redditor.count
                 # category:key
                 # index: i
-        # console.log 'ready'
+
+        subreddit_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "subreddit": 1 }
+            { $group: _id: "$subreddit", count: $sum: 1 }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, title: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+
+        subreddit_cloud.forEach (redditor, i) =>
+            # console.log 'queried redditor ', redditor
+            self.added 'subreddits', Random.id(),
+                title: redditor.title
+                count: redditor.count
+                # category:key
+                # index: i
+
+
+        timestamp_tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "_timestamp_tags": 1 }
+            { $unwind: "$_timestamp_tags" }
+            { $group: _id: "$_timestamp_tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_timestamp_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, title: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+
+        timestamp_tag_cloud.forEach (timestamp_tag, i) =>
+            # console.log 'queried timestamp_tag ', timestamp_tag
+            self.added 'timestamp_tags', Random.id(),
+                title: timestamp_tag.title
+                count: timestamp_tag.count
+                # category:key
+                # index: i
 
         # console.log doc_tag_cloud.count()
 

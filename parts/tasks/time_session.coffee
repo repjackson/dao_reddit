@@ -65,7 +65,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'child_docs', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'parent_doc', Router.current().params.doc_id
     Template.time_session_view.onRendered ->
-        Meteor.call 'increment_view', Router.current().params.doc_id, ->
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
         Meteor.setTimeout ->
             $('.progress').progress()
         , 1000

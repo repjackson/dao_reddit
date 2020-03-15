@@ -25,15 +25,15 @@ template(name='doc_emotion')
     with emotion
         div
         span {{ to_percent joy }}% joy
-        .rounded.inverted(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% green")
+        .rounded.inverted(style="height:5px;width:{{to_percent joy}}%;background-color:red" title="{{to_percent joy}}% green")
         span {{ to_percent sadness}}% sadness
-        .rounded.inverted(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad")
+        .rounded.inverted(style="height:5px;width:{{to_percent sadness}}%;background-color:green" title="{{to_percent sadness}}% sad")
         span {{ to_percent fear }}% fear
         .rounded.inverted(style="height:5px;width:{{to_percent fear}}%;background-color:grey" title="{{to_percent fear}}% green")
         span {{ to_percent disgust }}% disgust
-        .rounded.inverted(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% green")
+        .rounded.inverted(style="height:5px;width:{{to_percent disgust}}%;background-color:teal" title="{{to_percent disgust}}% green")
         span {{ to_percent anger }}% anger
-        .rounded.inverted(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% green")
+        .rounded.inverted(style="height:5px;width:{{to_percent anger}}%;background-color:green" title="{{to_percent anger}}% green")
     
 //- 
 //- 

@@ -103,10 +103,10 @@ if Meteor.isServer
             # console.log 'index', redditor_index
             # values = _.values(redditor_index)
             # console.log 'values', values
-            element = {
-                _id: found_redditor._id
-                # submission_count: found_redditor.submission_count
-            }
+            # element = {
+            #     _id: found_redditor._id
+            #     # submission_count: found_redditor.submission_count
+            # }
             # console.log 'element', element
 
             # submission_rank =
@@ -143,7 +143,29 @@ if Meteor.isServer
                     limit:-1
                 }
             )
+            match = {
+                model:'reddit'
+                author:handle
+            }
+            console.log 'redditor mathc', match
+            redditor_tag_cloud = Docs.aggregate [
+                { $match: match }
+                { $project: "tags": 1 }
+                { $unwind: "$tags" }
+                { $group: _id: "$tags", count: $sum: 1 }
+                # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+                { $sort: count: -1, _id: 1 }
+                { $limit: 20 }
+                { $project: _id: 0, title: '$_id', count: 1 }
+            ], {
+                allowDiskUse: true
+            }
 
+            tag_cloud = []
+            redditor_tag_cloud.forEach (tag, i)=>
+                tag_cloud.push tag
+
+            console.log tag_cloud
 
 
 
@@ -151,3 +173,4 @@ if Meteor.isServer
                 $set:
                     submission_count:submission_count
                     submission_rank: submission_rank
+                    tag_cloud:tag_cloud

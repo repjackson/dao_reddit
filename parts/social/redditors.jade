@@ -48,6 +48,10 @@ template(name='redditor_page')
                         .ui.header #{submission_count} submissions
                         .ui.header #{submission_rank} rank
                     .twelve.wide.column
+                        .ui.header tag cloud 
+                        if tag_cloud.length
+                            each tag_cloud
+                                .ui.label #{name} #{count}
                         .ui.header submissions
                         .scrolling
                             each submissions

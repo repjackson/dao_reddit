@@ -20,8 +20,11 @@ if Meteor.isClient
     #
     Template.docs.onCreated ->
         @autorun => @subscribe 'results',
-            selected_tags.array(),
-            Session.get('current_query'),
+            selected_tags.array()
+            selected_authors.array()
+            selected_subreddits.array()
+            selected_timestamp_tags.array()
+            Session.get('current_query')
             Session.get('dummy')
             Session.get('view_images')
             Session.get('view_videos')
@@ -181,6 +184,22 @@ if Meteor.isClient
         redditor_leaders: ->
             # if selected_tags.array().length > 0
             Redditor_leaders.find {
+                # model:'reddit'
+            },
+                sort: count:-1
+                # limit:1
+
+        subreddit_results: ->
+            # if selected_tags.array().length > 0
+            Subreddits.find {
+                # model:'reddit'
+            },
+                sort: count:-1
+                # limit:1
+
+        timestamp_tags: ->
+            # if selected_tags.array().length > 0
+            Timestamp_tags.find {
                 # model:'reddit'
             },
                 sort: count:-1

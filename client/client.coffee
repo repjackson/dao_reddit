@@ -1,5 +1,8 @@
 @selected_tags = new ReactiveArray []
 @selected_shop_tags = new ReactiveArray []
+@selected_authors = new ReactiveArray []
+@selected_subreddits = new ReactiveArray []
+@selected_timestamp_tags = new ReactiveArray []
 
 # Accounts.ui.config
 #     passwordSignupFields: 'USERNAME_ONLY'

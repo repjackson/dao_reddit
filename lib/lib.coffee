@@ -2,6 +2,8 @@
 @Tags = new Meteor.Collection 'tags'
 @Terms = new Meteor.Collection 'terms'
 @Redditors = new Meteor.Collection 'redditors'
+@Subreddits = new Meteor.Collection 'subreddits'
+@Timestamp_tags = new Meteor.Collection 'timestamp_tags'
 
 @Redditor_leaders = new Meteor.Collection 'redditor_leaders'
 
@@ -86,7 +88,7 @@ Terms.before.insert (userId, doc)->
 
 
 Docs.helpers
-    author: -> Meteor.users.findOne @_author_id
+    _author: -> Meteor.users.findOne @_author_id
     when: -> moment(@_timestamp).fromNow()
     ten_tags: -> if @tags then @tags[..10]
     five_tags: -> if @tags then @tags[..4]
