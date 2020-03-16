@@ -29,7 +29,7 @@ template(name='product_edit')
 
 
 template(name='product_view')
-    with current_doc
+    with cd
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row

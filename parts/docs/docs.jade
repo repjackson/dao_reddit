@@ -159,11 +159,11 @@ template(name='docs')
                     |leaderboard
                 //- .ui.circular.icon.button.calc_leaderboard
                 //-     i.refresh.icon
-                .ui.relaxed.list
+                .ui.relaxed.divided.list
                     each redditor_leaders
                         .item
-                            a.ui.small.header(href="/redditor/#{title}")
-                                i.user.icon
+                            .ui.small.header.goto_redditor.pointer
+                                i.outline.grey.user.icon
                                 |#{title}
                             span.ui.grey.text #{count} results
                         unless redditor
@@ -176,7 +176,9 @@ template(name='docs')
                             span(title='submissions')
                                 i.file.alternate.outline.icon
                                 | #{submission_count}
-                    
+                            each top_five_tags
+                                .ui.small.black.circular.label #{this}
+                        .spacer
                         
                         
 template(name='session_edit_value_button')

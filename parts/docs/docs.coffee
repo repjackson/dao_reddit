@@ -133,6 +133,8 @@ if Meteor.isClient
         'click .reconnect': ->
             Meteor.reconnect()
 
+        'click .goto_redditor': ->
+            Router.go "/redditor/#{@title}"
 
     Template.docs.helpers
         view_images_class: -> if Session.get('view_images') then 'white' else 'grey'
@@ -220,6 +222,10 @@ if Meteor.isClient
                 handle:@title
 
 
+
+    Template.set_limit_docs.events
+        'click .set_limit': ->
+            console.log @
 
     Template.session_edit_value_button.events
         'click .set_session_value': ->

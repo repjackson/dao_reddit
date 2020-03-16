@@ -85,7 +85,10 @@ Terms.before.insert (userId, doc)->
     return
 
 
-
+Redditors.helpers
+    top_five_tags: ->
+        if @tag_list
+            @tag_list[..3]
 
 
 Docs.helpers

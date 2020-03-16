@@ -11,7 +11,7 @@ if Meteor.isClient
         'click .add_product': ->
             new_id = Docs.insert
                 model:'product'
-            Router.go "/m/product/#{new_id}/edit"
+            Router.go "/product/#{new_id}/edit"
     Template.shop.helpers
         shop_items: ->
             Docs.find

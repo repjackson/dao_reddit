@@ -464,8 +464,8 @@ if Meteor.isServer
 
 
     Meteor.publish 'children', (model, parent_id, limit)->
-        # console.log model
-        # console.log parent_id
+        console.log model
+        console.log parent_id
         limit = if limit then limit else 10
         Docs.find {
             model:model

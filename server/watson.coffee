@@ -69,11 +69,11 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        # console.log 'calling watson'
+        console.log 'calling watson'
         self = @
-        # console.log doc_id
-        # console.log key
-        # console.log mode
+        console.log doc_id
+        console.log key
+        console.log mode
         doc = Docs.findOne doc_id
         # console.log 'value', doc["#{key}"]
         # if doc.skip_watson is false
@@ -94,13 +94,13 @@ Meteor.methods
                     sentiment: true
                     # limit: 2
                 concepts: {}
-                # categories:
-                #     explanation:false
-                # emotion: {}
+                categories:
+                    explanation:false
+                emotion: {}
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                # sentiment: {}
+                sentiment: {}
 
         switch mode
             when 'html'
@@ -146,34 +146,34 @@ Meteor.methods
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
-                # emotions = response.emotion.document.emotion
+                emotions = response.emotion.document.emotion
                 #
-                # emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-                # main_emotions = []
-                # for emotion in emotion_list
-                #     if emotions["#{emotion}"] > .5
-                #         # console.log emotion_doc["#{emotion}_percent"]
-                #         main_emotions.push emotion
-                #
-                # # console.log 'emotions', emotions
-                # sadness_percent = emotions.sadness
-                # joy_percent = emotions.joy
-                # fear_percent = emotions.fear
-                # anger_percent = emotions.anger
-                # disgust_percent = emotions.disgust
-                # console.log 'main_emotions', main_emotions
+                emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+                main_emotions = []
+                for emotion in emotion_list
+                    if emotions["#{emotion}"] > .5
+                        # console.log emotion_doc["#{emotion}_percent"]
+                        main_emotions.push emotion
+
+                # console.log 'emotions', emotions
+                sadness_percent = emotions.sadness
+                joy_percent = emotions.joy
+                fear_percent = emotions.fear
+                anger_percent = emotions.anger
+                disgust_percent = emotions.disgust
+                console.log 'main_emotions', main_emotions
 
 
                 # adding_tags = []
-                # if response.categories
-                #     for category in response.categories
-                #         # console.log category.label.split('/')[1..]
-                #         # console.log category.label.split('/')
-                #         for category in category.label.split('/')
-                #             if category.length > 0
-                #                 adding_tags.push category
-                #                 # Docs.update doc_id,
-                #                 #     $addToSet: categories: category
+                if response.categories
+                    for category in response.categories
+                        # console.log category.label.split('/')[1..]
+                        # console.log category.label.split('/')
+                        for category in category.label.split('/')
+                            if category.length > 0
+                                # adding_tags.push category
+                                Docs.update doc_id,
+                                    $addToSet: categories: category
                 # Docs.update { _id: doc_id },
                 #     $addToSet:
                 #         tags:$each:adding_tags
@@ -198,15 +198,15 @@ Meteor.methods
                         $set:
                             body:response.analyzed_text
                             watson: response
-                    #         sadness_percent: sadness_percent
-                    #         joy_percent: joy_percent
-                    #         fear_percent: fear_percent
-                    #         anger_percent: anger_percent
-                    #         disgust_percent: disgust_percent
-                    #         watson_concepts: concept_array
-                    #         watson_keywords: keyword_array
-                    #         doc_sentiment_score: response.sentiment.document.score
-                    #         doc_sentiment_label: response.sentiment.document.label
+                            sadness_percent: sadness_percent
+                            joy_percent: joy_percent
+                            fear_percent: fear_percent
+                            anger_percent: anger_percent
+                            disgust_percent: disgust_percent
+                            watson_concepts: concept_array
+                            watson_keywords: keyword_array
+                            doc_sentiment_score: response.sentiment.document.score
+                            doc_sentiment_label: response.sentiment.document.label
                 keywords_concepts = lowered_keywords.concat lowered_keywords
                 # Docs.update { _id: doc_id },
                 #     $addToSet:

@@ -31,10 +31,14 @@ head
 
 
 template(name='layout')
-    +nav
-    #main
-        +yield
-    +footer
+    .content.example
+        +nav
+        .ui.attached.basic.segment.pushable
+            .pusher
+                +sidebar
+                #main_area
+                    +yield
+        +footer
 
 
 

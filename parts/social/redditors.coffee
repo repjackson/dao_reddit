@@ -35,9 +35,10 @@ if Meteor.isClient
         redditor: ->
             Redditors.findOne()
         submissions: ->
-            Docs.find(
+            Docs.find( {
                 model:'reddit'
                 author: Router.current().params.handle
+                }, limit: 10
             )
     Template.redditor_page.events
         'click .pull_redditor': ->
@@ -162,10 +163,14 @@ if Meteor.isServer
             }
 
             tag_cloud = []
-            redditor_tag_cloud.forEach (tag, i)=>
+            redditor_tag_cloud.forEach Meteor.bindEnvironment((tag)=>
+                console.log 'redditor tag', tag
                 tag_cloud.push tag
-
-            console.log tag_cloud
+                Redditors.update found_redditor._id,
+                    $addToSet:
+                        tag_cloud:tag
+                        tag_list:tag.title
+            )
 
 
 
@@ -173,4 +178,3 @@ if Meteor.isServer
                 $set:
                     submission_count:submission_count
                     submission_rank: submission_rank
-                    tag_cloud:tag_cloud

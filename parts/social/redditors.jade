@@ -44,14 +44,17 @@ template(name='redditor_page')
                         .ui.header 
                             i.line.chart.icon
                             |stats
-                        i.refresh.circular.link.icon
+                            i.refresh.link.icon
                         .ui.header #{submission_count} submissions
                         .ui.header #{submission_rank} rank
                     .twelve.wide.column
                         .ui.header tag cloud 
                         if tag_cloud.length
                             each tag_cloud
-                                .ui.label #{name} #{count}
+                                .ui.basic.circular.label #{title} #{count}
+                            .ui.small.header tag list
+                            each tag_list
+                                .ui.basic.circular.label #{this}
                         .ui.header submissions
                         .scrolling
                             each submissions

@@ -47,6 +47,8 @@ Template.registerHelper 'youtube_id', () ->
 
 
 
+Template.registerHelper 'is_streamable', () ->
+    @domain is 'streamable.com'
 Template.registerHelper 'is_youtube', () ->
     @domain is 'youtube.com'
 Template.registerHelper 'calc_size', (metric) ->
@@ -143,3 +145,19 @@ Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 Template.registerHelper 'is_eric', ()-> if Meteor.userId() and Meteor.userId() in ['K77p8B9jpXbTz6nfD'] then true else false
 Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
+
+
+
+
+Template.sidebar.onRendered ->
+    @autorun =>
+        if @subscriptionsReady()
+            Meteor.setTimeout ->
+                $('.context.example .ui.sidebar')
+                    .sidebar({
+                        context: $('.context.example .bottom.segment')
+                        dimPage: false
+                        transition:  'push'
+                    })
+                    .sidebar('attach events', '.context.example .menu .toggle_sidebar.item')
+            , 500

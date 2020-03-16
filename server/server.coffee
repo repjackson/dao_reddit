@@ -176,6 +176,9 @@ Meteor.publish 'results', (
 Meteor.publish 'all_redditors', ->
     Redditors.find()
 
+Meteor.publish 'doc', (doc_id)->
+    Docs.find doc_id
+
 Meteor.publish 'docs', (
     selected_tags
     view_images
@@ -184,7 +187,7 @@ Meteor.publish 'docs', (
     )->
     # console.log selected_tags
     self = @
-    match = {}
+    match = {model:'reddit'}
     if selected_tags.length > 0
         match.tags = $all: selected_tags
         sort = 'ups'
