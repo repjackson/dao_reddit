@@ -40,6 +40,9 @@ Meteor.publish 'results', (
     selected_timestamp_tags
     query
     dummy
+    doc_limit
+    doc_sort_key
+    doc_sort_direction
     view_images
     view_videos
     view_articles
@@ -184,8 +187,20 @@ Meteor.publish 'docs', (
     view_images
     view_videos
     view_articles
+    doc_limit
+    doc_sort_key
+    doc_sort_direction
+
     )->
     # console.log selected_tags
+    if doc_limit
+        limit = doc_limit
+    else
+        limit = 10
+    if doc_sort_key
+        sort = doc_sort_key
+    if doc_sort_direction
+        sort_direction = parseInt(doc_sort_direction)
     self = @
     match = {model:'reddit'}
     if selected_tags.length > 0
@@ -213,6 +228,6 @@ Meteor.publish 'docs', (
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
     Docs.find match,
-        sort:"#{sort}":-1
+        sort:"#{sort}":sort_direction
         # sort:_timestamp:-1
-        limit: 10
+        limit: limit

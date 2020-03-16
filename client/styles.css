@@ -23,6 +23,34 @@ body {
     overscroll-behavior: none;
 }
 
+/* .topnav .menu {
+    z-index: 2000 !important;
+} */
+
+.topnav.menu {
+    border-radius: 0 0 10px 10px !important;
+    transition: background-color 2s ease !important;
+    /* background-color: rgba(250,250,250,.6) !important; */
+    opacity: .7 !important;
+}
+/* .topnav .menu {
+    z-index: 2000 !important;
+} */
+.menu:not(.topnav) {
+    border-radius: 10px !important;
+    transition: background-color 3s ease !important;
+}
+
+.topnav > .item {
+    transition: all .5s ease !important;
+    /* z-index: 2000 !important; */
+}
+.global_container{
+    transition: transform .5s; /* Animation */
+    /* padding-top: 5em !important; */
+    /* box-shadow: 0 2px 2px 2px rgba(50, 50, 100, 0.1) !important; */
+}
+
 
 .rounded {
     border-radius: : 10px !important;

@@ -128,25 +128,29 @@ if Meteor.isClient
     Template.sidebar.events
         'click .toggle_sidebar': ->
             console.log @
-            $('.ui.sidebar').sidebar('toggle')
+            $('.ui.sidebar')
+                .sidebar('setting', 'transition', 'overlay')
+                .sidebar('toggle')
 
 
     Template.nav.events
         'click .toggle_sidebar': ->
-            $('.ui.sidebar').sidebar('toggle')
+            $('.ui.sidebar')
+                .sidebar('setting', 'transition', 'overlay')
+                .sidebar('toggle')
 
         # 'mouseenter .item': (e,t)->
-            # $(e.currentTarget).closest('.item').transition('pulse', 400)
+        #     $(e.currentTarget).closest('.item').transition('pulse', 500)
         'click .menu_dropdown': ->
             $('.menu_dropdown').dropdown(
                 on:'hover'
             )
 
-        # 'click .item': (e,t)->
-        #     $(e.currentTarget).closest('.item').transition(
-        #         animation: 'pulse'
-        #         duration: 100
-        #     )
+        'click .item': (e,t)->
+            $(e.currentTarget).closest('.item').transition(
+                animation: 'pulse'
+                duration: 500
+            )
 
 
         'click .new_act_test': ->

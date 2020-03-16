@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.attached.fluid.borderless.menu
+    .ui.attached.fluid.borderless.topnav.menu
         a.icon.item.toggle_sidebar
             i.large.bars.icon
         a.icon.item(href="/" class="{{isActivePath '/'}}")
@@ -13,6 +13,8 @@ template(name='nav')
                 i.corner.user.outline.icon
         //- a.icon.item(href='/grid' class="{{isActivePath '/grid'}}" title='apps')
         //-     i.th.icon
+        a.icon.item.mobile.hidden(href='/covid' class="{{isActivePath '/covid'}}" title='covid')
+            i.large.biohazard.icon
         a.icon.item.mobile.hidden(href='/shop' class="{{isActivePath '/shop'}}" title='shop')
             i.large.store.icon
         a.icon.item.mobile.hidden(href='/redditors' class="{{isActivePath '/redditors'}}" title='redditors')
@@ -23,13 +25,13 @@ template(name='nav')
             a.icon.item.mobile.hidden(href='/cart' class="{{isActivePath '/cart'}}" title='shopping cart')
                 i.shopping.cart.icon
             a.mobile.hidden.icon.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks') 
-                i.tasks.icon
+                i.tasks.large.icon
             a.mobile.hidden.icon.item(href='/events' class="{{isActivePath '/events'}}" title='events') 
-                i.calendar.icon
+                i.calendar.large.icon
             a.icon.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat') 
-                i.chat.outline.icon
+                i.chat.outline.large.icon
             a.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}" title='alerts') 
-                i.bell.icon(class=alert_icon_class)
+                i.bell.large.icon(class=alert_icon_class)
                 //- i.rss.icon
             
             a.icon.item.mobile.hidden(href="/stats")
@@ -38,7 +40,7 @@ template(name='nav')
                 a.item(href="/user/#{currentUser._id}/karma")
                     |#{currentUser.karma}
                     //- i.line.chart.icon
-                a.item(href="/user/#{currentUser._id}") 
+                a.item(href="/user/#{currentUser.username}") 
                     i.user.icon
                     |#{currentUser.username}
             else 

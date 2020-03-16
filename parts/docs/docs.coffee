@@ -4,7 +4,10 @@ if Meteor.isClient
         Session.setDefault 'view_videos', true
         Session.setDefault 'view_articles', true
         Session.setDefault 'view_tweets', true
-        Session.setDefault 'view_mode', 'cards'
+        Session.setDefault 'view_mode', 'list'
+        Session.setDefault 'doc_sort_key', 'ups'
+        Session.setDefault 'doc_sort_label', 'upvotes'
+        Session.setDefault 'doc_limit', 5
 
     # Template.body.events
     #     'keydown':(e,t)->
@@ -26,10 +29,21 @@ if Meteor.isClient
             selected_timestamp_tags.array()
             Session.get('current_query')
             Session.get('dummy')
+            Session.get('doc_limit')
+            Session.get('doc_sort_key')
+            Session.get('doc_sort_direction')
             Session.get('view_images')
             Session.get('view_videos')
             Session.get('view_articles')
-        @autorun => @subscribe 'docs', selected_tags.array()
+        @autorun => @subscribe 'docs',
+            selected_tags.array()
+            Session.get('view_images')
+            Session.get('view_videos')
+            Session.get('view_articles')
+            Session.get('doc_limit')
+            Session.get('doc_sort_key')
+            Session.get('doc_sort_direction')
+
         @autorun => @subscribe 'all_redditors'
 
 
@@ -136,7 +150,17 @@ if Meteor.isClient
         'click .goto_redditor': ->
             Router.go "/redditor/#{@title}"
 
+        'click .set_sort_direction': ->
+            if Session.get('doc_sort_direction') is -1
+                Session.set('doc_sort_direction', 1)
+            else
+                Session.set('doc_sort_direction', -1)
+
+
     Template.docs.helpers
+        sorting_up: ->
+            parseInt(Session.get('doc_sort_direction')) is 1
+
         view_images_class: -> if Session.get('view_images') then 'white' else 'grey'
         view_videos_class: -> if Session.get('view_videos') then 'white' else 'grey'
         view_articles_class: -> if Session.get('view_articles') then 'white' else 'grey'
@@ -179,8 +203,8 @@ if Meteor.isClient
             Docs.find {
                 # model:'reddit'
             },
-                sort: ups:-1
-                # limit:1
+                sort: "#{Session.get('doc_sort_key')}":parseInt(Session.get('doc_sort_direction'))
+                limit:Session.get('doc_limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -221,11 +245,26 @@ if Meteor.isClient
             Redditors.findOne
                 handle:@title
 
+        doc_limit: ->
+            Session.get('doc_limit')
+
+        current_doc_sort_label: ->
+            Session.get('doc_sort_label')
 
 
-    Template.set_limit_docs.events
+        result_cloud: ->
+            console.log @
+
+    Template.set_doc_limit.events
         'click .set_limit': ->
             console.log @
+            Session.set('doc_limit', @amount)
+
+    Template.set_doc_sort_key.events
+        'click .set_sort': ->
+            console.log @
+            Session.set('doc_sort_key', @key)
+            Session.set('doc_sort_label', @label)
 
     Template.session_edit_value_button.events
         'click .set_session_value': ->

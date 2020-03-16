@@ -46,7 +46,7 @@ Meteor.methods
     add_email: (user_id, new_email) ->
         Accounts.addEmail(user_id, new_email);
         Accounts.sendVerificationEmail(user_id, new_email)
-        return "Updated Email to #{new_email}"
+        return "updated Email to #{new_email}"
 
     remove_email: (user_id, email)->
         # user = Meteor.users.findOne username:username
@@ -72,10 +72,10 @@ Meteor.methods
 
         	Email.send({
                 to:["<#{to_user.emails[0].address}>"]
-                from:"relay@goldrun.online"
+                from:"relay@dao.af"
                 subject:"dao message from #{message._author_username}"
                 html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
-                    "<br><h4>View your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
+                    "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
 
     checkout_students: ()->

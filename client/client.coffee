@@ -12,6 +12,22 @@ Router.route '/', (->
     @render 'docs'
     ), name:'docs'
 
+Template.body.events
+    'click a': ->
+        $('.global_container')
+        .transition('fade out', 250)
+        .transition('fade in', 500)
+
+    # 'click .result': ->
+    #     $('.global_container')
+    #     .transition('fade out', 250)
+    #     .transition('fade in', 250)
+
+    'click .log_view': ->
+        console.log Template.currentData()
+        console.log @
+        Docs.update @_id,
+            $inc: views: 1
 
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric

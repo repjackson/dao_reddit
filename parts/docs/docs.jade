@@ -11,10 +11,11 @@ template(name='docs')
                 //-     i.video.circular.link.icon.toggle_videos(title='toggle video' class=view_videos_class)
                 //-     i.twitter.circular.link.icon.toggle_tweets(title='toggle tweets' class=view_tweets_class)
                 //-     i.list.circular.link.icon.toggle_articles(title='toggle articles' class=view_articles_class)
-                i.large.grey.tags.icon
                 .ui.left.icon.large.search.input
                     if template_subs_ready
-                        i.search.icon.refresh_tags
+                        i.grey.tags.icon
+                        //- i.icons.refresh_tags
+                            //- i.search.corner.icon
                     else
                         i.yin.yang.loading.large.icon
                     input#search.prompt(type='text' autofocus='' autocomplete="off")
@@ -94,19 +95,19 @@ template(name='docs')
                 .sorting_row
                     .ui.compact.small.menu
                         .ui.simple.dropdown.item
-                            strong #{current_sort_label}
+                            strong #{current_doc_sort_label}
                             i.dropdown.icon
                             .menu
-                                +set_sort_key key='ups' label='upvotes' icon='thumbs up outline'
-                                +set_sort_key key='sadness_percent' label='sadness' color='blue'
-                                +set_sort_key key='joy_percent' label='joy' color='green'
-                                +set_sort_key key='fear_percent' label='fear' color='black'
-                                +set_sort_key key='disgust_percent' label='disgust' color='yellow'
-                                +set_sort_key key='anger_percent' label='anger' color='red'
-                                +set_sort_key key='_timestamp' label='added' icon='clock'
-                                +set_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang'
-                                +set_sort_key key='comment_count' label='comment count' icon='chat'
-                    .ui.compact.icon.basic.button.set_sort_direction(title='toggle sort direction')
+                                +set_doc_sort_key key='ups' label='upvotes' icon='thumbs up outline'
+                                +set_doc_sort_key key='sadness_percent' label='sadness' color='blue'
+                                +set_doc_sort_key key='joy_percent' label='joy' color='green'
+                                +set_doc_sort_key key='fear_percent' label='fear' color='black'
+                                +set_doc_sort_key key='disgust_percent' label='disgust' color='yellow'
+                                +set_doc_sort_key key='anger_percent' label='anger' color='red'
+                                +set_doc_sort_key key='_timestamp' label='added' icon='clock'
+                                +set_doc_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang'
+                                +set_doc_sort_key key='comment_count' label='comment count' icon='chat'
+                    .ui.compact.icon.basic.circular.button.set_sort_direction(title='toggle sort direction')
                         if sorting_up
                             i.sort.amount.down.icon
                         else
@@ -117,17 +118,17 @@ template(name='docs')
                         |show
                     .ui.compact.menu
                         .ui.simple.dropdown.item
-                            strong #{current_doc_limit}
+                            strong #{doc_limit}
                             i.dropdown.icon
                             .menu
-                                +set_limit amount=1
-                                +set_limit amount=5
-                                +set_limit amount=10
-                                +set_limit amount=20
-                                +set_limit amount=50
+                                +set_doc_limit amount=1
+                                +set_doc_limit amount=5
+                                +set_doc_limit amount=10
+                                +set_doc_limit amount=20
+                                +set_doc_limit amount=50
                     .ui.compact.menu
                         .ui.simple.dropdown.item
-                            |#{current_delta.view_mode}
+                            |#{doc_view_mode}
                             i.dropdown.icon
                             .menu
                                 +set_view_mode_docs title='table' icon='table'
@@ -141,7 +142,7 @@ template(name='docs')
                     //- +session_edit_value_button key='sort_key' value='upvotes' label='upvotes'
                     +session_edit_value_button key='view_mode' value='cards' label='cards' icon='grip horizontal' icon_view=true classes='circular icon'
                     +session_edit_value_button key='view_mode' value='list' label='list' icon='list' icon_view=true classes='circular icon'
-                    //- +session_edit_value_button key='view_mode' value='items' label='items' icon='grip horizontal' icon_view=true classes='circular icon'
+                    +session_edit_value_button key='view_mode' value='table' label='table' icon='border none' icon_view=true classes='circular icon'
                 .scrolling
                     if session_is 'view_mode' 'cards'
                         .ui.stackable.cards
@@ -153,8 +154,28 @@ template(name='docs')
                             each docs
                                 +doc_item
                                 .ui.divider
+                    else if session_is 'view_mode' 'table'
+                        table.ui.table 
+                            thead
+                                tr 
+                                    th image
+                                    th title
+                                    th upvotes
+                            tbody
+                                each docs
+                                    tr
+                                        td 
+                                            img.ui.mini.image(src=thumbnail)
+                                        td 
+                                            |#{title}
+                                        td 
+                                            |#{ups}
             .four.wide.column.scrolling
                 .spacer
+                .ui.header result cloud
+                each result 
+                    .ui.basic.circular.label
+                        |#{this}
                 .ui.header 
                     |leaderboard
                 //- .ui.circular.icon.button.calc_leaderboard
@@ -203,6 +224,17 @@ template(name='set_sort_key')
                 i.icon(class=icon)
             |#{label}
         
+template(name='set_doc_sort_key')
+    .item.set_sort
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
+        
 
 template(name='set_view_mode_docs')
     .item.set_view
@@ -210,5 +242,5 @@ template(name='set_view_mode_docs')
         |#{title}
 
 
-template(name='set_limit_docs')
+template(name='set_doc_limit')
     .item.set_limit #{amount}
