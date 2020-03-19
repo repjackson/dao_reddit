@@ -6,7 +6,7 @@ template(name='users')
                     i.large.icons
                         i.yin.yang.icon
                         i.outline.user.corner.icon
-                    |daoists
+                    |users
         .one.column.row 
             .column
                 .ui.stackable.centered.five.cards 
@@ -16,12 +16,12 @@ template(name='users')
 template(name='user_card')                        
     .ui.card 
         if profile_image_id 
-            a.image(href="/user/#{_id}")
+            a.image(href="/user/#{username}")
                 img.ui.image(src="{{c.url profile_image_id gravity='face' height='300' crop='crop'}}")
         .content
-            a.ui.header(href="/user/#{_id}") #{username}
+            a.ui.header(href="/user/#{username}") #{username}
             .ui.list
                 .item #{karma} karma
-            a.ui.fluid.circular.button(href="/user/#{_id}")
+            a.ui.fluid.circular.button(href="/user/#{username}")
                 //- |view
                 i.chevron.right.icon

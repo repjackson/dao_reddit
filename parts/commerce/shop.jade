@@ -25,18 +25,18 @@ template(name='shop')
                 //- +set_shop_type label='missed connections' icon='heart broken'
                 //- +set_shop_type label='events' icon='calendar'
                 .ui.three.cards
-                    each shop_items
-                        +shop_kiosk_card
+                    each products
+                        +product_card
 
 
-template(name='shop_kiosk_card')
+template(name='product_card')
     .ui.card(class=shop_card_class)
-        a.image.log_view(href="/kiosk_rental_view/#{_id}")
+        a.image.log_view(href="/product/#{_id}/view")
             img.ui.image(src="{{c.url image width=600 height=600 crop='lpad'}}")
 
         //- +image_view key='image' direct=true classes='zoom'
         .content
-            a.ui.header.log_view(href="/kiosk_rental_view/#{_id}") #{title} 
+            a.ui.header.log_view(href="/product/#{_id}/view") #{title} 
                 if variable_price
                     |~
                 if available

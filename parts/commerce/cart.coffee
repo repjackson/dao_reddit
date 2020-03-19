@@ -4,8 +4,10 @@ if Meteor.isClient
         @render 'cart'
         ), name:'cart'
 #
-#     Template.cart.onCreated ->
-#         @autorun => Meteor.subscribe 'model_docs', 'donation'
+    Template.cart.onCreated ->
+        # @autorun => Meteor.subscribe 'model_docs', 'donation'
+        @autorun => Meteor.subscribe 'my_cart_items'
+        @autorun => Meteor.subscribe 'model_docs', 'product'
 #         if Meteor.isDevelopment
 #             pub_key = Meteor.settings.public.stripe_test_publishable
 #         else if Meteor.isProduction
@@ -41,6 +43,11 @@ if Meteor.isClient
         donations: ->
             Docs.find {
                 model:'donation'
+            }, _timestamp:1
+
+        cart_items: ->
+            Docs.find {
+                model:'cart_item'
             }, _timestamp:1
     Template.cart.events
         'click .start_donation': ->

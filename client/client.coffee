@@ -4,6 +4,7 @@
 @selected_subreddits = new ReactiveArray []
 @selected_timestamp_tags = new ReactiveArray []
 
+@selected_covid_tags = new ReactiveArray []
 # Accounts.ui.config
 #     passwordSignupFields: 'USERNAME_ONLY'
 
@@ -28,6 +29,20 @@ Template.body.events
         console.log @
         Docs.update @_id,
             $inc: views: 1
+
+# Template.registerHelper 'my_cart_items', () ->
+#     found_items =
+#         Docs.find
+#             model:'cart_item'
+#             _author_id: Meteor.userId()
+#     console.log 'found items count', found_items.fetch()
+#     found_items
+Template.registerHelper 'can_edit', () ->
+    if Meteor.user().roles
+        if 'admin' in Meteor.user().roles
+            true
+    else
+        @_author_id is Meteor.userId()
 
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
@@ -83,6 +98,46 @@ Template.registerHelper 'calc_size', (metric) ->
     else if whole is 8 then 'f8'
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
+
+Template.registerHelper 'field_value', () ->
+    # console.log @
+    parent = Template.parentData()
+    parent5 = Template.parentData(5)
+    parent6 = Template.parentData(6)
+
+
+    if @direct
+        parent = Template.parentData()
+    else if parent5
+        if parent5._id
+            parent = Template.parentData(5)
+    else if parent6
+        if parent6._id
+            parent = Template.parentData(6)
+    if parent
+        parent["#{@key}"]
+
+
+Template.registerHelper 'sorted_field_values', () ->
+    # console.log @
+    parent = Template.parentData()
+    parent5 = Template.parentData(5)
+    parent6 = Template.parentData(6)
+
+
+    if @direct
+        parent = Template.parentData()
+    else if parent5._id
+        parent = Template.parentData(5)
+    else if parent6._id
+        parent = Template.parentData(6)
+    if parent
+        _.sortBy parent["#{@key}"], 'number'
+
+
+Template.registerHelper 'nl2br', (text)->
+    nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
+    new Spacebars.SafeString(nl2br)
 
 
 

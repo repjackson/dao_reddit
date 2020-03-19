@@ -1,5 +1,5 @@
 template(name='model_edit')
-    with current_doc
+    with cd
         .ui.stackable.padded.grid            
             .centered.row
                 .four.wide.column
@@ -47,7 +47,7 @@ template(name='model_edit')
 
 
 template(name='model_view')
-    with current_doc
+    with cd
         .ui.stackable.padded.grid
             .row
                 .sixteen.wide.column
@@ -75,7 +75,7 @@ template(name='model_view')
                             i.pencil.icon
                             |edit
                     each model.actions
-                        +Template.dynamic template=this data=current_doc
+                        +Template.dynamic template=this data=cd
                     +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
                     +creation_info
                 .twelve.wide.column

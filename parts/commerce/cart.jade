@@ -8,7 +8,12 @@ template(name='cart')
         .row 
             .twelve.wide.column
                 each cart_items
-                    .ui.header #{product.title}
+                    .ui.segment
+                        .ui.header #{product.title} hi
+                        .meta 
+                            |added #{when}
+                        .ui.icon.circular.button(title='remove cart item')
+                            i.remove.icon
             .four.wide.column
                 .ui.segment 
                     .ui.small.header cart item count

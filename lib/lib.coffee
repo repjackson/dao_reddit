@@ -1,9 +1,13 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
+@Covid_tags = new Meteor.Collection 'covid_tags'
+
 @Terms = new Meteor.Collection 'terms'
 @Redditors = new Meteor.Collection 'redditors'
 @Subreddits = new Meteor.Collection 'subreddits'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
+@Countries = new Meteor.Collection 'countries'
+@Dates = new Meteor.Collection 'dates'
 
 @Redditor_leaders = new Meteor.Collection 'redditor_leaders'
 

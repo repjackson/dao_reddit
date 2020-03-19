@@ -185,7 +185,7 @@ template(name='user_questions')
 
 
 template(name='user_brain_small')
-    a.ui.header(href="/user/#{_id}/brain")
+    a.ui.header(href="/user/#{username}/brain")
         i.brain.icon
         |your brain
     +cloud filter='thought'
@@ -194,7 +194,7 @@ template(name='user_brain_small')
 
 
 template(name='user_segment')
-    a.item(href="/user/#{_id}")
+    a.item(href="/user/#{username}")
         img.ui.avatar.image(src="{{c.url profile_image_id gravity='face' crop='fit'}}")
         .content
             .header

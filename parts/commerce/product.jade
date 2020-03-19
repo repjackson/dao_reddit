@@ -12,9 +12,13 @@ template(name='product_edit')
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image' direct=true
 
+                    div
                     +array_edit key='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    div
                     +number_edit key='dollar_price' icon='money' label='dollar price' direct=true
+                    div
+                    +number_edit key='karma_price' icon='yin yang' label='karma price' direct=true
                 .eight.wide.column
                     +textarea_edit key='description' direct=true
                     +text_edit key='model' direct=true
@@ -54,7 +58,7 @@ template(name='product_view')
                     div
                     +product_location
                     unless sold_out
-                        .ui.big.green.fluid.button.add_to_cart
+                        .ui.red.fluid.button.add_to_cart
                             |+ cart
                     else
                         .ui.big.disabled.button

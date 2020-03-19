@@ -262,6 +262,7 @@ Template.array_edit.events
     'keyup .new_element': (e,t)->
         if e.which is 13
             element_val = t.$('.new_element').val().trim()
+            console.log 'el', element_val
             if @direct
                 parent = Template.parentData()
             else

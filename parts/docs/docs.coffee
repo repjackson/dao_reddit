@@ -60,12 +60,9 @@ if Meteor.isClient
             Meteor.call 'calc_leaders', selected_tags.array(), (err,res)->
                 console.log res
 
-
-
         'click .toggle_images': -> Session.set('view_images', !Session.get('view_images'))
         'click .toggle_videos': -> Session.set('view_videos', !Session.get('view_videos'))
         'click .toggle_articles': -> Session.set('view_articles', !Session.get('view_articles'))
-
 
         'click .result': (event,template)->
             # console.log @
@@ -201,7 +198,7 @@ if Meteor.isClient
         docs: ->
             # if selected_tags.array().length > 0
             Docs.find {
-                # model:'reddit'
+                model:'reddit'
             },
                 sort: "#{Session.get('doc_sort_key')}":parseInt(Session.get('doc_sort_direction'))
                 limit:Session.get('doc_limit')

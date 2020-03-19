@@ -4,11 +4,11 @@ if Meteor.isClient
         #     $('.dropdown').dropdown(
         #         on:'click'
         #     )
-        #     # $('.ui.dropdown').dropdown(
-        #     #     clearable:true
-        #     #     action: 'activate'
-        #     #     onChange: (text,value,$selectedItem)->
-        #     #         )
+        #     $('.ui.dropdown').dropdown(
+        #         clearable:true
+        #         action: 'activate'
+        #         onChange: (text,value,$selectedItem)->
+        #     )
         # , 1000
         Meteor.setTimeout ->
             $('.context.example .ui.sidebar')
@@ -32,8 +32,9 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'model_docs', 'global_stats'
         # @autorun -> Meteor.subscribe 'model_docs', 'nav_item'
         @autorun -> Meteor.subscribe 'model_docs','alert'
-        # @autorun -> Meteor.subscribe 'role_models'
+        @autorun -> Meteor.subscribe 'all_users'
         # @autorun => Meteor.subscribe 'global_settings'
+        @autorun => Meteor.subscribe 'my_cart'
 
         # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'unread_messages'
