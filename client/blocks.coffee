@@ -6,8 +6,7 @@ if Meteor.isClient
             else
                 'disabled loading'
     Template.session_toggle_button.events
-        'click .toggle': ->
-            Session.set(@key, !Session.get(@key))
+        'click .toggle': -> Session.set(@key, !Session.get(@key))
 
     Template.comments.onRendered ->
         Meteor.setTimeout ->
@@ -422,6 +421,27 @@ if Meteor.isClient
 
 
 
+    Template.doc_array_togggle.helpers
+        doc_array_toggle_class: ->
+            parent = Template.parentData()
+            # user = Meteor.users.findOne Router.current().params.username
+            if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else ''
+    Template.doc_array_togggle.events
+        'click .toggle': (e,t)->
+            parent = Template.parentData()
+            if parent["#{@key}"]
+                if @value in parent["#{@key}"]
+                    Docs.update parent._id,
+                        $pull: "#{@key}":@value
+                else
+                    Docs.update parent._id,
+                        $addToSet: "#{@key}":@value
+            else
+                Docs.update parent._id,
+                    $addToSet: "#{@key}":@value
+
+
+
 
 
 
@@ -464,8 +484,8 @@ if Meteor.isServer
 
 
     Meteor.publish 'children', (model, parent_id, limit)->
-        console.log model
-        console.log parent_id
+        # console.log model
+        # console.log parent_id
         limit = if limit then limit else 10
         Docs.find {
             model:model

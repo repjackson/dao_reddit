@@ -1,3 +1,28 @@
+template(name='color_icon_edit')
+    div
+    if icon
+        i.grey.small.icon(class=icon)
+        //- +ismall name=icon classes='ui middle aligned image'
+    .ui.inline.header
+        if title
+            |#{title}
+        else if key
+            |#{key}
+        else
+            |#{this}    
+    if field_value
+        //- i.large.icon(class=field_value)
+        +icolor name=field_value
+    .ui.right.icon.input
+        input.icon_val(type='text' value=field_value placeholder='icon class' autocomplete="off")
+
+
+template(name='color_icon_view')
+    div
+    if field_value
+        +icolor name=field_value
+
+
 
 template(name='html_edit')
     .ui.form
@@ -386,8 +411,9 @@ template(name='number_view')
 
 
 template(name='number_edit')
+    .ui.header number edit
     unless no_header
-        .ui.small.inline.header(title=tooltip class=label_classes)
+        .ui.small.header(title=tooltip class=label_classes)
             if icon 
                 i.grey.small.icon(class=icon)
             if title
@@ -1316,3 +1342,7 @@ template(name='iflat')
 
 //- template(name='ioffice')
 //-     img.ui.image(src="https://img.icons8.com/office/30/000000/#{name}.png" class=classes)
+
+
+template(name='icolor')
+    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)

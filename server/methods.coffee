@@ -184,7 +184,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=100",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=10",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1

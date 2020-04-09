@@ -1,3 +1,22 @@
+Template.color_icon_edit.events
+    'blur .icon_val': (e,t)->
+        val = t.$('.icon_val').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+
+
+
+
 Template.clear_value.events
     'click .clear_value': ->
         if confirm "Clear #{@title} field?"

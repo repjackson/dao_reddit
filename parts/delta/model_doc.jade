@@ -9,23 +9,24 @@ template(name='model_doc_edit')
                         .ui.header(title="model: #{model}")
                             |edit #{model}
                         +creation_info
-                        a.ui.large.button(href="/m/#{model}/#{_id}/view")
-                            i.large.checkmark.icon
-                            |save
-                        #delete_doc.ui.icon.button
-                            i.trash.icon
+                        a.ui.big.circular.basic.icon.button(href="/m/#{model}/#{_id}/view")
+                            i.big.checkmark.green.icon
+                        #delete_doc.ui.icon.basic.circular.button
+                            i.trash.red.icon
                         if is_user
                             +boolean_edit key='private' direct=true
                     .twelve.wide.column
                         //- |#{model}
                         each edit_fields
+                            .ui.header hi
                             +Template.dynamic template=edit_template 
                             // .ui.header #{key} [#{field}] #{label}
                 //- if watson 
                 //-     .row
                 //-         .sixteen.wide.column
                 //-             +watson_view
-
+                
+            
 template(name='model_doc_view')
     if template_exists
         +Template.dynamic template=model_template
@@ -34,14 +35,14 @@ template(name='model_doc_view')
             .ui.stackable.padded.grid
                 .row
                     .four.wide.column
-                        .ui.button.back_to_model
+                        .ui.circular.basic.button.back_to_model
                             i.chevron.left.icon
-                            i.icon(class=current_model.icon)
+                            +icolor name=current_model.color_icon classes='ui inline mini image'
+                            //- i.icon(class=current_model.icon)
                             |#{current_model.title}
                         if can_edit
-                            a.ui.large.button(href="/m/#{current_model.slug}/#{_id}/edit" title='Edit')
-                                i.pencil.icon
-                                |edit    
+                            a.ui.large.circular.icon.basic.button(href="/m/#{current_model}/#{_id}/edit" title='Edit')
+                                i.pencil.blue.icon
                         if is_admin
                             .ui.header 
                                 //- +i name='clock'
@@ -80,8 +81,6 @@ template(name='model_doc_view')
                         //- div
                         //- if watson
                         //-     +watson_view
-
-
 template(name='karma_transaction')
     .ui.header my karma #{currentUser.karma}
     .ui.header offer karma

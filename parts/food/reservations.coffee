@@ -1,53 +1,43 @@
 if Meteor.isClient
-    Template.meal_widget.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'meal'
-    Template.meals.onCreated ->
-        @autorun => Meteor.subscribe 'docs', 'meal'
+    Router.route '/reservations', (->
+        @layout 'layout'
+        @render 'reservations'
+        ), name:'reservations'
 
-        # @autorun => Meteor.subscribe 'model_docs', 'meal'
 
-    Template.meal_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.meal_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.reservations.onCreated ->
+        @autorun => Meteor.subscribe 'docs', 'reservation'
 
-    Template.meal_widget.events
-        'click .set_model': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
-    Template.meal_widget.helpers
-        meals: ->
+        # @autorun => Meteor.subscribe 'model_docs', 'reservation'
+
+    # Template.reservation_view.onCreated ->
+    #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    # Template.reservation_edit.onCreated ->
+    #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+    Template.reservations.helpers
+        reservations: ->
             # console.log Meteor.user().roles
             Docs.find {
-                model:'meal'
+                model:'reservation'
             }, sort:title:1
 
 
-
-    Template.meals.helpers
-        meals: ->
-            # console.log Meteor.user().roles
-            Docs.find {
-                model:'meal'
-            }, sort:title:1
-
-
-    Template.meal_reviews.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'review'
-    Template.meal_reviews.helpers
-        can_leave_review: ->
-            found_review =
-                Docs.findOne
-                    _author_id:Meteor.userId()
-                    model:'review'
-                    parent_id:Router.current().params.doc_id
-            if found_review then false else true
-        reviews: ->
-            Docs.find
-                model: 'review'
-                parent_id:Router.current().params.doc_id
-
+    # Template.reservation_reviews.onCreated ->
+    #     @autorun => Meteor.subscribe 'model_docs', 'review'
+    # Template.reservation_reviews.helpers
+    #     can_leave_review: ->
+    #         found_review =
+    #             Docs.findOne
+    #                 _author_id:Meteor.userId()
+    #                 model:'review'
+    #                 parent_id:Router.current().params.doc_id
+    #         if found_review then false else true
+    #     reviews: ->
+    #         Docs.find
+    #             model: 'review'
+    #             parent_id:Router.current().params.doc_id
+    #
 
 
     Template.reservations.onCreated ->

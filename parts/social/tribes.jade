@@ -40,7 +40,7 @@ template(name='tribe_update_small')
 
 
 template(name='tribe_edit')
-    with cd
+    with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
@@ -61,7 +61,6 @@ template(name='tribe_edit')
                     +text_edit key='title' label='title' icon='title' direct=true
                     +image_edit key='image' label='image' icon='image' direct=true
                     +textarea_edit key='description' label='description' icon='content' direct=true
-                    //- +activity
                 .six.wide.column
                     +boolean_edit key='true_false' label='true/false' direct=true 
                     unless true_false
@@ -76,7 +75,7 @@ template(name='tribe_edit')
                      
                      
 template(name='tribe_view')
-    with cd
+    with current_doc
         .ui.stackable.padded.grid
             .row
                 .sixteen.wide.column 
@@ -97,16 +96,11 @@ template(name='tribe_view')
                     +image_view key='image' icon='image' label='image' direct=true
                     +viewing
                 .six.wide.column
-                    .ui.header members
+                    .ui.header #{members.count} members
                     each members 
                         .ui.small.header #{username}
                 .six.wide.column 
-                    if is_member
-                        .ui.button.leave
-                            |leave
-                    else 
-                        .ui.button.join
-                            |join
+                    +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
                     .ui.header 
                         +i name='rss'
                         |activity

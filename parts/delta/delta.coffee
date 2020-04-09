@@ -2,16 +2,12 @@ if Meteor.isClient
     Router.route '/m/:model_slug', (->
         @render 'delta'
         ), name:'delta'
-    Router.route '/m/:model_slug/:doc_id/edit', -> @render 'model_doc_edit'
-    Router.route '/m/:model_slug/:doc_id/view', (->
-        @render 'model_doc_view'
-        ), name:'doc_view'
-    Router.route '/model/edit/:doc_id', -> @render 'model_edit'
 
     Template.delta.onCreated ->
         @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug
-        @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
+        @autorun -> Meteor.subscribe 'model_fields_from_slug', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_delta'
+        @autorun -> Meteor.subscribe 'model_docs', 'dish'
         Session.set 'loading', true
         Meteor.call 'set_facets', Router.current().params.model_slug, ->
             Session.set 'loading', false
@@ -19,6 +15,11 @@ if Meteor.isClient
     #     Meteor.call 'log_view', @_id, ->
 
     Template.delta.helpers
+        current_model: ->
+            Docs.findOne
+                model:'model'
+                slug: Router.current().params.model_slug
+
         sorting_up: ->
             delta = Docs.findOne model:'delta'
             if delta
@@ -44,9 +45,10 @@ if Meteor.isClient
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
         single_doc: ->
-            delta = Docs.findOne model:'delta'
-            count = delta.result_ids.length
-            if count is 1 then true else false
+            false
+            # delta = Docs.findOne model:'delta'
+            # count = delta.result_ids.length
+            # if count is 1 then true else false
 
         model_stats_exists: ->
             current_model = Router.current().params.model_slug
@@ -68,6 +70,15 @@ if Meteor.isClient
             Router.go "/model/edit/#{new_model._id}"
 
 
+        'click .clear_query': ->
+            # console.log @
+            delta = Docs.findOne model:'delta'
+            Docs.update delta._id,
+                $unset:search_query:1
+            Session.set 'loading', true
+            Meteor.call 'fum', delta._id, ->
+                Session.set 'loading', false
+
         'click .set_sort_key': ->
             # console.log @
             delta = Docs.findOne model:'delta'
@@ -79,7 +90,7 @@ if Meteor.isClient
 
         'click .set_sort_direction': (e,t)->
             # console.log @
-            $(e.currentTarget).closest('.button').transition('pulse', 500)
+            $(e.currentTarget).closest('.button').transition('pulse', 250)
 
             delta = Docs.findOne model:'delta'
             if delta.sort_direction is -1
@@ -96,13 +107,6 @@ if Meteor.isClient
             Docs.insert
                 model:'delta'
                 model_filter: Router.current().params.model_slug
-
-        'keyup .import_subreddit': (e,t)->
-            if e.which is 13
-                val = t.$('.import_subreddit').val()
-                Meteor.call 'pull_subreddit', val, (err,res)->
-                    console.log res
-
 
         'click .print_delta': (e,t)->
             delta = Docs.findOne model:'delta'
@@ -144,11 +148,16 @@ if Meteor.isClient
                                 first_name:first_name
                                 last_name:last_name
                         Router.go "/m/#{model.slug}/#{res}/edit"
-            else if model.slug is 'shop'
+            # else if model.slug is 'shop'
+            #     new_doc_id = Docs.insert
+            #         model:model.slug
+            #     Router.go "/shop/#{new_doc_id}/edit"
+            else if model.slug is 'model'
                 new_doc_id = Docs.insert
-                    model:model.slug
-                Router.go "/shop/#{new_doc_id}/edit"
+                    model:'model'
+                Router.go "/model/edit/#{new_doc_id}"
             else
+                console.log model
                 new_doc_id = Docs.insert
                     model:model.slug
                 Router.go "/m/#{model.slug}/#{new_doc_id}/edit"
@@ -196,6 +205,34 @@ if Meteor.isClient
             #     when 8
             #         if e.target.value is ''
             #             selected_tags.pop()
+        'keyup #search': _.throttle((e,t)->
+            query = $('#search').val()
+            Session.set('current_query', query)
+            delta = Docs.findOne model:'delta'
+            Docs.update delta._id,
+                $set:search_query:query
+            Session.set 'loading', true
+            Meteor.call 'fum', delta._id, ->
+                Session.set 'loading', false
+
+            # console.log Session.get('current_query')
+            if e.which is 13
+                search = $('#search').val().trim().toLowerCase()
+                if search.length > 0
+                    selected_tags.push search
+                    console.log 'search', search
+                    # Meteor.call 'log_term', search, ->
+                    $('#search').val('')
+                    Session.set('current_query', null)
+                    # # $('#search').val('').blur()
+                    # # $( "p" ).blur();
+                    # Meteor.setTimeout ->
+                    #     Session.set('dummy', !Session.get('dummy'))
+                    # , 10000
+        , 1000)
+
+
+
 
     Template.set_limit.events
         'click .set_limit': ->
@@ -209,7 +246,7 @@ if Meteor.isClient
 
     Template.set_view_mode.events
         'click .set_view_mode': ->
-            console.log @
+            # console.log @
             delta = Docs.findOne model:'delta'
             Docs.update delta._id,
                 $set:view_mode:@title
@@ -276,10 +313,10 @@ if Meteor.isClient
             facet = Template.parentData()
             delta = Docs.findOne model:'delta'
             if Session.equals 'loading', true
-                 'disabled'
+                 'disabled basic'
             else if facet.filters.length > 0 and @name in facet.filters
                 'active'
-            else ''
+            else 'basic'
 
     Template.delta_result.onRendered ->
         # Meteor.setTimeout ->
@@ -293,7 +330,7 @@ if Meteor.isClient
         template_exists: ->
             current_model = Router.current().params.model_slug
             if current_model
-                if Template["#{current_model}_card_template"]
+                if Template["#{current_model}_card"]
                     # console.log 'true'
                     return true
                 else
@@ -302,7 +339,7 @@ if Meteor.isClient
 
         model_template: ->
             current_model = Router.current().params.model_slug
-            "#{current_model}_card_template"
+            "#{current_model}_card"
 
         toggle_value_class: ->
             facet = Template.parentData()

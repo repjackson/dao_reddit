@@ -28,7 +28,7 @@ underscore@1.0.10
 coffeescript
 fourseven:scss
 lepozepo:cloudinary
-froala:editor-reactive@=2.4.2
+froala:editor-reactive
 http@1.4.2
 ecmascript@0.14.2
 modules@0.15.0
@@ -38,4 +38,3 @@ zimme:active-route
 reywood:publish-composite
 flowkey:hotkeys
 dburles:collection-helpers
-maazalik:highcharts

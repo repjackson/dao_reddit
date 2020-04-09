@@ -1,0 +1,53 @@
+template(name='food')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header 
+                    i.food.icon
+                    |food
+                +cloud filter='meal'
+                a.ui.button(href='/ingredients')
+                    |ingredients
+                a.ui.button(href='/meals')
+                    |meals
+                a.ui.button(href='/recipes')
+                    |recipes
+            .twelve.wide.column
+
+
+
+
+template(name='marketplace_widget')
+    .ui.segment
+        .ui.header 
+            i.shop.icon
+            |marketplace
+
+
+
+template(name='food_card_template')
+    .ui.stackable.grid.segment
+        .four.wide.column
+            //- img.ui.fluid.image(src="{{c.url image }}")
+            img.ui.fluid.rounded.image(src="{{c.url image width=400 height=600 crop='fit'}}")
+        .twelve.wide.column
+            .ui.header #{title}
+            +ismall name='food'
+            .ui.inline.small.header ingredients
+            each ingredients
+                .ui.basic.label #{this}
+            .ui.inline.small.header tags
+            each tags
+                .ui.basic.label #{this}
+            .ui.inline.small.header location_tags
+            each location_tags
+                .ui.basic.label #{this}
+            .ui.header available {{from_now date}} at #{time_available}
+            .ui.header servings available #{servings_available}
+            a.ui.large.basic.icon.button(href="/meal/#{_id}/edit")
+                i.pencil.icon
+            a.ui.large.basic.icon.button(href="/meal/#{_id}/view")
+                i.right.chevron.icon        
+            //- +edit_button
+            //- +view_button
+            

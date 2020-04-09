@@ -53,7 +53,11 @@ body {
 
 
 .rounded {
-    border-radius: : 10px !important;
+    border-radius: 10px !important;
+}
+
+.card {
+    border-radius: 10px !important;
 }
 
 .ui.button.result {
@@ -99,7 +103,8 @@ i.invert{
 }
 
 .label {
-  margin: 2px !important;
+    margin: 2px !important;
+    border-radius: 10px !important;
 }
 
 input {

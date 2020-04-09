@@ -1,0 +1,103 @@
+template(name='ingredients')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.inline.header 
+                    |ingredients
+                .ui.icon.button.add_ingredient
+                    i.plus.icon
+                div
+                a.ui.button(href='/meals')
+                    |meals
+                a.ui.button(href='/reservations')
+                    |reservations
+                a.ui.button(href='/recipes')
+                    |recipes
+                .spacer
+                .ui.small.inline.header filter
+                +cloud filter='ingredient'
+            .twelve.wide.column
+                .ui.stackable.three.centered.cards
+                    each ingredients
+                        +ingredient_card
+
+
+
+template(name='ingredient_card')
+    .ui.card
+        if image_id
+            a(href="/ingredient/#{_id}/view")
+                img.ui.image(src="{{c.url image_id width=400 height=400 gravity='face' crop='fill'}}")
+        .content
+            a.ui.header(href="/ingredient/#{_id}/view") #{title}
+            div created {{from_now _timestamp}}
+            +view_button
+            |available servings: #{available_servings}
+            
+
+            
+            
+            
+            
+template(name='ingredient_reviews')
+    .ui.segment
+        .ui.header 
+            +i name='popular-topic'
+            |reviews
+        if can_leave_review
+            .ui.basic.button.leave_review leave review
+        else
+            .ui.basic.button.edit_review leave review
+        each reviews
+            .ui.header #{text}
+            each tags
+                .ui.basic.tag #{this}
+            .ui.header vote #{vote}
+
+
+
+template(name='ingredient_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .four.wide.column
+                a.ui.button(href="/ingredients")
+                    i.left.chevron.icon
+                    |ingredients
+                .ui.header #{title}
+                +array_view key='tags' direct=true
+                +array_view key='ingredients' direct=true
+                +array_view key='location_tags' direct=true
+                .ui.header meals included in
+                each meal_inclusions
+                    a.ui.small.header(href="/meal/#{_id}/view")
+                        |#{title}
+            .four.wide.column
+                img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+                +textarea_view key='description' direct=true
+                +comments
+            .four.wide.column
+                with current_doc
+                    +voting
+                    .ui.header similar ingredients
+                    .ui.header alerts
+                    |alergen alert
+                    |#{alergen_alert}
+
+
+
+template(name='ingredient_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .four.wide.column
+                .ui.header edit ingredient
+                .ui.header #{title}
+                +text_edit key='title' direct=true
+                +array_edit key='tags' direct=true
+                +image_edit key='image_id' direct=true
+            .eight.wide.column
+                img.ui.large.image(src="{{c.url image width=800 height=500 gravity='face' crop='fill'}}")
+                +textarea_edit key='description' direct=true
+            .four.wide.column
+                a.ui.large.fluid.button(href="/ingredient/#{_id}/view")
+                    i.checkmark.icon
+                    |save        

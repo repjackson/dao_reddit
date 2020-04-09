@@ -10,12 +10,10 @@ if Meteor.isClient
 
     Template.tribe_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
     Template.tribe_card_template.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1000
-
     Template.tribe_card_template.onCreated ->
         @autorun => Meteor.subscribe 'children', 'tribe_update', @data._id
     Template.tribe_card_template.helpers
@@ -27,8 +25,7 @@ if Meteor.isClient
 
     Template.tribe_view.onCreated ->
         @autorun => Meteor.subscribe 'children', 'tribe_update', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'ballot_tribes', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'tribe_options', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'members', Router.current().params.doc_id
     Template.tribe_view.helpers
         options: ->
             Docs.find
@@ -39,20 +36,11 @@ if Meteor.isClient
                 ballot_id: Router.current().params.doc_id
 
     Template.tribe_view.events
-        'click .tribe_yes': ->
-            my_tribe = Docs.findOne
+        'click .join': ->
+            Docs.update
                 model:'tribe'
                 _author_id: Meteor.userId()
-                ballot_id: Router.current().params.doc_id
-            if my_tribe
-                Docs.update my_tribe._id,
-                    $set:value:'yes'
-            else
-                Docs.insert
-                    model:'tribe'
-                    ballot_id: Router.current().params.doc_id
-                    value:'yes'
-        'click .tribe_no': ->
+        'click .tribe_leave': ->
             my_tribe = Docs.findOne
                 model:'tribe'
                 _author_id: Meteor.userId()
@@ -121,11 +109,6 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'ballot_tribes', (ballot_id)->
-        Docs.find
-            model:'tribe'
-            ballot_id:ballot_id
-    Meteor.publish 'tribe_options', (ballot_id)->
-        Docs.find
-            model:'tribe_option'
-            ballot_id:ballot_id
+    Meteor.publish 'members', (tribe_id)->
+        Meteor.users.find
+            _id:$in:@member_ids

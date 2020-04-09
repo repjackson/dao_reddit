@@ -1,0 +1,45 @@
+template(name='reservations')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header reservations
+                a.ui.button(href='/ingredients')
+                    |ingredients
+                a.ui.button(href='/meals')
+                    |meals
+                a.ui.button(href='/recipes')
+                    |recipes
+            .twelve.wide.column
+                .ui.segment
+                    .ui.header 
+                        +i name='ticket'
+                        |reservations
+                        
+                    .ui.tiny.statistic
+                        .value #{taken_slots}     
+                        .label slots taken
+                    .ui.tiny.statistic
+                        .value #{available_slots}     
+                        .label slots available
+                    .ui.tiny.statistic
+                        .value 
+                            i.dollar.grey.icon
+                            |#{karma_earned}     
+                        .label karma earned
+                    
+                    if can_reserve
+                        .ui.basic.button.new_reservation 
+                            i.green.plus.icon
+                            |new reservation
+                    .ui.icon.basic.button.toggle_editing
+                        i.blue.pencil.icon
+                    with my_reservation
+                        if is_editing
+                            +text_edit key='notes' direct=true 
+                            +remove_button
+                    each reservations
+                        .ui.divider
+                        .ui.header #{notes}
+                        each author.tags
+                            .ui.basic.label #{this}
+                        +author_info

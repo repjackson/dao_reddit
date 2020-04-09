@@ -1,15 +1,8 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
-@Covid_tags = new Meteor.Collection 'covid_tags'
 
-@Terms = new Meteor.Collection 'terms'
-@Redditors = new Meteor.Collection 'redditors'
-@Subreddits = new Meteor.Collection 'subreddits'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
-@Countries = new Meteor.Collection 'countries'
-@Dates = new Meteor.Collection 'dates'
 
-@Redditor_leaders = new Meteor.Collection 'redditor_leaders'
 
 Router.configure
     layoutTemplate: 'layout'
@@ -60,39 +53,6 @@ Docs.before.insert (userId, doc)->
         doc._timestamp_tags = date_array
 
     return
-
-Terms.before.insert (userId, doc)->
-    if Meteor.user()
-        doc._author_id = Meteor.userId()
-        doc._author_username = Meteor.user().username
-    timestamp = Date.now()
-    doc._timestamp = timestamp
-    doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
-    date = moment(timestamp).format('Do')
-    weekdaynum = moment(timestamp).isoWeekday()
-    weekday = moment().isoWeekday(weekdaynum).format('dddd')
-
-    hour = moment(timestamp).format('h')
-    minute = moment(timestamp).format('m')
-    ap = moment(timestamp).format('a')
-    month = moment(timestamp).format('MMMM')
-    year = moment(timestamp).format('YYYY')
-
-    # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
-    date_array = [ap, weekday, month, date, year]
-    if _
-        date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
-        # date_array = _.each(date_array, (el)-> console.log(typeof el))
-        # console.log date_array
-        doc._timestamp_tags = date_array
-
-    return
-
-
-Redditors.helpers
-    top_five_tags: ->
-        if @tag_list
-            @tag_list[..3]
 
 
 Docs.helpers

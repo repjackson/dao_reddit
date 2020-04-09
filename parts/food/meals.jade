@@ -1,3 +1,46 @@
+template(name='meals')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header 
+                    i.wine.glass.icon
+                    |meals
+                .ui.icon.button.add_meal
+                    i.plus.icon
+                
+                +cloud filter='meal'
+                a.ui.button(href='/ingredients')
+                    |ingredients
+                a.ui.button(href='/meals')
+                    |meals
+                a.ui.button(href='/recipes')
+                    |recipes
+            .twelve.wide.column
+                .ui.stackable.three.cards
+                    each meals
+                        +meal
+
+
+
+template(name='meal')
+    .ui.card
+        if picture
+            img.ui.image(src="{{c.url picture width=400 height=400}}")
+        else
+            img.ui.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
+        .content
+            a.ui.header(href="/meal/#{_id}") #{title}
+            div created {{from_now _timestamp}}
+            div available {{from_now date}}
+            +edit_button
+            +view_button
+            |available servings: #{available_servings}
+            
+            if servings_available
+                .ui.button.meal_sign_up
+                    |sign up
+
+
 template(name='meal_widget')
     .ui.segment
         a.ui.header(href='/meals')
@@ -14,50 +57,14 @@ template(name='meal_widget')
 
 
 
-template(name='meals')
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.header 
-                    |meals
-                +cloud filter='meal'
-            .twelve.wide.column
-                .ui.stackable.three.cards
-                    each meals
-                        .ui.card
-                            if picture
-                                img.ui.image(src="{{c.url picture width=400 height=400}}")
-                            else
-                                img.ui.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
-                            .content
-                                a.ui.header(href="/meal/#{_id}") #{title}
-                                div created {{from_now _timestamp}}
-                                div available {{from_now date}}
-                                +edit_button
-                                +view_button
-                                |available servings: #{available_servings}
-                                
-                                if servings_available
-                                    .ui.button.meal_sign_up
-                                        |sign up
 
-
-template(name='marketplace_widget')
-    .ui.segment
-        .ui.header 
-            i.shop.icon
-            |marketplace
-
-
-
-template(name='food_card_template')
+template(name='meal_card_template')
     .ui.stackable.grid.segment
         .four.wide.column
             //- img.ui.fluid.image(src="{{c.url image }}")
             img.ui.fluid.rounded.image(src="{{c.url image width=400 height=600 crop='fit'}}")
         .twelve.wide.column
             .ui.header #{title}
-            +ismall name='food'
             .ui.inline.small.header ingredients
             each ingredients
                 .ui.basic.label #{this}
@@ -92,47 +99,14 @@ template(name='meal_reviews')
             .ui.header vote #{vote}
 
 
-template(name='reservations')
-    .ui.segment
-        .ui.header 
-            +i name='ticket'
-            |reservations
-        .ui.tiny.statistic
-            .value #{taken_slots}     
-            .label slots taken
-        .ui.tiny.statistic
-            .value #{available_slots}     
-            .label slots available
-        .ui.tiny.statistic
-            .value 
-                i.dollar.grey.icon
-                |#{karma_earned}     
-            .label karma earned
-        
-        if can_reserve
-            .ui.basic.button.new_reservation 
-                i.green.plus.icon
-                |new reservation
-        .ui.icon.basic.button.toggle_editing
-            i.blue.pencil.icon
-        with my_reservation
-            if is_editing
-                +text_edit key='notes' direct=true 
-                +remove_button
-        each reservations
-            .ui.divider
-            .ui.header #{notes}
-            each author.tags
-                .ui.basic.label #{this}
-            +author_info
-
-
-
 
 template(name='meal_view')
     with current_doc
         .ui.stackable.padded.grid
             .four.wide.column
+                a.ui.fluid.button(href="/meals")
+                    i.wine.glass.icon
+                    |meals
                 .ui.header #{title}
                 +array_view key='tags' direct=true
                 +array_view key='ingredients' direct=true
@@ -156,15 +130,12 @@ template(name='meal_view')
             .four.wide.column
                 a.ui.large.basic.button(href="/meal/#{_id}/edit")
                     i.pencil.icon
-                a.ui.large.basic.button(href="/meal/#{_id}/view")
-                    i.right.chevron.icon        
-                +reservations
                 .ui.header cook #{_author_username}
                 with _author_id
                     +user_card
             .four.wide.column
                 with current_doc
-                    +voting
+                    +voting_full
                     .ui.header similar meals
                     .ui.header alerts
                     |alergen alert
@@ -176,22 +147,26 @@ template(name='meal_edit')
     with current_doc
         .ui.stackable.padded.grid
             .four.wide.column
+                .ui.header editing meal
                 .ui.header #{title}
-                +array_edit key='tags' direct=true
-                +array_edit key='ingredients' direct=true
+                +number_edit key='servings' label='servings' direct=true
+                +number_edit key='price_per_serving' label='price per serving' direct=true
                 +array_edit key='location_tags' direct=true
+                .ui.header recipe
+                if selected_recipe
+                    .ui.small.header recipe
+                else 
+                    .ui.small.header select recipe
+                    each recipes
+                        .ui.button.select_recipe #{title}
                 .ui.small.header
-                    |date available
-                    |#{available_date}
+                    +date_edit key='date_available' label='date available' direct=true
                 .ui.small.header
-                    |time available
-                    |#{time_available}
+                    +time_edit key='time_available' label='time available' direct=true
             .eight.wide.column
                 img.ui.large.image(src="{{c.url image width=800 height=500 gravity='face' crop='fill'}}")
                 +textarea_edit key='description' direct=true
             .four.wide.column
-                a.ui.large.basic.button(href="/meal/#{_id}/edit")
-                    i.pencil.icon
-                a.ui.large.basic.button(href="/meal/#{_id}/view")
-                    i.right.chevron.icon        
-                +reservations
+                a.ui.large.fluid.button(href="/meal/#{_id}/view")
+                    i.checkmark.icon   
+                    |save     

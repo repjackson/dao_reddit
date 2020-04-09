@@ -1,10 +1,16 @@
 if Meteor.isClient
+    Router.route '/model/edit/:doc_id', -> @render 'model_edit'
+
+
+
     Template.model_view.onCreated ->
         @autorun -> Meteor.subscribe 'model', Router.current().params.model_slug
-        @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
+        @autorun -> Meteor.subscribe 'model_fields_from_slug', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'docs', selected_tags.array(), Router.current().params.model_slug
 
     Template.model_view.helpers
+        current_model: ->
+            Router.current().params.model_slug
         model: ->
             Docs.findOne
                 model:'model'
@@ -63,8 +69,8 @@ if Meteor.isClient
             Docs.insert
                 model:'field'
                 parent_id: Router.current().params.doc_id
-                view_roles: ['dev', 'admin', 'student', 'public']
-                edit_roles: ['dev', 'admin', 'student']
+                view_roles: ['dev', 'admin', 'user', 'public']
+                edit_roles: ['dev', 'admin', 'user']
 
 if Meteor.isServer
     Meteor.publish 'model', (slug)->
@@ -72,10 +78,16 @@ if Meteor.isServer
             model:'model'
             slug:slug
 
-    Meteor.publish 'model_fields', (slug)->
+    Meteor.publish 'model_fields_from_slug', (slug)->
         model = Docs.findOne
             model:'model'
             slug:slug
+        Docs.find
+            model:'field'
+            parent_id:model._id
+
+    Meteor.publish 'model_fields_from_id', (model_id)->
+        model = Docs.findOne model_id
         Docs.find
             model:'field'
             parent_id:model._id
