@@ -2,18 +2,20 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.menu
         //- a.icon.item.toggle_sidebar
         //-     i.large.bars.icon
-        a.header.item(href='/grid' class="{{isActivePath '/grid'}}" title='apps')
-            i.large.th.icon
-        a.header.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='models')
-            i.large.database.icon
+        //- a.header.item(href='/grid' class="{{isActivePath '/grid'}}" title='apps')
+        //-     i.large.th.icon
+        a.header.item.go_home(href='/m/model' class="{{isActivePath '/m/model'}}" title='models')
+            i.large.home.icon
         //- a.icon.item(href="/" class="{{isActivePath '/'}}")
         //-     //- unless subs_ready 
         //-         i.yin.yang.loading.large.grey.icon(title='dao')
         //-     //- else 
         //-     i.large.reddit.link.icon.toggle_menu
             
-        a.icon.item.mobile.hidden(href='/users' class="{{isActivePath '/users'}}" title='users')
-            i.users.icon
+        //- a.icon.item.mobile.hidden(href='/users' class="{{isActivePath '/users'}}" title='users')
+        //-     i.large.users.icon
+        //- a.icon.item.mobile.hidden(href="/stats")
+        //-     i.line.chart.large.icon
         //- a.icon.item.mobile.hidden(href='/covid' class="{{isActivePath '/covid'}}" title='covid')
         //-     i.large.biohazard.icon
         //- a.icon.item.mobile.hidden(href='/shop' class="{{isActivePath '/shop'}}" title='shop')
@@ -34,20 +36,18 @@ template(name='nav')
                 a.icon.item.mobile.hidden(href='/admin' class="{{isActivePath '/admin'}}" title="admin")
                     i.user.shield.large.icon
                 
-            a.icon.item.mobile.hidden(href='/cart' class="{{isActivePath '/cart'}}" title="shopping cart #{cart_amount} items")
-                i.shopping.cart.large.icon
+            //- a.icon.item.mobile.hidden(href='/cart' class="{{isActivePath '/cart'}}" title="shopping cart #{cart_amount} items")
+            //-     i.shopping.cart.large.icon
             //- a.mobile.hidden.icon.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks') 
             //-     i.tasks.large.icon
             //- a.mobile.hidden.icon.item(href='/events' class="{{isActivePath '/events'}}" title='events') 
             //-     i.calendar.large.icon
             //- a.icon.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat') 
             //-     i.chat.outline.large.icon
-            a.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}" title='alerts') 
-                i.bell.large.icon(class=alert_icon_class)
+            //- a.icon.item(href='/alerts' class="{{isActivePath '/alerts'}}" title='alerts') 
+            //-     i.bell.large.icon(class=alert_icon_class)
                 //- i.rss.icon
             
-            //- a.icon.item.mobile.hidden(href="/stats")
-            //-     i.line.chart.large.icon
             if currentUser
                 a.item(href="/user/#{currentUser.username}/karma")
                     |#{currentUser.karma}

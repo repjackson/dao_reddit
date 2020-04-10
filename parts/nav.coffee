@@ -11,14 +11,14 @@ if Meteor.isClient
         #     )
         # , 1000
         Meteor.setTimeout ->
-            $('.context.example .ui.sidebar')
-                .sidebar({
-                    context: $('.context.example .segment')
-                    dimPage: false
-                    transition:  'overlay'
-                })
-                .sidebar('attach events', '.context.example .menu .toggle_sidebar.item')
-        , 1000
+        #     $('.context.example .ui.sidebar')
+        #         .sidebar({
+        #             context: $('.context.example .segment')
+        #             dimPage: false
+        #             transition:  'overlay'
+        #         })
+        #         .sidebar('attach events', '.context.example .menu .toggle_sidebar.item')
+        # , 1000
 
         Meteor.setTimeout ->
             $('.item').popup(
@@ -31,7 +31,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'model_docs', 'global_stats'
         # @autorun -> Meteor.subscribe 'model_docs', 'nav_item'
-        @autorun -> Meteor.subscribe 'model_docs','alert'
+        # @autorun -> Meteor.subscribe 'model_docs','alert'
         @autorun -> Meteor.subscribe 'all_users'
         # @autorun => Meteor.subscribe 'global_settings'
         @autorun => Meteor.subscribe 'my_cart'
@@ -126,32 +126,32 @@ if Meteor.isClient
                     model:'classroom'
                     teacher_id:Meteor.userId()
 
-    Template.sidebar.events
-        'click .toggle_sidebar': ->
-            console.log @
-            $('.ui.sidebar')
-                .sidebar('setting', 'transition', 'overlay')
-                .sidebar('toggle')
+    # Template.sidebar.events
+    #     'click .toggle_sidebar': ->
+    #         console.log @
+    #         $('.ui.sidebar')
+    #             .sidebar('setting', 'transition', 'overlay')
+    #             .sidebar('toggle')
 
 
     Template.nav.events
-        'click .toggle_sidebar': ->
-            $('.ui.sidebar')
-                .sidebar('setting', 'transition', 'overlay')
-                .sidebar('toggle')
+        # 'click .toggle_sidebar': ->
+        #     $('.ui.sidebar')
+        #         .sidebar('setting', 'transition', 'overlay')
+        #         .sidebar('toggle')
 
         # 'mouseenter .item': (e,t)->
         #     $(e.currentTarget).closest('.item').transition('pulse', 500)
-        'click .menu_dropdown': ->
-            $('.menu_dropdown').dropdown(
-                on:'hover'
-            )
+        # 'click .menu_dropdown': ->
+        #     $('.menu_dropdown').dropdown(
+        #         on:'hover'
+        #     )
 
-        'click .item': (e,t)->
-            $(e.currentTarget).closest('.item').transition(
-                animation: 'pulse'
-                duration: 500
-            )
+        # 'click .item': (e,t)->
+        #     $(e.currentTarget).closest('.item').transition(
+        #         animation: 'pulse'
+        #         duration: 250
+        #     )
 
 
         'click .new_act_test': ->
@@ -175,6 +175,12 @@ if Meteor.isClient
             Session.set 'loading', true
             # Meteor.call 'log_view', @_id, ->
             Meteor.call 'set_facets', @slug, ->
+                Session.set 'loading', false
+
+        'click .go_home': ->
+            Session.set 'loading', true
+            # Meteor.call 'log_view', @_id, ->
+            Meteor.call 'set_facets', 'model', ->
                 Session.set 'loading', false
 
 

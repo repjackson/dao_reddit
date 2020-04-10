@@ -61,9 +61,12 @@ Meteor.methods
 
     fum: (delta_id)->
         delta = Docs.findOne delta_id
+
         model = Docs.findOne
             model:'model'
             slug:delta.model_filter
+
+        console.log 'running fum,', delta, model
         built_query = {}
         if delta.search_query
             built_query.title = {$regex:"#{delta.search_query}", $options: 'i'}
@@ -78,32 +81,32 @@ Meteor.methods
             # unless delta.model_filter is 'post'
             built_query.model = delta.model_filter
 
-        if delta.model_filter is 'model'
-            unless 'dev' in Meteor.user().roles
-                built_query.view_roles = $in:Meteor.user().roles
+        # if delta.model_filter is 'model'
+        #     unless 'dev' in Meteor.user().roles
+        #         built_query.view_roles = $in:Meteor.user().roles
 
-        if not delta.facets
-            # console.log 'no facets'
-            Docs.update delta_id,
-                $set:
-                    facets: [{
-                        key:'_keys'
-                        filters:[]
-                        res:[]
-                    }
-                    # {
-                    #     key:'_timestamp_tags'
-                    #     filters:[]
-                    #     res:[]
-                    # }
-                    ]
-
-            delta.facets = [
-                key:'_keys'
-                filters:[]
-                res:[]
-            ]
-
+        # if not delta.facets
+        #     # console.log 'no facets'
+        #     Docs.update delta_id,
+        #         $set:
+        #             facets: [{
+        #                 key:'_keys'
+        #                 filters:[]
+        #                 res:[]
+        #             }
+        #             # {
+        #             #     key:'_timestamp_tags'
+        #             #     filters:[]
+        #             #     res:[]
+        #             # }
+        #             ]
+        #
+        #     delta.facets = [
+        #         key:'_keys'
+        #         filters:[]
+        #         res:[]
+        #     ]
+        #
 
 
         for facet in delta.facets
@@ -114,7 +117,7 @@ Meteor.methods
             total = Meteor.users.find(built_query).count()
         else
             total = Docs.find(built_query).count()
-        # console.log 'built query', built_query
+        console.log 'built query', built_query
         # response
         for facet in delta.facets
             values = []
@@ -127,7 +130,7 @@ Meteor.methods
                 Docs.update { _id:delta._id, 'facets.key':facet.key},
                     { $set: 'facets.$.res': agg_res }
         if delta.sort_key
-            # console.log 'found sort key', delta.sort_key
+            console.log 'found sort key', delta.sort_key
             sort_by = delta.sort_key
         else
             sort_by = 'views'
@@ -176,6 +179,7 @@ Meteor.methods
         # delta = Docs.findOne delta_id
 
     agg: (query, key, collection)->
+        console.log 'running agg', query
         limit=20
         options = { explain:false }
         pipe =  [

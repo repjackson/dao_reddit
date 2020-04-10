@@ -294,7 +294,7 @@ template(name='text_edit')
             |#{subtitle}
     if tooltip 
         i.info.icon(title=tooltip)
-    .ui.fluid.icon.input
+    .ui.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 
@@ -411,9 +411,8 @@ template(name='number_view')
 
 
 template(name='number_edit')
-    .ui.header number edit
     unless no_header
-        .ui.small.header(title=tooltip class=label_classes)
+        .ui.small.inline.header(title=tooltip class=label_classes)
             if icon 
                 i.grey.small.icon(class=icon)
             if title
@@ -598,7 +597,7 @@ template(name='array_view')
             .ui.inline.small.header(title=title)
                 |#{label}
         each field_value
-            .ui.basic.label #{this}
+            .ui.basic.inverted.label #{this}
 
 template(name='array_edit')
     div
@@ -616,7 +615,7 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            .ui.large.basic.label
+            .ui.large.inverted.basic.label
                 i.delete.icon.remove_element
                 |#{this}
                 
@@ -1273,7 +1272,7 @@ template(name='document_edit')
 
 
 template(name='slug_edit')
-    .ui.inline.small.header.slugify_title
+    a.ui.inline.small.header.slugify_title
         if title
             |#{title}
         else if label
@@ -1281,7 +1280,7 @@ template(name='slug_edit')
         else if key
             |#{key}
     //- +clear_value
-    .ui.fluid.icon.input
+    .ui.icon.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
 
 template(name='slug_view')
@@ -1331,9 +1330,12 @@ template(name='ismall')
     //- img.ui.middle.aligned.image(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
     //- img.ui.inline.image(src="https://img.icons8.com/#{gs.icon_theme}/24/000000/#{name}.png" class=classes title=title)
-    //- img(src="https://img.icons8.com/ultraviolet/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class=classes title=title) 
     //- |&nbsp;
+    
+template(name='inolan')
+    img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
+    
 template(name='iblue')
     img(src="https://img.icons8.com/ultraviolet/40/000000/#{name}.png" class=classes)
 

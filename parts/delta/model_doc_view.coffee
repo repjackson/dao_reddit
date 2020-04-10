@@ -8,8 +8,9 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'downvoters', Router.current().params.doc_id
 
     Template.model_doc_view.helpers
-        current_model: ->
-            Router.current().params.model_slug
+        # current_model: ->
+
+            # Router.current().params.model_slug
         template_exists: ->
             false
             # current_model = Docs.findOne(Router.current().params.doc_id).model

@@ -19,6 +19,10 @@ body {
     line-height: 150%;
 }
 
+.segment {
+    border-radius: 10px !important;
+}
+
 .home {
     overscroll-behavior: none;
 }
@@ -70,6 +74,10 @@ body {
 
 .ui.image, .label, .ui.embed, .ui.text, .green.header, .red.header, .blue.header, .orange.header, .invert{
     /* border-radius: 7px !important; */
+    filter: invert(1) !important;
+}
+
+img {
     filter: invert(1) !important;
 }
 

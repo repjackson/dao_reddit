@@ -1,5 +1,5 @@
 template(name='delta')
-    .ui.stackable.padded.grid
+    .ui.stackable.grid
         with current_model
             .row
                 .five.wide.column
@@ -9,6 +9,9 @@ template(name='delta')
                             +icolor name=color_icon classes='pulsing'
                             |loading #{title}...
                     else
+                        unless key_value_is current_delta.model_filter 'model'
+                            a.ui.circular.icon.button.go_home
+                                i.left.chevron.icon
                         .ui.inline.header(title="#{description}, #{views} views")
                             +icolor name=color_icon
                             | #{title}
@@ -104,6 +107,8 @@ template(name='delta')
                                     +set_view_mode title='items' icon='list'
                                     +set_view_mode title='map' icon='map'
                                     +set_view_mode title='graph' icon='graph'
+                        //- .ui.basic.compact.small.icon.button.toggle_right_panel
+                        //-     i.table.large.icon
                         .spacer
                     .scrolling    
                         each current_delta.result_ids
@@ -136,8 +141,8 @@ template(name='delta')
         unless current_model
             if is_admin
                 .ui.big.button.create_model create model
-            else 
-                .ui.header model not found
+            //- else 
+                //- .ui.header model not found
             
             
 template(name='delta_table')
@@ -225,37 +230,43 @@ template(name='delta_result')
         else
             .ui.result.cloud.pointer.fluid.segment(class=loading_class tabindex="0")
                 .content
-                    each fields
-                        +Template.dynamic template=view_template
-                        div
+                    if key_value_is 'model' 'model'
+                        .ui.header
+                            +icolor name=color_icon
+                            |#{title}
+                    else 
+                        each fields
+                            +Template.dynamic template=view_template
+                            div
                     .extra
                         if key_value_is 'model' 'model'
-                            +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
-                            a.ui.circular.basic.button.route_model(href="/m/#{slug}")
-                                |view model
-                                i.right.chevron.green.icon
+                            //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                            //- a.ui.circular.basic.button.route_model(href="/m/#{slug}")
+                            //-     |view model
+                            //-     i.right.chevron.green.icon
                                 //- +icolor name='chevron-right' clases='ui avatar image'
                             if is_admin
                                 a.ui.circular.basic.button.route_model(href="/model/edit/#{_id}")
                                     i.cog.icon
                                     |edit model
-                            span(title='views')
-                                i.grey.eye.icon
-                                | #{views}
-                        //- else
-                        //-     if can_edit
-                        //-         a.ui.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
-                        //-             i.pencil.large.icon
-                        //-             //- |edit
-                        //-     a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
-                        //-         i.right.chevron.yellow.large.icon
+                                span(title='views')
+                                    i.grey.eye.icon
+                                    | #{views}
+                        else
+                            if can_edit
+                                a.ui.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                                    i.pencil.large.icon
+                                    //- |edit
+                            //- a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                            //-     i.right.chevron.yellow.large.icon
                         if _author_id
                             +author_info
-                        +creation_info
-                        .ui.small.inline.header #{views} views
-                            //- i.eye.icon
-                            each viewer_usernames
-                                .ui.small.label #{this}
+                        if is_admin
+                            +creation_info
+                            .ui.small.inline.header #{views} views
+                                //- i.eye.icon
+                                each viewer_usernames
+                                    .ui.small.label #{this}
                         //- +comments
                     if is_dev
                         +remove_button

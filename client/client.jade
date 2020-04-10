@@ -32,12 +32,8 @@ head
 
 template(name='layout')
     +nav
-    .content.example
-        .ui.attached.basic.segment.pushable
-            .pusher
-                +sidebar
-                #main_area
-                    +yield
+    #main_area
+        +yield
         //- +footer
 
 

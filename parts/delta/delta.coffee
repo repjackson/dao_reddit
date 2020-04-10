@@ -15,6 +15,12 @@ if Meteor.isClient
     #     Meteor.call 'log_view', @_id, ->
 
     Template.delta.helpers
+        current_delta_model: ->
+            delta = Docs.findOne model:'delta'
+            model = Docs.findOne model:'model'
+            console.log 'delta',delta
+            console.log 'model',model
+
         current_model: ->
             Docs.findOne
                 model:'model'
@@ -62,6 +68,13 @@ if Meteor.isClient
 
 
     Template.delta.events
+        'click .go_home': ->
+            Session.set 'loading', true
+            Router.go "/m/model"
+            # Meteor.call 'log_view', @_id, ->
+            Meteor.call 'set_facets', 'model', ->
+                Session.set 'loading', false
+
         'click .create_model': ->
             new_model_id = Docs.insert
                 model:'model'
@@ -364,10 +377,10 @@ if Meteor.isClient
                 Meteor.users.findOne @_id
 
     Template.delta_result.events
-        'click .result': ->
+        'click .result': (e,t)->
             # console.log @
             model_slug =  Router.current().params.model_slug
-            #
+            $(e.currentTarget).closest('.result').transition('fade')
             if Meteor.user()
                 Docs.update @_id,
                     $inc: views: 1
@@ -375,10 +388,13 @@ if Meteor.isClient
             # else
             #     Docs.update @_id,
             #         $inc: views: 1
+            if model_slug is 'model'
+                Session.set 'loading', true
+                Meteor.call 'set_facets', @slug, ->
+                    Session.set 'loading', false
+
             if @model is 'model'
                 Router.go "/m/#{@slug}"
-            else if @model is 'classroom'
-                Router.go "/classroom/#{@_id}"
             else
                 Router.go "/m/#{model_slug}/#{@_id}/view"
 

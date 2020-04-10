@@ -38,11 +38,20 @@ Template.registerHelper 'youtube_id', () ->
         console.log 'error'
 
 
+
+
+
 Template.registerHelper 'key_value_is', (key, value)->
     # console.log 'key', key
     # console.log 'value', value
     # console.log 'this', this
     @["#{key}"] is value
+
+Template.registerHelper 'key_value_isnt', (key, value)->
+    # console.log 'key', key
+    # console.log 'value', value
+    # console.log 'this', this
+    @["#{key}"] isnt value
 
 
 
@@ -209,6 +218,18 @@ Template.registerHelper 'current_model', ->
         model:'model'
         slug: Router.current().params.model_slug
 
+
+
+Template.registerHelper 'sortable_fields', () ->
+    model = Docs.findOne
+        model:'model'
+        slug:Router.current().params.model_slug
+    if model
+        Docs.find {
+            model:'field'
+            parent_id:model._id
+            sortable:true
+        }, sort:rank:1
 
 
 

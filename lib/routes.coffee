@@ -65,6 +65,7 @@ Router.configure
 Router.route "/add_guest/:new_guest_id", -> @render 'add_guest'
 
 Router.route '/inbox', -> @render 'inbox'
+Router.route '/stats', -> @render 'stats'
 
 Router.route('enroll', {
     path: '/enroll-account/:token'
