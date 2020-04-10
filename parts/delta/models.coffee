@@ -1,8 +1,4 @@
 if Meteor.isClient
-    Router.route '/model/edit/:doc_id', -> @render 'model_edit'
-
-
-
     Template.model_view.onCreated ->
         @autorun -> Meteor.subscribe 'model', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'model_fields_from_slug', Router.current().params.model_slug
@@ -42,35 +38,6 @@ if Meteor.isClient
             #     model: Router.current().params.model_slug
             # Router.go "/edit/#{new_id}"
 
-    Template.model_edit.onCreated ->
-        @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'child_docs', Router.current().params.doc_id
-
-
-    Template.model_edit.helpers
-        model: ->
-            doc_id = Router.current().params.doc_id
-            # console.log doc_id
-            Docs.findOne doc_id
-
-        fields: ->
-            Docs.find {
-                model:'field'
-                parent_id: Router.current().params.doc_id
-            }, sort:rank:1
-
-    Template.model_edit.events
-        'click #delete_model': (e,t)->
-            if confirm 'delete model?'
-                Docs.remove Router.current().params.doc_id, ->
-                    Router.go "/"
-
-        'click .add_field': ->
-            Docs.insert
-                model:'field'
-                parent_id: Router.current().params.doc_id
-                view_roles: ['dev', 'admin', 'user', 'public']
-                edit_roles: ['dev', 'admin', 'user']
 
 if Meteor.isServer
     Meteor.publish 'model', (slug)->

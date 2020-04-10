@@ -1,4 +1,5 @@
-template(name='model_edit')
+template(name='model_edit_layout')
+    +nav
     with current_doc
         .ui.stackable.padded.grid            
             .centered.row
@@ -12,49 +13,73 @@ template(name='model_edit')
                         i.big.checkmark.green.icon
                     #delete_model.ui.icon.circular.basic.button
                         i.trash.red.icon
-                    .ui.form
-                        +text_edit key='title' label='title' direct=true
-                        +slug_edit key='slug' label='slug' direct=true
-                        +color_icon_edit key='color_icon' label='icons8 icon' direct=true
-                        +textarea_edit key='description' label='description' direct=true
-                        +array_edit key='tags' label='tags' direct=true
-                        +text_edit key='collection' label='collection' direct=true
-                        +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
-                        +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
                 .twelve.wide.column
-                    //- |#{model}
-                    //- each fields
-                    //-     +Template.dynamic template=edit_template 
-                    //-     // .ui.header #{key} [#{field}] #{label}
-                    .ui.inline.header fields
-                    .ui.icon.large.circular.basic.button.add_field
-                        i.plus.green.icon
-                    .ui.styled.fluid.rounded.large.accordion
-                        each fields
-                            .title 
-                                |#{rank}
-                                if icon
-                                    +icolor name=icon classes='ui mini inline image'
-                                    //- i.icon(class=icon)
-                                |#{title} (#{field_type})
-                                if faceted
-                                    i.filter.icon
-                                if sortable
-                                    i.sort.amount.down.icon
-                                each view_roles
-                                    .ui.basic.inverted.label #{this}
-                                i.large.dropdown.icon
-                            +field_edit
-                    .ui.segment
-                        .ui.header 
-                            +icolor name='module'
-                            |modules
-                        +boolean_edit key='show_comments' label='comments' color_icon='chat' direct=true
-                        +boolean_edit key='show_voting' label='voting' color_icon='elections' direct=true
-                    .spacer
-                    +comments
+                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/" class="{{isActiveRoute regex='model_edit_dashboard'}}")
+                        +ismall name='dashboard' classes='ui inline image'
+                        |dashboard
+                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/fields" class="{{isActiveRoute regex='model_edit_fields'}}")
+                        +ismall name='list' classes='ui inline image'
+                        |fields
+                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/modules" class="{{isActiveRoute regex='model_edit_modules'}}")
+                        +ismall name='module' classes='ui inline image'
+                        |modules
+                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/permissions" class="{{isActiveRoute regex='model_edit_permissions'}}")
+                        +ismall name='shield' classes='ui inline image'
+                        |permissions
+                    +yield
+                    
+template(name='model_edit_dashboard')
+    .ui.form
+        +text_edit key='title' label='title' direct=true
+        +slug_edit key='slug' label='slug' direct=true
+        +color_icon_edit key='color_icon' label='icons8 icon' direct=true
+        +textarea_edit key='description' label='description' direct=true
+        +array_edit key='tags' label='tags' direct=true
+        +text_edit key='collection' label='collection' direct=true
+        +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
 
 
+
+template(name='model_edit_fields')
+    //- |#{model}
+    //- each fields
+    //-     +Template.dynamic template=edit_template 
+    //-     // .ui.header #{key} [#{field}] #{label}
+    .ui.inline.header fields
+    .ui.icon.large.circular.basic.button.add_field
+        i.plus.green.icon
+    .ui.styled.fluid.rounded.large.accordion
+        each fields
+            .title 
+                |#{rank}
+                if icon
+                    +icolor name=icon classes='ui mini inline image'
+                    //- i.icon(class=icon)
+                |#{title} (#{field_type})
+                if faceted
+                    i.filter.icon
+                if sortable
+                    i.sort.amount.down.icon
+                each view_roles
+                    .ui.basic.inverted.label #{this}
+                i.large.dropdown.icon
+            +field_edit
+            
+            
+template(name='model_edit_modules')
+    .ui.segment
+        .ui.header 
+            +icolor name='module'
+            |modules
+        +boolean_edit key='show_comments' label='comments' color_icon='chat' direct=true
+        +boolean_edit key='show_voting' label='voting' color_icon='elections' direct=true
+    .spacer
+    +comments
+
+
+template(name='model_edit_permissions')
+    .ui.header permissions
+    +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
 
 
 template(name='field_edit')

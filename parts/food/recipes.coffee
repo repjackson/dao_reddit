@@ -16,55 +16,6 @@ if Meteor.isClient
 
 
 
-    Template.reservations.onCreated ->
-        @autorun => Meteor.subscribe 'asset_reservations', Router.current().params.doc_id
-        @editing = new ReactiveVar false
-    Template.reservations.events
-        'click .new_reservation': ->
-            Docs.insert
-                model:'reservation'
-                parent_id:Router.current().params.doc_id
-
-        'click .toggle_editing': (e,t)->
-            t.editing.set !t.editing.get()
-
-    Template.reservations.helpers
-        taken_slots: ->
-            asset = Docs.findOne Router.current().params.doc_id
-            reservation_count = Docs.find(model:'reservation').count()
-        money_earned: ->
-            asset = Docs.findOne Router.current().params.doc_id
-            reservation_count = Docs.find(model:'reservation').count()
-            asset.slot_price*reservation_count
-        available_slots: ->
-            asset = Docs.findOne Router.current().params.doc_id
-            reservation_count = Docs.find(model:'reservation').count()
-            asset.slots_available - reservation_count
-            # console.log asset.slots_available
-        is_editing: -> Template.instance().editing.get()
-        my_reservation: ->
-            Docs.findOne
-                _author_id:Meteor.userId()
-                model:'reservation'
-                parent_id:Router.current().params.doc_id
-
-        can_reserve: ->
-            found_reservation =
-                Docs.findOne
-                    _author_id:Meteor.userId()
-                    model:'reservation'
-                    parent_id:Router.current().params.doc_id
-            if found_reservation then false else true
-        existing_reservation: ->
-            found_reservation =
-                Docs.findOne
-                    _author_id:Meteor.userId()
-                    model:'reservation'
-                    parent_id:Router.current().params.doc_id
-        reservations: ->
-            Docs.find
-                model: 'reservation'
-                parent_id:Router.current().params.doc_id
 
 
 

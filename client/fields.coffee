@@ -425,7 +425,7 @@ Template.boolean_edit.helpers
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
-        if parent["#{@key}"] then 'active' else ''
+        if parent["#{@key}"] then 'active' else 'basic'
 
 
 Template.boolean_edit.events
@@ -1410,3 +1410,15 @@ Template.html_raw.events
 Template.math.onRendered ->
     # MathLive.renderMathInDocument();
     # MathLive.makeMathField('mathfield');
+
+
+
+Template.order_view.helpers
+    can_order: ->
+        if Meteor.userId()
+            if @_author_id is Meteor.userId()
+                false
+            else
+                true
+        else
+            false

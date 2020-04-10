@@ -40,7 +40,7 @@ template(name='model_doc_view')
                             //- i.icon(class=current_model.icon)
                             |#{current_model.title}
                         if can_edit
-                            a.ui.large.circular.icon.basic.button(href="/m/#{current_model.titel}/#{_id}/edit" title='Edit')
+                            a.ui.large.circular.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='Edit')
                                 i.pencil.blue.icon
                         if is_admin
                             .ui.header 

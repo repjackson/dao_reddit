@@ -758,7 +758,7 @@ template(name='boolean_edit')
     //- div
     .ui.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
         if field_value
-            i.checkmark.icon
+            i.checkmark.green.icon
         else
             i.circle.outline.icon
         //- .ui.compact.button.toggle_boolean(class=boolean_toggle_class)
@@ -836,10 +836,15 @@ template(name='multi_doc_edit')
         |#{title} #{label}    
     each choices
         .ui.compact.button.select_choice(class=choice_class)
-            //- |#{title} #{slug}
+            if image_id
+                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
             if icon 
                 i.icon(class=icon)    
-            |#{slug}
+            //- |#{slug}
+            if title
+                |#{title}
+            else 
+                | #{slug}
     //- .ui.sub.header 
     //-     if icon
     //-         i.icon(class=icon)
@@ -1327,7 +1332,8 @@ template(name='iios')
     img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
 template(name='ismall')
-    i.icon(class=name)
+    //- i.icon(class=name)
+    img.ui.middle.aligned.image(src="https://img.icons8.com/color/24/000000/#{name}.png" class=classes title=title)
     //- img.ui.middle.aligned.image(src="https://img.icons8.com/cotton/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/office/24/000000/#{name}.png" class=classes title=title)
     //- img.ui.middle.aligned.image(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
@@ -1352,3 +1358,23 @@ template(name='iflat')
 template(name='icolor')
     img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+
+
+
+template(name='order_view')
+    if can_order
+        .ui.button.order_item
+            |order
+    else 
+        .ui.disabled.button
+            |can't order
+
+    each orders
+        +order
+        
+        
+template(name='order')
+    .ui.header
+        |#{when} #{order_price}
+        |#{_author.username}
+            

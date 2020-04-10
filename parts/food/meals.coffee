@@ -1,8 +1,4 @@
 if Meteor.isClient
-    Router.route '/meals', (->
-        @layout 'layout'
-        @render 'meals'
-        ), name:'meals'
     Router.route '/meal/:doc_id/edit', (->
         @layout 'layout'
         @render 'meal_edit'
@@ -37,22 +33,6 @@ if Meteor.isClient
             Meteor.call 'set_facets', @slug, ->
                 Session.set 'loading', false
     Template.meal_widget.helpers
-        meals: ->
-            # console.log Meteor.user().roles
-            Docs.find {
-                model:'meal'
-            }, sort:title:1
-
-
-    Template.meals.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'meal'
-    Template.meals.events
-        'click .add_meal': ->
-            new_meal_id =
-                Docs.insert
-                    model:'meal'
-            Router.go "/meal/#{new_meal_id}/edit"
-    Template.meals.helpers
         meals: ->
             # console.log Meteor.user().roles
             Docs.find {

@@ -101,34 +101,32 @@ template(name='delta')
                                 |#{current_delta.view_mode}
                                 i.dropdown.icon
                                 .menu
-                                    +set_view_mode title='table' icon='table'
+                                    //- +set_view_mode title='table' icon='table'
                                     +set_view_mode title='list' icon='list'
                                     +set_view_mode title='cards' icon='cards'
-                                    +set_view_mode title='items' icon='list'
-                                    +set_view_mode title='map' icon='map'
-                                    +set_view_mode title='graph' icon='graph'
+                                    //- +set_view_mode title='items' icon='list'
+                                    //- +set_view_mode title='map' icon='map'
+                                    //- +set_view_mode title='graph' icon='graph'
                         //- .ui.basic.compact.small.icon.button.toggle_right_panel
                         //-     i.table.large.icon
                         .spacer
                     .scrolling    
-                        each current_delta.result_ids
-                            //- .column
-                            if is_loading
-                                .ui.segment
-                                    .ui.fluid.placeholder
-                                        .line
-                                        .line
-                                        .line
-                                        .line
-                                        .line
-                                        .line
-                                        .line
-                                        .line
-                                        .line
-                            else 
-                                if key_value_is delta.view_mode 'cards'
-                                    .ui.header cards
-                                    +delta_result
+                        if delta_key_value_is 'view_mode' 'cards'
+                            .ui.cards
+                                each current_delta.result_ids
+                                    +delta_result_card
+                        else if delta_key_value_is 'view_mode' 'list'
+                            each current_delta.result_ids
+                                if is_loading
+                                    .ui.segment
+                                        .ui.fluid.placeholder
+                                            .line
+                                            .line
+                                            .line
+                                            .line
+                                            .line
+                                            .line
+                                            .line
                                 else 
                                     +delta_result
                     //- +Template.dynamic template=view_mode_template
@@ -163,10 +161,6 @@ template(name='delta_list')
         //- .column
         +delta_result
                         
-template(name='delta_card')
-    each current_delta.result_ids
-        //- .column
-        +delta_result
                     
                         
                 
@@ -222,52 +216,4 @@ template(name='toggle_delta_config')
         .ui.icon.button.enable_key(title=label)
             // | #{label}
             
-            
-template(name='delta_result')
-    with result 
-        if template_exists
-            +Template.dynamic template=model_template
-        else
-            .ui.result.cloud.pointer.fluid.segment(class=loading_class tabindex="0")
-                .content
-                    if key_value_is 'model' 'model'
-                        .ui.header
-                            +icolor name=color_icon
-                            |#{title}
-                    else 
-                        each fields
-                            +Template.dynamic template=view_template
-                            div
-                    .extra
-                        if key_value_is 'model' 'model'
-                            //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
-                            //- a.ui.circular.basic.button.route_model(href="/m/#{slug}")
-                            //-     |view model
-                            //-     i.right.chevron.green.icon
-                                //- +icolor name='chevron-right' clases='ui avatar image'
-                            if is_admin
-                                a.ui.circular.basic.button.route_model(href="/model/edit/#{_id}")
-                                    i.cog.icon
-                                    |edit model
-                                span(title='views')
-                                    i.grey.eye.icon
-                                    | #{views}
-                        else
-                            if can_edit
-                                a.ui.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
-                                    i.pencil.large.icon
-                                    //- |edit
-                            //- a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
-                            //-     i.right.chevron.yellow.large.icon
-                        if _author_id
-                            +author_info
-                        if is_admin
-                            +creation_info
-                            .ui.small.inline.header #{views} views
-                                //- i.eye.icon
-                                each viewer_usernames
-                                    .ui.small.inverted.label #{this}
-                        //- +comments
-                    if is_dev
-                        +remove_button
             

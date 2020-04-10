@@ -41,6 +41,13 @@ Template.registerHelper 'youtube_id', () ->
 
 
 
+Template.registerHelper 'delta_key_value_is', (key, value)->
+    # console.log 'key', key
+    # console.log 'value', value
+    # console.log 'this', this
+    delta = Docs.findOne model:'delta'
+    delta["#{key}"] is value
+
 Template.registerHelper 'key_value_is', (key, value)->
     # console.log 'key', key
     # console.log 'value', value
