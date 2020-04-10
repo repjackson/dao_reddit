@@ -48,7 +48,7 @@ template(name='model_doc_view')
                                 i.clock.icon
                                 |timestamp tags
                             each _timestamp_tags
-                                .ui.basic.label #{this}
+                                .ui.basic.inverted.label #{this}
                         +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark'
                         div
                         .ui.small.header #{views} views

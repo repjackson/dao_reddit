@@ -49,7 +49,7 @@ template(name='delta')
                         +facet
                 .eleven.wide.column
                     |&nbsp;
-                    .ui.small.icon.input
+                    .ui.icon.input(class=query_class)
                         if current_delta.search_query
                             i.link.remove.icon.clear_query
                         else
@@ -81,7 +81,7 @@ template(name='delta')
                             |viewing
                         .ui.simple.dropdown
                             .text.large #{current_delta.limit}
-                            //- i.dropdown.icon
+                            i.dropdown.icon
                             .menu
                                 +set_limit amount=1
                                 +set_limit amount=5
@@ -266,7 +266,7 @@ template(name='delta_result')
                             .ui.small.inline.header #{views} views
                                 //- i.eye.icon
                                 each viewer_usernames
-                                    .ui.small.label #{this}
+                                    .ui.small.inverted.label #{this}
                         //- +comments
                     if is_dev
                         +remove_button

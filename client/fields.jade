@@ -822,9 +822,12 @@ template(name='single_doc_edit')
         .ui.compact.button.select_choice(class=choice_class)
             if icon 
                 i.icon(class=icon)
+            if color_icon
+                +icolor name=color_icon classes='ui avatar image'
+                //- i.icon(class=icon)
             |#{title}
-            |#{calculated_label}
-            |#{slug}
+            //- |#{calculated_label}
+            //- |#{slug}
 
 
 template(name='multi_doc_edit')
@@ -1182,7 +1185,7 @@ template(name='multi_user_view')
 
     
     
-template(name='range')
+template(name='range_edit')
     .ui.form
         .field
             label 

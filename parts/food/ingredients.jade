@@ -1,28 +1,3 @@
-template(name='ingredients')
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.inline.header 
-                    |ingredients
-                .ui.icon.button.add_ingredient
-                    i.plus.icon
-                div
-                a.ui.button(href='/meals')
-                    |meals
-                a.ui.button(href='/reservations')
-                    |reservations
-                a.ui.button(href='/recipes')
-                    |recipes
-                .spacer
-                .ui.small.inline.header filter
-                +cloud filter='ingredient'
-            .twelve.wide.column
-                .ui.stackable.three.centered.cards
-                    each ingredients
-                        +ingredient_card
-
-
-
 template(name='ingredient_card')
     .ui.card
         if image_id

@@ -1,34 +1,3 @@
-template(name='shop')
-    .ui.stackable.grid
-        .row
-            .four.wide.column
-                //- a.ui.circular.fluid.button(href='/')
-                //-     i.left.chevron.grey.icon
-                //-     .ui.inline.grey.header back
-                .ui.grey.inline.header 
-                    i.shop.icon
-                    //- +i name='shop'
-                    |shop
-                if currentUser 
-                    .ui.large.compact.icon.button.add_product
-                        i.plus.large.icon
-                //- .ui.inline.header type
-                //- +shop_cloud
-            .twelve.wide.column.scrolling
-                //- .ui.tiny.grey.center.aligned.header gold run + shop is community run and not affiliated or endorsed by the Gold Run Condominiums HOA
-                //- +set_shop_type label='for sale' icon='shopping bag'
-                //- +set_shop_type label='free' icon='thumbs up outline'
-                //- +set_shop_type label='service' icon='wrench'
-                //- +set_shop_type label='shop' icon='clock outline'
-                //- +set_shop_type label='seeking' icon='hand holding'
-                //- +set_shop_type label='casual encounters' icon='fire alternate'
-                //- +set_shop_type label='missed connections' icon='heart broken'
-                //- +set_shop_type label='events' icon='calendar'
-                .ui.three.cards
-                    each products
-                        +product_card
-
-
 template(name='product_card')
     .ui.card(class=shop_card_class)
         a.image.log_view(href="/product/#{_id}/view")

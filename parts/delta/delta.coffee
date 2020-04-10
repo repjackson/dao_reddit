@@ -15,6 +15,12 @@ if Meteor.isClient
     #     Meteor.call 'log_view', @_id, ->
 
     Template.delta.helpers
+        query_class:->
+            delta = Docs.findOne model:'delta'
+            if delta.search_query
+                'focus large'
+            else
+                'small'
         current_delta_model: ->
             delta = Docs.findOne model:'delta'
             model = Docs.findOne model:'model'

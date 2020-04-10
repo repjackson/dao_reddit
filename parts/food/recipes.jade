@@ -1,37 +1,20 @@
-template(name='recipes')
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.header 
-                    |recipes
-                .ui.button.add_recipe
-                    i.plus.icon
-                +cloud filter='recipe'
-                a.ui.button(href='/meals')
-                    |meals
-                a.ui.button(href='/ingredients')
-                    |ingredients
-                a.ui.button(href='/reservations')
-                    |reservations
-            .twelve.wide.column
-                .ui.stackable.three.cards
-                    each recipes
-                        .ui.card
-                            if picture
-                                img.ui.image(src="{{c.url picture width=400 height=400}}")
-                            else
-                                img.ui.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
-                            .content
-                                a.ui.header(href="/recipe/#{_id}") #{title}
-                                div created {{from_now _timestamp}}
-                                div available {{from_now date}}
-                                +edit_button
-                                +view_button
-                                |available servings: #{available_servings}
-                                
-                                if servings_available
-                                    .ui.button.recipe_sign_up
-                                        |sign up
+template(name='receipe_card')
+    .ui.card
+        if picture
+            img.ui.image(src="{{c.url picture width=400 height=400}}")
+        else
+            img.ui.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
+        .content
+            a.ui.header(href="/recipe/#{_id}") #{title}
+            div created {{from_now _timestamp}}
+            div available {{from_now date}}
+            +edit_button
+            +view_button
+            |available servings: #{available_servings}
+            
+            if servings_available
+                .ui.button.recipe_sign_up
+                    |sign up
 
 
 

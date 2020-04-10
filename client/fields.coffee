@@ -742,12 +742,12 @@ Template.single_doc_edit.helpers
         target = Template.parentData(2)
         if @direct
             if target["#{ref_field.key}"]
-                if @ref_field is target["#{ref_field.key}"] then 'active' else ''
+                if @ref_field is target["#{ref_field.key}"] then 'active' else 'basic'
             else ''
         else
             if parent["#{ref_field.key}"]
-                if @slug is parent["#{ref_field.key}"] then 'active' else ''
-            else ''
+                if @slug is parent["#{ref_field.key}"] then 'active' else 'basic'
+            else 'basic'
 
 
 Template.single_doc_edit.events
@@ -820,9 +820,9 @@ Template.multi_doc_edit.helpers
         target = Template.parentData(2)
 
         if target["#{ref_field.key}"]
-            if @slug in target["#{ref_field.key}"] then 'active' else ''
+            if @slug in target["#{ref_field.key}"] then 'active' else 'basic'
         else
-            ''
+            'basic'
 
 Template.multi_doc_edit.events
     'click .select_choice': ->
@@ -1329,7 +1329,7 @@ Template.task_list_lookup.events
 
 
 
-Template.range.onRendered ->
+Template.range_edit.onRendered ->
     # rental = Template.currentData()
     $('#rangestart').calendar({
         type: 'datetime'
@@ -1359,7 +1359,7 @@ Template.range.onRendered ->
         }
     })
 
-Template.range.events
+Template.range_edit.events
     'click .get_start': ->
         doc_id = Router.current().params.doc_id
         result = $('.ui.calendar').calendar('get startDate')[1]

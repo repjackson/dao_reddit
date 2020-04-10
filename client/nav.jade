@@ -41,9 +41,9 @@ template(name='nav')
                 //- i.rss.icon
             
             if currentUser
-                a.item(href="/user/#{currentUser.username}/karma")
-                    |#{currentUser.karma}
-                    //- i.line.chart.icon
+                //- a.item(href="/user/#{currentUser.username}/karma")
+                //-     |#{currentUser.karma}
+                //-     //- i.line.chart.icon
                 a.item(href="/user/#{currentUser.username}") 
                     i.user.icon
                     |#{currentUser.username}
@@ -52,64 +52,6 @@ template(name='nav')
                     i.sign.in.alternate.icon
                     |login
 
-
-template(name='sidebar')
-    .ui.left.inline.vertical.sidebar.fixed.menu
-        a.header.toggle_sidebar.item(href='/' class="{{isActivePath '/'}}") 
-            i.yin.yang.icon
-            | dao
-        a.toggle_sidebar.item(href='/grid' class="{{isActivePath '/grid'}}")
-            i.th.icon
-            | grid
-            
-        a.toggle_sidebar.item(href='/alerts' class="{{isActivePath '/alerts'}}")
-            i.bell.icon
-            | alerts
-        a.toggle_sidebar.item(href='/chat' class="{{isActivePath '/chat'}}")
-            i.chat.icon
-            | chat
-        a.toggle_sidebar.item(href='/users' class="{{isActivePath '/users'}}")
-            i.users.icon
-            | daoists
-        a.toggle_sidebar.item(href='/shop' class="{{isActivePath '/shop'}}")
-            i.shop.icon
-            | shop
-        a.toggle_sidebar.item(href='/events' class="{{isActivePath '/events'}}")
-            i.calendar.icon
-            | events
-        a.toggle_sidebar.item(href='/tasks' class="{{isActivePath '/tasks'}}")
-            i.edit.icon
-            | tasks
-        a.toggle_sidebar.item(href='/reddit' class="{{isActivePath '/reddit'}}")
-            i.reddit.icon
-            | redditors
-        if currentUser
-            a.item(href='/dashboard' class="{{isActivePath '/dashboard'}}")
-                i.dashboard.icon
-                | dashboard
-            .ui.simple.dropdown.icon.item
-                i.alarm.icon
-                | alerts
-            a.item(href='/messages' class="{{isActivePath '/messages'}}")
-                i.mail.icon
-                | mail
-            if is_admin
-                a.icon.toggle_sidebar.item(href='/admin/members' class="{{isActivePath '/admin/members'}}")
-                    i.configure.icon
-                    | admin
-            a.item(href="/user/#{currentUser.username}/edit" class="{{isActiveRoute regex='user_edit'}}")
-                if currentUser.image_id
-                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=50 height=50 gravity='face' crop='fill'}}")
-                else
-                    i.user.icon
-                | #{currentUser.username}
-            a#logout.ui.item(href='#') 
-                i.sign.out.icon
-                | log out
-        else
-            a.ui.item(href='/login') 
-                i.sign.in.icon
-                | log in
 
 
 template(name='footer')

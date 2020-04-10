@@ -8,7 +8,7 @@ Meteor.methods
             delta = Docs.findOne
                 model:'delta'
                 _author_id:null
-        console.log 'delta doc', delta
+        # console.log 'delta doc', delta
         model = Docs.findOne
             model:'model'
             slug:model_slug
@@ -66,7 +66,7 @@ Meteor.methods
             model:'model'
             slug:delta.model_filter
 
-        console.log 'running fum,', delta, model
+        # console.log 'running fum,', delta, model
         built_query = {}
         if delta.search_query
             built_query.title = {$regex:"#{delta.search_query}", $options: 'i'}
@@ -117,7 +117,7 @@ Meteor.methods
             total = Meteor.users.find(built_query).count()
         else
             total = Docs.find(built_query).count()
-        console.log 'built query', built_query
+        # console.log 'built query', built_query
         # response
         for facet in delta.facets
             values = []
@@ -130,7 +130,7 @@ Meteor.methods
                 Docs.update { _id:delta._id, 'facets.key':facet.key},
                     { $set: 'facets.$.res': agg_res }
         if delta.sort_key
-            console.log 'found sort key', delta.sort_key
+            # console.log 'found sort key', delta.sort_key
             sort_by = delta.sort_key
         else
             sort_by = 'views'
@@ -179,8 +179,8 @@ Meteor.methods
         # delta = Docs.findOne delta_id
 
     agg: (query, key, collection)->
-        console.log 'running agg', query
-        limit=20
+        # console.log 'running agg', query
+        limit=40
         options = { explain:false }
         pipe =  [
             { $match: query }

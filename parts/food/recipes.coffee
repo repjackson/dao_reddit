@@ -1,43 +1,4 @@
 if Meteor.isClient
-    Router.route '/recipes', (->
-        @layout 'layout'
-        @render 'recipes'
-        ), name:'recipes'
-    Router.route '/recipe/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'recipe_edit'
-        ), name:'recipe_edit'
-    Router.route '/recipe/:doc_id/view', (->
-        @layout 'layout'
-        @render 'recipe_view'
-        ), name:'recipe_view'
-
-
-    Template.recipes.onCreated ->
-        @autorun => Meteor.subscribe 'docs', 'recipe'
-
-        # @autorun => Meteor.subscribe 'model_docs', 'recipe'
-
-    Template.recipe_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.recipe_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-    Template.recipes.events
-        'click .add_recipe': ->
-            new_recipe_id =
-                Docs.insert
-                    model:'recipe'
-            Router.go "/recipe/#{new_recipe_id}/edit"
-
-    Template.recipes.helpers
-        recipes: ->
-            # console.log Meteor.user().roles
-            Docs.find {
-                model:'recipe'
-            }, sort:title:1
-
-
     Template.recipe_reviews.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'review'
     Template.recipe_reviews.helpers

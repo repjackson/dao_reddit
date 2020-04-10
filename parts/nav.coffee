@@ -20,12 +20,12 @@ if Meteor.isClient
         #         .sidebar('attach events', '.context.example .menu .toggle_sidebar.item')
         # , 1000
 
-        Meteor.setTimeout ->
-            $('.item').popup(
-                preserve:true;
-                hoverable:false;
-            )
-        , 1000
+        # Meteor.setTimeout ->
+        #     $('.item').popup(
+        #         preserve:true;
+        #         hoverable:false;
+        #     )
+        # , 1000
 
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
