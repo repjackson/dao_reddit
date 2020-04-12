@@ -24,29 +24,29 @@ template(name='color_icon_view')
 
 
 
-template(name='html_edit')
-    .ui.form
-        .field
-            label 
-                if icon
-                    i.icon(class=icon)
-                if title
-                    |#{title}
-                else if label
-                    |#{label}
-                else if key
-                    |#{key}
-                else
-                    |#{this}
-    .froala-container
-        +froalaReactive getFEContext
-    //- if is_dev
-    //- +call_watson mode='html' key=key
-    //- div
-    //- //- +tone mode='html'
-    //- if watson
-    //-     +watson_view
-        
+//- template(name='html_edit')
+//-     .ui.form
+//-         .field
+//-             label 
+//-                 if icon
+//-                     i.icon(class=icon)
+//-                 if title
+//-                     |#{title}
+//-                 else if label
+//-                     |#{label}
+//-                 else if key
+//-                     |#{key}
+//-                 else
+//-                     |#{this}
+//-     .froala-container
+//-         +froalaReactive getFEContext
+//-     //- if is_dev
+//-     //- +call_watson mode='html' key=key
+//-     //- div
+//-     //- //- +tone mode='html'
+//-     //- if watson
+//-     //-     +watson_view
+//- 
         
         
         
@@ -280,7 +280,6 @@ template(name='text')
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 template(name='text_edit')
-    div
     .ui.inline.small.header
         if title
             |#{title}
@@ -815,7 +814,6 @@ template(name='single_doc_view')
 
 
 template(name='single_doc_edit')
-    div
     .ui.inline.header(title=key) 
         |#{label} #{title}
     each choices
@@ -831,7 +829,6 @@ template(name='single_doc_edit')
 
 
 template(name='multi_doc_edit')
-    div
     .ui.inline.header(title=key)
         |#{title} #{label}    
     each choices

@@ -189,90 +189,90 @@ Template.pdf_edit.events
 
 
 
-Template.html_edit.events
-    'blur .froala-container': (e,t)->
-        html = t.$('div.froala-reactive-meteorized-override').froalaEditor('html.get', true)
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
-        doc = Docs.findOne parent._id
-        user = Meteor.users.findOne parent._id
-        if doc
-            Docs.update parent._id,
-                $set:"#{@key}":html
-        else if user
-            Meteor.users.update parent._id,
-                $set:"#{@key}":html
-
-
-Template.html_edit.helpers
-    getFEContext: ->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
-        # @current_doc = Docs.findOne Router.current().params.doc_id
-        # @current_doc = Docs.findOne @_id
-        self = @
-        {
-            _value: parent["#{@key}"]
-            _keepMarkers: true
-            _className: 'froala-reactive-meteorized-override'
-            toolbarInline: false
-            initOnClick: false
-            toolbarButtons:
-                [
-                  'fullscreen'
-                  'bold'
-                  'italic'
-                  'underline'
-                  'strikeThrough'
-                  'subscript'
-                  'superscript'
-                  '|'
-                #   'fontFamily'
-                  'fontSize'
-                  'color'
-                #   'inlineStyle'
-                #   'paragraphStyle'
-                  '|'
-                  'paragraphFormat'
-                  'align'
-                  'formatOL'
-                  'formatUL'
-                  'outdent'
-                  'indent'
-                  # 'quote'
-                #   '-'
-                  'insertLink'
-                #   'insertImage'
-                #   'insertVideo'
-                #   'embedly'
-                #   'insertFile'
-                  'insertTable'
-                #   '|'
-                  # 'emoticons'
-                #   'specialCharacters'
-                #   'insertHR'
-                  'selectAll'
-                  'clearFormatting'
-                  '|'
-                #   'print'
-                #   'spellChecker'
-                #   'help'
-                  'html'
-                #   '|'
-                  'undo'
-                  'redo'
-                ]
-            # toolbarButtonsMD: ['bold', 'italic', 'underline']
-            # toolbarButtonsSM: ['bold', 'italic', 'underline']
-            toolbarButtonsXS: ['bold', 'italic', 'underline']
-            imageInsertButtons: ['imageBack', '|', 'imageByURL']
-            tabSpaces: false
-            height: 200
-        }
+# Template.html_edit.events
+#     'blur .froala-container': (e,t)->
+#         html = t.$('div.froala-reactive-meteorized-override').froalaEditor('html.get', true)
+#         if @direct
+#             parent = Template.parentData()
+#         else
+#             parent = Template.parentData(5)
+#         doc = Docs.findOne parent._id
+#         user = Meteor.users.findOne parent._id
+#         if doc
+#             Docs.update parent._id,
+#                 $set:"#{@key}":html
+#         else if user
+#             Meteor.users.update parent._id,
+#                 $set:"#{@key}":html
+#
+#
+# Template.html_edit.helpers
+#     getFEContext: ->
+#         if @direct
+#             parent = Template.parentData()
+#         else
+#             parent = Template.parentData(5)
+#         # @current_doc = Docs.findOne Router.current().params.doc_id
+#         # @current_doc = Docs.findOne @_id
+#         self = @
+#         {
+#             _value: parent["#{@key}"]
+#             _keepMarkers: true
+#             _className: 'froala-reactive-meteorized-override'
+#             toolbarInline: false
+#             initOnClick: false
+#             toolbarButtons:
+#                 [
+#                   'fullscreen'
+#                   'bold'
+#                   'italic'
+#                   'underline'
+#                   'strikeThrough'
+#                   'subscript'
+#                   'superscript'
+#                   '|'
+#                 #   'fontFamily'
+#                   'fontSize'
+#                   'color'
+#                 #   'inlineStyle'
+#                 #   'paragraphStyle'
+#                   '|'
+#                   'paragraphFormat'
+#                   'align'
+#                   'formatOL'
+#                   'formatUL'
+#                   'outdent'
+#                   'indent'
+#                   # 'quote'
+#                 #   '-'
+#                   'insertLink'
+#                 #   'insertImage'
+#                 #   'insertVideo'
+#                 #   'embedly'
+#                 #   'insertFile'
+#                   'insertTable'
+#                 #   '|'
+#                   # 'emoticons'
+#                 #   'specialCharacters'
+#                 #   'insertHR'
+#                   'selectAll'
+#                   'clearFormatting'
+#                   '|'
+#                 #   'print'
+#                 #   'spellChecker'
+#                 #   'help'
+#                   'html'
+#                 #   '|'
+#                   'undo'
+#                   'redo'
+#                 ]
+#             # toolbarButtonsMD: ['bold', 'italic', 'underline']
+#             # toolbarButtonsSM: ['bold', 'italic', 'underline']
+#             toolbarButtonsXS: ['bold', 'italic', 'underline']
+#             imageInsertButtons: ['imageBack', '|', 'imageByURL']
+#             tabSpaces: false
+#             height: 200
+#         }
 
 
 

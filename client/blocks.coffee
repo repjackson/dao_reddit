@@ -204,7 +204,7 @@ if Meteor.isClient
     Template.bookmark_button.helpers
         bookmark_button_class: ->
             if Meteor.user()
-                if Meteor.user().bookmark_ids and @_id in Meteor.user().bookmark_ids then 'active' else ''
+                if Meteor.user().bookmark_ids and @_id in Meteor.user().bookmark_ids then 'active' else 'basic'
             else
                 'disabled'
 
@@ -344,7 +344,7 @@ if Meteor.isClient
     Template.user_array_element_toggle.helpers
         user_array_element_toggle_class: ->
             # user = Meteor.users.findOne Router.current().params.username
-            if @user["#{@key}"] and @value in @user["#{@key}"] then 'active' else ''
+            if @user["#{@key}"] and @value in @user["#{@key}"] then 'active' else 'basic'
     Template.user_array_element_toggle.events
         'click .toggle_element': (e,t)->
             # user = Meteor.users.findOne Router.current().params.username
@@ -395,7 +395,7 @@ if Meteor.isClient
         set_key_value_class: ->
             parent = Template.parentData()
             # console.log parent
-            if parent["#{@key}"] is @value then 'active' else ''
+            if parent["#{@key}"] is @value then 'active' else 'basic'
 
 
 
@@ -420,7 +420,7 @@ if Meteor.isClient
         doc_array_toggle_class: ->
             parent = Template.parentData()
             # user = Meteor.users.findOne Router.current().params.username
-            if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else ''
+            if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else 'basic'
     Template.doc_array_togggle.events
         'click .toggle': (e,t)->
             parent = Template.parentData()

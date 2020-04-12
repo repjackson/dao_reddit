@@ -1,6 +1,8 @@
 template(name='profile_layout')
     //- img.ui.fluid.image.home_banner(src="{{c.url 'nightbg' width=1000 height=1000 crop='crop'}}")    
     +nav
+    a.ui.icon.button(href="/m/model")
+        i.home.icon
     with user
         .ui.stackable.padded.grid
             .three.wide.column
@@ -12,61 +14,61 @@ template(name='profile_layout')
                         //- div
                         //- .ui.small.inline.header @#{user.username}        
                 .ui.fluid.vertical.pointing.menu(class="{{currentUser.nav_color}}")
-                    a.item(href="/user/#{username}/dashboard" class="{{isActiveRoute regex='user_dashboard'}}")
+                    a.item(href="/user/#{username}/dashboard" class="{{active_path regex='user_dashboard'}}")
                         i.grey.dashboard.icon
                         |dashboard
-                    a.item(href="/user/#{username}/mentorship" class="{{isActiveRoute regex=user_mentorship}}")
+                    a.item(href="/user/#{username}/mentorship" class="{{active_path regex=user_mentorship}}")
                         |mentorship
-                    a.item(href="/user/#{username}/profile" class="{{isActiveRoute regex=user_offers}}")
+                    a.item(href="/user/#{username}/profile" class="{{active_path regex=user_offers}}")
                         |profile
-                    a.item(href="/user/#{username}/tutoring" class="{{isActiveRoute regex='user_tutoring'}}")
+                    a.item(href="/user/#{username}/tutoring" class="{{active_path regex='user_tutoring'}}")
                         i.grey.chalkboard.icon
                         |tutoring
-                    a.item(href="/user/#{username}/finance" class="{{isActiveRoute regex='user_finance'}}")
+                    a.item(href="/user/#{username}/finance" class="{{active_path regex='user_finance'}}")
                         i.grey.coins.icon
                         |finance
-                    a.item(href="/user/#{username}/events" class="{{isActiveRoute regex='user_events'}}")
+                    a.item(href="/user/#{username}/events" class="{{active_path regex='user_events'}}")
                         i.grey.calendar.icon
                         |calendar
 
                     //- if is_admin
-                    a.item(href="/user/#{username}/brain" class="{{isActiveRoute regex=user_brain}}")
+                    a.item(href="/user/#{username}/brain" class="{{active_path regex=user_brain}}")
                         i.grey.brain.icon
                         |brain
-                    a.item(href="/user/#{username}/karma" class="{{isActiveRoute regex=user_karma}}")
+                    a.item(href="/user/#{username}/karma" class="{{active_path regex=user_karma}}")
                         i.grey.yin.yang.icon
                         |karma
-                    a.item(href="/user/#{username}/upvoted" class="{{isActiveRoute regex=user_upvoted}}")
+                    a.item(href="/user/#{username}/upvoted" class="{{active_path regex=user_upvoted}}")
                         i.grey.thumbs.up.icon
                         |upvoted
-                    a.item(href="/user/#{username}/downvoted" class="{{isActiveRoute regex=user_downvoted}}")
+                    a.item(href="/user/#{username}/downvoted" class="{{active_path regex=user_downvoted}}")
                         i.grey.thumbs.down.icon
                         |downvoted
-                    a.item(href="/user/#{username}/cart" class="{{isActiveRoute regex='user_cart'}}")
+                    a.item(href="/user/#{username}/cart" class="{{active_path regex='user_cart'}}")
                         i.grey.shopping.cart.icon
                         |cart
-                    a.item(href="/user/#{username}/groups" class="{{isActiveRoute regex='user_groups'}}")
+                    a.item(href="/user/#{username}/groups" class="{{active_path regex='user_groups'}}")
                         i.grey.users.icon
                         |groups
-                    a.item(href="/user/#{username}/awards" class="{{isActiveRoute regex=user_awards}}")
+                    a.item(href="/user/#{username}/awards" class="{{active_path regex=user_awards}}")
                         i.grey.award.icon
                         |awards
-                    a.item(href="/user/#{username}/friends" class="{{isActiveRoute regex='user_friends'}}")
+                    a.item(href="/user/#{username}/friends" class="{{active_path regex='user_friends'}}")
                         i.grey.users.icon
                         |friends
-                    a.item(href="/user/#{username}/messages" class="{{isActiveRoute regex='user_messages'}}")
+                    a.item(href="/user/#{username}/messages" class="{{active_path regex='user_messages'}}")
                         i.grey.envelope.icon
                         |messages
-                if is_current_user
-                    a.ui.large.fluid.button(href="/user/#{username}/edit")
-                        i.cog.icon
-                        |account
-                    a.ui.fluid.button.logout(href="#")
-                        i.sign.out.alternate.icon
-                        |log out
-                    //- a.ui.fluid.button.logout_other_clients(href="#" title='logout other clients')
-                    //-     //- i.globe.icon
-                    //-     |log out other clients
+                //- if is_current_user
+                a.ui.large.fluid.button(href="/user/#{username}/edit")
+                    i.cog.icon
+                    |account
+                a.ui.fluid.button.logout(href="#")
+                    i.sign.out.alternate.icon
+                    |log out
+                a.ui.fluid.button.logout_other_clients(href="#" title='logout other clients')
+                    //- i.globe.icon
+                    |log out other clients
                 if is_admin
                     .ui.basic.segment
                         .ui.header 

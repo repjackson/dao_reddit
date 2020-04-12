@@ -4,6 +4,8 @@ if Meteor.isClient
         ), name:'delta'
 
     Template.delta.onCreated ->
+        @autorun -> Meteor.subscribe 'me'
+
         @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'model_fields_from_slug', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_delta'
@@ -15,11 +17,17 @@ if Meteor.isClient
     #     Meteor.call 'log_view', @_id, ->
 
     Template.delta.helpers
+        model_fields: ->
+            delta = Docs.findOne model:'delta'
+            model = Docs.findOne model:'model'
+            Docs.find
+                model:'field'
+                parent_id: model._id
         query_class:->
             delta = Docs.findOne model:'delta'
             if delta
                 if delta.search_query
-                    'focus large'
+                    'focus'
                 else
                     'small'
         current_delta_model: ->
@@ -110,7 +118,7 @@ if Meteor.isClient
 
         'click .set_sort_direction': (e,t)->
             # console.log @
-            $(e.currentTarget).closest('.button').transition('pulse', 250)
+            # $(e.currentTarget).closest('.button').transition('pulse', 250)
 
             delta = Docs.findOne model:'delta'
             if delta.sort_direction is -1

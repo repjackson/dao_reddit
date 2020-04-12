@@ -56,6 +56,9 @@ Meteor.methods
                             filters:[]
                             res:[]
                         }
+        Docs.update delta._id,
+            $set:
+                viewing_fields: fields.fetch()
         Meteor.call 'fum', delta._id
 
 

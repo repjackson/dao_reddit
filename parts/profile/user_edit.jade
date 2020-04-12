@@ -13,28 +13,28 @@ template(name='user_edit_layout')
                         i.grey.checkmark.icon
                         strong save
                     .ui.vertical.fluid.pointing.menu(class="{{currentUser.nav_color}}")
-                        a.item(href="/user/#{current_user._id}/edit/info" class="{{isActiveRoute regex='user_edit_info'}}") 
+                        a.item(href="/user/#{current_user._id}/edit/info" class="{{active_path regex='user_edit_info'}}") 
                             |info
                             i.grey.info.icon 
-                        a.item(href="/user/#{current_user._id}/edit/account" class="{{isActiveRoute regex='user_edit_account'}}") 
+                        a.item(href="/user/#{current_user._id}/edit/account" class="{{active_path regex='user_edit_account'}}") 
                             |account
                             i.grey.cog.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
+                        //- a.item(href="/user/#{current_user._id}/edit/friends" class="{{active_path regex='user_edit_friends'}}") 
                         //-     |friends
                         //-     i.grey.users.icon 
-                        a.item(href="/user/#{current_user._id}/edit/tutoring" class="{{isActiveRoute regex='user_edit_tutoring'}}") 
+                        a.item(href="/user/#{current_user._id}/edit/tutoring" class="{{active_path regex='user_edit_tutoring'}}") 
                             |tutoring
                             i.grey.chalkboard.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/alerts" class="{{isActiveRoute regex='user_edit_alerts'}}") 
+                        //- a.item(href="/user/#{current_user._id}/edit/alerts" class="{{active_path regex='user_edit_alerts'}}") 
                         //-     |alerts
                         //-     i.grey.bell.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/privacy" class="{{isActiveRoute regex='user_edit_privacy'}}") 
+                        //- a.item(href="/user/#{current_user._id}/edit/privacy" class="{{active_path regex='user_edit_privacy'}}") 
                         //-     | privacy
                         //-     i.grey.lock.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/membership" class="{{isActiveRoute regex='user_edit_membership'}}") 
+                        //- a.item(href="/user/#{current_user._id}/edit/membership" class="{{active_path regex='user_edit_membership'}}") 
                         //-     | membership
                         //-     i.grey.shield.icon 
-                        //- a.item(href="/user/#{current_user._id}/edit/ads" class="{{isActiveRoute regex='user_edit_ads'}}") 
+                        //- a.item(href="/user/#{current_user._id}/edit/ads" class="{{active_path regex='user_edit_ads'}}") 
                         //-     |ads
                         //-     i.grey.bullhorn.icon 
                 .twelve.wide.column

@@ -20,7 +20,7 @@ body {
 }
 
 .segment {
-    border-radius: 10px !important;
+    border-radius: 7px !important;
 }
 
 .home {
@@ -41,7 +41,7 @@ body {
     z-index: 2000 !important;
 } */
 .menu:not(.topnav) {
-    border-radius: 10px !important;
+    border-radius: 7px !important;
     transition: background-color 3s ease !important;
 }
 
@@ -57,11 +57,11 @@ body {
 
 
 .rounded {
-    border-radius: 10px !important;
+    border-radius: 7px !important;
 }
 
 .card {
-    border-radius: 10px !important;
+    border-radius: 7px !important;
 }
 
 .ui.button.result {
@@ -112,11 +112,12 @@ i.invert{
 
 .label {
     margin: 2px !important;
-    border-radius: 10px !important;
+    border-radius: 7px !important;
 }
 
 input {
-  border-radius: 20px !important;
+    margin: 5px !important;
+    border-radius: 7px !important;
 }
 
 ::-webkit-scrollbar {
@@ -140,7 +141,7 @@ input {
 }
 .scrolling{
     /* padding: 5px !important;
-    border-radius: 10px !important;
+    border-radius: 7px !important;
     border-width: 1px !important;
     border-color: grey !important;
     border-style: solid !important; */
@@ -176,7 +177,7 @@ input {
     /* background-color: rgba(200, 200, 200, 0.5) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     margin:3px !important;
-    border-radius: 10px !important;
+    border-radius: 7px !important;
     font-weight: bold !important;
     /* font-size: 110% !important; */
     /* background-color: rgba(225,225,225,.6) !important; */

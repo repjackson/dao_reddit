@@ -17,9 +17,6 @@ head
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
     
     
-    
-
-    
     //- /* script(async='' src='//embed.redditmedia.com/widgets/platform.js' charset='UTF-8') */
     //- // Global site tag (gtag.js) - Google Analytics
     script(async='' src='https://www.googletagmanager.com/gtag/js?id=UA-156965333-1')
@@ -35,6 +32,9 @@ template(name='layout')
     #main_area
         +yield
         //- +footer
+    if is_an_admin
+        .ui.basic.segment
+            +role_switcher
 
 
 

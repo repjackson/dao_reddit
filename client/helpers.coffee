@@ -2,9 +2,13 @@ Template.registerHelper 'can_edit', () ->
     if Meteor.user().roles
         if 'admin' in Meteor.user().roles
             true
+        else
+            @_author_id is Meteor.userId()
     else
         @_author_id is Meteor.userId()
 
+Template.registerHelper 'active_path', (metric) ->
+    false
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
     # console.log typeof parseFloat(@relevance)
@@ -152,7 +156,7 @@ Template.registerHelper 'current_user', () ->
 Template.registerHelper 'is_current_user', () ->
     if Meteor.user()
         # if Meteor.user().username is Router.current().params.username
-        if Meteor.userId() is Router.current().params.user_id
+        if Meteor.user().username is Router.current().params.username
             true
     else
         if Meteor.user().roles and 'dev' in Meteor.user().roles
@@ -268,3 +272,7 @@ Template.registerHelper 'edit_fields', () ->
             parent_id:model._id
             # edit_roles:$in:Meteor.user().roles
         }, sort:rank:1
+
+
+Template.registerHelper 'is_an_admin', ()->
+    if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c'] then true else false

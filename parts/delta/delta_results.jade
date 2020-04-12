@@ -97,3 +97,15 @@ template(name='delta_result')
                     if is_dev
                         +remove_button
             
+
+template(name='delta_result_table_row')
+    tr
+        //- td
+            //- |#{result.title}
+        each current_delta.viewing_fields
+            +dr_table_cell
+            
+template(name='dr_table_cell')
+    td
+        |#{result_value}
+                            

@@ -3,21 +3,37 @@ template(name='delta')
         with current_model
             .row
                 .five.wide.column
+                    a.ui.circular.basic.icon.button.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
+                        i.large.home.icon
+                    if currentUser
+                        a.ui.circular.icon.button(href='/m/alerts' class="{{active_path '/m/alerts'}}" title='alerts') 
+                            i.bell.large.icon(class=alert_icon_class)
+                        //- a.item(href="/user/#{currentUser.username}/karma")
+                        //-     |#{currentUser.karma}
+                        //-     //- i.line.chart.icon
+                        a.ui.basic.button(href="/user/#{currentUser.username}") 
+                            i.user.icon
+                            |#{currentUser.username}
+                    else 
+                        a.ui.basic.circular.button(href="/login")
+                            i.sign.in.alternate.icon
+                            |login
+
                     if is_loading
                         .ui.inline.header.pulsing
                             //- i.yin.yang.loading.large.icon
                             +icolor name=color_icon classes='pulsing'
                             |loading #{title}...
                     else
-                        unless key_value_is current_delta.model_filter 'model'
-                            a.ui.circular.icon.button.go_home
-                                i.left.chevron.icon
+                        //- unless key_value_is current_delta.model_filter 'model'
+                        //-     a.ui.circular.icon.button.go_home
+                        //-         i.left.chevron.icon
                         .ui.inline.header(title="#{description}, #{views} views")
                             +icolor name=color_icon
                             | #{title}
                     unless is_loading
                         if currentUser
-                            .ui.icon.compact.basic.circular.button.add_model_doc(title="add #{title}")
+                            .ui.icon.compact.basic.circular.button.add_model_doc(title="add #{slug}")
                                 i.plus.large.green.icon
                         //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
                         if is_admin
@@ -58,9 +74,9 @@ template(name='delta')
                     
                     unless single_doc
                         //- .ui.basic.segment(class=loading_class)
-                        .ui.inline.small.grey.header(title='change sort direction')
-                            |sort by
-                        .ui.compact.small.menu
+                        //- .ui.inline.small.grey.header(title='change sort direction')
+                        //-     |sort by
+                        .ui.compact.small.menu(title='sort by')
                             .ui.simple.dropdown.item
                                 strong #{current_delta.sort_key}
                                 i.dropdown.icon
@@ -68,7 +84,7 @@ template(name='delta')
                                     each sortable_fields
                                         .item.set_sort_key 
                                             |#{title}
-                        .ui.compact.icon.basic.button.set_sort_direction
+                        .ui.compact.icon.basic.button.set_sort_direction(title='sort direction')
                             if sorting_up
                                 i.sort.amount.down.large.icon
                             else
@@ -77,9 +93,20 @@ template(name='delta')
                         //-     |#{current_delta.sort_direction}
                         |&nbsp;
                         |&nbsp;
-                        .ui.inline.small.grey.header
-                            |viewing
-                        .ui.simple.dropdown
+                        //- .ui.inline.small.grey.header
+                        //-     |viewing
+                        .ui.compact.menu
+                            .ui.simple.dropdown.item(title='visible fields')
+                                | fields
+                                i.dropdown.icon
+                                .menu
+                                    each model_fields
+                                        +toggle_visible_field
+                        |&nbsp;
+                        |&nbsp;
+                        |&nbsp;
+                                        
+                        .ui.simple.dropdown(title='result limit')
                             .text.large #{current_delta.limit}
                             i.dropdown.icon
                             .menu
@@ -95,13 +122,13 @@ template(name='delta')
                         .ui.small.inline.header(title='total results') #{current_delta.total}
                         |&nbsp;
                         |&nbsp;
-                        .ui.inline.small.grey.header view
+                        //- .ui.inline.small.grey.header view
                         .ui.compact.menu
                             .ui.simple.dropdown.item
                                 |#{current_delta.view_mode}
                                 i.dropdown.icon
                                 .menu
-                                    //- +set_view_mode title='table' icon='table'
+                                    +set_view_mode title='table' icon='table'
                                     +set_view_mode title='list' icon='list'
                                     +set_view_mode title='cards' icon='cards'
                                     //- +set_view_mode title='items' icon='list'
@@ -115,6 +142,15 @@ template(name='delta')
                             .ui.cards
                                 each current_delta.result_ids
                                     +delta_result_card
+                        if delta_key_value_is 'view_mode' 'table'
+                            table.ui.table 
+                                thead
+                                    tr 
+                                        each current_delta.viewing_fields
+                                            th #{title}
+                                tbody
+                                    each current_delta.result_ids
+                                        +delta_result_table_row
                         else if delta_key_value_is 'view_mode' 'list'
                             each current_delta.result_ids
                                 if is_loading
@@ -143,6 +179,9 @@ template(name='delta')
                 //- .ui.header model not found
             
             
+template(name='toggle_visible_field')            
+    .item #{title}
+    
 template(name='delta_table')
     .ui.table
         thead
