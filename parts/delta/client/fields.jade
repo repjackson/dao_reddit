@@ -569,24 +569,6 @@ template(name='datetime_view')
     strong &nbsp; #{field_value}
 
 
-template(name='array')
-    div
-    .ui.inline.small.header
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
-    .ui.input
-        input.new_element(type='text' placeholder='+' autocomplete="off")
-        //- +clear_value                
-    if field_value
-        each field_value
-            .ui.basic.label
-                i.delete.icon.remove_element
-                |#{this}
-                
 template(name='array_view')
     if field_value
         div
@@ -596,7 +578,7 @@ template(name='array_view')
             .ui.inline.small.header(title=title)
                 |#{label}
         each field_value
-            .ui.basic.inverted.label #{this}
+            .ui.black.label #{this}
 
 template(name='array_edit')
     div
@@ -614,7 +596,7 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            .ui.large.inverted.basic.label
+            .ui.large.basic.label
                 i.delete.icon.remove_element
                 |#{this}
                 
@@ -804,20 +786,25 @@ template(name='boolean_view')
         else
             i.cancel.icon
 
+
+
 template(name='single_doc_view')
     div
     if field_value
         .ui.inline.header(title=key)
             |#{title}
-        .ui.basic.label
-            |#{field_value}
+        a.ui.basic.button(href="/m/#{related_doc.model}/#{related_doc._id}/view")
+            if related_doc.image_id
+                img.ui.avatar.image(src="{{c.url related_doc.image_id width=200 height=200 gravity='face' crop='fill'}}")
+            |#{related_doc.title}
+            //- |#{field_value}
 
 
 template(name='single_doc_edit')
     .ui.inline.header(title=key) 
         |#{label} #{title}
     each choices
-        .ui.compact.button.select_choice(class=choice_class)
+        .ui.compact.small.button.select_choice(class=choice_class)
             if icon 
                 i.icon(class=icon)
             if color_icon
@@ -831,12 +818,13 @@ template(name='single_doc_edit')
 template(name='multi_doc_edit')
     .ui.inline.header(title=key)
         |#{title} #{label}    
-    each choices
+    each multi_choices
         .ui.compact.button.select_choice(class=choice_class)
             if image_id
                 img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
             if icon 
-                i.icon(class=icon)    
+                +icolor name=icon
+                //- i.icon(class=icon)    
             //- |#{slug}
             if title
                 |#{title}
@@ -863,42 +851,42 @@ template(name='multi_doc_edit')
     
     
     
-template(name='business')
-    .ui.input
-        input#business_name(type='text' placeholder=title autocomplete="off")
-        //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
-    //- each selections
-    //-     .ui.basic.label
-    //-         |#{title}
-    with referenced_business
-        .ui.header #{title}
-    //- if doc_results
-    //-     .ui.attached.secondary.segment
-    //-         .ui.middle.aligned.selection.animated.list
-    //-             each doc_results
-    //-                 .select_doc.item
-    //-                     h2.ui.header
-    //-                         //- img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
-    //-                         strong + #{guest_name} #{first_name} #{last_name}
+//- template(name='business')
+//-     .ui.input
+//-         input#business_name(type='text' placeholder=title autocomplete="off")
+//-         //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
+//-     //- each selections
+//-     //-     .ui.basic.label
+//-     //-         |#{title}
+//-     with referenced_business
+//-         .ui.header #{title}
+//-     //- if doc_results
+//-     //-     .ui.attached.secondary.segment
+//-     //-         .ui.middle.aligned.selection.animated.list
+//-     //-             each doc_results
+//-     //-                 .select_doc.item
+//-     //-                     h2.ui.header
+//-     //-                         //- img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+//-     //-                         strong + #{guest_name} #{first_name} #{last_name}
 
 
-template(name='task_list')
-    .ui.input
-        input#task_list_name(type='text' placeholder=title autocomplete="off")
-        //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
-    //- each selections
-    //-     .ui.basic.label
-    //-         |#{title}
-    with referenced_task_list
-        .ui.header #{title}
-    //- if doc_results
-    //-     .ui.attached.secondary.segment
-    //-         .ui.middle.aligned.selection.animated.list
-    //-             each doc_results
-    //-                 .select_doc.item
-    //-                     h2.ui.header
-    //-                         //- img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
-    //-                         strong + #{guest_name} #{first_name} #{last_name}
+//- template(name='task_list')
+//-     .ui.input
+//-         input#task_list_name(type='text' placeholder=title autocomplete="off")
+//-         //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
+//-     //- each selections
+//-     //-     .ui.basic.label
+//-     //-         |#{title}
+//-     with referenced_task_list
+//-         .ui.header #{title}
+//-     //- if doc_results
+//-     //-     .ui.attached.secondary.segment
+//-     //-         .ui.middle.aligned.selection.animated.list
+//-     //-             each doc_results
+//-     //-                 .select_doc.item
+//-     //-                     h2.ui.header
+//-     //-                         //- img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+//-     //-                         strong + #{guest_name} #{first_name} #{last_name}
 
 
 template(name='multi_doc_view')
@@ -906,9 +894,12 @@ template(name='multi_doc_view')
     if field_value
         .ui.inline.header(title=key)
             |#{title} #{label}
-        each sorted_field_values
-            .ui.basic.label
-                |#{this}
+        each field_value
+            +referenced_doc
+            
+template(name='referenced_doc')            
+    a.ui.basic.button(href="/m/#{context_doc.model}/#{context_doc._id}/view")
+        |#{context_doc.title}
 
 
 
@@ -1353,6 +1344,7 @@ template(name='iflat')
 
 
 template(name='icolor')
+    //- img(src="https://img.icons8.com/dusk/48/000000/#{name}.png" class=classes title=title)
     img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
 

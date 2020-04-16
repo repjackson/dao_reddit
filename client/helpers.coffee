@@ -65,6 +65,14 @@ Template.registerHelper 'key_value_isnt', (key, value)->
     @["#{key}"] isnt value
 
 
+Template.registerHelper 'in_role', (role)->
+    if Meteor.user() and Meteor.user().roles
+        if role in Meteor.user().roles
+            true
+        else
+            false
+    else
+        false
 
 Template.registerHelper 'is_streamable', () ->
     @domain is 'streamable.com'
@@ -220,9 +228,37 @@ Template.registerHelper 'is_eric', ()-> if Meteor.userId() and Meteor.userId() i
 Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 
+Template.registerHelper 'field_type_doc', ->
+    doc =
+        Docs.findOne
+            model:'field_type'
+            _id: @field_type_id
+    # if doc
+    #     console.log 'found field_type doc', doc
+    # else
+    #     console.log 'NO found field_type doc'
+    if doc
+        doc
 
-Template.registerHelper 'view_template', -> "#{@field_type}_view"
-Template.registerHelper 'edit_template', -> "#{@field_type}_edit"
+
+Template.registerHelper 'view_template', ->
+    console.log 'view template this', @
+    field_type_doc =
+        Docs.findOne
+            model:'field_type'
+            _id: @field_type_id
+    console.log 'field type doc', field_type_doc
+    "#{field_type_doc.slug}_view"
+
+
+Template.registerHelper 'edit_template', ->
+    field_type_doc =
+        Docs.findOne
+            model:'field_type'
+            _id: @field_type_id
+
+    # console.log 'field type doc', field_type_doc
+    "#{field_type_doc.slug}_edit"
 
 Template.registerHelper 'current_model', ->
     Docs.findOne
@@ -255,14 +291,14 @@ Template.registerHelper 'fields', () ->
         #     match.view_roles = $in:Meteor.user().roles
         match.model = 'field'
         match.parent_id = model._id
-        # console.log model
+        console.log 'model', model
         cur = Docs.find match,
             sort:rank:1
-        # console.log cur.fetch()
+        console.log 'found fields', cur.fetch()
         cur
 
 Template.registerHelper 'edit_fields', () ->
-    console.log 'finding edit fields'
+    # console.log 'finding edit fields'
     model = Docs.findOne
         model:'model'
         slug:Router.current().params.model_slug

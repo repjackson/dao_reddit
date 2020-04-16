@@ -9,9 +9,9 @@ template(name='model_doc_edit')
                         .ui.header(title="model: #{model}")
                             |edit #{model}
                         +creation_info
-                        a.ui.big.circular.basic.icon.button(href="/m/#{model}/#{_id}/view")
+                        a.ui.big.basic.icon.button(href="/m/#{model}/#{_id}/view")
                             i.big.checkmark.green.icon
-                        #delete_doc.ui.icon.basic.circular.button
+                        #delete_doc.ui.icon.basic.button
                             i.trash.red.icon
                         if is_user
                             +boolean_edit key='private' direct=true
@@ -19,6 +19,7 @@ template(name='model_doc_edit')
                         //- |#{model}
                         each edit_fields
                             +Template.dynamic template=edit_template 
+                            .spacer
                             // .ui.header #{key} [#{field}] #{label}
                 //- if watson 
                 //-     .row

@@ -1,8 +1,10 @@
 if Meteor.isClient
     Template.delta_result_table_row.onRendered ->
-        # Meteor.setTimeout ->
-        #     $('.progress').popup()
-        # , 2000
+        Meteor.setTimeout ->
+            $('table').tablesort()
+        , 2000
+
+        
     Template.delta_result_table_row.onCreated ->
         @autorun => Meteor.subscribe 'doc', @data._id
         @autorun => Meteor.subscribe 'user_from_id', @data._id
@@ -55,7 +57,7 @@ if Meteor.isClient
     Template.dr_table_cell.helpers
         result_value: ->
             field = @
-            console.log Template.currentData()
+            # console.log Template.currentData()
             parent = Template.parentData()
             if Docs.findOne parent._id
                 # console.log 'doc'
@@ -69,6 +71,12 @@ if Meteor.isClient
 
 
     Template.delta_result_table_row.events
+        'click .goto_doc': ->
+            # console.log @
+            found = Docs.findOne @_id
+            console.log found
+            Router.go "/m/#{found.model}/#{found._id}/view"
+
         'click .result': (e,t)->
             # console.log @
             model_slug =  Router.current().params.model_slug

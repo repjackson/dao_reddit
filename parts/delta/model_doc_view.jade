@@ -6,13 +6,13 @@ template(name='model_doc_view')
             .ui.stackable.padded.grid
                 .row
                     .four.wide.column
-                        .ui.circular.basic.button.back_to_model
+                        .ui.basic.button.back_to_model
                             i.chevron.left.icon
                             +icolor name=current_model.color_icon classes='ui inline mini image'
                             //- i.icon(class=current_model.icon)
                             |#{current_model.title}
                         if can_edit
-                            a.ui.large.circular.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='Edit')
+                            a.ui.large.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='Edit')
                                 i.pencil.blue.icon
                         if is_admin
                             .ui.header 

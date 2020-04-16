@@ -9,24 +9,26 @@ template(name='model_edit_layout')
                         strong #{title}
                     |created
                     +creation_info
-                    a.ui.big.icon.circular.basic.button(href="/m/#{slug}")
+                    a.ui.big.icon.basic.button(href="/m/#{slug}")
                         i.big.checkmark.green.icon
-                    #delete_model.ui.icon.circular.basic.button
+                    #delete_model.ui.icon.basic.button
                         i.trash.red.icon
                 .twelve.wide.column
-                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/" class="{{active_path regex='model_edit_dashboard'}}")
+                    a.ui.basic.compact.large.button(href="/model/edit/#{current_doc._id}/" class="{{active_path regex='model_edit_dashboard'}}")
                         +ismall name='dashboard' classes='ui inline image'
                         |dashboard
-                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/fields" class="{{active_path regex='model_edit_fields'}}")
+                    a.ui.basic.compact.large.button(href="/model/edit/#{current_doc._id}/fields" class="{{active_path regex='model_edit_fields'}}")
                         +ismall name='list' classes='ui inline image'
                         |fields
-                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/modules" class="{{active_path regex='model_edit_modules'}}")
+                    a.ui.basic.compact.large.button(href="/model/edit/#{current_doc._id}/modules" class="{{active_path regex='model_edit_modules'}}")
                         +ismall name='module' classes='ui inline image'
                         |modules
-                    a.ui.basic.circular.compact.large.button(href="/model/edit/#{current_doc._id}/permissions" class="{{active_path regex='model_edit_permissions'}}")
+                    a.ui.basic.compact.large.button(href="/model/edit/#{current_doc._id}/permissions" class="{{active_path regex='model_edit_permissions'}}")
                         +ismall name='shield' classes='ui inline image'
                         |permissions
                     +yield
+                    
+                    
                     
 template(name='model_edit_dashboard')
     .ui.form
@@ -37,6 +39,9 @@ template(name='model_edit_dashboard')
         +array_edit key='tags' label='tags' direct=true
         +text_edit key='collection' label='collection' direct=true
         +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
+        +text_edit key='app' label='app' direct=true
+
+
 
 
 
@@ -47,7 +52,7 @@ template(name='model_edit_fields')
     //-     // .ui.header #{key} [#{field}] #{label}
     .spacer
     .ui.inline.header fields
-    .ui.icon.large.circular.basic.compact.button.add_field
+    .ui.icon.large.basic.compact.button.add_field
         i.plus.green.icon
     .spacer
     each fields
@@ -56,7 +61,7 @@ template(name='model_edit_fields')
             
 template(name='model_edit_modules')
     .ui.segment
-        .ui.header 
+        .ui.header
             +icolor name='module'
             |modules
         +boolean_edit key='show_comments' label='comments' color_icon='chat' direct=true
@@ -72,42 +77,58 @@ template(name='model_edit_permissions')
 
 template(name='field_edit')
     .ui.segment
-        .title 
+        .title.field_edit.pointer
             |#{rank}
             if icon
                 +icolor name=icon classes='ui mini inline image'
                 //- i.icon(class=icon)
-            |#{title} (#{field_type})
+            strong #{title}
+            | (#{field_type_doc.slug})
             if faceted
                 i.filter.icon
             if sortable
                 i.sort.amount.down.icon
             each view_roles
-                .ui.basic.inverted.label #{this}
-            i.large.dropdown.icon
-        
-        .content
-            +text_edit key='title' direct=true label='title'        
-            +text_edit key='key'  direct=true label='key'           
-            +number_edit key='rank' label='rank' direct=true      
-            +color_icon_edit key='icon' label='color icon' direct=true       
-            +textarea_edit key='description' label='description' direct=true
-            if is_admin
-                +text_edit key='field_type' direct=true label='field type'              
-            +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true                 
-            +multi_doc_edit key='view_roles' ref_model='role' label='view roles' direct=true icon='eye'          
-            +multi_doc_edit key='edit_roles' ref_model='role' label='edit roles' direct=true icon='pencil'        
-            //- +text_edit key='ref_model' label='Reference Model' direct=true
-            div
-            +boolean_edit key='faceted' label='faceted' color_icon='diamond' direct=true
-            +boolean_edit key='sortable' label='sortable' color_icon='chevron-down' direct=true
-            if is_ref  
-                +single_doc_edit key='ref_model' ref_model='model' label='reference model' direct=true
-            else if is_user_ref  
-                +single_doc_edit key='role_filter' ref_model='role' label='role filter' direct=true
-            div             
-            +remove_button
-                
+                .ui.basic.label #{this}
+            .ui.circular.icon.compact.basic.button
+                i.up.caret.icon
+            .ui.circular.icon.compact.basic.button
+                i.down.caret.icon
+            if viewing_content    
+                i.large.caret.down.icon
+            else 
+                i.large.caret.right.grey.icon
+        if viewing_content
+            .content
+                +text_edit key='title' direct=true label='title'        
+                +text_edit key='key'  direct=true label='key'           
+                +number_edit key='rank' label='rank' direct=true      
+                +color_icon_edit key='icon' label='color icon' direct=true       
+                //- +textarea_edit key='description' label='description' direct=true
+                .spacer
+                if is_admin
+                    +text_edit key='field_type' direct=true label='field type (old slug)'              
+                //- +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true        
+                .spacer
+                +text_edit key='field_type_id' label='field type id' direct=true        
+                +single_doc_edit key='field_type_id' ref_model_slug='field_type' label='field type id' direct=true        
+                .spacer
+                +multi_doc_edit key='view_roles' ref_model_slug='role' label='view roles' direct=true icon='eye'          
+                .spacer
+                +multi_doc_edit key='edit_roles' ref_model_slug='role' label='edit roles' direct=true icon='pencil'        
+                //- +text_edit key='ref_model' label='Reference Model' direct=true
+                .spacer
+                +boolean_edit key='faceted' label='faceted' color_icon='diamond' direct=true
+                +boolean_edit key='sortable' label='sortable' color_icon='chevron-down' direct=true
+                .spacer
+                if is_ref  
+                    +single_doc_edit key='ref_model' ref_model_slug='model' label='reference model' direct=true
+                else if is_user_ref
+                    +single_doc_edit key='role_filter' ref_model_slug='role' label='role filter' direct=true
+                div             
+                +remove_button
+                if is_admin
+                    +print_this
 //- template(name='view_model')
         
 template(name='field_view')

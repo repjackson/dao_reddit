@@ -1,56 +1,31 @@
 template(name='nav')
-    //- .ui.attached.fluid.borderless.topnav.menu
-        //- a.icon.item.toggle_sidebar
-        //-     i.large.bars.icon
-        //- a.header.item(href='/grid' class="{{active_path '/grid'}}" title='apps')
-        //-     i.large.th.icon
-    //- a.ui.circular.basic.icon.button.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
-    //-     i.large.home.icon
-        //- a.icon.item(href="/" class="{{active_path '/'}}")
-        //-     //- unless subs_ready 
-        //-         i.yin.yang.loading.large.grey.icon(title='dao')
-        //-     //- else 
-        //-     i.large.reddit.link.icon.toggle_menu
-            
-        //- a.icon.item.mobile.hidden(href='/users' class="{{active_path '/users'}}" title='users')
-        //-     i.large.users.icon
-        //- a.icon.item.mobile.hidden(href="/stats")
-        //-     i.line.chart.large.icon
-        //- a.icon.item.mobile.hidden(href='/redditors' class="{{active_path '/redditors'}}" title='redditors')
-        //-     i.large.icons
-        //-         i.reddit.icon
-        //-         i.corner.user.outline.icon
-        //- .item
-        //-     .ui.input
+    .ui.attached.fluid.borderless.topnav.menu
+        a.ui.icon.item.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
+            i.large.yin.yang.icon
+        .item
+            .ui.input
+                input(type='text')
                 
-        //- .right.menu
-        //-     if is_admin 
-        //-         a.icon.item.mobile.hidden(href='/admin' class="{{active_path '/admin'}}" title="admin")
-        //-             i.user.shield.large.icon
+        .right.menu
+            if is_admin 
+                a.icon.item.mobile.hidden(href='/admin' class="{{active_path '/admin'}}" title="admin")
+                    i.user.shield.large.icon
                 
-            //- a.icon.item.mobile.hidden(href='/cart' class="{{active_path '/cart'}}" title="shopping cart #{cart_amount} items")
-            //-     i.shopping.cart.large.icon
-            //- a.mobile.hidden.icon.item(href='/tasks' class="{{active_path '/tasks'}}" title='tasks') 
-            //-     i.tasks.large.icon
-            //- a.mobile.hidden.icon.item(href='/events' class="{{active_path '/events'}}" title='events') 
-            //-     i.calendar.large.icon
-            //- a.icon.item(href='/chat' class="{{active_path '/chat'}}" title='chat') 
-            //-     i.chat.outline.large.icon
-            //- a.icon.item(href='/alerts' class="{{active_path '/alerts'}}" title='alerts') 
-            //-     i.bell.large.icon(class=alert_icon_class)
+            a.icon.item(href='/alerts' class="{{active_path '/alerts'}}" title='alerts') 
+                i.bell.large.icon(class=alert_icon_class)
                 //- i.rss.icon
             
-    //- if currentUser
-    //-     //- a.item(href="/user/#{currentUser.username}/karma")
-    //-     //-     |#{currentUser.karma}
-    //-     //-     //- i.line.chart.icon
-    //-     a.ui.basic.circular.button(href="/user/#{currentUser.username}") 
-    //-         i.user.icon
-    //-         |#{currentUser.username}
-    //- else 
-    //-     a.ui.basic.circular.button(href="/login")
-    //-         i.sign.in.alternate.icon
-    //-         |login
+            if currentUser
+                //- a.item(href="/user/#{currentUser.username}/karma")
+                //-     |#{currentUser.karma}
+                //-     //- i.line.chart.icon
+                a.item(href="/user/#{currentUser.username}") 
+                    i.user.icon
+                    |#{currentUser.username}
+            else 
+                a.item(href="/login")
+                    i.sign.in.alternate.icon
+                    |login
 
 
 

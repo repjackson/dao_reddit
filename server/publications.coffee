@@ -3,6 +3,20 @@ Meteor.publish 'current_doc ', (doc_id)->
     Docs.find doc_id
 
 
+
+Meteor.publish 'model_docs_from_model_id', (model_id)->
+    console.log 'pulling model id', model_id
+    model = Docs.findOne model_id
+    Docs.find
+        model:model.slug
+
+
+
+Meteor.publish 'current_doc ', (doc_id)->
+    console.log 'pulling doc'
+    Docs.find doc_id
+
+
 Meteor.publish 'model_docs', (model)->
     # console.log 'pulling doc'
     Docs.find
@@ -165,10 +179,6 @@ Meteor.publish 'results', (
 
         self.ready()
 
-
-
-Meteor.publish 'all_redditors', ->
-    Redditors.find()
 
 Meteor.publish 'doc', (doc_id)->
     Docs.find doc_id

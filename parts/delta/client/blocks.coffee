@@ -1,4 +1,11 @@
 if Meteor.isClient
+    Template.print_this.events
+        'click .print_this': ->
+            console.log @
+
+
+
+
     Template.session_toggle_button.helpers
         session_toggle_button_class: ->
             if Template.instance().subscriptionsReady()

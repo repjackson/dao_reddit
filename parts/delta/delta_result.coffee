@@ -1,13 +1,13 @@
 if Meteor.isClient
-    Template.delta_result.onRendered ->
+    Template.delta_list_result.onRendered ->
         # Meteor.setTimeout ->
         #     $('.progress').popup()
         # , 2000
-    Template.delta_result.onCreated ->
+    Template.delta_list_result.onCreated ->
         @autorun => Meteor.subscribe 'doc', @data._id
         @autorun => Meteor.subscribe 'user_from_id', @data._id
 
-    Template.delta_result.helpers
+    Template.delta_list_result.helpers
         template_exists: ->
             current_model = Router.current().params.model_slug
             if current_model
@@ -44,7 +44,7 @@ if Meteor.isClient
                 # console.log 'user'
                 Meteor.users.findOne @_id
 
-    Template.delta_result.events
+    Template.delta_list_result.events
         'click .result': (e,t)->
             # console.log @
             model_slug =  Router.current().params.model_slug

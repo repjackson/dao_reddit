@@ -26,7 +26,7 @@ template(name='login')
                 //- if username
                 if logging_in
                     .spacer
-                    .ui.fluid.big.circular.button.enter(title="login #{username}" class=enter_class)
+                    .ui.fluid.big.button.enter(title="login #{username}" class=enter_class)
                         |login
                         strong #{username}
                         |&nbsp;
@@ -40,10 +40,10 @@ template(name='login')
                                 i.user.plus.icon
                                 | register
                 .ui.center.aligned.basic.segment    
-                    a.ui.circular.button(href='/forgot_password')
+                    a.ui.button(href='/forgot_password')
                         i.refresh.icon
                         |forgot password
-                    a.ui.circular.button(href='/register') 
+                    a.ui.button(href='/register') 
                         i.user.plus.icon
                         |register
                     //- .ui.center.aligned.inline.header see the front desk to register an account

@@ -6,6 +6,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'upvoters', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'downvoters', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'model_docs', 'field_type'
 
     Template.model_doc_view.helpers
         # current_model: ->

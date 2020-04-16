@@ -1,5 +1,12 @@
+template(name='print_this')
+    .ui.icon.circular.basic.button.print_this
+        i.orange.code.icon
+
+
+template(name='user_card')
+
 template(name='session_toggle_button')
-    .ui.circular.compact.icon.button.toggle(class=session_toggle_button_class title=title)
+    .ui.compact.icon.button.toggle(class=session_toggle_button_class title=title)
         i.large.icon(class=icon)
 
 template(name='comments')
@@ -190,7 +197,7 @@ template(name='big_user_card')
 
 
 template(name='user_info')
-    a.ui.compact.circular.button(href="/user/#{user._id}/")
+    a.ui.compact.button(href="/user/#{user._id}/")
         if user.profile_image_id
             img.ui.avatar.inline.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
         //- .visible.content
@@ -299,10 +306,10 @@ template(name='voting_small')
 template(name='voting_full')
     //- .ui.inline.header 
     //-     |voting
-    .ui.large.icon.circular.button.upvote(title='upvote')
+    .ui.large.icon.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
         //- |like
-    .ui.large.icon.circular.button.downvote(title='downvote')
+    .ui.large.icon.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
         //- |dislike
     if points

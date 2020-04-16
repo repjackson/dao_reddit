@@ -16,21 +16,21 @@ template(name='doc_card')
                     i.video.grey.icon
             .meta
                 if view_more
-                    i.chevron.down.grey.link.circular.large.icon.toggle_more
+                    i.chevron.down.grey.link.large.icon.toggle_more
                 else     
-                    i.chevron.right.grey.link.circular.large.icon.toggle_more
+                    i.chevron.right.grey.link.large.icon.toggle_more
                 //- .meta
                 //- if dev
                 //-     .ui.small.inline.grey.header 
                 //-         i.tags.small.icon
                 //-         |#{tags.length}
 
-                a.ui.compact.circular.icon.basic.grey.button(href=url target='_window' title="goto #{url}")
+                a.ui.compact.icon.basic.grey.button(href=url target='_window' title="goto #{url}")
                     i.external.icon
                 span.ui.grey.text #{domain}
                 if is_video
                     i.video.large.icon
-                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                a.ui.small.compact.basic.button(href="http://www.reddit.com/#{permalink}" target='_window')
                     i.comments.spaced.icon
                     |#{comment_count}
                 .ui.basic.inverted.label 
@@ -46,7 +46,7 @@ template(name='doc_card')
                     i.pencil.icon
                     |#{author}
                 //- .ui.basic.inverted.label 
-                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
+                a.ui.small.compact.basic.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
                     i.reddit.icon
                     |#{subreddit}
 
@@ -57,21 +57,21 @@ template(name='doc_card')
                 //-                 //- span #{sentence_id}
                 //-                 span.large120.pointer.collapse #{text}                
                 //- else    
-                .ui.circular.compact.large.icon.button.pull_tone
+                .ui.compact.large.icon.button.pull_tone
                     i.download.icon
-                .ui.circular.compact.button.call_watson 
+                .ui.compact.button.call_watson 
                     i.chess.icon
                     |tag url
-                .ui.circular.compact.button.call_watson_image
+                .ui.compact.button.call_watson_image
                     i.chess.icon
                     |tag comments
                 if dev
-                    .ui.circular.compact.button.print_me
+                    .ui.compact.button.print_me
                         |log
-                i.refresh.circular.link.icon.calc_post
+                i.refresh.link.icon.calc_post
                 
                 //- each tags
-                //-     .ui.circular.basic.compact.button.toggle_tag(class=post_tag_class)
+                //-     .ui.basic.compact.button.toggle_tag(class=post_tag_class)
                 //-         |#{this}
             //- else 
             //-     if tone 
@@ -101,21 +101,21 @@ template(name='doc_item')
                     i.video.grey.icon
             .meta
                 if view_more
-                    i.chevron.down.grey.link.circular.large.icon.toggle_more
+                    i.chevron.down.grey.link.large.icon.toggle_more
                 else     
-                    i.chevron.right.grey.link.circular.large.icon.toggle_more
+                    i.chevron.right.grey.link.large.icon.toggle_more
                 //- .meta
                 //- if dev
                 //-     .ui.small.inline.grey.header 
                 //-         i.tags.small.icon
                 //-         |#{tags.length}
 
-                a.ui.compact.circular.icon.basic.grey.button(href=url target='_window' title="goto #{url}")
+                a.ui.compact.icon.basic.grey.button(href=url target='_window' title="goto #{url}")
                     i.external.icon
                 span.ui.grey.text #{domain}
                 if is_video
                     i.video.large.icon
-                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                a.ui.small.compact.basic.button(href="http://www.reddit.com/#{permalink}" target='_window')
                     i.comments.spaced.icon
                     |#{comment_count}
                 span.ui.grey.text(title='reddit upvotes')
@@ -131,7 +131,7 @@ template(name='doc_item')
                     i.pencil.icon
                     |#{author}
                 //- .ui.basic.inverted.label 
-                a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
+                a.ui.small.compact.basic.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
                     i.reddit.icon
                     |#{subreddit}
 
@@ -142,21 +142,21 @@ template(name='doc_item')
                                 //- span #{sentence_id}
                                 span.large120.pointer.collapse #{text}                
                 //- else    
-                .ui.circular.compact.large.icon.button.pull_tone
+                .ui.compact.large.icon.button.pull_tone
                     i.download.icon
-                .ui.circular.compact.button.call_watson 
+                .ui.compact.button.call_watson 
                     i.chess.icon
                     |tag url
-                .ui.circular.compact.button.call_watson_image
+                .ui.compact.button.call_watson_image
                     i.chess.icon
                     |tag comments
                 if dev
-                    .ui.circular.compact.button.print_me
+                    .ui.compact.button.print_me
                         |log
-                i.refresh.circular.link.icon.calc_post
+                i.refresh.link.icon.calc_post
                 
                 each tags
-                    .ui.circular.basic.compact.button.toggle_tag(class=post_tag_class)
+                    .ui.basic.compact.button.toggle_tag(class=post_tag_class)
                         |#{this}
             else 
                 if tone 

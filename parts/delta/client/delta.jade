@@ -3,22 +3,8 @@ template(name='delta')
         with current_model
             .row
                 .five.wide.column
-                    a.ui.circular.basic.icon.button.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
-                        i.large.home.icon
-                    if currentUser
-                        a.ui.circular.icon.button(href='/m/alerts' class="{{active_path '/m/alerts'}}" title='alerts') 
-                            i.bell.large.icon(class=alert_icon_class)
-                        //- a.item(href="/user/#{currentUser.username}/karma")
-                        //-     |#{currentUser.karma}
-                        //-     //- i.line.chart.icon
-                        a.ui.basic.button(href="/user/#{currentUser.username}") 
-                            i.user.icon
-                            |#{currentUser.username}
-                    else 
-                        a.ui.basic.circular.button(href="/login")
-                            i.sign.in.alternate.icon
-                            |login
-
+                    a.ui.basic.icon.button.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
+                        i.large.yin.yang.icon
                     if is_loading
                         .ui.inline.header.pulsing
                             //- i.yin.yang.loading.large.icon
@@ -26,26 +12,26 @@ template(name='delta')
                             |loading #{title}...
                     else
                         //- unless key_value_is current_delta.model_filter 'model'
-                        //-     a.ui.circular.icon.button.go_home
+                        //-     a.ui.icon.button.go_home
                         //-         i.left.chevron.icon
                         .ui.inline.header(title="#{description}, #{views} views")
                             +icolor name=color_icon
                             | #{title}
                     unless is_loading
                         if currentUser
-                            .ui.icon.compact.basic.circular.button.add_model_doc(title="add #{slug}")
+                            .ui.icon.compact.basic.button.add_model_doc(title="add #{slug}")
                                 i.plus.large.green.icon
                         //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
                         if is_admin
-                            .ui.icon.circular.basic.button.edit_model(title='configure model')
+                            .ui.icon.basic.button.edit_model(title='configure model')
                                 i.cog.icon
                         if current_delta
                             if is_admin
-                                .ui.icon.circular.basic.button.delete_delta(title='delete session document')
+                                .ui.icon.basic.button.delete_delta(title='delete session document')
                                     i.remove.icon
-                                .ui.icon.circular.basic.button.print_delta(title='print delta')
+                                .ui.icon.basic.button.print_delta(title='print delta')
                                     i.code.icon
-                                i.refresh.circular.link.reset.icon(title='reload session')
+                                i.refresh.link.reset.icon(title='reload session')
                             if is_dev
                                 i.code.link.icon.print_delta(title='print session doc')
                                 i.trash.delete_delta.link.icon(title='delete session')
@@ -71,7 +57,6 @@ template(name='delta')
                         else
                             i.search.icon
                         input#search(type='text' autocomplete="off" value=current_delta.search_query)
-                    
                     unless single_doc
                         //- .ui.basic.segment(class=loading_class)
                         //- .ui.inline.small.grey.header(title='change sort direction')
@@ -143,11 +128,12 @@ template(name='delta')
                                 each current_delta.result_ids
                                     +delta_result_card
                         if delta_key_value_is 'view_mode' 'table'
-                            table.ui.table 
+                            table.ui.selectable.table 
                                 thead
-                                    tr 
+                                    tr
                                         each current_delta.viewing_fields
-                                            th #{title}
+                                            th.pointer.toggle_sort_column(class=table_column_header_class)
+                                                | #{title}
                                 tbody
                                     each current_delta.result_ids
                                         +delta_result_table_row
@@ -164,7 +150,7 @@ template(name='delta')
                                             .line
                                             .line
                                 else 
-                                    +delta_result
+                                    +delta_list_result
                     //- +Template.dynamic template=view_mode_template
             //- .row 
             //-     .sixteen.wide.column
@@ -198,7 +184,7 @@ template(name='delta_table')
 template(name='delta_list')
     each current_delta.result_ids
         //- .column
-        +delta_result
+        +delta_list_result
                         
                     
                         
@@ -247,6 +233,8 @@ template(name='facet')
                     strong [null]
                     //- small #{cal_count}
         //- .ui.hidden.divider
+        
+        
 template(name='toggle_delta_config')
     if boolean_true
         .ui.active.icon.button.disable_key(title=label)

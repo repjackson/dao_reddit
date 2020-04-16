@@ -707,25 +707,44 @@ Template.textarea_view.onRendered ->
 
 
 Template.single_doc_view.onCreated ->
-    # @autorun => Meteor.subscribe 'model_docs', @data.ref_model
+    @autorun => Meteor.subscribe 'doc', Template.parentData(5)["#{@data.key}"]
 
 Template.single_doc_view.helpers
+    related_doc: ->
+        field_value =  Template.parentData(5)["#{@key}"]
+        Docs.findOne field_value
+        # console.log Template.currentData()
+
     choices: ->
+        console.log @
+        model = Docs.findOne @ref_model
         Docs.find
-            model:@ref_model
+            model:model.slug
+
 
 
 
 
 Template.single_doc_edit.onCreated ->
-    @autorun => Meteor.subscribe 'model_docs', @data.ref_model
+    if @data.ref_model_slug
+        @autorun => Meteor.subscribe 'model_docs_from_model_id', @data.ref_model_slug
+    else if @data.ref_model
+        @autorun => Meteor.subscribe 'model_docs_from_model_id', @data.ref_model_slug
+    @autorun => Meteor.subscribe 'doc', @data.ref_model
 
 Template.single_doc_edit.helpers
     choices: ->
-        if @ref_model
+        console.log @
+        if @ref_model_slug
             Docs.find {
-                model:@ref_model
-            }, sort:slug:1
+                model:@ref_model_slug
+            }, sort:title:1
+        else if @ref_model
+            model = Docs.findOne @ref_model
+            Docs.find {
+                model:model.slug
+            }, sort: title:1
+
     calculated_label: ->
         ref_doc = Template.currentData()
         key = Template.parentData().button_label
@@ -737,16 +756,30 @@ Template.single_doc_edit.helpers
         ref_field = Template.parentData(1)
         if ref_field.direct
             parent = Template.parentData(2)
+            # target = Docs.findOne Router.current().params.doc_id
+            target = Template.parentData(2)
         else
-            parent = Template.parentData(5)
-        target = Template.parentData(2)
+            parent = Template.parentData(6)
+            target = Template.parentData(2)
+
+        # console.log 'target', target
+        # console.log 'parent', parent
+        # console.log 'ref field', ref_field
+        # console.log  Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.parentData(3)
+        # console.log   Template.parentData(4)
+        # console.log   Template.parentData(5)
+        # console.log   Template.parentData(6)
+        # console.log   Template.parentData(7)
+
         if @direct
-            if target["#{ref_field.key}"]
-                if @ref_field is target["#{ref_field.key}"] then 'active' else 'basic'
+            if parent["#{ref_field.key}"]
+                if @_id is parent["#{ref_field.key}"] then 'active' else 'basic'
             else ''
         else
             if parent["#{ref_field.key}"]
-                if @slug is parent["#{ref_field.key}"] then 'active' else 'basic'
+                if @_id is parent["#{ref_field.key}"] then 'active' else 'basic'
             else 'basic'
 
 
@@ -762,8 +795,6 @@ Template.single_doc_edit.events
 
         # key = ref_field.button_key
         key = ref_field.key
-
-
         # if parent["#{key}"] and @["#{ref_field.button_key}"] in parent["#{key}"]
         if parent["#{key}"] and @slug in parent["#{key}"]
             doc = Docs.findOne parent._id
@@ -777,23 +808,27 @@ Template.single_doc_edit.events
         else
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id
-
             if doc
                 Docs.update parent._id,
-                    $set: "#{ref_field.key}": @slug
+                    $set: "#{ref_field.key}": @_id
             else if user
                 Meteor.users.update parent._id,
-                    $set: "#{ref_field.key}": @slug
+                    $set: "#{ref_field.key}": @_id
+
 
 
 Template.multi_doc_view.onCreated ->
-    @autorun => Meteor.subscribe 'model_docs', @data.ref_model
+    @autorun => Meteor.subscribe 'model_docs_from_model_id', @data.ref_model
+    @autorun => Meteor.subscribe 'doc', @data.ref_model
 
-Template.multi_doc_view.helpers
-    choices: ->
-        Docs.find {
-            model:@ref_model
-        }, sort:number:-1
+Template.referenced_doc.helpers
+    context_doc: ->
+        # console.log @
+        Docs.findOne {
+            _id: @valueOf()
+        }
+
+
 
 # Template.multi_doc.onRendered ->
 #     $('.ui.dropdown').dropdown(
@@ -805,22 +840,41 @@ Template.multi_doc_view.helpers
 
 
 Template.multi_doc_edit.onCreated ->
-    @autorun => Meteor.subscribe 'model_docs', @data.ref_model
+    if @data.ref_model_slug
+        @autorun => Meteor.subscribe 'model_docs_from_model_id', @data.ref_model_slug
+    else if @data.ref_model
+        @autorun => Meteor.subscribe 'model_docs_from_model_id', @data.ref_model_slug
+    @autorun => Meteor.subscribe 'doc', @data.ref_model
 Template.multi_doc_edit.helpers
-    choices: ->
-        Docs.find model:@ref_model
+    multi_choices: ->
+        if @ref_model_slug
+            Docs.find {
+                model:@ref_model_slug
+            }, sort: title:1
+        else if @ref_model
+            model = Docs.findOne @ref_model
+            Docs.find {
+                model:model.slug
+            }, sort: title:1
+
     choice_class: ->
         selection = @
         current = Template.currentData()
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         ref_field = Template.parentData(1)
         target = Template.parentData(2)
 
-        if target["#{ref_field.key}"]
-            if @slug in target["#{ref_field.key}"] then 'active' else 'basic'
+        # console.log @
+        # console.log 'ref_field', ref_field
+        # console.log 'target', target
+        # console.log 'parent', parent
+
+
+        if parent["#{ref_field.key}"]
+            if @_id in parent["#{ref_field.key}"] then 'active' else 'basic'
         else
             'basic'
 
@@ -831,33 +885,35 @@ Template.multi_doc_edit.events
         if ref_field.direct
             parent = Template.parentData(2)
         else
-            parent = Template.parentData(6)
-        parent = Template.parentData(1)
-        parent2 = Template.parentData(2)
-        parent3 = Template.parentData(3)
-        parent4 = Template.parentData(4)
-        parent5 = Template.parentData(5)
-        parent6 = Template.parentData(6)
-        parent7 = Template.parentData(7)
+            parent = Template.parentData(5)
+        # console.log  Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.parentData(3)
+        # console.log   Template.parentData(4)
+        # console.log   Template.parentData(5)
+        # console.log   Template.parentData(6)
+        # console.log   Template.parentData(7)
 
-        if parent["#{ref_field.key}"] and @slug in parent["#{ref_field.key}"]
+        if parent["#{ref_field.key}"] and @_id in parent["#{ref_field.key}"]
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id
             if doc
                 Docs.update parent._id,
-                    $pull:"#{ref_field.key}":@slug
+                    $pull:"#{ref_field.key}":@_id
             else if user
                 Meteor.users.update parent._id,
-                    $pull: "#{ref_field.key}": @slug
+                    $pull: "#{ref_field.key}": @_id
         else
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id
             if doc
                 Docs.update parent._id,
-                    $addToSet: "#{ref_field.key}": @slug
+                    $addToSet: "#{ref_field.key}": @_id
             else if user
                 Meteor.users.update parent._id,
-                    $addToSet: "#{ref_field.key}": @slug
+                    $addToSet: "#{ref_field.key}": @_id
+
+
 
 
 Template.single_user_edit.onCreated ->

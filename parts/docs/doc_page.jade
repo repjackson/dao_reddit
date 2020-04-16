@@ -3,7 +3,7 @@ template(name='doc_page')
         .ui.stackable.padded.grid 
             .row
                 .sixteen.wide.column 
-                    a.ui.circular.icon.large.button(href="/")
+                    a.ui.icon.large.button(href="/")
                         i.left.chevron.icon
                     if title 
                         .ui.grey.inline.header(title=ups) !{title}
@@ -18,18 +18,18 @@ template(name='doc_page')
                         if is_image
                             img.ui.image(src=url)
                     .meta
-                        a.ui.circular.button(href=url target='_window')
+                        a.ui.button(href=url target='_window')
                             i.external.icon
                             |view link
                         //- span.ui.grey.text #{domain}
                         if is_video
                             i.video.large.icon
                         if permalink
-                            a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                            a.ui.small.compact.basic.button(href="http://www.reddit.com/#{permalink}" target='_window')
                                 i.comments.spaced.icon
                                 |#{comment_count}
                         if domain
-                            .ui.basic.circular.inverted.label(title='domain')
+                            .ui.basic.inverted.label(title='domain')
                                 i.globe.icon
                                 |#{domain}
                         if ups
@@ -44,22 +44,22 @@ template(name='doc_page')
                                 |#{author}
                             //- .ui.basic.inverted.label 
                         if subreddit
-                            a.ui.small.compact.basic.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
+                            a.ui.small.compact.basic.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
                                 i.reddit.icon
                                 |#{subreddit}
-                        i.refresh.circular.link.icon.calc_post
+                        i.refresh.link.icon.calc_post
                         div
                         +voting_full
-                    .ui.circular.button.call_watson 
+                    .ui.button.call_watson 
                         i.chess.icon
                         |tag url
-                    .ui.circular.button.call_watson_image
+                    .ui.button.call_watson_image
                         i.chess.icon
                         |tag image
-                    .ui.circular.button.pull_tone
+                    .ui.button.pull_tone
                         i.download.icon
                         |download content
-                    .ui.circular.button.print_me
+                    .ui.button.print_me
                         |print me
                     +array_view key='categories' icon='cubes' 
                     +array_view key='Person' icon='user' 
@@ -114,7 +114,7 @@ template(name='doc_page')
                                     i.dropdown.icon
                             .content
                                 each tags
-                                    .ui.circular.large.inverted.black.label
+                                    .ui.large.inverted.black.label
                                         |#{this}
                     div
                     //- if body
@@ -133,7 +133,7 @@ template(name='doc_page')
 
 
 template(name='emotion_circle')
-    .ui.circular.label(class=emotion_circle_class title=emotion)
+    .ui.label(class=emotion_circle_class title=emotion)
         span {{ to_percent percent }}
             //- if label 
             //-     |#{label}

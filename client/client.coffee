@@ -9,7 +9,7 @@ Template.body.events
     'click a': ->
         $('.global_container')
         .transition('fade out', 250)
-        .transition('fade in', 500)
+        .transition('fade in', 250)
 
     # 'click .result': ->
     #     $('.global_container')
