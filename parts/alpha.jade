@@ -45,19 +45,26 @@ template(name='alpha_edit')
                     |save
                 .ui.header block menu
                 each blocks
-                    .ui.button #{title}
+                    .ui.button.add_block_to_doc #{title}
             .eight.wide.column
-                each doc_blocks
-                    .ui.header #{title}
+                .ui.header modules
+                each modules
+                    .ui.segment
+                        .ui.header #{title}
+                        .ui.icon.button.remove_module
+                            i.remove.icon
     if is_admin
         +block_editor
         
         
         
 template(name='block_editor')
-    .ui.header block editor
+    .ui.inline.header 
+        i.shield.icon
+        |block editor
     .ui.icon.button.add_block
         i.plus.icon
     each blocks
         .ui.segment
             +text_edit key='title' direct=true
+            +slug_edit key='slug' direct=true

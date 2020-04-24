@@ -21,14 +21,33 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'alpha'
         @autorun => Meteor.subscribe 'model_docs', 'block'
+        @autorun => Meteor.subscribe 'model_docs', 'module'
 
     Template.alpha_edit.helpers
         blocks: ->
             Docs.find
                 model:'block'
 
+        modules: ->
+            Docs.find
+                model:'module'
+                parent_id: Router.current().params.doc_id
 
-    Template.alpha_edit.helpers
+
+    Template.alpha_edit.events
+        'click .add_module': ->
+            console.log @
+            Docs.insert
+                model:'module'
+                parent_id: Router.current().params.doc_id
+
+
+        'click .add_block_to_doc': ->
+            console.log @
+            Docs.insert
+                model:'module'
+                parent_id: Router.current().params.doc_id
+
 
 
 
