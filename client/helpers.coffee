@@ -242,12 +242,12 @@ Template.registerHelper 'field_type_doc', ->
 
 
 Template.registerHelper 'view_template', ->
-    console.log 'view template this', @
+    # console.log 'view template this', @
     field_type_doc =
         Docs.findOne
             model:'field_type'
             _id: @field_type_id
-    console.log 'field type doc', field_type_doc
+    # console.log 'field type doc', field_type_doc
     "#{field_type_doc.slug}_view"
 
 
@@ -291,7 +291,27 @@ Template.registerHelper 'fields', () ->
         #     match.view_roles = $in:Meteor.user().roles
         match.model = 'field'
         match.parent_id = model._id
-        console.log 'model', model
+        # console.log 'model', model
+        cur = Docs.find match,
+            sort:rank:1
+        # console.log 'found fields', cur.fetch()
+        cur
+
+Template.registerHelper 'visible_fields', () ->
+    model = Docs.findOne
+        model:'model'
+        slug:Router.current().params.model_slug
+    delta = Docs.findOne
+        model:'delta'
+
+    if model
+        match = {}
+        # if Meteor.user()
+        #     match.view_roles = $in:Meteor.user().roles
+        match.model = 'field'
+        match.parent_id = model._id
+        match._id = $in:delta.viewable_fields
+        # console.log 'model', model
         cur = Docs.find match,
             sort:rank:1
         console.log 'found fields', cur.fetch()

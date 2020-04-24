@@ -12,11 +12,6 @@ Meteor.publish 'model_docs_from_model_id', (model_id)->
 
 
 
-Meteor.publish 'current_doc ', (doc_id)->
-    console.log 'pulling doc'
-    Docs.find doc_id
-
-
 Meteor.publish 'model_docs', (model)->
     # console.log 'pulling doc'
     Docs.find

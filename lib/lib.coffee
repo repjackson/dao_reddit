@@ -1,9 +1,6 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 
-@Timestamp_tags = new Meteor.Collection 'timestamp_tags'
-
-
 Router.configure
     layoutTemplate: 'layout'
     notFoundTemplate: 'not_found'

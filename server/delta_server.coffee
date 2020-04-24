@@ -56,9 +56,12 @@ Meteor.methods
                             filters:[]
                             res:[]
                         }
+
+        field_ids = _.pluck(fields.fetch(), '_id')
+
         Docs.update delta._id,
             $set:
-                viewing_fields: fields.fetch()
+                viewable_fields: field_ids
         Meteor.call 'fum', delta._id
 
 

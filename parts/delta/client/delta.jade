@@ -113,7 +113,7 @@ template(name='delta')
                                 |#{current_delta.view_mode}
                                 i.dropdown.icon
                                 .menu
-                                    +set_view_mode title='table' icon='table'
+                                    //- +set_view_mode title='table' icon='table'
                                     +set_view_mode title='list' icon='list'
                                     +set_view_mode title='cards' icon='cards'
                                     //- +set_view_mode title='items' icon='list'
@@ -166,7 +166,10 @@ template(name='delta')
             
             
 template(name='toggle_visible_field')            
-    .item #{title}
+    .item.toggle_visibility
+        if field_visible
+            i.green.checkmark.icon
+        | #{title}
     
 template(name='delta_table')
     .ui.table

@@ -1,0 +1,63 @@
+template(name='alpha')
+    .ui.basic.segment
+        .ui.button.add_alpha
+            |add alpha
+        each alpha_docs
+            +alpha_card
+
+
+template(name='alpha_card')
+    .ui.segment
+        each blocks
+            .ui.header #{title}
+        a.ui.large.basic.icon.button(href="/alpha/#{_id}/edit")
+            i.pencil.icon
+        a.ui.large.basic.icon.button(href="/alpha/#{_id}/view")
+            i.right.chevron.icon        
+            
+
+
+template(name='alpha_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .four.wide.column
+                a.ui.fluid.button(href="/alphas")
+                    i.wine.glass.icon
+                    |alpha
+                .ui.header #{title}
+            .four.wide.column
+                a.ui.large.basic.button(href="/alpha/#{_id}/edit")
+                    i.pencil.icon
+                .ui.header #{_author_username}
+                with _author_id
+                    +user_card
+
+
+
+template(name='alpha_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .four.wide.column
+                .ui.header editing alpha
+                .ui.header #{title}
+                a.ui.large.fluid.button(href="/alpha/#{_id}/view")
+                    i.checkmark.icon   
+                    |save
+                .ui.header block menu
+                each blocks
+                    .ui.button #{title}
+            .eight.wide.column
+                each doc_blocks
+                    .ui.header #{title}
+    if is_admin
+        +block_editor
+        
+        
+        
+template(name='block_editor')
+    .ui.header block editor
+    .ui.icon.button.add_block
+        i.plus.icon
+    each blocks
+        .ui.segment
+            +text_edit key='title' direct=true

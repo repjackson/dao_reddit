@@ -10,7 +10,7 @@ template(name='delta_result_card')
                             +icolor name=color_icon
                             |#{title}
                     else 
-                        each fields
+                        each visible_fields
                             +Template.dynamic template=view_template
                             div
                     .extra
@@ -61,7 +61,7 @@ template(name='delta_list_result')
                             +icolor name=color_icon
                             |#{title}
                     else 
-                        each fields
+                        each visible_fields
                             +Template.dynamic template=view_template
                             div
                     .extra
@@ -107,7 +107,7 @@ template(name='delta_result_table_row')
         //-     +icolor name=result.color_icon
         //- td
             //- |#{result.title}
-        each current_delta.viewing_fields
+        each visible_fields
             +dr_table_cell
             
 template(name='dr_table_cell')

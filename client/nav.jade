@@ -2,9 +2,11 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.menu
         a.ui.icon.item.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
             i.large.yin.yang.icon
-        .item
-            .ui.input
-                input(type='text')
+        a.ui.icon.item(href='/alpha' class="{{active_path '/alpha'}}" title='alpha')
+            i.large.mountain.icon
+        //- .item
+        //-     .ui.input
+        //-         input(type='text')
                 
         .right.menu
             if is_admin 

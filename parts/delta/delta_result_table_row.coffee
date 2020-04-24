@@ -1,10 +1,10 @@
 if Meteor.isClient
     Template.delta_result_table_row.onRendered ->
-        Meteor.setTimeout ->
-            $('table').tablesort()
-        , 2000
+        # Meteor.setTimeout ->
+        #     $('table').tablesort()
+        # , 2000
 
-        
+
     Template.delta_result_table_row.onCreated ->
         @autorun => Meteor.subscribe 'doc', @data._id
         @autorun => Meteor.subscribe 'user_from_id', @data._id

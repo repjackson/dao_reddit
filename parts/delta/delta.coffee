@@ -9,7 +9,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'model_fields_from_slug', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_delta'
         @autorun -> Meteor.subscribe 'model_docs', 'field_type'
-        
+
         Session.set 'loading', true
         Meteor.call 'set_facets', Router.current().params.model_slug, ->
             Session.set 'loading', false
@@ -272,6 +272,23 @@ if Meteor.isClient
 
 
 
+
+    Template.toggle_visible_field.events
+        'click .toggle_visibility': ->
+            console.log @
+            delta = Docs.findOne model:'delta'
+            console.log 'viewable fields', delta.viewable_fields
+            if @_id in delta.viewable_fields
+                Docs.update delta._id,
+                    $pull:viewable_fields: @_id
+            else
+                Docs.update delta._id,
+                    $addToSet: viewable_fields: @_id
+
+    Template.toggle_visible_field.helpers
+        field_visible: ->
+            delta = Docs.findOne model:'delta'
+            @_id in delta.viewable_fields
 
     Template.set_limit.events
         'click .set_limit': ->
