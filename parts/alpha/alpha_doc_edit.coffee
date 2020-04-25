@@ -36,6 +36,9 @@ if Meteor.isClient
         'click .print_this': ->
             console.log @
 
+        'click .calc_this': ->
+            Meteor.call 'calc_keys', Router.current().params.doc_id, ->
+
         'click .add_module': ->
             Docs.insert
                 model:'module'
@@ -43,7 +46,9 @@ if Meteor.isClient
                 block_slug:@slug
                 block_title:@title
                 block_id:@_id
+            Meteor.call 'calc_keys', Router.current().params.doc_id, ->
 
         'click .remove_module': ->
             if confirm 'delete?'
                 Docs.remove @_id
+            Meteor.call 'calc_keys', Router.current().params.doc_id, ->

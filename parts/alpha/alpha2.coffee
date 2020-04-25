@@ -71,15 +71,6 @@ if Meteor.isClient
             # count = alpha_session.result_ids.length
             # if count is 1 then true else false
 
-        model_stats_exists: ->
-            current_model = Router.current().params.model_slug
-            if Template["#{current_model}_stats"]
-                return true
-            else
-                return false
-        model_stats: ->
-            current_model = Router.current().params.model_slug
-            "#{current_model}_stats"
 
 
     Template.alpha.events
@@ -87,14 +78,6 @@ if Meteor.isClient
             console.log @
             alpha_session = Docs.findOne model:'alpha_session'
             console.log alpha_session
-
-
-        'click .create_model': ->
-            new_model_id = Docs.insert
-                model:'model'
-                slug: Router.current().params.model_slug
-            new_model = Docs.findOne new_model_id
-            Router.go "/model/edit/#{new_model._id}"
 
 
         'click .clear_query': ->
@@ -154,84 +137,6 @@ if Meteor.isClient
         # 'mouseenter .add_model_doc': (e,t)->
     	# 	$(e.currentTarget).addClass('spinning')
 
-        'click .add_model_doc': ->
-            model = Docs.findOne
-                model:'model'
-                slug: Router.current().params.model_slug
-            # console.log model
-            if model.collection and model.collection is 'users'
-                name = prompt 'first and last name'
-                split = name.split ' '
-                first_name = split[0]
-                last_name = split[1]
-                username = name.split(' ').join('_')
-                # console.log username
-                Meteor.call 'add_user', first_name, last_name, username, 'guest', (err,res)=>
-                    if err
-                        alert err
-                    else
-                        Meteor.users.update res,
-                            $set:
-                                first_name:first_name
-                                last_name:last_name
-                        Router.go "/m/#{model.slug}/#{res}/edit"
-            # else if model.slug is 'shop'
-            #     new_doc_id = Docs.insert
-            #         model:model.slug
-            #     Router.go "/shop/#{new_doc_id}/edit"
-            else if model.slug is 'model'
-                new_doc_id = Docs.insert
-                    model:'model'
-                Router.go "/model/edit/#{new_doc_id}"
-            else
-                console.log model
-                new_doc_id = Docs.insert
-                    model:model.slug
-                Router.go "/m/#{model.slug}/#{new_doc_id}/edit"
-
-
-        'click .edit_model': ->
-            model = Docs.findOne
-                model:'model'
-                slug: Router.current().params.model_slug
-            Router.go "/model/edit/#{model._id}"
-
-        # 'click .page_up': (e,t)->
-        #     alpha_session = Docs.findOne model:'alpha_session'
-        #     Docs.update alpha_session._id,
-        #         $inc: current_page:1
-        #     Session.set 'is_calculating', true
-        #     Meteor.call 'fo', (err,res)->
-        #         if err then console.log err
-        #         else
-        #             Session.set 'is_calculating', false
-        #
-        # 'click .page_down': (e,t)->
-        #     alpha_session = Docs.findOne model:'alpha_session'
-        #     Docs.update alpha_session._id,
-        #         $inc: current_page:-1
-        #     Session.set 'is_calculating', true
-        #     Meteor.call 'fo', (err,res)->
-        #         if err then console.log err
-        #         else
-        #             Session.set 'is_calculating', false
-
-        # 'click .select_tag': -> selected_tags.push @name
-        # 'click .unselect_tag': -> selected_tags.remove @valueOf()
-        # 'click #clear_tags': -> selected_tags.clear()
-        #
-        # 'keyup #search': (e)->
-            # switch e.which
-            #     when 13
-            #         if e.target.value is 'clear'
-            #             selected_tags.clear()
-            #             $('#search').val('')
-            #         else
-            #             selected_tags.push e.target.value.toLowerCase().trim()
-            #             $('#search').val('')
-            #     when 8
-            #         if e.target.value is ''
-            #             selected_tags.pop()
         'keyup #search': _.throttle((e,t)->
             query = $('#search').val()
             Session.set('current_query', query)
@@ -261,22 +166,22 @@ if Meteor.isClient
 
 
 
-    Template.toggle_visible_field.events
-        'click .toggle_visibility': ->
-            console.log @
-            alpha_session = Docs.findOne model:'alpha_session'
-            console.log 'viewable fields', alpha_session.viewable_fields
-            if @_id in alpha_session.viewable_fields
-                Docs.update alpha_session._id,
-                    $pull:viewable_fields: @_id
-            else
-                Docs.update alpha_session._id,
-                    $addToSet: viewable_fields: @_id
+    # Template.toggle_visible_field.events
+    #     'click .toggle_visibility': ->
+    #         console.log @
+    #         alpha_session = Docs.findOne model:'alpha_session'
+    #         console.log 'viewable fields', alpha_session.viewable_fields
+    #         if @_id in alpha_session.viewable_fields
+    #             Docs.update alpha_session._id,
+    #                 $pull:viewable_fields: @_id
+    #         else
+    #             Docs.update alpha_session._id,
+    #                 $addToSet: viewable_fields: @_id
 
-    Template.toggle_visible_field.helpers
-        field_visible: ->
-            alpha_session = Docs.findOne model:'alpha_session'
-            @_id in alpha_session.viewable_fields
+    # Template.toggle_visible_field.helpers
+    #     field_visible: ->
+    #         alpha_session = Docs.findOne model:'alpha_session'
+    #         @_id in alpha_session.viewable_fields
 
     Template.set_limit.events
         'click .set_limit': ->
@@ -302,12 +207,12 @@ if Meteor.isClient
 
 
 
-    Template.facet.onRendered ->
+    Template.afacet.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1500
 
-    Template.facet.events
+    Template.afacet.events
         # 'click .ui.accordion': ->
         #     $('.accordion').accordion()
 
@@ -340,7 +245,7 @@ if Meteor.isClient
 
 
 
-    Template.facet.helpers
+    Template.afacet.helpers
         filtering_res: ->
             alpha_session = Docs.findOne model:'alpha_session'
             filtering_res = []
@@ -375,3 +280,16 @@ if Meteor.isServer
             Docs.find
                 _author_id:null
                 model:'alpha_session'
+
+    Meteor.methods
+        calc_keys: (adoc_id)->
+            alpha_doc = Docs.findOne adoc_id
+            modules =
+                Docs.find(
+                    model:'module'
+                    parent_id:adoc_id
+                ).fetch()
+            doc_keys = _.pluck(modules, 'doc_key')
+            console.log modules
+            Docs.update adoc_id,
+                $set:keys:doc_keys

@@ -5,15 +5,12 @@ template(name='alpha')
                 if is_loading
                     .ui.inline.header.pulsing
                         //- i.yin.yang.loading.large.icon
-                        +icolor name=color_icon classes='pulsing'
-                        |loading #{title}...
+                        +icolor name='alpha' classes='pulsing'
+                        |loading alpha...
                 else
-                    //- unless key_value_is current_alpha_session.model_filter 'model'
-                    //-     a.ui.icon.button.go_home
-                    //-         i.left.chevron.icon
                     .ui.inline.header(title="#{description}, #{views} views")
-                        +icolor name=color_icon
-                        | #{title}
+                        +icolor name='alpha'
+                        | alpha
                 unless is_loading
                     if currentUser
                         .ui.icon.compact.basic.button.add_alpha_doc(title="add #{slug}")
@@ -43,38 +40,38 @@ template(name='alpha')
 
 template(name='afacet')
     div
-    if filtering_res
-        //- .ui.hidden.divider
-        //- .ui.fluid.rounded.accordion
-            //- .active.title
-        if icon
-            +icolor name=icon classes='ui avatar image'
-            //- i.grey.icon(class=icon)
-        .ui.grey.inline.header 
-            if title
-                |#{title}
-            else 
-                |#{key}
-                //- i.dropdown.icon
-                //- .ui.icon.small.transparent.input
-                //-     i.search.icon
-                //-     input.add_filter(type='text')
-            //- .active.content
-                //- div
-        each filtering_res
-            if name
-                .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
-                    //- with ..
-                    //- if parent_key_value_is 'field_type' 'color_icon'
-                    //-     .ui.header icon
-                    //- else 
-                    strong #{name}
-                    if is_admin
-                        small #{cal_count} #{count}
-            else
-                .selector.ui.compact.basic.button.toggle_selection(class=toggle_value_class)
-                    strong [null]
-                    //- small #{cal_count}
+    //- if filtering_res
+    //- .ui.hidden.divider
+    //- .ui.fluid.rounded.accordion
+        //- .active.title
+    if icon
+        +icolor name=icon classes='ui avatar image'
+        //- i.grey.icon(class=icon)
+    .ui.grey.inline.header 
+        if title
+            |#{title}
+        else 
+            |#{key}
+            //- i.dropdown.icon
+            //- .ui.icon.small.transparent.input
+            //-     i.search.icon
+            //-     input.add_filter(type='text')
+        //- .active.content
+            //- div
+    each filtering_res
+        if name
+            .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
+                //- with ..
+                //- if parent_key_value_is 'field_type' 'color_icon'
+                //-     .ui.header icon
+                //- else 
+                strong #{name}
+                if is_admin
+                    small #{cal_count} #{count}
+        else
+            .selector.ui.compact.basic.button.toggle_selection(class=toggle_value_class)
+                strong [null]
+                //- small #{cal_count}
         //- .ui.hidden.divider
 
 
@@ -82,8 +79,13 @@ template(name='afacet')
 
 template(name='alpha_card')
     .ui.segment
+        .ui.header #{title}
+        each keys
+            .ui.label #{this}
+            
         each blocks
             .ui.header #{title}
+            
         a.ui.large.basic.icon.button(href="/alpha/#{_id}/edit")
             i.pencil.icon
         a.ui.large.basic.icon.button(href="/alpha/#{_id}/view")
