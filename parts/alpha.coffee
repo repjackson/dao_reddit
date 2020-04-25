@@ -23,6 +23,11 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'block'
         @autorun => Meteor.subscribe 'model_docs', 'module'
 
+    Template.module.helpers
+        alpha_field: ->
+            console.log @
+            "a#{@block_slug}_edit"
+
     Template.alpha_edit.helpers
         blocks: ->
             Docs.find
@@ -36,17 +41,16 @@ if Meteor.isClient
 
     Template.alpha_edit.events
         'click .add_module': ->
-            console.log @
             Docs.insert
                 model:'module'
                 parent_id: Router.current().params.doc_id
+                block_slug:@slug
+                block_title:@title
+                block_id:@_id
 
-
-        'click .add_block_to_doc': ->
-            console.log @
-            Docs.insert
-                model:'module'
-                parent_id: Router.current().params.doc_id
+        'click .remove_module': ->
+            if confirm 'delete?'
+                Docs.remove @_id
 
 
 

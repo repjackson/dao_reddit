@@ -45,17 +45,30 @@ template(name='alpha_edit')
                     |save
                 .ui.header block menu
                 each blocks
-                    .ui.button.add_block_to_doc #{title}
-            .eight.wide.column
+                    .ui.button.add_module #{title}
+            .twelve.wide.column
                 .ui.header modules
                 each modules
-                    .ui.segment
-                        .ui.header #{title}
-                        .ui.icon.button.remove_module
-                            i.remove.icon
+                    +module
+                    
+                    
     if is_admin
         +block_editor
         
+        
+template(name='module')        
+    .ui.fluid.segment
+        .ui.header 
+            small #{doc_key}:
+            |#{alpha_value}
+        +text_edit key='doc_key' direct=true
+        .ui.header key: #{doc_key}
+        .ui.small.header module type: #{block_title}
+        //- .ui.small.header block slug: #{block_slug}
+        +Template.dynamic template=alpha_field
+        .ui.icon.button.remove_module
+            i.remove.icon
+
         
         
 template(name='block_editor')
@@ -64,7 +77,10 @@ template(name='block_editor')
         |block editor
     .ui.icon.button.add_block
         i.plus.icon
-    each blocks
-        .ui.segment
-            +text_edit key='title' direct=true
-            +slug_edit key='slug' direct=true
+    .ui.cards
+        each blocks
+            .card
+                .content
+                    +text_edit key='title' direct=true
+                    div
+                    +slug_edit key='slug' direct=true

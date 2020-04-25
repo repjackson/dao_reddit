@@ -7,6 +7,13 @@ Template.registerHelper 'can_edit', () ->
     else
         @_author_id is Meteor.userId()
 
+
+Template.registerHelper 'alpha_value', () ->
+    console.log @doc_key
+    alpha_doc = Docs.findOne Router.current().params.doc_id
+    alpha_doc["#{@doc_key}"]
+
+
 Template.registerHelper 'active_path', (metric) ->
     false
 Template.registerHelper 'calculated_size', (metric) ->
