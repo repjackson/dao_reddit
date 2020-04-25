@@ -103,7 +103,7 @@ Template.registerHelper 'calc_size', (metric) ->
     else if whole is 10 then 'f10'
 
 Template.registerHelper 'afield_value', () ->
-    console.log @
+    # console.log @
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)

@@ -1,0 +1,113 @@
+template(name='alpha')
+    .ui.stackable.grid
+        .row
+            .five.wide.column
+                if is_loading
+                    .ui.inline.header.pulsing
+                        //- i.yin.yang.loading.large.icon
+                        +icolor name=color_icon classes='pulsing'
+                        |loading #{title}...
+                else
+                    //- unless key_value_is current_alpha_session.model_filter 'model'
+                    //-     a.ui.icon.button.go_home
+                    //-         i.left.chevron.icon
+                    .ui.inline.header(title="#{description}, #{views} views")
+                        +icolor name=color_icon
+                        | #{title}
+                unless is_loading
+                    if currentUser
+                        .ui.icon.compact.basic.button.add_alpha_doc(title="add #{slug}")
+                            i.plus.large.green.icon
+                    //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
+                    if current_alpha_session
+                        if is_admin
+                            .ui.icon.basic.button.delete_alpha_session(title='delete session document')
+                                i.remove.icon
+                            .ui.icon.basic.button.print_alpha_session(title='print alpha_session')
+                                i.code.icon
+                            i.refresh.link.reset.icon(title='reload session')
+                        if is_dev
+                            i.code.link.icon.print_alpha_session(title='print session doc')
+                            i.trash.delete_alpha_session.link.icon(title='delete session')
+                    else
+                        .create_alpha_session.ui.large.button(title='new session')
+                            i.plus.icon
+                            |session
+                    //- if is_dev
+                    .ui.button.add_alpha
+                        |add alpha
+                    each sorted_facets
+                        +afacet
+            .ten.wide.column
+                each alpha_docs
+                    +alpha_card
+
+
+
+template(name='afacet')
+    div
+    if filtering_res
+        //- .ui.hidden.divider
+        //- .ui.fluid.rounded.accordion
+            //- .active.title
+        if icon
+            +icolor name=icon classes='ui avatar image'
+            //- i.grey.icon(class=icon)
+        .ui.grey.inline.header 
+            if title
+                |#{title}
+            else 
+                |#{key}
+                //- i.dropdown.icon
+                //- .ui.icon.small.transparent.input
+                //-     i.search.icon
+                //-     input.add_filter(type='text')
+            //- .active.content
+                //- div
+        each filtering_res
+            if name
+                .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
+                    //- with ..
+                    //- if parent_key_value_is 'field_type' 'color_icon'
+                    //-     .ui.header icon
+                    //- else 
+                    strong #{name}
+                    if is_admin
+                        small #{cal_count} #{count}
+            else
+                .selector.ui.compact.basic.button.toggle_selection(class=toggle_value_class)
+                    strong [null]
+                    //- small #{cal_count}
+        //- .ui.hidden.divider
+
+
+
+
+template(name='alpha_card')
+    .ui.segment
+        each blocks
+            .ui.header #{title}
+        a.ui.large.basic.icon.button(href="/alpha/#{_id}/edit")
+            i.pencil.icon
+        a.ui.large.basic.icon.button(href="/alpha/#{_id}/view")
+            i.right.chevron.icon        
+            
+
+
+
+        
+template(name='block_editor')
+    .ui.inline.header 
+        i.shield.icon
+        |block editor
+    .ui.icon.button.add_block
+        i.plus.icon
+    .ui.cards
+        each blocks
+            .card
+                .content
+                    +text_edit key='title' direct=true
+                    div
+                    +slug_edit key='slug' direct=true
+                    div
+                    +icon_edit key='icon' direct=true

@@ -252,21 +252,21 @@ template(name='atext_edit')
 //-     if afield_value
 //-         i.remove.link.large.icon.clear_value
 //- 
-//- template(name='text_view')
-//-     if afield_value
-//-         //- unless header
-//-         //-     div
-//-         //-     if icon
-//-         .ui.inline.small.header
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             //- else if key
-//-             //-     |#{key}
-//-             //- else
-//-             //-     |#{this}
-//-         .ui.inline.header #{afield_value}
+template(name='atext_view')
+    if afield_value
+        //- unless header
+        //-     div
+        //-     if icon
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            //- else if key
+            //-     |#{key}
+            //- else
+            //-     |#{this}
+        .ui.inline.header #{afield_value}
 //- 
 //- 
 //- 
@@ -310,20 +310,20 @@ template(name='atext_edit')
 //- //-     a.ui.header(href="/m/#{doc.model}/#{doc._id}/view") doc #{doc.model}
 //- 
 //- 
-//- template(name='phone_edit')
-//-     //- i.phone.icon
-//-     .ui.inline.header 
-//-         if title
-//-             |#{title}
-//-         else if label
-//-             |#{label}
-//-         else if key
-//-             |#{key}
-//-         else
-//-             |#{this}
-//-     .ui.fluid.input
-//-         //- +clear_value                
-//-         input.edit_phone(type='tel' value=afield_value placeholder=placeholder autocomplete="off")
+template(name='aphone_edit')
+    //- i.phone.icon
+    .ui.inline.header 
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+        else
+            |#{this}
+    .ui.fluid.input
+        //- +clear_value                
+        input.edit_phone(type='tel' value=afield_value placeholder=placeholder autocomplete="off")
 //- 
 template(name='aphone_view')
     if afield_value
@@ -412,19 +412,19 @@ template(name='afloat_edit')
     .ui.input            
         input.edit_float(type='number' class=classes min=min step=step value=afield_value placeholder=placeholder autocomplete="off")
 
-//- template(name='float_view')
-//-     if afield_value
-//-         div
-//-         .ui.inline.small.header
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             else if key
-//-                 |#{key}
-//-             else
-//-                 |#{this}
-//-         .ui.inline.large.header &nbsp; #{afield_value}
+template(name='afloat_view')
+    if afield_value
+        div
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}
+        .ui.inline.large.header &nbsp; #{afield_value}
 //- 
 //- 
 //- 
@@ -448,19 +448,19 @@ template(name='adate_edit')
         input.edit_date(type='date' value=afield_value placeholder=placeholder autocomplete="off")
 
 //- 
-//- template(name='date_view')
-//-     if afield_value
-//-         div
-//-         .ui.inline.small.header
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             else if key
-//-                 |#{key}
-//-             else
-//-                 |#{this}
-//-         .ui.inline.header &nbsp; #{afield_value}
+template(name='adate_view')
+    if afield_value
+        div
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}
+        .ui.inline.header &nbsp; #{afield_value}
 //- 
 //- 
 //- 
@@ -506,17 +506,17 @@ template(name='adate_edit')
 //-             //- +clear_value                
 //-             input.edit_datetime(type='datetime-local' value=afield_value placeholder=placeholder autocomplete="off")
 //- 
-//- template(name='datetime_view')
-//-     div
-//-     if title
-//-         |#{title}
-//-     else if label
-//-         |#{label}        
-//-     else if key
-//-         |#{key}
-//-     else
-//-         |#{this}
-//-     strong &nbsp; #{afield_value}
+template(name='adatetime_view')
+    div
+    if title
+        |#{title}
+    else if label
+        |#{label}        
+    else if key
+        |#{key}
+    else
+        |#{this}
+    strong &nbsp; #{afield_value}
 //- 
 //- 
 template(name='aarray_view')
