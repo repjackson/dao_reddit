@@ -13,53 +13,53 @@ if Meteor.isClient
     #     Meteor.call 'log_view', @_id, ->
 
     Template.alpha.helpers
+        current_alpha_session: ->
+            Docs.findOne
+                model:'alpha_session'
+
         table_header_column: ->
             console.log @
 
 
         model_fields: ->
-            delta = Docs.findOne model:'delta'
+            alpha_session = Docs.findOne model:'alpha_session'
             model = Docs.findOne model:'model'
             Docs.find
                 model:'field'
                 parent_id: model._id
         query_class:->
-            delta = Docs.findOne model:'delta'
-            if delta
-                if delta.search_query
+            alpha_session = Docs.findOne model:'alpha_session'
+            if alpha_session
+                if alpha_session.search_query
                     'focus'
                 else
                     'small'
-        current_delta_model: ->
-            delta = Docs.findOne model:'delta'
+        current_alpha_session_model: ->
+            alpha_session = Docs.findOne model:'alpha_session'
             model = Docs.findOne model:'model'
-            console.log 'delta',delta
+            console.log 'alpha_session',alpha_session
             console.log 'model',model
 
-        current_model: ->
-            Docs.findOne
-                model:'model'
-                slug: Router.current().params.model_slug
 
         sorting_up: ->
-            delta = Docs.findOne model:'delta'
-            if delta
-                if delta.sort_direction is 1 then true
+            alpha_session = Docs.findOne model:'alpha_session'
+            if alpha_session
+                if alpha_session.sort_direction is 1 then true
 
         selected_tags: -> selected_tags.list()
         view_mode_template: ->
             # console.log @
-            delta = Docs.findOne model:'delta'
-            if delta
-                "delta_#{delta.view_mode}"
+            alpha_session = Docs.findOne model:'alpha_session'
+            if alpha_session
+                "alpha_session_#{alpha_session.view_mode}"
 
         sorted_facets: ->
-            current_delta =
+            current_alpha_session =
                 Docs.findOne
-                    model:'delta'
-            if current_delta
-                # console.log _.sortBy current_delta.facets,'rank'
-                _.sortBy current_delta.facets,'rank'
+                    model:'alpha_session'
+            if current_alpha_session
+                # console.log _.sortBy current_alpha_session.facets,'rank'
+                _.sortBy current_alpha_session.facets,'rank'
 
         global_tags: ->
             doc_count = Docs.find().count()
@@ -67,8 +67,8 @@ if Meteor.isClient
 
         single_doc: ->
             false
-            # delta = Docs.findOne model:'delta'
-            # count = delta.result_ids.length
+            # alpha_session = Docs.findOne model:'alpha_session'
+            # count = alpha_session.result_ids.length
             # if count is 1 then true else false
 
         model_stats_exists: ->
@@ -85,16 +85,9 @@ if Meteor.isClient
     Template.alpha.events
         'click .toggle_sort_column': ->
             console.log @
-            delta = Docs.findOne model:'delta'
-            console.log delta
+            alpha_session = Docs.findOne model:'alpha_session'
+            console.log alpha_session
 
-
-        'click .go_home': ->
-            Session.set 'loading', true
-            Router.go "/m/model"
-            # Meteor.call 'log_view', @_id, ->
-            Meteor.call 'set_facets', 'model', ->
-                Session.set 'loading', false
 
         'click .create_model': ->
             new_model_id = Docs.insert
@@ -106,42 +99,41 @@ if Meteor.isClient
 
         'click .clear_query': ->
             # console.log @
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
+            alpha_session = Docs.findOne model:'alpha_session'
+            Docs.update alpha_session._id,
                 $unset:search_query:1
             Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
+            Meteor.call 'afum', alpha_session._id, ->
                 Session.set 'loading', false
 
         'click .set_sort_key': ->
             # console.log @
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
+            alpha_session = Docs.findOne model:'alpha_session'
+            Docs.update alpha_session._id,
                 $set:sort_key:@key
             Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
+            Meteor.call 'afum', alpha_session._id, ->
                 Session.set 'loading', false
 
         'click .set_sort_direction': (e,t)->
             # console.log @
             # $(e.currentTarget).closest('.button').transition('pulse', 250)
 
-            delta = Docs.findOne model:'delta'
-            if delta.sort_direction is -1
-                Docs.update delta._id,
+            alpha_session = Docs.findOne model:'alpha_session'
+            if alpha_session.sort_direction is -1
+                Docs.update alpha_session._id,
                     $set:sort_direction:1
             else
-                Docs.update delta._id,
+                Docs.update alpha_session._id,
                     $set:sort_direction:-1
             Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
+            Meteor.call 'afum', alpha_session._id, ->
                 Session.set 'loading', false
 
         'click .create_alpha_session': (e,t)->
             Docs.insert
                 model:'alpha_session'
                 view_mode:'list'
-                model_filter: Router.current().params.model_slug
 
         'click .print_alpha_session': (e,t)->
             alpha_session = Docs.findOne model:'alpha_session'
@@ -150,7 +142,7 @@ if Meteor.isClient
         'click .reset': ->
             model_slug =  Router.current().params.model_slug
             Session.set 'loading', true
-            Meteor.call 'set_facets', model_slug, true, ->
+            Meteor.call 'set_afacets', model_slug, true, ->
                 Session.set 'loading', false
 
         'click .delete_alpha_session': (e,t)->
@@ -205,8 +197,8 @@ if Meteor.isClient
             Router.go "/model/edit/#{model._id}"
 
         # 'click .page_up': (e,t)->
-        #     delta = Docs.findOne model:'delta'
-        #     Docs.update delta._id,
+        #     alpha_session = Docs.findOne model:'alpha_session'
+        #     Docs.update alpha_session._id,
         #         $inc: current_page:1
         #     Session.set 'is_calculating', true
         #     Meteor.call 'fo', (err,res)->
@@ -215,8 +207,8 @@ if Meteor.isClient
         #             Session.set 'is_calculating', false
         #
         # 'click .page_down': (e,t)->
-        #     delta = Docs.findOne model:'delta'
-        #     Docs.update delta._id,
+        #     alpha_session = Docs.findOne model:'alpha_session'
+        #     Docs.update alpha_session._id,
         #         $inc: current_page:-1
         #     Session.set 'is_calculating', true
         #     Meteor.call 'fo', (err,res)->
@@ -243,11 +235,11 @@ if Meteor.isClient
         'keyup #search': _.throttle((e,t)->
             query = $('#search').val()
             Session.set('current_query', query)
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
+            alpha_session = Docs.findOne model:'alpha_session'
+            Docs.update alpha_session._id,
                 $set:search_query:query
             Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
+            Meteor.call 'afum', alpha_session._id, ->
                 Session.set 'loading', false
 
             # console.log Session.get('current_query')
@@ -272,38 +264,38 @@ if Meteor.isClient
     Template.toggle_visible_field.events
         'click .toggle_visibility': ->
             console.log @
-            delta = Docs.findOne model:'delta'
-            console.log 'viewable fields', delta.viewable_fields
-            if @_id in delta.viewable_fields
-                Docs.update delta._id,
+            alpha_session = Docs.findOne model:'alpha_session'
+            console.log 'viewable fields', alpha_session.viewable_fields
+            if @_id in alpha_session.viewable_fields
+                Docs.update alpha_session._id,
                     $pull:viewable_fields: @_id
             else
-                Docs.update delta._id,
+                Docs.update alpha_session._id,
                     $addToSet: viewable_fields: @_id
 
     Template.toggle_visible_field.helpers
         field_visible: ->
-            delta = Docs.findOne model:'delta'
-            @_id in delta.viewable_fields
+            alpha_session = Docs.findOne model:'alpha_session'
+            @_id in alpha_session.viewable_fields
 
     Template.set_limit.events
         'click .set_limit': ->
             # console.log @
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
+            alpha_session = Docs.findOne model:'alpha_session'
+            Docs.update alpha_session._id,
                 $set:limit:@amount
             Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
+            Meteor.call 'afum', alpha_session._id, ->
                 Session.set 'loading', false
 
     Template.set_view_mode.events
         'click .set_view_mode': ->
             # console.log @
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
+            alpha_session = Docs.findOne model:'alpha_session'
+            Docs.update alpha_session._id,
                 $set:view_mode:@title
             Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
+            Meteor.call 'afum', alpha_session._id, ->
                 Session.set 'loading', false
 
 
@@ -320,28 +312,28 @@ if Meteor.isClient
         #     $('.accordion').accordion()
 
         'click .toggle_selection': ->
-            delta = Docs.findOne model:'delta'
+            alpha_session = Docs.findOne model:'alpha_session'
             facet = Template.currentData()
 
             Session.set 'loading', true
             if facet.filters and @name in facet.filters
-                Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, ->
+                Meteor.call 'remove_facet_filter', alpha_session._id, facet.key, @name, ->
                     Session.set 'loading', false
             else
-                Meteor.call 'add_facet_filter', delta._id, facet.key, @name, ->
+                Meteor.call 'add_facet_filter', alpha_session._id, facet.key, @name, ->
                     Session.set 'loading', false
 
         'keyup .add_filter': (e,t)->
             # console.log @
             if e.which is 13
-                delta = Docs.findOne model:'delta'
+                alpha_session = Docs.findOne model:'alpha_session'
                 facet = Template.currentData()
                 if @field_type is 'number'
                     filter = parseInt t.$('.add_filter').val()
                 else
                     filter = t.$('.add_filter').val()
                 Session.set 'loading', true
-                Meteor.call 'add_facet_filter', delta._id, facet.key, filter, ->
+                Meteor.call 'add_facet_filter', alpha_session._id, facet.key, filter, ->
                     Session.set 'loading', false
                 t.$('.add_filter').val('')
 
@@ -350,20 +342,20 @@ if Meteor.isClient
 
     Template.facet.helpers
         filtering_res: ->
-            delta = Docs.findOne model:'delta'
+            alpha_session = Docs.findOne model:'alpha_session'
             filtering_res = []
             if @key is '_keys'
                 @res
             else
                 for filter in @res
-                    if filter.count < delta.total
+                    if filter.count < alpha_session.total
                         filtering_res.push filter
                     else if filter.name in @filters
                         filtering_res.push filter
                 filtering_res
         toggle_value_class: ->
             facet = Template.parentData()
-            delta = Docs.findOne model:'delta'
+            alpha_session = Docs.findOne model:'alpha_session'
             if Session.equals 'loading', true
                  'disabled basic'
             else if facet.filters.length > 0 and @name in facet.filters

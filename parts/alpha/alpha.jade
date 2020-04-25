@@ -25,7 +25,7 @@ template(name='alpha')
                                 i.remove.icon
                             .ui.icon.basic.button.print_alpha_session(title='print alpha_session')
                                 i.code.icon
-                            i.refresh.link.reset.icon(title='reload session')
+                            i.refresh.link.reset.circular.icon(title='reload session')
                         if is_dev
                             i.code.link.icon.print_alpha_session(title='print session doc')
                             i.trash.delete_alpha_session.link.icon(title='delete session')
@@ -33,9 +33,6 @@ template(name='alpha')
                         .create_alpha_session.ui.large.button(title='new session')
                             i.plus.icon
                             |session
-                    //- if is_dev
-                    .ui.button.add_alpha
-                        |add alpha
                     each sorted_facets
                         +afacet
             .ten.wide.column

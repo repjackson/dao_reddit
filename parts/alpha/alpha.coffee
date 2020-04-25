@@ -13,7 +13,7 @@ if Meteor.isClient
             Docs.find
                 model:'alpha'
     Template.alpha.events
-        'click .add_alpha': ->
+        'click .add_alpha_doc': ->
             new_id =
                 Docs.insert
                     model:'alpha'

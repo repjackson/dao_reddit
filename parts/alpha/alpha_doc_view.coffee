@@ -1,8 +1,8 @@
 if Meteor.isClient
     Router.route '/alpha/:doc_id/view', (->
         @layout 'layout'
-        @render 'alpha_view'
-        ), name:'alpha_view'
+        @render 'alpha_doc_view'
+        ), name:'alpha_doc_view'
 
 
     Template.alpha_doc_view.onCreated ->

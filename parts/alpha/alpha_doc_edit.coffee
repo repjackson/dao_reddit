@@ -1,8 +1,8 @@
 if Meteor.isClient
     Router.route '/alpha/:doc_id/edit', (->
         @layout 'layout'
-        @render 'alpha_edit'
-        ), name:'alpha_edit'
+        @render 'alpha_doc_edit'
+        ), name:'alpha_doc_edit'
     Template.alpha_doc_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'block'
