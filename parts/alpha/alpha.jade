@@ -33,7 +33,7 @@ template(name='alpha')
                     each sorted_facets
                         +afacet
             .ten.wide.column
-                each alpha_docs
+                each current_alpha_session.result_ids
                     +alpha_card
 
 
@@ -78,19 +78,26 @@ template(name='afacet')
 
 
 template(name='alpha_card')
-    .ui.segment
-        .ui.header #{title}
-        each keys
-            .ui.label #{this}
-            
-        each blocks
+    with result
+        .ui.segment
             .ui.header #{title}
-            
-        a.ui.large.basic.icon.button(href="/alpha/#{_id}/edit")
-            i.pencil.icon
-        a.ui.large.basic.icon.button(href="/alpha/#{_id}/view")
-            i.right.chevron.icon        
-            
+            each keys
+                .ui.label #{this}
+                
+            each doc_modules
+                +alpha_card_module_view
+                
+                //- +Template.dynamic template=alpha_field_view
+
+            a.ui.large.basic.icon.button(href="/alpha/#{_id}/edit")
+                i.pencil.icon
+            a.ui.large.basic.icon.button(href="/alpha/#{_id}/view")
+                i.right.chevron.icon        
+                
+
+template(name='alpha_card_module_view')
+    .ui.header #{doc_key}: #{module_value}
+    
 
 
 

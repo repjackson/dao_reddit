@@ -4,7 +4,7 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'model_fields_from_slug', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_alpha_session'
         @autorun -> Meteor.subscribe 'model_docs', 'block'
-        @autorun -> Meteor.subscribe 'model_docs', 'modules'
+        @autorun -> Meteor.subscribe 'model_docs', 'module'
 
         Session.set 'loading', true
         Meteor.call 'set_afacets', ->
