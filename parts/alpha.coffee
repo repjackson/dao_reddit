@@ -16,17 +16,45 @@ if Meteor.isClient
     Template.alpha_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'block'
+        @autorun => Meteor.subscribe 'model_docs', 'module'
 
     Template.alpha_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'alpha'
         @autorun => Meteor.subscribe 'model_docs', 'block'
         @autorun => Meteor.subscribe 'model_docs', 'module'
 
-    Template.module.helpers
-        alpha_field: ->
+    Template.module_edit.helpers
+        alpha_field_edit: ->
             console.log @
             "a#{@block_slug}_edit"
+        viewing_module: ->
+            Session.equals('expand_module', @_id)
+
+    Template.module_edit.events
+        'click .toggle_section': ->
+            if Session.equals('expand_module', @_id)
+                Session.set('expand_module', null)
+            else
+                Session.set('expand_module', @_id)
+
+
+
+
+    Template.module_view.helpers
+        alpha_field_view: ->
+            console.log @
+            "a#{@block_slug}_view"
+
+    Template.alpha_view.helpers
+        blocks: ->
+            Docs.find
+                model:'block'
+
+        modules: ->
+            Docs.find
+                model:'module'
+                parent_id: Router.current().params.doc_id
+
 
     Template.alpha_edit.helpers
         blocks: ->
@@ -40,6 +68,9 @@ if Meteor.isClient
 
 
     Template.alpha_edit.events
+        'click .print_this': ->
+            console.log @
+
         'click .add_module': ->
             Docs.insert
                 model:'module'

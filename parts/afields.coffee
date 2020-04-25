@@ -61,59 +61,38 @@ if Meteor.isClient
     #     , 1000
     #
     #
-    # Template.image_edit.events
-    #     "change input[name='upload_image']": (e) ->
-    #         files = e.currentTarget.files
-    #         if @direct
-    #             parent = Template.parentData()
-    #         else
-    #             parent = Template.parentData(5)
-    #         Cloudinary.upload files[0],
-    #             # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
-    #             # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
-    #             (err,res) => #optional callback, you can catch with the Cloudinary collection as well
-    #                 # console.dir res
-    #                 if err
-    #                     console.error 'Error uploading', err
-    #                 else
-    #                     doc = Docs.findOne parent._id
-    #                     user = Meteor.users.findOne parent._id
-    #                     if doc
-    #                         Docs.update parent._id,
-    #                             $set:"#{@doc_key}":res.public_id
-    #                     else if user
-    #                         Meteor.users.update parent._id,
-    #                             $set:"#{@doc_key}":res.public_id
-    #
-    #
-    #     'blur .cloudinary_id': (e,t)->
-    #         cloudinary_id = t.$('.cloudinary_id').val()
-    #         if @direct
-    #             parent = Template.parentData()
-    #         else
-    #             parent = Template.parentData(5)
-    #         Docs.update parent._id,
-    #             $set:"#{@doc_key}":cloudinary_id
-    #
-    #
-    #     'click #remove_photo': ->
-    #         if @direct
-    #             parent = Template.parentData()
-    #         else
-    #             parent = Template.parentData(5)
-    #
-    #         if confirm 'Remove Photo?'
-    #             # Docs.update parent._id,
-    #             #     $unset:"#{@doc_key}":1
-    #             doc = Docs.findOne parent._id
-    #             user = Meteor.users.findOne parent._id
-    #             if doc
-    #                 Docs.update parent._id,
-    #                     $unset:"#{@doc_key}":1
-    #             else if user
-    #                 Meteor.users.update parent._id,
-    #                     $unset:"#{@doc_key}":1
-    #
+    Template.aimage_edit.events
+        "change input[name='upload_image']": (e) ->
+            files = e.currentTarget.files
+            page_doc = Docs.findOne Router.current().params.doc_id
+            Cloudinary.upload files[0],
+                # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
+                # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
+                (err,res) => #optional callback, you can catch with the Cloudinary collection as well
+                    # console.dir res
+                    if err
+                        console.error 'Error uploading', err
+                    else
+                        Docs.update page_doc._id,
+                            $set:"#{@doc_key}":res.public_id
+
+
+        'blur .cloudinary_id': (e,t)->
+            cloudinary_id = t.$('.cloudinary_id').val()
+            if @direct
+                parent = Template.parentData()
+            else
+                parent = Template.parentData(5)
+            Docs.update parent._id,
+                $set:"#{@doc_key}":cloudinary_id
+
+
+        'click #remove_photo': ->
+            if confirm 'remove photo?'
+                page_doc = Docs.findOne Router.current().params.doc_id
+                Docs.update page_doc._id,
+                    $unset:"#{@doc_key}":1
+
     #
     #
     # Template.icon_edit.events
@@ -283,36 +262,18 @@ if Meteor.isClient
             if e.which is 13
                 element_val = t.$('.new_element').val().trim()
                 # console.log 'el', element_val
-                if @direct
-                    parent = Template.parentData()
-                else
-                    parent = Template.parentData(5)
-                doc = Docs.findOne parent._id
-                user = Meteor.users.findOne parent._id
-                if doc
-                    Docs.update parent._id,
-                        $addToSet:"#{@doc_key}":element_val
-                else if user
-                    Meteor.users.update parent._id,
-                        $addToSet:"#{@doc_key}":element_val
+                page_doc = Docs.findOne Router.current().params.doc_id
+                Docs.update page_doc._id,
+                    $addToSet:"#{@doc_key}":element_val
                 t.$('.new_element').val('')
 
         'click .remove_element': (e,t)->
             element = @valueOf()
-            field = Template.currentData()
-            if field.direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
+            console.log Template.currentData()
+            page_doc = Docs.findOne Router.current().params.doc_id
 
-            doc = Docs.findOne parent._id
-            user = Meteor.users.findOne parent._id
-            if doc
-                Docs.update parent._id,
-                    $pull:"#{field.key}":element
-            else if user
-                Meteor.users.update parent._id,
-                    $pull:"#{field.key}":element
+            Docs.update page_doc._id,
+                $pull:"#{Template.currentData().doc_key}":element
 
             t.$('.new_element').focus()
             t.$('.new_element').val(element)

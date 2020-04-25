@@ -10,17 +10,17 @@
 //-             |#{key}
 //-         else
 //-             |#{this}    
-//-     if field_value
-//-         //- i.large.icon(class=field_value)
-//-         +icolor name=field_value
+//-     if afield_value
+//-         //- i.large.icon(class=afield_value)
+//-         +icolor name=afield_value
 //-     .ui.right.icon.input
-//-         input.icon_val(type='text' value=field_value placeholder='icon class' autocomplete="off")
+//-         input.icon_val(type='text' value=afield_value placeholder='icon class' autocomplete="off")
 //- 
 //- 
 //- template(name='color_icon_view')
 //-     div
-//-     if field_value
-//-         +icolor name=field_value
+//-     if afield_value
+//-         +icolor name=afield_value
 //- 
 //- 
 //- 
@@ -56,45 +56,45 @@
 //-     .ui.inline.small.header
 //-         |#{title} #{label}
 //-     .ui.fluid.input
-//-         input.edit_url(type='url' value=field_value placeholder='url' autocomplete="off")
+//-         input.edit_url(type='url' value=afield_value placeholder='url' autocomplete="off")
 //- 
 //- 
 //- template(name='link_view')
-//-     if field_value
+//-     if afield_value
 //-         div
-//-         a.ui.header(href=field_value targe='_window' title='click to download')
+//-         a.ui.header(href=afield_value targe='_window' title='click to download')
 //-             |#{title} #{label}
-//-         //- a.ui.header(href=field_value target='_window') #{label}
-//-         a.ui.small.header(href=field_value target='_window') #{field_value}
-//-         //- img.ui.fluid.image(src=field_value)
+//-         //- a.ui.header(href=afield_value target='_window') #{label}
+//-         a.ui.small.header(href=afield_value target='_window') #{afield_value}
+//-         //- img.ui.fluid.image(src=afield_value)
 //- 
 //- template(name='big_link_view')
-//-     if field_value
+//-     if afield_value
 //-         div
-//-         a.ui.big.button(href=field_value target='_window' title='click to download')
+//-         a.ui.big.button(href=afield_value target='_window' title='click to download')
 //-             |#{title} #{label}
-//-         //- a.ui.header(href=field_value target='_window') #{label}
-//-         //- a.ui.header(href=field_value target='_window') #{field_value}
-//-         //- img.ui.fluid.image(src=field_value)
+//-         //- a.ui.header(href=afield_value target='_window') #{label}
+//-         //- a.ui.header(href=afield_value target='_window') #{afield_value}
+//-         //- img.ui.fluid.image(src=afield_value)
 //- 
-//- template(name='image_view')
-//-     if field_value
-//-         //- .ui.inline.header
-//-         //-     if icon
-//-                 i.icon(class=icon)
-//-         //-     if title
-//-         //-         |#{title}
-//-         //- else if key
-//-         //-     |#{key}
-//-         //- else
-//-         //-     |#{this}
-//-         //- if classes
-//-         //-     img(src="{{c.url field_value gravity='face' crop='fit'}}" class=classes)
-//-         //- else 
-//-         img.ui.centered.rounded.medium.image(src="{{c.url field_value gravity='face' crop='fit'}}")
-//-         //- a(href="{{c.url field_value gravity='face' crop='fit'}}")
-//-         //-     |download
-//-     //- +call_visual
+template(name='aimage_view')
+    if afield_value
+        //- .ui.inline.header
+        //-     if icon
+                i.icon(class=icon)
+        //-     if title
+        //-         |#{title}
+        //- else if key
+        //-     |#{key}
+        //- else
+        //-     |#{this}
+        //- if classes
+        //-     img(src="{{c.url afield_value gravity='face' crop='fit'}}" class=classes)
+        //- else 
+        img.ui.centered.rounded.medium.image(src="{{c.url afield_value gravity='face' crop='fit'}}")
+        //- a(href="{{c.url afield_value gravity='face' crop='fit'}}")
+        //-     |download
+    //- +call_visual
 //- 
 //- template(name='pdf_edit')
 //-     .ui.form
@@ -110,9 +110,9 @@
 //-             else
 //-                 |#{this}            
 //-         .field
-//-             if field_value
+//-             if afield_value
 //-                 label uploaded pdf
-//-                 a.ui.button(href="{{c.url field_value gravity='face' crop='fit'}}")
+//-                 a.ui.button(href="{{c.url afield_value gravity='face' crop='fit'}}")
 //-                     |download pdf
 //-                 #remove_photo.ui.icon.button
 //-                     i.remove.icon
@@ -121,13 +121,13 @@
 //-                 //-     i.icon(class=icon)
 //-                 //- |#{title}
 //-                 //- if is_dev
-//-                 //-     input.cloudinary_id(type='text' value=field_value placeholder='cloudinary_id' autocomplete="off")
+//-                 //-     input.cloudinary_id(type='text' value=afield_value placeholder='cloudinary_id' autocomplete="off")
 //-                 // else
 //-                 //     label Upload Image
 //-                 input(type='file' name='upload_pdf' accept='application/pdf')
 //- 
 //- template(name='pdf_view')
-//-     if field_value
+//-     if afield_value
 //-         if icon
 //-             i.icon(class=icon)
 //-         if title
@@ -136,9 +136,9 @@
 //-         //-     |#{key}
 //-         //- else
 //-         //-     |#{this}
-//-         //- img.ui.large.centered.rounded.image(src="{{c.url field_value 'pdf.jpg' height=500 crop='fill'}}")
+//-         //- img.ui.large.centered.rounded.image(src="{{c.url afield_value 'pdf.jpg' height=500 crop='fill'}}")
 //- 
-//-         a.ui.animated.button(href="{{c.url field_value }}")
+//-         a.ui.animated.button(href="{{c.url afield_value }}")
 //-             .visible.content
 //-                 i.download.icon
 //-                 |#{label}
@@ -146,53 +146,52 @@
 //-                 |download pdf
 //-     //- +call_visual
 //- 
-//- template(name='image_edit')
-//-     .ui.form
-//-         .ui.inline.small.header
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             else if key
-//-                 |#{key}
-//-             else
-//-                 |#{this}   
-//-         if tooltip
-//-             i.info.icon(title=tooltip)         
-//-         .field
-//-             if field_value
-//-                 //- label Image
-//-                 img.ui.centered.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}")
-//-                 a#remove_photo.ui.right.corner.link.label
-//-                     i.remove.link.icon
-//-             else 
-//-                 input(type='file' name='upload_image' accept='image/*' )
-//- 
-//- template(name='image_link')
-//-     .ui.fluid.input
-//-         .ui.smoothed.label image link
-//-         i.image.icon
-//-         input.edit_image_link(type='link' value=field_value placeholder='image link'  autocomplete="off")
-//-     if field_value
-//-         img.ui.fluid.image(src=field_value)
-//-     // +call_visual
-//- 
-//- 
-//- template(name='image_link_view')
-//-     img.ui.image(src=field_value)
-//- 
+template(name='aimage_edit')
+    .ui.form
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}   
+        if tooltip
+            i.info.icon(title=tooltip)         
+        .field
+            if afield_value
+                //- label Image
+                img.ui.centered.rounded.image(src="{{c.url afield_value height=500 gravity='face' crop='fill'}}")
+                a#remove_photo.ui.right.corner.link.label
+                    i.remove.link.icon
+            else 
+                input(type='file' name='upload_image' accept='image/*' )
+
+template(name='aimage_link')
+    .ui.fluid.input
+        .ui.smoothed.label image link
+        i.image.icon
+        input.edit_image_link(type='link' value=afield_value placeholder='image link'  autocomplete="off")
+    if afield_value
+        img.ui.fluid.image(src=afield_value)
+
+
+template(name='aimage_link_view')
+    img.ui.image(src=afield_value)
+
 //- 
 //- template(name='html_view')
-//-     if field_value
+//-     if afield_value
 //-         div
 //-         //- if icon
-//-         //-     i.icon(class=field_value)
+//-         //-     i.icon(class=afield_value)
 //-         .ui.inline.small.header
 //-             if title
 //-                 |#{title}
 //-             else if label
 //-                 |#{label}
-//-         .f6 {{nl2br field_value}}
+//-         .f6 {{nl2br afield_value}}
 //-         if view_watson
 //-             if watson
 //-                 +watson_view
@@ -200,10 +199,10 @@
 //- 
 //- 
 //- template(name='textarea_view')
-//-     if field_value
+//-     if afield_value
 //-         div
 //-         //- if icon
-//-         //-     i.icon(class=field_value)
+//-         //-     i.icon(class=afield_value)
 //-         .ui.inline.small.header
 //-             if title
 //-                 |#{title}
@@ -213,7 +212,7 @@
 //-             //-     |#{key}
 //-             //- else
 //-             //-     |#{this}            
-//-         .f6 {{nl2br field_value}}
+//-         .f6 {{nl2br afield_value}}
 //- 
 //- template(name='textarea')
 //-     .ui.form
@@ -227,7 +226,7 @@
 //-                 //-     |#{key}
 //-                 //- else
 //-                 //-     |#{this}
-//-             textarea.edit_textarea(rows='5') #{field_value}
+//-             textarea.edit_textarea(rows='5') #{afield_value}
 //- 
 //- 
 //- 
@@ -246,15 +245,15 @@ template(name='atext_edit')
     if tooltip 
         i.info.icon(title=tooltip)
     .ui.input
-        input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
+        input.edit_text(type='text' value=afield_value placeholder=placeholder autocomplete="off")
 
 //- 
 //- template(name='clear_value')
-//-     if field_value
+//-     if afield_value
 //-         i.remove.link.large.icon.clear_value
 //- 
 //- template(name='text_view')
-//-     if field_value
+//-     if afield_value
 //-         //- unless header
 //-         //-     div
 //-         //-     if icon
@@ -267,7 +266,7 @@ template(name='atext_edit')
 //-             //-     |#{key}
 //-             //- else
 //-             //-     |#{this}
-//-         .ui.inline.header #{field_value}
+//-         .ui.inline.header #{afield_value}
 //- 
 //- 
 //- 
@@ -285,10 +284,10 @@ template(name='atext_edit')
 //-             else if key
 //-                 |#{key}
 //-         +clear_value
-//-         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
+//-         input.edit_text(type='text' value=afield_value placeholder=placeholder autocomplete="off")
 //- 
 //- template(name='parent_view')
-//-     if field_value
+//-     if afield_value
 //-         .ui.header parent    
 //-             div
 //-             // if icon
@@ -303,8 +302,8 @@ template(name='atext_edit')
 //-             else
 //-                 |#{this}
 //-         .ui.segment
-//-             //- .ui.inline.header #{field_value}
-//-             +doc_card doc_id=field_value
+//-             //- .ui.inline.header #{afield_value}
+//-             +doc_card doc_id=afield_value
 //- 
 //- 
 //- //- template(name='doc_card')
@@ -324,42 +323,42 @@ template(name='atext_edit')
 //-             |#{this}
 //-     .ui.fluid.input
 //-         //- +clear_value                
-//-         input.edit_phone(type='tel' value=field_value placeholder=placeholder autocomplete="off")
+//-         input.edit_phone(type='tel' value=afield_value placeholder=placeholder autocomplete="off")
 //- 
-//- template(name='phone_view')
-//-     if field_value
-//-         unless header
-//-             div
-//-             //- if icon
-//-             .ui.inline.header
-//-                 if title
-//-                     |#{title}
-//-                 else if label
-//-                     |#{label}
-//-                 else if key
-//-                     |#{key}
-//-                 else
-//-                     |#{this}
-//-         strong &nbsp; #{field_value}
+template(name='aphone_view')
+    if afield_value
+        unless header
+            div
+            //- if icon
+            .ui.inline.header
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+        strong &nbsp; #{afield_value}
 //- 
 //- 
-//- template(name='number_view')
-//-     if field_value
-//-         div
-//-         .ui.inline.small.header
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             //- else if key
-//-             //-     |#{key}
-//-             //- else
-//-             //-     |#{this}
-//-         .ui.inline.header &nbsp;
-//-             if unit
-//-                 span #{prefix}
-//-             |#{field_value}
-//- 
+template(name='anumber_view')
+    if afield_value
+        div
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            //- else if key
+            //-     |#{key}
+            //- else
+            //-     |#{this}
+        .ui.inline.header &nbsp;
+            if unit
+                span #{prefix}
+            |#{afield_value}
+
 //- 
 template(name='anumber_edit')
     .ui.small.inline.header(title=tooltip class=label_classes)
@@ -377,7 +376,7 @@ template(name='anumber_edit')
     //-     div
     //- +clear_value  
     .ui.input(class=classes)
-        input.edit_number(type='number' min=min max=max value=field_value placeholder=placeholder autocomplete="off")
+        input.edit_number(type='number' min=min max=max value=afield_value placeholder=placeholder autocomplete="off")
 //- 
 //- 
 //- template(name='icon_edit')
@@ -392,11 +391,11 @@ template(name='anumber_edit')
 //-             |#{key}
 //-         else
 //-             |#{this}    
-//-     if field_value
-//-         i.large.icon(class=field_value)
-//-         //- +ismall name=field_value
+//-     if afield_value
+//-         i.large.icon(class=afield_value)
+//-         //- +ismall name=afield_value
 //-     .ui.right.icon.input
-//-         input.icon_val(type='text' value=field_value placeholder='icon class' autocomplete="off")
+//-         input.icon_val(type='text' value=afield_value placeholder='icon class' autocomplete="off")
 //- 
 //- 
 template(name='afloat_edit')
@@ -411,10 +410,10 @@ template(name='afloat_edit')
     //- +clear_value  
     div  
     .ui.input            
-        input.edit_float(type='number' class=classes min=min step=step value=field_value placeholder=placeholder autocomplete="off")
+        input.edit_float(type='number' class=classes min=min step=step value=afield_value placeholder=placeholder autocomplete="off")
 
 //- template(name='float_view')
-//-     if field_value
+//-     if afield_value
 //-         div
 //-         .ui.inline.small.header
 //-             if title
@@ -425,7 +424,7 @@ template(name='afloat_edit')
 //-                 |#{key}
 //-             else
 //-                 |#{this}
-//-         .ui.inline.large.header &nbsp; #{field_value}
+//-         .ui.inline.large.header &nbsp; #{afield_value}
 //- 
 //- 
 //- 
@@ -446,11 +445,11 @@ template(name='adate_edit')
             //-     |#{this}
             //- +clear_value                
     .ui.fluid.input
-        input.edit_date(type='date' value=field_value placeholder=placeholder autocomplete="off")
+        input.edit_date(type='date' value=afield_value placeholder=placeholder autocomplete="off")
 
 //- 
 //- template(name='date_view')
-//-     if field_value
+//-     if afield_value
 //-         div
 //-         .ui.inline.small.header
 //-             if title
@@ -461,7 +460,7 @@ template(name='adate_edit')
 //-                 |#{key}
 //-             else
 //-                 |#{this}
-//-         .ui.inline.header &nbsp; #{field_value}
+//-         .ui.inline.header &nbsp; #{afield_value}
 //- 
 //- 
 //- 
@@ -475,12 +474,12 @@ template(name='adate_edit')
 //-         //-     |#{key}
 //-     //- +clear_value                
 //-     .ui.fluid.input
-//-         input.edit_time(type='time' value=field_value placeholder=placeholder autocomplete="off")
+//-         input.edit_time(type='time' value=afield_value placeholder=placeholder autocomplete="off")
 //- 
 //- 
 //- template(name='time_view')
 //-     div
-//-     if field_value
+//-     if afield_value
 //-         .ui.inline.header
 //-             if title
 //-                 |#{title}
@@ -490,7 +489,7 @@ template(name='adate_edit')
 //-                 |#{key}
 //-             else
 //-                 |#{this}
-//-         .ui.inline.header &nbsp; #{field_value}
+//-         .ui.inline.header &nbsp; #{afield_value}
 //- 
 //- template(name='datetime_edit')
 //-     .ui.form
@@ -505,7 +504,7 @@ template(name='adate_edit')
 //-                 else
 //-                     |#{key}
 //-             //- +clear_value                
-//-             input.edit_datetime(type='datetime-local' value=field_value placeholder=placeholder autocomplete="off")
+//-             input.edit_datetime(type='datetime-local' value=afield_value placeholder=placeholder autocomplete="off")
 //- 
 //- template(name='datetime_view')
 //-     div
@@ -517,20 +516,20 @@ template(name='adate_edit')
 //-         |#{key}
 //-     else
 //-         |#{this}
-//-     strong &nbsp; #{field_value}
+//-     strong &nbsp; #{afield_value}
 //- 
 //- 
-//- template(name='array_view')
-//-     if field_value
-//-         div
-//-         if icon
-//-             i.icon(class=icon)
-//-         if label
-//-             .ui.inline.small.header(title=title)
-//-                 |#{label}
-//-         each field_value
-//-             .ui.black.label #{this}
-//- 
+template(name='aarray_view')
+    if afield_value
+        div
+        if icon
+            i.icon(class=icon)
+        if label
+            .ui.inline.small.header(title=title)
+                |#{label}
+        each afield_value
+            .ui.black.label #{this}
+
 template(name='aarray_edit')
     div
     if icon
@@ -545,8 +544,8 @@ template(name='aarray_edit')
     .ui.input
         input.new_element(type='text' placeholder='+' autocomplete="off")
         //- +clear_value                
-    if field_value
-        each field_value
+    if afield_value
+        each afield_value
             .ui.large.basic.label
                 i.delete.icon.remove_element
                 |#{this}
@@ -644,16 +643,16 @@ template(name='aarray_edit')
 //-             // if icon
 //-             //     i.icon(class=icon)
 //-             |youtube id
-//-         input.youtube_id(type='text' value=field_value placeholder=placeholder autocomplete="off")
-//-     if field_value
-//-         iframe.youtube_view(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+//-         input.youtube_id(type='text' value=afield_value placeholder=placeholder autocomplete="off")
+//-     if afield_value
+//-         iframe.youtube_view(width='560' height='315' src="https://www.youtube.com/embed/#{afield_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 //- 
 //- template(name='youtube_view')
-//-     if field_value
-//-         .ui.embed.youtube_view(data-source="youtube" data-id=field_value)
+//-     if afield_value
+//-         .ui.embed.youtube_view(data-source="youtube" data-id=afield_value)
 //- 
-//-         //- // iframe(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-//-         //- iframe(src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+//-         //- // iframe(width='560' height='315' src="https://www.youtube.com/embed/#{afield_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+//-         //- iframe(src="https://www.youtube.com/embed/#{afield_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 //- 
 //- 
 //- 
@@ -675,7 +674,7 @@ template(name='aarray_edit')
 //-         if icon
 //-             i.icon(class=icon)
 //-         | #{title}    
-//-     img.ui.fluid.centered.rounded.image(src=field_value)
+//-     img.ui.fluid.centered.rounded.image(src=afield_value)
 //-     if is_admin
 //-         .ui.button.print_rules
 //-             i.download.icon
@@ -689,7 +688,7 @@ template(name='aarray_edit')
 template(name='aboolean_edit')
     //- div
     .ui.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
-        if field_value
+        if afield_value
             i.checkmark.green.icon
         else
             i.circle.outline.icon
@@ -697,7 +696,7 @@ template(name='aboolean_edit')
         if icon
             i.small.icon(class=icon)
         .inline.f4
-            //- if field_value
+            //- if afield_value
             //-     i.checkmark.icon
             if label
                 |#{label}
@@ -707,7 +706,7 @@ template(name='aboolean_edit')
                 |#{this}
         div
         //- 
-        //- if field_value
+        //- if afield_value
         //-     if true_icon
         //-         i.large.icon(class=true_icon)
         //-     else
@@ -732,7 +731,7 @@ template(name='aboolean_edit')
 //-                 |#{key}
 //-             else
 //-                 |#{this}
-//-         if field_value
+//-         if afield_value
 //-             i.large.checkmark.icon
 //-         else
 //-             i.cancel.icon
@@ -741,14 +740,14 @@ template(name='aboolean_edit')
 //- 
 //- template(name='single_doc_view')
 //-     div
-//-     if field_value
+//-     if afield_value
 //-         .ui.inline.header(title=key)
 //-             |#{title}
 //-         a.ui.basic.button(href="/m/#{related_doc.model}/#{related_doc._id}/view")
 //-             if related_doc.image_id
 //-                 img.ui.avatar.image(src="{{c.url related_doc.image_id width=200 height=200 gravity='face' crop='fill'}}")
 //-             |#{related_doc.title}
-//-             //- |#{field_value}
+//-             //- |#{afield_value}
 //- 
 //- 
 //- template(name='single_doc_edit')
@@ -842,10 +841,10 @@ template(name='aboolean_edit')
 //- 
 //- template(name='multi_doc_view')
 //-     div
-//-     if field_value
+//-     if afield_value
 //-         .ui.inline.header(title=key)
 //-             |#{title} #{label}
-//-         each field_value
+//-         each afield_value
 //-             +referenced_doc
 //- 
 //- template(name='referenced_doc')            
@@ -858,11 +857,11 @@ template(name='aboolean_edit')
 //-     div
 //-     .ui.inline.small.header 
 //-         |#{label} #{title}
-//-     if field_value
+//-     if afield_value
 //-         .pull_user.ui.icon.compact.button(title='remove user')
 //-             i.remove.icon
-//-             //- |clear #{field_value}
-//-     unless field_value
+//-             //- |clear #{afield_value}
+//-     unless afield_value
 //-         .ui.input
 //-             input#single_user_select_input(type='text' placeholder='lookup user..')
 //-             each selections
@@ -876,9 +875,9 @@ template(name='aboolean_edit')
 //-                             h4.ui.header
 //-                                 img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
 //-                                 |#{first_name} #{last_name} #{username}
-//-     //- if field_value
+//-     //- if afield_value
 //-     //-     +user_info
-//-         //- +user_card field_value
+//-         //- +user_card afield_value
 //-         //- |#{this}
 //-         //- .item
 //-         //-     .right.floated.content
@@ -892,13 +891,13 @@ template(name='aboolean_edit')
 //- 
 //- 
 //- template(name='single_user_view')
-//-     if field_value
+//-     if afield_value
 //-         div
 //-         .ui.inline.header 
 //-             |#{title}
 //-             |#{label}
-//-         with field_value
-//-             .ui.inline.header #{field_value}
+//-         with afield_value
+//-             .ui.inline.header #{afield_value}
 //-                 +username_info
 //- 
 //- 
@@ -906,16 +905,16 @@ template(name='aboolean_edit')
 //- template(name='single_person_view')
 //-     div
 //-     .ui.header #{title}
-//-     if field_value
-//-         +person_card field_value
+//-     if afield_value
+//-         +person_card afield_value
 //-     div
 //- 
 //- 
 //- template(name='single_person')
 //-     .ui.header #{title}
 //-     .ui.form
-//-         if field_value
-//-             +person_card field_value
+//-         if afield_value
+//-             +person_card afield_value
 //-             .ui.circlar.button.clear_selection
 //-                 i.remove.icon
 //-                 |Clear
@@ -938,7 +937,7 @@ template(name='aboolean_edit')
 //-             else
 //-                 .ui.header no results
 //-             // .ui.list
-//-             //     each field_value
+//-             //     each afield_value
 //-             //         |#{this}
 //-             //         .item
 //-             //             .right.floated.content
@@ -980,7 +979,7 @@ template(name='aboolean_edit')
 //-                             |@#{username}
 //-     +clear_value                
 //-     .ui.list
-//-         each field_value
+//-         each afield_value
 //-             // |#{this}
 //-             +user_card
 //-                 //- with user_from_id
@@ -1024,7 +1023,7 @@ template(name='aboolean_edit')
 //-                             strong + #{guest_name} #{first_name} #{last_name}
 //-         //- +clear_value                
 //-         //- .ui.list
-//-         //-     each field_value
+//-         //-     each afield_value
 //-         //-         // |#{this}
 //-         //-         +user_card
 //-         //-         .ui.large.button
@@ -1053,7 +1052,7 @@ template(name='aboolean_edit')
 //-         //-         |#{key}
 //-         //-     else
 //-         //-         |#{this}
-//-     unless field_value
+//-     unless afield_value
 //-         .ui.input
 //-             input.project_title_lookup(type='text' placeholder='lookup project' autocomplete="off")
 //-         //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
@@ -1070,7 +1069,7 @@ template(name='aboolean_edit')
 //-                         div
 //-         //- +clear_value                
 //-         //- .ui.list
-//-         //-     each field_value
+//-         //-     each afield_value
 //-         //-         // |#{this}
 //-         //-         +user_card
 //-         //-         .ui.large.button
@@ -1098,7 +1097,7 @@ template(name='aboolean_edit')
 //-         //-         |#{key}
 //-         //-     else
 //-         //-         |#{this}
-//-     unless field_value
+//-     unless afield_value
 //-         .ui.input
 //-             input.task_list_title_lookup(type='text' placeholder='lookup task list' autocomplete="off")
 //-     else 
@@ -1121,7 +1120,7 @@ template(name='aboolean_edit')
 //-     .ui.header 
 //-         |#{title} #{label}
 //-         //- #{key} #{label}
-//-     each field_value
+//-     each afield_value
 //-         .ui.stackable.cards
 //-             +user_card
 //- 
@@ -1162,12 +1161,12 @@ template(name='aboolean_edit')
 //-                 //-     |#{key}
 //-                 //- else
 //-                 //-     |#{this}
-//-             textarea.edit_textarea(rows='5') #{field_value}
+//-             textarea.edit_textarea(rows='5') #{afield_value}
 //- 
 //- 
 //- 
 //- template(name='html_raw_view')
-//-     if field_value
+//-     if afield_value
 //-         div
 //-         .ui.inline.small.header
 //-             if title
@@ -1178,7 +1177,7 @@ template(name='aboolean_edit')
 //-             //-     |#{key}
 //-             //- else
 //-             //-     |#{this}            
-//-         .f6 !{field_value}
+//-         .f6 !{afield_value}
 //- 
 //- template(name='textarea_edit')
 //-     .ui.form
@@ -1192,7 +1191,7 @@ template(name='aboolean_edit')
 //-                 //-     |#{key}
 //-                 //- else
 //-                 //-     |#{this}
-//-             textarea.edit_textarea(rows='5') #{field_value}
+//-             textarea.edit_textarea(rows='5') #{afield_value}
 //-     //- if is_admin
 //-     //-     +call_watson mode='text' key=key
 //-     //-     //- div
@@ -1210,7 +1209,7 @@ template(name='aboolean_edit')
 //-     //             |#{title}
 //-     //         else
 //-     //             |#{key}
-//-     //     input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
+//-     //     input.edit_text(type='text' value=afield_value placeholder=placeholder autocomplete="off")
 //-     with referenced_document
 //-         .ui.header
 //-             |#{title}
@@ -1228,10 +1227,10 @@ template(name='aboolean_edit')
 //-             |#{key}
 //-     //- +clear_value
 //-     .ui.icon.input
-//-         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
+//-         input.edit_text(type='text' value=afield_value placeholder=placeholder autocomplete="off")
 //- 
 //- template(name='slug_view')
-//-     if field_value
+//-     if afield_value
 //-         unless header
 //-             div
 //-             .ui.inline.small.header
@@ -1244,7 +1243,7 @@ template(name='aboolean_edit')
 //-                 else
 //-                     |#{this}
 //-         .ui.inline.small.header
-//-             strong #{field_value}
+//-             strong #{afield_value}
 //- 
 //- 
 //- template(name='math')

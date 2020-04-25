@@ -21,16 +21,31 @@ template(name='alpha_view')
     with current_doc
         .ui.stackable.padded.grid
             .four.wide.column
-                a.ui.fluid.button(href="/alphas")
-                    i.wine.glass.icon
+                a.ui.fluid.button(href="/alpha")
+                    i.left.chevron.icon
                     |alpha
                 .ui.header #{title}
-            .four.wide.column
                 a.ui.large.basic.button(href="/alpha/#{_id}/edit")
                     i.pencil.icon
                 .ui.header #{_author_username}
                 with _author_id
                     +user_card
+            .twelve.wide.column
+                each modules
+                    +module_view
+
+
+template(name='module_view')        
+    .ui.fluid.segment
+        .ui.header 
+            small #{doc_key}:
+            |#{alpha_value}
+        .ui.header key: #{doc_key}
+        .ui.small.header module type: #{block_title}
+        //- .ui.small.header block slug: #{block_slug}
+        +Template.dynamic template=alpha_field_view
+
+
 
 
 
@@ -43,31 +58,41 @@ template(name='alpha_edit')
                 a.ui.large.fluid.button(href="/alpha/#{_id}/view")
                     i.checkmark.icon   
                     |save
+                .ui.circular.icon.button.print_this
+                    i.code.icon
                 .ui.header block menu
                 each blocks
-                    .ui.button.add_module #{title}
+                    .ui.button.add_module 
+                        i.icon(class=icon)
+                        |#{title}
             .twelve.wide.column
                 .ui.header modules
                 each modules
-                    +module
+                    +module_edit
                     
                     
     if is_admin
         +block_editor
         
         
-template(name='module')        
+template(name='module_edit')        
     .ui.fluid.segment
-        .ui.header 
+        a.ui.header.toggle_section.pointer
             small #{doc_key}:
             |#{alpha_value}
-        +text_edit key='doc_key' direct=true
-        .ui.header key: #{doc_key}
-        .ui.small.header module type: #{block_title}
-        //- .ui.small.header block slug: #{block_slug}
-        +Template.dynamic template=alpha_field
-        .ui.icon.button.remove_module
-            i.remove.icon
+            if viewing_module
+                i.chevron.down.small.icon
+            else
+                i.chevron.right.small.icon
+        if viewing_module
+            div
+            +text_edit key='doc_key' direct=true
+            .ui.header key: #{doc_key}
+            .ui.small.header module type: #{block_title}
+            //- .ui.small.header block slug: #{block_slug}
+            +Template.dynamic template=alpha_field_edit
+            .ui.icon.button.remove_module
+                i.remove.icon
 
         
         
@@ -84,3 +109,5 @@ template(name='block_editor')
                     +text_edit key='title' direct=true
                     div
                     +slug_edit key='slug' direct=true
+                    div
+                    +icon_edit key='icon' direct=true

@@ -102,13 +102,18 @@ Template.registerHelper 'calc_size', (metric) ->
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
 
-Template.registerHelper 'field_value', () ->
-    # console.log @
+Template.registerHelper 'afield_value', () ->
+    console.log @
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
 
+    page_doc = Docs.findOne Router.current().params.doc_id
 
+    page_doc["#{@doc_key}"]
+
+
+Template.registerHelper 'field_value', () ->
     if @direct
         parent = Template.parentData()
     else if parent5
