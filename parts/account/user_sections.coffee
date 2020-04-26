@@ -2,17 +2,6 @@ if Meteor.isClient
     Template.profile_layout.onCreated ->
         # @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'thought'
 
-    Template.user_brain.events
-        'click .add_thought': ->
-            new_thought_id = Docs.insert
-                model:'thought'
-            Session.set 'editing_id', new_thought_id
-    Template.user_brain.helpers
-        thoughts: ->
-            Docs.find
-                model:'thought'
-
-
 
     Template.user_orders.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'order'
@@ -30,99 +19,9 @@ if Meteor.isClient
 
 
 
-    Template.user_events.onCreated ->
-        @autorun => Meteor.subscribe 'user_students', Router.current().params.user_id
-        @autorun => Meteor.subscribe 'model_docs', 'slot'
-    Template.user_events.events
-        'click .new_slot': ->
-            new_slot_id =
-                Docs.insert
-                    model:'slot'
-            Router.go "/m/slot/#{new_slot_id}/edit"
-    Template.user_events.helpers
-        tutor_sessions: ->
-            Docs.find
-                model:'tutor_session'
-
-        slots: ->
-            Docs.find
-                model:'slot'
-                _author_id: Router.current().params.user_id
-
-
-
-
-
-    Template.user_wrong.onCreated ->
-        @autorun => Meteor.subscribe 'user_wrong_questions', Router.current().params.user_id
-    Template.user_wrong.events
-        'click .recalc_similar': -> Meteor.call 'recalc_similar_wrong', Router.current().params.user_id
-        'click .recalc_wrong_ids': -> Meteor.call 'calc_wrong_question_ids', Router.current().params.user_id
-    Template.user_wrong.helpers
-        wrong_questions: ->
-            user = Meteor.users.findOne Router.current().params.user_id
-            Docs.find
-                _id: $in: user.all_wrong_ids
-
-
-
-    Template.user_right.onCreated ->
-        @autorun => Meteor.subscribe 'user_right_questions', Router.current().params.user_id
-    Template.user_right.events
-        'click .recalc_similar': -> Meteor.call 'recalc_similar_right', Router.current().params.user_id
-        'click .recalc_right_ids': -> Meteor.call 'calc_right_question_ids', Router.current().params.user_id
-        'click .recalc_opposite_right': -> Meteor.call 'recalc_opposite_right', Router.current().params.user_id
-    Template.user_right.helpers
-        sorted_right_unions: ->
-            sorted = _.sortBy(@right_unions, 'union_count').reverse()
-        right_questions: ->
-            user = Meteor.users.findOne Router.current().params.user_id
-            Docs.find
-                _id: $in: user.all_right_ids
-
-
-
-    Template.user_tests.onCreated ->
-        @autorun => Meteor.subscribe 'user_tests_questions', Router.current().params.user_id
-    Template.user_tests.events
-        'click .recalc_test_stats': -> Meteor.call 'calc_user_test_stats', Router.current().params.user_id
-    Template.user_tests.helpers
-        # sorted_right_unions: ->
-        #     sorted = _.sortBy(@right_unions, 'union_count').reverse()
-        tests: ->
-            user = Meteor.users.findOne Router.current().params.user_id
-            Docs.find
-                model:'test'
-                _author_id:user._id
-                # _id: $in: user.all_right_ids
-
-
-
 
 
 if Meteor.isServer
-    Meteor.publish 'user_authored_tests', (user_id)->
-        user = Meteor.users.findOne user_id
-        Docs.find
-            model:'test'
-            _author_id: user_id
-
-    Meteor.publish 'user_wrong_questions', (user_id)->
-        user = Meteor.users.findOne user_id
-        Docs.find
-            _id: $in: user.all_wrong_ids
-
-
-    Meteor.publish 'user_right_questions', (user_id)->
-        user = Meteor.users.findOne user_id
-        Docs.find
-            _id: $in: user.all_right_ids
-
-
-
-
-
-
     Meteor.methods
         accept_request: (request)->
             console.log request
@@ -255,19 +154,3 @@ if Meteor.isServer
                 Meteor.users.update user_id,
                     $addToSet:
                         all_right_ids: $each: question_right_ids
-
-
-
-
-        recalc_fiq: (user_id)->
-            console.log user_id
-            answer_count =
-                Docs.find(
-                    model:'answer_session'
-                    _author_id: user_id
-                ).count()
-            fiq = answer_count
-            Meteor.users.update user_id,
-                $set:
-                    answer_count: answer_count
-                    fiq: fiq

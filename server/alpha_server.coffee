@@ -133,25 +133,25 @@ Meteor.methods
             if agg_res
                 Docs.update { _id:alpha_session._id, 'facets.key':facet.key},
                     { $set: 'facets.$.res': agg_res }
-        # if alpha.sort_key
-        #     # console.log 'found sort key', alpha.sort_key
-        #     sort_by = alpha.sort_key
-        # else
-        #     sort_by = 'views'
-        #
-        # if alpha.sort_direction
-        #     sort_direction = alpha.sort_direction
-        # else
-        #     sort_direction = -1
-        # if alpha.limit
-        #     limit = alpha.limit
-        # else
-        #     limit = 10
+        if alpha_session.sort_key
+            # console.log 'found sort key', alpha_session.sort_key
+            sort_by = alpha_session.sort_key
+        else
+            sort_by = 'views'
+
+        if alpha_session.sort_direction
+            sort_direction = alpha_session.sort_direction
+        else
+            sort_direction = -1
+        if alpha_session.limit
+            limit = alpha_session.limit
+        else
+            limit = 10
         modifier =
             {
                 fields:_id:1
-                limit:10
-                # sort:"#{sort_by}":sort_direction
+                limit:limit
+                sort:"#{sort_by}":sort_direction
             }
 
         # results_cursor =

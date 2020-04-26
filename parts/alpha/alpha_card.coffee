@@ -11,8 +11,10 @@ if Meteor.isClient
             Docs.find
                 model:'module'
                 parent_id:@_id
+
+    Template.alpha_card_module_view.helpers
         alpha_field_view: ->
-            console.log @
+            # console.log @
             "a#{@block_slug}_view"
 
     Template.alpha_card_module_view.helpers

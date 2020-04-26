@@ -183,7 +183,7 @@ if Meteor.isClient
     #         alpha_session = Docs.findOne model:'alpha_session'
     #         @_id in alpha_session.viewable_fields
 
-    Template.set_limit.events
+    Template.set_alpha_limit.events
         'click .set_limit': ->
             # console.log @
             alpha_session = Docs.findOne model:'alpha_session'

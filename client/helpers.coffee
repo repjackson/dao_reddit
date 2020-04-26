@@ -108,9 +108,21 @@ Template.registerHelper 'afield_value', () ->
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
 
+    # console.log Template.instance()
+    # console.log Template.currentData()
+    # console.log Template.parentData()
+    # console.log Template.parentData(1)
+    # console.log Template.parentData(2)
+    # console.log Template.parentData(3)
+    # console.log Template.parentData(4)
+    # console.log Template.parentData(5)
+
     page_doc = Docs.findOne Router.current().params.doc_id
 
-    page_doc["#{@doc_key}"]
+    parent = Template.parentData(5)
+
+    # page_doc["#{@doc_key}"]
+    parent["#{@doc_key}"]
 
 
 Template.registerHelper 'page_doc', () ->

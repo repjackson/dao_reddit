@@ -15,18 +15,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_finance'
         ), name:'user_finance'
-    Router.route '/user/:username/upvotes', (->
-        @layout 'profile_layout'
-        @render 'user_upvotes'
-        ), name:'user_upvotes'
-    Router.route '/user/:username/downvotes', (->
-        @layout 'profile_layout'
-        @render 'user_downvotes'
-        ), name:'user_downvotes'
-    Router.route '/user/:username/karma', (->
-        @layout 'profile_layout'
-        @render 'user_karma'
-        ), name:'user_karma'
     Router.route '/user/:username/cart', (->
         @layout 'profile_layout'
         @render 'user_cart'
@@ -43,34 +31,10 @@ if Meteor.isClient
     #     @layout 'profile_layout'
     #     @render 'user_brain'
     #     ), name:'user_brain'
-    # Router.route '/user/:username/stats', (->
-    #     @layout 'profile_layout'
-    #     @render 'user_stats'
-    #     ), name:'user_stats'
-    # Router.route '/user/:username/votes', (->
-    #     @layout 'profile_layout'
-    #     @render 'user_votes'
-    #     ), name:'user_votes'
-    Router.route '/user/:username/jobs', (->
-        @layout 'profile_layout'
-        @render 'user_jobs'
-        ), name:'user_jobs'
-    Router.route '/user/:username/requests', (->
-        @layout 'profile_layout'
-        @render 'user_requests'
-        ), name:'user_requests'
     Router.route '/user/:username/feed', (->
         @layout 'profile_layout'
         @render 'user_feed'
         ), name:'user_feed'
-    Router.route '/user/:username/tags', (->
-        @layout 'profile_layout'
-        @render 'user_tags'
-        ), name:'user_tags'
-    Router.route '/user/:username/tasks', (->
-        @layout 'profile_layout'
-        @render 'user_tasks'
-        ), name:'user_tasks'
     Router.route '/user/:username/transactions', (->
         @layout 'profile_layout'
         @render 'user_transactions'
@@ -83,10 +47,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_bookmarks'
         ), name:'user_bookmarks'
-    Router.route '/user/:username/documents', (->
-        @layout 'profile_layout'
-        @render 'user_documents'
-        ), name:'user_documents'
     Router.route '/user/:username/social', (->
         @layout 'profile_layout'
         @render 'user_social'
@@ -99,10 +59,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_orders'
         ), name:'user_orders'
-    Router.route '/user/:username/passages', (->
-        @layout 'profile_layout'
-        @render 'user_passages'
-        ), name:'user_passages'
     Router.route '/user/:username/awards', (->
         @layout 'profile_layout'
         @render 'user_awards'
@@ -111,10 +67,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_events'
         ), name:'user_events'
-    Router.route '/user/:username/mentorship', (->
-        @layout 'profile_layout'
-        @render 'user_mentorship'
-        ), name:'user_mentorship'
 
 
     Template.profile_layout.onCreated ->
