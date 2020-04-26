@@ -36,3 +36,5 @@ accounts-password@1.6.0
 reywood:publish-composite
 flowkey:hotkeys
 dburles:collection-helpers
+zimme:active-route
+mrgalaxy:stripe

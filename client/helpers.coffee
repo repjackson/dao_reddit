@@ -9,9 +9,12 @@ Template.registerHelper 'can_edit', () ->
 
 
 Template.registerHelper 'alpha_value', () ->
-    console.log @doc_key
+    # console.log @doc_key
     alpha_doc = Docs.findOne Router.current().params.doc_id
     alpha_doc["#{@doc_key}"]
+Template.registerHelper 'fixed', (input) ->
+    if input
+        input.toFixed(2)
 
 
 Template.registerHelper 'active_path', (metric) ->

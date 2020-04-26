@@ -1,0 +1,33 @@
+template(name='arental_edit')
+    //- i.phone.icon
+    .ui.header
+        | rental price
+    .ui.button
+        |hourly price
+    .ui.button
+        |daily price
+    .ui.button
+        |weekly price
+    .ui.button
+        |monthly price
+
+template(name='arental_view')
+    .ui.segment
+        .ui.header
+            | rental
+        .ui.header inventory #{page_doc.inventory}    
+        .ui.header price #{page_doc.price} credits 
+        .ui.green.button.buy
+            |buy 
+        each orders
+            .ui.segment
+                .ui.header #{when} #{_author_username}
+                .ui.list
+                    .item buyer: #{buyer_username}
+                    .item seller: #{seller_username}
+                    .item product_id: #{product_id}
+                if can_edit
+                    .ui.small.basic.button.cancel
+                        i.remove.icon
+                        |cancel
+//- 

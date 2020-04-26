@@ -16,12 +16,9 @@ template(name='nav')
                 
             a.icon.item(href='/alerts' class="{{active_path '/alerts'}}" title='alerts') 
                 i.bell.large.icon(class=alert_icon_class)
-                //- i.rss.icon
-            
             if currentUser
-                a.item(href="/user/#{currentUser.username}/credit")
-                    |#{currentUser.credit}
-                //-     //- i.line.chart.icon
+                a.item(href="/user/#{currentUser.username}/finance")
+                    |#{currentUser.credit}c
                 a.item(href="/user/#{currentUser.username}") 
                     i.user.icon
                     |#{currentUser.username}

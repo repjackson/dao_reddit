@@ -14,7 +14,7 @@ if Meteor.isClient
 
     Template.module_view.helpers
         alpha_field_view: ->
-            console.log @
+            # console.log @
             "a#{@block_slug}_view"
 
     Template.alpha_doc_view.helpers

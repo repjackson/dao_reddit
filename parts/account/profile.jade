@@ -1,65 +1,77 @@
 template(name='profile_layout')
-    //- img.ui.fluid.image.home_banner(src="{{c.url 'nightbg' width=1000 height=1000 crop='crop'}}")    
+    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     +nav
-    a.ui.icon.button(href="/m/model")
-        i.home.icon
     with user
         .ui.stackable.padded.grid
-            .three.wide.column
-                img.ui.centered.small.rounded.profile_image.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                .ui.center.aligned.basic.segment
-                    a(href="/user/#{username}")
-                        .ui.center.aligned.inline.header
-                            | #{user.first_name} #{user.last_name}
-                        //- div
-                        //- .ui.small.inline.header @#{user.username}        
-                .ui.fluid.vertical.pointing.menu(class="{{currentUser.nav_color}}")
-                    a.item(href="/user/#{username}/dashboard" class="{{active_path regex='user_dashboard'}}")
-                        i.grey.dashboard.icon
-                        |dashboard
-                    a.item(href="/user/#{username}/profile" class="{{active_path regex=user_offers}}")
-                        |profile
-                    a.item(href="/user/#{username}/finance" class="{{active_path regex='user_finance'}}")
-                        i.grey.coins.icon
-                        |finance
-                    a.item(href="/user/#{username}/events" class="{{active_path regex='user_events'}}")
-                        i.grey.calendar.icon
-                        |calendar
-
-                    a.item(href="/user/#{username}/orders" class="{{active_path regex='user_orders'}}")
-                        i.list.icon
-                        |orders
-                    //- a.item(href="/user/#{username}/friends" class="{{active_path regex='user_friends'}}")
-                    //-     i.grey.users.icon
-                    //-     |friends
-                    a.item(href="/user/#{username}/messages" class="{{active_path regex='user_messages'}}")
-                        i.grey.envelope.icon
-                        |messages
-                //- if is_current_user
-                a.ui.large.fluid.button(href="/user/#{username}/edit")
-                    i.cog.icon
-                    |account
-                a.ui.fluid.button.logout(href="#")
-                    i.sign.out.alternate.icon
-                    |log out
-                a.ui.fluid.button.logout_other_clients(href="#" title='logout other clients')
-                    //- i.globe.icon
-                    |log out other clients
-                if is_admin
-                    .ui.basic.segment
+            .row
+                //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                .four.wide.column
+                    a.item.mobile.hidden(href="/user/#{user.username}/food")
+                        img.ui.centered.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    .spacer
+                    a(href="/user/#{user.username}")
+                        .ui.center.aligned.header
+                            strong #{user.name}
+                            //- 
+                            //- strong #{user.first_name} #{user.last_name}
+                            //- small @#{user.username}        
+                    a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{user.username}/credit" title='credit')
+                        |{{fixed user.credit}}c
+                    .ui.two.column.middle.aligned.grid.mobile.only
+                        .column
+                            img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                        .column
+                            .ui.inline.header
+                                strong #{user.name}
+                                //- small @#{user.username}        
+                            a.ui.inline.header(href="/user/#{user.username}/finance" title='finance')
+                                //- +i name='coins'
+                                //- i.coins.icon
+                                |{{fixed user.credit}}c
+                    if is_current_user
+                        a.ui.fluid.basic.button(href="/user/#{user.username}/edit" title='profile settings')
+                            i.cog.icon
+                            |edit
+                    else if is_admin
+                        a.ui.fluid.basic.button(href="/user/#{user.username}/edit" title='profile settings')
+                            +i name='settings' classes='ui avatar image'
+                            |edit
+                    if is_current_user
+                        .ui.fluid.basic.button.logout
+                            i.sign.out.alternate.icon
+                            |log out
+                        //- a.ui.fluid.basic.button.logout_other_clients(href="#" title='logout other clients')
+                        //-     i.globe.icon
+                        //-     |log out other clients
+                    if is_admin
                         .ui.header 
-                            i.grey.shield.small.icon
+                            +i name='shield'
                             |roles
                         each roles
-                            .ui.basic.label #{this}
-                //- +user_friend_button            
-            .thirteen.wide.column
-                //- each user_sections
-                //-     a.ui.button(href="/user/#{username}/#{slug}")
-                //-         i.icon(class=icon)
-                //-         |#{title}
-                +yield    
-    +footer
+                            .ui.label #{this}
+                .twelve.wide.column
+                    a.ui.compact.basic.large.button(href="/user/#{username}/products" class="{{isActiveRoute 'user_products'}}")
+                        +i name='shop' classes='ui avatar image'
+                        |products
+                    a.ui.compact.basic.large.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
+                        +i name='clock' classes='ui avatar image'
+                        |rentals
+                    a.ui.compact.basic.large.button(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}")
+                        +i name='wrench' classes='ui avatar image'
+                        |services
+                    a.ui.compact.basic.large.button(href="/user/#{username}/food" class="{{isActiveRoute 'user_food'}}")
+                        +i name='food' classes='ui avatar image'
+                        |food
+                    a.ui.compact.basic.large.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                        +i name='money' classes='ui avatar image'
+                        |credit
+                    a.ui.compact.basic.large.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
+                        +i name='invoice' classes='ui avatar image'
+                        |orders
+        
+                    div.global_container
+                        .spacer
+                        +yield
 
 
 
@@ -129,16 +141,6 @@ template(name='user_dashboard')
                     |#{global_section_average_rank}
             
         .three.column.row
-            //- .column
-            //-     +user_sessions_small
-            //- .column
-            //-     +user_fiq_small
-            .column
-                +user_brain_small
-            .column
-                +user_authored_questions_small
-            .column
-                +user_progress_small
             .column
                 +user_stats_small
 
@@ -152,86 +154,6 @@ template(name='user_alerts_small')
             .ui.item #{content}
 
 
-template(name='user_fiq_small')
-    a.ui.header(href="/user/#{username}/fiq")
-        i.line.chart.icon
-        |#{current_user.username} fiq #{current_user.fiq}
-    .ui.small.header 
-        |your fiq #{currentUser.fiq}
-
-template(name='user_progress_small')
-    i.pie.chart.icon
-    .ui.inline.header 
-        |progress
-    div    
-
-template(name='user_authored_questions_small')
-    i.pencil.icon
-    .ui.inline.header 
-        |authored questions
-    div    
-
-
-
-template(name='user_sessions_small')
-    .ui.inline.header 
-        //- i.book.icon
-        |#{current_user.session_count} sessions
-    div    
-    .ui.list 
-        each sessions 
-            +user_session
-    .ui.basic.modal
-        .ui.icon.header
-            i.trash.icon
-            |     Confirm Delete Session
-        //- .content
-        //-     p
-        //-         | Confirm
-        .actions
-            .ui.red.basic.cancel.inverted.button
-                i.ban.icon
-                | Cancel
-            .ui.green.ok.inverted.button
-                i.checkmark.icon
-                | Confirm
-
-
-template(name='user_session')            
-    .item
-        .header 
-            |#{test.title}    
-        .content
-            //- .ui.indicating.tiny.invert.progress(data-percent=correct_percent)
-            //-     .bar 
-                //- .label 
-                //-     |#{correct_percent}% correct percent
-            span {{ correct_percent }}% progress
-                .rounded.invert(style="height:5px;width:{{correct_percent}}%;background-color:green" title="{{correct_percent}}% progress")
-        .content
-            .ui.grid
-                .six.column.row
-                    .column
-                        | #{when} #{correct_count}/#{question_count} 
-                    .column
-                        |#{correct_percent}%
-                    .column
-
-                        if act_score 
-                            .ui.label ACT Score: #{act_score}
-                    .column
-                        if time_difference_minutes 
-                            .ui.label #{time_difference_minutes} minutes
-                        
-                    .column
-                        a.ui.small.compact.button(href="/test_session/#{_id}/take")
-                            |review
-                            i.grey.right.chevron.icon
-                    .column
-                        .ui.small.compact.icon.button.delete_session
-                            i.red.remove.invert.icon
-    
-    
 template(name='user_stats_small')
     .ui.inline.header 
         i.bar.chart.icon

@@ -295,45 +295,6 @@ template(name='atext_view')
 //- //-     a.ui.header(href="/m/#{doc.model}/#{doc._id}/view") doc #{doc.model}
 //- 
 //- 
-template(name='apurchase_edit')
-    //- i.phone.icon
-    .ui.header
-        | purchase
-        //- if title
-        //-     |#{title}
-        //- else if label
-        //-     |#{label}
-        //- else if key
-        //-     |#{key}
-        //- else
-        //-     |#{this}
-    .ui.fluid.input
-        .label inventory        
-        input.inventory(type='number' value=page_doc.inventory placeholder='inventory' autocomplete="off")
-    .ui.fluid.input
-        .label price        
-        input.price(type='number' value=page_doc.price placeholder='price' autocomplete="off")
-
-template(name='apurchase_view')
-    .ui.segment
-        .ui.header
-            | purchase
-        .ui.header inventory #{page_doc.inventory}    
-        .ui.header price #{page_doc.price} credits 
-        .ui.green.button.buy
-            |buy 
-        each orders
-            .ui.segment
-                .ui.header #{when} #{_author_username}
-                .ui.list
-                    .item buyer: #{buyer_username}
-                    .item seller: #{seller_username}
-                    .item product_id: #{product_id}
-                if can_edit
-                    .ui.small.basic.button.cancel
-                        i.remove.icon
-                        |cancel
-//- 
 template(name='aphone_edit')
     //- i.phone.icon
     .ui.inline.header 
