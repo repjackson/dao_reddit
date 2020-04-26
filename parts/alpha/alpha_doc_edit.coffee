@@ -10,7 +10,7 @@ if Meteor.isClient
 
     Template.module_edit.helpers
         alpha_field_edit: ->
-            console.log @
+            # console.log @
             "a#{@block_slug}_edit"
         viewing_module: ->
             Session.equals('expand_module', @_id)

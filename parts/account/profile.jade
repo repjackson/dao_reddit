@@ -56,9 +56,9 @@ template(name='profile_layout')
                     a.ui.compact.basic.large.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
                         +i name='clock' classes='ui avatar image'
                         |rentals
-                    a.ui.compact.basic.large.button(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}")
-                        +i name='wrench' classes='ui avatar image'
-                        |services
+                    //- a.ui.compact.basic.large.button(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}")
+                    //-     +i name='wrench' classes='ui avatar image'
+                    //-     |services
                     a.ui.compact.basic.large.button(href="/user/#{username}/food" class="{{isActiveRoute 'user_food'}}")
                         +i name='food' classes='ui avatar image'
                         |food

@@ -449,7 +449,6 @@ template(name='icon_edit')
 
             
 template(name='float_edit')
-    div
     .ui.small.inline.header(title=tip)
         if title
             |#{title}
@@ -458,7 +457,6 @@ template(name='float_edit')
         else
             |#{key}
     //- +clear_value  
-    div  
     .ui.input            
         input.edit_float(type='number' class=classes min=min step=step value=field_value placeholder=placeholder autocomplete="off")
             
@@ -474,7 +472,7 @@ template(name='float_view')
                 |#{key}
             else
                 |#{this}
-        .ui.inline.large.header &nbsp; #{field_value}
+        .ui.inline.header &nbsp; #{field_value}
 
 
 

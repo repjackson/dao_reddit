@@ -1,4 +1,4 @@
-# if Meteor.isClient
+if Meteor.isClient
 #     Template.docs.onCreated ->
 #         Session.setDefault 'view_images', true
 #         Session.setDefault 'view_videos', true
@@ -263,19 +263,19 @@
 #             Session.set('doc_sort_key', @key)
 #             Session.set('doc_sort_label', @label)
 #
-#     Template.session_edit_value_button.events
-#         'click .set_session_value': ->
-#             # console.log @key
-#             # console.log @value
-#             Session.set(@key, @value)
+    Template.session_edit_value_button.events
+        'click .set_session_value': ->
+            # console.log @key
+            # console.log @value
+            Session.set(@key, @value)
 #
-#     Template.session_edit_value_button.helpers
-#         calculated_class: ->
-#             res = ''
-#             # console.log @
-#             if @classes
-#                 res += @classes
-#             if Session.equals(@key,@value)
-#                 res += ' active'
-#             # console.log res
-#             res
+    Template.session_edit_value_button.helpers
+        calculated_class: ->
+            res = ''
+            # console.log @
+            if @classes
+                res += @classes
+            if Session.equals(@key,@value)
+                res += ' active'
+            # console.log res
+            res
