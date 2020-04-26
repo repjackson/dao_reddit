@@ -51,22 +51,22 @@
 //- 
 //- 
 //- 
-//- template(name='link_edit')
-//-     div
-//-     .ui.inline.small.header
-//-         |#{title} #{label}
-//-     .ui.fluid.input
-//-         input.edit_url(type='url' value=afield_value placeholder='url' autocomplete="off")
-//- 
-//- 
-//- template(name='link_view')
-//-     if afield_value
-//-         div
-//-         a.ui.header(href=afield_value targe='_window' title='click to download')
-//-             |#{title} #{label}
-//-         //- a.ui.header(href=afield_value target='_window') #{label}
-//-         a.ui.small.header(href=afield_value target='_window') #{afield_value}
-//-         //- img.ui.fluid.image(src=afield_value)
+template(name='alink_edit')
+    div
+    .ui.inline.small.header
+        |#{title} #{label}
+    .ui.fluid.input
+        input.edit_url(type='url' value=afield_value placeholder='url' autocomplete="off")
+
+
+template(name='alink_view')
+    if afield_value
+        div
+        a.ui.header(href=afield_value targe='_window' title='click to download')
+            |#{title} #{label}
+        //- a.ui.header(href=afield_value target='_window') #{label}
+        a.ui.small.header(href=afield_value target='_window') #{afield_value}
+        //- img.ui.fluid.image(src=afield_value)
 //- 
 //- template(name='big_link_view')
 //-     if afield_value
@@ -198,37 +198,22 @@ template(name='aimage_link_view')
 //- 
 //- 
 //- 
-//- template(name='textarea_view')
-//-     if afield_value
-//-         div
-//-         //- if icon
-//-         //-     i.icon(class=afield_value)
-//-         .ui.inline.small.header
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             //- else if key
-//-             //-     |#{key}
-//-             //- else
-//-             //-     |#{this}            
-//-         .f6 {{nl2br afield_value}}
-//- 
-//- template(name='textarea')
-//-     .ui.form
-//-         .field
-//-             label 
-//-                 if title
-//-                     |#{title}
-//-                 else if label
-//-                     |#{label}
-//-                 //- else if key
-//-                 //-     |#{key}
-//-                 //- else
-//-                 //-     |#{this}
-//-             textarea.edit_textarea(rows='5') #{afield_value}
-//- 
-//- 
+template(name='atextarea_view')
+    if afield_value
+        div
+        //- if icon
+        //-     i.icon(class=afield_value)
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            //- else if key
+            //-     |#{key}
+            //- else
+            //-     |#{this}            
+        .f6 {{nl2br afield_value}}
+
 //- 
 template(name='atext_edit')
     .ui.inline.small.header
@@ -309,6 +294,36 @@ template(name='atext_view')
 //- //- template(name='doc_card')
 //- //-     a.ui.header(href="/m/#{doc.model}/#{doc._id}/view") doc #{doc.model}
 //- 
+//- 
+template(name='apurchase_edit')
+    //- i.phone.icon
+    .ui.header
+        | purchase
+        //- if title
+        //-     |#{title}
+        //- else if label
+        //-     |#{label}
+        //- else if key
+        //-     |#{key}
+        //- else
+        //-     |#{this}
+    .ui.fluid.input
+        .label inventory        
+        input.inventory(type='number' value=page_doc.inventory placeholder='inventory' autocomplete="off")
+    .ui.fluid.input
+        .label price        
+        input.price(type='number' value=page_doc.price placeholder='price' autocomplete="off")
+
+template(name='apurchase_view')
+    .ui.segment
+        .ui.header
+            | purchase
+        .ui.header inventory #{page_doc.inventory}    
+        .ui.header price #{page_doc.price}   
+        .ui.green.button.buy
+            |buy 
+        each orders
+            .ui.header #{when}
 //- 
 template(name='aphone_edit')
     //- i.phone.icon
@@ -718,23 +733,23 @@ template(name='aboolean_edit')
         //-         |no
 //- 
 //- 
-//- template(name='boolean_view')
-//-     div(title=title)
-//-         .ui.inline.small.header
-//-             if icon 
-//-                 i.grey.small.icon(class=icon)            
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             else if key
-//-                 |#{key}
-//-             else
-//-                 |#{this}
-//-         if afield_value
-//-             i.large.checkmark.icon
-//-         else
-//-             i.cancel.icon
+template(name='aboolean_view')
+    div(title=title)
+        .ui.inline.small.header
+            if icon 
+                i.grey.small.icon(class=icon)            
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}
+        if afield_value
+            i.large.checkmark.icon
+        else
+            i.cancel.icon
 //- 
 //- 
 //- 
@@ -1179,19 +1194,19 @@ template(name='aboolean_edit')
 //-             //-     |#{this}            
 //-         .f6 !{afield_value}
 //- 
-//- template(name='textarea_edit')
-//-     .ui.form
-//-         .field
-//-             label
-//-                 if title
-//-                     |#{title}
-//-                 else if label
-//-                     |#{label}
-//-                 //- else if key
-//-                 //-     |#{key}
-//-                 //- else
-//-                 //-     |#{this}
-//-             textarea.edit_textarea(rows='5') #{afield_value}
+template(name='atextarea_edit')
+    .ui.form
+        .field
+            label
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                //- else if key
+                //-     |#{key}
+                //- else
+                //-     |#{this}
+            textarea.edit_textarea(rows='5') #{afield_value}
 //-     //- if is_admin
 //-     //-     +call_watson mode='text' key=key
 //-     //-     //- div

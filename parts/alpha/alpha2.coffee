@@ -222,10 +222,10 @@ if Meteor.isClient
 
             Session.set 'loading', true
             if facet.filters and @name in facet.filters
-                Meteor.call 'remove_facet_filter', alpha_session._id, facet.key, @name, ->
+                Meteor.call 'remove_afacet_filter', alpha_session._id, facet.key, @name, ->
                     Session.set 'loading', false
             else
-                Meteor.call 'add_facet_filter', alpha_session._id, facet.key, @name, ->
+                Meteor.call 'add_afacet_filter', alpha_session._id, facet.key, @name, ->
                     Session.set 'loading', false
 
         'keyup .add_filter': (e,t)->
@@ -238,7 +238,7 @@ if Meteor.isClient
                 else
                     filter = t.$('.add_filter').val()
                 Session.set 'loading', true
-                Meteor.call 'add_facet_filter', alpha_session._id, facet.key, filter, ->
+                Meteor.call 'aadd_facet_filter', alpha_session._id, facet.key, filter, ->
                     Session.set 'loading', false
                 t.$('.add_filter').val('')
 
@@ -282,7 +282,7 @@ if Meteor.isServer
                 model:'alpha_session'
 
     Meteor.methods
-        calc_keys: (adoc_id)->
+        calc_alpha_meta: (adoc_id)->
             alpha_doc = Docs.findOne adoc_id
             modules =
                 Docs.find(
@@ -290,6 +290,8 @@ if Meteor.isServer
                     parent_id:adoc_id
                 ).fetch()
             doc_keys = _.pluck(modules, 'doc_key')
+            doc_field_types = _.pluck(modules, 'block_slug')
             console.log modules
             Docs.update adoc_id,
-                $set:keys:doc_keys
+                $set:
+                    _key_list:doc_keys

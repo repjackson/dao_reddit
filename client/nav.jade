@@ -18,8 +18,8 @@ template(name='nav')
                 //- i.rss.icon
             
             if currentUser
-                //- a.item(href="/user/#{currentUser.username}/karma")
-                //-     |#{currentUser.karma}
+                a.item(href="/user/#{currentUser.username}/credit")
+                    |#{currentUser.credit}
                 //-     //- i.line.chart.icon
                 a.item(href="/user/#{currentUser.username}") 
                     i.user.icon

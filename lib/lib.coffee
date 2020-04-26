@@ -130,6 +130,30 @@ Meteor.methods
         Meteor.call 'fum', delta_id, (err,res)->
 
 
+    add_afacet_filter: (alpha_session_id, key, filter)->
+        if key is 'keys'
+            new_facet_ob = {
+                key:filter
+                filters:[]
+                res:[]
+            }
+            Docs.update { _id:alpha_session_id },
+                $addToSet: facets: new_facet_ob
+        Docs.update { _id:alpha_session_id, "facets.key":key},
+            $addToSet: "facets.$.filters": filter
+
+        Meteor.call 'afum', alpha_session_id, (err,res)->
+
+
+    remove_afacet_filter: (alpha_session_id, key, filter)->
+        if key is 'keys'
+            Docs.update { _id:alpha_session_id },
+                $pull:facets: {key:filter}
+        Docs.update { _id:alpha_session_id, "facets.key":key},
+            $pull: "facets.$.filters": filter
+        Meteor.call 'afum', alpha_session_id, (err,res)->
+
+
 
     pin: (doc)->
         if doc.pinned_ids and Meteor.userId() in doc.pinned_ids

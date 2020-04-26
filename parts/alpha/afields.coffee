@@ -35,21 +35,12 @@ if Meteor.isClient
     #                     $unset:"#{@doc_key}":1
     #
     #
-    # Template.link_edit.events
-    #     'blur .edit_url': (e,t)->
-    #         val = t.$('.edit_url').val()
-    #         if @direct
-    #             parent = Template.parentData()
-    #         else
-    #             parent = Template.parentData(5)
-    #         doc = Docs.findOne parent._id
-    #         user = Meteor.users.findOne parent._id
-    #         if doc
-    #             Docs.update parent._id,
-    #                 $set:"#{@doc_key}":val
-    #         else if user
-    #             Meteor.users.update parent._id,
-    #                 $set:"#{@doc_key}":val
+    Template.alink_edit.events
+        'blur .edit_url': (e,t)->
+            val = t.$('.edit_url').val()
+            page_doc = Docs.findOne Router.current().params.doc_id
+            Docs.update page_doc._id,
+                $set:"#{@doc_key}":val
     #
     #
     # Template.image_edit.onRendered ->
@@ -286,26 +277,16 @@ if Meteor.isClient
     # #     ising: -> Template.instance().editing.get()
     #
     #
-    # Template.textarea_edit.events
-    #     # 'click .toggle': (e,t)->
-    #     #     t.editing.set !t.editing.get()
-    #
-    #     'blur .edit_textarea': (e,t)->
-    #         textarea_val = t.$('.edit_textarea').val()
-    #         if @direct
-    #             parent = Template.parentData()
-    #         else
-    #             parent = Template.parentData(5)
-    #
-    #         doc = Docs.findOne parent._id
-    #         user = Meteor.users.findOne parent._id
-    #         if doc
-    #             Docs.update parent._id,
-    #                 $set:"#{@doc_key}":textarea_val
-    #         else if user
-    #             Meteor.users.update parent._id,
-    #                 $set:"#{@doc_key}":textarea_val
-    #
+    Template.textarea_edit.events
+        # 'click .toggle': (e,t)->
+        #     t.editing.set !t.editing.get()
+
+        'blur .edit_textarea': (e,t)->
+            textarea_val = t.$('.edit_textarea').val()
+            page_doc = Docs.findOne Router.current().params.doc_id
+            Docs.update parent._id,
+                $set:"#{@doc_key}":textarea_val
+
     #
     Template.atext_edit.onRendered ->
         Meteor.setTimeout ->
@@ -352,31 +333,20 @@ if Meteor.isClient
     #             Docs.update page_doc._id,
     #                 $set:slug:res
     #
-    # Template.phone_edit.events
-    #     'blur .edit_phone': (e,t)->
-    #         val = t.$('.edit_phone').val()
-    #         if @direct
-    #             parent = Template.parentData()
-    #         else
-    #             parent = Template.parentData(5)
-    #
-    #         doc = Docs.findOne parent._id
-    #         user = Meteor.users.findOne parent._id
-    #         if doc
-    #             Docs.update parent._id,
-    #                 $set:"#{@doc_key}":val
-    #         else if user
-    #             Meteor.users.update parent._id,
-    #                 $set:"#{@doc_key}":val
-    #
-    #
+    Template.phone_edit.events
+        'blur .edit_phone': (e,t)->
+            val = t.$('.edit_phone').val()
+            page_doc = Docs.findOne Router.current().params.doc_id
+
+            Docs.update page_doc._id,
+                $set:"#{@doc_key}":val
+
+
     Template.aboolean_edit.helpers
         boolean_toggle_class: ->
-            if @direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
-            if parent["#{@doc_key}"] then 'active' else 'basic'
+            page_doc = Docs.findOne Router.current().params.doc_id
+
+            if page_doc["#{@doc_key}"] then 'active' else 'basic'
 
 
     Template.aboolean_edit.events
@@ -481,23 +451,13 @@ if Meteor.isClient
     #
     #
     #
-    # Template.time_edit.events
-    #     'blur .edit_time': (e,t)->
-    #         if @direct
-    #             parent = Template.parentData()
-    #         else
-    #             parent = Template.parentData(5)
-    #         val = t.$('.edit_time').val()
-    #
-    #         doc = Docs.findOne parent._id
-    #         user = Meteor.users.findOne parent._id
-    #         if doc
-    #             Docs.update parent._id,
-    #                 $set:"#{@doc_key}":val
-    #         else if user
-    #             Meteor.users.update parent._id,
-    #                 $set:"#{@doc_key}":val
-    #
+    Template.time_edit.events
+        'blur .edit_time': (e,t)->
+            val = t.$('.edit_time').val()
+            page_doc = Docs.findOne Router.current().params.doc_id
+            Docs.update page_doc._id,
+                $set:"#{@doc_key}":val
+
     #
     # Template.youtube_edit.onRendered ->
     #     Meteor.setTimeout ->
@@ -1399,3 +1359,39 @@ if Meteor.isClient
     #                 true
     #         else
     #             false
+
+    Template.apurchase_edit.events
+        'blur .inventory': (e,t)->
+            val = parseInt t.$('.inventory').val()
+            page_doc = Docs.findOne Router.current().params.doc_id
+            Docs.update page_doc._id,
+                $set:inventory:val
+
+        'blur .price': (e,t)->
+            val = parseInt t.$('.price').val()
+            page_doc = Docs.findOne Router.current().params.doc_id
+            Docs.update page_doc._id,
+                $set:price:val
+
+    Template.apurchase_view.onCreated ->
+        @autorun -> Meteor.subscribe 'model_docs', 'order'
+    Template.apurchase_view.helpers
+        orders: ->
+            Docs.find
+                model:'order'
+    Template.apurchase_view.events
+        'click .buy': (e,t)->
+            if confirm 'buy?'
+                page_doc = Docs.findOne Router.current().params.doc_id
+
+                Meteor.users.update Meteor.userId(),
+                    $inc:
+                        credit: -page_doc.price
+
+                Docs.update page_doc._id,
+                    $inc:
+                        inventory: -1
+
+                Docs.insert
+                    model:'order'
+                    product_id:page_doc._id

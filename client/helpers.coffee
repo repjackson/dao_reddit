@@ -113,6 +113,10 @@ Template.registerHelper 'afield_value', () ->
     page_doc["#{@doc_key}"]
 
 
+Template.registerHelper 'page_doc', () ->
+    page_doc = Docs.findOne Router.current().params.doc_id
+
+
 Template.registerHelper 'field_value', () ->
     if @direct
         parent = Template.parentData()
