@@ -17,13 +17,8 @@ template(name='profile_layout')
                     a.item(href="/user/#{username}/dashboard" class="{{active_path regex='user_dashboard'}}")
                         i.grey.dashboard.icon
                         |dashboard
-                    a.item(href="/user/#{username}/mentorship" class="{{active_path regex=user_mentorship}}")
-                        |mentorship
                     a.item(href="/user/#{username}/profile" class="{{active_path regex=user_offers}}")
                         |profile
-                    a.item(href="/user/#{username}/tutoring" class="{{active_path regex='user_tutoring'}}")
-                        i.grey.chalkboard.icon
-                        |tutoring
                     a.item(href="/user/#{username}/finance" class="{{active_path regex='user_finance'}}")
                         i.grey.coins.icon
                         |finance
@@ -32,27 +27,27 @@ template(name='profile_layout')
                         |calendar
 
                     //- if is_admin
-                    a.item(href="/user/#{username}/brain" class="{{active_path regex=user_brain}}")
-                        i.grey.brain.icon
-                        |brain
-                    a.item(href="/user/#{username}/karma" class="{{active_path regex=user_karma}}")
-                        i.grey.yin.yang.icon
-                        |karma
-                    a.item(href="/user/#{username}/upvoted" class="{{active_path regex=user_upvoted}}")
-                        i.grey.thumbs.up.icon
-                        |upvoted
-                    a.item(href="/user/#{username}/downvoted" class="{{active_path regex=user_downvoted}}")
-                        i.grey.thumbs.down.icon
-                        |downvoted
-                    a.item(href="/user/#{username}/cart" class="{{active_path regex='user_cart'}}")
-                        i.grey.shopping.cart.icon
-                        |cart
-                    a.item(href="/user/#{username}/groups" class="{{active_path regex='user_groups'}}")
-                        i.grey.users.icon
-                        |groups
-                    a.item(href="/user/#{username}/awards" class="{{active_path regex=user_awards}}")
-                        i.grey.award.icon
-                        |awards
+                    //- a.item(href="/user/#{username}/brain" class="{{active_path regex=user_brain}}")
+                    //-     i.grey.brain.icon
+                    //-     |brain
+                    //- a.item(href="/user/#{username}/karma" class="{{active_path regex=user_karma}}")
+                    //-     i.grey.yin.yang.icon
+                    //-     |karma
+                    //- a.item(href="/user/#{username}/upvoted" class="{{active_path regex=user_upvoted}}")
+                    //-     i.grey.thumbs.up.icon
+                    //-     |upvoted
+                    //- a.item(href="/user/#{username}/downvoted" class="{{active_path regex=user_downvoted}}")
+                    //-     i.grey.thumbs.down.icon
+                    //-     |downvoted
+                    a.item(href="/user/#{username}/orders" class="{{active_path regex='user_orders'}}")
+                        i.list.icon
+                        |orders
+                    //- a.item(href="/user/#{username}/groups" class="{{active_path regex='user_groups'}}")
+                    //-     i.grey.users.icon
+                    //-     |groups
+                    //- a.item(href="/user/#{username}/awards" class="{{active_path regex=user_awards}}")
+                    //-     i.grey.award.icon
+                    //-     |awards
                     a.item(href="/user/#{username}/friends" class="{{active_path regex='user_friends'}}")
                         i.grey.users.icon
                         |friends

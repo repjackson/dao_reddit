@@ -15,14 +15,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_finance'
         ), name:'user_finance'
-    Router.route '/user/:username/tutoring', (->
-        @layout 'profile_layout'
-        @render 'user_tutoring'
-        ), name:'user_tutoring'
-    Router.route '/user/:username/groups', (->
-        @layout 'profile_layout'
-        @render 'user_groups'
-        ), name:'user_groups'
     Router.route '/user/:username/upvotes', (->
         @layout 'profile_layout'
         @render 'user_upvotes'
@@ -47,18 +39,18 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_contact'
         ), name:'user_contact'
-    Router.route '/user/:username/brain', (->
-        @layout 'profile_layout'
-        @render 'user_brain'
-        ), name:'user_brain'
-    Router.route '/user/:username/stats', (->
-        @layout 'profile_layout'
-        @render 'user_stats'
-        ), name:'user_stats'
-    Router.route '/user/:username/votes', (->
-        @layout 'profile_layout'
-        @render 'user_votes'
-        ), name:'user_votes'
+    # Router.route '/user/:username/brain', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_brain'
+    #     ), name:'user_brain'
+    # Router.route '/user/:username/stats', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_stats'
+    #     ), name:'user_stats'
+    # Router.route '/user/:username/votes', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_votes'
+    #     ), name:'user_votes'
     Router.route '/user/:username/jobs', (->
         @layout 'profile_layout'
         @render 'user_jobs'
@@ -103,18 +95,14 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_friends'
         ), name:'user_friends'
-    Router.route '/user/:username/tests', (->
+    Router.route '/user/:username/orders', (->
         @layout 'profile_layout'
-        @render 'user_tests'
-        ), name:'user_tests'
+        @render 'user_orders'
+        ), name:'user_orders'
     Router.route '/user/:username/passages', (->
         @layout 'profile_layout'
         @render 'user_passages'
         ), name:'user_passages'
-    Router.route '/user/:username/questions', (->
-        @layout 'profile_layout'
-        @render 'user_questions'
-        ), name:'user_questions'
     Router.route '/user/:username/awards', (->
         @layout 'profile_layout'
         @render 'user_awards'
@@ -132,7 +120,7 @@ if Meteor.isClient
     Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
-        @autorun -> Meteor.subscribe 'model_docs', 'test'
+        # @autorun -> Meteor.subscribe 'model_docs', 'test'
         # @autorun -> Meteor.subscribe 'student_stats', Router.current().params.username
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
@@ -227,7 +215,7 @@ if Meteor.isClient
 
 
     Template.user_sessions_small.onCreated ->
-        @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.username, 'test_session'
+        # @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.username, 'test_session'
     Template.user_sessions_small.onRendered ->
     Template.user_sessions_small.events
         # 'click .delete_session': ->
@@ -291,7 +279,7 @@ if Meteor.isClient
 
 
     Template.user_questions.onCreated ->
-        @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.username, 'question'
+        # @autorun -> Meteor.subscribe 'user_model_docs', Router.current().params.username, 'question'
     Template.user_questions.onRendered ->
     Template.user_questions.helpers
         questions: ->

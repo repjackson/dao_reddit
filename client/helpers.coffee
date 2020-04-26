@@ -166,6 +166,9 @@ Template.registerHelper 'current_doc', () ->
     # Meteor.users.findOne username:Router.current().params.username
     Docs.findOne Router.current().params.doc_id
 
+Template.registerHelper 'product', () ->
+    Docs.findOne @product_id
+
 Template.registerHelper 'members', () ->
     # Meteor.users.findOne username:Router.current().params.username
     if @member_ids

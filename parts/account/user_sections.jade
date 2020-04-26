@@ -389,6 +389,29 @@ template(name='user_finance')
                 
                 
                 
-template(name='user_tutor_sessions')
-    .ui.header 
-        |tutor sessions
+template(name='user_orders')
+    .ui.header
+        i.list.icon
+        |orders
+    .scrolling
+        each orders
+            +order_segment
+            
+            
+template(name='order_segment')
+    .ui.segment
+        .ui.header #{when} #{_author_username}
+        .ui.list
+            .item buyer: #{buyer_username}
+            .item seller: #{seller_username}
+            .item product_id: #{product_id}
+        with product
+            .ui.header product #{title}
+        a.ui.button(href="/alpha/#{product_id}/view")
+            |view product
+        if can_edit
+            .ui.small.basic.button.cancel
+                i.remove.icon
+                |cancel
+        if is_admin
+            +remove_button

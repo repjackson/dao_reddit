@@ -319,11 +319,20 @@ template(name='apurchase_view')
         .ui.header
             | purchase
         .ui.header inventory #{page_doc.inventory}    
-        .ui.header price #{page_doc.price}   
+        .ui.header price #{page_doc.price} credits 
         .ui.green.button.buy
             |buy 
         each orders
-            .ui.header #{when}
+            .ui.segment
+                .ui.header #{when} #{_author_username}
+                .ui.list
+                    .item buyer: #{buyer_username}
+                    .item seller: #{seller_username}
+                    .item product_id: #{product_id}
+                if can_edit
+                    .ui.small.basic.button.cancel
+                        i.remove.icon
+                        |cancel
 //- 
 template(name='aphone_edit')
     //- i.phone.icon

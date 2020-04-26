@@ -1,6 +1,6 @@
 if Meteor.isClient
     Template.profile_layout.onCreated ->
-        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'thought'
+        # @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'thought'
 
     Template.user_brain.events
         'click .add_thought': ->
@@ -14,27 +14,19 @@ if Meteor.isClient
 
 
 
-    Template.user_tutoring.onCreated ->
-        @autorun => Meteor.subscribe 'user_students', Router.current().params.user_id
-        @autorun => Meteor.subscribe 'model_docs', 'tutalege_request'
-    Template.user_tutoring.events
-        'click .request_tutelage': ->
-            Meteor.call 'request_tutelage', Router.current().params.user_id
-        'click .accept_request': ->
-            Meteor.call 'accept_request', @
-        'click .reject_request': ->
-            Meteor.call 'reject_request', @
+    Template.user_orders.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'order'
+    Template.user_orders.events
 
-    Template.user_tutoring.helpers
-        tutelage_requested: ->
-            Docs.findOne
-                model:'tutalege_request'
-                _author_id:Meteor.userId()
-        tutalege_requests: ->
+    Template.user_orders.helpers
+        orders: ->
             Docs.find
-                model:'tutalege_request'
+                model:'order'
+                _author_id:Meteor.userId()
 
 
+    Template.order_segment.onCreated ->
+        @autorun => Meteor.subscribe 'doc', @data.product_id
 
 
 
