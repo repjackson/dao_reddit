@@ -6,7 +6,7 @@ template(name='profile_layout')
             .row
                 //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
-                    a.item.mobile.hidden(href="/user/#{user.username}/food")
+                    a.item.mobile.hidden(href="/user/#{user.username}/")
                         img.ui.centered.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
                     .spacer
                     a(href="/user/#{user.username}")
@@ -24,7 +24,7 @@ template(name='profile_layout')
                             .ui.inline.header
                                 strong #{user.name}
                                 //- small @#{user.username}        
-                            a.ui.inline.header(href="/user/#{user.username}/finance" title='finance')
+                            a.ui.inline.header(href="/user/#{user.username}/karma" title='karma')
                                 //- +i name='coins'
                                 //- i.coins.icon
                                 |{{fixed user.credit}}c
@@ -50,18 +50,9 @@ template(name='profile_layout')
                         each roles
                             .ui.label #{this}
                 .twelve.wide.column
-                    a.ui.compact.basic.large.button(href="/user/#{username}/products" class="{{isActiveRoute 'user_products'}}")
-                        +i name='shop' classes='ui avatar image'
-                        |products
                     a.ui.compact.basic.large.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
                         +i name='clock' classes='ui avatar image'
                         |rentals
-                    //- a.ui.compact.basic.large.button(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}")
-                    //-     +i name='wrench' classes='ui avatar image'
-                    //-     |services
-                    a.ui.compact.basic.large.button(href="/user/#{username}/food" class="{{isActiveRoute 'user_food'}}")
-                        +i name='food' classes='ui avatar image'
-                        |food
                     a.ui.compact.basic.large.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
                         +i name='money' classes='ui avatar image'
                         |credit

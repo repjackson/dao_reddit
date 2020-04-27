@@ -1,9 +1,4 @@
 if Meteor.isClient
-    # Calendar = require('tui-calendar');
-    # require("tui-calendar/dist/tui-calendar.css");
-    # require('tui-date-picker/dist/tui-date-picker.css');
-    # require('tui-time-picker/dist/tui-time-picker.css');
-
     Template.rental_calendar.onCreated ->
         @autorun -> Meteor.subscribe 'rental_reservations_by_id', Router.current().params.doc_id
     Template.rental_calendar.onRendered ->

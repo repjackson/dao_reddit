@@ -12,7 +12,7 @@ template(name='rental_view')
             //-         +rental_calendar
             .row
                 .four.wide.column
-                    a.ui.fluid.button(href='/rentals' title='rentals')
+                    a.ui.fluid.button(href='/' title='rentals')
                         i.left.chevron.icon
                         |rentals
                     +rental_status
@@ -27,53 +27,20 @@ template(name='rental_view')
                     +rental_stats
                     .ui.header added by #{_author_username}
                     |#{when}
-                    with _author_id
-                        +user_card
-                    +array_view key='tags' icon='tags' direct=true title='tags'
-                    div
-                    +array_view key='location_tags' icon='marker' direct=true title='location tags'
-                    div
-                    +text_view key='location' icon='marker' label='location' direct=true
-                    .ui.grey.header 
-                        i.user.shield.icon
-                        | owner
-                    +single_user_view key='owner_username' direct=true
-                    .ui.grey.header 
-                        i.user.clock.icon
-                        | handler
-                    +single_user_view key='handler_username' direct=true
+                    //- with _author_id
+                    //-     +user_card
+                    each tags
+                        .ui.label #{this}
                 .eight.wide.column
                     .ui.large.center.aligned.inline.header #{title}
                     .ui.segment.f4
                         +textarea_view key='description' label='description' icon='content' direct=true
                     div
-                    if security_deposit_required
-                        .ui.header 
-                        |$#{security_deposit_amount}
-                        small security deposit
-                    +text_view key='contact_info' label='contact info' icon='info' direct=true
-                    div
-                    +link_view key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
                     +rental_calendar
                     +rental_view_reservations
                     +comments
                 .four.wide.column
                     +reserve_button
-                    +boolean_view key='daily_rate' label='daily rate' icon='sun' direct=true
-                    if daily_rate
-                        +float_view key='daily_dollars' label='daily rate' icon='exchange' direct=true
-                    div
-                    +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
-                    if auction
-                        +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
-                        +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
-                    div
-                    +boolean_view key='security_deposit_required' label='security deposit required' icon='lock' direct=true
-                    if security_deposit_required
-                        +number_view key='security_deposit_amount' label='security deposit amount' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
-                        div
-                        +boolean_view key='friends_exempt' label='friends exempt' icon='users' direct=true
-                        
                     +boolean_view key='approval_required' label='approval required' icon='checkmark' direct=true
                     if approval_required
                         div
@@ -85,40 +52,6 @@ template(name='rental_view')
                     if allow_refunds
                         +number_view key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
                         +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
-
-                    .title.header
-                        i.pie.chart.icon 
-                        |ownership
-                        i.dropdown.icon
-                    .content
-                        +single_user_view key='owner_username' label='owner' direct=true
-                        +single_user_view key='handler_username' label='handler' direct=true
-                    .title.header
-                        i.clock.icon
-                        |availability
-                        i.dropdown.icon
-                    .content
-                        +array_view key='availability_tags' label='availability tags' icon='clock' direct=true
-                        +boolean_view key='available' label='currently available' direct=true
-                        +multi_doc_view key='available_days' label='available days' ref_model='day_of_week' direct=true
-                    .title.header
-                        i.users.icon
-                        |audience
-                        i.dropdown.icon
-                    .content
-                        +boolean_view key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
-                        if transaction_number_restriction
-                            +number_view key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
-                        +boolean_view key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
-                        if transaction_amount_restriction
-                            +number_view key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
-                        +boolean_view key='visible_to_public' label='visible to public' direct=true
-                        unless visible_to_public
-                            +boolean_view key='visible_to_friends' label='visible to friends' direct=true
-                        unless visible_to_public
-                            +boolean_view key='visible_to_specific_people' label='visible to specific people' direct=true
-                            if visible_to_specific_people
-                                +multi_user_view key='visible_to_member_ids' label='visible to members:' direct=true
                     .title.header
                         i.people.carry.icon
                         |delivery
@@ -161,16 +94,6 @@ template(name='rental_stats')
     .ui.big.list
         .item #{views} views
         .item #{reservation_count} reservations
-        .item #{total_earnings}c/#{total_rental_hours}hrs total
-        .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
-        //- .item rental ranking # reservations
-        //- .item rental ranking $ earned
-        //- .item # different renters
-        //- .item avg daily earnings
-        //- .item avg weekly earnings
-        //- .item avg monthly earnings
-        //- .item biggest renter
-        //- .item predicted payback duration 
         //- .item predicted payback date 
     //-     //- .ui.header res slot exists
     //-     +reservation_slot_template

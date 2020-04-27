@@ -1,0 +1,15 @@
+template(name='rental_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' rental
+                    a.ui.big.fluid.button(href="/rental/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                        |save
+                    +remove_button
+                .twelve.wide.column
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +image_edit key='image_id' label='image' direct=true

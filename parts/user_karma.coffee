@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Template.user_finance.onCreated ->
+    Template.user_karma.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
@@ -42,7 +42,7 @@ if Meteor.isClient
     	)
 
 
-    Template.user_finance.events
+    Template.user_karma.events
         'click .add_credits': ->
             amount = parseInt $('.deposit_amount').val()
             amount_100x = parseInt amount*100
@@ -78,7 +78,7 @@ if Meteor.isClient
 
 
 
-    Template.user_finance.helpers
+    Template.user_karma.helpers
         owner_earnings: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find

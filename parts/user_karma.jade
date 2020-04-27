@@ -1,4 +1,4 @@
-template(name='user_finance')  
+template(name='user_karma')  
     .ui.stackable.two.column.grid
         if is_current_user
             .column
@@ -21,7 +21,7 @@ template(name='user_finance')
             .column
                 .ui.header 
                     |deposits
-                |includes 2% credit card processing fee
+                |includes 2% processing fee
                 .ui.action.fluid.input
                     input.deposit_amount(type='number' min='1' placeholder='deposit')
                     .ui.icon.button.add_credits   

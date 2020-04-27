@@ -1,8 +1,4 @@
 if Meteor.isClient
-    Router.route '/user/:username/dashboard', (->
-        @layout 'profile_layout'
-        @render 'user_dashboard'
-        ), name:'user_dashboard'
     Router.route '/user/:username', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
@@ -11,14 +7,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_about'
         ), name:'user_about'
-    Router.route '/user/:username/finance', (->
+    Router.route '/user/:username/karma', (->
         @layout 'profile_layout'
-        @render 'user_finance'
-        ), name:'user_finance'
-    Router.route '/user/:username/cart', (->
-        @layout 'profile_layout'
-        @render 'user_cart'
-        ), name:'user_cart'
+        @render 'user_karma'
+        ), name:'user_karma'
     Router.route '/user/:username/payment', (->
         @layout 'profile_layout'
         @render 'user_payment'
@@ -39,10 +31,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_bookmarks'
         ), name:'user_bookmarks'
-    Router.route '/user/:username/social', (->
-        @layout 'profile_layout'
-        @render 'user_social'
-        ), name:'user_social'
     Router.route '/user/:username/friends', (->
         @layout 'profile_layout'
         @render 'user_friends'
@@ -76,7 +64,7 @@ if Meteor.isClient
             Docs.findOne
                 model:'student_stats'
                 user_id:user._id
-        user_finances: ->
+        user_karmas: ->
             Docs.find {
                 model:'log_event'
                 event_type:'credit'
