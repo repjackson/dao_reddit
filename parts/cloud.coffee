@@ -2,7 +2,7 @@ if Meteor.isClient
     @selected_tags = new ReactiveArray []
 
     Template.cloud.onCreated ->
-        @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter, Template.currentData().limit)
+        @autorun -> Meteor.subscribe('tags', selected_tags.array())
 
     Template.cloud.helpers
         all_tags: ->
@@ -71,11 +71,11 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'tags', (selected_tags, filter, limit)->
+    Meteor.publish 'tags', (selected_tags, limit)->
         self = @
         match = {}
         if selected_tags.length > 0 then match.tags = $all: selected_tags
-        if filter then match.model = filter
+        match.model = 'rental'
         if limit
             console.log 'limit', limit
             calc_limit = limit
