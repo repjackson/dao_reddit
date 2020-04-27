@@ -1,0 +1,84 @@
+template(name='sort_item')
+    .item.set_sort #{label}
+    
+
+
+template(name='rental_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +rental_calendar
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href='/' title='rentals')
+                        i.left.chevron.icon
+                        |rentals
+                    if can_edit
+                        a.ui.fluid.button(href="/rental/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                    img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    //- with _author_id
+                    //-     +user_card
+                .eight.wide.column
+                    each tags
+                        .ui.large.label #{this}
+                    +rental_calendar
+                    each reservations
+                        +reservation_segment
+                    +comments
+
+                    
+                    
+                    
+
+
+
+        
+template(name='set_date_filter')        
+    .ui.button.set_date_filter(class=date_filter_class)
+        |#{label}
+        
+        
+
+template(name='reservation_segment')
+    .ui.segment
+        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+            small from 
+            |{{cal_time start_datetime}}
+            //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+            //- |{{long_date start_datetime}}
+            small to 
+            |{{cal_time end_datetime}}
+        //- .ui.inline.header #{_author_username}
+        .ui.inline.header #{author.name}
+        .ui.grey.inline.header #{hour_duration}hrs
+        .ui.grey.inline.header(title='credits')
+            | $#{cost}
+        .ui.small.inline.header #{when} by #{_author_username}
+        a.ui.large.button(href="/reservation/#{_id}/view")
+            |view
+            i.right.chevron.icon
+
+
+
+
+template(name='rental_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' rental
+                    a.ui.big.fluid.button(href="/rental/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                        |save
+                    +remove_button
+                .twelve.wide.column
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +image_edit key='image_id' label='image' direct=true
