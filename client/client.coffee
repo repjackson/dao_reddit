@@ -1,9 +1,6 @@
 @selected_tags = new ReactiveArray []
 @selected_timestamp_tags = new ReactiveArray []
 
-Router.route '/', (->
-    @redirect('/m/model');
-)
 
 Template.body.events
     'click a': ->

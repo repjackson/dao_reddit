@@ -1,27 +1,3 @@
-// template(name='cloud')
-//     #cloud.ui.center.aligned.fluid.segment
-//         if currentUser
-//             .ui.icon.input
-//                 i.plus.icon
-//                 input#quick_add(type='text')
-//             // #add.ui.button
-//             //     i.plus.icon
-//             //     | Full Add
-//         .ui.label
-//             +loginButtons
-//         .ui.hidden.divider
-//         .ui.left.icon.input
-//             i.search.icon
-//             +inputAutocomplete settings=settings id="search" class="" autofocus='' autocomplete="off" placeholder=''
-//         if selected_tags
-//             #clear_tags.ui.primary.icon.compact.button
-//                 i.remove.icon
-//             each selected_tags
-//                 .unselect_tag.ui.primary.compact.button
-//                     strong #{this}
-//         each all_tags
-//             .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
-//                 small #{this.count}
 template(name='cloud')
     //- #cloud
         //- .ui.left.icon.input
@@ -41,25 +17,8 @@ template(name='cloud')
 
 
 
-template(name='mini-cloud')
-    //- #cloud
-        //- .ui.left.icon.input
-        //-     i.search.icon
-        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
-        // .ui.hidden.fitted.divider
-    if selected_tags
-        #clear_tags.ui.active.icon.button
-            i.remove.icon
-        each selected_tags
-            .unselect_tag.ui.active.button
-                strong #{this}
-    each all_tags
-        .ui.compact.large.button.select_tag(class=cloud_tag_class) 
-            strong #{this.name}
 
-
-
-template(name='doc_cloud')
+template(name='rental_cloud')
     #cloud.ui.segment.container
         //- .ui.left.icon.input
         //-     i.search.icon
@@ -75,22 +34,19 @@ template(name='doc_cloud')
                 strong #{this.name}
 
 
-//- template(name='docs')
-//-     .ui.container
-//-         div
-//-             #add.ui.green.button
-//-                 i.plus.icon
-//-                 | Full Add
-//-             .ui.icon.input
-//-                 i.lightning.icon
-//-                 input#quick_add(type='text' placeholder='Quick Add')
-//-         +doc_cloud
-//-         each docs
-//-             +view
+template(name='home')
+    .ui.container
+        div
+            #add.ui.green.button
+                i.plus.icon
+                | add
+        +rental_cloud
+        each docs
+            +rental
 
         
 
-template(name='view')
+template(name='rental')
     with doc
         .ui.stackable.padded.grid
             .three.column.row

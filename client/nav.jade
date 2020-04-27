@@ -1,16 +1,7 @@
 template(name='nav')
     .ui.attached.fluid.borderless.topnav.menu
-        if is_admin
-            a.ui.icon.item.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
-                i.large.yin.yang.icon
-        a.ui.icon.item(href='/alpha' class="{{active_path '/alpha'}}" title='alpha')
-            i.large.mountain.icon
-        a.ui.icon.item(href='/calendar' class="{{active_path '/calendar'}}" title='calendar')
-            i.large.calendar.icon
-        //- .item
-        //-     .ui.input
-        //-         input(type='text')
-                
+        a.ui.icon.item.go_home(href='/' class="{{active_path '/'}}" title='models')
+            i.large.yin.yang.icon
         .right.menu
             if is_admin 
                 a.icon.item.mobile.hidden(href='/admin' class="{{active_path '/admin'}}" title="admin")
@@ -19,7 +10,7 @@ template(name='nav')
             a.icon.item(href='/alerts' class="{{active_path '/alerts'}}" title='alerts') 
                 i.bell.large.icon(class=alert_icon_class)
             if currentUser
-                a.item(href="/user/#{currentUser.username}/finance")
+                a.item(href="/user/#{currentUser.username}/credit")
                     |#{currentUser.credit}c
                 a.item(href="/user/#{currentUser.username}") 
                     i.user.icon
