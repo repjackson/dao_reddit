@@ -11,7 +11,7 @@ template(name='calendar')
         else if session_is 'cal_view' 'day'
             .ui.header day
         else if session_is 'cal_view' 'agenda'
-            .ui.header agenda
+            +cal_agenda
             
             
             
@@ -45,3 +45,9 @@ template(name='cal_month')
                     .ui.basic.segment
                         |#{this}
             
+
+
+
+template(name='cal_agenda')
+    .ui.header agenda
+    //- each reservations
