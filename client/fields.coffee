@@ -841,7 +841,7 @@ Template.multi_doc_input.events
 
 
 Template.range_edit.onRendered ->
-    # rental = Template.currentData()
+    # item = Template.currentData()
     $('#rangestart').calendar({
         type: 'datetime'
         today: true

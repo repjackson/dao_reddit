@@ -1,0 +1,20 @@
+template(name='sort_item')
+    .item.set_sort #{label}
+    
+
+
+template(name='item_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' item
+                    a.ui.big.fluid.button(href="/item/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                        |save
+                    +remove_button
+                .twelve.wide.column
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +image_edit key='image_id' label='image' direct=true

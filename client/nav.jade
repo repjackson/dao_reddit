@@ -2,11 +2,10 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.large.menu
         a.ui.icon.item.go_home(href='/' class="{{active_path '/'}}" title='models')
             i.large.yin.yang.icon
-            
         .right.menu
-            a#add.ui.icon.item
-                i.plus.large.icon
             if currentUser
+                a#add.ui.icon.item
+                    i.plus.large.icon
                 a.item(href="/user/#{currentUser.username}/karma")
                     |#{currentUser.karma}k
                 a.item(href="/user/#{currentUser.username}") 
@@ -14,5 +13,4 @@ template(name='nav')
                     |#{currentUser.username}
             else 
                 a.item(href="/login")
-                    i.sign.in.alternate.icon
-                    |login
+                    i.sign.in.alternate.large.icon

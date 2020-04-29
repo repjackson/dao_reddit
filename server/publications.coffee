@@ -25,11 +25,27 @@ Meteor.publish 'doc', (doc_id)->
 
 Meteor.publish 'docs', (
     selected_tags
+    view_mode
     doc_limit
     doc_sort_key
     doc_sort_direction
     )->
-    # console.log selected_tags
+    match = {model:'item'}
+
+    if view_mode is 'market'
+        match.bought = $ne:true
+        match._author_id = $ne: Meteor.userId()
+    if view_mode is 'bought'
+        match.bought = true
+        match.buyer_id = Meteor.userId()
+    if view_mode is 'selling'
+        match.bought = $ne:true
+        match._author_id = Meteor.userId()
+    if view_mode is 'sold'
+        match.bought = true
+        match._author_id = Meteor.userId()
+    console.log selected_tags
+    console.log view_mode
     if doc_limit
         limit = doc_limit
     else
@@ -39,11 +55,11 @@ Meteor.publish 'docs', (
     if doc_sort_direction
         sort_direction = parseInt(doc_sort_direction)
     self = @
-    match = {
-        model:'rental'
-        _author_id:$ne:Meteor.userId()
-        bought:$ne:true
-    }
+    # match = {
+    #     model:'item'
+    #     _author_id:$ne:Meteor.userId()
+    #     bought:$ne:true
+    # }
     if selected_tags.length > 0
         match.tags = $all: selected_tags
         sort = 'ups'

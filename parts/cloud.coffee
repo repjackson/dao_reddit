@@ -3,6 +3,7 @@ if Meteor.isClient
 
     Template.cloud.onCreated ->
         @autorun -> Meteor.subscribe('tags', selected_tags.array())
+        Session.setDefault('view_mode', 'market')
 
     Template.cloud.helpers
         all_tags: ->
@@ -75,7 +76,7 @@ if Meteor.isServer
         self = @
         match = {}
         if selected_tags.length > 0 then match.tags = $all: selected_tags
-        match.model = 'rental'
+        match.model = 'item'
         if limit
             console.log 'limit', limit
             calc_limit = limit

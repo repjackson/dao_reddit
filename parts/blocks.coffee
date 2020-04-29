@@ -39,18 +39,6 @@ if Meteor.isClient
             if confirm 'Confirm remove comment'
                 Docs.remove @_id
 
-    Template.follow.helpers
-        followers: ->
-            Meteor.users.find
-                _id: $in: @follower_ids
-        following: -> @follower_ids and Meteor.userId() in @follower_ids
-    Template.follow.events
-        'click .follow': ->
-            Docs.update @_id,
-                $addToSet:follower_ids:Meteor.userId()
-        'click .unfollow': ->
-            Docs.update @_id,
-                $pull:follower_ids:Meteor.userId()
 
     Template.voting.events
         'click .upvote': (e,t)->
@@ -98,11 +86,6 @@ if Meteor.isClient
             $(e.currentTarget).closest('.button').transition('pulse',200)
             Meteor.call 'downvote', @
 
-
-
-
-    Template.role_editor.onCreated ->
-        @autorun => Meteor.subscribe 'model', 'role'
 
 
 

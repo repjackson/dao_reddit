@@ -78,37 +78,6 @@ template(name='goto_model')
             i.external.blue.icon
             //- +i name='external-link'
 
-template(name='events_column')
-    .ui.accordion
-        h4.active.title
-            // +i name='edit-property' classes='ui inline image'
-            //- i.rss.icon
-            | log
-            i.dropdown.icon
-        .active.content
-            .ui.feed
-                each log_events
-                    .event
-                        .label
-                            img.ui.rounded.image(src="{{c.url object.image width=400 height=400 gravity='face' crop='fill'}}")
-                        .content
-                            .summary
-                                |#{body}
-                                .date
-                                    |#{when}
-                                if is_dev
-                                    +remove_button
-
-
-
-
-template(name='follow')
-    .ui.segment
-        .ui.header
-            i.user.plus.icon
-            |follow
-        +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
-
 
 template(name='toggle_edit')
     .ui.button.toggle_edit
@@ -130,18 +99,6 @@ template(name='view_full_button')
     a.ui.icon.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
         i.double.icon
         |view
-
-template(name='user_status')
-    if online 
-        // .ui.label(class='{{labelClass}}') 
-        .ui.empty.label(title='online')
-        // img.ui.avatar.image(src="https://img.icons8.com/connection-user_status-on/color/48" title='Online' width="48" height="48")
-        // |Online
-    else if idle
-        .ui.empty.yellow.label(title='idle')
-        // .ui.label(class='{{labelClass}}') Idle
-    // else 
-    //     |Offline
 
 template(name='user_card')
     with user

@@ -3,28 +3,31 @@ Template.nav.onCreated ->
     @autorun -> Meteor.subscribe 'all_users'
 
 Template.home.onCreated ->
-    @autorun -> Meteor.subscribe('docs', selected_tags.array())
+    @autorun -> Meteor.subscribe('docs',
+        selected_tags.array()
+        Session.get('view_mode')
+        )
 
 Template.nav.events
     'click #add': ->
         new_id =
             Docs.insert
-                model:'rental'
-        Router.go "/rental/#{new_id}/edit"
+                model:'item'
+        Router.go "/item/#{new_id}/edit"
 
 
 Template.home.helpers
     docs: ->
         Docs.find
-            model:'rental'
+            model:'item'
 
 
-Template.rental.helpers
+Template.item.helpers
     can_buy: ->
         Meteor.userId() isnt @_author_id
 
 
-Template.rental.events
+Template.item.events
     'click .buy': ->
         if confirm 'confirm'
             Docs.update @_id,
