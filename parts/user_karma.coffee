@@ -38,12 +38,12 @@ if Meteor.isClient
                             # amount_with_bonus:deposit_amount*1.05/100
                             # bonus:deposit_amount*.05/100
                         Meteor.users.update user._id,
-                            $inc: credit: deposit_amount/100
+                            $inc: karma: deposit_amount/100
     	)
 
 
     Template.user_karma.events
-        'click .add_credits': ->
+        'click .add_karma': ->
             amount = parseInt $('.deposit_amount').val()
             amount_100x = parseInt amount*100
             calculated_amount = amount_100x*1.02+20
@@ -56,7 +56,7 @@ if Meteor.isClient
             #     model:'deposit'
             #     amount: amount
             # Meteor.users.update Meteor.userId(),
-            #     $inc: credit: amount
+            #     $inc: karma: amount
 
 
         'click .initial_withdrawal': ->
@@ -68,13 +68,13 @@ if Meteor.isClient
                     status: 'started'
                     complete: false
                 Meteor.users.update Meteor.userId(),
-                    $inc: credit: -withdrawal_amount
+                    $inc: karma: -withdrawal_amount
 
         'click .cancel_withdrawal': ->
             if confirm "cancel withdrawal for #{@amount}?"
                 Docs.remove @_id
                 Meteor.users.update Meteor.userId(),
-                    $inc: credit: @amount
+                    $inc: karma: @amount
 
 
 

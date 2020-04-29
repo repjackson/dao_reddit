@@ -27,19 +27,16 @@ template(name='profile_layout')
                             a.ui.inline.header(href="/user/#{user.username}/karma" title='karma')
                                 //- +i name='coins'
                                 //- i.coins.icon
-                                |{{fixed user.credit}}c
+                                |{{user.karma}}k
                     if is_current_user
-                        a.ui.fluid.basic.button(href="/user/#{user.username}/edit" title='profile settings')
+                        a.ui.large.icon.button(href="/user/#{user.username}/edit" title='profile settings')
                             i.cog.icon
-                            |edit
                     else if is_admin
-                        a.ui.fluid.basic.button(href="/user/#{user.username}/edit" title='profile settings')
+                        a.ui.large.icon.button(href="/user/#{user.username}/edit" title='profile settings')
                             +i name='settings' classes='ui avatar image'
-                            |edit
                     if is_current_user
-                        .ui.fluid.basic.button.logout
+                        .ui.large.icon.button.logout
                             i.sign.out.alternate.icon
-                            |log out
                         //- a.ui.fluid.basic.button.logout_other_clients(href="#" title='logout other clients')
                         //-     i.globe.icon
                         //-     |log out other clients
@@ -50,16 +47,6 @@ template(name='profile_layout')
                         each roles
                             .ui.label #{this}
                 .twelve.wide.column
-                    a.ui.compact.basic.large.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
-                        +i name='clock' classes='ui avatar image'
-                        |rentals
-                    a.ui.compact.basic.large.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
-                        +i name='money' classes='ui avatar image'
-                        |credit
-                    a.ui.compact.basic.large.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
-                        +i name='invoice' classes='ui avatar image'
-                        |orders
-        
                     div.global_container
                         .spacer
                         +yield
@@ -71,93 +58,59 @@ template(name='user_dashboard')
         i.dashboard.icon
         |dashboard
     .ui.stackable.padded.grid
-        .three.column.row
+        .row
+            .sixteen.wide.column
+                if is_current_user
+                    +user_karma
+                else
+                    .ui.header #{user.karma} karma
+                    .ui.button.send_karma
+                        |send karma
+                    .ui.button.request_karma
+                        |request
             .column
-                i.recalc_user_act_stats.refresh.link.icon
-                i.recalc_user_cloud.refresh.link.icon
-                .ui.header upvote cloud 
-                    each current_user.upvote_tag_cloud
-                        .ui.basic.large.label 
-                            |#{tag}
-                            small #{count}
-                .ui.header downvote cloud 
-                    each current_user.downvote_tag_cloud
-                        .ui.basic.large.label 
-                            |#{tag}
-                            small #{count}
-                .ui.header upvote tag list
-                each current_user.upvote_tag_list
-                    .ui.label #{this}
-                .ui.header downvote tag list
-                each current_user.downvote_tag_list
-                    .ui.label #{this}
+                
+                
+                
+template(name='user_karma')  
+    .ui.stackable.two.column.grid
+        if is_current_user
             .column
-                .ui.header karma
-                .ui.header #{current_user.karma} karma
-                .ui.button.send_karma
-                    |send karma
-                .ui.button.request_karma
-                    |request
+                .ui.header 
+                    |withdraw
+                |10% charge, takes one business day 
+                .ui.action.fluid.input
+                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
+                    .ui.icon.button.initial_withdrawal 
+                        i.right.chevron.icon
+                .ui.small.header withdrawals
+                .ui.bulleted.list
+                    each withdrawals
+                        .item
+                            .ui.header #{when} for #{amount} credit
+                            |status: #{status}
+                            .ui.button.cancel_withdrawal
+                                i.ban.icon
+                                |cancel
             .column
-        .three.column.row
+                .ui.header 
+                    |deposits
+                |includes 2% processing fee
+                .ui.action.fluid.input
+                    input.deposit_amount(type='number' min='1' placeholder='deposit')
+                    .ui.icon.button.add_karma   
+                        i.right.chevron.icon
+                .ui.small.header deposits
+                .ui.large.bulleted.list
+                    each deposits
+                        .item 
+                            .content
+                                .header 
+                                    |#{amount}c
+                                .description #{when} {{long_date _timestamp}}
+                                //- if is_dev
+                                +remove_button
+                                
             .column
-                //- .ui.header 
-                //-     |hourly rate: $#{hourly_rate}
-                +user_alerts_small
-            .column
-                +user_bookmarks_small
-            //-     +user_answered_questions_small
-            .column
-                .ui.small.header section average
-                .ui.list 
-                    .item from yesterday
-                    .item from last week
-                    .item from last month
-                .ui.header.calc_test_sessions test sessions
-                .ui.list 
-                    .item #{current_user.all_sessions_count} total
-                    .item #{current_user.todays_sessions_count} last 24 hrs
-                    .item #{current_user.weeks_sessions_count} last 7 days
-                    .item #{current_user.months_sessions_count} last 30 days
-            .column
-                //- .ui.header #{site_percent_complete}% site complete
-                //- .ui.header #{session_count} sessions
-                //- .ui.indicating.tiny.progress(data-percent=global_section_average)
-                //-     .bar 
-                    //- .label 
-                    //-     |#{global_section_average}% total
-                .ui.teal.label(title='global rank')
-                    |#{global_section_average_rank}
-                .ui.blue.label(title='group rank')
-                    |#{global_section_average_rank}
-            
-        .three.column.row
-            .column
-                +user_stats_small
-
-
-template(name='user_alerts_small')
-    .ui.header 
-        i.bell.small.icon
-        |alerts
-    .ui.list
-        each alerts 
-            .ui.item #{content}
-
-
-template(name='user_stats_small')
-    .ui.inline.header 
-        i.bar.chart.icon
-        |stats
-    div    
-    .ui.large.list 
-        .item profile views 
-        .item comments
-        .item questions authored 
-        .item likes 
-        .item dislikes
-        .item question views
-        .item courses enrolled
-        
-    
-    
+                .ui.header admin 
+                +number_edit key='karma' label='karma' direct=true

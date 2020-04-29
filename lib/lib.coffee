@@ -1,12 +1,6 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 
-Router.configure
-    layoutTemplate: 'layout'
-    notFoundTemplate: 'not_found'
-    loadingTemplate: 'splash'
-    trackPageView: false
-
 
 if Meteor.isClient
     # console.log $
@@ -55,20 +49,6 @@ Docs.before.insert (userId, doc)->
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
     when: -> moment(@_timestamp).fromNow()
-    ten_tags: -> if @tags then @tags[..10]
-    five_tags: -> if @tags then @tags[..4]
-    three_tags: -> if @tags then @tags[..2]
-    is_visible: -> @published in [0,1]
-    is_published: -> @published is 1
-    is_anonymous: -> @published is 0
-    is_private: -> @published is -1
-    from_user: ->
-        if @from_user_id
-            Meteor.users.findOne @from_user_id
-    to_user: ->
-        if @to_user_id
-            Meteor.users.findOne @to_user_id
-
 
     upvoters: ->
         if @upvoter_ids
@@ -92,150 +72,5 @@ Meteor.users.helpers
             "#{@first_name} #{@last_name}"
         else
             "#{@username}"
-    is_current_student: ->
-        if @roles
-            if 'admin' in @roles
-                if 'student' in @current_roles then true else false
-            else
-                if 'student' in @roles then true else false
-
     email_address: -> if @emails and @emails[0] then @emails[0].address
     email_verified: -> if @emails and @emails[0] then @emails[0].verified
-    five_tags: -> if @tags then @tags[..4]
-    three_tags: -> if @tags then @tags[..2]
-    last_name_initial: -> if @last_name then @last_name.charAt 0
-
-Meteor.methods
-    add_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:delta_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:delta_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
-    remove_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            Docs.update { _id:delta_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:delta_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
-    add_afacet_filter: (alpha_session_id, key, filter)->
-        if key is 'keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:alpha_session_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:alpha_session_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'afum', alpha_session_id, (err,res)->
-
-
-    remove_afacet_filter: (alpha_session_id, key, filter)->
-        if key is 'keys'
-            Docs.update { _id:alpha_session_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:alpha_session_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'afum', alpha_session_id, (err,res)->
-
-
-
-    pin: (doc)->
-        if doc.pinned_ids and Meteor.userId() in doc.pinned_ids
-            Docs.update doc._id,
-                $pull: pinned_ids: Meteor.userId()
-                $inc: pinned_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: pinned_ids: Meteor.userId()
-                $inc: pinned_count: 1
-
-    subscribe: (doc)->
-        if doc.subscribed_ids and Meteor.userId() in doc.subscribed_ids
-            Docs.update doc._id,
-                $pull: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: 1
-
-
-    upvote: (doc)->
-        if Meteor.userId()
-            if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
-                Docs.update doc._id,
-                    $pull: downvoter_ids:Meteor.userId()
-                    $addToSet: upvoter_ids:Meteor.userId()
-                    $inc:
-                        points:2
-                        upvotes:1
-                        downvotes:-1
-            else if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
-                Docs.update doc._id,
-                    $pull: upvoter_ids:Meteor.userId()
-                    $inc:
-                        points:-1
-                        upvotes:-1
-            else
-                Docs.update doc._id,
-                    $addToSet: upvoter_ids:Meteor.userId()
-                    $inc:
-                        upvotes:1
-                        points:1
-            Meteor.users.update doc._author_id,
-                $inc:karma:1
-        else
-            Docs.update doc._id,
-                $inc:
-                    anon_points:1
-                    anon_upvotes:1
-            Meteor.users.update doc._author_id,
-                $inc:anon_karma:1
-
-    downvote: (doc)->
-        if Meteor.userId()
-            if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
-                Docs.update doc._id,
-                    $pull: upvoter_ids:Meteor.userId()
-                    $addToSet: downvoter_ids:Meteor.userId()
-                    $inc:
-                        points:-2
-                        downvotes:1
-                        upvotes:-1
-            else if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
-                Docs.update doc._id,
-                    $pull: downvoter_ids:Meteor.userId()
-                    $inc:
-                        points:1
-                        downvotes:-1
-            else
-                Docs.update doc._id,
-                    $addToSet: downvoter_ids:Meteor.userId()
-                    $inc:
-                        points:-1
-                        downvotes:1
-            Meteor.users.update doc._author_id,
-                $inc:karma:-1
-        else
-            Docs.update doc._id,
-                $inc:
-                    anon_points:-1
-                    anon_downvotes:1
-            Meteor.users.update doc._author_id,
-                $inc:anon_karma:-1

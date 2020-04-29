@@ -21,7 +21,6 @@ Router.configure
 # });
 
 
-Router.route '/inbox', -> @render 'inbox'
 
 Router.route('enroll', {
     path: '/enroll-account/:token'
@@ -63,7 +62,6 @@ Router.route '*', -> @render 'not_found'
 
 Router.route '/forgot_password', -> @render 'forgot_password'
 
-Router.route '/settings', -> @render 'settings'
 
 Router.route '/reset_password/:token', (->
     @render 'reset_password'

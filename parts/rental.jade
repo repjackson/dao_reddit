@@ -12,25 +12,38 @@ template(name='rental_view')
             //-         +rental_calendar
             .row
                 .four.wide.column
-                    a.ui.fluid.button(href='/' title='rentals')
-                        i.left.chevron.icon
-                        |rentals
                     if can_edit
-                        a.ui.fluid.button(href="/rental/#{_id}/edit")
+                        a.ui.big.icon.button(href="/rental/#{_id}/edit")
                             i.pencil.icon
-                            |edit
-                    img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     .ui.header added by #{_author_username}
                     |#{when}
                     //- with _author_id
                     //-     +user_card
                 .eight.wide.column
+                    img.ui.centered.rounded.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     each tags
                         .ui.large.label #{this}
-                    +rental_calendar
+                    .ui.header reservations
+                    +res_day_button offset=0 label='today'
+                    +res_day_button offset=1 label='tomorrow'
+                    +res_day_button offset=2  label='today'
+                    +res_day_button offset=3 label='next'
                     each reservations
-                        +reservation_segment
+                        .ui.segment 
+                            .ui.header #{day}
+                            .ui.header #{_author_username}
+                            .ui.header #{date}
+                            .ui.header #{month}
+                            +remove_button
+                        
+                    //- +rental_calendar
+                    //-     +reservation_segment
                     +comments
+
+
+template(name='res_day_button')
+    a.ui.segment.create_res(class=create_res_class title=offset)
+        | #{label}
 
                     
                     

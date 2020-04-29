@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.attached.fluid.borderless.topnav.large.menu
+    .ui.attached.fluid.borderless.topnav.big.menu
         a.ui.icon.item.go_home(href='/' class="{{active_path '/'}}" title='models')
             i.large.yin.yang.icon
         .right.menu
@@ -7,8 +7,8 @@ template(name='nav')
                 a.icon.item.mobile.hidden(href='/admin' class="{{active_path '/admin'}}" title="admin")
                     i.user.shield.large.icon
             if currentUser
-                a.item(href="/user/#{currentUser.username}/credit")
-                    |#{currentUser.credit}c
+                a.item(href="/user/#{currentUser.username}/karma")
+                    |#{currentUser.karma}k
                 a.item(href="/user/#{currentUser.username}") 
                     i.user.icon
                     |#{currentUser.username}

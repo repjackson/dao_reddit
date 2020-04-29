@@ -7,8 +7,46 @@ if Meteor.isClient
 
     Template.rental_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'rental_reservations_by_id', Router.current().params.doc_id
     Template.rental_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+
+    Template.rental_view.events
+
+    Template.rental_view.helpers
+        reservations: ->
+            Docs.find
+                model:'reservation'
+                rental_id:Router.current().params.doc_id
+
+
+    Template.res_day_button.helpers
+        create_res_class: ->
+
+            # date_string =  moment().add(2, 'days').format('dddd, MMMM Do')
+            # console.log moment().date()+2
+            # # console.log moment().day()
+            # console.log moment().month()
+            found_res =
+                Docs.findOne
+                    model:'reservation'
+                    rental_id:Router.current().params.doc_id
+                    # day: moment().day()+@offset
+                    month: moment().month()
+                    date: moment().date()+@offset
+            if found_res
+                'disabled'
+            else
+                'green'
+    Template.res_day_button.events
+        'click .create_res': ->
+            new_id =
+                Docs.insert
+                    model:'reservation'
+                    rental_id:Router.current().params.doc_id
+                    month: moment().month()
+                    date: moment().date()+@offset
+
 
 
 if Meteor.isClient

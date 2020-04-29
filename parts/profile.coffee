@@ -3,34 +3,14 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_dashboard'
         ), name:'profile_layout'
-    Router.route '/user/:username/about', (->
-        @layout 'profile_layout'
-        @render 'user_about'
-        ), name:'user_about'
     Router.route '/user/:username/karma', (->
         @layout 'profile_layout'
         @render 'user_karma'
         ), name:'user_karma'
-    Router.route '/user/:username/payment', (->
-        @layout 'profile_layout'
-        @render 'user_payment'
-        ), name:'user_payment'
     Router.route '/user/:username/feed', (->
         @layout 'profile_layout'
         @render 'user_feed'
         ), name:'user_feed'
-    Router.route '/user/:username/transactions', (->
-        @layout 'profile_layout'
-        @render 'user_transactions'
-        ), name:'user_transactions'
-    Router.route '/user/:username/messages', (->
-        @layout 'profile_layout'
-        @render 'user_messages'
-        ), name:'user_messages'
-    Router.route '/user/:username/bookmarks', (->
-        @layout 'profile_layout'
-        @render 'user_bookmarks'
-        ), name:'user_bookmarks'
     Router.route '/user/:username/friends', (->
         @layout 'profile_layout'
         @render 'user_friends'
@@ -39,6 +19,23 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_orders'
         ), name:'user_orders'
+
+
+
+if Meteor.isClient
+    Template.user_orders.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'order'
+    Template.user_orders.events
+
+    Template.user_orders.helpers
+        orders: ->
+            Docs.find
+                model:'order'
+                _author_id:Meteor.userId()
+
+
+    Template.order_segment.onCreated ->
+        @autorun => Meteor.subscribe 'doc', @data.product_id
 
 
     Template.profile_layout.onCreated ->
@@ -77,11 +74,6 @@ if Meteor.isClient
 
 
     Template.profile_layout.events
-        'click .profile_image': (e,t)->
-            $(e.currentTarget).closest('.profile_image').transition(
-                animation: 'jiggle'
-                duration: 750
-            )
         'click .logout_other_clients': -> Meteor.logoutOtherClients()
         'click .logout': ->
             Router.go '/login'

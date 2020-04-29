@@ -22,9 +22,6 @@ template(name='user_edit_layout')
                         //- a.item(href="/user/#{current_user._id}/edit/friends" class="{{active_path regex='user_edit_friends'}}") 
                         //-     |friends
                         //-     i.grey.users.icon 
-                        a.item(href="/user/#{current_user._id}/edit/tutoring" class="{{active_path regex='user_edit_tutoring'}}") 
-                            |tutoring
-                            i.grey.chalkboard.icon 
                         //- a.item(href="/user/#{current_user._id}/edit/alerts" class="{{active_path regex='user_edit_alerts'}}") 
                         //-     |alerts
                         //-     i.grey.bell.icon 
@@ -51,7 +48,6 @@ template(name='user_edit_info')
                 i.envelope.outline.icon
                 |emails
             +emails_edit
-            +number_edit key='hourly_rate' label='hourly rate ($)' direct=true
         .column
             //- if is_admin
             //-     .ui.segment 
@@ -64,20 +60,6 @@ template(name='user_edit_info')
             //- div
             +phone_edit key='phone' label='phone' icon='phone' direct=true
             +array_edit key='tags' label='tags' direct=true
-            .ui.header score goals
-            +number_edit key='english' label='english' min=10 max=36 direct=true label_classes='inline'
-            div
-            +number_edit key='math' label='math' min=10 max=36 direct=true label_classes='inline'
-            div
-            +number_edit key='reading' label='reading' min=10 max=36 direct=true label_classes='inline'
-            div
-            +number_edit key='science' label='science' min=10 max=36 direct=true label_classes='inline'
-            .ui.list
-                .item Top 50 colleges: 95th percentile, 31 ACT
-                .item Top 100 colleges: 91st percentile, 29 ACT
-                .item Top 200 colleges: 82nd percentile, 26 ACT
-                .item Top 300 college: 74th percentile, 24 ACT
-                .item Top 500 college: 66th percentile, 22 ACT
 
      
 template(name='phone_editor')
@@ -161,18 +143,6 @@ template(name='user_edit_friends')
     .ui.header
         i.users.icon
         | friends
-    
-    
-    
-template(name='user_edit_tutoring')
-    .ui.header
-        i.chalkboard.icon
-        | tutoring
-    +boolean_edit key='accepting_students' label='accepting students' direct=true
-    each user_students
-        .ui.header #{name}
-    
-    
     
     
     

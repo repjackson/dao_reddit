@@ -1,0 +1,45 @@
+template(name='cloud')
+    //- .ui.left.icon.input
+    //-     i.search.icon
+    //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+    if selected_tags
+        #clear_tags.ui.primary.icon.large.button
+            i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.primary.large.button
+                strong #{this}
+    each all_tags
+        .ui.button.select_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+template(name='home')
+    .ui.padded.stackable.grid
+        .four.wide.column
+            #add.ui.icon.button
+                i.plus.icon
+            div
+            +cloud
+        .twelve.wide.column
+            .ui.stackable.four.cards
+                each docs
+                    +rental
+
+        
+
+template(name='rental')
+    .ui.card
+        a(href="/rental/#{_id}/view")
+            img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        .content
+            .ui.large.label 
+                i.user.outline.icon
+                |#{_author_username}
+            each tags
+                .ui.label #{this}
+                
+            //- if is_friend
+            .ui.button today
+            .ui.button tomorrow
+            .ui.button next
+                

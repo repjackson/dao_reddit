@@ -1,4 +1,24 @@
 @selected_tags = new ReactiveArray []
+Template.nav.onCreated ->
+    @autorun -> Meteor.subscribe 'me'
+    @autorun -> Meteor.subscribe 'all_users'
+
+Template.home.onCreated ->
+    @autorun -> Meteor.subscribe('docs', selected_tags.array())
+
+Template.home.events
+    'click #add': ->
+        new_id =
+            Docs.insert
+                model:'rental'
+        Router.go "/rental/#{new_id}/edit"
+
+
+Template.home.helpers
+    docs: ->
+        Docs.find
+            model:'rental'
+
 
 
 Template.body.events
@@ -30,6 +50,36 @@ Template.registerHelper 'can_edit', () ->
 Template.registerHelper 'fixed', (input) ->
     if input
         input.toFixed(2)
+
+
+
+
+
+
+Template.registerHelper 'day1', (input) ->
+    # console.log @
+    now = Date.now()
+    # date_string =  moment(now).add(1, 'days').format('YYYY-MM-DD')
+    date_string =  moment(now).add(1, 'days').format('ddd, MMM Do')
+
+Template.registerHelper 'day2', (input) ->
+    now = Date.now()
+    # date_string =  moment(now).add(1, 'days').format('YYYY-MM-DD')
+    date_string =  moment(now).add(2, 'days').format('dddd, MMMM Do')
+
+
+Template.registerHelper 'day3', (input) ->
+    now = Date.now()
+    # date_string =  moment(now).add(1, 'days').format('YYYY-MM-DD')
+    date_string =  moment(now).add(3, 'days').format('dddd, MMMM Do')
+
+Template.registerHelper 'day4', (input) ->
+    now = Date.now()
+    # date_string =  moment(now).add(4, 'days').fromNow()
+    date_string =  moment(now).add(1, 'days').format('dddd, MMMM Do')
+
+
+
 
 
 

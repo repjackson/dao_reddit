@@ -4,13 +4,9 @@ Meteor.publish 'current_doc ', (doc_id)->
 
 
 
-Meteor.publish 'model_docs_from_model_id', (model_id)->
-    console.log 'pulling model id', model_id
-    model = Docs.findOne model_id
-    Docs.find
-        model:model.slug
 
-
+Meteor.publish 'me', ->
+    Meteor.users.find @userId
 
 Meteor.publish 'model_docs', (model)->
     # console.log 'pulling doc'
@@ -21,16 +17,6 @@ Meteor.publish 'user_from_username', (username)->
     # console.log 'pulling doc'
     Meteor.users.find
         username:username
-
-
-Meteor.publish 'children', (model, parent_id, limit)->
-    console.log model
-    console.log parent_id
-    limit = if limit then limit else 10
-    Docs.find {
-        model:model
-        parent_id:parent_id
-    }, limit:limit
 
 
 
@@ -60,6 +46,6 @@ Meteor.publish 'docs', (
         # match.source = $ne:'wikipedia'
 
     Docs.find match,
-        sort:"#{sort}":sort_direction
-        # sort:_timestamp:-1
+        # sort:"#{sort}":sort_direction
+        sort:_timestamp:-1
         limit: limit

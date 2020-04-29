@@ -19,10 +19,6 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_account'
         ), name:'user_edit_account'
-    Router.route '/user/:user_id/edit/styles', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_styles'
-        ), name:'user_edit_styles'
     Router.route '/user/:user_id/edit/tutoring', (->
         @layout 'user_edit_layout'
         @render 'user_edit_tutoring'
@@ -31,22 +27,10 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_alerts'
         ), name:'user_edit_alerts'
-    Router.route '/user/:user_id/edit/coach', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_coach'
-        ), name:'user_edit_coach'
     Router.route '/user/:user_id/edit/privacy', (->
         @layout 'user_edit_layout'
         @render 'user_edit_privacy'
         ), name:'user_edit_privacy'
-    Router.route '/user/:user_id/edit/ads', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_ads'
-        ), name:'user_edit_ads'
-    Router.route '/user/:user_id/edit/tags', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_tags'
-        ), name:'user_edit_tags'
 
     Template.user_edit_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
