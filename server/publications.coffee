@@ -39,7 +39,11 @@ Meteor.publish 'docs', (
     if doc_sort_direction
         sort_direction = parseInt(doc_sort_direction)
     self = @
-    match = {model:'rental'}
+    match = {
+        model:'rental'
+        _author_id:$ne:Meteor.userId()
+        bought:$ne:true
+    }
     if selected_tags.length > 0
         match.tags = $all: selected_tags
         sort = 'ups'

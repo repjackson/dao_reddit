@@ -1,0 +1,162 @@
+template(name='register')
+    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
+    .ui.padded.stackable.grid
+        .centered.row
+            .ten.wide.column
+                .ui.center.aligned.basic.segment
+                    i.big.yin.yang.icon
+                    .ui.inline.header registration
+                //- if message
+                //-     h4.ui.center.aligned.header #{message}
+                //- .ui.small.inline.header 
+                //-     |First Name
+                //- .ui.fluid.input(class=login_class)
+                //-     input.first_name(type='text')
+                //- .ui.small.inline.header 
+                //-     |Last Name
+                //- .ui.fluid.input(class=login_class)
+                //-     input.last_name(type='text')
+                .ui.small.inline.header 
+                    i.user.outline.grey.icon
+                    |username
+                .ui.fluid.icon.input(class=login_class)
+                    //- if email_valid
+                    if username_valid
+                        i.checkmark.icon
+                    else
+                        i.ban.icon
+                    input.username(type='text')
+                .ui.small.inline.header 
+                    i.lock.grey.icon
+                    | password
+                .ui.fluid.input(class=login_class)
+                    input.password(type='password')
+                //- .ui.fluid.labeled.input(class=login_class)
+                //-     .ui.small.inline.header 
+                //-         i.lock.grey.icon
+                //-         | password again
+                //-     input.password2(type='password')
+                if can_register
+                    //- if registering
+                    .ui.fluid.large.button.register(class=enter_class)
+                        i.user.plus.icon
+                        |register '#{username}'
+                else
+                    .ui.small.header username "#{username}" found
+                    a.ui.basic.fluid.button(href='/login') 
+                        i.right.chevron.icon
+                        |login
+                .ui.center.aligned.basic.segment    
+                    .ui.small.header by registering you agree to our 
+                        a(href='/p/privacy' target="_window") privacy policy
+                    unless username
+                        .ui.small.header or
+                            a.ui.basic.sign.in.button(href='/login') 
+                                i.sign.in.alternate.icon
+                                |login
+                    
+template(name='choose_personas')
+    .ui.padded.stackable.grid
+        .centered.row
+            .eight.wide.column
+                .ui.center.aligned.basic.segment
+                    a.ui.button(href="/")
+                        i.left.chevron.icon
+                        |back
+                    div
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    //- .ui.inline.header registration
+                    div
+                    .ui.huge.header I am a...
+                    a.ui.huge.fluid.button.choose_teacher(href="/register")
+                        |teacher
+                    a.ui.huge.fluid.disabled.button.choose_student(href='/student_connect')
+                        |student
+                    a.ui.huge.fluid.disabled.button.choose_parent(href="/parent_connect")
+                        |parent
+                    //- .ui.huge.fluid.button
+                    //-     |donor
+                    //- each user_personas
+                    //-     .ui.large.button.select_persona(class=persona_class)
+                    //-         |#{title}
+                    //- .spacer
+                    //- a.ui.big.button(href="/choose_interests")
+                    //-     |continue
+                    //-     i.right.chevron.icon
+                            
+                            
+                            
+template(name='student_connect')
+    .ui.padded.stackable.grid
+        .centered.row
+            .twelve.wide.column
+                .ui.center.aligned.basic.segment
+                    a.ui.button(href="/choose_personas")
+                        i.left.chevron.icon
+                        |back
+            
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    .ui.header 
+                        |enter student code
+                    .ui.fluid.inverted.blue.center.aligned.segment
+                        .ui.massive.fluid.transparent.inverted.input 
+                            input.student_code(type='text' maxlength='6' autofocus='autofocus')
+                    if found_student 
+                        .ui.header #{found_student.username}   
+                        .ui.header set password
+                        .ui.massive.fluid.input 
+                            input.new_student_password(type='password' minlength='3' autofocus='autofocus')
+                        if can_continue 
+                            .ui.fluid.button.continue
+                                |continue
+                    else 
+                        .ui.header no student found         
+                                
+template(name='parent_connect')
+    .ui.padded.stackable.grid
+        .centered.row
+            .twelve.wide.column
+                .ui.center.aligned.basic.segment
+                    a.ui.button(href="/choose_personas")
+                        i.left.chevron.icon
+                        |back
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    .ui.header enter parent code
+                    .ui.fluid.inverted.teal.center.aligned.segment
+                        .ui.massive.fluid.transparent.inverted.input 
+                            input.parent_code(type='text' maxlength='6' autofocus='autofocus')
+                    if found_student 
+                        .ui.header found student #{found_student.username}   
+                        .ui.header set username
+                        .ui.massive.fluid.input 
+                            input.new_parent_username(type='text' minlength='3' autofocus='autofocus')
+                        .ui.header set password
+                        .ui.massive.fluid.input 
+                            input.new_parent_password(type='password' minlength='3' autofocus='autofocus')
+                        if can_continue 
+                            .ui.fluid.button.continue
+                                |continue
+                    else 
+                        .ui.header no student found         
+                                
+                                
+                                
+template(name='choose_interests')
+    .ui.padded.stackable.grid
+        .centered.row
+            .twelve.wide.column
+                .ui.center.aligned.basic.segment
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    //- .ui.inline.header registration
+                    div
+                    .ui.huge.header I want to...
+                    each user_interests
+                        .ui.large.button.select_interest(class=interest_class)
+                            |#{title}
+                    .spacer
+                    a.ui.button(href="/choose_personas")
+                        i.left.chevron.icon
+                        |back
+                    a.ui.big.button(href="/user/#{currentUser.username}")
+                        |continue
+                        i.right.chevron.icon

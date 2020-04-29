@@ -1,24 +1,4 @@
 @selected_tags = new ReactiveArray []
-Template.nav.onCreated ->
-    @autorun -> Meteor.subscribe 'me'
-    @autorun -> Meteor.subscribe 'all_users'
-
-Template.home.onCreated ->
-    @autorun -> Meteor.subscribe('docs', selected_tags.array())
-
-Template.home.events
-    'click #add': ->
-        new_id =
-            Docs.insert
-                model:'rental'
-        Router.go "/rental/#{new_id}/edit"
-
-
-Template.home.helpers
-    docs: ->
-        Docs.find
-            model:'rental'
-
 
 
 Template.body.events

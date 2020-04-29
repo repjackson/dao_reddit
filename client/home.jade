@@ -9,19 +9,16 @@ template(name='cloud')
             .unselect_tag.ui.primary.large.button
                 strong #{this}
     each all_tags
-        .ui.button.select_tag(class=cloud_tag_class) 
+        .ui.large.compact.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 
 template(name='home')
     .ui.padded.stackable.grid
         .four.wide.column
-            #add.ui.icon.button
-                i.plus.icon
-            div
             +cloud
         .twelve.wide.column
-            .ui.stackable.four.cards
+            .ui.stackable.three.cards
                 each docs
                     +rental
 
@@ -29,17 +26,19 @@ template(name='home')
 
 template(name='rental')
     .ui.card
-        a(href="/rental/#{_id}/view")
-            img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        //- a(href="/rental/#{_id}/view")
+        .content
+            each tags
+                .ui.large.label #{this}
         .content
             .ui.large.label 
                 i.user.outline.icon
                 |#{_author_username}
-            each tags
-                .ui.label #{this}
+            unless bought
+                if can_buy
+                    .ui.green.basic.button.buy
+                        |buy
+            
                 
-            //- if is_friend
-            .ui.button today
-            .ui.button tomorrow
-            .ui.button next
                 
