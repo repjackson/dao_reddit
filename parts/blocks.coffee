@@ -329,26 +329,3 @@ if Meteor.isClient
 
             # console.log res
             res
-
-if Meteor.isServer
-    Meteor.methods
-        'send_kiosk_message': (message)->
-            parent = Docs.findOne message.parent._id
-            Docs.update message._id,
-                $set:
-                    sent: true
-                    sent_timestamp: Date.now()
-            Docs.insert
-                model:'log_event'
-                log_type:'kiosk_message_sent'
-                text:"kiosk message sent"
-
-
-    Meteor.publish 'children', (model, parent_id, limit)->
-        # console.log model
-        # console.log parent_id
-        limit = if limit then limit else 10
-        Docs.find {
-            model:model
-            parent_id:parent_id
-        }, limit:limit
