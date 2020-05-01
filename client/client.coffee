@@ -15,15 +15,6 @@ Template.body.events
             $inc: views: 1
 
 
-Router.route '/item/:doc_id/edit', (->
-    @layout 'layout'
-    @render 'item_edit'
-    ), name:'item_edit'
-Template.item_edit.onCreated ->
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-
-
 
 Template.registerHelper 'can_edit', () ->
     if Meteor.user().roles
@@ -34,6 +25,11 @@ Template.registerHelper 'can_edit', () ->
     else
         @_author_id is Meteor.userId()
 
+
+Template.registerHelper 'session_key_value_is', (skey, value) ->
+    console.log 'skey', skey
+    console.log 'value', value
+    Session.equals key,value
 
 Template.registerHelper 'fixed', (input) ->
     if input

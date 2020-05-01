@@ -2,6 +2,47 @@ template(name='sort_item')
     .item.set_sort #{label}
     
 
+template(name='item_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +item_calendar
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href='/' title='items')
+                        i.left.chevron.icon
+                        |items
+                    if can_edit
+                        a.ui.fluid.button(href="/item/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                    img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    //- with _author_id
+                    //-     +user_card
+                .eight.wide.column
+                    each tags
+                        .ui.large.label #{this}
+                    if bought
+                        .ui.header #{bought}
+                    else 
+                        .ui.header not bought
+                    +comments
+
+                    
+                    
+                    
+
+
+
+        
+template(name='set_date_filter')        
+    .ui.button.set_date_filter(class=date_filter_class)
+        |#{label}
+
 
 template(name='item_edit')
     with current_doc

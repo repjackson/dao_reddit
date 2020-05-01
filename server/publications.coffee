@@ -20,6 +20,11 @@ Meteor.publish 'user_from_username', (username)->
 
 
 
+Meteor.publish 'all_users', ()->
+    Meteor.users.find()
+
+
+
 Meteor.publish 'doc', (doc_id)->
     Docs.find doc_id
 

@@ -1,61 +1,83 @@
-Router.route '/', (->
-    @render 'market'
-    ), name:'market'
-
-
-Template.market.onCreated ->
-    @autorun -> Meteor.subscribe('docs',
-        selected_tags.array()
-        Session.get('view_mode')
-        )
-
-
-
-
-
-Template.market.helpers
-    docs: ->
-        Docs.find
-            model:'item'
-
-
-Template.market_item.helpers
-    can_buy: ->
-        Meteor.userId() isnt @_author_id
-
-    has_enough: ->
-        Meteor.user().credit > @price
-
-
-Template.market_item.events
-    'click .buy': ->
-        if Meteor.userId()
-            if confirm "confirm purchase of #{@price}"
-                Meteor.call 'purchase', @, ->
-        else
-            Router.go "/login"
-
-
-    'click .cancel': ->
-        if confirm "confirm cancel of #{@price}"
-            Meteor.call 'cancel', @, ->
-
-
-
-
-
-
 if Meteor.isClient
+    Router.route '/', (->
+        @render 'items'
+        ), name:'items'
+
+
+    Template.items.onCreated ->
+        @autorun -> Meteor.subscribe('docs',
+            selected_tags.array()
+            Session.get('view_mode')
+            )
+
+
+
+
+
+    Template.items.helpers
+        docs: ->
+            Docs.find
+                model:'item'
+
+
+    Template.item_item.helpers
+        can_buy: ->
+            Meteor.userId() isnt @_author_id
+
+        has_enough: ->
+            Meteor.user().credit > @price
+
+    Template.item_item.events
+        'click .buy': ->
+            if Meteor.userId()
+                if confirm "confirm purchase of #{@price}"
+                    Meteor.call 'purchase', @, ->
+            else
+                Router.go "/login"
+
+
+        'click .cancel': ->
+            if confirm "confirm cancel of #{@price}"
+                Meteor.call 'cancel', @, ->
+
+
+
+
+    Template.item_card.helpers
+        can_buy: ->
+            Meteor.userId() isnt @_author_id
+
+        has_enough: ->
+            Meteor.user().credit > @price
+
+    Template.item_card.events
+        'click .buy': ->
+            if Meteor.userId()
+                if confirm "confirm purchase of #{@price}"
+                    Meteor.call 'purchase', @, ->
+            else
+                Router.go "/login"
+
+
+        'click .cancel': ->
+            if confirm "confirm cancel of #{@price}"
+                Meteor.call 'cancel', @, ->
+
+
+
+
+
+
     @selected_tags = new ReactiveArray []
 
-    Template.market_cloud.onCreated ->
+    Template.cloud.onCreated ->
         @autorun -> Meteor.subscribe('tags',
             selected_tags.array()
             Session.get('view_mode')
         )
         Session.setDefault('view_mode', 'market')
 
-    Template.market_cloud.helpers
+    Template.cloud.helpers
         all_tags: ->
             doc_count = Docs.find().count()
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
@@ -66,14 +88,10 @@ if Meteor.isClient
             selected_tags.array()
 
 
-    Template.market_cloud.events
+    Template.cloud.events
         'click .select_tag': -> selected_tags.push @name
         'click .unselect_tag': -> selected_tags.remove @valueOf()
         'click #clear_tags': -> selected_tags.clear()
-
-        'click #add': ->
-            Meteor.call 'add', (err,id)->
-                FlowRouter.go "/edit/#{id}"
 
 
 if Meteor.isServer
@@ -116,7 +134,7 @@ if Meteor.isServer
             ]
 
         # console.log 'filter: ', filter
-        # console.log 'cloud: ', cloud
+        console.log 'cloud: ', cloud
 
         cloud.forEach (tag, i) ->
             self.added 'tags', Random.id(),

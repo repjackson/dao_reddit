@@ -2,17 +2,7 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.large.menu
         a.ui.item(href='/' class="{{active_path '/'}}" title='models')
             i.large.home.icon
-            |market
-        if currentUser    
-            a.ui.item(href='/bought' class="{{active_path '/bought'}}" title='models')
-                i.large.money.icon
-                |bought
-            a.ui.item(href='/selling' class="{{active_path '/selling'}}" title='models')
-                i.large.clock.icon
-                |selling
-            a.ui.item(href='/sold' class="{{active_path '/sold'}}" title='models')
-                i.large.checkmark.icon
-                |sold
+            |home
         a.ui.item(href='/users' class="{{active_path '/users'}}" title='models')
             i.large.users.icon
             |users

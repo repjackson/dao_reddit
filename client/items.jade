@@ -1,0 +1,117 @@
+template(name='items')
+    .ui.padded.stackable.grid
+        .four.wide.column
+            if currentUser
+                +session_edit_value_button key='view_mode' value='market' label='market' icon='shop'
+                +session_edit_value_button key='view_mode' value='bought' label='bought' icon='money'
+                +session_edit_value_button key='view_mode' value='selling' label='selling' icon='clock'
+                +session_edit_value_button key='view_mode' value='sold' label='sold' icon='checkmark'
+            +cloud
+        .twelve.wide.column
+            +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
+            +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
+            if session_key_value_is 'layout_mode' 'grid'
+                .ui.stackable.four.cards
+                    each docs
+                        +item_card
+            else 
+                each docs
+                    +item_item
+                    
+
+
+
+
+template(name='cloud')
+    .ui.grey.header 
+        i.tags.icon
+        |tags
+    if selected_tags
+        #clear_tags.ui.primary.icon.large.button
+            i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.primary.large.button
+                strong #{this}
+    each all_tags
+        .ui.large.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+        
+
+template(name='item_card')
+    .ui.card
+        img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        //- a(href="/item/#{_id}/view")
+        .content
+            each tags
+                .ui.large.circular.basic.label #{this}
+        .content
+            .ui.large.label(title='seller')
+                i.user.outline.icon
+                |#{_author_username}
+            .ui.inline.header $#{price}
+            if buyer_username
+                .ui.large.label(title='buyer')
+                    |#{buyer_username}
+            unless bought
+                if can_buy
+                    if has_enough
+                        .ui.green.basic.basic.circular.button.buy
+                            |buy
+                    else
+                        .ui.green.basic.disabled.button
+                            |not enough
+                        
+                if can_edit
+                    a.ui.icon.button(href="/item/#{_id}/edit")
+                        i.pencil.icon
+            if can_edit
+                if bought
+                    .ui.basic.circular.button.cancel
+                        i.ban.icon
+                        |cancel
+            if is_admin
+                a.ui.icon.button(href="/item/#{_id}/edit")
+                    i.pencil.icon
+                
+                
+template(name='item_item')
+    .ui.segment
+        img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        //- a(href="/item/#{_id}/view")
+        .content
+            each tags
+                .ui.large.label #{this}
+        .content
+            .ui.inline.header seller:
+            .ui.large.label 
+                i.user.outline.icon
+                |#{_author_username}
+            .ui.header $#{price}
+            if buyer_username
+                .ui.inline.header buyer:
+                .ui.large.label 
+                    |#{buyer_username}
+            unless bought
+                if can_buy
+                    if has_enough
+                        .ui.green.basic.basic.circular.button.buy
+                            |buy
+                    else
+                        .ui.green.basic.disabled.button
+                            |not enough
+                        
+                if can_edit
+                    a.ui.icon.button(href="/item/#{_id}/edit")
+                        i.pencil.icon
+            if can_edit
+                if bought
+                    .ui.basic.circular.button.cancel
+                        i.ban.icon
+                        |cancel
+            if is_admin
+                a.ui.icon.button(href="/item/#{_id}/edit")
+                    i.pencil.icon
+                
+                

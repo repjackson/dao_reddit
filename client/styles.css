@@ -5,7 +5,7 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     /* font-size: 110% !important; */
     /* line-height: 200% !important; */
-    background: rgba(0,0,0,.05) !important;
+    background: rgba(0,0,0,.01) !important;
     /* background: rgba(0,0,0,.85) !important; */
     /* filter: invert(.9) !important; */
     overscroll-behavior: none;

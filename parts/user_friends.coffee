@@ -1,14 +1,16 @@
 if Meteor.isClient
     Template.user_friends.onCreated ->
-        @autorun => Meteor.subscribe 'users'
+        @autorun => Meteor.subscribe 'all_users'
 
 
 
     Template.user_friends.helpers
         friends: ->
-            current_user = Meteor.users.findOne Router.current().params.user_id
-            Meteor.users.find
+            current_user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.find(
                 _id:$in: current_user.friend_ids
+            ).fetch()
+
         nonfriends: ->
             Meteor.users.find
                 _id:$nin:Meteor.user().friend_ids
@@ -31,7 +33,7 @@ if Meteor.isClient
             if e.which is 13
                 post = t.$('.assign_task').val().trim()
                 # console.log post
-                current_user = Meteor.users.findOne Router.current().params.user_id
+                current_user = Meteor.users.findOne username:Router.current().params.username
                 Docs.insert
                     body:post
                     model:'task'

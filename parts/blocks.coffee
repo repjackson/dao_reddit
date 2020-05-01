@@ -283,7 +283,7 @@ if Meteor.isClient
 
     Template.session_edit_value_button.helpers
         calculated_class: ->
-            res = ''
+            res = 'circular basic'
             # console.log @
             if @classes
                 res += @classes

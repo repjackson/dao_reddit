@@ -4,9 +4,7 @@ Router.route '/users', (->
 
 
 Template.users.onCreated ->
-    @autorun -> Meteor.subscribe('all_users',
-        selected_tags.array()
-        )
+    @autorun -> Meteor.subscribe 'all_users'
 
 Template.users.helpers
     users: ->
@@ -14,26 +12,9 @@ Template.users.helpers
 
 
 Template.user_item.helpers
-    can_buy: ->
-        Meteor.userId() isnt @_author_id
-
-    has_enough: ->
-        Meteor.user().credit > @price
 
 
 Template.user_item.events
-    'click .buy': ->
-        if Meteor.userId()
-            if confirm "confirm purchase of #{@price}"
-                Meteor.call 'purchase', @, ->
-        else
-            Router.go "/login"
-
-
-    'click .cancel': ->
-        if confirm "confirm cancel of #{@price}"
-            Meteor.call 'cancel', @, ->
-
 
 
 
