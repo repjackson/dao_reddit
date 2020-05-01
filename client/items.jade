@@ -54,10 +54,14 @@ template(name='item_card')
                 i.user.outline.icon
                 |#{_author_username}
             .ui.inline.header $#{price}
-            if buyer_username
-                .ui.circular.basic.label(title='buyer')
-                    |#{buyer_username}
-            unless bought
+            if bought
+                .content
+                    |bought buy
+                    .ui.circular.basic.label(title='buyer')
+                        |#{buyer_username}
+                    div
+                    strong {{long_date bought_timestamp}} ({{from_now bought_timestamp}})
+            else
                 if can_buy
                     if has_enough
                         .ui.green.basic.basic.circular.button.buy

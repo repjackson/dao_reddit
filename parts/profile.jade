@@ -30,10 +30,10 @@ template(name='profile_layout')
                                 |${{user.credit}}
                     if is_current_user
                         a.ui.large.icon.circular.basic.button(href="/user/#{user._id}/edit" title='profile settings')
-                            +i name='settings' classes='ui avatar image'
+                            i.cog.icon
                     else if is_admin
                         a.ui.large.icon.circular.basic.button(href="/user/#{user._id}/edit" title='profile settings')
-                            +i name='settings' classes='ui avatar image'
+                            i.cog.icon
                     if is_current_user
                         .ui.large.circular.basic.icon.button.logout
                             i.sign.out.alternate.icon
@@ -47,9 +47,17 @@ template(name='profile_layout')
                         each roles
                             .ui.label #{this}
                 .twelve.wide.column
-                    div.global_container
-                        .spacer
-                        +yield
+                    a.ui.compact.basic.button(href="/user/#{username}/products" class="{{isActiveRoute 'user_products'}}")
+                        i.shop.icon
+                        |products
+                    a.ui.compact.basic.button(href="/user/#{username}/sales" class="{{isActiveRoute 'user_sales'}}")
+                        i.clock.icon
+                        'sales'
+                    a.ui.compact.basic.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                        i.money.icon
+                        |credit
+                    .spacer
+                    +yield
 
 
 

@@ -8,7 +8,7 @@ template(name='login')
                         //- |home
                     i.huge.yin.yang.icon
                     //- img.ui.rounded.large.centered.inline.image(src="{{c.url 'forest_logo_blue' width=400 height=400}}")
-                    .ui.inline.large.header login
+                    //- .ui.inline.large.header login
                 div
                 if message
                     h4.ui.center.aligned.header #{message}
@@ -26,7 +26,7 @@ template(name='login')
                 //- if username
                 if logging_in
                     .spacer
-                    .ui.fluid.big.button.enter(title="login #{username}" class=enter_class)
+                    .ui.fluid.big.circular.basic.button.enter(title="login #{username}" class=enter_class)
                         |login
                         strong #{username}
                         |&nbsp;
@@ -36,14 +36,14 @@ template(name='login')
                     if username
                         .ui.center.aligned.basic.segment
                             .ui.header no '#{username}' user
-                            a.ui.button(href='/register')
+                            a.ui.circular.basic.button(href='/register')
                                 i.user.plus.icon
                                 | register
                 .ui.center.aligned.basic.segment    
-                    a.ui.button(href='/forgot_password')
+                    a.ui.circular.basic.button(href='/forgot_password')
                         i.refresh.icon
                         |forgot password
-                    a.ui.button(href='/register') 
+                    a.ui.circular.basic.button(href='/register') 
                         i.user.plus.icon
                         |register
                     //- .ui.center.aligned.inline.header see the front desk to register an account

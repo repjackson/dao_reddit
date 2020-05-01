@@ -6,9 +6,18 @@ template(name='user_friends')
     .ui.small.header users in this list can see your inventory
     div
     +user_friend_button
-    .ui.middle.aligned.selection.animated.large.list
-        each friends
-            +user_segment
+    .ui.stackable.grid
+        .two.column.row
+            .column
+                |#{username}'s friends
+                .ui.middle.aligned.selection.animated.large.list
+                    each friends
+                        +user_segment
+            .column
+                |friends with #{username}
+                .ui.middle.aligned.selection.animated.large.list
+                    each friends_with
+                        +user_segment
 
 
 template(name='user_segment')

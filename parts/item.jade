@@ -11,7 +11,7 @@ template(name='item_view')
             //-         +item_calendar
             .row
                 .four.wide.column
-                    a.ui.fluid.button(href='/' title='items')
+                    a.ui.fluid.basic.circular.button(href='/' title='items')
                         i.left.chevron.icon
                         |items
                     if can_edit
@@ -24,10 +24,14 @@ template(name='item_view')
                     //- with _author_id
                     //-     +user_card
                 .eight.wide.column
+                    .ui.header $#{price}
                     each tags
                         .ui.large.label #{this}
                     if bought
-                        .ui.header #{bought}
+                        .ui.header buyer
+                        a.ui.button(href="/user/#{username}")
+                             |{{buyer_username}}
+                        .ui.header bought {{long_date bought_timestamp}}
                     else 
                         .ui.header not bought
                     +comments
