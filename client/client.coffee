@@ -1,5 +1,16 @@
 @selected_tags = new ReactiveArray []
 
+Template.nav.onCreated ->
+    @autorun => Meteor.subscribe 'me'
+
+Template.nav.events
+    'click #add': ->
+        new_id =
+            Docs.insert
+                model:'item'
+        Router.go "/item/#{new_id}/edit"
+
+
 
 Template.body.events
     'click a': ->
@@ -26,9 +37,9 @@ Template.registerHelper 'can_edit', () ->
         @_author_id is Meteor.userId()
 
 
-Template.registerHelper 'session_key_value_is', (skey, value) ->
-    console.log 'skey', skey
-    console.log 'value', value
+Template.registerHelper 'session_key_value_is', (key, value) ->
+    # console.log 'key', key
+    # console.log 'value', value
     Session.equals key,value
 
 Template.registerHelper 'fixed', (input) ->

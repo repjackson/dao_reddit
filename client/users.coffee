@@ -46,9 +46,6 @@ if Meteor.isClient
         'click .unselect_tag': -> selected_tags.remove @valueOf()
         'click #clear_tags': -> selected_tags.clear()
 
-        'click #add': ->
-            Meteor.call 'add', (err,id)->
-                FlowRouter.go "/edit/#{id}"
 
 
 if Meteor.isServer

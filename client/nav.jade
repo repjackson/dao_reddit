@@ -2,10 +2,10 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.large.menu
         a.ui.item(href='/' class="{{active_path '/'}}" title='models')
             i.large.home.icon
-            |home
+            .mobile.hidden home
         a.ui.item(href='/users' class="{{active_path '/users'}}" title='models')
             i.large.users.icon
-            |users
+            .mobile.hidden users
         .right.menu
             if currentUser
                 a#add.ui.icon.item

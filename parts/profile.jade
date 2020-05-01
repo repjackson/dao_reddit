@@ -8,8 +8,8 @@ template(name='profile_layout')
                 .four.wide.column
                     a.item.mobile.hidden(href="/user/#{user.username}/")
                         img.ui.centered.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                    .spacer
-                    a(href="/user/#{user.username}")
+                    .mobile.hidden.spacer
+                    a.mobile.hidden(href="/user/#{user.username}")
                         .ui.center.aligned.header
                             strong #{user.name}
                             //- 
@@ -29,13 +29,13 @@ template(name='profile_layout')
                                 //- i.coins.icon
                                 |${{user.credit}}
                     if is_current_user
-                        a.ui.large.icon.button(href="/user/#{user.username}/edit" title='profile settings')
-                            i.cog.icon
+                        a.ui.large.icon.circular.basic.button(href="/user/#{user._id}/edit" title='profile settings')
+                            +i name='settings' classes='ui avatar image'
                     else if is_admin
-                        a.ui.large.icon.button(href="/user/#{user.username}/edit" title='profile settings')
+                        a.ui.large.icon.circular.basic.button(href="/user/#{user._id}/edit" title='profile settings')
                             +i name='settings' classes='ui avatar image'
                     if is_current_user
-                        .ui.large.icon.button.logout
+                        .ui.large.circular.basic.icon.button.logout
                             i.sign.out.alternate.icon
                         //- a.ui.fluid.basic.button.logout_other_clients(href="#" title='logout other clients')
                         //-     i.globe.icon

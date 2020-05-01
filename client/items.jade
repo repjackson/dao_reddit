@@ -8,13 +8,15 @@ template(name='items')
                 +session_edit_value_button key='view_mode' value='sold' label='sold' icon='checkmark'
             +cloud
         .twelve.wide.column
-            +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
-            +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
+            .mobile.hidden
+                +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
+                +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
+                .spacer
             if session_key_value_is 'layout_mode' 'grid'
                 .ui.stackable.four.cards
                     each docs
                         +item_card
-            else 
+            if session_key_value_is 'layout_mode' 'list'
                 each docs
                     +item_item
                     
@@ -23,14 +25,15 @@ template(name='items')
 
 
 template(name='cloud')
-    .ui.grey.header 
-        i.tags.icon
+    div
+    .ui.grey.inline.header 
+        i.tags.small.icon
         |tags
     if selected_tags
-        #clear_tags.ui.primary.icon.large.button
-            i.remove.icon
+        //- #clear_tags.ui.secondary.icon.large.circular.compact.button
+        //-     i.remove.icon
         each selected_tags
-            .unselect_tag.ui.primary.large.button
+            .unselect_tag.ui.secondary.large.circular.compact.button
                 strong #{this}
     each all_tags
         .ui.large.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
@@ -41,18 +44,18 @@ template(name='cloud')
 
 template(name='item_card')
     .ui.card
-        img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
-        //- a(href="/item/#{_id}/view")
-        .content
+        a(href="/item/#{_id}/view")
+            img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        a.content(href="/item/#{_id}/view")
             each tags
                 .ui.large.circular.basic.label #{this}
         .content
-            .ui.large.label(title='seller')
+            .ui.circular.basic.label(title='seller')
                 i.user.outline.icon
                 |#{_author_username}
             .ui.inline.header $#{price}
             if buyer_username
-                .ui.large.label(title='buyer')
+                .ui.circular.basic.label(title='buyer')
                     |#{buyer_username}
             unless bought
                 if can_buy
@@ -77,21 +80,21 @@ template(name='item_card')
                 
                 
 template(name='item_item')
-    .ui.segment
-        img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
-        //- a(href="/item/#{_id}/view")
-        .content
+    .ui.segment.stackable.grid
+        .four.wide.column
+            a(href="/item/#{_id}/view")
+                img.ui.inline.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        .twelve.wide.column
             each tags
-                .ui.large.label #{this}
-        .content
+                .ui.circular.basic.label #{this}
             .ui.inline.header seller:
-            .ui.large.label 
+            .ui.circular.basic.label 
                 i.user.outline.icon
                 |#{_author_username}
             .ui.header $#{price}
             if buyer_username
                 .ui.inline.header buyer:
-                .ui.large.label 
+                .ui.circular.basic.label 
                     |#{buyer_username}
             unless bought
                 if can_buy

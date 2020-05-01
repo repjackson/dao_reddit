@@ -9,8 +9,8 @@ template(name='user_edit_layout')
                         | #{current_user.first_name} #{current_user.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{current_user.username}
-                    a.ui.fluid.basic.large.button(href="/user/#{current_user._id}/") 
-                        i.grey.checkmark.icon
+                    a.ui.fluid.basic.large.button(href="/user/#{current_user.username}/") 
+                        i.green.checkmark.icon
                         strong save
                     .ui.vertical.fluid.pointing.menu(class="{{currentUser.nav_color}}")
                         a.item(href="/user/#{current_user._id}/edit/info" class="{{active_path regex='user_edit_info'}}") 
@@ -164,7 +164,7 @@ template(name='user_edit_account')
     .ui.header 
         i.cog.icons
         |account
-    .ui.two.column.grid
+    .ui.two.column.stackable.grid
         .column
             +password_edit
             if is_admin
