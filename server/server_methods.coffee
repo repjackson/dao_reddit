@@ -3,6 +3,32 @@ Meteor.methods
         Docs.update doc_id,
             $inc:views:1
 
+    purchase: (item)->
+        if Meteor.user().credit >= item.price
+            Docs.update item._id,
+                $set:
+                    bought:true
+                    bought_timestamp:Date.now()
+                    buyer_id:Meteor.userId()
+                    buyer_username:Meteor.user().username
+            Meteor.users.update Meteor.userId(),
+                $inc:credit:-item.price
+            Meteor.users.update item._author_id,
+                $inc:credit:item.price
+
+    cancel: (item)->
+        if Meteor.userId() is item._author_id
+            Docs.update item._id,
+                $set:
+                    bought:false
+                    bought_timestamp:null
+                    buyer_id:null
+                    buyer_username:null
+            Meteor.users.update Meteor.userId(),
+                $inc:credit:-item.price
+            Meteor.users.update item.buyer_id,
+                $inc:credit:item.price
+
 
     add_user: (username)->
         options = {}

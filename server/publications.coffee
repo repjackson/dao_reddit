@@ -44,8 +44,8 @@ Meteor.publish 'docs', (
     if view_mode is 'sold'
         match.bought = true
         match._author_id = Meteor.userId()
-    console.log selected_tags
-    console.log view_mode
+    # console.log selected_tags
+    # console.log view_mode
     if doc_limit
         limit = doc_limit
     else

@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Template.user_karma.onCreated ->
+    Template.user_credit.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
@@ -38,12 +38,12 @@ if Meteor.isClient
                             # amount_with_bonus:deposit_amount*1.05/100
                             # bonus:deposit_amount*.05/100
                         Meteor.users.update user._id,
-                            $inc: karma: deposit_amount/100
+                            $inc: credit: deposit_amount/100
     	)
 
 
-    Template.user_karma.events
-        'click .add_karma': ->
+    Template.user_credit.events
+        'click .add_credit': ->
             amount = parseInt $('.deposit_amount').val()
             amount_100x = parseInt amount*100
             calculated_amount = amount_100x*1.02+20
@@ -56,7 +56,7 @@ if Meteor.isClient
             #     model:'deposit'
             #     amount: amount
             # Meteor.users.update Meteor.userId(),
-            #     $inc: karma: amount
+            #     $inc: credit: amount
 
 
         'click .initial_withdrawal': ->
@@ -68,17 +68,17 @@ if Meteor.isClient
                     status: 'started'
                     complete: false
                 Meteor.users.update Meteor.userId(),
-                    $inc: karma: -withdrawal_amount
+                    $inc: credit: -withdrawal_amount
 
         'click .cancel_withdrawal': ->
             if confirm "cancel withdrawal for #{@amount}?"
                 Docs.remove @_id
                 Meteor.users.update Meteor.userId(),
-                    $inc: karma: @amount
+                    $inc: credit: @amount
 
 
 
-    Template.user_karma.helpers
+    Template.user_credit.helpers
         owner_earnings: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find

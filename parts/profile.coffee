@@ -3,10 +3,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_dashboard'
         ), name:'profile_layout'
-    Router.route '/user/:username/karma', (->
+    Router.route '/user/:username/credit', (->
         @layout 'profile_layout'
-        @render 'user_karma'
-        ), name:'user_karma'
+        @render 'user_credit'
+        ), name:'user_credit'
     Router.route '/user/:username/feed', (->
         @layout 'profile_layout'
         @render 'user_feed'
@@ -61,7 +61,7 @@ if Meteor.isClient
             Docs.findOne
                 model:'student_stats'
                 user_id:user._id
-        user_karmas: ->
+        user_credits: ->
             Docs.find {
                 model:'log_event'
                 event_type:'credit'

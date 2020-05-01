@@ -14,7 +14,7 @@ Meteor.methods
             amount: charge.amount
             currency: 'usd'
             source: charge.source
-            description: "#{user.username} karma topup"
+            description: "#{user.username} credit topup"
             # destination: account.stripe.stripeId
         Stripe.charges.create chargeData, (error, result) ->
             if error

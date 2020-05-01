@@ -16,7 +16,7 @@ template(name='profile_layout')
                             //- strong #{user.first_name} #{user.last_name}
                             //- small @#{user.username}        
                     a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{user.username}/credit" title='credit')
-                        |{{fixed user.credit}}c
+                        |${{user.credit}}
                     .ui.two.column.middle.aligned.grid.mobile.only
                         .column
                             img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
@@ -24,10 +24,10 @@ template(name='profile_layout')
                             .ui.inline.header
                                 strong #{user.name}
                                 //- small @#{user.username}        
-                            a.ui.inline.header(href="/user/#{user.username}/karma" title='karma')
+                            a.ui.inline.header(href="/user/#{user.username}/credit" title='credit')
                                 //- +i name='coins'
                                 //- i.coins.icon
-                                |{{user.karma}}k
+                                |${{user.credit}}
                     if is_current_user
                         a.ui.large.icon.button(href="/user/#{user.username}/edit" title='profile settings')
                             i.cog.icon
@@ -54,25 +54,25 @@ template(name='profile_layout')
 
 
 template(name='user_dashboard')             
-    .ui.center.aligned.header 
-        i.dashboard.icon
-        |dashboard
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
+                +user_friends
+        .row
+            .sixteen.wide.column
                 if is_current_user
-                    +user_karma
+                    +user_credit
                 else
-                    .ui.header #{user.karma} karma
-                    .ui.button.send_karma
-                        |send karma
-                    .ui.button.request_karma
+                    .ui.header #{user.credit} credit
+                    .ui.button.send_credit
+                        |send credit
+                    .ui.button.request_credit
                         |request
             .column
                 
                 
                 
-template(name='user_karma')  
+template(name='user_credit')  
     .ui.stackable.two.column.grid
         if is_current_user
             .column
@@ -98,7 +98,7 @@ template(name='user_karma')
                 |includes 2% processing fee
                 .ui.action.fluid.input
                     input.deposit_amount(type='number' min='1' placeholder='deposit')
-                    .ui.icon.button.add_karma   
+                    .ui.icon.button.add_credit   
                         i.right.chevron.icon
                 .ui.small.header deposits
                 .ui.large.bulleted.list
@@ -106,11 +106,11 @@ template(name='user_karma')
                         .item 
                             .content
                                 .header 
-                                    |#{amount}c
+                                    |$#{deposit_amount}
                                 .description #{when} {{long_date _timestamp}}
-                                //- if is_dev
-                                +remove_button
-                                
-            .column
-                .ui.header admin 
-                +number_edit key='karma' label='karma' direct=true
+                                if is_admin
+                                    +remove_button
+            if is_admin
+                .column
+                    .ui.header admin 
+                    +number_edit key='credit' label='credit' direct=true

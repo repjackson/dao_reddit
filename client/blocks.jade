@@ -52,13 +52,12 @@ template(name='session_boolean_toggle')
 
 template(name='session_edit_value_button')
     .ui.button.set_session_value(class=calculated_class)
-        if icon_view 
+        if icon
             i.icon(class=icon)
+        if label
+            |#{label}
         else 
-            if label
-                |#{label}
-            else 
-                |#{value}
+            |#{value}
 
 
 template(name='set_sort_key')

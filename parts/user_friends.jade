@@ -1,8 +1,10 @@
 
 template(name='user_friends')
-    .ui.center.aligned.header 
-        i.people.carry.icon
+    .ui.header 
         | friends
+    div
+    .ui.small.header users in this list can see your inventory
+    div
     +user_friend_button
     .ui.middle.aligned.selection.animated.large.list
         each friends

@@ -42,35 +42,6 @@ Template.registerHelper 'fixed', (input) ->
 
 
 
-
-
-Template.registerHelper 'day1', (input) ->
-    # console.log @
-    now = Date.now()
-    # date_string =  moment(now).add(1, 'days').format('YYYY-MM-DD')
-    date_string =  moment(now).add(1, 'days').format('ddd, MMM Do')
-
-Template.registerHelper 'day2', (input) ->
-    now = Date.now()
-    # date_string =  moment(now).add(1, 'days').format('YYYY-MM-DD')
-    date_string =  moment(now).add(2, 'days').format('dddd, MMMM Do')
-
-
-Template.registerHelper 'day3', (input) ->
-    now = Date.now()
-    # date_string =  moment(now).add(1, 'days').format('YYYY-MM-DD')
-    date_string =  moment(now).add(3, 'days').format('dddd, MMMM Do')
-
-Template.registerHelper 'day4', (input) ->
-    now = Date.now()
-    # date_string =  moment(now).add(4, 'days').fromNow()
-    date_string =  moment(now).add(1, 'days').format('dddd, MMMM Do')
-
-
-
-
-
-
 Template.registerHelper 'template_subs_ready', () ->
     Template.instance().subscriptionsReady()
 
@@ -139,13 +110,6 @@ Template.registerHelper 'current_doc', () ->
 
 Template.registerHelper 'product', () ->
     Docs.findOne @product_id
-
-Template.registerHelper 'members', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    if @member_ids
-        Meteor.users.find
-            _id:$in:@member_ids
-
 
 
 Template.registerHelper 'current_user', () ->

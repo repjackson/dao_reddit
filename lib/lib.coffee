@@ -69,8 +69,6 @@ Router.route('verify-email', {
         )
 })
 
-Router.route '/', -> @render 'home'
-
 
 # Router.route '/user/:username', -> @render 'user'
 Router.route '/verification_confirmation', -> @render 'verification_confirmation'

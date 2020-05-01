@@ -3,7 +3,7 @@
  - watson nlu
  - reddit api
  - wikipedia scrape
- - internal karma currency (with weight)
+ - internal credit currency (with weight)
  - pay people for data
 
 
