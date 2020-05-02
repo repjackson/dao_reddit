@@ -21,7 +21,11 @@ if Meteor.isClient
             Docs.find
                 model:'item'
 
+        current_query: -> Session.get('current_query')
+
     Template.items.events
+        'click  .clear_query': (e,t)->
+            Session.set('current_query', null)
         'keyup #search': _.throttle((e,t)->
             # query = $('#search').val()
             search = $('#search').val().toLowerCase()
@@ -106,11 +110,12 @@ if Meteor.isClient
         all_tags: ->
             doc_count = Docs.find().count()
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
+        selected_tags: -> selected_tags.array()
 
-        selected_tags: ->
-            # model = 'event'
-            # console.log "selected_#{model}_tags"
-            selected_tags.array()
+        all_authors: ->
+            doc_count = Docs.find().count()
+            if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find()
+        selected_authorss: -> selected_authors.array()
 
 
     Template.cloud.events

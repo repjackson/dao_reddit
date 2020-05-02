@@ -6,12 +6,15 @@ template(name='items')
                 +session_edit_value_button key='view_mode' value='bought' label='bought' icon='money'
                 +session_edit_value_button key='view_mode' value='selling' label='selling' icon='clock'
                 +session_edit_value_button key='view_mode' value='sold' label='sold' icon='checkmark'
+            .ui.icon.input
+                if current_query
+                    i.remove.link.icon.clear_query
+                else        
+                    i.search.icon
+                input#search(type='text' autocomplete="off" value=current_query)
             +cloud
         .twelve.wide.column
             .mobile.hidden
-                .ui.icon.input
-                    i.search.icon
-                    input#search(type='text')
                 +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
                 +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
                 .spacer
@@ -20,9 +23,10 @@ template(name='items')
                     each docs
                         +item_card
             if session_key_value_is 'layout_mode' 'list'
-                each docs
-                    +item_item
-                    
+                .ui.basic.segments
+                    each docs
+                        +item_item
+                        .ui.divider
 
 
 
@@ -41,6 +45,19 @@ template(name='cloud')
     each all_tags
         .ui.large.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
+    .ui.grey.inline.header 
+        i.users.small.icon
+        |authors
+
+    if selected_authors
+        //- #clear_tags.ui.secondary.icon.large.circular.compact.button
+        //-     i.remove.icon
+        each selected_authors
+            .unselect_tag.ui.secondary.large.circular.compact.button
+                strong #{this}
+    each all_authors
+        .ui.large.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
+            strong #{this.name}
 
 
         
@@ -49,7 +66,8 @@ template(name='item_card')
     .ui.card
         if title
             .content
-                .ui.header #{title}
+                a.ui.header(href="/item/#{_id}/view")
+                    |#{title}
         a(href="/item/#{_id}/view")
             img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         a.content(href="/item/#{_id}/view")
@@ -90,19 +108,21 @@ template(name='item_card')
                 
                 
 template(name='item_item')
-    .ui.segment.stackable.grid
+    .ui.basic.segment.stackable.grid
         .four.wide.column
             a(href="/item/#{_id}/view")
-                img.ui.inline.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+                img.ui.inline.small.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         .twelve.wide.column
-            .ui.header #{title}
+            a.ui.header(href="/item/#{_id}/view")
+                |#{title}
+            .ui.inline.green.header $#{price}
+            div
             each tags
                 .ui.circular.basic.label #{this}
             .ui.inline.header seller:
             .ui.circular.basic.label 
                 i.user.outline.icon
                 |#{_author_username}
-            .ui.header $#{price}
             if buyer_username
                 .ui.inline.header buyer:
                 .ui.circular.basic.label 

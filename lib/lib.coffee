@@ -1,5 +1,6 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
+@Authors = new Meteor.Collection 'authors'
 
 
 if Meteor.isClient
