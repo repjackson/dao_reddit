@@ -5,9 +5,11 @@ if Meteor.isClient
 
 
     Template.items.onCreated ->
+        Session.setDefault ''
         @autorun -> Meteor.subscribe('docs',
             selected_tags.array()
             Session.get('view_mode')
+            Session.get('current_query')
             )
 
 
@@ -18,6 +20,28 @@ if Meteor.isClient
         docs: ->
             Docs.find
                 model:'item'
+
+    Template.items.events
+        'keyup #search': _.throttle((e,t)->
+            # query = $('#search').val()
+            search = $('#search').val().toLowerCase()
+            Session.set('current_query', search)
+            # console.log Session.get('current_query')
+            if e.which is 13
+                if search.length > 0
+                    selected_tags.push search
+                    console.log 'search', search
+                    # Meteor.call 'log_term', search, ->
+                    $('#search').val('')
+                    Session.set('current_query', null)
+                    # # $('#search').val('').blur()
+                    # # $( "p" ).blur();
+                    # Meteor.setTimeout ->
+                    #     Session.set('dummy', !Session.get('dummy'))
+                    # , 10000
+        , 1000)
+
+
 
 
     Template.item_item.helpers
@@ -74,6 +98,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe('tags',
             selected_tags.array()
             Session.get('view_mode')
+            Session.get('current_query')
         )
         Session.setDefault('view_mode', 'market')
 
@@ -96,13 +121,17 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'tags', (
-        selected_tags,
+        selected_tags
         view_mode
+        current_query=''
         limit
     )->
         self = @
         match = {}
         if selected_tags.length > 0 then match.tags = $all: selected_tags
+        if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
+
+
         match.model = 'item'
         if view_mode is 'market'
             match.bought = $ne:true
@@ -134,7 +163,7 @@ if Meteor.isServer
             ]
 
         # console.log 'filter: ', filter
-        console.log 'cloud: ', cloud
+        # console.log 'cloud: ', cloud
 
         cloud.forEach (tag, i) ->
             self.added 'tags', Random.id(),

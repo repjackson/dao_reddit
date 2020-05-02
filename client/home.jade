@@ -9,6 +9,9 @@ template(name='items')
             +cloud
         .twelve.wide.column
             .mobile.hidden
+                .ui.icon.input
+                    i.search.icon
+                    input#search(type='text')
                 +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
                 +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
                 .spacer
@@ -44,6 +47,9 @@ template(name='cloud')
 
 template(name='item_card')
     .ui.card
+        if title
+            .content
+                .ui.header #{title}
         a(href="/item/#{_id}/view")
             img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         a.content(href="/item/#{_id}/view")
@@ -89,6 +95,7 @@ template(name='item_item')
             a(href="/item/#{_id}/view")
                 img.ui.inline.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         .twelve.wide.column
+            .ui.header #{title}
             each tags
                 .ui.circular.basic.label #{this}
             .ui.inline.header seller:
@@ -109,16 +116,13 @@ template(name='item_item')
                         .ui.green.basic.disabled.button
                             |not enough
                         
-                if can_edit
-                    a.ui.icon.button(href="/item/#{_id}/edit")
-                        i.pencil.icon
             if can_edit
                 if bought
                     .ui.basic.circular.button.cancel
                         i.ban.icon
                         |cancel
-            if is_admin
-                a.ui.icon.button(href="/item/#{_id}/edit")
+            if can_edit
+                a.ui.icon.circular.basic.button(href="/item/#{_id}/edit")
                     i.pencil.icon
                 
                 

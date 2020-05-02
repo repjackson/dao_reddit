@@ -1,4 +1,19 @@
 template(name='admin')
-    .ui.header admin
-    each withdrawals
-        .ui.header #{when}
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header.refresh_stats
+                    i.shield.icon
+                    |admin
+                with global_stats
+                    .ui.large.list
+                        .item #{total_doc_amount} docs
+                        .item #{total_item_amount} items
+                        .item #{total_selling_amount} selling
+                        .item #{total_sales_amount} sales
+                    
+            .twelve.wide.column
+                .ui.header withdrawals
+                each withdrawals
+                    .ui.segment
+                        .ui.header #{when} #{_author_username}

@@ -15,8 +15,9 @@ template(name='item_view')
                         i.left.chevron.icon
                         |items
                     if can_edit
-                        a.ui.fluid.button(href="/item/#{_id}/edit")
-                            i.pencil.icon
+                        .spacer
+                        a.ui.fluid.basic.circular.button(href="/item/#{_id}/edit")
+                            i.pencil.blue.icon
                             |edit
                     img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     .ui.header added by #{_author_username}
@@ -24,9 +25,11 @@ template(name='item_view')
                     //- with _author_id
                     //-     +user_card
                 .eight.wide.column
+                    .ui.header #{title}
                     .ui.header $#{price}
+                    i.tag.icon
                     each tags
-                        .ui.large.label #{this}
+                        .ui.large.circular.basic.label #{this}
                     if bought
                         .ui.header buyer
                         a.ui.button(href="/user/#{username}")
@@ -56,11 +59,12 @@ template(name='item_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}' item
-                    a.ui.big.fluid.button(href="/item/#{_id}/view" title='save')
+                    a.ui.big.basic.circular.fluid.button(href="/item/#{_id}/view" title='save')
                         i.checkmark.green.icon
                         |save
                     +remove_button
                 .twelve.wide.column
+                    +text_edit key='title' label='title' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     +number_edit key='price' label='price' direct=true

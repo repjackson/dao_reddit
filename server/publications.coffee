@@ -31,11 +31,13 @@ Meteor.publish 'doc', (doc_id)->
 Meteor.publish 'docs', (
     selected_tags
     view_mode
-    doc_limit
-    doc_sort_key
-    doc_sort_direction
+    current_query=''
+    doc_limit=10
+    doc_sort_key='_timestamp'
+    doc_sort_direction=1
     )->
     match = {model:'item'}
+    if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
 
     if view_mode is 'market'
         match.bought = $ne:true
@@ -50,7 +52,7 @@ Meteor.publish 'docs', (
         match.bought = true
         match._author_id = Meteor.userId()
     # console.log selected_tags
-    # console.log view_mode
+    console.log match
     if doc_limit
         limit = doc_limit
     else
@@ -71,6 +73,6 @@ Meteor.publish 'docs', (
         # match.source = $ne:'wikipedia'
 
     Docs.find match,
-        # sort:"#{sort}":sort_direction
-        sort:_timestamp:-1
+        sort:"#{sort}":sort_direction
+        # sort:_timestamp:-1
         limit: limit
