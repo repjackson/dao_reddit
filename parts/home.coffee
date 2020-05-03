@@ -41,7 +41,6 @@ if Meteor.isClient
     Template.items.events
         'click .set_sort_key': ->
             # console.log @
-            delta = Docs.findOne model:'delta'
             Session.set('sort_key',@key)
 
         'click .set_sort_direction': (e,t)->
@@ -88,8 +87,18 @@ if Meteor.isClient
     Template.item_item.events
         'click .buy': ->
             if Meteor.userId()
-                if confirm "confirm purchase of #{@price}"
-                    Meteor.call 'purchase', @, ->
+                Swal.fire({
+                    title: 'confirm purchase'
+                    text: "this will charge you #{@price} credit"
+                    icon: 'question'
+                    showCancelButton: true,
+                    confirmButtonText: 'confirm'
+                    cancelButtonText: 'cancel'
+                }).then((result) =>
+                    if result.value
+                        # food = Docs.findOne Router.current().params.doc_id
+                        Meteor.call 'purchase', @, ->
+                )
             else
                 Router.go "/login"
 

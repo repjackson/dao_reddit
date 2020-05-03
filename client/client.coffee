@@ -156,6 +156,13 @@ Template.registerHelper 'hsd', () ->
     Docs.findOne
         model:'home_stats'
 
+Template.registerHelper 'can_buy', ()->
+    Meteor.userId() isnt @_author_id
+
+Template.registerHelper 'has_enough', ()->
+    Meteor.user().credit > @price
+
+
 
 Template.registerHelper 'session_is', (key, value)->
     Session.equals(key, value)

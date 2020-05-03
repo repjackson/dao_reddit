@@ -32,7 +32,7 @@ template(name='item_view')
                         .ui.large.circular.basic.label #{this}
                     if bought
                         .ui.header buyer
-                        a.ui.button(href="/user/#{username}")
+                        a.ui.large.basic.circular.button(href="/user/#{buyer_username}")
                              |{{buyer_username}}
                         .ui.header bought {{long_date bought_timestamp}}
                     else 

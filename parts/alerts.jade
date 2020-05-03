@@ -1,0 +1,11 @@
+template(name='alerts')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header.refresh_stats
+                    i.shield.icon
+                    |alerts
+
+            .twelve.wide.column
+                each alerts
+                    .ui.header #{title}

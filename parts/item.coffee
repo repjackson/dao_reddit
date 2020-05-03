@@ -30,6 +30,22 @@ if Meteor.isClient
                 Router.go "/item/#{new_id}/edit"
 
 
+        'click .buy': ->
+            if Meteor.userId()
+                Swal.fire({
+                    title: 'confirm purchase'
+                    text: "this will charge you #{@price} credit"
+                    icon: 'question'
+                    showCancelButton: true,
+                    confirmButtonText: 'confirm'
+                    cancelButtonText: 'cancel'
+                }).then((result) =>
+                    if result.value
+                        # food = Docs.findOne Router.current().params.doc_id
+                        Meteor.call 'purchase', @, ->
+                )
+            else
+                Router.go "/login"
 
 
 

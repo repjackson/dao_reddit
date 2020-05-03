@@ -84,6 +84,30 @@ if Meteor.isClient
 
 
 
+
+
+    Template.last_bought.helpers
+        last_bought: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find
+                model:'item'
+                bought:true
+                buyer_id:user._id
+    Template.user_dashboard.onCreated ->
+        @autorun -> Meteor.subscribe 'model_docs', 'item'
+    Template.user_dashboard.events
+        'click .recalc_user_stats': ->
+            Meteor.call 'recalc_user_stats', Router.current().params.username, ->
+
+
+
+
+
+
+
+
+
+
 if Meteor.isServer
     Meteor.methods
         recalc_user_stats: (username)->

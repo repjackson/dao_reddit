@@ -13,7 +13,7 @@ template(name='nav')
             if currentUser
                 a#add.ui.icon.item
                     i.plus.large.icon
-                a.item(href="/user/#{currentUser.username}/alerts")
+                a.item(href="/alerts")
                     i.bell.outline.icon
                     |#{currentUser.alerts}
                 a.item(href="/user/#{currentUser.username}/credit")

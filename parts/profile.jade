@@ -50,11 +50,24 @@ template(name='profile_layout')
                     +yield
 
 
+template(name='last_bought')
+    .ui.header last bought
+    each last_bought
+        .ui.segment
+            a(href="/item/#{_id}/view")
+                img.ui.inline.tiny.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                
+                .ui.inline.header #{title}
+                .ui.green.inline.header $#{price}
+            div
+            |bought {{long_date bought_timestamp}}
+
 
 template(name='user_dashboard')             
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
+                +last_bought
                 .ui.header.recalc_user_stats.pointer
                     i.line.chart.icon
                     |stats
