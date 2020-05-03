@@ -14,7 +14,8 @@ template(name='admin')
                         .item #{total_deposit_count} deposits
                     .ui.header $#{total_deposit_amount} total deposited
                     .ui.header $#{total_withdrawal_amount} total withdrawals
-            .twelve.wide.column
+                    .ui.header $#{total_site_profit} total site profit
+            .six.wide.column
                 .ui.header 
                     i.chevron.up.icon
                     |withdrawals
@@ -32,3 +33,11 @@ template(name='admin')
                         .item
                             .header $#{deposit_amount} #{_author_username}
                                 small #{when} 
+            .six.wide.column
+                .ui.header 
+                    i.users.icon
+                    |users
+                each users
+                    .ui.segment
+                        .ui.header #{username}
+                            |- $#{credit}

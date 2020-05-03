@@ -29,10 +29,10 @@ template(name='items')
                     i.sort.amount.up.icon
 
             
-            //- .mobile.hidden
-            //-     +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
-            //-     +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
-            //-     .spacer
+            span.mobile.hidden
+                +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
+                +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
+                //- .spacer
             if session_key_value_is 'layout_mode' 'grid'
                 .ui.stackable.four.cards
                     each docs
@@ -127,8 +127,8 @@ template(name='item_card')
 template(name='item_item')
     .ui.basic.segment.stackable.grid
         .four.wide.column
-            a(href="/item/#{_id}/view")
-                img.ui.inline.small.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+            a.pointer(href="/item/#{_id}/view")
+                img.ui.inline.rounded.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         .twelve.wide.column
             a.ui.header(href="/item/#{_id}/view")
                 |#{title}

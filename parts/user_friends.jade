@@ -1,20 +1,20 @@
 
 template(name='user_friends')
     .ui.header 
-        | friends
+        | network
     div
-    .ui.small.header users in this list can see your inventory
+    .ui.small.header users who can see your inventory
     div
     +user_friend_button
     .ui.stackable.grid
         .two.column.row
             .column
-                |#{username}'s friends
+                .ui.small.header connected to
                 .ui.middle.aligned.selection.animated.large.list
                     each friends
                         +user_segment
             .column
-                |friends with #{username}
+                .ui.small.header connected by
                 .ui.middle.aligned.selection.animated.large.list
                     each friends_with
                         +user_segment
@@ -22,10 +22,11 @@ template(name='user_friends')
 
 template(name='user_segment')
     a.item(href="/user/#{username}")
-        img.ui.avatar.image(src="{{c.url profile_image_id gravity='face' crop='fit'}}")
+        img.ui.avatar.image(src="{{c.url image_id gravity='face' crop='fit'}}")
         .content
             .header
                 |#{name}
+                small $#{credit}
             .description
                 each tags
                     .ui.basic.label #{this}
@@ -49,13 +50,13 @@ template(name='user_friend_button')
     if is_friend
         .ui.blue.fade.animated.button.unfriend
             .visible.content
-                |friend
+                |connected
             .hidden.content
                 i.minus.icon
     else
         .ui.basic.button.friend
             i.plus.icon
-            |friend
+            |connect
 
 
             

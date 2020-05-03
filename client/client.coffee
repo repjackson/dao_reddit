@@ -28,6 +28,8 @@ Template.body.events
 
 
 
+Template.registerHelper 'user_by_id', () ->
+    Meteor.users.findOne @
 Template.registerHelper 'can_edit', () ->
     if Meteor.user().roles
         if 'admin' in Meteor.user().roles

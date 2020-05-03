@@ -1,7 +1,7 @@
 Meteor.methods
     log_view: (doc_id)->
         Docs.update doc_id,
-            $inc:views:1
+            $inc:view_count:1
 
     purchase: (item)->
         if Meteor.user().credit >= item.price

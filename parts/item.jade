@@ -21,6 +21,7 @@ template(name='item_view')
                     img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     .ui.header added by #{_author_username}
                     |#{when}
+                    .ui.small.header #{view_count} views
                     //- with _author_id
                     //-     +user_card
                 .eight.wide.column
@@ -38,14 +39,36 @@ template(name='item_view')
                         .ui.header not bought
                     +comments
                 .four.wide.column
+                    unless bought
+                        if can_buy
+                            if has_enough
+                                .ui.green.basic.basic.circular.button.buy
+                                    |buy
+                            else
+                                .ui.green.basic.disabled.button
+                                    |not enough
+                    
                     if currentUser
                         .ui.circular.basic.button.clone
                             i.clone.icon
                             |clone
-                    if is_admin
-                        +voting_full
-                        +viewing
+                    +voting_full
+                    div
+                    //- +viewing
+                    with _author_id
+                        +seller_card
                     
+                    
+template(name='seller_card')
+    .ui.header seller
+    with seller
+        .ui.card
+            img.ui.centered.rounded.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+            .content
+                a.header(href="/user/#{username}") #{username}
+                .ui.list
+                    .item #{sales_count} sales
+                    .item #{selling_count} selling
                     
                     
 

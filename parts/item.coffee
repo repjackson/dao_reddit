@@ -15,8 +15,9 @@ if Meteor.isClient
 
     Template.item_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'all_users'
     Template.item_view.onRendered ->
-        Meteor.call 'increment_view', Router.current().params.doc_id, ->
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
     Template.item_view.events
         'click .clone': ->
             if confirm 'clone this item?'
@@ -27,3 +28,19 @@ if Meteor.isClient
                         price:@price
                         image_id:@image_id
                 Router.go "/item/#{new_id}/edit"
+
+
+
+
+
+
+
+    Template.seller_card.helpers
+        seller: ->
+            console.log @valueOf()
+            item = Docs.findOne Router.current().params.doc_id
+            res =
+                Meteor.users.findOne
+                    _id:@valueOf()
+            console.log res
+            res

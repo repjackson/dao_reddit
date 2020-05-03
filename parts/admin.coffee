@@ -7,6 +7,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         @autorun => Meteor.subscribe 'model_docs', 'stats'
+        @autorun => Meteor.subscribe 'all_users'
 
     Template.admin.helpers
         global_stats: ->
@@ -18,6 +19,9 @@ if Meteor.isClient
         deposits: ->
             Docs.find
                 model:'deposit'
+        users: ->
+            Meteor.users.find({credit:$gt:1},
+                sort:credit:-1)
 
     Template.admin.events
         'click .refresh_stats': ->
@@ -77,6 +81,7 @@ if Meteor.isServer
             for withdrawal in total_withdrawals.fetch()
                 total_withdrawal_amount += withdrawal.amount
 
+            total_site_profit = total_deposit_amount-total_withdrawal_amount
 
             Docs.update fsd._id,
                 $set:
@@ -87,3 +92,4 @@ if Meteor.isServer
                     total_deposit_count: total_deposit_count
                     total_deposit_amount: total_deposit_amount
                     total_withdrawal_amount: total_withdrawal_amount
+                    total_site_profit: total_site_profit

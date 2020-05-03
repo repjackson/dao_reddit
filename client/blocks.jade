@@ -36,7 +36,9 @@ template(name='viewing')
         +user_info
 
 template(name='user_info')
-    .ui.header #{this}
+    with user_by_id
+        .ui.header #{username}
+    //- .ui.header #{this}
 
 
 template(name='session_boolean_toggle')
@@ -231,18 +233,15 @@ template(name='voting_small')
 
 template(name='voting_full')
     div
-    +ismall name='elections'
-    .ui.inline.header 
-        |voting
-    .ui.large.icon.button.upvote(title='upvote')
+    .ui.large.icon.circular.basic.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
         //- |like
-    .ui.large.icon.button.downvote(title='downvote')
+    .ui.large.icon.circular.basic.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
         //- |dislike
     if points
-        .ui.large.label(title='points') #{points} pts
-        .ui.large.label(title='anon points') #{anon_points} anon pts
+        .ui.large.basic.circular.label(title='points') #{points} pts
+        //- .ui.large.label(title='anon points') #{anon_points} anon pts
     if upvoter_ids
         .ui.small.header 
             i.thumbs.up.icon
