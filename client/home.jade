@@ -6,27 +6,43 @@ template(name='items')
                 +session_edit_value_button key='view_mode' value='bought' label='bought' icon='money'
                 +session_edit_value_button key='view_mode' value='selling' label='selling' icon='clock'
                 +session_edit_value_button key='view_mode' value='sold' label='sold' icon='checkmark'
+            +cloud
+        .twelve.wide.column
             .ui.icon.input
                 if current_query
                     i.remove.link.icon.clear_query
                 else        
                     i.search.icon
                 input#search(type='text' autocomplete="off" value=current_query)
-            +cloud
-        .twelve.wide.column
-            .mobile.hidden
-                +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
-                +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
-                .spacer
+            .ui.compact.small.menu(title='sort by')
+                .ui.simple.dropdown.item
+                    strong #{current_sort_key}
+                    i.dropdown.icon
+                    .menu
+                        each sortable_fields
+                            .item.set_sort_key 
+                                |#{title}
+            .ui.compact.icon.basic.button.set_sort_direction(title='sort direction')
+                if sorting_up
+                    i.sort.amount.down.icon
+                else
+                    i.sort.amount.up.icon
+
+            
+            //- .mobile.hidden
+            //-     +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
+            //-     +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
+            //-     .spacer
             if session_key_value_is 'layout_mode' 'grid'
                 .ui.stackable.four.cards
                     each docs
                         +item_card
             if session_key_value_is 'layout_mode' 'list'
-                .ui.basic.segments
-                    each docs
-                        +item_item
-                        .ui.divider
+                .scrolling
+                    .ui.basic.segments
+                        each docs
+                            +item_item
+                            .ui.divider
 
 
 
@@ -45,8 +61,9 @@ template(name='cloud')
     each all_tags
         .ui.large.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
+    div
     .ui.grey.inline.header 
-        i.users.small.icon
+        i.user.small.icon
         |authors
 
     if selected_authors
@@ -56,7 +73,7 @@ template(name='cloud')
             .unselect_tag.ui.secondary.large.circular.compact.button
                 strong #{this}
     each all_authors
-        .ui.large.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
+        .ui.large.compact.basic.circular.button.select_author(class=cloud_tag_class) 
             strong #{this.name}
 
 

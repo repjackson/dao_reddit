@@ -27,7 +27,6 @@ template(name='login')
                 if logging_in
                     .spacer
                     .ui.fluid.big.circular.basic.button.enter(title="login #{username}" class=enter_class)
-                        |login
                         strong #{username}
                         |&nbsp;
                         //- i.sign.in.alternate.icon
@@ -58,7 +57,7 @@ template(name='register')
             .ten.wide.column
                 .ui.center.aligned.basic.segment
                     i.big.yin.yang.icon
-                    .ui.inline.header registration
+                    .ui.inline.header register
                 //- if message
                 //-     h4.ui.center.aligned.header #{message}
                 //- .ui.small.inline.header 
@@ -91,7 +90,7 @@ template(name='register')
                 //-     input.password2(type='password')
                 if can_register
                     //- if registering
-                    .ui.fluid.large.button.register(class=enter_class)
+                    .ui.fluid.large.circular.basic.button.register(class=enter_class)
                         i.user.plus.icon
                         |register '#{username}'
                 else
@@ -104,7 +103,7 @@ template(name='register')
                         a(href='/p/privacy' target="_window") privacy policy
                     unless username
                         .ui.small.header or
-                            a.ui.basic.sign.in.button(href='/login') 
+                            a.ui.basic.button(href='/login') 
                                 i.sign.in.alternate.icon
                                 |login
 

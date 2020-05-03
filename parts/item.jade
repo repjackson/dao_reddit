@@ -12,13 +12,12 @@ template(name='item_view')
             .row
                 .four.wide.column
                     a.ui.fluid.basic.circular.button(href='/' title='items')
-                        i.left.chevron.icon
-                        |items
+                        i.left.chevron.large.icon
                     if can_edit
                         .spacer
-                        a.ui.fluid.basic.circular.button(href="/item/#{_id}/edit")
+                        a.ui.fluid.basic.circular.button(href="/item/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
-                            |edit
+                        .spacer
                     img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     .ui.header added by #{_author_username}
                     |#{when}
@@ -38,7 +37,14 @@ template(name='item_view')
                     else 
                         .ui.header not bought
                     +comments
-
+                .four.wide.column
+                    if currentUser
+                        .ui.circular.basic.button.clone
+                            i.clone.icon
+                            |clone
+                    if is_admin
+                        +voting_full
+                        +viewing
                     
                     
                     

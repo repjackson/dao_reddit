@@ -52,7 +52,7 @@ template(name='profile_layout')
                         |products
                     a.ui.compact.basic.button(href="/user/#{username}/sales" class="{{isActiveRoute 'user_sales'}}")
                         i.clock.icon
-                        'sales'
+                        |sales
                     a.ui.compact.basic.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
                         i.money.icon
                         |credit
@@ -69,13 +69,15 @@ template(name='user_dashboard')
         .row
             .sixteen.wide.column
                 if is_current_user
-                    +user_credit
+                    .ui.secondary.segment
+                        +user_credit
                 else
-                    .ui.header #{user.credit} credit
-                    .ui.button.send_credit
-                        |send credit
-                    .ui.button.request_credit
-                        |request
+                    .ui.secondary.segment
+                        .ui.header #{user.credit} credit
+                        .ui.button.send_credit
+                            |send credit
+                        .ui.button.request_credit
+                            |request
             .column
                 
                 
@@ -88,7 +90,7 @@ template(name='user_credit')
                     |withdraw
                 |10% charge, takes one business day 
                 .ui.action.fluid.input
-                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
+                    input.withdrawal_amount(type='number' min='1' max="#{currentUser.credit}" placeholder='amount')
                     .ui.icon.button.initial_withdrawal 
                         i.right.chevron.icon
                 .ui.small.header withdrawals

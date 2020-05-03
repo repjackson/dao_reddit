@@ -5,16 +5,16 @@ if Meteor.isClient
 
 
     Template.items.onCreated ->
-        Session.setDefault ''
+        Session.setDefault 'layout_mode','list'
         @autorun -> Meteor.subscribe('docs',
             selected_tags.array()
+            selected_authors.array()
             Session.get('view_mode')
             Session.get('current_query')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             )
-
-
-
-
 
     Template.items.helpers
         docs: ->
@@ -22,8 +22,38 @@ if Meteor.isClient
                 model:'item'
 
         current_query: -> Session.get('current_query')
+        current_sort_key: -> Session.get('sort_key')
+        sorting_up: -> Session.equals('sort_direction',-1)
+        sortable_fields: ->
+            [
+                {
+                    title:'when'
+                    key:'_timestamp'
+                }
+                {
+                    title:'price'
+                    key:'price'
+                }
+            ]
+
+
 
     Template.items.events
+        'click .set_sort_key': ->
+            # console.log @
+            delta = Docs.findOne model:'delta'
+            Session.set('sort_key',@key)
+
+        'click .set_sort_direction': (e,t)->
+            # console.log @
+            # $(e.currentTarget).closest('.button').transition('pulse', 250)
+
+            if Session.get('sort_direction') is -1
+                Session.set('sort_direction',1)
+            else
+                Session.set('sort_direction',-1)
+
+
         'click  .clear_query': (e,t)->
             Session.set('current_query', null)
         'keyup #search': _.throttle((e,t)->
@@ -86,7 +116,6 @@ if Meteor.isClient
             else
                 Router.go "/login"
 
-
         'click .cancel': ->
             if confirm "confirm cancel of #{@price}"
                 Meteor.call 'cancel', @, ->
@@ -101,6 +130,7 @@ if Meteor.isClient
     Template.cloud.onCreated ->
         @autorun -> Meteor.subscribe('tags',
             selected_tags.array()
+            selected_authors.array()
             Session.get('view_mode')
             Session.get('current_query')
         )
@@ -123,16 +153,23 @@ if Meteor.isClient
         'click .unselect_tag': -> selected_tags.remove @valueOf()
         'click #clear_tags': -> selected_tags.clear()
 
+        'click .select_author': -> selected_authors.push @name
+        'click .unselect_author': -> selected_authors.remove @valueOf()
+        'click #clear_authors': -> selected_authors.clear()
+
 
 if Meteor.isServer
     Meteor.publish 'tags', (
         selected_tags
+        selected_authors=[]
         view_mode
         current_query=''
         limit
     )->
+        console.log 'selected username', selected_authors
         self = @
         match = {}
+        if selected_authors.length > 0 then match._author_username = $all: selected_authors
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
 
@@ -176,4 +213,71 @@ if Meteor.isServer
                 count: tag.count
                 index: i
 
+        authors = Docs.aggregate [
+            { $match: match }
+            { $project: "_author_username": 1 }
+            { $group: _id: "$_author_username", count: $sum: 1 }
+            { $match: _id: $nin: selected_authors }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+
+        # console.log 'filter: ', filter
+        # console.log 'cloud: ', cloud
+
+        authors.forEach (author, i) ->
+            self.added 'authors', Random.id(),
+                name: author.name
+                count: author.count
+                index: i
+
         self.ready()
+
+
+    Meteor.publish 'docs', (
+        selected_tags
+        selected_authors
+        view_mode
+        current_query=''
+        doc_limit=10
+        doc_sort_key='_timestamp'
+        doc_sort_direction=1
+        )->
+        match = {model:'item'}
+        if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
+        if view_mode is 'market'
+            match.bought = $ne:true
+            match._author_id = $ne: Meteor.userId()
+        if view_mode is 'bought'
+            match.bought = true
+            match.buyer_id = Meteor.userId()
+        if view_mode is 'selling'
+            match.bought = $ne:true
+            match._author_id = Meteor.userId()
+        if view_mode is 'sold'
+            match.bought = true
+            match._author_id = Meteor.userId()
+        # console.log selected_tags
+        console.log match
+        if doc_limit
+            limit = doc_limit
+        else
+            limit = 10
+        if doc_sort_key
+            sort = doc_sort_key
+        if doc_sort_direction
+            sort_direction = parseInt(doc_sort_direction)
+        self = @
+        if selected_tags.length > 0
+            match.tags = $all: selected_tags
+            sort = 'ups'
+            # match.source = $ne:'wikipedia'
+
+        if selected_authors.length > 0
+            match._author_username = $all: selected_authors
+
+        Docs.find match,
+            sort:"#{sort}":sort_direction
+            # sort:_timestamp:-1
+            limit: limit

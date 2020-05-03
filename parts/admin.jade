@@ -7,13 +7,28 @@ template(name='admin')
                     |admin
                 with global_stats
                     .ui.large.list
-                        .item #{total_doc_amount} docs
-                        .item #{total_item_amount} items
-                        .item #{total_selling_amount} selling
-                        .item #{total_sales_amount} sales
-                    
+                        .item #{total_doc_count} docs
+                        .item #{total_item_count} items
+                        .item #{total_selling_count} selling
+                        .item #{total_sales_count} sales
+                        .item #{total_deposit_count} deposits
+                    .ui.header $#{total_deposit_amount} total deposited
+                    .ui.header $#{total_withdrawal_amount} total withdrawals
             .twelve.wide.column
-                .ui.header withdrawals
+                .ui.header 
+                    i.chevron.up.icon
+                    |withdrawals
                 each withdrawals
                     .ui.segment
-                        .ui.header #{when} #{_author_username}
+                        .ui.header $#{amount} #{_author_username}
+                            small #{when} 
+                        .ui.basic.circular.label status: #{status}
+                        .ui.basic.circular.label complete: #{complete}
+                .ui.header 
+                    i.chevron.down.icon
+                    |deposits
+                .ui.large.selection.list
+                    each deposits
+                        .item
+                            .header $#{deposit_amount} #{_author_username}
+                                small #{when} 

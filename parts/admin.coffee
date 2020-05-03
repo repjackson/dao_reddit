@@ -5,6 +5,7 @@ if Meteor.isClient
         ), name:'admin'
     Template.admin.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
+        @autorun => Meteor.subscribe 'model_docs', 'deposit'
         @autorun => Meteor.subscribe 'model_docs', 'stats'
 
     Template.admin.helpers
@@ -14,6 +15,9 @@ if Meteor.isClient
         withdrawals: ->
             Docs.find
                 model:'withdrawal'
+        deposits: ->
+            Docs.find
+                model:'deposit'
 
     Template.admin.events
         'click .refresh_stats': ->
@@ -34,23 +38,52 @@ if Meteor.isServer
                         model:'stats'
                 fsd = Docs.findOne new_id
 
-            total_doc_amount = Docs.find({}).count()
-            total_item_amount = Docs.find({model:'item'}).count()
-            total_sales_amount =
+            total_doc_count = Docs.find({}).count()
+            total_item_count = Docs.find({model:'item'}).count()
+            total_sales_count =
                 Docs.find(
                     model:'item'
                     bought:true
                     ).count()
 
-            total_selling_amount =
+            total_selling_count =
                 Docs.find(
                     model:'item'
                     bought:$ne:true
                     ).count()
+            total_deposits =
+                Docs.find(
+                    model:'deposit'
+                )
+            total_deposit_count =
+                Docs.find(
+                    model:'deposit'
+                ).count()
+
+            total_deposit_amount = 0
+            for deposit in total_deposits.fetch()
+                total_deposit_amount += deposit.deposit_amount
+
+            total_withdrawals =
+                Docs.find(
+                    model:'withdrawal'
+                )
+            total_withdrawal_count =
+                Docs.find(
+                    model:'withdrawal'
+                ).count()
+
+            total_withdrawal_amount = 0
+            for withdrawal in total_withdrawals.fetch()
+                total_withdrawal_amount += withdrawal.amount
+
 
             Docs.update fsd._id,
                 $set:
-                    total_doc_amount:total_doc_amount
-                    total_item_amount:total_item_amount
-                    total_selling_amount:total_selling_amount
-                    total_sales_amount:total_sales_amount
+                    total_doc_count:total_doc_count
+                    total_item_count:total_item_count
+                    total_selling_count:total_selling_count
+                    total_sales_count:total_sales_count
+                    total_deposit_count: total_deposit_count
+                    total_deposit_amount: total_deposit_amount
+                    total_withdrawal_amount: total_withdrawal_amount

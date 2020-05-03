@@ -126,26 +126,6 @@ if Meteor.isServer
 
 
 
-        lookup_student_code: (input)->
-            console.log 'looking up student code', input
-            found_user = Meteor.users.findOne
-                student_code: input
-            if found_user
-                found_user
-            else
-                null
-
-
-        lookup_parent_code: (input)->
-            console.log 'looking up parent code', input
-            found_user = Meteor.users.findOne
-                parent_code: input
-            if found_user
-                found_user
-            else
-                null
-
-
         create_user: (options)->
             console.log 'creating user', options
             Accounts.createUser options
@@ -253,7 +233,7 @@ if Meteor.isClient
                             # if Meteor.user().roles and 'admin' in Meteor.user().roles
                             #     Router.go "/admin"
                             # else
-                            Router.go "/user/#{Meteor.userId()}"
+                            Router.go "/user/#{Meteor.user().username}"
 
 
     Template.login.helpers

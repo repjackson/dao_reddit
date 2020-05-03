@@ -17,3 +17,13 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.item_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+    Template.item_view.events
+        'click .clone': ->
+            if confirm 'clone this item?'
+                new_id =
+                    Docs.insert
+                        model:'item'
+                        tags:@tags
+                        price:@price
+                        image_id:@image_id
+                Router.go "/item/#{new_id}/edit"
