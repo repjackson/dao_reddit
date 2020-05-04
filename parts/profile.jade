@@ -51,23 +51,37 @@ template(name='profile_layout')
 
 
 template(name='last_bought')
-    .ui.header last bought
-    each last_bought
-        .ui.segment
-            a(href="/item/#{_id}/view")
-                img.ui.inline.tiny.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                
-                .ui.inline.header #{title}
-                .ui.green.inline.header $#{price}
-            div
-            |bought {{long_date bought_timestamp}}
+    .ui.grey.header 
+        i.clock.icon
+        |last bought
+    .mediumscroll
+        each last_bought
+            .ui.segment
+                a(href="/item/#{_id}/view")
+                    img.ui.inline.mini.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    
+                    .ui.inline.header #{title}
+                    .ui.green.inline.header $#{price}
+                div
+                |{{long_date bought_timestamp}}
 
 
 template(name='user_dashboard')             
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .eight.wide.column
+                +user_following
+            .eight.wide.column
                 +last_bought
+            .eight.wide.column
+                .ui.grey.header 
+                    i.rss.icon
+                    |feed
+                each user_events
+                    .item 
+                        |#{body}
+                        small #{when}
+            .sixteen.wide.column
                 .ui.header.recalc_user_stats.pointer
                     i.line.chart.icon
                     |stats
@@ -92,6 +106,17 @@ template(name='user_dashboard')
                             |send credit
                         .ui.button.request_credit
                             |request
+                
+                
+                
+template(name='user_following')
+    .ui.header following
+    if following
+        .ui.button
+            |following                
+    if else
+        .ui.button
+            |follow                
                 
                 
                 

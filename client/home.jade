@@ -87,9 +87,9 @@ template(name='item_card')
                     |#{title}
         a(href="/item/#{_id}/view")
             img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
-        a.content(href="/item/#{_id}/view")
-            each tags
-                .ui.large.circular.basic.label #{this}
+        //- a.content(href="/item/#{_id}/view")
+        //-     each tags
+        //-         .ui.large.circular.basic.label #{this}
         .content
             .ui.circular.basic.label(title='seller')
                 i.user.outline.icon
@@ -111,9 +111,9 @@ template(name='item_card')
                         .ui.green.basic.disabled.button
                             |not enough
                         
-                if can_edit
-                    a.ui.icon.button(href="/item/#{_id}/edit")
-                        i.pencil.icon
+                //- if can_edit
+                //-     a.ui.icon.button(href="/item/#{_id}/edit")
+                //-         i.pencil.icon
             if can_edit
                 if bought
                     .ui.basic.circular.button.cancel

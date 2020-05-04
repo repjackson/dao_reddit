@@ -21,8 +21,12 @@ template(name='admin')
                     |withdrawals
                 each withdrawals
                     .ui.segment
-                        .ui.header $#{amount} #{_author_username}
-                            small #{when} 
+                        .ui.inline.header $#{amount}
+                        a.ui.circular.basic.button(href="/user/#{_author_username}") 
+                            i.user.icon
+                            |#{_author_username}
+                        .ui.small.inline.header
+                            |#{when} 
                         .ui.basic.circular.label status: #{status}
                         .ui.basic.circular.label complete: #{complete}
                 .ui.header 
@@ -40,4 +44,11 @@ template(name='admin')
                 each users
                     .ui.segment
                         .ui.header #{username}
+                            |- $#{credit}
+                .ui.header 
+                    i.calendar.icon
+                    |events
+                each events
+                    .ui.segment
+                        .ui.header #{body}
                             |- $#{credit}

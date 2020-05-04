@@ -8,6 +8,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         @autorun => Meteor.subscribe 'model_docs', 'stats'
         @autorun => Meteor.subscribe 'all_users'
+        @autorun => Meteor.subscribe 'event'
 
     Template.admin.helpers
         global_stats: ->
@@ -22,6 +23,10 @@ if Meteor.isClient
         users: ->
             Meteor.users.find({credit:$gt:1},
                 sort:credit:-1)
+
+        events: ->
+            Docs.find
+                model:'event'
 
     Template.admin.events
         'click .refresh_stats': ->

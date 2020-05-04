@@ -104,9 +104,17 @@ if Meteor.isClient
 
 
         'click .cancel': ->
-            if confirm "confirm cancel of #{@price}"
-                Meteor.call 'cancel', @, ->
-
+            Swal.fire({
+                title: "confirm cancel of #{@title}?"
+                text: "this will return #{@price} credit to buyer"
+                icon: 'question'
+                showCancelButton: true,
+                confirmButtonText: 'confirm'
+                cancelButtonText: 'cancel'
+            }).then((result) =>
+                if result.value
+                    Meteor.call 'cancel', @, ->
+            )
 
 
 

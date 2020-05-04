@@ -10,7 +10,7 @@ template(name='item_view')
             //-     .sixteen.wide.column
             //-         +item_calendar
             .row
-                .four.wide.column
+                .five.wide.column
                     a.ui.fluid.basic.circular.button(href='/' title='items')
                         i.left.chevron.large.icon
                     if can_edit
@@ -24,7 +24,7 @@ template(name='item_view')
                     .ui.small.header #{view_count} views
                     //- with _author_id
                     //-     +user_card
-                .eight.wide.column
+                .six.wide.column
                     .ui.header #{title}
                     .ui.header $#{price}
                     i.tag.icon
@@ -38,7 +38,7 @@ template(name='item_view')
                     else 
                         .ui.header not bought
                     +comments
-                .four.wide.column
+                .five.wide.column
                     unless bought
                         if can_buy
                             if has_enough
@@ -57,6 +57,10 @@ template(name='item_view')
                     //- +viewing
                     with _author_id
                         +seller_card
+                    .ui.header similar items
+                    each similar_items
+                        .ui.item 
+                            .header #{title}
                     
                     
 template(name='seller_card')
