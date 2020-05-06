@@ -67,20 +67,20 @@ Meteor.methods
         re.test String(email).toLowerCase()
 
 
-    notify_message: (message_id)->
-        message = Docs.findOne message_id
-        if message
-            to_user = Meteor.users.findOne message.to_user_id
-
-            message_link = "https://www.dao.af/user/#{to_user.username}/messages"
-
-        	Email.send({
-                to:["<#{to_user.emails[0].address}>"]
-                from:"relay@dao.af"
-                subject:"dao message from #{message._author_username}"
-                html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
-                    "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
-            })
+    # notify_message: (message_id)->
+    #     message = Docs.findOne message_id
+    #     if message
+    #         to_user = Meteor.users.findOne message.to_user_id
+    #
+    #         message_link = "https://www.dao.af/user/#{to_user.username}/messages"
+    #
+    #     	Email.send({
+    #             to:["<#{to_user.emails[0].address}>"]
+    #             from:"relay@dao.af"
+    #             subject:"dao message from #{message._author_username}"
+    #             html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
+    #                 "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
+    #         })
 
     lookup_user: (username_query, role_filter)->
         if role_filter

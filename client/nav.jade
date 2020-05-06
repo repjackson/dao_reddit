@@ -1,5 +1,7 @@
 template(name='nav')
     .ui.attached.fluid.borderless.topnav.large.inverted.menu
+        a.ui.item(href='/grid' class="{{active_path '/grid'}}" title='models')
+            i.large.th.icon
         a.ui.item(href='/' class="{{active_path '/'}}" title='models')
             i.large.home.icon
             .mobile.hidden home
@@ -12,14 +14,20 @@ template(name='nav')
                     i.shield.icon
             if currentUser
                 a#add.ui.icon.item
-                    i.plus.large.icon
-                a.item(href="/alerts")
-                    i.bell.outline.icon
+                    i.plus.large.green.icon
+                a.icon.item(href="/alerts")
+                    if unread_alerts
+                        i.bell.yellow.large.icon
+                    else
+                        i.bell.yellow.outline.large.icon
                     |#{currentUser.alerts}
                 a.item(href="/user/#{currentUser.username}/credit")
                     |$#{currentUser.credit}
                 a.item(href="/user/#{currentUser.username}") 
-                    i.user.icon
+                    if currentUser.image_id
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                    else 
+                        i.user.icon
                     |#{currentUser.username}
             else 
                 a.item(href="/login")

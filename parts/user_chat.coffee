@@ -1,44 +1,37 @@
 if Meteor.isClient
-    Router.route '/user/:username/messages', (->
+    Router.route '/user/:username/chat', (->
         @layout 'profile_layout'
-        @render 'user_messages'
-        ), name:'user_messages'
+        @render 'user_chats'
+        ), name:'user_chats'
 
 
-    Template.user_messages.onCreated ->
-        @autorun => Meteor.subscribe 'user_messages', Router.current().params.username
+    Template.user_chats.onCreated ->
+        @autorun => Meteor.subscribe 'user_chat', Router.current().params.username
 
-    Template.user_messages.events
-        'click .offer_new_meal': ->
-            new_meal_id =
-                Docs.insert
-                    model:'meal'
-                    published:false
-            Router.go("/meal/#{new_meal_id}/edit")
-
-        'keyup .new_message': (e,t)->
+    Template.user_chats.events
+        'keyup .new_chat': (e,t)->
             if e.which is 13
                 user = Meteor.users.findOne username:Router.current().params.username
-                message = t.$('.new_message').val()
+                chat = t.$('.new_chat').val()
                 Docs.insert
                     from_user_id: Meteor.userId()
                     to_user_id:user._id
-                    model:'message'
-                    body:message
-                t.$('.new_message').val('')
+                    model:'chat'
+                    body:chat
+                t.$('.new_chat').val('')
 
 
-    Template.user_messages.helpers
-        user_messages: ->
+    Template.user_chats.helpers
+        user_chats: ->
             user = Meteor.users.findOne username:Router.current().params.username
             # console.log user
             Docs.find
-                model:'message'
+                model:'chat'
                 to_user_id:user._id
 
 
-    Template.user_message.events
-        'click .remove_message': (e,t)->
+    Template.user_chat.events
+        'click .remove_chat': (e,t)->
             Swal.fire({
                 title: 'confirm delete'
                 text: @body
@@ -54,11 +47,11 @@ if Meteor.isClient
                         onComplete: ()=>
                             Meteor.setTimeout =>
                                 Docs.remove @_id
-                                Swal.fire(
-                                    'message deleted',
-                                    ''
-                                    'success'
-                                )
+                                # Swal.fire(
+                                #     'chat deleted',
+                                #     ''
+                                #     'success'
+                                # )
                             , 1000
                     )
             )
@@ -67,8 +60,8 @@ if Meteor.isClient
                 # return
 
 
-    Template.user_message.helpers
-        message_segment_class: ->
+    Template.user_chat.helpers
+        chat_segment_class: ->
             # if @read_by_ids and Meteor.userId() in @read_by_ids
             if @read
                 'basic'
@@ -85,6 +78,12 @@ if Meteor.isClient
         #     else
         #         false
 
+
+
+    Template.notify_chat.events
+        'click .notify': ->
+            # console.log 'notifying', @
+            Meteor.call 'notify_message', (@_id), ->
 
 
     Template.mark_read_button.events
@@ -106,8 +105,8 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'user_messages', (username)->
+    Meteor.publish 'user_chat', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'message'
+            model:'chat'
             to_user_id:user._id

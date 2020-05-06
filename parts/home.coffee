@@ -6,6 +6,9 @@ if Meteor.isClient
 
     Template.items.onCreated ->
         Session.setDefault 'layout_mode','list'
+        Session.setDefault 'sort_key','_timestamp'
+        Session.setDefault 'sort_direction', -1
+        Session.setDefault 'limit',10
         @autorun -> Meteor.subscribe('docs',
             selected_tags.array()
             selected_authors.array()
@@ -18,9 +21,13 @@ if Meteor.isClient
 
     Template.items.helpers
         docs: ->
-            Docs.find
+            Docs.find {
                 model:'item'
+            },
+                limit:Session.get('limit')
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
 
+        current_limit: -> Session.get('limit')
         current_query: -> Session.get('current_query')
         current_sort_key: -> Session.get('sort_key')
         sorting_up: -> Session.equals('sort_direction',-1)
@@ -173,6 +180,9 @@ if Meteor.isClient
         'click .select_author': -> selected_authors.push @name
         'click .unselect_author': -> selected_authors.remove @valueOf()
         'click #clear_authors': -> selected_authors.clear()
+    Template.set_limit.events
+        'click .set_limit': ->
+            Session.set('limit', @amount)
 
 
 if Meteor.isServer
@@ -285,6 +295,7 @@ if Meteor.isServer
             sort = doc_sort_key
         if doc_sort_direction
             sort_direction = parseInt(doc_sort_direction)
+            console.log sort_direction
         self = @
         if selected_tags.length > 0
             match.tags = $all: selected_tags

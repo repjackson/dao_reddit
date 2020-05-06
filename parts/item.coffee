@@ -26,15 +26,25 @@ if Meteor.isClient
                     _id: $in:@match_ids
     Template.item_view.events
         'click .clone': ->
-            if confirm 'clone this item?'
-                new_id =
-                    Docs.insert
-                        model:'item'
-                        tags:@tags
-                        price:@price
-                        image_id:@image_id
-                Router.go "/item/#{new_id}/edit"
-
+            Swal.fire({
+                title: "clone #{@title}"
+                text: "this will copy content into a new doc"
+                icon: 'question'
+                showCancelButton: true,
+                confirmButtonText: 'confirm'
+                cancelButtonText: 'cancel'
+            }).then((result) =>
+                if result.value
+                    # food = Docs.findOne Router.current().params.doc_id
+                    new_id =
+                        Docs.insert
+                            model:'item'
+                            title:@title
+                            tags:@tags
+                            price:@price
+                            image_id:@image_id
+                    Router.go "/item/#{new_id}/edit"
+            )
 
         'click .buy': ->
             if Meteor.userId()
@@ -48,7 +58,15 @@ if Meteor.isClient
                 }).then((result) =>
                     if result.value
                         # food = Docs.findOne Router.current().params.doc_id
-                        Meteor.call 'purchase', @, ->
+                        Meteor.call 'purchase', @, =>
+                            $('body').toast({
+                                class:'success'
+                                title: 'purchase confirmed',
+                                message: "#{@title}"
+                                showProgress: 'bottom',
+                                classProgress: 'blue'
+
+                            })
                 )
             else
                 Router.go "/login"

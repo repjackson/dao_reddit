@@ -94,21 +94,25 @@ Meteor.methods
             attachments: []                         # Optional. Attach files using a mailcomposer format as an array of objects.
                                                     # Read more here: http://docs.meteor.com/#/full/email_send and here: https://github.com/nodemailer/mailcomposer/blob/7c0422b2de2dc61a60ba27cfa3353472f662aeb5/README.md#add-attachments
 
-    send_rules_regs_receipt_email: (user_id)->
+    notify_message: (chat_id)->
         # console.log new_user_id
-        user = Meteor.users.findOne user_id
-        # console.log user
-        if user.emails and user.emails[0] then console.log user.emails[0]
+        chat = Docs.findOne chat_id
+        to_user = Meteor.users.findOne chat.to_user_id
+        # console.log to_user
+        # if user.emails and user.emails[0] then console.log user.emails[0]
+        # to: ['dao admin <admin@dao.af>',"#{to_user.username} <#{to_user.emails[0].address}>"]          # 'To: ' address. Required.
         Mailer.send
-            to: ['dao admin <admin@dao.af>',"#{user.username} <#{user.emails[0].address}>"]          # 'To: ' address. Required.
-            subject: 'Gold Run Rules and Regulations Signature Receipt'                     # Required.
-            template: 'rules_regs_receipt'               # Required.
+            to: ['dao admin <eric@dao.af>']          # 'To: ' address. Required.
+            subject: 'dao message'                     # Required.
+            template: 'chat_template'               # Required.
             replyTo: 'dao admin <admin@dao.af>'      # Override global 'ReplyTo: ' option.
             from: 'dao admin <admin@dao.af>'         # Override global 'From: ' option.
             # cc: 'Name <name@domain.com>'           # Optional.
             # bcc: 'Name <name@domain.com>'          # Optional.
-            data: {user:user}               # Optional. Render your email with a data object.
+            data: {chat:chat}               # Optional. Render your email with a data object.
             attachments: []                         # Optional. Attach files using a mailcomposer format as an array of objects.
+
+
                                                     # Read more here: http://docs.meteor.com/#/full/email_send and here: https://github.com/nodemailer/mailcomposer/blob/7c0422b2de2dc61a60ba27cfa3353472f662aeb5/README.md#add-attachments
     notify_purchase: (item_id)->
         # console.log new_user_id

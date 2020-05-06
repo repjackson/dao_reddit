@@ -21,6 +21,11 @@ template(name='comments')
                                 +remove_button
 
 
+template(name='verification_confirmation')
+    .ui.basic.center.aligned.segment
+        .ui.header you have confirmed your email address, thank you
+
+
 template(name='viewing')
     div
     if currentUser
@@ -53,7 +58,7 @@ template(name='session_boolean_toggle')
                 |#{value}
 
 template(name='session_edit_value_button')
-    .ui.button.set_session_value(class=calculated_class)
+    .ui.large.compact.button.set_session_value(class=calculated_class)
         if icon
             i.icon(class=icon)
         if label

@@ -1,6 +1,7 @@
 template(name='user_following')
     .ui.header 
         i.blog.icon
+        |#{followers.count}
         |following
     if following
         .ui.fade.animated.circular.button.unfollow(class=follow_button_class)

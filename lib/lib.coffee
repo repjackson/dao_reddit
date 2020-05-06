@@ -118,6 +118,7 @@ Docs.before.insert (userId, doc)->
 
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
+    _buyer: -> Meteor.users.findOne @buyer_id
     when: -> moment(@_timestamp).fromNow()
 
     upvoters: ->

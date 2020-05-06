@@ -3,6 +3,7 @@
 
 Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
+    @autorun => Meteor.subscribe 'alerts'
 
 Template.nav.events
     'click #add': ->

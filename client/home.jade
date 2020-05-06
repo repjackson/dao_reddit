@@ -27,6 +27,18 @@ template(name='items')
                     i.sort.amount.down.icon
                 else
                     i.sort.amount.up.icon
+            .ui.simple.dropdown(title='result limit')
+                .text.large #{current_limit}
+                i.dropdown.icon
+                .menu
+                    +set_limit amount=1
+                    +set_limit amount=5
+                    +set_limit amount=10
+                    +set_limit amount=20
+                    +set_limit amount=50
+            |&nbsp;
+            |&nbsp;
+            |&nbsp;
 
             
             span.mobile.hidden
@@ -53,13 +65,13 @@ template(name='cloud')
         i.tags.small.icon
         |tags
     if selected_tags
-        //- #clear_tags.ui.secondary.icon.large.circular.compact.button
+        //- #clear_tags.ui.secondary.icon.circular.compact.button
         //-     i.remove.icon
         each selected_tags
-            .unselect_tag.ui.secondary.large.circular.compact.button
+            .unselect_tag.ui.secondary.circular.compact.button
                 strong #{this}
     each all_tags
-        .ui.large.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
+        .ui.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
     div
     .ui.grey.inline.header 
@@ -67,13 +79,13 @@ template(name='cloud')
         |authors
 
     if selected_authors
-        //- #clear_tags.ui.secondary.icon.large.circular.compact.button
+        //- #clear_tags.ui.secondary.icon.circular.compact.button
         //-     i.remove.icon
         each selected_authors
-            .unselect_tag.ui.secondary.large.circular.compact.button
+            .unselect_tag.ui.secondary.circular.compact.button
                 strong #{this}
     each all_authors
-        .ui.large.compact.basic.circular.button.select_author(class=cloud_tag_class) 
+        .ui.compact.basic.circular.button.select_author(class=cloud_tag_class) 
             strong #{this.name}
 
 
@@ -89,7 +101,7 @@ template(name='item_card')
             img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         //- a.content(href="/item/#{_id}/view")
         //-     each tags
-        //-         .ui.large.circular.basic.label #{this}
+        //-         .ui.circular.basic.label #{this}
         .content
             .ui.circular.basic.label(title='seller')
                 i.user.outline.icon
@@ -133,9 +145,10 @@ template(name='item_item')
             a.ui.header(href="/item/#{_id}/view")
                 |#{title}
             .ui.inline.green.header $#{price}
-            div
+            .spacer
             each tags
-                .ui.circular.basic.label #{this}
+                .ui.circular.basic.compact.button #{this}
+            div
             .ui.inline.header seller:
             .ui.circular.basic.label 
                 i.user.outline.icon
@@ -163,3 +176,8 @@ template(name='item_item')
                     i.pencil.icon
                 
                 
+
+
+                
+template(name='set_limit')
+    .item.set_limit #{amount}

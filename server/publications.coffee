@@ -5,6 +5,18 @@ Meteor.publish 'current_doc ', (doc_id)->
 
 
 
+Meteor.publish 'alerts', ->
+    Docs.find
+        model:'alert'
+        to_user_id:Meteor.userId()
+        read:$ne:true
+
+# Meteor.publish 'alerts', ->
+#     Docs.find
+#         model:'alert'
+#         to_user_id:Meteor.userId()
+#         read:$ne:true
+
 Meteor.publish 'me', ->
     Meteor.users.find @userId
 

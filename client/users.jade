@@ -32,12 +32,12 @@ template(name='user_item')
         a(href="/user/#{username}")
             img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         .content
-            a.ui.header(href="/user/#{username}") #{username}
-            .ui.header $#{credit}
+            a.ui.inline.header(href="/user/#{username}") #{username}
+            .ui.inline.green.header $#{credit}
             each tags
                 .ui.large.label #{this}
         .content
             +user_friend_button
         
-            .ui.button send credit
+            //- .ui.button send credit
                 
