@@ -15,9 +15,15 @@ if Meteor.isClient
 
     Template.item_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_matches', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
     Template.item_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
+    Template.item_view.helpers
+        matches: ->
+            if @match_ids
+                Docs.find
+                    _id: $in:@match_ids
     Template.item_view.events
         'click .clone': ->
             if confirm 'clone this item?'
@@ -48,15 +54,41 @@ if Meteor.isClient
                 Router.go "/login"
 
 
-
+        'click .recalc_similar_items': ->
+            Meteor.call 'recalc_similar_items', @, ->
 
 
     Template.seller_card.helpers
         seller: ->
-            console.log @valueOf()
+            # console.log @valueOf()
             item = Docs.findOne Router.current().params.doc_id
             res =
                 Meteor.users.findOne
                     _id:@valueOf()
-            console.log res
+            # console.log res
             res
+
+
+if Meteor.isServer
+    Meteor.publish 'doc_matches', (doc_id)->
+        doc = Docs.find doc_id
+        Docs.find
+            _id:$in:doc.match_ids
+    Meteor.methods
+        recalc_similar_items:(item)->
+            console.log item
+            item.tags
+            all_items =
+                Docs.find
+                    model:'item'
+            matches = []
+            for this_item in all_items.fetch()
+                union_count = _.union this_item.tags, item.tags
+                console.log union_count
+                if union_count.length > 0
+                    matches.push {
+                        _id:this_item._id
+                        count:union_count.length
+                    }
+            Docs.update item._id,
+                $set:matches:matches

@@ -31,6 +31,10 @@ if Meteor.isClient
     Template.admin.events
         'click .refresh_stats': ->
             Meteor.call 'refresh_global_stats', ->
+        'click .test_email': ->
+            Meteor.call 'test_email', ->
+        'click .send_password_reset_email': ->
+            Meteor.call 'send_password_reset_email', Meteor.userId(), ->
 
 
 

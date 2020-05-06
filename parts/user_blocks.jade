@@ -1,0 +1,17 @@
+template(name='user_following')
+    .ui.header 
+        i.blog.icon
+        |following
+    if following
+        .ui.fade.animated.circular.button.unfollow(class=follow_button_class)
+            .visible.content
+                |following                
+            .hidden.content
+                |- unfollow
+    else
+        .ui.basic.circular.button.follow
+            |follow                
+                
+    each followers
+        .ui.small.header #{username}
+    .spacer

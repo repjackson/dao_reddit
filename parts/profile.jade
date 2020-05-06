@@ -17,7 +17,9 @@ template(name='profile_layout')
                             //- small @#{user.username}        
                     a.ui.center.aligned.inline.header(href="/user/#{user.username}/credit" title='credit')
                         |${{user.credit}}
-                    .ui.header phone #{phone}
+                    .ui.header
+                        i.phone.small.grey.icon
+                        | #{phone}
                     if is_current_user
                         a.ui.large.icon.circular.basic.button(href="/user/#{user._id}/edit" title='profile settings')
                             i.cog.icon
@@ -46,6 +48,9 @@ template(name='profile_layout')
                     a.ui.basic.large.circular.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
                         i.money.icon
                         |credit
+                    a.ui.basic.large.circular.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_credit'}}")
+                        i.chat.icon
+                        |chat
                     .spacer
                     +yield
 
@@ -107,16 +112,6 @@ template(name='user_dashboard')
                         .ui.button.request_credit
                             |request
                 
-                
-                
-template(name='user_following')
-    .ui.header following
-    if following
-        .ui.button
-            |following                
-    if else
-        .ui.button
-            |follow                
                 
                 
                 

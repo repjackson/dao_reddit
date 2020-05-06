@@ -25,7 +25,7 @@ template(name='item_view')
                     //- with _author_id
                     //-     +user_card
                 .six.wide.column
-                    .ui.header #{title}
+                    .ui.center.aligned.header #{title}
                     .ui.header $#{price}
                     i.tag.icon
                     each tags
@@ -38,12 +38,18 @@ template(name='item_view')
                     else 
                         .ui.header not bought
                     +comments
+                    .ui.header.recalc_similar_items similar items
+                    each matches
+                        .ui.item 
+                            .header #{title}
+    
                 .five.wide.column
                     unless bought
                         if can_buy
                             if has_enough
-                                .ui.green.basic.basic.circular.button.buy
-                                    |buy
+                                .ui.green.fluid.circular.button.buy
+                                    i.checkmark.icon
+                                    |buy for #{price}
                             else
                                 .ui.green.basic.disabled.button
                                     |not enough
@@ -57,10 +63,6 @@ template(name='item_view')
                     //- +viewing
                     with _author_id
                         +seller_card
-                    .ui.header similar items
-                    each similar_items
-                        .ui.item 
-                            .header #{title}
                     
                     
 template(name='seller_card')

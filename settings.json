@@ -45,7 +45,7 @@
 	"galaxy.meteor.com": {
 		"env": {
             "MONGO_URL": "mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb",
-            "MAIL_URL": "smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587",
+            "MAIL_URL": "smtp://postmaster%40mg.whatscookin.at:a059db19f1be833785350d69d9c24d27-46ac6b00-86bf6762@smtp.mailgun.org:587",
 			"ROOT_URL": "https://www.dao.af"
 		}
 	}
