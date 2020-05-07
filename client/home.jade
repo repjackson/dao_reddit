@@ -2,20 +2,31 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                .ui.header prime
+                //- .ui.icon.center.aligned.header prime
                 if currentUser.prime
-                    .ui.button.cancel
-                        |cancel
-                    .ui.green.header is prime member
+                    if is_admin
+                        .ui.button.cancel
+                            |cancel
+                    .ui.green.inline.header is prime member
                 else
                     .ui.button.get_prime
                         |get prime
-                //- .ui.header installed plugins
+                if is_admin
+                    .ui.button.add_section
+                        i.plus.icon
+                .ui.icon.input
+                    if current_query
+                        i.remove.link.icon.clear_query
+                    else        
+                        i.search.icon
+                    input#search(type='text' autocomplete="off" value=current_query)
+
+                //- .ui.icon.center.aligned.header installed plugins
                 //- each installed_plugins
                 //-     .ui.green.card
                 //-         .content
                 //-             .header #{title}
-                //- .ui.header available plugins
+                //- .ui.icon.center.aligned.header available plugins
                 //-     .ui.card
                 //-         .header #{title}
                 //-         .ui.button.install
@@ -25,60 +36,72 @@ template(name='home')
                         .four.column.row
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/tasks") 
+                                    a.ui.icon.center.aligned.header(href="/tasks") 
                                         i.tasks.icon
                                         |tasks
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/posts")
+                                    a.ui.icon.center.aligned.header(href="/posts")
                                         i.blog.icon
                                         |posts
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/grid")
+                                    a.ui.icon.center.aligned.header(href="/grid")
                                         i.th.icon
                                         |grid
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/bitcoin")
+                                    a.ui.icon.center.aligned.header(href="/offers")
+                                        i.th.icon
+                                        |offers
+                                .spacer
+                            .column
+                                .ui.segment
+                                    a.ui.icon.center.aligned.header(href="/bitcoin")
                                         i.bitcoin.icon
                                         |bitcoin
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/reddit")
+                                    a.ui.icon.center.aligned.header(href="/reddit")
                                         i.reddit.icon
                                         |reddit
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/forum")
+                                    a.ui.icon.center.aligned.header(href="/reddit")
+                                        i.reddit.icon
+                                        |covid
+                                .spacer
+                            .column
+                                .ui.segment
+                                    a.ui.icon.center.aligned.header(href="/forum")
                                         i.chat.icon
                                         |forum
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/votes")
+                                    a.ui.icon.center.aligned.header(href="/votes")
                                         i.thumbs.up.icon
                                         |votes
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/university")
+                                    a.ui.icon.center.aligned.header(href="/university")
                                         i.university.icon
                                         |university
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/auctions")
+                                    a.ui.icon.center.aligned.header(href="/auctions")
                                         i.thumbs.up.icon
                                         |auctions
                                 .spacer
                             .column
                                 .ui.segment
-                                    a.ui.header(href="/badges")
+                                    a.ui.icon.center.aligned.header(href="/badges")
                                         i.thumbs.up.icon
                                         |badges

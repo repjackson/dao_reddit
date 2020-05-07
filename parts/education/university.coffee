@@ -7,8 +7,14 @@ if Meteor.isClient
         @layout 'layout'
         @render 'class_edit'
         ), name:'class_edit'
+    Router.route '/class/:doc_id/view', (->
+        @layout 'layout'
+        @render 'class_view'
+        ), name:'class_view'
 
     Template.class_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.class_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
 
@@ -21,9 +27,9 @@ if Meteor.isClient
         university: ->
             Docs.find
                 model:'class'
-        users: ->
-            Meteor.users.find({credit:$gt:1},
-                sort:credit:-1)
+        classes: ->
+            Docs.find
+                model:'class'
 
     Template.university.events
         'click .add_class': ->

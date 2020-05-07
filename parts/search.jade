@@ -25,8 +25,9 @@ template(name='search')
                             |calculated
                         if user_results
                             .ui.header user results
-                            each user_results
-                                .ui.header #{username}
+                            .ui.selection.animated.list
+                                each user_results
+                                    a.item(href="/user/#{username}/") #{username}
                         
 
 

@@ -1,0 +1,70 @@
+template(name='profile_layout')
+    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    +nav
+    with user
+        .ui.stackable.padded.grid
+            .row
+                //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                .four.wide.column
+                    a.item(href="/user/#{user.username}/")
+                        img.ui.centered.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    .mobile.hidden.spacer
+                    a(href="/user/#{user.username}")
+                        .ui.center.aligned.header
+                            strong #{user.name}
+                            //- 
+                            //- strong #{user.first_name} #{user.last_name}
+                            //- small @#{user.username}        
+                    a.ui.center.aligned.inline.header(href="/user/#{user.username}/credit" title='credit')
+                        |${{user.credit}}
+                    if checkedin
+                        .ui.animated.large.green.button.checkout
+                            .hidden.content
+                                |-checkout
+                            .visible.content
+                                |checked in
+                    else 
+                        .ui.basic.circular.large.button.checkin
+                            |checkin
+                    .ui.header
+                        i.phone.small.grey.icon
+                        | #{phone}
+                    if is_current_user
+                        a.ui.large.icon.circular.basic.button(href="/user/#{user._id}/edit" title='profile settings')
+                            i.cog.icon
+                    else if is_admin
+                        a.ui.large.icon.circular.basic.button(href="/user/#{user._id}/edit" title='profile settings')
+                            i.cog.icon
+                    if is_current_user
+                        .ui.large.circular.basic.icon.button.logout
+                            i.sign.out.alternate.icon
+                        //- a.ui.fluid.basic.button.logout_other_clients(href="#" title='logout other clients')
+                        //-     i.globe.icon
+                        //-     |log out other clients
+                    if is_admin
+                        .ui.header 
+                            +i name='shield'
+                            |roles
+                        each roles
+                            .ui.label #{this}
+                .twelve.wide.column
+                    a.ui.basic.large.circular.button(href="/user/#{username}" class="{{isActiveRoute 'user_dashboard'}}")
+                        i.large.dashboard.icon
+                        |dashboard
+                    a.ui.basic.large.circular.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
+                        i.large.users.icon
+                        |friends
+                    a.ui.basic.large.circular.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                        i.large.money.icon
+                        |credit
+                    a.ui.basic.large.circular.button(href="/user/#{username}/sales" class="{{isActiveRoute regex='user_sales'}}")
+                        i.large.checkmark.icon
+                        |sales
+                    a.ui.basic.large.circular.button(href="/user/#{username}/purchases" class="{{isActiveRoute regex='user_purchases'}}")
+                        i.large.cart.icon
+                        |purchases
+                    a.ui.basic.large.circular.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_chat'}}")
+                        i.large.chat.icon
+                        |chat
+                    .spacer
+                    +yield

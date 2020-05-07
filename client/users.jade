@@ -38,6 +38,8 @@ template(name='user_item')
                 .ui.large.label #{this}
         .content
             +user_friend_button
+            if checkedin
+                i.large.green.clock.icon(title='checked in')
         
             //- .ui.button send credit
                 

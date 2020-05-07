@@ -128,14 +128,6 @@ if Meteor.isClient
 
 
 
-    Template.profile_layout.onCreated ->
-        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_stats', Router.current().params.username
-    Template.profile_layout.onRendered ->
-        Meteor.setTimeout ->
-            $('.button').popup()
-        , 2000
 
     Template.profile_layout.helpers
         user: -> Meteor.users.findOne username:Router.current().params.username
@@ -163,13 +155,6 @@ if Meteor.isClient
                 bought:true
                 buyer_id:Meteor.userId()
             }, sort: bought_timestamp: -1
-
-
-    Template.profile_layout.events
-        'click .logout_other_clients': -> Meteor.logoutOtherClients()
-        'click .logout': ->
-            Router.go '/login'
-            Meteor.logout()
 
 
 
