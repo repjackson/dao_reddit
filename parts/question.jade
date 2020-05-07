@@ -1,0 +1,80 @@
+template(name='questions')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header.refresh_stats
+                    i.shield.icon
+                    |questions
+                if is_admin
+                    .ui.button.add_question
+                        |add question
+            .twelve.wide.column
+                each questions
+                    .ui.segment
+                        .ui.header #{title}
+                        if can_edit
+                            a.ui.icon.button(href="/question/#{_id}/edit")
+                                i.pencil.icon
+                        +voting
+                        
+
+
+template(name='question_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +question_calendar
+            .row
+                .five.wide.column
+                    a.ui.fluid.basic.circular.button(href='/questions' title='questions')
+                        i.left.chevron.large.icon
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    //- with _author_id
+                    //-     +user_card
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{question}
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.circular.basic.label #{this}
+                    div
+                    if answer_doc
+                        with answer_doc
+                            .ui.header your answer: #{answer}
+                            if session_key_value_is 'editing_id' _id
+                                +text_edit key='answer' label='answer' direct=true
+                                
+                    else 
+                        .ui.button.answer
+                            |answer
+                .five.wide.column
+                    .ui.header all answers
+                    .ui.items
+                        each answers
+                            .item #{answer}
+                    if can_edit
+                        a.ui.basic.large.circular.button(href="/question/#{_id}/edit" title='edit')
+                            i.pencil.blue.icon
+                            |edit
+                    
+                    
+template(name='question_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{question}'
+                    a.ui.big.basic.icon.circular.fluid.button(href="/question/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                    +remove_button
+                .ten.wide.column
+                    +text_edit key='question' label='title' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +float_edit key='bounty' label='credit bounty per answer' direct=true

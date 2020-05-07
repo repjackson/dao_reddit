@@ -1,34 +1,35 @@
 if Meteor.isClient
-    Router.route '/', (->
+    Router.route '/badges', (->
         @layout 'layout'
-        @render 'home'
-        ), name:'home'
-    Template.home.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'plugin'
+        @render 'badges'
+        ), name:'badges'
+    Router.route '/badge/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'badge_edit'
+        ), name:'badge_edit'
 
-    Template.home.helpers
-        installed_plugins: ->
-            Docs.find
-                model:'plugin'
+    Template.badge_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
-    Template.home.events
-        'click .cancel': ->
-            if confirm 'cancal prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:1
-                    $set:prime:false
 
-        'click .get_prime': ->
-            if confirm 'get prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:-1
-                    $set:prime:true
-        'click .add_plugin': ->
+
+    Template.badges.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'badge'
+        @autorun => Meteor.subscribe 'all_users'
+
+    Template.badges.helpers
+        global_stats: ->
+            Docs.findOne
+        users: ->
+            Meteor.users.find({credit:$gt:1},
+                sort:credit:-1)
+
+    Template.badges.events
+        'click .add_badge': ->
             new_id =
                 Docs.insert
-                    model:'plugin'
-            Router.go "/plugin/#{new_id}/edit"
-
+                    model:'badge'
+            Router.go "/badge/#{new_id}/edit"
 
 
 # if Meteor.isServer

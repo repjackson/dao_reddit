@@ -1,34 +1,36 @@
 if Meteor.isClient
-    Router.route '/', (->
+    Router.route '/posts', (->
         @layout 'layout'
-        @render 'home'
-        ), name:'home'
-    Template.home.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'plugin'
+        @render 'posts'
+        ), name:'posts'
+    Router.route '/post/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'post_edit'
+        ), name:'post_edit'
 
-    Template.home.helpers
-        installed_plugins: ->
+    Template.post_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+
+
+    Template.posts.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'post'
+        @autorun => Meteor.subscribe 'all_users'
+
+    Template.posts.helpers
+        posts: ->
             Docs.find
-                model:'plugin'
+                model:'post'
+        users: ->
+            Meteor.users.find({credit:$gt:1},
+                sort:credit:-1)
 
-    Template.home.events
-        'click .cancel': ->
-            if confirm 'cancal prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:1
-                    $set:prime:false
-
-        'click .get_prime': ->
-            if confirm 'get prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:-1
-                    $set:prime:true
-        'click .add_plugin': ->
+    Template.posts.events
+        'click .add_post': ->
             new_id =
                 Docs.insert
-                    model:'plugin'
-            Router.go "/plugin/#{new_id}/edit"
-
+                    model:'post'
+            Router.go "/post/#{new_id}/edit"
 
 
 # if Meteor.isServer

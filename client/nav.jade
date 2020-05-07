@@ -1,13 +1,19 @@
 template(name='nav')
-    .ui.attached.fluid.borderless.topnav.large.inverted.menu
-        a.ui.item(href='/grid' class="{{active_path '/grid'}}" title='models')
+    .ui.attached.fluid.borderless.topnav.inverted.menu
+        a.ui.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.th.icon
-        a.ui.item(href='/' class="{{active_path '/'}}" title='models')
-            i.large.home.icon
-            .mobile.hidden home
+        a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
+            i.large.cart.icon
+            .mobile.hidden market
+        a.ui.item(href='/posts' class="{{active_path '/posts'}}" title='posts')
+            i.large.blog.icon
+            .mobile.hidden posts
         a.ui.item(href='/users' class="{{active_path '/users'}}" title='models')
             i.large.users.icon
             .mobile.hidden users
+        a.ui.item(href='/search' class="{{active_path '/search'}}" title='models')
+            i.large.search.icon
+            .mobile.hidden search
         .right.menu
             if currentUser.prime
                 a.icon.item(href="/prime") 

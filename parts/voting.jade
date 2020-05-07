@@ -1,0 +1,74 @@
+template(name='votes')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header.refresh_stats
+                    i.shield.icon
+                    |votes
+                if is_admin
+                    .ui.button.add_vote
+                        |add vote
+            .twelve.wide.column
+                each votes
+                    .ui.segment
+                        .ui.header #{title}
+                        if can_edit
+                            a.ui.icon.button(href="/vote/#{_id}/edit")
+                                i.pencil.icon
+                        +voting
+                        
+
+
+template(name='vote_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +vote_calendar
+            .row
+                .five.wide.column
+                    a.ui.fluid.basic.circular.button(href='/votes' title='votes')
+                        i.left.chevron.large.icon
+                    a(href="{{c.url image_id }}" target='_window')
+                        img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    //- with _author_id
+                    //-     +user_card
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.circular.basic.label #{this}
+                    div
+                    .ui.two.fluid.buttons
+                        .ui.button(class=voteup_class)
+                            i.thumbs.up.icon
+                        .ui.button(class=votedown_class)
+                            i.thumbs.down.icon
+                .five.wide.column
+                    if can_edit
+                        a.ui.basic.large.circular.button(href="/vote/#{_id}/edit" title='edit')
+                            i.pencil.blue.icon
+                            |edit
+                    
+                    
+template(name='vote_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}'
+                    a.ui.big.basic.icon.circular.fluid.button(href="/vote/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                    +remove_button
+                .ten.wide.column
+                    +text_edit key='title' label='title' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +image_edit key='image_id' label='image' direct=true

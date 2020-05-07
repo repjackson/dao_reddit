@@ -1,34 +1,42 @@
 if Meteor.isClient
-    Router.route '/grid', (->
+    Router.route '/university', (->
         @layout 'layout'
-        @render 'grid'
-        ), name:'grid'
-    Template.grid.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'plugin'
+        @render 'university'
+        ), name:'university'
+    Router.route '/class/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'class_edit'
+        ), name:'class_edit'
 
-    Template.grid.helpers
-        installed_plugins: ->
+    Template.class_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+
+
+    Template.university.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'class'
+        @autorun => Meteor.subscribe 'all_users'
+
+    Template.university.helpers
+        university: ->
             Docs.find
-                model:'plugin'
+                model:'class'
+        users: ->
+            Meteor.users.find({credit:$gt:1},
+                sort:credit:-1)
 
-    Template.grid.events
-        'click .cancel': ->
-            if confirm 'cancal prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:1
-                    $set:prime:false
-
-        'click .get_prime': ->
-            if confirm 'get prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:-1
-                    $set:prime:true
-        'click .add_plugin': ->
+    Template.university.events
+        'click .add_class': ->
             new_id =
                 Docs.insert
-                    model:'plugin'
-            Router.go "/plugin/#{new_id}/edit"
+                    model:'class'
+            Router.go "/class/#{new_id}/edit"
 
+        'click .add_question': ->
+            new_id =
+                Docs.insert
+                    model:'question'
+            Router.go "/question/#{new_id}/edit"
 
 
 # if Meteor.isServer

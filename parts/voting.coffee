@@ -1,34 +1,42 @@
 if Meteor.isClient
-    Router.route '/', (->
+    Router.route '/votes', (->
         @layout 'layout'
-        @render 'home'
-        ), name:'home'
-    Template.home.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'plugin'
+        @render 'votes'
+        ), name:'votes'
+    Router.route '/vote/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'vote_edit'
+        ), name:'vote_edit'
+    Router.route '/vote/:doc_id/view', (->
+        @layout 'layout'
+        @render 'vote_view'
+        ), name:'vote_view'
 
-    Template.home.helpers
-        installed_plugins: ->
+    Template.vote_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.vote_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+
+
+    Template.votes.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'vote'
+        @autorun => Meteor.subscribe 'all_users'
+
+    Template.votes.helpers
+        votes: ->
             Docs.find
-                model:'plugin'
+                model:'vote'
+        users: ->
+            Meteor.users.find({credit:$gt:1},
+                sort:credit:-1)
 
-    Template.home.events
-        'click .cancel': ->
-            if confirm 'cancal prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:1
-                    $set:prime:false
-
-        'click .get_prime': ->
-            if confirm 'get prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:-1
-                    $set:prime:true
-        'click .add_plugin': ->
+    Template.votes.events
+        'click .add_vote': ->
             new_id =
                 Docs.insert
-                    model:'plugin'
-            Router.go "/plugin/#{new_id}/edit"
-
+                    model:'vote'
+            Router.go "/vote/#{new_id}/edit"
 
 
 # if Meteor.isServer

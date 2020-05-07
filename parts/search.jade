@@ -1,0 +1,90 @@
+template(name='search')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header.refresh_stats
+                    i.search.icon
+                    |search
+                if is_admin
+                    .ui.button.add_search
+                        |add search
+                .ui.selection.large.animated.list
+                    each past_searches
+                        .item.select_query
+                            |- #{title}
+            .twelve.wide.column
+                with current_search
+                    .ui.segment
+                        +text_edit key='title' label='query' direct=true
+                        .ui.header #{title}
+                        .ui.circular.basic.button.run_query
+                            i.send.icon
+                        +remove_button
+                        if has_results
+                            i.checkmark.icon
+                            |calculated
+                        if user_results
+                            .ui.header user results
+                            each user_results
+                                .ui.header #{username}
+                        
+
+
+template(name='search_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +search_calendar
+            .row
+                .five.wide.column
+                    a.ui.fluid.basic.circular.button(href='/search' title='searches')
+                        i.left.chevron.large.icon
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    //- with _author_id
+                    //-     +user_card
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{search}
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.circular.basic.label #{this}
+                    div
+                    if answer_doc
+                        with answer_doc
+                            .ui.header your answer: #{answer}
+                            if session_key_value_is 'editing_id' _id
+                                +text_edit key='answer' label='answer' direct=true
+                                
+                    else 
+                        .ui.button.answer
+                            |answer
+                .five.wide.column
+                    .ui.header all answers
+                    .ui.items
+                        each answers
+                            .item #{answer}
+                    if can_edit
+                        a.ui.basic.large.circular.button(href="/search/#{_id}/edit" title='edit')
+                            i.pencil.blue.icon
+                            |edit
+                    
+                    
+template(name='search_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{search}'
+                    a.ui.big.basic.icon.circular.fluid.button(href="/search/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                    +remove_button
+                .ten.wide.column
+                    +text_edit key='title' label='title' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
