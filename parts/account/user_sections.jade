@@ -6,3 +6,13 @@ template(name='user_badges')
     each user_badges
         a.ui.circular.large.button(href="/badge/#{_id}/view")
             +i name=icon
+            
+            
+template(name='user_edit_styles')
+    a.ui.header(href="/badges")
+        +i name='badge'
+        |badges
+    div
+    +text_edit key='nav_color' label='nav color' direct=true
+            
+            

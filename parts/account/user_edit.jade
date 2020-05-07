@@ -12,7 +12,7 @@ template(name='user_edit_layout')
                     a.ui.fluid.basic.large.button(href="/user/#{current_user.username}/") 
                         i.green.checkmark.icon
                         strong save
-                    .ui.vertical.large.fluid.pointing.menu(class="{{currentUser.nav_color}}")
+                    .ui.vertical.large.fluid.pointing.inverted.menu(class="{{currentUser.nav_color}}")
                         a.item(href="/user/#{current_user._id}/edit/info" class="{{active_path regex='user_edit_info'}}") 
                             |info
                             i.grey.info.icon 
@@ -31,6 +31,9 @@ template(name='user_edit_layout')
                         a.item(href="/user/#{current_user._id}/edit/privacy" class="{{active_path regex='user_edit_privacy'}}") 
                             | privacy
                             i.grey.lock.icon 
+                        a.item(href="/user/#{current_user._id}/edit/money" class="{{active_path regex='user_edit_money'}}") 
+                            | money
+                            i.grey.money.icon 
                         a.item(href="/user/#{current_user._id}/edit/membership" class="{{active_path regex='user_edit_membership'}}") 
                             | membership
                             i.grey.shield.icon 
@@ -147,6 +150,13 @@ template(name='user_edit_friends')
     .ui.header
         i.users.icon
         | friends
+    
+    
+template(name='user_edit_money')
+    .ui.header
+        i.users.icon
+        | money
+    +text_edit key='venmo_username' label='venmo username' direct=true
     
     
     

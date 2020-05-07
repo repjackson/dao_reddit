@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.attached.fluid.borderless.topnav.inverted.menu
+    .ui.attached.fluid.borderless.topnav.inverted.menu(class=currentUser.nav_color)
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
         a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
