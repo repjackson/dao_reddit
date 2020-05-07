@@ -40,7 +40,17 @@ template(name='layout')
             .ui.grid
                 .sixteen.wide.column
                     +yield
+    //- .ui.basic.modal
+    //-     +global_search_modal
         
+        
+//- template(name='global_search_modal')
+//-     .ui.fluid.big.icon.input
+//-         i.search.icon
+//-         input.global_search(type='text' placeholder='search...')
+//-     each results
+//-         .ui.list
+//-             .item #{title}
 
 
 

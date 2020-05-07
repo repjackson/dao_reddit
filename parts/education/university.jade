@@ -32,7 +32,7 @@ template(name='class_view')
             //-     .sixteen.wide.column
             //-         +class_calendar
             .row
-                .five.wide.column
+                .six.wide.column
                     a.ui.fluid.basic.circular.button(href='/university' title='university')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
@@ -40,19 +40,6 @@ template(name='class_view')
                     .ui.header added by #{_author_username}
                     |#{when}
                     .ui.small.header #{view_count} views
-                    //- with _author_id
-                    //-     +user_card
-                .six.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{title}
-                    div
-                    i.tag.icon
-                    each tags
-                        .ui.large.circular.basic.label #{this}
-                    div
-                    +comments
-    
-                .five.wide.column
                     unless enrolled
                         if can_enroll
                             if has_enough
@@ -73,7 +60,7 @@ template(name='class_view')
                             .ui.header bought {{long_date bought_timestamp}}
                         
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.basic.large.circular.button(href="/class/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
@@ -85,6 +72,25 @@ template(name='class_view')
                     //- +viewing
                     with _author_id
                         +teacher_card
+                    
+                    //- with _author_id
+                    //-     +user_card
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.circular.basic.label #{this}
+                    div
+                .ten.wide.column
+                    if is_admin
+                        .ui.large.icon.button.add_module
+                            i.plus.icon
+                    each class_modules
+                        .ui.segment
+                            .ui.header #{title}
+                    +comments
+    
                     
                     
 template(name='teacher_card')

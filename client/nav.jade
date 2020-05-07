@@ -1,19 +1,21 @@
 template(name='nav')
     .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
-            i.large.yin.yang.icon
-        a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
-            i.large.cart.icon
-            .mobile.hidden market
-        a.ui.item(href='/posts' class="{{active_path '/posts'}}" title='posts')
-            i.large.blog.icon
-            .mobile.hidden posts
-        a.ui.item(href='/users' class="{{active_path '/users'}}" title='models')
-            i.large.users.icon
-            .mobile.hidden users
+            i.big.yin.yang.icon
+        //- a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
+        //-     i.large.cart.icon
+        //-     .mobile.hidden market
+        //- a.ui.item(href='/posts' class="{{active_path '/posts'}}" title='posts')
+        //-     i.large.blog.icon
+        //-     .mobile.hidden posts
+        //- a.ui.item(href='/users' class="{{active_path '/users'}}" title='models')
+        //-     i.large.users.icon
+        //-     .mobile.hidden users
         a.ui.item(href='/search' class="{{active_path '/search'}}" title='models')
             i.large.search.icon
             .mobile.hidden search
+        .ui.input.transparent.item
+            input.global_search(type='text' placeholder='?')
         .right.menu
             a.icon.item.toggle_chat(href='#') 
                 if view_chat
@@ -24,7 +26,7 @@ template(name='nav')
             //-     a.icon.item(href="/prime") 
             //-         i.shield.icon
             if is_admin
-                a.icon.item.toggle_chat(href="/mail") 
+                a.icon.item(href="/mail") 
                     i.envelope.icon
                 a.icon.item(href="/admin") 
                     i.code.icon

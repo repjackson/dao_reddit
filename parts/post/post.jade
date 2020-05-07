@@ -10,7 +10,10 @@ template(name='posts')
                         |add post
             .twelve.wide.column
                 each posts
-                    a.ui.header(href="/post/#{_id}/view") #{title}
+                    .ui.segment
+                        a.ui.header(href="/post/#{_id}/view")
+                            |#{title}
+                        |#{points} points
                         
 
 
@@ -23,8 +26,8 @@ template(name='post_view')
             //-         +post_calendar
             .row
                 .five.wide.column
-                    //- a.ui.fluid.basic.circular.button(href='/' title='items')
-                    //-     i.left.chevron.large.icon
+                    a.ui.fluid.basic.circular.button(href='/posts' title='posts')
+                        i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     .ui.header added by #{_author_username}
@@ -33,7 +36,7 @@ template(name='post_view')
                     //- with _author_id
                     //-     +user_card
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.basic.large.circular.button(href="/post/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
@@ -46,17 +49,16 @@ template(name='post_view')
                     with _author_id
                         +seller_card
                     
-                .six.wide.column
+                .ten.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
-                        .ui.green.inline.header $#{price}
                     div
                     i.tag.icon
                     each tags
                         .ui.large.circular.basic.label #{this}
                     div
-                    //- else 
-                    //-     .ui.header not bought
+                    .ui.basic.segment
+                        |#{content}
                     +comments
                     
                     
@@ -68,7 +70,7 @@ template(name='post_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/item/#{_id}/view" title='save')
+                    a.ui.big.basic.icon.circular.fluid.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

@@ -18,9 +18,9 @@ template(name='profile_layout')
                     a.ui.center.aligned.inline.header(href="/user/#{user.username}/credit" title='credit')
                         |${{user.credit}}
                     if checkedin
-                        .ui.animated.large.green.button.checkout
+                        .ui.animated.large.green.fade.circular.button.checkout
                             .hidden.content
-                                |-checkout
+                                |checkout?
                             .visible.content
                                 |checked in
                     else 

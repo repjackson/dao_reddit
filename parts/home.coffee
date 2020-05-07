@@ -3,13 +3,30 @@ if Meteor.isClient
         @layout 'layout'
         @render 'home'
         ), name:'home'
+    Router.route '/section/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'section_edit'
+        ), name:'section_edit'
+    Router.route '/section/:doc_id/view', (->
+        @layout 'layout'
+        @render 'section_view'
+        ), name:'section_view'
+
+    Template.post_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.post_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+
+
     Template.home.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'plugin'
+        @autorun => Meteor.subscribe 'model_docs', 'section'
 
     Template.home.helpers
-        installed_plugins: ->
-            Docs.find
-                model:'plugin'
+        sections: ->
+            Docs.find {
+                model:'section'
+            }, sort:title:1
 
     Template.home.events
         'click .cancel': ->
@@ -23,11 +40,61 @@ if Meteor.isClient
                 Meteor.users.update Meteor.userId(),
                     $inc:credit:-1
                     $set:prime:true
-        'click .add_plugin': ->
+        'click .add_section': ->
             new_id =
                 Docs.insert
-                    model:'plugin'
-            Router.go "/plugin/#{new_id}/edit"
+                    model:'section'
+            Router.go "/section/#{new_id}/edit"
+
+
+
+    Template.layout.onCreated ->
+        @autorun => Meteor.subscribe 'section_search', Session.get('current_global_query')
+        @autorun => Meteor.subscribe 'model_docs', 'section'
+
+    Template.nav.helpers
+        results: ->
+            search = Session.get('current_global_query')
+            found_sections =
+                Docs.find(
+                    model:'section'
+                    title:{$regex:"#{search}", $options: 'i'}
+                ).fetch()
+
+
+    Template.nav.events
+        # 'keyup .global_search': _.throttle((e,t)->
+        'keyup .global_search': (e,t)->
+            # query = $('#search').val()
+            search = $('.global_search').val().toLowerCase()
+            Session.set('current_global_query', search)
+            console.log Session.get('current_global_query')
+            found_sections =
+                Docs.find(
+                    model:'section'
+                    title:{$regex:"#{search}", $options: 'i'}
+                ).fetch()
+            if search.length > 2 and found_sections.length is 1
+                # console.log found_sections[0]
+                # selection = found_sections[0]
+                Router.go "/#{found_sections[0].link}"
+        		$('.ui.basic.modal').modal('toggle')
+        # , 500)
+
+            # console.log found_sections.fetch()
+            # if e.which is 13
+            #     if search.length > 0
+            #         selected_tags.push search
+            #         console.log 'search', search
+            #         # Meteor.call 'log_term', search, ->
+            #         $('#search').val('')
+            #         Session.set('current_query', null)
+            #         # # $('#search').val('').blur()
+            #         # # $( "p" ).blur();
+            #         # Meteor.setTimeout ->
+            #         #     Session.set('dummy', !Session.get('dummy'))
+            #         # , 10000
+
 
 
 

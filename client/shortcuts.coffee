@@ -9,6 +9,17 @@ globalHotkeys.add
             Session.set 'loading', false
 
 globalHotkeys.add
+	combo: "?"
+	callback: ->
+		$('.global_search').focus()
+
+		# $('.ui.basic.modal').modal(
+		# 	inverted:true
+		# 	duration:200
+		# 	).modal('show')
+		Session.set('current_global_query', null)
+
+globalHotkeys.add
 	combo: "d c"
 	callback: ->
         model = Docs.findOne

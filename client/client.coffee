@@ -13,6 +13,7 @@ Template.nav.helpers
 
 Template.layout.onCreated ->
     Session.setDefault 'view_chat', false
+Template.layout.onRendered ->
 Template.layout.helpers
     view_chat: -> Session.get('view_chat')
 

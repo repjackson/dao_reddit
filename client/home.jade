@@ -3,112 +3,35 @@ template(name='home')
         .row
             .sixteen.wide.column
                 //- .ui.icon.center.aligned.header prime
-                if currentUser.prime
-                    if is_admin
-                        .ui.button.cancel
-                            |cancel
-                    .ui.green.inline.header is prime member
-                else
-                    .ui.button.get_prime
-                        |get prime
+                //- if currentUser.prime
+                //-     if is_admin
+                //-         .ui.button.cancel
+                //-             |cancel
+                //-     .ui.green.inline.header is prime member
+                //- else
+                //-     .ui.button.get_prime
+                //-         |get prime
                 if is_admin
-                    .ui.button.add_section
+                    .ui.circular.basic.button.add_section
                         i.plus.icon
                 .ui.icon.input
                     if current_query
                         i.remove.link.icon.clear_query
                     else        
                         i.search.icon
-                    input#search(type='text' autocomplete="off" value=current_query)
+                    input.global_search(type='text' autocomplete="off" value=current_query)
 
-                //- .ui.icon.center.aligned.header installed plugins
-                //- each installed_plugins
-                //-     .ui.green.card
-                //-         .content
-                //-             .header #{title}
-                //- .ui.icon.center.aligned.header available plugins
-                //-     .ui.card
-                //-         .header #{title}
-                //-         .ui.button.install
-                //-             |install
-                if currentUser.prime
-                    .ui.stackable.padded.grid
-                        .five.column.row
-                            each segments
-                                .column
-                                    .ui.segment
-                                        a.ui.icon.center.aligned.header(href=link) 
-                                            i.icon(class=icon)
-                                            |#{title}
-                                    .spacer
-                            .ui.divider
+                .ui.stackable.padded.grid
+                    .five.column.row
+                        each sections
                             .column
                                 .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/posts")
-                                        i.blog.icon
-                                        |posts
+                                    a.ui.icon.center.aligned.header(href=link) 
+                                        i.icon(class=icon)
+                                        |#{title}
+                                    if is_admin
+                                        +text_edit key='title' direct=true
+                                        +link_edit key='link' direct=true
+                                        +icon_edit key='icon' direct=true
+                                        
                                 .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/grid")
-                                        i.th.icon
-                                        |grid
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/offers")
-                                        i.th.icon
-                                        |offers
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/bitcoin")
-                                        i.bitcoin.icon
-                                        |bitcoin
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/reddit")
-                                        i.reddit.icon
-                                        |reddit
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/reddit")
-                                        i.reddit.icon
-                                        |covid
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/forum")
-                                        i.chat.icon
-                                        |forum
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/votes")
-                                        i.thumbs.up.icon
-                                        |votes
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/university")
-                                        i.university.icon
-                                        |university
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/auctions")
-                                        i.thumbs.up.icon
-                                        |auctions
-                                .spacer
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/badges")
-                                        i.certificate.icon
-                                        |badges
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/polls")
-                                        i.line.chart.icon
-                                        |polls
