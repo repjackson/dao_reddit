@@ -4,7 +4,7 @@ template(name='user_badges')
         |badges
     div
     each user_badges
-        a.ui.circular.large.button(href="/badge/#{_id}/view")
+        a.ui.circular.big.basic.button(href="/badge/#{_id}/view" title=title)
             +i name=icon
             
             

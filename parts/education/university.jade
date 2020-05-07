@@ -17,7 +17,10 @@ template(name='university')
             .ten.wide.column
                 each classes
                     .ui.segment
-                        .ui.header #{title}
+                        a.ui.header(href="/class/#{_id}/view") 
+                            img.ui.centered.rounded.medium.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+
+                            |#{title}
                         
 
 
@@ -42,19 +45,12 @@ template(name='class_view')
                 .six.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
-                        .ui.green.inline.header $#{price}
                     div
                     i.tag.icon
                     each tags
                         .ui.large.circular.basic.label #{this}
                     div
-                    //- else 
-                    //-     .ui.header not bought
                     +comments
-                    .ui.header.recalc_similar_items similar items
-                    each matches
-                        .ui.item 
-                            .header #{title}
     
                 .five.wide.column
                     unless enrolled
@@ -88,7 +84,21 @@ template(name='class_view')
                     div
                     //- +viewing
                     with _author_id
-                        +seller_card
+                        +teacher_card
+                    
+                    
+template(name='teacher_card')
+    .ui.header teacher
+    with seller
+        .ui.card
+            img.ui.centered.rounded.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+            .content
+                a.header(href="/user/#{username}") #{username}
+                .ui.list
+                    .item #{sales_count} sales
+                    .item #{selling_count} selling
+                    
+                    
                     
                     
 template(name='class_edit')

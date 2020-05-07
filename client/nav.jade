@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.attached.fluid.borderless.topnav.inverted.menu(class=currentUser.nav_color)
+    .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
         a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
@@ -15,20 +15,27 @@ template(name='nav')
             i.large.search.icon
             .mobile.hidden search
         .right.menu
-            if currentUser.prime
-                a.icon.item(href="/prime") 
-                    i.shield.icon
+            a.icon.item.toggle_chat(href='#') 
+                if view_chat
+                    i.chat.large.blue.icon
+                else
+                    i.chat.large.outline.icon
+            //- if currentUser.prime
+            //-     a.icon.item(href="/prime") 
+            //-         i.shield.icon
             if is_admin
-                a.icon.item(href="/mail") 
-                    i.chat.icon
+                a.icon.item.toggle_chat(href="/mail") 
+                    i.envelope.icon
                 a.icon.item(href="/admin") 
                     i.code.icon
+            a.icon.item(href="/help") 
+                i.question.icon
             if currentUser
                 a.icon.item(href="/alerts")
                     if unread_alerts
-                        i.bell.yellow.large.icon
+                        i.bell.blue.large.icon
                     else
-                        i.bell.yellow.outline.large.icon
+                        i.bell.blue.outline.large.icon
                     |#{currentUser.alerts}
                 a.item(href="/user/#{currentUser.username}/credit")
                     |$#{currentUser.credit}

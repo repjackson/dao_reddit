@@ -1,0 +1,28 @@
+template(name='help')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header.refresh_stats
+                    i.question.icon
+                    |help
+                .ui.button.new_ticket
+                    |new ticket
+            .twelve.wide.column
+                .ui.header 
+                    i.ticket.icon
+                    |tickets
+                each tickets
+                    .ui.segment
+                        .ui.inline.header #{title}
+                        .ui.small.inline.header
+                            |#{when} 
+                        .ui.basic.circular.label status: #{status}
+                        .ui.basic.circular.label complete: #{complete}
+                .ui.header 
+                    i.blog.icon
+                    |articles
+                .ui.large.selection.list
+                    each articles
+                        .item
+                            .header #{_author_username}
+                                small #{when} 

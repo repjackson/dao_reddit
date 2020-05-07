@@ -5,9 +5,9 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     /* font-size: 110% !important; */
     /* line-height: 200% !important; */
-    background: rgba(0,0,0,.01) !important;
-    /* background: rgba(0,0,0,.85) !important; */
-    /* filter: invert(.9) !important; */
+    /* background: rgba(0,0,0,.01) !important; */
+    background: rgba(0,0,0,.85) !important;
+    filter: invert(.9) !important;
     overscroll-behavior: none;
     transition: all 1s !important;
     /* background: rgba(250, 250, 250, .05) !important */
@@ -35,7 +35,7 @@ body {
     border-radius: 0 0 10px 10px !important;
     transition: background-color 2s ease !important;
     /* background-color: rgba(250,250,250,.6) !important; */
-    opacity: .7 !important;
+    /* opacity: .7 !important; */
 }
 /* .topnav .menu {
     z-index: 2000 !important;
@@ -78,10 +78,10 @@ body {
     cursor: pointer !important;
 }
 
-/* .ui.image, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, .blue.header, .orange.header, .invert{
+img, .ui.image, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, .blue.header, .orange.header, .invert{
     /* border-radius: 7px !important; */
-    /* filter: invert(1) !important;
-} */
+    filter: invert(1) !important;
+}
 
 /* img {
     filter: invert(1) !important;

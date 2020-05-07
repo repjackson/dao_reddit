@@ -33,13 +33,15 @@ template(name='home')
                 //-             |install
                 if currentUser.prime
                     .ui.stackable.padded.grid
-                        .four.column.row
-                            .column
-                                .ui.segment
-                                    a.ui.icon.center.aligned.header(href="/tasks") 
-                                        i.tasks.icon
-                                        |tasks
-                                .spacer
+                        .five.column.row
+                            each segments
+                                .column
+                                    .ui.segment
+                                        a.ui.icon.center.aligned.header(href=link) 
+                                            i.icon(class=icon)
+                                            |#{title}
+                                    .spacer
+                            .ui.divider
                             .column
                                 .ui.segment
                                     a.ui.icon.center.aligned.header(href="/posts")
@@ -105,3 +107,8 @@ template(name='home')
                                     a.ui.icon.center.aligned.header(href="/badges")
                                         i.certificate.icon
                                         |badges
+                            .column
+                                .ui.segment
+                                    a.ui.icon.center.aligned.header(href="/polls")
+                                        i.line.chart.icon
+                                        |polls

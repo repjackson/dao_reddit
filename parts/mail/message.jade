@@ -1,14 +1,26 @@
-template(name='sort_item')
-    .item.set_sort #{label}
-    
+template(name='messages')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header.refresh_stats
+                    i.shield.icon
+                    |messages
+                if is_admin
+                    .ui.button.add_message
+                        |add message
+            .twelve.wide.column
+                each messages
+                    .ui.header #{title}
+                        
 
-template(name='item_view')
+
+template(name='message_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             //- .row
             //-     .sixteen.wide.column
-            //-         +item_calendar
+            //-         +message_calendar
             .row
                 .five.wide.column
                     //- a.ui.fluid.basic.circular.button(href='/' title='items')
@@ -29,7 +41,8 @@ template(name='item_view')
                     each tags
                         .ui.large.circular.basic.label #{this}
                     div
-                    +textarea_view key='description' label='description' icon='list' direct=true
+                    //- else 
+                    //-     .ui.header not bought
                     +comments
                     .ui.header.recalc_similar_items similar items
                     each matches
@@ -72,28 +85,7 @@ template(name='item_view')
                         +seller_card
                     
                     
-template(name='seller_card')
-    .ui.header seller
-    with seller
-        .ui.card
-            img.ui.centered.rounded.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
-            .content
-                a.header(href="/user/#{username}") #{username}
-                .ui.list
-                    .item #{sales_count} sales
-                    .item #{selling_count} selling
-                    
-                    
-
-
-
-        
-template(name='set_date_filter')        
-    .ui.button.set_date_filter(class=date_filter_class)
-        |#{label}
-
-
-template(name='item_edit')
+template(name='message_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -107,8 +99,5 @@ template(name='item_edit')
                 .ten.wide.column
                     +text_edit key='title' label='title' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location_tags' icon='marker' direct=true
-                    +array_edit key='transaction_type' label='transaction type' icon='cart' direct=true
-                    +textarea_edit key='description' label='description' icon='list' direct=true
+                    +textarea_edit key='content' label='content' icon='list' direct=true
                     +image_edit key='image_id' label='image' direct=true
-                    +number_edit key='price' label='price' direct=true

@@ -30,10 +30,31 @@ head
 template(name='layout')
     +nav
     #main_area
-        +yield
+        if view_chat
+            .ui.grid
+                .twelve.wide.column
+                    +yield
+                .four.wide.column
+                    +chat_sidepanel
+        else
+            .ui.grid
+                .sixteen.wide.column
+                    +yield
+        
 
 
 
 template(name='not_found')
     .ui.basic.center.aligned.padded.segment
         .ui.center.aligned.header page not found
+
+
+
+
+template(name='chat_sidepanel')
+    .ui.fluid.blue.inverted.segment
+        .ui.header
+            i.chat.icon
+            |quick chat
+        .ui.input.new_chat_message
+            input(type='text' placeholder='new chat')

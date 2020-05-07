@@ -7,8 +7,14 @@ if Meteor.isClient
         @layout 'layout'
         @render 'post_edit'
         ), name:'post_edit'
+    Router.route '/post/:doc_id/view', (->
+        @layout 'layout'
+        @render 'post_view'
+        ), name:'post_view'
 
     Template.post_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
 

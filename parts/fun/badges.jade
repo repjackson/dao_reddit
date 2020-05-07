@@ -10,31 +10,33 @@ template(name='badges')
                         i.plus.icon
             .twelve.wide.column
                 .ui.header purchased badges
-                each purchased_badges
-                    +badge_doc
+                .ui.cards
+                    each purchased_badges
+                        +badge_doc
                 .ui.header available badges
                 each available_badges
                     +badge_doc
                     
 
 template(name='badge_doc')                    
-    .ui.segment
-        .ui.header
-            +i name=icon
-            |#{title}
-        each purchase_user_ids
-            .ui.label #{this}
-        if purchased
-            .ui.circular.basic.button.return
-                i.undo.icon
-                |return for +1
-        else
-            .ui.circular.basic.green.button.purchase
-                i.checkmark.icon
-                |purchase for -1
-        if can_edit
-            a.ui.circular.basic.icon.button(href="/badge/#{_id}/edit")
-                i.pencil.icon   
+    .ui.card
+        .content
+            .ui.header
+                +i name=icon
+                |#{title}
+            each purchase_user_ids
+                .ui.label #{this}
+            if purchased
+                .ui.circular.basic.button.return
+                    i.undo.icon
+                    |return for +1
+            else
+                .ui.circular.basic.green.button.purchase
+                    i.checkmark.icon
+                    |purchase for -1
+            if can_edit
+                a.ui.circular.basic.icon.button(href="/badge/#{_id}/edit")
+                    i.pencil.icon   
 
 
 template(name='badge_view')

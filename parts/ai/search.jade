@@ -16,7 +16,6 @@ template(name='search')
                 with current_search
                     .ui.segment
                         +text_edit key='title' label='query' direct=true
-                        .ui.header #{title}
                         .ui.circular.basic.button.run_query
                             i.send.icon
                         +remove_button
@@ -24,9 +23,18 @@ template(name='search')
                             i.checkmark.icon
                             |calculated
                         if user_results
-                            .ui.header user results
+                            .ui.grey.header
+                                i.user.outline.icon 
+                                |user results
                             .ui.selection.animated.list
                                 each user_results
+                                    a.item(href="/user/#{username}/") #{username}
+                        if title_results
+                            .ui.grey.header
+                                i.user.outline.icon 
+                                |title results
+                            .ui.selection.animated.list
+                                each title_results
                                     a.item(href="/user/#{username}/") #{username}
                         
 
