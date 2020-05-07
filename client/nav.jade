@@ -9,9 +9,12 @@ template(name='nav')
             i.large.users.icon
             .mobile.hidden users
         .right.menu
+            if currentUser.prime
+                a.icon.item(href="/prime") 
+                    i.shield.icon
             if is_admin
                 a.icon.item(href="/admin") 
-                    i.shield.icon
+                    i.code.icon
             if currentUser
                 a#add.ui.icon.item
                     i.plus.large.green.icon

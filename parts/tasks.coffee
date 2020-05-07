@@ -1,33 +1,31 @@
 if Meteor.isClient
-    Router.route '/grid', (->
+    Router.route '/tasks', (->
         @layout 'layout'
-        @render 'grid'
-        ), name:'grid'
-    Template.grid.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'plugin'
+        @render 'tasks'
+        ), name:'tasks'
+    Template.tasks.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'alert'
+        @autorun => Meteor.subscribe 'model_docs', 'deposit'
+        @autorun => Meteor.subscribe 'model_docs', 'stats'
+        @autorun => Meteor.subscribe 'all_users'
 
-    Template.grid.helpers
-        installed_plugins: ->
+    Template.tasks.helpers
+        global_stats: ->
+            Docs.findOne
+                model:'stats'
+        withdrawals: ->
             Docs.find
-                model:'plugin'
+                model:'withdrawal'
+        deposits: ->
+            Docs.find
+                model:'deposit'
+        users: ->
+            Meteor.users.find({credit:$gt:1},
+                sort:credit:-1)
 
-    Template.grid.events
-        'click .cancel': ->
-            if confirm 'cancal prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:1
-                    $set:prime:false
-
-        'click .get_prime': ->
-            if confirm 'get prime'
-                Meteor.users.update Meteor.userId(),
-                    $inc:credit:-1
-                    $set:prime:true
-        'click .add_plugin': ->
-            new_id =
-                Docs.insert
-                    model:'plugin'
-            Router.go "/plugin/#{new_id}/edit"
+    Template.tasks.events
+        'click .refresh_stats': ->
+            Meteor.call 'refresh_global_stats', ->
 
 
 
