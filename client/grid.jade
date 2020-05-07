@@ -1,0 +1,20 @@
+template(name='grid')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.header prime
+                if is_prime
+                    .ui.green.header is prime member
+                else
+                    .ui.button.get_prime
+                        |get prime
+                .ui.header installed plugins
+                each installed_plugins
+                    .ui.green.card
+                        .content
+                            .header #{title}
+                .ui.header available plugins
+                    .ui.card
+                        .header #{title}
+                        .ui.button.install
+                            |install
