@@ -46,6 +46,13 @@ if Meteor.isClient
 
 
     Template.items.events
+        'click #add': ->
+            new_id =
+                Docs.insert
+                    model:'item'
+            Router.go "/item/#{new_id}/edit"
+
+
         'click .set_sort_key': ->
             # console.log @
             Session.set('sort_key',@key)

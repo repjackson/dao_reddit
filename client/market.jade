@@ -2,6 +2,9 @@ template(name='items')
     .ui.padded.stackable.grid
         .four.wide.column
             if currentUser
+                a#add.ui.icon.button(href='add market item')
+                    i.plus.large.green.icon
+                
                 +session_edit_value_button key='view_mode' value='market' label='market' icon='shop'
                 +session_edit_value_button key='view_mode' value='bought' label='bought' icon='money'
                 +session_edit_value_button key='view_mode' value='selling' label='selling' icon='clock'

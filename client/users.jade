@@ -1,8 +1,11 @@
 template(name='users')
     .ui.padded.stackable.grid
         .four.wide.column
-            //- +user_cloud
+            .ui.header users
+            +user_cloud
         .twelve.wide.column
+            .ui.input
+                input(type='text' placeholder='search username')
             .ui.stackable.four.cards
                 each users
                     +user_item

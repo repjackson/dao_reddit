@@ -7,8 +7,14 @@ if Meteor.isClient
         @layout 'layout'
         @render 'badge_edit'
         ), name:'badge_edit'
+    Router.route '/badge/:doc_id/view', (->
+        @layout 'layout'
+        @render 'badge_view'
+        ), name:'badge_view'
 
     Template.badge_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.badge_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
 
@@ -18,12 +24,29 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'all_users'
 
     Template.badges.helpers
-        global_stats: ->
-            Docs.findOne
-        users: ->
-            Meteor.users.find({credit:$gt:1},
-                sort:credit:-1)
-
+        purchased_badges: ->
+            Docs.find
+                model:'badge'
+                purchase_user_ids:$in:[Meteor.userId()]
+        available_badges: ->
+            Docs.find
+                model:'badge'
+                purchase_user_ids:$nin:[Meteor.userId()]
+    Template.badge_doc.helpers
+        purchased: -> Meteor.userId() in @purchase_user_ids
+    Template.badge_doc.events
+        'click .purchase': ->
+            if confirm 'purchase for -$1?'
+                Meteor.users.update Meteor.userId(),
+                    $inc:credit:-1
+            Docs.update @_id,
+                $addToSet:purchase_user_ids:Meteor.userId()
+        'click .return': ->
+            if confirm 'cancel for +$1?'
+                Meteor.users.update Meteor.userId(),
+                    $inc:credit:1
+            Docs.update @_id,
+                $pull:purchase_user_ids:Meteor.userId()
     Template.badges.events
         'click .add_badge': ->
             new_id =

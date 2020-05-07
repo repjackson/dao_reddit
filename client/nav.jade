@@ -1,6 +1,6 @@
 template(name='nav')
     .ui.attached.fluid.borderless.topnav.inverted.menu
-        a.ui.item(href='/' class="{{active_path '/'}}" title='home')
+        a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
         a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
             i.large.cart.icon
@@ -19,11 +19,11 @@ template(name='nav')
                 a.icon.item(href="/prime") 
                     i.shield.icon
             if is_admin
+                a.icon.item(href="/mail") 
+                    i.chat.icon
                 a.icon.item(href="/admin") 
                     i.code.icon
             if currentUser
-                a#add.ui.icon.item
-                    i.plus.large.green.icon
                 a.icon.item(href="/alerts")
                     if unread_alerts
                         i.bell.yellow.large.icon

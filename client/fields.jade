@@ -43,8 +43,8 @@ template(name='color_icon_edit')
     div
     .ui.inline.header
         if icon
-            i.grey.icon(class=icon)
-            //- +i name=icon
+            //- i.grey.icon(class=icon)
+            +i name=icon
         if title
             |#{title}
         else if key
@@ -93,8 +93,8 @@ template(name='icon_view')
 
 template(name='i')
     //- i.icon(class=name)
-    img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=classes title=title)
-    //- img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=classes title=title)
+    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
     //- img.icon8(src="https://img.icons8.com/ios/50/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)

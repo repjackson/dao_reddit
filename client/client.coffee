@@ -5,13 +5,6 @@ Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
     @autorun => Meteor.subscribe 'alerts'
 
-Template.nav.events
-    'click #add': ->
-        new_id =
-            Docs.insert
-                model:'item'
-        Router.go "/item/#{new_id}/edit"
-
 
 
 Template.body.events
