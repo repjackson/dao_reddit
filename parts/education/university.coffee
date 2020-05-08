@@ -3,21 +3,6 @@ if Meteor.isClient
         @layout 'layout'
         @render 'university'
         ), name:'university'
-    Router.route '/class/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'class_edit'
-        ), name:'class_edit'
-    Router.route '/class/:doc_id/view', (->
-        @layout 'layout'
-        @render 'class_view'
-        ), name:'class_view'
-
-    Template.class_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.class_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-
 
     Template.university.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'class'

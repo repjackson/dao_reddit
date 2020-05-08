@@ -15,6 +15,13 @@ template(name='class_view')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.circular.basic.label #{this}
+                    div
                     .ui.header added by #{_author_username}
                     |#{when}
                     .ui.small.header #{view_count} views
@@ -53,13 +60,6 @@ template(name='class_view')
                     
                     //- with _author_id
                     //-     +user_card
-                    h2
-                        .ui.center.aligned.inline.header #{title}
-                    div
-                    i.tag.icon
-                    each tags
-                        .ui.large.circular.basic.label #{this}
-                    div
                 .ten.wide.column
                     .ui.header modules
                     if is_admin
@@ -68,6 +68,8 @@ template(name='class_view')
                     each class_modules
                         .ui.segment
                             .ui.header #{title}
+                            if is_admin
+                                +text_edit key='title' direct=true
                     .ui.header questions
                     +comments
                     
@@ -87,8 +89,6 @@ template(name='class_edit')
                 .ten.wide.column
                     +text_edit key='title' label='title' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location_tags' icon='marker' direct=true
-                    +array_edit key='transaction_type' label='transaction type' icon='cart' direct=true
                     +textarea_edit key='description' label='description' icon='list' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     +number_edit key='price' label='price' direct=true

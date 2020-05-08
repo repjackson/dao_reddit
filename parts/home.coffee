@@ -21,12 +21,18 @@ if Meteor.isClient
 
     Template.home.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'section'
+        @autorun => Meteor.subscribe 'model_docs', 'log'
 
     Template.home.helpers
         sections: ->
             Docs.find {
                 model:'section'
             }, sort:title:1
+
+        tail_log: ->
+            Docs.find
+                model:'log'
+
 
     Template.home.events
         'click .cancel': ->

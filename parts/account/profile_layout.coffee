@@ -13,12 +13,15 @@ if Meteor.isClient
     Template.profile_layout.events
         'click .checkin': ->
             Docs.insert
-                model:'alert'
-                body:"#{Meteor.user().username} signed in."
+                model:'log'
+                body:"#{Meteor.user().username} checked in."
             Meteor.users.update Meteor.userId(),
                 $set:checkedin:true
 
         'click .checkout': ->
+            Docs.insert
+                model:'log'
+                body:"#{Meteor.user().username} checked out."
             Meteor.users.update Meteor.userId(),
                 $set:checkedin:false
 

@@ -12,7 +12,7 @@ template(name='user_edit_layout')
                     a.ui.fluid.basic.large.button(href="/user/#{current_user.username}/") 
                         i.green.checkmark.icon
                         strong save
-                    .ui.vertical.large.fluid.pointing.inverted.menu(class="{{currentUser.nav_color}}")
+                    .ui.vertical.large.fluid.pointing.menu(class="{{currentUser.nav_color}}")
                         a.item(href="/user/#{current_user._id}/edit/info" class="{{active_path regex='user_edit_info'}}") 
                             |info
                             i.grey.info.icon 
@@ -150,6 +150,14 @@ template(name='user_edit_friends')
     .ui.header
         i.users.icon
         | friends
+    
+    
+template(name='user_edit_alerts')
+    .ui.header
+        i.users.icon
+        | alerts
+        .ui.header email when sold
+        .ui.header email when sold
     
     
 template(name='user_edit_money')
