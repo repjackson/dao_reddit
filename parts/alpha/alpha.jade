@@ -1,0 +1,201 @@
+template(name='alpha')
+    .ui.stackable.grid
+        .row
+            .five.wide.column
+                if is_loading
+                    .ui.inline.header.pulsing
+                        //- i.yin.yang.loading.large.icon
+                        +icolor name='alpha' classes='pulsing'
+                        |loading alpha...
+                else
+                    .ui.inline.header(title="#{description}, #{views} views")
+                        +icolor name='alpha'
+                        | alpha
+                unless is_loading
+                    if currentUser
+                        .ui.icon.compact.basic.button.add_alpha_doc(title="add #{slug}")
+                            i.plus.large.green.icon
+                    //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
+                    if current_alpha_session
+                        if is_admin
+                            .ui.icon.basic.button.delete_alpha_session(title='delete session document')
+                                i.remove.icon
+                            .ui.icon.basic.button.print_alpha_session(title='print alpha_session')
+                                i.code.icon
+                            i.refresh.link.reset.circular.icon(title='reload session')
+                        if is_dev
+                            i.code.link.icon.print_alpha_session(title='print session doc')
+                            i.trash.delete_alpha_session.link.icon(title='delete session')
+                    else
+                        .create_alpha_session.ui.large.button(title='new session')
+                            i.plus.icon
+                            |session
+                    each sorted_facets
+                        +afacet
+            .ten.wide.column
+                |&nbsp;
+                .ui.icon.input(class=query_class)
+                    if current_alpha_session.search_query
+                        i.link.remove.icon.clear_query
+                    else
+                        i.search.icon
+                    input#search(type='text' autocomplete="off" value=current_alpha_session.search_query)
+                unless single_doc
+                    //- .ui.basic.segment(class=loading_class)
+                    //- .ui.inline.small.grey.header(title='change sort direction')
+                    //-     |sort by
+                    //- .ui.compact.small.menu(title='sort by')
+                    //-     .ui.simple.dropdown.item
+                    //-         strong #{current_alpha_session.sort_key}
+                    //-         i.dropdown.icon
+                    //-         .menu
+                    //-             each sortable_fields
+                    //-                 .item.set_sort_key 
+                    //-                     |#{title}
+                    //- .ui.compact.icon.basic.button.set_sort_direction(title='sort direction')
+                    //-     if sorting_up
+                    //-         i.sort.amount.down.large.icon
+                    //-     else
+                    //-         i.sort.amount.up.large.icon
+                    //- .ui.compact.button.set_sort_direction
+                    //-     |#{current_alpha_session.sort_direction}
+                    |&nbsp;
+                    |&nbsp;
+                    //- .ui.inline.small.grey.header
+                    //-     |viewing
+                    //- .ui.compact.menu
+                    //-     .ui.simple.dropdown.item(title='visible fields')
+                    //-         | fields
+                    //-         i.dropdown.icon
+                    //-         .menu
+                    //-             each model_fields
+                    //-                 +toggle_visible_field
+                    |&nbsp;
+                    |&nbsp;
+                    |&nbsp;
+                                    
+                    .ui.simple.dropdown(title='result limit')
+                        .text.large #{current_alpha_session.limit}
+                        i.dropdown.icon
+                        .menu
+                            +set_alpha_limit amount=1
+                            +set_alpha_limit amount=5
+                            +set_alpha_limit amount=10
+                            +set_alpha_limit amount=20
+                            +set_alpha_limit amount=50
+                    |&nbsp;
+                    |&nbsp;
+                    |&nbsp;
+                    |of 
+                    .ui.small.inline.header(title='total results') #{current_alpha_session.total}
+                    |&nbsp;
+                    |&nbsp;
+                    //- .ui.inline.small.grey.header view
+                    //- .ui.compact.menu
+                    //-     .ui.simple.dropdown.item
+                    //-         |#{current_alpha_session.view_mode}
+                    //-         i.dropdown.icon
+                    //-         .menu
+                    //-             //- +set_view_mode title='table' icon='table'
+                    //-             +set_view_mode title='list' icon='list'
+                    //-             +set_view_mode title='cards' icon='cards'
+                    //-             //- +set_view_mode title='items' icon='list'
+                    //-             //- +set_view_mode title='map' icon='map'
+                    //-             //- +set_view_mode title='graph' icon='graph'
+                    //- .ui.basic.compact.small.icon.button.toggle_right_panel
+                    //-     i.table.large.icon
+                    .spacer
+                
+                each current_alpha_session.result_ids
+                    +alpha_card
+
+
+
+
+
+template(name='afacet')
+    div
+    //- if filtering_res
+    //- .ui.hidden.divider
+    //- .ui.fluid.rounded.accordion
+        //- .active.title
+    if icon
+        +icolor name=icon classes='ui avatar image'
+        //- i.grey.icon(class=icon)
+    .ui.grey.inline.header 
+        if title
+            |#{title}
+        else 
+            |#{key}
+            //- i.dropdown.icon
+            //- .ui.icon.small.transparent.input
+            //-     i.search.icon
+            //-     input.add_filter(type='text')
+        //- .active.content
+            //- div
+    each filtering_res
+        if name
+            .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
+                //- with ..
+                //- if parent_key_value_is 'field_type' 'color_icon'
+                //-     .ui.header icon
+                //- else 
+                strong #{name}
+                if is_admin
+                    small #{cal_count} #{count}
+        else
+            .selector.ui.compact.basic.button.toggle_selection(class=toggle_value_class)
+                strong [null]
+                //- small #{cal_count}
+        //- .ui.hidden.divider
+
+
+
+
+template(name='alpha_card')
+    with result
+        .ui.segment
+            .ui.header #{title}
+            each keys
+                .ui.label #{this}
+                
+            each doc_modules
+                +alpha_card_module_view
+                
+
+            a.ui.large.basic.icon.button(href="/alpha/#{_id}/edit")
+                i.pencil.icon
+            a.ui.large.basic.icon.button(href="/alpha/#{_id}/view")
+                i.right.chevron.icon        
+                
+
+template(name='alpha_card_module_view')
+    //- .ui.header #{doc_key}: #{module_value}
+    div
+    .ui.inline.header #{doc_key}
+    +Template.dynamic template=alpha_field_view
+    
+
+
+
+        
+template(name='block_editor')
+    .ui.inline.header 
+        i.shield.icon
+        |block editor
+    .ui.icon.button.add_block
+        i.plus.icon
+    .ui.cards
+        each blocks
+            .card
+                .content
+                    +text_edit key='title' direct=true
+                    div
+                    +slug_edit key='slug' direct=true
+                    div
+                    +icon_edit key='icon' direct=true
+
+
+                
+template(name='set_alpha_limit')
+    .item.set_limit #{amount}

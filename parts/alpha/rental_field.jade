@@ -1,0 +1,84 @@
+template(name='arental_edit')
+    +boolean_edit key='has_hourly_rate' label='hourly rate' icon='clock' direct=true
+    if hourly_rate
+        +number_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
+    div
+    +boolean_edit key='has_daily_rate' label='daily rate' icon='sun' direct=true
+    if daily_rate
+        +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
+    div
+    +boolean_edit key='has_weekly_rate' label='weekly rate' icon='sun' direct=true
+    if weekly_rate
+        +number_edit key='weekly_rate' label='weekly rate' icon='exchange' direct=true
+    div
+    +boolean_edit key='has_monthly_rate' label='monthly rate' icon='sun' direct=true
+    if monthly_rate
+        +number_edit key='monthly_rate' label='monthly rate' icon='exchange' direct=true
+    div
+    +boolean_edit key='has_delivery' label='has delivery' icon='shipping' direct=true
+    if has_delivery
+        .ui.small.header
+            +i name='clock' classes='ui inline tiny image'
+            |reservation start
+        +boolean_edit key='res_start_pickup' label='pickup' icon='truck' direct=true
+        +boolean_edit key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
+        if res_start_dropoff
+            +number_edit key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
+        .ui.small.header
+            i.clock.icon
+            |reservation end
+        +boolean_edit key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
+        +boolean_edit key='res_end_pickup' label='pickup' icon='truck' direct=true
+        if res_end_pickup
+            +number_edit key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+
+template(name='arental_view')
+    .ui.segment
+        .ui.header
+            | rental
+        .ui.green.button.rent
+            |rent 
+        +boolean_view key='hourly_rate' label='hourly rate' icon='clock' direct=true
+        if hourly_rate
+            +number_view key='hourly_rate' label='hourly rate' icon='clock' direct=true
+        div
+        +boolean_view key='daily_rate' label='daily rate' icon='sun' direct=true
+        if daily_rate
+            +number_view key='daily_rate' label='daily rate' icon='exchange' direct=true
+        div
+        +boolean_view key='weekly_rate' label='weekly rate' icon='sun' direct=true
+        if weekly_rate
+            +number_view key='weekly_rate' label='weekly rate' icon='exchange' direct=true
+        div
+        +boolean_view key='monthly_rate' label='monthly rate' icon='sun' direct=true
+        if monthly_rate
+            +number_view key='monthly_rate' label='monthly rate' icon='exchange' direct=true
+        div
+        if has_delivery
+            .ui.small.header
+                +i name='clock' classes='ui inline tiny image'
+                |reservation start
+            +boolean_view key='res_start_pickup' label='pickup' icon='truck' direct=true
+            +boolean_view key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
+            if res_start_dropoff
+                +number_view key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
+            .ui.small.header
+                i.clock.icon
+                |reservation end
+            +boolean_view key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
+            +boolean_view key='res_end_pickup' label='pickup' icon='truck' direct=true
+            if res_end_pickup
+                +number_view key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+
+        each orders
+            .ui.segment
+                .ui.header #{when} #{_author_username}
+                .ui.list
+                    .item buyer: #{buyer_username}
+                    .item seller: #{seller_username}
+                    .item product_id: #{product_id}
+                if can_edit
+                    .ui.small.basic.button.cancel
+                        i.remove.icon
+                        |cancel
+//- 
