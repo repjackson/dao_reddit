@@ -27,15 +27,15 @@ template(name='badge_doc')
             each purchase_user_ids
                 .ui.label #{this}
             if purchased
-                .ui.circular.basic.button.return
+                .ui.circular.button.return
                     i.undo.icon
                     |return for +1
             else
-                .ui.circular.basic.green.button.purchase
+                .ui.circular.green.button.purchase
                     i.checkmark.icon
                     |purchase for -1
             if can_edit
-                a.ui.circular.basic.icon.button(href="/badge/#{_id}/edit")
+                a.ui.circular.icon.button(href="/badge/#{_id}/edit")
                     i.pencil.icon   
 
 
@@ -48,7 +48,7 @@ template(name='badge_view')
             //-         +badge_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.basic.circular.button(href='/badges' title='badges')
+                    a.ui.fluid.circular.button(href='/badges' title='badges')
                         i.left.chevron.large.icon
                     .ui.header added by #{_author_username}
                     |#{when}
@@ -62,7 +62,7 @@ template(name='badge_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.basic.label #{this}
+                        .ui.large.circular.label #{this}
                     div
                     //- else 
                     //-     .ui.header not bought
@@ -71,7 +71,7 @@ template(name='badge_view')
     
                 .five.wide.column
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.large.circular.button(href="/item/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     +voting_full
@@ -86,7 +86,7 @@ template(name='badge_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/badge/#{_id}/view" title='save')
+                    a.ui.big.icon.circular.fluid.button(href="/badge/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

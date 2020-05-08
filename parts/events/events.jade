@@ -1,33 +1,33 @@
-template(name='posts')
+template(name='events')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
                 .ui.header.refresh_stats
                     i.shield.icon
-                    |posts
+                    |events
                 if currentUser
-                    .ui.button.add_post
-                        |add post
+                    .ui.button.add_event
+                        |add event
             .twelve.wide.column
-                each posts
+                each events
                     .ui.segment
-                        a.ui.header(href="/post/#{_id}/view")
+                        a.ui.header(href="/event/#{_id}/view")
                             |#{title}
                         |#{content}
                         |#{points} points
                         
 
 
-template(name='post_view')
+template(name='event_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             //- .row
             //-     .sixteen.wide.column
-            //-         +post_calendar
+            //-         +event_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.circular.button(href='/posts' title='posts')
+                    a.ui.fluid.basic.circular.button(href='/events' title='events')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -37,11 +37,11 @@ template(name='post_view')
                     //- with _author_id
                     //-     +user_card
                     if can_edit
-                        a.ui.large.circular.button(href="/post/#{_id}/edit" title='edit')
+                        a.ui.basic.large.circular.button(href="/event/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
-                        .ui.circular.large.button.clone
+                        .ui.circular.basic.large.button.clone
                             i.clone.icon
                             |clone
                     +voting_full
@@ -56,14 +56,14 @@ template(name='post_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.label #{this}
+                        .ui.large.circular.basic.label #{this}
                     div
-                    .ui.segment
+                    .ui.basic.segment
                         |#{content}
                     +comments
                     
                     
-template(name='post_edit')
+template(name='event_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -71,7 +71,7 @@ template(name='post_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.icon.circular.fluid.button(href="/post/#{_id}/view" title='save')
+                    a.ui.big.basic.icon.circular.fluid.button(href="/event/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

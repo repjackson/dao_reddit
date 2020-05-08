@@ -18,6 +18,13 @@ Template.layout.helpers
     view_chat: -> Session.get('view_chat')
 
 
+Template.admin_footer.onCreated ->
+
+Template.admin_footer.helpers
+    doc_count: ->
+        Docs.find().count()
+
+
 Template.body.events
     'click a': ->
         $('.global_container')
