@@ -89,6 +89,12 @@ if Meteor.isClient
 
 
 
+    Template.delete_button.events
+        'click .delete': (e,t)->
+            if confirm 'delete'
+                Docs.remove @_id
+
+
 
     Template.user_card.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data

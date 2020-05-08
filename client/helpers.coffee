@@ -15,6 +15,12 @@ Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'value', value
     Session.equals key,value
 
+Template.registerHelper 'delta_key_value_is', (key, value) ->
+    # console.log 'key', key
+    delta = Docs.findOne model:'delta'
+    # console.log 'value', value
+    delta["#{key}"] is value
+
 Template.registerHelper 'fixed', (input) ->
     if input
         input.toFixed(2)

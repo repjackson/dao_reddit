@@ -27,10 +27,12 @@ template(name='nav')
             //-     a.icon.item(href="/prime") 
             //-         i.shield.icon
             if is_admin
+                a.icon.item(href="/m/model") 
+                    i.code.icon
                 a.icon.item(href="/mail") 
                     i.envelope.icon
                 a.icon.item(href="/admin") 
-                    i.code.icon
+                    i.shield.icon
             a.icon.item(href="/help") 
                 i.question.icon
             if currentUser
