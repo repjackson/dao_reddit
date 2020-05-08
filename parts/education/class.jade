@@ -1,60 +1,28 @@
-template(name='polls')
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.header.refresh_stats
-                    i.shield.icon
-                    |polls
-                if is_admin
-                    .ui.button.add_poll
-                        |add poll
-            .twelve.wide.column
-                each polls
-                    a.ui.header(href="/poll/#{_id}/view") #{title}
-                        
+template(name='sort_class')
+    .item.set_sort #{label}
+    
 
-
-template(name='poll_view')
+template(name='class_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             //- .row
             //-     .sixteen.wide.column
-            //-         +poll_calendar
+            //-         +class_calendar
             .row
-                .five.wide.column
-                    //- a.ui.fluid.basic.circular.button(href='/' title='items')
-                    //-     i.left.chevron.large.icon
+                .six.wide.column
+                    a.ui.fluid.basic.circular.button(href='/university' title='university')
+                        i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     .ui.header added by #{_author_username}
                     |#{when}
                     .ui.small.header #{view_count} views
-                    //- with _author_id
-                    //-     +user_card
-                .six.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{title}
-                        .ui.green.inline.header $#{price}
-                    div
-                    i.tag.icon
-                    each tags
-                        .ui.large.circular.basic.label #{this}
-                    div
-                    //- else 
-                    //-     .ui.header not answered
-                    +comments
-                    .ui.header.recalc_similar_items similar items
-                    each matches
-                        .ui.item 
-                            .header #{title}
-    
-                .five.wide.column
-                    unless answered
-                        if can_answer
+                    unless enrolled
+                        if can_enroll
                             if has_enough
-                                .ui.green.fluid.circular.large.right.labeled.icon.button.buy
-                                    |buy for #{price}
+                                .ui.green.fluid.circular.large.right.labeled.icon.button.enroll
+                                    |enroll for #{price}
                                     i.checkmark.icon
                             else
                                 .ui.green.basic.disabled.button
@@ -62,16 +30,15 @@ template(name='poll_view')
                     else
                         .ui.secondary.segment
                             .ui.green.fluid.circular.large.disabled.button 
-                                |answered by 
-                                strong #{buyer_username}
-                            .ui.inline.header buyer
+                                |enrolled 
+                            .ui.inline.header other students
                             a.ui.large.basic.circular.button(href="/user/#{buyer_username}")
                                 img.ui.avatar.image(src="{{c.url _buyer.image_id width=100 height=100 gravity='face' crop='fill'}}")
                                 |{{buyer_username}}
-                            .ui.header answered {{long_date answered_timestamp}}
+                            .ui.header bought {{long_date bought_timestamp}}
                         
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.basic.large.circular.button(href="/class/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
@@ -82,10 +49,31 @@ template(name='poll_view')
                     div
                     //- +viewing
                     with _author_id
-                        +seller_card
+                        +teacher_card
+                    
+                    //- with _author_id
+                    //-     +user_card
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.circular.basic.label #{this}
+                    div
+                .ten.wide.column
+                    .ui.header modules
+                    if is_admin
+                        .ui.large.icon.button.add_module
+                            i.plus.icon
+                    each class_modules
+                        .ui.segment
+                            .ui.header #{title}
+                    .ui.header questions
+                    +comments
                     
                     
-template(name='poll_edit')
+
+template(name='class_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -93,11 +81,14 @@ template(name='poll_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/item/#{_id}/view" title='save')
+                    a.ui.big.basic.icon.circular.fluid.button(href="/class/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column
                     +text_edit key='title' label='title' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +textarea_edit key='content' label='content' icon='list' direct=true
+                    +array_edit key='location_tags' label='location_tags' icon='marker' direct=true
+                    +array_edit key='transaction_type' label='transaction type' icon='cart' direct=true
+                    +textarea_edit key='description' label='description' icon='list' direct=true
                     +image_edit key='image_id' label='image' direct=true
+                    +number_edit key='price' label='price' direct=true

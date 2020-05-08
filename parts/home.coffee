@@ -53,6 +53,8 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'section'
 
     Template.nav.helpers
+        current_query: ->
+            search = Session.get('current_global_query')
         results: ->
             search = Session.get('current_global_query')
             found_sections =
@@ -68,7 +70,7 @@ if Meteor.isClient
             # query = $('#search').val()
             search = $('.global_search').val().toLowerCase()
             Session.set('current_global_query', search)
-            console.log Session.get('current_global_query')
+            # console.log Session.get('current_global_query')
             found_sections =
                 Docs.find(
                     model:'section'
@@ -77,8 +79,11 @@ if Meteor.isClient
             if search.length > 2 and found_sections.length is 1
                 # console.log found_sections[0]
                 # selection = found_sections[0]
+                $('.global_search').val('')
+                $('.global_search').blur()
+                Session.set('current_global_query', null)
                 Router.go "/#{found_sections[0].link}"
-        		$('.ui.basic.modal').modal('toggle')
+        		# $('.ui.basic.modal').modal('toggle')
         # , 500)
 
             # console.log found_sections.fetch()

@@ -11,11 +11,12 @@ template(name='nav')
         //- a.ui.item(href='/users' class="{{active_path '/users'}}" title='models')
         //-     i.large.users.icon
         //-     .mobile.hidden users
-        a.ui.item(href='/search' class="{{active_path '/search'}}" title='models')
+        a.ui.icon.item(href='/search' class="{{active_path '/search'}}" title='models')
             i.large.search.icon
-            .mobile.hidden search
-        .ui.input.transparent.item
-            input.global_search(type='text' placeholder='?')
+            //- .mobile.hidden search
+        .ui.input.icon.transparent.item
+            i.search.icon
+            input.global_search(type='text' autocomplete="off" value=current_query)
         .right.menu
             a.icon.item.toggle_chat(href='#') 
                 if view_chat

@@ -1,7 +1,7 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .twelve.wide.column
                 //- .ui.icon.center.aligned.header prime
                 //- if currentUser.prime
                 //-     if is_admin
@@ -14,15 +14,15 @@ template(name='home')
                 if is_admin
                     .ui.circular.basic.button.add_section
                         i.plus.icon
-                .ui.icon.input
-                    if current_query
-                        i.remove.link.icon.clear_query
-                    else        
-                        i.search.icon
-                    input.global_search(type='text' autocomplete="off" value=current_query)
+                //- .ui.icon.input
+                //-     if current_query
+                //-         i.remove.link.icon.clear_query
+                //-     else        
+                //-         i.search.icon
+                //-     input.global_search(type='text' autocomplete="off" value=current_query)
 
                 .ui.stackable.padded.grid
-                    .five.column.row
+                    .five.column.centered.row
                         each sections
                             .column
                                 .ui.segment
@@ -35,3 +35,9 @@ template(name='home')
                                         +icon_edit key='icon' direct=true
                                         
                                 .spacer
+            .four.wide.column
+                .ui.grey.header 
+                    i.rss.icon
+                    |site activity
+                if currentUser
+                    .ui.header your activity
