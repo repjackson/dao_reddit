@@ -2,13 +2,20 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .three.wide.column
-                |al
-                .ui.input
+                .ui.icon.input
+                    i.search.icon
                     input.fin(type='text')
-                |#{omega.result}
+                |result: #{omega.result}
+                |type: #{omega.typeof}
             .nine.wide.column
+                .ui.large.fluid.input
+                    input.add_thought(type='text' placeholder='add thought...')
+                .ui.list
+                    each thoughts
+                        .item #{body}
+                
                 if is_admin
-                    .ui.button.add_section
+                    .ui.icon.button.add_section
                         i.plus.icon
                 //- .ui.icon.input
                 //-     if current_query
@@ -22,7 +29,7 @@ template(name='home')
                         each sections
                             .column
                                 .ui.segment
-                                    a.ui.icon.center.aligned.header(href=link class=global_settings.nav_color) 
+                                    a.ui.center.aligned.header(href=link class=global_settings.nav_color) 
                                         i.icon(class=icon)
                                         |#{title}
                                     if is_admin

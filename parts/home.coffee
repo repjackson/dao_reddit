@@ -17,8 +17,14 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'log'
         @autorun => Meteor.subscribe 'model_docs', 'global_settings'
         @autorun => Meteor.subscribe 'model_docs', 'omega'
+        @autorun => Meteor.subscribe 'model_docs', 'thought'
 
     Template.home.helpers
+        thoughts: ->
+            Docs.find {
+                model:'thought'
+            }, sort:title:1
+
         sections: ->
             Docs.find {
                 model:'section'
@@ -33,6 +39,16 @@ if Meteor.isClient
                 model:'omega'
 
     Template.home.events
+        'keyup .add_thought': (e,t)->
+            if e.which is 13
+                val = t.$('.add_thought').val().trim()
+                # console.log val
+                Docs.insert
+                    model:'thought'
+                    body:val
+
+
+
         'keyup .fin': (e,t)->
             if e.which is 13
                 val = t.$('.fin').val().trim()
@@ -146,6 +162,12 @@ if Meteor.isServer
     Meteor.methods
         omega: (o_doc, query)->
             console.log query
+            console.log typeof query
+            type = typeof query
+            Docs.update o_doc._id,
+                $set:
+                    typeof:type
+                    result:query
             # console.log o_doc
 
             # unless o_doc
