@@ -3,8 +3,9 @@ template(name='home')
         .row
             .three.wide.column
                 |al
-            .ui.input
-                input.fin(type='text')
+                .ui.input
+                    input.fin(type='text')
+                |#{result}
             .nine.wide.column
                 if is_admin
                     .ui.button.add_section
