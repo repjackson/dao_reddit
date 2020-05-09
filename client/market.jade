@@ -2,7 +2,7 @@ template(name='items')
     .ui.padded.stackable.grid
         .four.wide.column
             if currentUser
-                a#add.ui.icon.circular.basic.button(title='add market item')
+                a#add.ui.icon.button(title='add market item')
                     i.plus.large.green.icon
                 
                 +session_edit_value_button key='view_mode' value='market' label='market' icon='shop'
@@ -25,7 +25,7 @@ template(name='items')
                         each sortable_fields
                             .item.set_sort_key 
                                 |#{title}
-            .ui.compact.icon.basic.button.set_sort_direction(title='sort direction')
+            .ui.compact.icon.button.set_sort_direction(title='sort direction')
                 if sorting_up
                     i.sort.amount.down.icon
                 else
@@ -68,13 +68,13 @@ template(name='cloud')
         i.tags.small.icon
         |tags
     if selected_tags
-        //- #clear_tags.ui.secondary.icon.circular.compact.button
+        //- #clear_tags.ui.secondary.icon.compact.button
         //-     i.remove.icon
         each selected_tags
-            .unselect_tag.ui.secondary.circular.compact.button
+            .unselect_tag.ui.secondary.compact.button
                 strong #{this}
     each all_tags
-        .ui.compact.basic.circular.button.select_tag(class=cloud_tag_class) 
+        .ui.compact.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
     div
     .ui.grey.inline.header 
@@ -82,13 +82,13 @@ template(name='cloud')
         |authors
 
     if selected_authors
-        //- #clear_tags.ui.secondary.icon.circular.compact.button
+        //- #clear_tags.ui.secondary.icon.compact.button
         //-     i.remove.icon
         each selected_authors
-            .unselect_tag.ui.secondary.circular.compact.button
+            .unselect_tag.ui.secondary.compact.button
                 strong #{this}
     each all_authors
-        .ui.compact.basic.circular.button.select_author(class=cloud_tag_class) 
+        .ui.compact.button.select_author(class=cloud_tag_class) 
             strong #{this.name}
 
 
@@ -104,23 +104,23 @@ template(name='item_card')
             img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         //- a.content(href="/item/#{_id}/view")
         //-     each tags
-        //-         .ui.circular.basic.label #{this}
+        //-         .ui.basic.label #{this}
         .content
-            .ui.circular.basic.label(title='seller')
+            .ui.basic.label(title='seller')
                 i.user.outline.icon
                 |#{_author_username}
             .ui.inline.header $#{price}
             if bought
                 .content
                     |bought buy
-                    .ui.circular.basic.label(title='buyer')
+                    .ui.basic.label(title='buyer')
                         |#{buyer_username}
                     div
                     strong {{long_date bought_timestamp}} ({{from_now bought_timestamp}})
             else
                 if can_buy
                     if has_enough
-                        .ui.green.basic.basic.circular.button.buy
+                        .ui.green.basic.button.buy
                             |buy
                     else
                         .ui.green.basic.disabled.button
@@ -131,7 +131,7 @@ template(name='item_card')
                 //-         i.pencil.icon
             if can_edit
                 if bought
-                    .ui.basic.circular.button.cancel
+                    .ui.button.cancel
                         i.ban.icon
                         |cancel
             if is_admin
@@ -150,20 +150,20 @@ template(name='item_item')
             .ui.inline.green.header $#{price}
             .spacer
             each tags
-                .ui.circular.basic.compact.button #{this}
+                .ui.basic.compact.button #{this}
             div
             .ui.inline.header seller:
-            .ui.circular.basic.label 
+            .ui.basic.label 
                 i.user.outline.icon
                 |#{_author_username}
             if buyer_username
                 .ui.inline.header buyer:
-                .ui.circular.basic.label 
+                .ui.basic.label 
                     |#{buyer_username}
             unless bought
                 if can_buy
                     if has_enough
-                        .ui.green.basic.basic.circular.button.buy
+                        .ui.green.basic.button.buy
                             |buy
                     else
                         .ui.green.basic.disabled.button
@@ -171,11 +171,11 @@ template(name='item_item')
                         
             if can_edit
                 if bought
-                    .ui.basic.circular.button.cancel
+                    .ui.button.cancel
                         i.ban.icon
                         |cancel
             if can_edit
-                a.ui.icon.circular.basic.button(href="/item/#{_id}/edit")
+                a.ui.icon.button(href="/item/#{_id}/edit")
                     i.pencil.icon
                 
                 

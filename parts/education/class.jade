@@ -11,7 +11,7 @@ template(name='class_view')
             //-         +class_calendar
             .row
                 .six.wide.column
-                    a.ui.fluid.basic.circular.button(href='/university' title='university')
+                    a.ui.fluid.button(href='/university' title='university')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -20,7 +20,7 @@ template(name='class_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.basic.label #{this}
+                        .ui.large.basic.label #{this}
                     div
                     .ui.header added by #{_author_username}
                     |#{when}
@@ -28,7 +28,7 @@ template(name='class_view')
                     unless enrolled
                         if can_enroll
                             if has_enough
-                                .ui.green.fluid.circular.large.right.labeled.icon.button.enroll
+                                .ui.green.fluid.large.right.labeled.icon.button.enroll
                                     |enroll for #{price}
                                     i.checkmark.icon
                             else
@@ -36,20 +36,20 @@ template(name='class_view')
                                     |not enough
                     else
                         .ui.secondary.segment
-                            .ui.green.fluid.circular.large.disabled.button 
+                            .ui.green.fluid.large.disabled.button 
                                 |enrolled 
                             .ui.inline.header other students
-                            a.ui.large.basic.circular.button(href="/user/#{buyer_username}")
+                            a.ui.large.button(href="/user/#{buyer_username}")
                                 img.ui.avatar.image(src="{{c.url _buyer.image_id width=100 height=100 gravity='face' crop='fill'}}")
                                 |{{buyer_username}}
                             .ui.header bought {{long_date bought_timestamp}}
                         
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/class/#{_id}/edit" title='edit')
+                        a.ui.basic.large.button(href="/class/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
-                        .ui.circular.basic.large.button.clone
+                        .ui.basic.large.button.clone
                             i.clone.icon
                             |clone
                     +voting_full
@@ -83,7 +83,7 @@ template(name='class_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/class/#{_id}/view" title='save')
+                    a.ui.big.basic.icon.fluid.button(href="/class/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

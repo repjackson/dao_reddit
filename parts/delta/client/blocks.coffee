@@ -9,7 +9,7 @@
 #     Template.session_toggle_button.helpers
 #         session_toggle_button_class: ->
 #             if Template.instance().subscriptionsReady()
-#                 if Session.get(@key) then 'grey' else 'basic'
+#                 if Session.get(@key) then 'grey' else ''
 #             else
 #                 'disabled loading'
 #     Template.session_toggle_button.events
@@ -81,7 +81,7 @@
 #     Template.session_key_value.helpers
 #         button_class: ->
 #             console.log @
-#             if Session.equals(@key, @value) then 'active' else 'basic'
+#             if Session.equals(@key, @value) then 'active' else ''
 #
 #
 #
@@ -211,7 +211,7 @@
 #     Template.bookmark_button.helpers
 #         bookmark_button_class: ->
 #             if Meteor.user()
-#                 if Meteor.user().bookmark_ids and @_id in Meteor.user().bookmark_ids then 'active' else 'basic'
+#                 if Meteor.user().bookmark_ids and @_id in Meteor.user().bookmark_ids then 'active' else ''
 #             else
 #                 'disabled'
 #
@@ -237,7 +237,7 @@
 #         user_list_toggle_class: ->
 #             if Meteor.user()
 #                 parent = Template.parentData()
-#                 if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then '' else 'basic'
+#                 if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then '' else ''
 #             else
 #                 'disabled'
 #         in_list: ->
@@ -351,7 +351,7 @@
 #     Template.user_array_element_toggle.helpers
 #         user_array_element_toggle_class: ->
 #             # user = Meteor.users.findOne Router.current().params.username
-#             if @user["#{@key}"] and @value in @user["#{@key}"] then 'active' else 'basic'
+#             if @user["#{@key}"] and @value in @user["#{@key}"] then 'active' else ''
 #     Template.user_array_element_toggle.events
 #         'click .toggle_element': (e,t)->
 #             # user = Meteor.users.findOne Router.current().params.username
@@ -402,7 +402,7 @@
 #         set_key_value_class: ->
 #             parent = Template.parentData()
 #             # console.log parent
-#             if parent["#{@key}"] is @value then 'active' else 'basic'
+#             if parent["#{@key}"] is @value then 'active' else ''
 #
 #
 #
@@ -427,7 +427,7 @@
 #         doc_array_toggle_class: ->
 #             parent = Template.parentData()
 #             # user = Meteor.users.findOne Router.current().params.username
-#             if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else 'basic'
+#             if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else ''
 #     Template.doc_array_togggle.events
 #         'click .toggle': (e,t)->
 #             parent = Template.parentData()

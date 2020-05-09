@@ -346,7 +346,7 @@ if Meteor.isClient
         boolean_toggle_class: ->
             page_doc = Docs.findOne Router.current().params.doc_id
 
-            if page_doc["#{@doc_key}"] then 'active' else 'basic'
+            if page_doc["#{@doc_key}"] then 'active' else ''
 
 
     Template.aboolean_edit.events
@@ -656,12 +656,12 @@ if Meteor.isClient
     #
     #         if @direct
     #             if parent["#{ref_field.key}"]
-    #                 if @_id is parent["#{ref_field.key}"] then 'active' else 'basic'
+    #                 if @_id is parent["#{ref_field.key}"] then 'active' else ''
     #             else ''
     #         else
     #             if parent["#{ref_field.key}"]
-    #                 if @_id is parent["#{ref_field.key}"] then 'active' else 'basic'
-    #             else 'basic'
+    #                 if @_id is parent["#{ref_field.key}"] then 'active' else ''
+    #             else ''
     #
     #
     # Template.single_doc_edit.events
@@ -755,9 +755,9 @@ if Meteor.isClient
     #
     #
     #         if parent["#{ref_field.key}"]
-    #             if @_id in parent["#{ref_field.key}"] then 'active' else 'basic'
+    #             if @_id in parent["#{ref_field.key}"] then 'active' else ''
     #         else
-    #             'basic'
+    #             ''
     #
     # Template.multi_doc_edit.events
     #     'click .select_choice': ->

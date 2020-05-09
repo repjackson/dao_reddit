@@ -5,12 +5,13 @@ template(name='polls')
                 .ui.header.refresh_stats
                     i.shield.icon
                     |polls
-                if is_admin
+                if currentUser
                     .ui.button.add_poll
                         |add poll
             .twelve.wide.column
-                each polls
-                    a.ui.header(href="/poll/#{_id}/view") #{title}
+                .ui.segment
+                    each polls
+                        a.ui.header(href="/poll/#{_id}/view") #{title}
                         
 
 
@@ -22,8 +23,8 @@ template(name='poll_view')
             //-     .sixteen.wide.column
             //-         +poll_calendar
             .row
-                .five.wide.column
-                    //- a.ui.fluid.basic.circular.button(href='/' title='items')
+                .four.wide.column
+                    //- a.ui.fluid.button(href='/' title='items')
                     //-     i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -35,49 +36,40 @@ template(name='poll_view')
                 .six.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
-                        .ui.green.inline.header $#{price}
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.basic.label #{this}
+                        .ui.large.label #{this}
                     div
                     //- else 
                     //-     .ui.header not answered
                     +comments
-                    .ui.header.recalc_similar_items similar items
-                    each matches
-                        .ui.item 
-                            .header #{title}
     
                 .five.wide.column
                     unless answered
                         if can_answer
                             if has_enough
-                                .ui.green.fluid.circular.large.right.labeled.icon.button.buy
+                                .ui.green.fluid.large.right.labeled.icon.button.buy
                                     |buy for #{price}
                                     i.checkmark.icon
                             else
-                                .ui.green.basic.disabled.button
+                                .ui.green.disabled.button
                                     |not enough
                     else
                         .ui.secondary.segment
-                            .ui.green.fluid.circular.large.disabled.button 
+                            .ui.green.fluid.large.disabled.button 
                                 |answered by 
                                 strong #{buyer_username}
                             .ui.inline.header buyer
-                            a.ui.large.basic.circular.button(href="/user/#{buyer_username}")
+                            a.ui.large.button(href="/user/#{buyer_username}")
                                 img.ui.avatar.image(src="{{c.url _buyer.image_id width=100 height=100 gravity='face' crop='fill'}}")
                                 |{{buyer_username}}
                             .ui.header answered {{long_date answered_timestamp}}
                         
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.large.button(href="/item/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
-                    if currentUser
-                        .ui.circular.basic.large.button.clone
-                            i.clone.icon
-                            |clone
                     +voting_full
                     div
                     //- +viewing
@@ -93,7 +85,7 @@ template(name='poll_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/item/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/poll/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

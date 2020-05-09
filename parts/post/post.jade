@@ -27,7 +27,7 @@ template(name='post_view')
             //-         +post_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.circular.button(href='/posts' title='posts')
+                    a.ui.fluid.button(href='/posts' title='posts')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -37,11 +37,11 @@ template(name='post_view')
                     //- with _author_id
                     //-     +user_card
                     if can_edit
-                        a.ui.large.circular.button(href="/post/#{_id}/edit" title='edit')
+                        a.ui.large.button(href="/post/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
-                        .ui.circular.large.button.clone
+                        .ui.large.button.clone
                             i.clone.icon
                             |clone
                     +voting_full
@@ -56,7 +56,7 @@ template(name='post_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.label #{this}
+                        .ui.large.label #{this}
                     div
                     .ui.segment
                         |#{content}
@@ -71,7 +71,7 @@ template(name='post_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.icon.circular.fluid.button(href="/post/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

@@ -53,7 +53,7 @@ template(name='user_friend_button')
             .hidden.content
                 i.minus.icon
     else
-        .ui.basic.button.friend
+        .ui.button.friend
             i.plus.icon
             |connect
 
@@ -94,7 +94,7 @@ template(name='order_segment')
         a.ui.button(href="/alpha/#{product_id}/view")
             |view product
         if can_edit
-            .ui.small.basic.button.cancel
+            .ui.small.button.cancel
                 i.remove.icon
                 |cancel
         if is_admin

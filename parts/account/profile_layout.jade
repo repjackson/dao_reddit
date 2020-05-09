@@ -16,29 +16,29 @@ template(name='profile_layout')
                             //- strong #{user.first_name} #{user.last_name}
                             //- small @#{user.username}        
                     a.ui.center.aligned.inline.header(href="/user/#{user.username}/credit" title='credit')
-                        |${{user.credit}}
+                        |${{fixed user.credit}}
                     if checkedin
-                        .ui.animated.large.green.fade.circular.button.checkout
+                        .ui.animated.large.green.fade.button.checkout
                             .hidden.content
                                 |checkout?
                             .visible.content
                                 |checked in
                     else 
-                        .ui.circular.large.button.checkin
+                        .ui.large.button.checkin
                             |checkin
                     .ui.header
                         i.phone.small.grey.icon
                         | #{phone}
                     if is_current_user
-                        a.ui.large.circular.button(href="/user/#{user._id}/edit" title='profile settings')
+                        a.ui.large.button(href="/user/#{user._id}/edit" title='profile settings')
                             i.cog.icon
                             |settings
                     else if is_admin
-                        a.ui.large.circular.button(href="/user/#{user._id}/edit" title='profile settings')
+                        a.ui.large.button(href="/user/#{user._id}/edit" title='profile settings')
                             i.cog.icon
                             |settings
                     if is_current_user
-                        .ui.circular.button.logout
+                        .ui.button.logout
                             i.sign.out.alternate.icon
                             |sign out
                         //- a.ui.fluid.button.logout_other_clients(href="#" title='logout other clients')
@@ -52,34 +52,34 @@ template(name='profile_layout')
                             .ui.label #{this}
                 .twelve.wide.column
                     if is_admin
-                        .ui.circular.icon.button.edit_user_profile_sections
+                        .ui.icon.button.edit_user_profile_sections
                             i.pencil.icon
                     each profile_sections
-                        a.ui.circular.dashboard.button(href="/user/#{username}/#{slug}" class="{{isActiveRoute 'user_dashboard'}}")
+                        a.ui.dashboard.button(href="/user/#{username}/#{slug}" class="{{isActiveRoute 'user_dashboard'}}")
                             i.large.dashboard.icon
                             //- +i name='dashboard' classes='ui avatar image'
                             |#{title}
-                    a.ui.circular.dashboard.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
+                    a.ui.dashboard.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
                         i.large.users.icon
                         //- +i name='groups' classes='ui avatar image'
                         |friends
-                    a.ui.circular.dashboard.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                    a.ui.dashboard.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
                         i.large.money.icon
                         //- +i name='money' classes='ui avatar image'
                         |credit
-                    a.ui.circular.dashboard.button(href="/user/#{username}/sales" class="{{isActiveRoute regex='user_sales'}}")
+                    a.ui.dashboard.button(href="/user/#{username}/sales" class="{{isActiveRoute regex='user_sales'}}")
                         i.large.checkmark.icon
                         //- +i name='invoice' classes='ui avatar image'
                         |sales
-                    a.ui.circular.dashboard.button(href="/user/#{username}/badges" class="{{isActiveRoute regex='user_badges'}}")
+                    a.ui.dashboard.button(href="/user/#{username}/badges" class="{{isActiveRoute regex='user_badges'}}")
                         i.large.certificate.icon
                         //- +i name='certificate' classes='ui avatar image'
                         |badges
-                    a.ui.circular.dashboard.button(href="/user/#{username}/purchases" class="{{isActiveRoute regex='user_purchases'}}")
+                    a.ui.dashboard.button(href="/user/#{username}/purchases" class="{{isActiveRoute regex='user_purchases'}}")
                         //- +i name='shopping-cart' classes='ui avatar image'
                         i.large.cart.icon
                         |purchases
-                    a.ui.circular.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_chat'}}")
+                    a.ui.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_chat'}}")
                         //- +i name='chat' classes='ui avatar image'
                         i.large.chat.icon
                         |chat

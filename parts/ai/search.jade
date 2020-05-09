@@ -16,7 +16,7 @@ template(name='search')
                 with current_search
                     .ui.segment
                         +text_edit key='title' label='query' direct=true
-                        .ui.circular.basic.button.run_query
+                        .ui.button.run_query
                             i.send.icon
                         +remove_button
                         if has_results
@@ -48,7 +48,7 @@ template(name='search_view')
             //-         +search_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.basic.circular.button(href='/search' title='searches')
+                    a.ui.fluid.button(href='/search' title='searches')
                         i.left.chevron.large.icon
                     .ui.header added by #{_author_username}
                     |#{when}
@@ -61,7 +61,7 @@ template(name='search_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.basic.label #{this}
+                        .ui.large.basic.label #{this}
                     div
                     if answer_doc
                         with answer_doc
@@ -78,7 +78,7 @@ template(name='search_view')
                         each answers
                             .item #{answer}
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/search/#{_id}/edit" title='edit')
+                        a.ui.basic.large.button(href="/search/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     
@@ -91,7 +91,7 @@ template(name='search_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{search}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/search/#{_id}/view" title='save')
+                    a.ui.big.basic.icon.fluid.button(href="/search/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

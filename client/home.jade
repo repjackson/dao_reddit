@@ -12,7 +12,7 @@ template(name='home')
                 //-     .ui.button.get_prime
                 //-         |get prime
                 if is_admin
-                    .ui.circular.basic.button.add_section
+                    .ui.button.add_section
                         i.plus.icon
                 //- .ui.icon.input
                 //-     if current_query
@@ -36,6 +36,7 @@ template(name='home')
                                         +delete_button
                                 .spacer
             .four.wide.column
+                +color_changer
                 .ui.grey.header 
                     i.rss.icon
                     |site activity
@@ -44,3 +45,28 @@ template(name='home')
                     |#{when}
                 //- if currentUser
                 //-     .ui.header your activity
+
+
+
+template(name='color_changer')
+    .ui.header color changer
+    .ui.small.header pick color for global navbar (-.01)
+    +choose_nav_color color='blue'
+    +choose_nav_color color='black'
+    +choose_nav_color color='pink'
+    +choose_nav_color color='grey'
+    +choose_nav_color color='green'
+    +choose_nav_color color='yellow'
+    +choose_nav_color color='orange'
+    .ui.list
+        each color_changes
+            .ui.item
+                .content
+                    |#{_author_username} selected #{color}
+                .meta 
+                    small #{when}
+    
+    
+template(name='choose_nav_color')
+    .ui.invert.compact.button.choose_class(class=color)
+        |#{color}

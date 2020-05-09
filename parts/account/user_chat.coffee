@@ -64,7 +64,7 @@ if Meteor.isClient
         chat_segment_class: ->
             # if @read_by_ids and Meteor.userId() in @read_by_ids
             if @read
-                'basic'
+                ''
             else
                 ''
 

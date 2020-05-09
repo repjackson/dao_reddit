@@ -28,13 +28,13 @@ template(name='admin')
                 each withdrawals
                     .ui.segment
                         .ui.inline.header $#{amount}
-                        a.ui.circular.basic.button(href="/user/#{_author_username}") 
+                        a.ui.button(href="/user/#{_author_username}") 
                             i.user.icon
                             |#{_author_username}
                         .ui.small.inline.header
                             |#{when} 
-                        .ui.basic.circular.label status: #{status}
-                        .ui.basic.circular.label complete: #{complete}
+                        .ui.basic.label status: #{status}
+                        .ui.basic.label complete: #{complete}
                 .ui.header 
                     i.chevron.down.icon
                     |deposits
@@ -58,3 +58,8 @@ template(name='admin')
                     .ui.segment
                         .ui.header #{body}
                             |- $#{credit}
+                .ui.header 
+                    i.cog.icon
+                    |settings
+                with global_settings
+                    +text_edit key='nav_color' label='nav color' direct=true

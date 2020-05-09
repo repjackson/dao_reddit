@@ -1,5 +1,6 @@
 template(name='nav')
-    .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
+    //- .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
+    .ui.attached.fluid.borderless.topnav.inverted.menu(class=global_settings.nav_color)
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.big.yin.yang.icon
         //- a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
@@ -45,7 +46,7 @@ template(name='nav')
                 a.icon.item(href="/tasks")
                     i.tasks.large.icon
                 a.item(href="/user/#{currentUser.username}/credit")
-                    |$#{currentUser.credit}
+                    |${{fixed currentUser.credit}}
                 a.item(href="/user/#{currentUser.username}") 
                     if currentUser.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")

@@ -84,10 +84,10 @@ template(name='phone_editor')
                 .ui.label not verified
                 a.resend_verification(href='#')
                     |resend code
-                .ui.small.icon.basic.button.remove_phone(title='remove phone')
+                .ui.small.icon.button.remove_phone(title='remove phone')
                     i.remove.icon
     else
-        .ui.fluid.basic.button.update_phone add phone
+        .ui.fluid.button.update_phone add phone
 
 
 
@@ -101,12 +101,12 @@ template(name='password_edit')
     .ui.fluid.icon.input
         input#new_password(type='password', placeholder='new password')
     if is_dev
-        .ui.fluid.basic.button.send_enrollment_email
+        .ui.fluid.button.send_enrollment_email
             |send enrollment email
     if is_admin
-        .ui.fluid.basic.button.reset_password
+        .ui.fluid.button.reset_password
             |reset password
-    .ui.fluid.large.basic.button.set_password
+    .ui.fluid.large.button.set_password
         i.lock.icon
         //- +i name='password' classes='ui mini inline image'
         | set password
@@ -117,13 +117,13 @@ template(name='emails_edit')
     //- .ui.small.grey.header 
     //-     i.envelope.icon
     //-     | email(s)
-    //- #test_email.ui.large.basic.button test email
+    //- #test_email.ui.large.button test email
     .ui.divided.list
         each current_user.emails
             .item 
                 // unless verified
                 //     .right.floated.content
-                //         .ui.basic.button Verify
+                //         .ui.button Verify
                 .content
                     if verified
                         .ui.large.basic.label(title='verified')
@@ -133,10 +133,10 @@ template(name='emails_edit')
                         .ui.large.basic.label
                             //- i.ban.icon
                             | #{address}
-                        .send_verification_email.ui.basic.button 
+                        .send_verification_email.ui.button 
                             |verify
                             i.grey.caret.right.icon
-                    .ui.small.icon.basic.button.remove_email
+                    .ui.small.icon.button.remove_email
                         i.grey.remove.icon
     .ui.action.large.fluid.icon.action.input
         input#new_email(type='email' placeholder='add new email address' autocomplete="off")
@@ -191,7 +191,7 @@ template(name='user_edit_account')
             +password_edit
             if is_admin
                 with current_user
-                    .ui.basic.button.remove_user 
+                    .ui.button.remove_user 
                         i.grey.remove.icon
                         |delete user
         .column

@@ -11,7 +11,7 @@ template(name='questions')
             .twelve.wide.column
                 each questions
                     .ui.segment
-                        .ui.header #{title}
+                        a.ui.header(href="/question/#{_id}/view") #{question}
                         if can_edit
                             a.ui.icon.button(href="/question/#{_id}/edit")
                                 i.pencil.icon
@@ -28,7 +28,7 @@ template(name='question_view')
             //-         +question_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.basic.circular.button(href='/questions' title='questions')
+                    a.ui.fluid.button(href='/questions' title='questions')
                         i.left.chevron.large.icon
                     .ui.header added by #{_author_username}
                     |#{when}
@@ -41,7 +41,7 @@ template(name='question_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.basic.label #{this}
+                        .ui.large.label #{this}
                     div
                     if answer_doc
                         with answer_doc
@@ -58,7 +58,7 @@ template(name='question_view')
                         each answers
                             .item #{answer}
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/question/#{_id}/edit" title='edit')
+                        a.ui.large.button(href="/question/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     
@@ -67,14 +67,22 @@ template(name='question_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.column 
+                .four.wide.column 
                     .ui.header 
                         i.pencil.icon
                         | edit '#{question}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/question/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/question/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column
                     +text_edit key='question' label='title' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
+                    div
                     +float_edit key='bounty' label='credit bounty per answer' direct=true
+                    //- +key_value_edit key='question_type' value='true_false' label='true/false' direct=true
+                    .ui.header choices
+                    .ui.icon.button.add_choice
+                        i.plus.icon
+                    each choices
+                        .ui.segment
+                            +text_edit key='text' label='text' direct=true

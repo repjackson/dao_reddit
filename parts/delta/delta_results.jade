@@ -16,12 +16,12 @@ template(name='delta_result_card')
                     .extra
                         if key_value_is 'model' 'model'
                             //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
-                            //- a.ui.basic.button.route_model(href="/m/#{slug}")
+                            //- a.ui.button.route_model(href="/m/#{slug}")
                             //-     |view model
                             //-     i.right.chevron.green.icon
                                 //- +icolor name='chevron-right' clases='ui avatar image'
                             if is_admin
-                                a.ui.basic.button.route_model(href="/model/edit/#{_id}")
+                                a.ui.button.route_model(href="/model/edit/#{_id}")
                                     i.cog.icon
                                     |edit model
                                 span(title='views')
@@ -67,22 +67,22 @@ template(name='delta_list_result')
                     .extra
                         if key_value_is 'model' 'model'
                             //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
-                            a.ui.basic.button.route_model(href="/m/#{slug}")
+                            a.ui.button.route_model(href="/m/#{slug}")
                                 |view model
                                 i.right.chevron.green.icon
                             if is_admin
-                                a.ui.basic.button.route_model(href="/model/edit/#{_id}")
+                                a.ui.button.route_model(href="/model/edit/#{_id}")
                                     i.cog.icon
                                     |edit model
                                 span(title='views')
                                     i.grey.eye.icon
                                     | #{views}
                         else
-                            .ui.large.basic.button.result
+                            .ui.large.button.result
                                 |view
                                 i.right.chevron.icon
                             if can_edit
-                                a.ui.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                                a.ui.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
                                     i.pencil.large.icon
                                     //- |edit
                             //- a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')

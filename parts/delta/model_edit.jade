@@ -9,9 +9,9 @@ template(name='model_edit_layout')
                         strong #{title}
                     |created
                     +creation_info
-                    a.ui.big.icon.basic.button(href="/m/#{slug}")
+                    a.ui.big.icon.button(href="/m/#{slug}")
                         i.big.checkmark.green.icon
-                    #delete_model.ui.icon.basic.button
+                    #delete_model.ui.icon.button
                         i.trash.red.icon
                 .twelve.wide.column
                     a.ui.basic.compact.large.button(href="/model/edit/#{current_doc._id}/" class="{{active_path regex='model_edit_dashboard'}}")
@@ -90,9 +90,9 @@ template(name='field_edit')
                 i.sort.amount.down.icon
             each view_roles
                 .ui.basic.label #{this}
-            .ui.circular.icon.compact.basic.button
+            .ui.icon.compact.button
                 i.up.caret.icon
-            .ui.circular.icon.compact.basic.button
+            .ui.icon.compact.button
                 i.down.caret.icon
             if viewing_content    
                 i.large.caret.down.icon

@@ -265,7 +265,7 @@ if Meteor.isClient
                  'disabled basic'
             else if facet.filters.length > 0 and @name in facet.filters
                 'active'
-            else 'basic'
+            else ''
 
 
 

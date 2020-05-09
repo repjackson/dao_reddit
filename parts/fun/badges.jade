@@ -6,7 +6,7 @@ template(name='badges')
                     i.shield.icon
                     |badges
                 if is_admin
-                    .ui.button.add_badge(title='add badge')
+                    .ui.icon.button.add_badge(title='add badge')
                         i.plus.icon
             .twelve.wide.column
                 .ui.header purchased badges
@@ -14,8 +14,9 @@ template(name='badges')
                     each purchased_badges
                         +badge_doc
                 .ui.header available badges
-                each available_badges
-                    +badge_doc
+                .ui.cards
+                    each available_badges
+                        +badge_doc
                     
 
 template(name='badge_doc')                    
@@ -24,18 +25,19 @@ template(name='badge_doc')
             .ui.header
                 +i name=icon
                 |#{title}
-            each purchase_user_ids
-                .ui.label #{this}
+            |#{purchase_user_ids.length} purchases
+            //- each purchase_user_ids
+            //-     .ui.label #{this}
             if purchased
-                .ui.circular.button.return
+                .ui.button.return
                     i.undo.icon
                     |return for +1
             else
-                .ui.circular.green.button.purchase
+                .ui.green.button.purchase
                     i.checkmark.icon
                     |purchase for -1
             if can_edit
-                a.ui.circular.icon.button(href="/badge/#{_id}/edit")
+                a.ui.icon.button(href="/badge/#{_id}/edit")
                     i.pencil.icon   
 
 
@@ -47,22 +49,22 @@ template(name='badge_view')
             //-     .sixteen.wide.column
             //-         +badge_calendar
             .row
-                .five.wide.column
-                    a.ui.fluid.circular.button(href='/badges' title='badges')
+                .four.wide.column
+                    a.ui.fluid.button(href='/badges' title='badges')
                         i.left.chevron.large.icon
                     .ui.header added by #{_author_username}
                     |#{when}
                     .ui.small.header #{view_count} views
                     //- with _author_id
                     //-     +user_card
-                .six.wide.column
+                .seven.wide.column
                     h2
                         +i name=icon
                         .ui.center.aligned.inline.header #{title}
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.label #{this}
+                        .ui.large.label #{this}
                     div
                     //- else 
                     //-     .ui.header not bought
@@ -71,7 +73,7 @@ template(name='badge_view')
     
                 .five.wide.column
                     if can_edit
-                        a.ui.large.circular.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.large.button(href="/badge/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     +voting_full
@@ -86,7 +88,7 @@ template(name='badge_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.icon.circular.fluid.button(href="/badge/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/badge/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

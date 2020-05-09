@@ -4,13 +4,13 @@ template(name='user_following')
         |#{followers.count}
         |following
     if following
-        .ui.fade.animated.circular.button.unfollow(class=follow_button_class)
+        .ui.fade.animated.button.unfollow(class=follow_button_class)
             .visible.content
                 |following                
             .hidden.content
                 |- unfollow
     else
-        .ui.basic.circular.button.follow
+        .ui.button.follow
             |follow                
                 
     each followers

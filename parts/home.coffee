@@ -12,16 +12,12 @@ if Meteor.isClient
         @render 'section_view'
         ), name:'section_view'
 
-    Template.post_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.post_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
 
 
     Template.home.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'section'
         @autorun => Meteor.subscribe 'model_docs', 'log'
+        @autorun => Meteor.subscribe 'model_docs', 'global_settings'
 
     Template.home.helpers
         sections: ->
@@ -52,6 +48,30 @@ if Meteor.isClient
                     model:'section'
             Router.go "/section/#{new_id}/edit"
 
+
+
+    Template.color_changer.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'purchase'
+    Template.color_changer.helpers
+        color_changes: ->
+            Docs.find {
+                model:'purchase'
+                type:'color_change'
+            },
+                sort:_timestamp:-1
+                limit:5
+    Template.choose_nav_color.events
+        'click .choose_class': ->
+            global_settings = Docs.findOne model:'global_settings'
+            Docs.update global_settings._id,
+                $set: nav_color:@color
+            Docs.insert
+                model:'purchase'
+                type:'color_change'
+                color:@color
+                tags: ['nav','settings','global','penny']
+            Meteor.users.update Meteor.userId(),
+                $inc: credit:-.01
 
 
     Template.layout.onCreated ->

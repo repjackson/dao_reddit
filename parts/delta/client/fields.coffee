@@ -425,7 +425,7 @@
 #             parent = Template.parentData()
 #         else
 #             parent = Template.parentData(5)
-#         if parent["#{@key}"] then 'active' else 'basic'
+#         if parent["#{@key}"] then 'active' else ''
 #
 #
 # Template.boolean_edit.events
@@ -775,12 +775,12 @@
 #
 #         if @direct
 #             if parent["#{ref_field.key}"]
-#                 if @_id is parent["#{ref_field.key}"] then 'active' else 'basic'
+#                 if @_id is parent["#{ref_field.key}"] then 'active' else ''
 #             else ''
 #         else
 #             if parent["#{ref_field.key}"]
-#                 if @_id is parent["#{ref_field.key}"] then 'active' else 'basic'
-#             else 'basic'
+#                 if @_id is parent["#{ref_field.key}"] then 'active' else ''
+#             else ''
 #
 #
 # Template.single_doc_edit.events
@@ -874,9 +874,9 @@
 #
 #
 #         if parent["#{ref_field.key}"]
-#             if @_id in parent["#{ref_field.key}"] then 'active' else 'basic'
+#             if @_id in parent["#{ref_field.key}"] then 'active' else ''
 #         else
-#             'basic'
+#             ''
 #
 # Template.multi_doc_edit.events
 #     'click .select_choice': ->

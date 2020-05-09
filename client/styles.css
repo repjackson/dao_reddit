@@ -100,11 +100,11 @@ i.invert{
 }
 
 
-/* .inverted{
-    background: rgba(0,0,0,.85) !important; */
+.inverted{
+    /* background: rgba(0,0,0,.85) !important; */ 
     /* border-radius: 7px !important; */
-    /* filter: invert(1) !important; */
-/* } */
+    filter: invert(1) !important;
+}
 
 /* iframe {
     border-radius: 7px !important;

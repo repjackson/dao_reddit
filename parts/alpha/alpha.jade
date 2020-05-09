@@ -13,16 +13,16 @@ template(name='alpha')
                         | alpha
                 unless is_loading
                     if currentUser
-                        .ui.icon.compact.basic.button.add_alpha_doc(title="add #{slug}")
+                        .ui.icon.compact.button.add_alpha_doc(title="add #{slug}")
                             i.plus.large.green.icon
                     //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
                     if current_alpha_session
                         if is_admin
-                            .ui.icon.basic.button.delete_alpha_session(title='delete session document')
+                            .ui.icon.button.delete_alpha_session(title='delete session document')
                                 i.remove.icon
-                            .ui.icon.basic.button.print_alpha_session(title='print alpha_session')
+                            .ui.icon.button.print_alpha_session(title='print alpha_session')
                                 i.code.icon
-                            i.refresh.link.reset.circular.icon(title='reload session')
+                            i.refresh.link.reset.icon(title='reload session')
                         if is_dev
                             i.code.link.icon.print_alpha_session(title='print session doc')
                             i.trash.delete_alpha_session.link.icon(title='delete session')
@@ -52,7 +52,7 @@ template(name='alpha')
                     //-             each sortable_fields
                     //-                 .item.set_sort_key 
                     //-                     |#{title}
-                    //- .ui.compact.icon.basic.button.set_sort_direction(title='sort direction')
+                    //- .ui.compact.icon.button.set_sort_direction(title='sort direction')
                     //-     if sorting_up
                     //-         i.sort.amount.down.large.icon
                     //-     else
@@ -144,7 +144,7 @@ template(name='afacet')
                 if is_admin
                     small #{cal_count} #{count}
         else
-            .selector.ui.compact.basic.button.toggle_selection(class=toggle_value_class)
+            .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
                 strong [null]
                 //- small #{cal_count}
         //- .ui.hidden.divider

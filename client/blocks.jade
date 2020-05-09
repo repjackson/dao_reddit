@@ -47,7 +47,7 @@ template(name='user_info')
 
 
 template(name='session_boolean_toggle')
-    .ui.circular.compact.button.toggle_session_key(class=calculated_class)
+    .ui.compact.button.toggle_session_key(class=calculated_class)
         +i name=icon classes='ui avatar image'
         |#{label}
         //- if icon_view 
@@ -243,14 +243,14 @@ template(name='voting_small')
 
 template(name='voting_full')
     div
-    .ui.large.icon.circular.basic.button.upvote(title='upvote')
+    .ui.large.icon.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
         //- |like
-    .ui.large.icon.circular.basic.button.downvote(title='downvote')
+    .ui.large.icon.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
         //- |dislike
     if points
-        .ui.large.basic.circular.label(title='points') #{points} pts
+        .ui.large.basic.label(title='points') #{points} pts
         //- .ui.large.label(title='anon points') #{anon_points} anon pts
     if upvoter_ids
         .ui.small.header 
@@ -274,12 +274,12 @@ template(name='view_button')
 
 
 template(name='remove_button')
-    .ui.icon.circular.basic.button.remove_doc(title='delete')
+    .ui.icon.button.remove_doc(title='delete')
         i.remove.red.icon
         //- |Delete
 
 template(name='remove_icon')
-    i.remove.circular.icon.remove_doc(title='delete')
+    i.remove.icon.remove_doc(title='delete')
     //- |Delete
 
 template(name='add_button')
@@ -347,5 +347,5 @@ template(name='email_validation_check')
         
 
 template(name='print_this')
-    .ui.icon.circular.basic.button.print_this
+    .ui.icon.button.print_this
         i.orange.code.icon

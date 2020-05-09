@@ -28,7 +28,7 @@ template(name='vote_view')
             //-         +vote_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.basic.circular.button(href='/votes' title='votes')
+                    a.ui.fluid.button(href='/votes' title='votes')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -43,7 +43,7 @@ template(name='vote_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.basic.label #{this}
+                        .ui.large.basic.label #{this}
                     div
                     .ui.two.fluid.buttons
                         .ui.button(class=voteup_class)
@@ -52,7 +52,7 @@ template(name='vote_view')
                             i.thumbs.down.icon
                 .five.wide.column
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/vote/#{_id}/edit" title='edit')
+                        a.ui.basic.large.button(href="/vote/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     
@@ -65,7 +65,7 @@ template(name='vote_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/vote/#{_id}/view" title='save')
+                    a.ui.big.basic.icon.fluid.button(href="/vote/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

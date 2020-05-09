@@ -7,6 +7,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         @autorun => Meteor.subscribe 'model_docs', 'stats'
+        @autorun => Meteor.subscribe 'model_docs', 'global_settings'
         @autorun => Meteor.subscribe 'all_users'
         @autorun => Meteor.subscribe 'event'
 

@@ -11,7 +11,7 @@ template(name='model_doc_edit')
                         +creation_info
                         a.ui.big.basic.icon.button(href="/m/#{model}/#{_id}/view")
                             i.big.checkmark.green.icon
-                        #delete_doc.ui.icon.basic.button
+                        #delete_doc.ui.icon.button
                             i.trash.red.icon
                         if is_user
                             +boolean_edit key='private' direct=true

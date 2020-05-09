@@ -714,7 +714,7 @@
 //-                     i.checkmark.icon
 //-                     |submit
 //-             .one.wide.column
-//-                 .ui.large.icon.basic.button.clear(title='Clear')
+//-                 .ui.large.icon.button.clear(title='Clear')
 //-                     i.remove.icon
 //- 
 //- template(name='signature_view')
@@ -791,7 +791,7 @@
 //-     if field_value
 //-         .ui.inline.header(title=key)
 //-             |#{title}
-//-         a.ui.basic.button(href="/m/#{related_doc.model}/#{related_doc._id}/view")
+//-         a.ui.button(href="/m/#{related_doc.model}/#{related_doc._id}/view")
 //-             if related_doc.image_id
 //-                 img.ui.avatar.image(src="{{c.url related_doc.image_id width=200 height=200 gravity='face' crop='fill'}}")
 //-             |#{related_doc.title}
@@ -896,7 +896,7 @@
 //-             +referenced_doc
 //- 
 //- template(name='referenced_doc')            
-//-     a.ui.basic.button(href="/m/#{context_doc.model}/#{context_doc._id}/view")
+//-     a.ui.button(href="/m/#{context_doc.model}/#{context_doc._id}/view")
 //-         |#{context_doc.title}
 //- 
 //- 

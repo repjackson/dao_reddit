@@ -25,7 +25,7 @@ if Meteor.isClient
         follow_button_class: ->
             user = Meteor.users.findOne username:Router.current().params.username
             following = Meteor.userId() and Meteor.userId() in user.following_ids
-            if following then 'grey' else 'basic'
+            if following then 'grey' else ''
         following: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Meteor.userId() and Meteor.userId() in user.following_ids

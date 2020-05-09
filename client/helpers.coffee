@@ -60,6 +60,9 @@ Template.registerHelper 'in_role', (role)->
 Template.registerHelper 'page_doc', () ->
     page_doc = Docs.findOne Router.current().params.doc_id
 
+Template.registerHelper 'global_settings', () ->
+    Docs.findOne model:'global_settings'
+
 
 Template.registerHelper 'field_value', () ->
     if @direct

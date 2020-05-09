@@ -27,7 +27,7 @@ template(name='event_view')
             //-         +event_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.basic.circular.button(href='/events' title='events')
+                    a.ui.fluid.button(href='/events' title='events')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -37,11 +37,11 @@ template(name='event_view')
                     //- with _author_id
                     //-     +user_card
                     if can_edit
-                        a.ui.basic.large.circular.button(href="/event/#{_id}/edit" title='edit')
+                        a.ui.basic.large.button(href="/event/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
-                        .ui.circular.basic.large.button.clone
+                        .ui.basic.large.button.clone
                             i.clone.icon
                             |clone
                     +voting_full
@@ -56,7 +56,7 @@ template(name='event_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.circular.basic.label #{this}
+                        .ui.large.basic.label #{this}
                     div
                     .ui.basic.segment
                         |#{content}
@@ -71,7 +71,7 @@ template(name='event_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.circular.fluid.button(href="/event/#{_id}/view" title='save')
+                    a.ui.big.basic.icon.fluid.button(href="/event/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

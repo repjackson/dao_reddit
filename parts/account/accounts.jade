@@ -26,7 +26,7 @@ template(name='login')
                 //- if username
                 if logging_in
                     .spacer
-                    .ui.fluid.big.circular.basic.button.enter(title="login #{username}" class=enter_class)
+                    .ui.fluid.big.button.enter(title="login #{username}" class=enter_class)
                         strong #{username}
                         |&nbsp;
                         //- i.sign.in.alternate.icon
@@ -35,14 +35,14 @@ template(name='login')
                     if username
                         .ui.center.aligned.basic.segment
                             .ui.header no '#{username}' user
-                            a.ui.circular.basic.button(href='/register')
+                            a.ui.button(href='/register')
                                 i.user.plus.icon
                                 | register
                 .ui.center.aligned.basic.segment    
-                    a.ui.circular.basic.button(href='/forgot_password')
+                    a.ui.button(href='/forgot_password')
                         i.refresh.icon
                         |forgot password
-                    a.ui.circular.basic.button(href='/register') 
+                    a.ui.button(href='/register') 
                         i.user.plus.icon
                         |register
                     //- .ui.center.aligned.inline.header see the front desk to register an account
@@ -90,7 +90,7 @@ template(name='register')
                 //-     input.password2(type='password')
                 if can_register
                     //- if registering
-                    .ui.fluid.large.circular.basic.button.register(class=enter_class)
+                    .ui.fluid.large.button.register(class=enter_class)
                         i.user.plus.icon
                         |register '#{username}'
                 else
@@ -103,7 +103,7 @@ template(name='register')
                         a(href='/p/privacy' target="_window") privacy policy
                     unless username
                         .ui.small.header or
-                            a.ui.basic.button(href='/login') 
+                            a.ui.button(href='/login') 
                                 i.sign.in.alternate.icon
                                 |login
 
@@ -144,10 +144,10 @@ template(name='forgot_password')
                             .ui.small.grey.header username "#{username}" not found
                             a(href='/choose_persona') register
                 .ui.center.aligned.basic.segment    
-                    a.ui.big.basic.button(href='/login') 
+                    a.ui.big.button(href='/login') 
                         //- +i name='enter-2' classes='ui mini inline image'
                         |login
-                    a.ui.big.basic.button(href='/choose_persona')
+                    a.ui.big.button(href='/choose_persona')
                         //- +i name='add-user-male' classes='ui mini inline image'
                         |register
 

@@ -1,5 +1,5 @@
 //- template(name='print_this')
-//-     .ui.icon.circular.basic.button.print_this
+//-     .ui.icon.button.print_this
 //-         i.orange.code.icon
 //- 
 //- 
@@ -102,18 +102,18 @@
 //- 
 //- 
 //- template(name='toggle_edit')
-//-     .ui.basic.button.toggle_edit
+//-     .ui.button.toggle_edit
 //-         i.pencil.icon
 //- 
 //- template(name='user_list_info')
-//-     a.ui.basic.button.item(href="/user/#{user._id}/view")
+//-     a.ui.button.item(href="/user/#{user._id}/view")
 //-         img.ui.avatar.image(src=user.profile.profilePic title=name)
 //-         |#{user.profile.name}
 //-         +user_status user
 //- 
 //- 
 //- template(name='view_full_button')
-//-     a.ui.icon.basic.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
+//-     a.ui.icon.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
 //-         i.double.icon
 //-         |view
 //- 
@@ -210,7 +210,7 @@
 //- 
 //- 
 //- template(name='username_info')
-//-     .ui.small.compact.basic.button.goto_profile
+//-     .ui.small.compact.button.goto_profile
 //-         if is_student
 //-             img.ui.tiny.image(src="{{c.url user.profile_image_id width=100 height=100}}")
 //-         |#{user.name}
@@ -220,11 +220,11 @@
 //- 
 //- template(name='role_editor')
 //-     each roles
-//-         .ui.basic.button #{this}
+//-         .ui.button #{this}
 //- 
 //- template(name='author_info')
 //-     with author
-//-         a.ui.compact.basic.button(href="/user/#{username}")
+//-         a.ui.compact.button(href="/user/#{username}")
 //-             if image_id
 //-                 img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
 //-             else if image_id
@@ -334,7 +334,7 @@
 //- 
 //- 
 //- template(name='view_button')
-//-     a.ui.icon.compact.basic.button.view(title='view' href="/m/#{model}/#{_id}/view")
+//-     a.ui.icon.compact.button.view(title='view' href="/m/#{model}/#{_id}/view")
 //-         //- i.right.chevron.large.icon
 //- 
 //- 
@@ -347,7 +347,7 @@
 //-     i.remove.link.icon.remove_doc(title='delete')
 //- 
 //- template(name='add_button')
-//-     a.ui.large.basic.button.add(title="add #{model}")
+//-     a.ui.large.button.add(title="add #{model}")
 //-         //- |#{model.icon}
 //-         i.plus.icon
 //-         if label
@@ -357,18 +357,18 @@
 //- 
 //- 
 //- //- template(name='edit_button')
-//- //-     a.ui.basic.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
+//- //-     a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
 //- //-         i.blue.pencil.icon
 //- //-         |Edit
 //- 
 //- 
 //- template(name='save_button')
-//-     a.ui.basic.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
+//-     a.ui.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
 //-         i.checkmark.icon
 //-         |Save
 //- 
 //- template(name='toggle_button')
-//-     .ui.icon.toggle.basic.button(title=label)
+//-     .ui.icon.toggle.button(title=label)
 //-         i.icon(class=icon)
 //-     each selected
 //-         |#{username}
@@ -380,7 +380,7 @@
 //-         |View
 //- 
 //- template(name='add_model_button')
-//-     .ui.icon.basic.button.add(title="add #{model}")
+//-     .ui.icon.button.add(title="add #{model}")
 //-         i.plus.icon
 //-         |#{model}
 //- 
@@ -392,7 +392,7 @@
 //- 
 //- template(name='email_validation_check')
 //-     //- if email_verified
-//-     //-     .ui.large.basic.button
+//-     //-     .ui.large.button
 //-     //-         i.checkmark.icon
 //-     //-         |email validated
 //-     unless email_verified

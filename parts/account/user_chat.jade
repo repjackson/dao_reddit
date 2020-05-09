@@ -23,7 +23,7 @@ template(name='user_chat')
             small {{ from_now read_timestamp }}
         //- +user_list_toggle key='read_by_ids' label='mark read' icon='eye'
         if can_edit
-            .ui.circular.basic.icon.button.remove_chat
+            .ui.basic.icon.button.remove_chat
                 i.remove.red.icon
         div
         +author_info
@@ -41,6 +41,6 @@ template(name='mark_read_button')
             i.invisible.icon
             //- |mark unread
     else 
-        .ui.compact.small.basic.button.mark_read
+        .ui.compact.small.button.mark_read
             i.eye.icon
             |mark read

@@ -1,4 +1,9 @@
 Meteor.methods
+    # global settings
+    gs: ()->
+        Docs.insert
+            model:'global_settings'
+
     log_view: (doc_id)->
         Docs.update doc_id,
             $inc:view_count:1
