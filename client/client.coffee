@@ -4,6 +4,8 @@
 Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
     @autorun => Meteor.subscribe 'alerts'
+    @autorun => Meteor.subscribe 'model_docs', 'global_settings'
+
 Template.nav.events
     'click .toggle_chat': ->
         $('.main_area').transition('jiggle', 250)

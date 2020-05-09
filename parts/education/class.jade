@@ -48,10 +48,6 @@ template(name='class_view')
                         a.ui.basic.large.button(href="/class/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
-                    if currentUser
-                        .ui.basic.large.button.clone
-                            i.clone.icon
-                            |clone
                     +voting_full
                     div
                     //- +viewing

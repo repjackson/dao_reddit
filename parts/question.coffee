@@ -14,10 +14,12 @@ if Meteor.isClient
 
     Template.question_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'answer'
         @autorun => Meteor.subscribe 'model_docs', 'choice'
     Template.question_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'choice'
+        @autorun => Meteor.subscribe 'model_docs', 'answer'
 
     Template.question_edit.events
         'click .add_choice': ->
@@ -25,10 +27,14 @@ if Meteor.isClient
                 model:'choice'
                 question_id:Router.current().params.doc_id
     Template.question_view.events
-        'click .add_answer': ->
+        'click .choose_choice': ->
             Docs.insert
                 model:'answer'
                 question_id:Router.current().params.doc_id
+                choice_text:@text
+                choice_id:@_id
+        'click .refresh': ->
+            Meteor.call 'calc_question_stats', Router.current().params.doc_id
 
 
     Template.question_edit.helpers
@@ -43,7 +49,15 @@ if Meteor.isClient
             Docs.find
                 model:'choice'
                 question_id:Router.current().params.doc_id
-
+        your_answer: ->
+            Docs.findOne
+                model:'answer'
+                question_id:Router.current().params.doc_id
+                _author_id:Meteor.userId()
+        answers: ->
+            Docs.find
+                model:'answer'
+                question_id:Router.current().params.doc_id
 
 
 

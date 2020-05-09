@@ -27,36 +27,48 @@ template(name='question_view')
             //-     .sixteen.wide.column
             //-         +question_calendar
             .row
-                .five.wide.column
+                .four.wide.column
                     a.ui.fluid.button(href='/questions' title='questions')
                         i.left.chevron.large.icon
                     .ui.header added by #{_author_username}
                     |#{when}
+                    i.refresh.circular.link.icon
                     .ui.small.header #{view_count} views
-                    //- with _author_id
-                    //-     +user_card
-                .six.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{question}
+                    .ui.header #{answers.count} answers
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.label #{this}
+                        .ui.large.label #{this}                    
+                    with _author_id
+                        +user_card
+                .eight.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{question}
                     div
-                    if answer_doc
-                        with answer_doc
-                            .ui.header your answer: #{answer}
-                            if session_key_value_is 'editing_id' _id
-                                +text_edit key='answer' label='answer' direct=true
-                                
-                    else 
-                        .ui.button.answer
-                            |answer
-                .five.wide.column
+                    if your_answer
+                        .ui.header your answer
+                        with your_answer
+                            .ui.header #{answer}
                     .ui.header all answers
                     .ui.items
                         each answers
-                            .item #{answer}
+                            .ui.segment
+                                .ui.header #{choice_text}
+                                i.user.outline.icon
+                                |#{_author_username}
+                                if can_edit
+                                    +remove_button
+                                +print_this
+                                
+                    if your_answer
+                        .ui.items
+                            each choices
+                                .item #{text}
+                    else
+                        .ui.selection.animated.big.list
+                            each choices
+                                .item.choose_choice #{text}
+                .four.wide.column
                     if can_edit
                         a.ui.large.button(href="/question/#{_id}/edit" title='edit')
                             i.pencil.blue.icon

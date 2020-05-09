@@ -1,7 +1,7 @@
-# if Meteor.isClient
-#     Template.print_this.events
-#         'click .print_this': ->
-#             console.log @
+if Meteor.isClient
+    Template.print_this.events
+        'click .print_this': ->
+            console.log @
 #
 #
 #

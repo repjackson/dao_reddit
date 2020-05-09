@@ -1,16 +1,11 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .twelve.wide.column
-                //- .ui.icon.center.aligned.header prime
-                //- if currentUser.prime
-                //-     if is_admin
-                //-         .ui.button.cancel
-                //-             |cancel
-                //-     .ui.green.inline.header is prime member
-                //- else
-                //-     .ui.button.get_prime
-                //-         |get prime
+            .three.wide.column
+                |al
+            .ui.input
+                input.fin(type='text')
+            .nine.wide.column
                 if is_admin
                     .ui.button.add_section
                         i.plus.icon
@@ -22,11 +17,11 @@ template(name='home')
                 //-     input.global_search(type='text' autocomplete="off" value=current_query)
 
                 .ui.stackable.padded.grid
-                    .five.column.centered.row
+                    .three.column.centered.row
                         each sections
                             .column
                                 .ui.segment
-                                    a.ui.icon.center.aligned.grey.header(href=link) 
+                                    a.ui.icon.center.aligned.header(href=link class=global_settings.nav_color) 
                                         i.icon(class=icon)
                                         |#{title}
                                     if is_admin
