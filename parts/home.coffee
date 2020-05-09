@@ -12,12 +12,11 @@ if Meteor.isClient
         @render 'section_view'
         ), name:'section_view'
 
-
-
     Template.home.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'section'
         @autorun => Meteor.subscribe 'model_docs', 'log'
         @autorun => Meteor.subscribe 'model_docs', 'global_settings'
+        @autorun => Meteor.subscribe 'model_docs', 'omega'
 
     Template.home.helpers
         sections: ->
@@ -29,7 +28,7 @@ if Meteor.isClient
             Docs.find
                 model:'log'
 
-        result: ->
+        omega: ->
             Docs.findOne
                 model:'omega'
 
@@ -37,13 +36,12 @@ if Meteor.isClient
         'keyup .fin': (e,t)->
             if e.which is 13
                 val = t.$('.fin').val().trim()
-                console.log val
+                # console.log val
                 o =
                     Docs.findOne
                         model:'omega'
-                Meteor.call 'omega', (o)->
-                    alert 'omega'
-
+                Meteor.call 'omega', o, val, (err,res)->
+                    console.log res
 
 
         'click .cancel': ->
@@ -146,5 +144,10 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods
-        fo: (o_doc)->
-            console.log o_doc
+        omega: (o_doc, query)->
+            console.log query
+            # console.log o_doc
+
+            # unless o_doc
+            #     Docs.insert
+            #         model:'omega'
