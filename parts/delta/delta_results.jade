@@ -2,6 +2,7 @@ template(name='delta_result_card')
     with result 
         if template_exists
             +Template.dynamic template=model_template
+            .ui.header temp exists
         else
             .ui.card.result.pointer(class=loading_class tabindex="1")
                 .content
@@ -11,6 +12,7 @@ template(name='delta_result_card')
                             |#{title}
                     else 
                         each visible_fields
+                            .ui.header hi field
                             +Template.dynamic template=view_template
                             div
                     .extra
@@ -53,6 +55,7 @@ template(name='delta_list_result')
     with result 
         if template_exists
             +Template.dynamic template=model_template
+            //- .ui.header temp found
         else
             .ui.fluid.segment
                 .content
@@ -61,7 +64,9 @@ template(name='delta_list_result')
                             +icolor name=color_icon
                             |#{title}
                     else 
-                        each visible_fields
+                        //- each visible_fields
+                        each fields
+                            //- .ui.header vis field
                             +Template.dynamic template=view_template
                             div
                     .extra

@@ -17,8 +17,18 @@ template(name='last_bought')
                     |{{long_date bought_timestamp}}
 
 
+template(name='user_feed')
+    .ui.header feed
+template(name='user_info_widget')
+
+
 template(name='user_dashboard')             
     .ui.stackable.padded.grid
+        .row
+            .eight.wide.column
+                +user_feed
+            .eight.wide.column
+                +user_info_widget
         .row
             .eight.wide.column
                 +user_following

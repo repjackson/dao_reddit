@@ -8,7 +8,7 @@ body {
     /* background: rgba(0,0,0,.01) !important; */
     background: rgba(0,0,0,.85) !important;
     filter: invert(.9) !important;
-    overscroll-behavior: none;
+    /* overscroll-behavior: none; */
     transition: all 1s !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */

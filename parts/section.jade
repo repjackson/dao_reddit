@@ -1,27 +1,10 @@
-template(name='polls')
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.header.refresh_stats
-                    i.shield.icon
-                    |polls
-                if currentUser
-                    .ui.button.add_poll
-                        |add poll
-            .twelve.wide.column
-                each polls
-                    .ui.segment
-                        a.ui.header(href="/poll/#{_id}/view") #{title}
-                        
-
-
-template(name='poll_view')
+template(name='section_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             //- .row
             //-     .sixteen.wide.column
-            //-         +poll_calendar
+            //-         +section_calendar
             .row
                 .four.wide.column
                     //- a.ui.fluid.button(href='/' title='items')
@@ -77,7 +60,7 @@ template(name='poll_view')
                         +seller_card
                     
                     
-template(name='poll_edit')
+template(name='section_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -85,11 +68,13 @@ template(name='poll_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.icon.fluid.button(href="/poll/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/section/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column
                     +text_edit key='title' label='title' direct=true
+                    +slug_edit key='slug' label='slug' icon='tags' direct=true
+                    +link_edit key='link' label='link' icon='link' direct=true
+                    +icon_edit key='icon' label='icon' icon='icon' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +textarea_edit key='content' label='content' icon='list' direct=true
                     +image_edit key='image_id' label='image' direct=true

@@ -26,6 +26,44 @@ Template.registerHelper 'fixed', (input) ->
         input.toFixed(2)
 
 
+Template.registerHelper 'field_value', () ->
+    # console.log @
+    parent = Template.parentData()
+    parent5 = Template.parentData(5)
+    parent6 = Template.parentData(6)
+
+
+    if @direct
+        parent = Template.parentData()
+    else if parent5
+        if parent5._id
+            parent = Template.parentData(5)
+    else if parent6
+        if parent6._id
+            parent = Template.parentData(6)
+    if parent
+        parent["#{@key}"]
+
+
+Template.registerHelper 'sorted_field_values', () ->
+    # console.log @
+    parent = Template.parentData()
+    parent5 = Template.parentData(5)
+    parent6 = Template.parentData(6)
+
+
+    if @direct
+        parent = Template.parentData()
+    else if parent5._id
+        parent = Template.parentData(5)
+    else if parent6._id
+        parent = Template.parentData(6)
+    if parent
+        _.sortBy parent["#{@key}"], 'number'
+
+
+
+
 
 
 Template.registerHelper 'template_subs_ready', () ->
@@ -64,17 +102,17 @@ Template.registerHelper 'global_settings', () ->
     Docs.findOne model:'global_settings'
 
 
-Template.registerHelper 'field_value', () ->
-    if @direct
-        parent = Template.parentData()
-    else if parent5
-        if parent5._id
-            parent = Template.parentData(5)
-    else if parent6
-        if parent6._id
-            parent = Template.parentData(6)
-    if parent
-        parent["#{@key}"]
+# Template.registerHelper 'field_value', () ->
+#     if @direct
+#         parent = Template.parentData()
+#     else if parent5
+#         if parent5._id
+#             parent = Template.parentData(5)
+#     else if parent6
+#         if parent6._id
+#             parent = Template.parentData(6)
+#     if parent
+#         parent["#{@key}"]
 
 
 
@@ -215,3 +253,56 @@ Template.registerHelper 'edit_template', ->
 
 Template.registerHelper 'is_an_admin', ()->
     if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c'] then true else false
+
+
+
+Template.registerHelper 'sortable_fields', () ->
+    model = Docs.findOne
+        model:'model'
+        slug:Router.current().params.model_slug
+    if model
+        Docs.find {
+            model:'field'
+            parent_id:model._id
+            sortable:true
+        }, sort:rank:1
+
+
+
+
+Template.registerHelper 'fields', () ->
+    model = Docs.findOne
+        model:'model'
+        slug:Router.current().params.model_slug
+    if model
+        match = {}
+        # if Meteor.user()
+        #     match.view_roles = $in:Meteor.user().roles
+        match.model = 'field'
+        match.parent_id = model._id
+        # console.log model
+        cur = Docs.find match,
+            sort:rank:1
+        # console.log cur.fetch()
+        cur
+
+Template.registerHelper 'edit_fields', () ->
+    console.log 'finding edit fields'
+    model = Docs.findOne
+        model:'model'
+        slug:Router.current().params.model_slug
+    if model
+        Docs.find {
+            model:'field'
+            parent_id:model._id
+            # edit_roles:$in:Meteor.user().roles
+        }, sort:rank:1
+
+
+Template.registerHelper 'view_template', -> "#{@field_type}_view"
+Template.registerHelper 'edit_template', -> "#{@field_type}_edit"
+
+Template.registerHelper 'current_model', ->
+    Docs.findOne
+        model:'model'
+        slug: Router.current().params.model_slug

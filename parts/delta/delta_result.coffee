@@ -8,6 +8,11 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_from_id', @data._id
 
     Template.delta_list_result.helpers
+        visible_fields: ->
+            delta = Docs.findOne model:'delta'
+            if delta.visible_fields
+                delta.visible_fields
+    
         template_exists: ->
             current_model = Router.current().params.model_slug
             if current_model

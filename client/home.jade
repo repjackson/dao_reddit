@@ -7,7 +7,7 @@ template(name='home')
                     input.fin(type='text')
                 |result: #{omega.result}
                 |type: #{omega.typeof}
-                .ui.selection.animated.large.list
+                .ui.selection.animated.huge.list
                     each sections
                         a.item(href=link) 
                             i.icon(class=icon)
@@ -43,15 +43,15 @@ template(name='home')
                 //-     input.global_search(type='text' autocomplete="off" value=current_query)
 
             .four.wide.column
-                +color_changer
                 .ui.grey.header 
                     i.rss.icon
                     |site activity
                 each tail_log
                     .ui.small.header #{body}
                     |#{when}
-                //- if currentUser
-                //-     .ui.header your activity
+                +color_changer
+                if currentUser
+                    .ui.header your activity
 
 
 

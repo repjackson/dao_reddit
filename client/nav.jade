@@ -19,11 +19,11 @@ template(name='nav')
             i.search.icon
             input.global_search(type='text' autocomplete="off" value=current_query)
         .right.menu
-            a.icon.item.toggle_chat(href='#') 
-                if view_chat
-                    i.chat.large.icon
-                else
-                    i.chat.large.outline.icon
+            //- a.icon.item.toggle_chat(href='#') 
+            //-     if view_chat
+            //-         i.chat.large.icon
+            //-     else
+            //-         i.chat.large.outline.icon
             //- if currentUser.prime
             //-     a.icon.item(href="/prime") 
             //-         i.shield.icon
@@ -35,8 +35,8 @@ template(name='nav')
             a.icon.item(href="/help") 
                 i.question.large.icon
             if currentUser
-                a.icon.item(href="/mail") 
-                    i.envelope.large.icon
+                a.icon.item(href="/chat") 
+                    i.chat.outline.large.icon
                 //- a.icon.item(href="/alerts")
                 //-     if unread_alerts
                 //-         i.bell.large.icon
