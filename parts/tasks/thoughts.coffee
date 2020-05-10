@@ -4,6 +4,22 @@ if Meteor.isClient
         @render 'thoughts'
         ), name:'thoughts'
 
+    Router.route '/thought/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'thought_edit'
+        ), name:'thought_edit'
+    Router.route '/thought/:doc_id/view', (->
+        @layout 'layout'
+        @render 'thought_view'
+        ), name:'thought_view'
+
+    Template.thought_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.thought_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+
+
     Template.thoughts.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'thought'
         @autorun -> Meteor.subscribe('docs', selected_tags.array(), 'thought')

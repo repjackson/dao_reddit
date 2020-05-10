@@ -51,3 +51,59 @@ template(name='selected_thought')
         +voting_full
         
     //- +comments
+
+template(name='thought_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +thought_calendar
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href='/thoughts' title='thoughts')
+                        i.left.chevron.large.icon
+                    a(href="{{c.url image_id }}" target='_window')
+                        img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    //- with _author_id
+                    //-     +user_card
+                    if can_edit
+                        a.ui.large.button(href="/thought/#{_id}/edit" title='edit')
+                            i.pencil.blue.icon
+                            |edit
+                    +voting_full
+                    div
+                    //- +viewing
+                    with _author_id
+                        +seller_card
+                    
+                .ten.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{text}
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.label #{this}
+                    div
+                    +comments
+                    
+                    
+template(name='thought_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}'
+                    a.ui.big.icon.fluid.button(href="/thought/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                    +remove_button
+                .ten.wide.column
+                    +text_edit key='title' label='title' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +textarea_edit key='content' label='content' icon='list' direct=true
+                    +image_edit key='image_id' label='image' direct=true

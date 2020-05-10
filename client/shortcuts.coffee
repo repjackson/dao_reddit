@@ -1,6 +1,11 @@
 globalHotkeys = new Hotkeys();
 
 globalHotkeys.add
+	combo: "c"
+	callback: ->
+        Session.set('view_chat', !Session.get('view_chat'))
+
+globalHotkeys.add
 	combo: "d r"
 	callback: ->
         model_slug =  Router.current().params.model_slug

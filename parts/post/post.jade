@@ -3,7 +3,7 @@ template(name='posts')
         .row
             .four.wide.column
                 .ui.header.refresh_stats
-                    i.shield.icon
+                    i.blog.icon
                     |posts
                 if currentUser
                     .ui.button.add_post
@@ -14,8 +14,11 @@ template(name='posts')
                         a.ui.header(href="/post/#{_id}/view")
                             |#{title}
                         |#{content}
+                        div
                         |#{points} points
-                        
+                        if is_admin
+                            +delete_button
+                        +voting
 
 
 template(name='post_view')

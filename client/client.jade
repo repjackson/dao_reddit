@@ -64,11 +64,11 @@ template(name='not_found')
 
 
 template(name='chat_sidepanel')
-    .ui.fluid.blue.inverted.segment
-        .ui.header
-            i.chat.icon
-            |quick chat
-        .ui.input.new_chat_message
+    .ui.fluid.inverted.segment
+        .ui.center.aligned.header
+            i.chat.outline.icon
+            //- |quick chat
+        .ui.fluid.small.transparent.input.new_chat_message
             input(type='text' placeholder='new chat')
 
 

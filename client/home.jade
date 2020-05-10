@@ -1,18 +1,36 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .three.wide.column
+            .four.wide.column
                 .ui.icon.input
                     i.search.icon
                     input.fin(type='text')
                 |result: #{omega.result}
                 |type: #{omega.typeof}
-            .nine.wide.column
+                .ui.selection.animated.large.list
+                    each sections
+                        a.item(href=link) 
+                            i.icon(class=icon)
+                            |#{title}
+                            if is_admin
+                                +text_edit key='title' direct=true
+                                +link_edit key='link' direct=true
+                                +icon_edit key='icon' direct=true
+                                +delete_button
+                
+            .eight.wide.column
                 .ui.large.fluid.input
                     input.add_thought(type='text' placeholder='add thought...')
-                .ui.list
+                .ui.large.list
                     each thoughts
-                        .item #{body}
+                        .item
+                            .content
+                                a.ui.header(href="/thought/#{_id}/view") #{body}
+                                .description
+                                    i.thumbs.up.outline.icon
+                                    i.thumbs.down.outline.icon
+                                    |#{when}
+                                    i.remove.link.grey.icon
                 
                 if is_admin
                     .ui.icon.button.add_section
@@ -24,20 +42,6 @@ template(name='home')
                 //-         i.search.icon
                 //-     input.global_search(type='text' autocomplete="off" value=current_query)
 
-                .ui.stackable.padded.grid
-                    .three.column.centered.row
-                        each sections
-                            .column
-                                .ui.segment
-                                    a.ui.center.aligned.header(href=link class=global_settings.nav_color) 
-                                        i.icon(class=icon)
-                                        |#{title}
-                                    if is_admin
-                                        +text_edit key='title' direct=true
-                                        +link_edit key='link' direct=true
-                                        +icon_edit key='icon' direct=true
-                                        +delete_button
-                                .spacer
             .four.wide.column
                 +color_changer
                 .ui.grey.header 

@@ -23,7 +23,9 @@ if Meteor.isClient
         thoughts: ->
             Docs.find {
                 model:'thought'
-            }, sort:title:1
+            },
+                sort:_timestamp:-1
+                limit:5
 
         sections: ->
             Docs.find {
@@ -46,6 +48,7 @@ if Meteor.isClient
                 Docs.insert
                     model:'thought'
                     body:val
+                t.$('.add_thought').val('')
 
 
 
