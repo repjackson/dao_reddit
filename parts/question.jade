@@ -12,6 +12,10 @@ template(name='questions')
                 each questions
                     .ui.segment
                         a.ui.header(href="/question/#{_id}/view") #{question}
+                        .ui.small.header #{choice_count}
+                        .ui.small.header #{answer_count}
+                        each answers
+                            .ui.header #{title}
                         if can_edit
                             a.ui.icon.button(href="/question/#{_id}/edit")
                                 i.pencil.icon
@@ -50,25 +54,28 @@ template(name='question_view')
                         with your_answer
                             .ui.header #{answer}
                     .ui.header all answers
-                    .ui.items
+                    .ui.segments
                         each answers
                             .ui.segment
-                                .ui.header #{choice_text}
+                                .ui.inline.header #{choice_text}
                                 i.user.outline.icon
                                 |#{_author_username}
                                 if can_edit
                                     +remove_button
-                                +print_this
+                                if is_admin
+                                    +print_this
                                 
+                .four.wide.column
+                    .ui.icon.button.refresh_question_stats
+                        i.refresh.icon
                     if your_answer
                         .ui.items
                             each choices
-                                .item #{text}
+                                .item #{text} #{choice_answer_count}
                     else
                         .ui.selection.animated.big.list
                             each choices
                                 .item.choose_choice #{text}
-                .four.wide.column
                     if can_edit
                         a.ui.large.button(href="/question/#{_id}/edit" title='edit')
                             i.pencil.blue.icon

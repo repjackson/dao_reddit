@@ -12,16 +12,12 @@ template(name='home')
                         a.item(href=link) 
                             i.icon(class=icon)
                             |#{title}
-                            if is_admin
-                                +text_edit key='title' direct=true
-                                +link_edit key='link' direct=true
-                                +icon_edit key='icon' direct=true
-                                +delete_button
                 
-            .eight.wide.column
-                .ui.large.fluid.input
-                    input.add_thought(type='text' placeholder='add thought...')
-                .ui.large.list
+            .four.wide.column
+                .ui.large.fluid.right.icon.input
+                    i.plus.icon
+                    input.add_thought(type='text' placeholder='add thought')
+                .ui.selection.animated.list
                     each thoughts
                         .item
                             .content
@@ -31,24 +27,28 @@ template(name='home')
                                     i.thumbs.down.outline.icon
                                     |#{when}
                                     i.remove.link.grey.icon
-                
-                if is_admin
-                    .ui.icon.button.add_section
-                        i.plus.icon
-                //- .ui.icon.input
-                //-     if current_query
-                //-         i.remove.link.icon.clear_query
-                //-     else        
-                //-         i.search.icon
-                //-     input.global_search(type='text' autocomplete="off" value=current_query)
-
+            .four.wide.column
+                .ui.secondary.segment
+                    a.ui.grey.header(href="/market") 
+                        i.shop.icon
+                        |market
+                    each latest_items
+                        .item #{title}
+                .ui.secondary.segment
+                    a.ui.grey.header(href="/questions") 
+                        i.question.icon
+                        |questions
+                    each latest_items
+                        .item #{title}
             .four.wide.column
                 .ui.grey.header 
                     i.rss.icon
                     |site activity
-                each tail_log
-                    .ui.small.header #{body}
-                    |#{when}
+                .ui.list
+                    each tail_log
+                        .item
+                            .header #{body}
+                            span.ui.grey.text #{when}
                 +color_changer
                 if currentUser
                     .ui.header your activity

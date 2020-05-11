@@ -31,11 +31,11 @@ template(name='badge_doc')
             if purchased
                 .ui.button.return
                     i.undo.icon
-                    |return for +1
+                    |return +1
             else
                 .ui.green.button.purchase
                     i.checkmark.icon
-                    |purchase for -1
+                    |purchase -1
             if can_edit
                 a.ui.icon.button(href="/badge/#{_id}/edit")
                     i.pencil.icon   

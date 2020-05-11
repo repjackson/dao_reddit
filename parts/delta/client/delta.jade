@@ -3,7 +3,7 @@ template(name='delta')
         with current_model
             .row
                 .five.wide.column
-                    a.ui.basic.icon.button.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
+                    a.ui.icon.button.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
                         i.large.yin.yang.icon
                     if is_loading
                         .ui.inline.header.pulsing
@@ -58,7 +58,7 @@ template(name='delta')
                             i.search.icon
                         input#search(type='text' autocomplete="off" value=current_delta.search_query)
                     unless single_doc
-                        //- .ui.basic.segment(class=loading_class)
+                        //- .ui.segment(class=loading_class)
                         //- .ui.inline.small.grey.header(title='change sort direction')
                         //-     |sort by
                         .ui.compact.small.menu(title='sort by')
@@ -119,7 +119,7 @@ template(name='delta')
                                     //- +set_view_mode title='items' icon='list'
                                     //- +set_view_mode title='map' icon='map'
                                     //- +set_view_mode title='graph' icon='graph'
-                        //- .ui.basic.compact.small.icon.button.toggle_right_panel
+                        //- .ui.compact.small.icon.button.toggle_right_panel
                         //-     i.table.large.icon
                         .spacer
                     .scrolling    

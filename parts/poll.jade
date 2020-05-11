@@ -67,7 +67,7 @@ template(name='poll_view')
                             .ui.header answered {{long_date answered_timestamp}}
                         
                     if can_edit
-                        a.ui.large.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.large.button(href="/poll/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     +voting_full

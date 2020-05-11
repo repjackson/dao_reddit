@@ -1,6 +1,6 @@
 template(name='comments')
     .ui.header
-        i.chat.blue.outline.icon
+        i.chat.outline.icon
         |comments
     div
     if currentUser
@@ -81,7 +81,7 @@ template(name='set_sort_key')
 template(name='goto_model')
     if is_staff
         a.goto_model(href="/m/#{slug}" title="goto #{slug}")
-            i.external.blue.icon
+            i.external.icon
             //- +i name='external-link'
 
 
@@ -298,7 +298,7 @@ template(name='add_button')
 
 template(name='edit_button')
     a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
-        i.blue.pencil.icon
+        i.pencil.icon
         |Edit
 
 

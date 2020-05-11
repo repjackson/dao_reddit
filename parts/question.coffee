@@ -33,7 +33,7 @@ if Meteor.isClient
                 question_id:Router.current().params.doc_id
                 choice_text:@text
                 choice_id:@_id
-        'click .refresh': ->
+        'click .refresh_question_stats': ->
             Meteor.call 'calc_question_stats', Router.current().params.doc_id
 
 
@@ -45,6 +45,11 @@ if Meteor.isClient
 
 
     Template.question_view.helpers
+        choice_answer_count: ->
+            Docs.find(
+                model:'answer'
+                choice_id:@_id
+            ).count()
         choices: ->
             Docs.find
                 model:'choice'
@@ -81,67 +86,23 @@ if Meteor.isClient
             Router.go "/question/#{new_id}/edit"
 
 
-# if Meteor.isServer
-#     Meteor.methods
-        # refresh_global_stats: ->
-        #     found_stats = Docs.findOne
-        #         model:'stats'
-        #     if found_stats
-        #         fsd = found_stats
-        #     else
-        #         new_id =
-        #             Docs.insert
-        #                 model:'stats'
-        #         fsd = Docs.findOne new_id
-        #
-        #     total_doc_count = Docs.find({}).count()
-        #     total_item_count = Docs.find({model:'item'}).count()
-        #     total_sales_count =
-        #         Docs.find(
-        #             model:'item'
-        #             bought:true
-        #             ).count()
-        #
-        #     total_selling_count =
-        #         Docs.find(
-        #             model:'item'
-        #             bought:$ne:true
-        #             ).count()
-        #     total_deposits =
-        #         Docs.find(
-        #             model:'deposit'
-        #         )
-        #     total_deposit_count =
-        #         Docs.find(
-        #             model:'deposit'
-        #         ).count()
-        #
-        #     total_deposit_amount = 0
-        #     for deposit in total_deposits.fetch()
-        #         total_deposit_amount += deposit.deposit_amount
-        #
-        #     total_withdrawals =
-        #         Docs.find(
-        #             model:'withdrawal'
-        #         )
-        #     total_withdrawal_count =
-        #         Docs.find(
-        #             model:'withdrawal'
-        #         ).count()
-        #
-        #     total_withdrawal_amount = 0
-        #     for withdrawal in total_withdrawals.fetch()
-        #         total_withdrawal_amount += withdrawal.amount
-        #
-        #     total_site_profit = total_deposit_amount-total_withdrawal_amount
-        #
-        #     Docs.update fsd._id,
-        #         $set:
-        #             total_doc_count:total_doc_count
-        #             total_item_count:total_item_count
-        #             total_selling_count:total_selling_count
-        #             total_sales_count:total_sales_count
-        #             total_deposit_count: total_deposit_count
-        #             total_deposit_amount: total_deposit_amount
-        #             total_withdrawal_amount: total_withdrawal_amount
-        #             total_site_profit: total_site_profit
+if Meteor.isServer
+    Meteor.methods
+        refresh_question_stats: (question_id)->
+            question = Docs.findOne question_id
+
+            choices =
+                Docs.find
+                    model:'choice'
+                    question_id:question_id
+
+            answers =
+                Docs.find
+                    model:'answer'
+                    question_id:question_id
+
+            Docs.update question_id,
+                $set:
+                    total_doc_count:total_doc_count
+                    total_item_count:total_item_count
+                    total_selling_count:total_selling_count

@@ -27,7 +27,7 @@ template(name='item_view')
                     div
                     i.tag.icon
                     each tags
-                        .ui.large.basic.label #{this}
+                        .ui.large.label #{this}
                     div
                     +textarea_view key='description' label='description' icon='list' direct=true
                     +comments
@@ -44,7 +44,7 @@ template(name='item_view')
                                     |buy for #{price}
                                     i.checkmark.icon
                             else
-                                .ui.green.basic.disabled.button
+                                .ui.green.disabled.button
                                     |not enough
                     else
                         .ui.secondary.segment
@@ -58,11 +58,11 @@ template(name='item_view')
                             .ui.header bought {{long_date bought_timestamp}}
                         
                     if can_edit
-                        a.ui.basic.large.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.large.button(href="/item/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     if currentUser
-                        .ui.basic.large.button.clone
+                        .ui.large.button.clone
                             i.clone.icon
                             |clone
                     +voting_full
@@ -101,7 +101,7 @@ template(name='item_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}'
-                    a.ui.big.basic.icon.fluid.button(href="/item/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/item/#{_id}/view" title='save')
                         i.checkmark.green.icon
                     +remove_button
                 .ten.wide.column

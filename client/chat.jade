@@ -40,14 +40,14 @@ template(name='chat_messages_pane')
 template(name='chat_list')
     div
     .ui.inline.header channels
-    .ui.icon.basic.button#create_chat(title='new channel')
+    .ui.icon.button#create_chat(title='new channel')
         i.plus.icon
 
     .ui.segments
         each chat_list_items
             +chat_list_item
     .ui.inline.header direct messages
-    //- .ui.icon.basic.button#create_private_chat(title='new dm')
+    //- .ui.icon.button#create_private_chat(title='new dm')
     //-     i.plus.icon
     .ui.segments
         each private_chats
@@ -154,11 +154,11 @@ template(name='view_chat')
                 if currentUser
                     if in_chat
                         //- i.sign.in.link.icon.leave_chat(title='leave')
-                        .ui.basic.button.leave_chat
+                        .ui.button.leave_chat
                             i.sign.in.icon
                             |leave
                     else
-                        .ui.basic.button.join_chat
+                        .ui.button.join_chat
                             i.sign.out.icon
                             |join
                 .ui.relaxed.list
@@ -176,7 +176,7 @@ template(name='view_chat')
                                     | @#{username}
                                     +user_status
                 if can_edit
-                    .ui.icon.basic.button.close_chat(title='close chat')
+                    .ui.icon.button.close_chat(title='close chat')
                         i.ban.icon
                         |close chat
                 if can_edit

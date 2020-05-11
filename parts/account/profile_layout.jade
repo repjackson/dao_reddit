@@ -79,6 +79,10 @@ template(name='profile_layout')
                         //- +i name='shopping-cart' classes='ui avatar image'
                         i.large.cart.icon
                         |purchases
+                    a.ui.dashboard.button(href="/user/#{username}/earnings" class="{{isActiveRoute regex='user_earnings'}}")
+                        +i name='shopping-cart' classes='ui avatar image'
+                        //- i.large.cart.icon
+                        |earnings
                     a.ui.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_chat'}}")
                         //- +i name='chat' classes='ui avatar image'
                         i.large.chat.icon

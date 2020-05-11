@@ -58,7 +58,7 @@ template(name='thought_view')
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             //- .row
             //-     .sixteen.wide.column
-            //-         +thought_calendar
+            //-         +thought_calendard
             .row
                 .four.wide.column
                     a.ui.fluid.button(href='/thoughts' title='thoughts')
@@ -82,7 +82,7 @@ template(name='thought_view')
                     
                 .ten.wide.column
                     h2
-                        .ui.center.aligned.inline.header #{text}
+                        .ui.center.aligned.inline.header #{text} #{body}
                     div
                     i.tag.icon
                     each tags
