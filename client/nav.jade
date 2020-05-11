@@ -56,3 +56,11 @@ template(name='nav')
             else 
                 a.item(href="/login")
                     i.sign.in.alternate.large.icon
+                        
+    .ui.fluid.attached.menu.secnav
+        each models
+            a.item.goto_model(href="/m/#{slug}")
+                //- i.icon(class=icon)
+                if color_icon
+                    +i name=color_icon classes='ui avatar image'
+                |#{title}

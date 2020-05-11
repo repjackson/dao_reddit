@@ -134,7 +134,7 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
   border-radius: 10px !important;
 }
 
@@ -165,6 +165,24 @@ input {
 	/*padding-left: 1em;*/
 }
 
+
+.secnav{
+    /* padding: 5px !important;
+    border-radius: 10px !important;
+    border-width: 1px !important;
+    border-color: grey !important;
+    border-style: solid !important; */
+	overflow-y:hidden;
+	overflow-x:scroll;
+	/* max-height:100vh; */
+	/* padding-top: .2em; */
+	/*padding-left: 1em;*/
+}
+
+.secnav::-webkit-scrollbar {
+    height: 1px !important;
+  /* border-radius: 10px !important; */
+}
 
 
 /* body {

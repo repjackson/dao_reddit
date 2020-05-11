@@ -1,8 +1,4 @@
 if Meteor.isClient
-    Router.route '/questions', (->
-        @layout 'layout'
-        @render 'questions'
-        ), name:'questions'
     Router.route '/question/:doc_id/edit', (->
         @layout 'layout'
         @render 'question_edit'
@@ -64,26 +60,6 @@ if Meteor.isClient
                 model:'answer'
                 question_id:Router.current().params.doc_id
 
-
-
-    Template.questions.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'question'
-        @autorun => Meteor.subscribe 'all_users'
-
-    Template.questions.helpers
-        questions: ->
-            Docs.find
-                model:'question'
-        users: ->
-            Meteor.users.find({credit:$gt:1},
-                sort:credit:-1)
-
-    Template.questions.events
-        'click .add_question': ->
-            new_id =
-                Docs.insert
-                    model:'question'
-            Router.go "/question/#{new_id}/edit"
 
 
 if Meteor.isServer

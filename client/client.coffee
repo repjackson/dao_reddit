@@ -1,17 +1,6 @@
 @selected_tags = new ReactiveArray []
 @selected_authors = new ReactiveArray []
 
-Template.nav.onCreated ->
-    @autorun => Meteor.subscribe 'me'
-    @autorun => Meteor.subscribe 'alerts'
-    @autorun => Meteor.subscribe 'model_docs', 'global_settings'
-
-Template.nav.events
-    'click .toggle_chat': ->
-        $('.main_area').transition('jiggle', 250)
-        Session.set('view_chat', !Session.get('view_chat'))
-Template.nav.helpers
-    view_chat: -> Session.get('view_chat')
 
 Template.layout.onCreated ->
     Session.setDefault 'view_chat', false

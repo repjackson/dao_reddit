@@ -1,25 +1,14 @@
-template(name='questions')
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.header.refresh_stats
-                    i.shield.icon
-                    |questions
-                if is_admin
-                    .ui.button.add_question
-                        |add question
-            .twelve.wide.column
-                each questions
-                    .ui.segment
-                        a.ui.header(href="/question/#{_id}/view") #{question}
-                        .ui.small.header #{choice_count}
-                        .ui.small.header #{answer_count}
-                        each answers
-                            .ui.header #{title}
-                        if can_edit
-                            a.ui.icon.button(href="/question/#{_id}/edit")
-                                i.pencil.icon
-                        +voting
+template(name='question_segment')                    
+    .ui.segment
+        a.ui.header(href="/question/#{_id}/view") #{question}
+        .ui.small.header #{choice_count}
+        .ui.small.header #{answer_count}
+        each answers
+            .ui.header #{title}
+        if can_edit
+            a.ui.icon.button(href="/question/#{_id}/edit")
+                i.pencil.icon
+        +voting
                         
 
 

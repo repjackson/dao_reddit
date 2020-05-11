@@ -35,7 +35,7 @@ if Meteor.isClient
             current_model = Router.current().params.model_slug
             Meteor.call 'set_facets', current_model, ->
                 Session.set 'loading', false
-            $(e.currentTarget).closest('.grid').transition('fade left', 500)
+            $(e.currentTarget).closest('.grid').transition('fade left', 250)
             Meteor.setTimeout ->
                 Router.go "/m/#{current_model}"
-            , 500
+            , 250
