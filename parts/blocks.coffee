@@ -70,6 +70,13 @@ if Meteor.isClient
 
 
 
+    Template.call_method.onCreated ->
+        # @autorun => Meteor.subscribe 'doc', Template.currentData().doc_id
+    Template.call_method.events
+        'click .call_method': ->
+            Meteor.call @method
+
+
 
     # Template.call_watson.events
     #     'click .autotag': ->

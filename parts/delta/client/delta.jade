@@ -51,7 +51,7 @@ template(name='delta')
                         +facet
                 .eleven.wide.column
                     |&nbsp;
-                    .ui.icon.input(class=query_class)
+                    .ui.icon.large.input(class=query_class)
                         if current_delta.search_query
                             i.link.remove.icon.clear_query
                         else
@@ -124,7 +124,7 @@ template(name='delta')
                         .spacer
                     .scrolling    
                         if delta_key_value_is 'view_mode' 'cards'
-                            .ui.cards
+                            .ui.centered.cards
                                 each current_delta.result_ids
                                     +delta_result_card
                         if delta_key_value_is 'view_mode' 'table'

@@ -32,6 +32,8 @@ template(name='model_doc_view')
                             |by
                             +author_info
                             +creation_info
+                        if is_admin
+                            +print_this
                         //- +karma_transaction
                         //- +voting
                     .twelve.wide.column

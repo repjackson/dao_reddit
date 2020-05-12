@@ -11,7 +11,7 @@ template(name='class_view')
             //-         +class_calendar
             .row
                 .six.wide.column
-                    a.ui.fluid.button(href='/university' title='university')
+                    a.ui.fluid.button(href='/m/class' title='university')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -52,7 +52,7 @@ template(name='class_view')
                     div
                     //- +viewing
                     with _author_id
-                        +teacher_card
+                        +user_card
                     
                     //- with _author_id
                     //-     +user_card

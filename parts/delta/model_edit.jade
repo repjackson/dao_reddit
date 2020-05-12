@@ -54,9 +54,9 @@ template(name='model_edit_fields')
     .ui.inline.header fields
     .ui.icon.large.compact.button.add_field
         i.plus.green.icon
-    .spacer
-    each fields
-        +field_edit
+    .ui.segments
+        each fields
+            +field_edit
         
             
 template(name='model_edit_modules')

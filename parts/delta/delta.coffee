@@ -268,7 +268,7 @@ if Meteor.isClient
                     # Meteor.setTimeout ->
                     #     Session.set('dummy', !Session.get('dummy'))
                     # , 10000
-        , 1000)
+        , 2000)
 
 
 

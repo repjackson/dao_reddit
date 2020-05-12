@@ -40,9 +40,11 @@ template(name='home')
                         |questions
                     each latest_items
                         .item #{title}
+                +color_changer
             .four.wide.column
                 +checkedin_users
                 +site_activity
+                
 
 
 
@@ -55,7 +57,8 @@ template(name='site_activity')
             .item
                 .header #{body}
                 span.ui.grey.text #{when}
-    +color_changer
+
+template(name='your_activity')
     if currentUser
         .ui.header your activity
 
@@ -68,9 +71,6 @@ template(name='checkedin_users')
         each users
             .item
                 .header #{username}
-    +color_changer
-    if currentUser
-        .ui.header your activity
 
 
 

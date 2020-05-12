@@ -152,6 +152,21 @@ Meteor.users.helpers
 
 
 Meteor.methods
+    elements: ->
+        # console.log elements.elements
+        el_list = elements.elements
+        for el in el_list
+            console.log el
+            found_doc =
+                Docs.findOne
+                    model:'chemical_element'
+                    name: el.name
+            if found_doc
+                Docs.remove found_doc._id
+            el.model = 'chemical_element'
+            Docs.insert el
+
+
     add_facet_filter: (delta_id, key, filter)->
         if key is '_keys'
             new_facet_ob = {
