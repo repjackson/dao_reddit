@@ -37,7 +37,7 @@ template(name='model_edit_dashboard')
         +color_icon_edit key='color_icon' label='icons8 icon' direct=true
         +textarea_edit key='description' label='description' direct=true
         +array_edit key='tags' label='tags' direct=true
-        //- +text_edit key='collection' label='collection' direct=true
+        +text_edit key='collection' label='collection' direct=true
         //- +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
         //- +text_edit key='app' label='app' direct=true
 
@@ -83,7 +83,7 @@ template(name='field_edit')
                 +icolor name=icon classes='ui mini inline image'
                 //- i.icon(class=icon)
             strong #{title}
-            | (#{field_type_doc.slug})
+            | (#{field_type})
             if faceted
                 i.filter.icon
             if sortable
@@ -106,7 +106,7 @@ template(name='field_edit')
                 +color_icon_edit key='icon' label='color icon' direct=true       
                 //- +textarea_edit key='description' label='description' direct=true
                 .spacer
-                +text_edit key='field_type' label='field type (old slug)' direct=true
+                +text_edit key='field_type' label='field type' direct=true
                 //- if is_admin
                 //- +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true        
                 //- .spacer

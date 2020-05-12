@@ -2,6 +2,16 @@
 @selected_authors = new ReactiveArray []
 
 
+
+window.addEventListener('load', ()->
+    if (window.Notification and Notification.permission isnt "granted")
+        Notification.requestPermission((status)->
+            if Notification.permission isnt status
+                Notification.permission = status
+    ))
+
+
+
 Template.layout.onCreated ->
     Session.setDefault 'view_chat', false
 Template.layout.onRendered ->

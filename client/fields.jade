@@ -78,7 +78,7 @@ template(name='icon_edit')
 
 template(name='color_icon_view')
     if field_value
-        img(src="https://img.icons8.com/office/48/000000/#{field_value}.png")
+        img(src="https://img.icons8.com/color/48/000000/#{field_value}.png")
         //- img(src="https://img.icons8.com/ios/48/000000/#{field_value}.png")
 
 template(name='icon_view')
@@ -147,7 +147,7 @@ template(name='link_view')
             +ismall name=icon classes='ui middle aligned image'
         //- .ui.inline.header 
         //-     |#{title} #{label}
-        a.ui.header(href=field_value target='_window') #{label}
+        a.ui.header(href=field_value target='_window') #{field_value}
         //- a(href=field_value target='_window') #{field_value}
         //- img.ui.fluid.image(src=field_value)
 

@@ -13,20 +13,20 @@ if Meteor.isClient
 
             # Router.current().params.model_slug
         template_exists: ->
-            false
-            # current_model = Docs.findOne(Router.current().params.doc_id).model
-            # if Template["#{current_model}_view"]
-            #     # console.log 'true'
-            #     return true
-            # else
-            #     # console.log 'false'
-            #     return false
+            # false
+            current_model = Router.current().params.model_slug
+            console.log "#{current_model}_view"
+            if Template["#{current_model}_view"]
+                # console.log 'true'
+                return true
+            else
+                # console.log 'false'
+                return false
         model_template: ->
-            current_model = Docs.findOne(Router.current().params.doc_id).model
+            current_model = Router.current().params.model_slug
+            console.log "#{current_model}_view"
             "#{current_model}_view"
 
-        model_template: ->
-            current_model = Docs.findOne(Router.current().params.doc_id).model
 
 
     Template.model_doc_view.events

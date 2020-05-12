@@ -193,17 +193,17 @@ if Meteor.isClient
             Meteor.call 'afum', alpha_session._id, ->
                 Session.set 'loading', false
 
-    Template.set_view_mode.events
-        'click .set_view_mode': ->
-            # console.log @
-            alpha_session = Docs.findOne model:'alpha_session'
-            Docs.update alpha_session._id,
-                $set:view_mode:@title
-            Session.set 'loading', true
-            Meteor.call 'afum', alpha_session._id, ->
-                Session.set 'loading', false
-
-
+    # Template.set_view_mode.events
+    #     'click .set_view_mode': ->
+    #         # console.log @
+    #         alpha_session = Docs.findOne model:'alpha_session'
+    #         Docs.update alpha_session._id,
+    #             $set:view_mode:@title
+    #         Session.set 'loading', true
+    #         Meteor.call 'afum', alpha_session._id, ->
+    #             Session.set 'loading', false
+    #
+    #
 
 
 

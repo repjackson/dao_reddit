@@ -578,33 +578,33 @@
 #                 $set:"#{@key}":val
 #
 #
-# Template.youtube_edit.onRendered ->
-#     Meteor.setTimeout ->
-#         $('.ui.embed').embed();
-#     , 1000
-#
-# Template.youtube_view.onRendered ->
-#     Meteor.setTimeout ->
-#         $('.ui.embed').embed();
-#     , 1000
-#
-#
-# Template.youtube_edit.events
-#     'blur .youtube_id': (e,t)->
-#         if @direct
-#             parent = Template.parentData()
-#         else
-#             parent = Template.parentData(5)
-#         val = t.$('.youtube_id').val()
-#         doc = Docs.findOne parent._id
-#         user = Meteor.users.findOne parent._id
-#         if doc
-#             Docs.update parent._id,
-#                 $set:"#{@key}":val
-#         else if user
-#             Meteor.users.update parent._id,
-#                 $set:"#{@key}":val
-#
+Template.youtube_edit.onRendered ->
+    Meteor.setTimeout ->
+        $('.ui.embed').embed();
+    , 1000
+
+Template.youtube_view.onRendered ->
+    Meteor.setTimeout ->
+        $('.ui.embed').embed();
+    , 1000
+
+
+Template.youtube_edit.events
+    'blur .youtube_id': (e,t)->
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+        val = t.$('.youtube_id').val()
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+
 #
 # Template.children_view.onCreated ->
 #     # @autorun => Meteor.subscribe 'children', @data.ref_model, Template.parentData(5)._id

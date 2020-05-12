@@ -41,38 +41,58 @@ template(name='home')
                     each latest_items
                         .item #{title}
             .four.wide.column
-                .ui.grey.header 
-                    i.rss.icon
-                    |site activity
-                .ui.list
-                    each tail_log
-                        .item
-                            .header #{body}
-                            span.ui.grey.text #{when}
-                +color_changer
-                if currentUser
-                    .ui.header your activity
+                +checkedin_users
+                +site_activity
+
+
+
+template(name='site_activity')
+    .ui.grey.header 
+        i.rss.icon
+        |site activity
+    .ui.list
+        each tail_log
+            .item
+                .header #{body}
+                span.ui.grey.text #{when}
+    +color_changer
+    if currentUser
+        .ui.header your activity
+
+
+template(name='checkedin_users')
+    .ui.grey.header 
+        i.rss.icon
+        |checked in users
+    .ui.list
+        each users
+            .item
+                .header #{username}
+    +color_changer
+    if currentUser
+        .ui.header your activity
 
 
 
 template(name='color_changer')
-    .ui.header color changer
-    .ui.small.header pick color for global navbar (-.01)
-    +choose_nav_color color='blue'
-    +choose_nav_color color='black'
-    +choose_nav_color color='pink'
-    +choose_nav_color color='grey'
-    +choose_nav_color color='green'
-    +choose_nav_color color='yellow'
-    +choose_nav_color color='orange'
-    .ui.list
-        each color_changes
-            .ui.item
-                .content
-                    |#{_author_username} selected #{color}
-                .meta 
-                    small #{when}
-    
+    .ui.secondary.segment
+        .ui.header color changer
+        .ui.small.header pick color for global navbar (-.01)
+        +choose_nav_color color='blue'
+        +choose_nav_color color='black'
+        +choose_nav_color color='pink'
+        +choose_nav_color color='grey'
+        +choose_nav_color color='green'
+        +choose_nav_color color='yellow'
+        +choose_nav_color color='orange'
+        .ui.list
+            each color_changes
+                .ui.item
+                    .content
+                        |#{_author_username} selected #{color}
+                    .meta 
+                        small #{when}
+        
     
 template(name='choose_nav_color')
     .ui.invert.compact.button.choose_class(class=color)

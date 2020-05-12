@@ -41,6 +41,7 @@ Template.registerHelper 'field_value', () ->
     else if parent6
         if parent6._id
             parent = Template.parentData(6)
+    # console.log 'parent', parent
     if parent
         parent["#{@key}"]
 

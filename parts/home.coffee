@@ -14,7 +14,6 @@ if Meteor.isClient
 
     Template.home.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'section'
-        @autorun => Meteor.subscribe 'model_docs', 'log'
         @autorun => Meteor.subscribe 'model_docs', 'global_settings'
         @autorun => Meteor.subscribe 'model_docs', 'omega'
         @autorun => Meteor.subscribe 'model_docs', 'thought'
@@ -32,9 +31,6 @@ if Meteor.isClient
                 model:'section'
             }, sort:title:1
 
-        tail_log: ->
-            Docs.find
-                model:'log'
 
         omega: ->
             Docs.findOne
@@ -79,6 +75,29 @@ if Meteor.isClient
                 Docs.insert
                     model:'section'
             Router.go "/section/#{new_id}/edit"
+
+
+
+    Template.site_activity.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'log'
+    Template.site_activity.helpers
+        tail_log: ->
+            Docs.find {
+                model:'log'
+            }, sort:_timestamp:-1
+    Template.site_activity.events
+
+
+
+    Template.checkedin_users.onCreated ->
+        @autorun => Meteor.subscribe 'checkedin_users'
+    Template.checkedin_users.helpers
+        users: ->
+            Meteor.users.find
+                checkedin:true
+    Template.checkedin_users.events
+
+
 
 
 

@@ -1,26 +1,3 @@
-template(name='posts')
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.header.refresh_stats
-                    i.blog.icon
-                    |posts
-                if currentUser
-                    .ui.button.add_post
-                        |add post
-            .twelve.wide.column
-                each posts
-                    .ui.segment
-                        a.ui.header(href="/post/#{_id}/view")
-                            |#{title}
-                        |#{content}
-                        div
-                        |#{points} points
-                        if is_admin
-                            +delete_button
-                        +voting
-
-
 template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
@@ -30,7 +7,7 @@ template(name='post_view')
             //-         +post_calendar
             .row
                 .five.wide.column
-                    a.ui.fluid.button(href='/posts' title='posts')
+                    a.ui.fluid.button(href='/m/post' title='posts')
                         i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")

@@ -107,6 +107,13 @@ i.invert{
 }
 
 
+.embed{
+    border-radius: 10px !important;
+    /* background: rgba(0,0,0,.85) !important; */
+    /* filter: invert(1) !important; */
+}
+
+
 .inverted{
     /* background: rgba(0,0,0,.85) !important; */
     /* border-radius: 10px !important; */

@@ -1,8 +1,4 @@
 if Meteor.isClient
-    Router.route '/posts', (->
-        @layout 'layout'
-        @render 'posts'
-        ), name:'posts'
     Router.route '/post/:doc_id/edit', (->
         @layout 'layout'
         @render 'post_edit'
@@ -18,25 +14,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
 
-
-    Template.posts.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'post'
-        @autorun => Meteor.subscribe 'all_users'
-
-    Template.posts.helpers
-        posts: ->
-            Docs.find
-                model:'post'
-        users: ->
-            Meteor.users.find({credit:$gt:1},
-                sort:credit:-1)
-
-    Template.posts.events
-        'click .add_post': ->
-            new_id =
-                Docs.insert
-                    model:'post'
-            Router.go "/post/#{new_id}/edit"
 
 
 # if Meteor.isServer

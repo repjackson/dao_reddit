@@ -2,7 +2,6 @@ template(name='delta_result_card')
     with result 
         if template_exists
             +Template.dynamic template=model_template
-            .ui.header temp exists
         else
             .ui.card.result.pointer(class=loading_class tabindex="1")
                 .content
@@ -11,8 +10,7 @@ template(name='delta_result_card')
                             +icolor name=color_icon
                             |#{title}
                     else 
-                        each visible_fields
-                            .ui.header hi field
+                        each fields
                             +Template.dynamic template=view_template
                             div
                     .extra
@@ -45,7 +43,8 @@ template(name='delta_result_card')
                                 each viewer_usernames
                                     .ui.small.inverted.label #{this}
                         //- +comments
-                    if is_dev
+                    if is_admin
+                        +print_this
                         +remove_button
             
 
@@ -101,9 +100,8 @@ template(name='delta_list_result')
                                 //- i.eye.icon
                                 each viewer_usernames
                                     .ui.small.inverted.label #{this}
+                            +remove_button
                         //- +comments
-                    if is_dev
-                        +remove_button
             
 
 template(name='delta_result_table_row')

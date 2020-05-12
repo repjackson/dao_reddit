@@ -685,24 +685,24 @@
 //- 
 //- 
 //- 
-//- template(name='youtube_edit')
-//-     .ui.basic.labeled.fluid.icon.input
-//-         .ui.basic.label 
-//-             // if icon
-//-             //     i.icon(class=icon)
-//-             |youtube id
-//-         input.youtube_id(type='text' value=field_value placeholder=placeholder autocomplete="off")
-//-     if field_value
-//-         iframe.youtube_view(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-//- 
-//- template(name='youtube_view')
-//-     if field_value
-//-         .ui.embed.youtube_view(data-source="youtube" data-id=field_value)
-//- 
-//-         //- // iframe(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-//-         //- iframe(src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-//- 
-//- 
+template(name='youtube_edit')
+    .ui.basic.labeled.fluid.icon.input
+        .ui.basic.label 
+            // if icon
+            //     i.icon(class=icon)
+            |youtube id
+        input.youtube_id(type='text' value=field_value placeholder=placeholder autocomplete="off")
+    if field_value
+        iframe.youtube_view(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+
+template(name='youtube_view')
+    if field_value
+        .ui.embed.youtube_view(data-source="youtube" data-id=field_value)
+
+        //- // iframe(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+        //- iframe(src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+
+
 //- 
 //- template(name='signature_edit')
 //-     .ui.segment
