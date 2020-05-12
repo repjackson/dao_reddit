@@ -49,8 +49,8 @@ template(name='admin')
                     |users
                 each users
                     .ui.segment
-                        .ui.header #{username}
-                            |- $#{credit}
+                        a.ui.header(href="/user/#{username}") #{username}
+                            |- ${{fixed credit}}
                 .ui.header 
                     i.calendar.icon
                     |events

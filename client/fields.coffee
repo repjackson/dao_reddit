@@ -613,10 +613,10 @@ Template.multi_doc_view.helpers
 
 
 Template.multi_doc_edit.onCreated ->
-    @autorun => Meteor.subscribe 'model_docs', @data.ref_model
+    @autorun => Meteor.subscribe 'model_docs', @data.ref_model_slug
 Template.multi_doc_edit.helpers
     choices: ->
-        Docs.find model:@ref_model
+        Docs.find model:@ref_model_slug
 
     choice_class: ->
         selection = @

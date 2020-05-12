@@ -7,11 +7,6 @@ if Meteor.isClient
         @layout 'layout'
         @render 'task_edit'
         ), name:'task_edit'
-    Router.route '/task/:doc_id/view', (->
-        @layout 'layout'
-        @render 'task_view'
-        ), name:'task_view'
-
 
 
     Template.tasks.onCreated ->

@@ -9,7 +9,7 @@ template(name='model_doc_edit')
                         .ui.header(title="model: #{model}")
                             |edit #{model}
                         +creation_info
-                        a.ui.big.basic.icon.button(href="/m/#{model}/#{_id}/view")
+                        a.ui.big.icon.button(href="/m/#{model}/#{_id}/view")
                             i.big.checkmark.green.icon
                         #delete_doc.ui.icon.button
                             i.trash.red.icon

@@ -1,6 +1,6 @@
 template(name='nav')
     //- .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
-    .ui.attached.fluid.borderless.topnav.inverted.menu(class=global_settings.nav_color)
+    .ui.attached.fluid.borderless.topnav.invert.inverted.menu(class=global_settings.nav_color)
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
         //- a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
@@ -59,10 +59,10 @@ template(name='nav')
                 a.item(href="/login")
                     i.sign.in.alternate.large.icon
                         
-    .ui.fluid.attached.menu.secnav
+    .ui.fluid.attached.borderless.menu.secnav
         each models
-            a.item.goto_model(href="/m/#{slug}")
+            a.item.goto_model(href="/m/#{slug}" title=title)
                 //- i.icon(class=icon)
                 if color_icon
                     +i name=color_icon classes='ui avatar image'
-                |#{title}
+                span.mobile.hidden #{title}

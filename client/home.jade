@@ -20,8 +20,8 @@ template(name='home')
                 .ui.selection.animated.list
                     each thoughts
                         .item
+                            a.ui.header(href="/thought/#{_id}/view") #{body}
                             .content
-                                a.ui.header(href="/thought/#{_id}/view") #{body}
                                 .description
                                     i.thumbs.up.outline.icon
                                     i.thumbs.down.outline.icon
