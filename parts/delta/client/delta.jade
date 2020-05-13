@@ -163,7 +163,9 @@ template(name='delta')
                 .ui.big.button.create_model create model
             //- else 
                 //- .ui.header model not found
-            
+    if delta_key_value_is 'model_filter' 'reddit'
+        .ui.input   
+            input.search_reddit(type='text' placeholder='search reddit')
             
 template(name='toggle_visible_field')            
     .item.toggle_visibility
@@ -202,7 +204,7 @@ template(name='set_view_mode')
         |#{title}
 
 template(name='facet')
-    div
+    .spacer
     if filtering_res
         //- .ui.hidden.divider
         //- .ui.fluid.rounded.accordion
@@ -210,33 +212,37 @@ template(name='facet')
         if icon
             +icolor name=icon classes='ui avatar image'
             //- i.grey.icon(class=icon)
-        .ui.grey.inline.header 
+        .ui.grey.inline.pointer.header.toggle_facet
             if title
                 |#{title}
             else 
                 |#{key}
-                //- i.dropdown.icon
+            if viewing_facet
+                i.dropdown.small.icon
+            else
+                i.chevron.right.small.icon
                 //- .ui.icon.small.transparent.input
                 //-     i.search.icon
                 //-     input.add_filter(type='text')
             //- .active.content
                 //- div
-        each filtering_res
-            if name
-                .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
-                    //- with ..
-                    //- if parent_key_value_is 'field_type' 'color_icon'
-                    //-     .ui.header icon
-                    //- else 
-                    strong #{name}
-                    if is_admin
-                        small #{cal_count} #{count}
-            else
-                .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
-                    strong [null]
-                    //- small #{cal_count}
-        //- .ui.hidden.divider
-        
+        if viewing_facet
+            each filtering_res
+                if name
+                    .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
+                        //- with ..
+                        //- if parent_key_value_is 'field_type' 'color_icon'
+                        //-     .ui.header icon
+                        //- else 
+                        strong #{name}
+                        if is_admin
+                            small #{cal_count} #{count}
+                else
+                    .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
+                        strong [null]
+                        //- small #{cal_count}
+            //- .ui.hidden.divider
+            
         
 template(name='toggle_delta_config')
     if boolean_true

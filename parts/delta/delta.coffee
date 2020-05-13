@@ -87,6 +87,13 @@ if Meteor.isClient
 
 
     Template.delta.events
+        'keyup .search_reddit': (e)->
+            switch e.which
+                when 13
+                    console.log $('.search_reddit').val()
+                    Meteor.call 'search_reddit', $('.search_reddit').val()
+                    $('.search_reddit').val('')
+
         'click .toggle_sort_column': ->
             console.log @
             delta = Docs.findOne model:'delta'
@@ -314,12 +321,17 @@ if Meteor.isClient
 
 
 
+    Template.facet.onCreated ->
+        @viewing_facet = new ReactiveVar true
     Template.facet.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1500
 
     Template.facet.events
+        'click .toggle_facet': ->
+            console.log @
+            Template.instance().viewing_facet.set(!Template.instance().viewing_facet.get())
         # 'click .ui.accordion': ->
         #     $('.accordion').accordion()
 
@@ -353,6 +365,8 @@ if Meteor.isClient
 
 
     Template.facet.helpers
+        viewing_facet: ->
+            Template.instance().viewing_facet.get()
         filtering_res: ->
             delta = Docs.findOne model:'delta'
             filtering_res = []

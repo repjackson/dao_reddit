@@ -184,12 +184,12 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=100",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=10",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
-                # console.log 'found data'
-                # console.log 'data length', response.data.data.children.length
+                console.log 'found data'
+                console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
                     # console.log item
                     unless item.domain is "OneWordBan"
@@ -213,9 +213,9 @@ Meteor.methods
                             model:'reddit'
                         existing_doc = Docs.findOne url:data.url
                         if existing_doc
-                            # if Meteor.isDevelopment
-                                # console.log 'skipping existing url', data.url
-                                # console.log 'adding', query, 'to tags'
+                            if Meteor.isDevelopment
+                                console.log 'skipping existing url', data.url
+                                console.log 'adding', query, 'to tags'
                             # console.log 'type of tags', typeof(existing_doc.tags)
                             # if typeof(existing_doc.tags) is 'string'
                             #     # console.log 'unsetting tags because string', existing_doc.tags
@@ -231,7 +231,7 @@ Meteor.methods
                             new_reddit_post_id = Docs.insert reddit_post
                             if Meteor.userId()
                                 Meteor.users.update(Meteor.userId(),
-                                    {$inc: karma: 1}, -> )
+                                    {$inc: credit: .01}, -> )
                             # console.log 'calling watson on ', reddit_post.title
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                                 # console.log 'get post res', res
