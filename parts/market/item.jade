@@ -91,24 +91,3 @@ template(name='seller_card')
 template(name='set_date_filter')        
     .ui.button.set_date_filter(class=date_filter_class)
         |#{label}
-
-
-template(name='item_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .six.wide.column 
-                    .ui.header 
-                        i.pencil.icon
-                        | edit '#{title}'
-                    a.ui.big.icon.fluid.button(href="/item/#{_id}/view" title='save')
-                        i.checkmark.green.icon
-                    +remove_button
-                .ten.wide.column
-                    +text_edit key='title' label='title' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location_tags' icon='marker' direct=true
-                    +array_edit key='transaction_type' label='transaction type' icon='cart' direct=true
-                    +textarea_edit key='description' label='description' icon='list' direct=true
-                    +image_edit key='image_id' label='image' direct=true
-                    +number_edit key='price' label='price' direct=true

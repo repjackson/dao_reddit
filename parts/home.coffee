@@ -129,53 +129,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'section_search', Session.get('current_global_query')
         @autorun => Meteor.subscribe 'model_docs', 'section'
 
-    Template.nav.helpers
-        current_query: ->
-            search = Session.get('current_global_query')
-        results: ->
-            search = Session.get('current_global_query')
-            found_sections =
-                Docs.find(
-                    model:'section'
-                    title:{$regex:"#{search}", $options: 'i'}
-                ).fetch()
-
-
-    Template.nav.events
-        # 'keyup .global_search': _.throttle((e,t)->
-        'keyup .global_search': (e,t)->
-            # query = $('#search').val()
-            search = $('.global_search').val().toLowerCase()
-            Session.set('current_global_query', search)
-            # console.log Session.get('current_global_query')
-            found_sections =
-                Docs.find(
-                    model:'section'
-                    title:{$regex:"#{search}", $options: 'i'}
-                ).fetch()
-            if search.length > 2 and found_sections.length is 1
-                # console.log found_sections[0]
-                # selection = found_sections[0]
-                $('.global_search').val('')
-                $('.global_search').blur()
-                Session.set('current_global_query', null)
-                Router.go "/#{found_sections[0].link}"
-        		# $('.ui.basic.modal').modal('toggle')
-        # , 500)
-
-            # console.log found_sections.fetch()
-            # if e.which is 13
-            #     if search.length > 0
-            #         selected_tags.push search
-            #         console.log 'search', search
-            #         # Meteor.call 'log_term', search, ->
-            #         $('#search').val('')
-            #         Session.set('current_query', null)
-            #         # # $('#search').val('').blur()
-            #         # # $( "p" ).blur();
-            #         # Meteor.setTimeout ->
-            #         #     Session.set('dummy', !Session.get('dummy'))
-            #         # , 10000
 
 
 

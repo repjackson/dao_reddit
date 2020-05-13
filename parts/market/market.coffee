@@ -1,94 +1,94 @@
 if Meteor.isClient
-    Router.route '/market', (->
-        @render 'items'
-        ), name:'items'
-
-
-    Template.items.onCreated ->
-        Session.setDefault 'layout_mode','list'
-        Session.setDefault 'sort_key','_timestamp'
-        Session.setDefault 'sort_direction', -1
-        Session.setDefault 'limit',10
-        @autorun -> Meteor.subscribe('docs',
-            selected_tags.array()
-            selected_authors.array()
-            Session.get('view_mode')
-            Session.get('current_query')
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            )
-
-    Template.items.helpers
-        docs: ->
-            Docs.find {
-                model:'item'
-            },
-                limit:Session.get('limit')
-                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
-
-        current_limit: -> Session.get('limit')
-        current_query: -> Session.get('current_query')
-        current_sort_key: -> Session.get('sort_key')
-        sorting_up: -> Session.equals('sort_direction',-1)
-        sortable_fields: ->
-            [
-                {
-                    title:'when'
-                    key:'_timestamp'
-                }
-                {
-                    title:'price'
-                    key:'price'
-                }
-            ]
-
-
-
-    Template.items.events
-        'click #add': ->
-            new_id =
-                Docs.insert
-                    model:'item'
-            Router.go "/item/#{new_id}/edit"
-
-
-        'click .set_sort_key': ->
-            # console.log @
-            Session.set('sort_key',@key)
-
-        'click .set_sort_direction': (e,t)->
-            # console.log @
-            # $(e.currentTarget).closest('.button').transition('pulse', 250)
-
-            if Session.get('sort_direction') is -1
-                Session.set('sort_direction',1)
-            else
-                Session.set('sort_direction',-1)
-
-
-        'click  .clear_query': (e,t)->
-            Session.set('current_query', null)
-        'keyup #search': _.throttle((e,t)->
-            # query = $('#search').val()
-            search = $('#search').val().toLowerCase()
-            Session.set('current_query', search)
-            # console.log Session.get('current_query')
-            if e.which is 13
-                if search.length > 0
-                    selected_tags.push search
-                    console.log 'search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('#search').val('')
-                    Session.set('current_query', null)
-                    # # $('#search').val('').blur()
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 1000)
-
-
+    # Router.route '/market', (->
+    #     @render 'items'
+    #     ), name:'items'
+    #
+    #
+    # Template.items.onCreated ->
+    #     Session.setDefault 'layout_mode','list'
+    #     Session.setDefault 'sort_key','_timestamp'
+    #     Session.setDefault 'sort_direction', -1
+    #     Session.setDefault 'limit',10
+    #     @autorun -> Meteor.subscribe('docs',
+    #         selected_tags.array()
+    #         selected_authors.array()
+    #         Session.get('view_mode')
+    #         Session.get('current_query')
+    #         Session.get('limit')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         )
+    #
+    # Template.items.helpers
+    #     docs: ->
+    #         Docs.find {
+    #             model:'item'
+    #         },
+    #             limit:Session.get('limit')
+    #             sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+    #
+    #     current_limit: -> Session.get('limit')
+    #     current_query: -> Session.get('current_query')
+    #     current_sort_key: -> Session.get('sort_key')
+    #     sorting_up: -> Session.equals('sort_direction',-1)
+    #     sortable_fields: ->
+    #         [
+    #             {
+    #                 title:'when'
+    #                 key:'_timestamp'
+    #             }
+    #             {
+    #                 title:'price'
+    #                 key:'price'
+    #             }
+    #         ]
+    #
+    #
+    #
+    # Template.items.events
+    #     'click #add': ->
+    #         new_id =
+    #             Docs.insert
+    #                 model:'item'
+    #         Router.go "/item/#{new_id}/edit"
+    #
+    #
+    #     'click .set_sort_key': ->
+    #         # console.log @
+    #         Session.set('sort_key',@key)
+    #
+    #     'click .set_sort_direction': (e,t)->
+    #         # console.log @
+    #         # $(e.currentTarget).closest('.button').transition('pulse', 250)
+    #
+    #         if Session.get('sort_direction') is -1
+    #             Session.set('sort_direction',1)
+    #         else
+    #             Session.set('sort_direction',-1)
+    #
+    #
+    #     'click  .clear_query': (e,t)->
+    #         Session.set('current_query', null)
+    #     'keyup #search': _.throttle((e,t)->
+    #         # query = $('#search').val()
+    #         search = $('#search').val().toLowerCase()
+    #         Session.set('current_query', search)
+    #         # console.log Session.get('current_query')
+    #         if e.which is 13
+    #             if search.length > 0
+    #                 selected_tags.push search
+    #                 console.log 'search', search
+    #                 # Meteor.call 'log_term', search, ->
+    #                 $('#search').val('')
+    #                 Session.set('current_query', null)
+    #                 # # $('#search').val('').blur()
+    #                 # # $( "p" ).blur();
+    #                 # Meteor.setTimeout ->
+    #                 #     Session.set('dummy', !Session.get('dummy'))
+    #                 # , 10000
+    #     , 1000)
+    #
+    #
 
 
     Template.item_item.helpers

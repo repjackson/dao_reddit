@@ -1,10 +1,14 @@
 template(name='delta')
     .ui.stackable.grid
         with current_model
+        
             .row
-                .five.wide.column
+                .six.wide.column
                     a.ui.icon.button.go_home(href='/m/model' class="{{active_path '/m/model'}}" title='models')
                         i.large.yin.yang.icon
+                    if delta_key_value_is 'model_filter' 'reddit'
+                        .ui.input   
+                        input.search_reddit(type='text' placeholder='search reddit')
                     if is_loading
                         .ui.inline.header.pulsing
                             //- i.yin.yang.loading.large.icon
@@ -31,7 +35,7 @@ template(name='delta')
                                     i.remove.icon
                                 .ui.icon.button.print_delta(title='print delta')
                                     i.code.icon
-                                i.refresh.link.reset.icon(title='reload session')
+                                i.refresh.link.reset.circular.icon(title='reload session')
                             if is_dev
                                 i.code.link.icon.print_delta(title='print session doc')
                                 i.trash.delete_delta.link.icon(title='delete session')
@@ -49,7 +53,7 @@ template(name='delta')
                     div
                     each sorted_facets
                         +facet
-                .eleven.wide.column
+                .ten.wide.column
                     |&nbsp;
                     .ui.icon.large.input(class=query_class)
                         if current_delta.search_query
@@ -163,9 +167,6 @@ template(name='delta')
                 .ui.big.button.create_model create model
             //- else 
                 //- .ui.header model not found
-    if delta_key_value_is 'model_filter' 'reddit'
-        .ui.input   
-            input.search_reddit(type='text' placeholder='search reddit')
             
 template(name='toggle_visible_field')            
     .item.toggle_visibility
