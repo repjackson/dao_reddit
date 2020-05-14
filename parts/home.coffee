@@ -17,8 +17,19 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'global_settings'
         @autorun => Meteor.subscribe 'model_docs', 'omega'
         @autorun => Meteor.subscribe 'model_docs', 'thought'
+        @autorun => Meteor.subscribe 'model_docs', 'model'
 
     Template.home.helpers
+        models: ->
+            search = Session.get('current_global_query')
+            match = {}
+            if search.length > 0
+                match.title = {$regex:"#{search}", $options: 'i'}
+            match.model = 'model'
+            unless Meteor.user().admin
+                match.published = true
+            Docs.find match
+
         thoughts: ->
             Docs.find {
                 model:'thought'

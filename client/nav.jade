@@ -15,7 +15,7 @@ template(name='nav')
         //- a.ui.icon.item.mobile.hidden(href='/search' class="{{active_path '/search'}}" title='models')
         //-     i.large.search.icon
             //- .mobile.hidden search
-        .ui.icon.transparent.large.input.item.mobile.hidden
+        .ui.transparent.large.inverted.input.item.mobile.hidden
             i.search.grey.icon
             input.global_search(type='text' autocomplete="off" value=current_query)
         .ui.item.notifications
@@ -59,10 +59,11 @@ template(name='nav')
                 a.item(href="/login")
                     i.sign.in.alternate.large.icon
                         
-    .ui.fluid.attached.borderless.menu.secnav
-        each models
-            a.item.goto_model(href="/m/#{slug}" title=title)
-                //- i.icon(class=icon)
-                if color_icon
-                    +i name=color_icon classes='ui avatar image'
-                span.mobile.hidden #{title}
+    //- if is_admin
+    //-     .ui.fluid.attached.borderless.menu.secnav
+    //-         each models
+    //-             a.item.goto_model(href="/m/#{slug}" title=title)
+    //-                 //- i.icon(class=icon)
+    //-                 if color_icon
+    //-                     +i name=color_icon classes='ui avatar image'
+    //-                 span.mobile.hidden #{title}

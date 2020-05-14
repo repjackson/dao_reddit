@@ -7,10 +7,11 @@ template(name='home')
                     input.fin(type='text')
                 |result: #{omega.result}
                 |type: #{omega.typeof}
-                .ui.selection.animated.huge.list
-                    each sections
-                        a.item(href=link) 
-                            i.icon(class=icon)
+                .ui.selection.animated.list
+                    each models
+                        a.item(href="/m/#{slug}") 
+                            if color_icon
+                                +i name=color_icon classes='ui avatar image'
                             |#{title}
                 
             .four.wide.column
@@ -29,7 +30,7 @@ template(name='home')
                                     i.remove.link.grey.icon
             .four.wide.column
                 .ui.secondary.segment
-                    a.ui.grey.header(href="/market") 
+                    a.ui.grey.header(href="/m/item") 
                         i.shop.icon
                         |market
                     each latest_items

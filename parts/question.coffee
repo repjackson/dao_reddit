@@ -29,6 +29,9 @@ if Meteor.isClient
                 question_id:Router.current().params.doc_id
                 choice_text:@text
                 choice_id:@_id
+            question = Docs.findOne Router.current().params.doc_id
+            Meteor.users.update Meteor.userId(),
+                $inc:credit:question.bounty
         'click .refresh_question_stats': ->
             Meteor.call 'calc_question_stats', Router.current().params.doc_id
 

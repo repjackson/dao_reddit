@@ -50,7 +50,7 @@ template(name='model_doc_view')
                                     +Template.dynamic template=view_template 
                         each current_model.actions
                             +Template.dynamic template=this data=current_doc
-                        //- +comments
+                        +comments
                         //- div
-                        //- if watson
-                        //-     +watson_view
+                        if watson
+                            +watson_view
