@@ -37,6 +37,7 @@ template(name='question_view')
                 .eight.wide.column
                     h2
                         .ui.center.aligned.inline.header #{question}
+                        .ui.inline.green.header #{bounty}c
                     div
                     if your_answer
                         .ui.header your answer
@@ -50,7 +51,8 @@ template(name='question_view')
                                 i.user.outline.icon
                                 |#{_author_username}
                                 if can_edit
-                                    +remove_button
+                                    .ui.circular.small.compact.icon.button.remove_answer
+                                        i.remove.icon
                                 if is_admin
                                     +print_this
                                 

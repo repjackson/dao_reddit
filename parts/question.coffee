@@ -32,8 +32,16 @@ if Meteor.isClient
             question = Docs.findOne Router.current().params.doc_id
             Meteor.users.update Meteor.userId(),
                 $inc:credit:question.bounty
+        'click .remove_answer': ->
+            question = Docs.findOne Router.current().params.doc_id
+            if confirm "remove answer? this will return #{question.bounty} from your account"
+                Docs.remove @_id
+                Meteor.users.update Meteor.userId(),
+                    $inc:credit:-question.bounty
         'click .refresh_question_stats': ->
             Meteor.call 'calc_question_stats', Router.current().params.doc_id
+
+
 
 
     Template.question_edit.helpers

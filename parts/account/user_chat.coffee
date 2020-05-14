@@ -18,6 +18,8 @@ if Meteor.isClient
                     to_user_id:user._id
                     model:'chat'
                     body:chat
+                Meteor.users.update Meteor.userId(),
+                    $inc:credit:-.01
                 t.$('.new_chat').val('')
 
 

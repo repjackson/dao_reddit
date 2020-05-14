@@ -3,6 +3,8 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.invert.inverted.menu(class=global_settings.nav_color)
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
+        a.ui.icon.item(href='/m/question' class="{{active_path '/m/question'}}" title='questions')
+            i.large.question.icon
         //- a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
         //-     i.large.cart.icon
         //-     .mobile.hidden market
@@ -34,19 +36,19 @@ template(name='nav')
             if is_admin
                 a.icon.item(href="/admin") 
                     i.shield.large.icon
-            a.icon.item.mobile.hidden(href="/help") 
-                i.question.large.icon
+            //- a.icon.item.mobile.hidden(href="/help") 
+            //-     i.question.large.icon
             if currentUser
-                a.icon.item(href="/chat") 
-                    i.chat.outline.large.icon
+                //- a.icon.item(href="/chat") 
+                //-     i.chat.outline.large.icon
                 //- a.icon.item(href="/alerts")
                 //-     if unread_alerts
                 //-         i.bell.large.icon
                 //-     else
                 //-         i.bell.outline.large.icon
                 //-     |#{currentUser.alerts}
-                a.icon.item(href="/tasks")
-                    i.tasks.large.icon
+                //- a.icon.item(href="/tasks")
+                //-     i.tasks.large.icon
                 a.item(href="/user/#{currentUser.username}/credit")
                     h4 ${{fixed currentUser.credit}}
                 a.item(href="/user/#{currentUser.username}") 
