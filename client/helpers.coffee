@@ -23,7 +23,7 @@ Template.registerHelper 'delta_key_value_is', (key, value) ->
 
 Template.registerHelper 'fixed', (input) ->
     if input
-        input.toFixed(2)
+        input.toFixed()
 
 
 Template.registerHelper 'field_value', () ->

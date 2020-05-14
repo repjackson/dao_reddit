@@ -30,16 +30,16 @@ head
 template(name='layout')
     +nav
     #main_area
-        if view_chat
-            .ui.grid
-                .twelve.wide.column
-                    +yield
-                .four.wide.column
-                    +chat_sidepanel
-        else
-            .ui.grid
-                .sixteen.wide.column
-                    +yield
+        //- if view_chat
+        //-     .ui.grid
+        //-         .twelve.wide.column
+        //-             +yield
+        //-         .four.wide.column
+        //-             +chat_sidepanel
+        //- else
+        .ui.stackable.grid
+            .sixteen.wide.column
+                +yield
     if is_admin
         +admin_footer
     //- .ui.basic.modal
@@ -63,13 +63,13 @@ template(name='not_found')
 
 
 
-template(name='chat_sidepanel')
-    .ui.fluid.inverted.segment
-        .ui.center.aligned.header
-            i.chat.outline.icon
-            //- |quick chat
-        .ui.fluid.small.transparent.input.new_chat_message
-            input(type='text' placeholder='new chat')
+//- template(name='chat_sidepanel')
+//-     .ui.fluid.inverted.segment
+//-         .ui.center.aligned.header
+//-             i.chat.outline.icon
+//-             //- |quick chat
+//-         .ui.fluid.small.transparent.input.new_chat_message
+//-             input(type='text' placeholder='new chat')
 
 
 

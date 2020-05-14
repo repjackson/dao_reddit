@@ -14,20 +14,20 @@ template(name='home')
                 //-                 +i name=color_icon classes='ui avatar image'
                 //-             |#{title}
                 
-            .four.wide.column
-                .ui.large.fluid.right.icon.input
-                    i.plus.icon
-                    input.add_thought(type='text' placeholder='add thought')
-                .ui.selection.animated.list
-                    each thoughts
-                        .item
-                            a.ui.header(href="/thought/#{_id}/view") #{body}
-                            .content
-                                .description
-                                    i.thumbs.up.outline.icon
-                                    i.thumbs.down.outline.icon
-                                    |#{when}
-                                    i.remove.link.grey.icon
+            //- .four.wide.column
+            //-     .ui.large.fluid.right.icon.input
+            //-         i.plus.icon
+            //-         input.add_thought(type='text' placeholder='add thought')
+            //-     .ui.selection.animated.list
+            //-         each thoughts
+            //-             .item
+            //-                 a.ui.header(href="/thought/#{_id}/view") #{body}
+            //-                 .content
+            //-                     .description
+            //-                         i.thumbs.up.outline.icon
+            //-                         i.thumbs.down.outline.icon
+            //-                         |#{when}
+            //-                         i.remove.link.grey.icon
             .four.wide.column
                 .ui.secondary.segment
                     a.ui.grey.header(href="/m/item") 
