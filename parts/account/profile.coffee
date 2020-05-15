@@ -15,10 +15,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_sales'
         ), name:'user_sales'
-    Router.route '/user/:username/badges', (->
-        @layout 'profile_layout'
-        @render 'user_badges'
-        ), name:'user_badges'
     Router.route '/user/:username/friends', (->
         @layout 'profile_layout'
         @render 'user_friends'

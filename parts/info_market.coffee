@@ -5,18 +5,18 @@ if Meteor.isClient
 
 
     Template.market.onCreated ->
-        Session.setDefault 'layout_mode','list'
-        Session.setDefault 'sort_key','_timestamp'
-        Session.setDefault 'sort_direction', -1
-        Session.setDefault 'limit',10
+        # Session.setDefault 'layout_mode','list'
+        # Session.setDefault 'sort_key','_timestamp'
+        # Session.setDefault 'sort_direction', -1
+        # Session.setDefault 'limit',10
         @autorun -> Meteor.subscribe('docs',
             selected_tags.array()
-            selected_authors.array()
-            Session.get('view_mode')
-            Session.get('current_query')
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
+            # selected_authors.array()
+            # Session.get('view_mode')
+            # Session.get('current_query')
+            # Session.get('limit')
+            # Session.get('sort_key')
+            # Session.get('sort_direction')
             )
 
     Template.market.helpers
@@ -27,21 +27,21 @@ if Meteor.isClient
                 limit:Session.get('limit')
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
 
-        current_limit: -> Session.get('limit')
-        current_query: -> Session.get('current_query')
-        current_sort_key: -> Session.get('sort_key')
-        sorting_up: -> Session.equals('sort_direction',-1)
-        sortable_fields: ->
-            [
-                {
-                    title:'when'
-                    key:'_timestamp'
-                }
-                {
-                    title:'price'
-                    key:'price'
-                }
-            ]
+        # current_limit: -> Session.get('limit')
+        # current_query: -> Session.get('current_query')
+        # current_sort_key: -> Session.get('sort_key')
+        # sorting_up: -> Session.equals('sort_direction',-1)
+        # sortable_fields: ->
+        #     [
+        #         {
+        #             title:'when'
+        #             key:'_timestamp'
+        #         }
+        #         {
+        #             title:'price'
+        #             key:'price'
+        #         }
+        #     ]
 
 
 
@@ -53,40 +53,40 @@ if Meteor.isClient
             Router.go "/question/#{new_id}/edit"
 
 
-        'click .set_sort_key': ->
-            # console.log @
-            Session.set('sort_key',@key)
+        # 'click .set_sort_key': ->
+        #     # console.log @
+        #     Session.set('sort_key',@key)
 
-        'click .set_sort_direction': (e,t)->
-            # console.log @
-            # $(e.currentTarget).closest('.button').transition('pulse', 250)
-
-            if Session.get('sort_direction') is -1
-                Session.set('sort_direction',1)
-            else
-                Session.set('sort_direction',-1)
-
-
-        'click  .clear_query': (e,t)->
-            Session.set('current_query', null)
-        'keyup #search': _.throttle((e,t)->
-            # query = $('#search').val()
-            search = $('#search').val().toLowerCase()
-            Session.set('current_query', search)
-            # console.log Session.get('current_query')
-            if e.which is 13
-                if search.length > 0
-                    selected_tags.push search
-                    console.log 'search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('#search').val('')
-                    Session.set('current_query', null)
-                    # # $('#search').val('').blur()
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 1000)
+        # 'click .set_sort_direction': (e,t)->
+        #     # console.log @
+        #     # $(e.currentTarget).closest('.button').transition('pulse', 250)
+        #
+        #     if Session.get('sort_direction') is -1
+        #         Session.set('sort_direction',1)
+        #     else
+        #         Session.set('sort_direction',-1)
+        #
+        #
+        # 'click  .clear_query': (e,t)->
+        #     Session.set('current_query', null)
+        # 'keyup #search': _.throttle((e,t)->
+        #     # query = $('#search').val()
+        #     search = $('#search').val().toLowerCase()
+        #     Session.set('current_query', search)
+        #     # console.log Session.get('current_query')
+        #     if e.which is 13
+        #         if search.length > 0
+        #             selected_tags.push search
+        #             console.log 'search', search
+        #             # Meteor.call 'log_term', search, ->
+        #             $('#search').val('')
+        #             Session.set('current_query', null)
+        #             # # $('#search').val('').blur()
+        #             # # $( "p" ).blur();
+        #             # Meteor.setTimeout ->
+        #             #     Session.set('dummy', !Session.get('dummy'))
+        #             # , 10000
+        # , 1000)
 
 
 
@@ -132,38 +132,14 @@ if Meteor.isClient
 
 
 
-    Template.question_card.helpers
-        can_buy: ->
-            Meteor.userId() isnt @_author_id
-
-        has_enough: ->
-            Meteor.user().credit > @price
-
-    Template.question_card.events
-        'click .buy': ->
-            if Meteor.userId()
-                if confirm "confirm purchase of #{@price}"
-                    Meteor.call 'purchase', @, ->
-            else
-                Router.go "/login"
-
-        'click .cancel': ->
-            if confirm "confirm cancel of #{@price}"
-                Meteor.call 'cancel', @, ->
-
-
-
-
-
-
     @selected_tags = new ReactiveArray []
 
     Template.cloud.onCreated ->
         @autorun -> Meteor.subscribe('tags',
             selected_tags.array()
-            selected_authors.array()
-            Session.get('view_mode')
-            Session.get('current_query')
+            # selected_authors.array()
+            # Session.get('view_mode')
+            # Session.get('current_query')
         )
         Session.setDefault('view_mode', 'market')
 
@@ -271,48 +247,48 @@ if Meteor.isServer
 
     Meteor.publish 'docs', (
         selected_tags
-        selected_authors
-        view_mode
-        current_query=''
-        doc_limit=10
-        doc_sort_key='_timestamp'
-        doc_sort_direction=1
+        # selected_authors
+        # view_mode
+        # current_query=''
+        # doc_limit=10
+        # doc_sort_key='_timestamp'
+        # doc_sort_direction=1
         )->
         match = {model:'question'}
-        if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
-        if view_mode is 'market'
-            match.bought = $ne:true
-            match._author_id = $ne: Meteor.userId()
-        if view_mode is 'bought'
-            match.bought = true
-            match.buyer_id = Meteor.userId()
-        if view_mode is 'selling'
-            match.bought = $ne:true
-            match._author_id = Meteor.userId()
-        if view_mode is 'sold'
-            match.bought = true
-            match._author_id = Meteor.userId()
+        # if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
+        # if view_mode is 'market'
+        #     match.bought = $ne:true
+        #     match._author_id = $ne: Meteor.userId()
+        # if view_mode is 'bought'
+        #     match.bought = true
+        #     match.buyer_id = Meteor.userId()
+        # if view_mode is 'selling'
+        #     match.bought = $ne:true
+        #     match._author_id = Meteor.userId()
+        # if view_mode is 'sold'
+        #     match.bought = true
+        #     match._author_id = Meteor.userId()
         # console.log selected_tags
         console.log match
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 10
-        if doc_sort_key
-            sort = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
-            console.log sort_direction
+        # if doc_limit
+        #     limit = doc_limit
+        # else
+        #     limit = 10
+        # if doc_sort_key
+        #     sort = doc_sort_key
+        # if doc_sort_direction
+        #     sort_direction = parseInt(doc_sort_direction)
+        #     console.log sort_direction
         self = @
         if selected_tags.length > 0
             match.tags = $all: selected_tags
-            sort = 'ups'
+            # sort = 'ups'
             # match.source = $ne:'wikipedia'
 
-        if selected_authors.length > 0
-            match._author_username = $all: selected_authors
+        # if selected_authors.length > 0
+        #     match._author_username = $all: selected_authors
 
         Docs.find match,
-            sort:"#{sort}":sort_direction
-            # sort:_timestamp:-1
-            limit: limit
+            # sort:"#{sort}":sort_direction
+            sort:_timestamp:-1
+            limit: 10

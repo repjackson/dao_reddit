@@ -3,14 +3,14 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.invert.inverted.menu(class=global_settings.nav_color)
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
-        a.ui.icon.item(href='/m/question' class="{{active_path '/m/question'}}" title='questions')
-            i.large.question.icon
+        //- a.ui.icon.item(href='/m/question' class="{{active_path '/m/question'}}" title='questions')
+        //-     i.large.question.icon
         .right.menu
-            a.icon.item(href="/m/model") 
-                i.code.large.icon
-            if is_admin
-                a.icon.item(href="/admin") 
-                    i.shield.large.icon
+            //- a.icon.item(href="/m/model") 
+            //-     i.code.large.icon
+            //- if is_admin
+            //-     a.icon.item(href="/admin") 
+            //-         i.shield.large.icon
             if currentUser
                 a.item(href="/user/#{currentUser.username}/credit")
                     h4 {{fixed currentUser.credit}}c

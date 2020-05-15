@@ -34,21 +34,3 @@ if Meteor.isClient
                     assigned_username:current_user.username
 
                 t.$('.assign_task').val('')
-
-
-
-
-
-
-    Template.user_badges.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'badge'
-    Template.user_badges.helpers
-        friends: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Meteor.users.find(
-                _id:$in: current_user.friend_ids
-            ).fetch()
-        user_badges: ->
-            Docs.find
-                model:'badge'
-                purchase_user_ids: $in:[Meteor.userId()]

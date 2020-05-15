@@ -17,15 +17,15 @@ template(name='profile_layout')
                             //- small @#{user.username}        
                     a.ui.center.aligned.inline.header(href="/user/#{user.username}/credit" title='credit')
                         |${{fixed user.credit}}
-                    if checkedin
-                        .ui.animated.large.green.fade.button.checkout
-                            .hidden.content
-                                |checkout?
-                            .visible.content
-                                |checked in
-                    else 
-                        .ui.large.button.checkin
-                            |checkin
+                    //- if checkedin
+                    //-     .ui.animated.large.green.fade.button.checkout
+                    //-         .hidden.content
+                    //-             |checkout?
+                    //-         .visible.content
+                    //-             |checked in
+                    //- else 
+                    //-     .ui.large.button.checkin
+                    //-         |checkin
                     .ui.header
                         i.phone.small.grey.icon
                         | #{phone}
@@ -71,10 +71,10 @@ template(name='profile_layout')
                         i.large.checkmark.icon
                         //- +i name='invoice' classes='ui avatar image'
                         |sales
-                    a.ui.dashboard.button(href="/user/#{username}/badges" class="{{isActiveRoute regex='user_badges'}}")
-                        i.large.certificate.icon
-                        //- +i name='certificate' classes='ui avatar image'
-                        |badges
+                    //- a.ui.dashboard.button(href="/user/#{username}/badges" class="{{isActiveRoute regex='user_badges'}}")
+                    //-     i.large.certificate.icon
+                    //-     //- +i name='certificate' classes='ui avatar image'
+                    //-     |badges
                     a.ui.dashboard.button(href="/user/#{username}/purchases" class="{{isActiveRoute regex='user_purchases'}}")
                         //- +i name='shopping-cart' classes='ui avatar image'
                         i.large.cart.icon

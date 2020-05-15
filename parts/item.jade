@@ -71,6 +71,41 @@ template(name='item_view')
                     with _author_id
                         +seller_card
                     
+            
+            
+template(name='item_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .five.wide.column
+                    //- a.ui.fluid.button(href='/' title='items')
+                    //-     i.left.chevron.large.icon
+                    a(href="{{c.url image_id }}" target='_window')
+                        img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    //- with _author_id
+                    //-     +user_card
+                    a.ui.large.button(href="/item/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                        |save
+                    
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    if bounty
+                        i.green.money.icon
+                    +text_edit key='title' label='title' direct=true
+                    +array_edit key='tags' label='tags' direct=true
+                    +boolean_edit key='bounty' label='bounty' direct=true
+            
+            
+            
+            
+            
+            
+            
                     
 template(name='seller_card')
     .ui.header seller
