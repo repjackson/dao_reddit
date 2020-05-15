@@ -5,50 +5,13 @@ template(name='nav')
             i.large.yin.yang.icon
         a.ui.icon.item(href='/m/question' class="{{active_path '/m/question'}}" title='questions')
             i.large.question.icon
-        //- a.ui.item(href='/market' class="{{active_path '/market'}}" title='market')
-        //-     i.large.cart.icon
-        //-     .mobile.hidden market
-        //- a.ui.item(href='/posts' class="{{active_path '/posts'}}" title='posts')
-        //-     i.large.blog.icon
-        //-     .mobile.hidden posts
-        //- a.ui.item(href='/users' class="{{active_path '/users'}}" title='models')
-        //-     i.large.users.icon
-        //-     .mobile.hidden users
-        //- a.ui.icon.item.mobile.hidden(href='/search' class="{{active_path '/search'}}" title='models')
-        //-     i.large.search.icon
-            //- .mobile.hidden search
-        .ui.transparent.large.inverted.input.item.mobile.hidden
-            i.search.grey.icon
-            input.global_search(type='text' autocomplete="off" value=current_query)
-        .ui.item.notifications
-            i.rss.icon
         .right.menu
-            //- a.icon.item.toggle_chat(href='#') 
-            //-     if view_chat
-            //-         i.chat.large.icon
-            //-     else
-            //-         i.chat.large.outline.icon
-            //- if currentUser.prime
-            //-     a.icon.item(href="/prime") 
-            //-         i.shield.icon
             a.icon.item(href="/m/model") 
                 i.code.large.icon
             if is_admin
                 a.icon.item(href="/admin") 
                     i.shield.large.icon
-            //- a.icon.item.mobile.hidden(href="/help") 
-            //-     i.question.large.icon
             if currentUser
-                //- a.icon.item(href="/chat") 
-                //-     i.chat.outline.large.icon
-                //- a.icon.item(href="/alerts")
-                //-     if unread_alerts
-                //-         i.bell.large.icon
-                //-     else
-                //-         i.bell.outline.large.icon
-                //-     |#{currentUser.alerts}
-                //- a.icon.item(href="/tasks")
-                //-     i.tasks.large.icon
                 a.item(href="/user/#{currentUser.username}/credit")
                     h4 {{fixed currentUser.credit}}c
                 a.item(href="/user/#{currentUser.username}") 
@@ -60,12 +23,3 @@ template(name='nav')
             else 
                 a.item(href="/login")
                     i.sign.in.alternate.large.icon
-                        
-    //- if is_admin
-    //-     .ui.fluid.attached.borderless.menu.secnav
-    //-         each models
-    //-             a.item.goto_model(href="/m/#{slug}" title=title)
-    //-                 //- i.icon(class=icon)
-    //-                 if color_icon
-    //-                     +i name=color_icon classes='ui avatar image'
-    //-                 span.mobile.hidden #{title}

@@ -22,7 +22,7 @@ if Meteor.isClient
     Template.market.helpers
         docs: ->
             Docs.find {
-                model:'item'
+                model:'question'
             },
                 limit:Session.get('limit')
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
@@ -49,8 +49,8 @@ if Meteor.isClient
         'click #add': ->
             new_id =
                 Docs.insert
-                    model:'item'
-            Router.go "/item/#{new_id}/edit"
+                    model:'question'
+            Router.go "/question/#{new_id}/edit"
 
 
         'click .set_sort_key': ->
@@ -91,14 +91,14 @@ if Meteor.isClient
 
 
 
-    Template.item_item.helpers
+    Template.question_item.helpers
         can_buy: ->
             Meteor.userId() isnt @_author_id
 
         has_enough: ->
             Meteor.user().credit > @price
 
-    Template.item_item.events
+    Template.question_item.events
         'click .buy': ->
             if Meteor.userId()
                 Swal.fire({
@@ -132,14 +132,14 @@ if Meteor.isClient
 
 
 
-    Template.item_card.helpers
+    Template.question_card.helpers
         can_buy: ->
             Meteor.userId() isnt @_author_id
 
         has_enough: ->
             Meteor.user().credit > @price
 
-    Template.item_card.events
+    Template.question_card.events
         'click .buy': ->
             if Meteor.userId()
                 if confirm "confirm purchase of #{@price}"
@@ -208,7 +208,7 @@ if Meteor.isServer
         if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
 
 
-        match.model = 'item'
+        match.model = 'question'
         if view_mode is 'market'
             match.bought = $ne:true
             match._author_id = $ne: Meteor.userId()
@@ -278,7 +278,7 @@ if Meteor.isServer
         doc_sort_key='_timestamp'
         doc_sort_direction=1
         )->
-        match = {model:'item'}
+        match = {model:'question'}
         if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
         if view_mode is 'market'
             match.bought = $ne:true

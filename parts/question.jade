@@ -20,8 +20,8 @@ template(name='question_view')
             //-     .sixteen.wide.column
             //-         +question_calendar
             .row
-                .four.wide.column
-                    a.ui.fluid.button(href='/questions' title='questions')
+                .five.wide.column
+                    a.ui.fluid.button(href='/' title='questions')
                         i.left.chevron.large.icon
                     .ui.header added by #{_author_username}
                     |#{when}
@@ -34,7 +34,7 @@ template(name='question_view')
                         .ui.large.label #{this}                    
                     with _author_id
                         +user_card
-                .eight.wide.column
+                .six.wide.column
                     h2
                         .ui.center.aligned.inline.header #{question}
                         .ui.inline.green.header #{bounty}c
@@ -56,7 +56,7 @@ template(name='question_view')
                                 if is_admin
                                     +print_this
                                 
-                .four.wide.column
+                .five.wide.column
                     .ui.icon.button.refresh_question_stats
                         i.refresh.icon
                     if your_answer
@@ -64,9 +64,10 @@ template(name='question_view')
                             each choices
                                 .item #{text} #{choice_answer_count}
                     else
-                        .ui.selection.animated.big.list
-                            each choices
-                                .item.choose_choice #{text}
+                        each choices
+                            div
+                            .ui.big.button.choose_choice #{text}
+                            div
                     if can_edit
                         a.ui.large.button(href="/question/#{_id}/edit" title='edit')
                             i.pencil.blue.icon

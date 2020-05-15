@@ -1,186 +1,186 @@
-template(name='market')
-    .ui.padded.stackable.grid
-        .four.wide.column
-            if currentUser
-                a#add.ui.icon.button(title='add market item')
-                    i.plus.large.green.icon
-
-                +session_edit_value_button key='view_mode' value='market' label='market' icon='shop'
-                +session_edit_value_button key='view_mode' value='bought' label='bought' icon='money'
-                +session_edit_value_button key='view_mode' value='selling' label='selling' icon='clock'
-                +session_edit_value_button key='view_mode' value='sold' label='sold' icon='checkmark'
-            +cloud
-        .twelve.wide.column
-            .ui.icon.input
-                if current_query
-                    i.remove.link.icon.clear_query
-                else        
-                    i.search.icon
-                input#search(type='text' autocomplete="off" value=current_query)
-            .ui.compact.small.menu(title='sort by')
-                .ui.simple.dropdown.item
-                    strong #{current_sort_key}
-                    i.dropdown.icon
-                    .menu
-                        each sortable_fields
-                            .item.set_sort_key 
-                                |#{title}
-            .ui.compact.icon.button.set_sort_direction(title='sort direction')
-                if sorting_up
-                    i.sort.amount.down.icon
-                else
-                    i.sort.amount.up.icon
-            .ui.simple.dropdown(title='result limit')
-                .text.large #{current_limit}
-                i.dropdown.icon
-                .menu
-                    +set_limit amount=1
-                    +set_limit amount=5
-                    +set_limit amount=10
-                    +set_limit amount=20
-                    +set_limit amount=50
-            |&nbsp;
-            |&nbsp;
-            |&nbsp;
-
-
-            span.mobile.hidden
-                +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
-                +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
-                //- .spacer
-            if session_key_value_is 'layout_mode' 'grid'
-                .ui.stackable.four.cards
-                    each docs
-                        +item_card
-            if session_key_value_is 'layout_mode' 'list'
-                .scrolling
-                    .ui.basic.segments
-                        each docs
-                            +item_item
-                            .ui.divider
-
-
-
-
-template(name='cloud')
-    div
-    .ui.grey.inline.header 
-        i.tags.small.icon
-        |tags
-    if selected_tags
-        //- #clear_tags.ui.secondary.icon.compact.button
-        //-     i.remove.icon
-        each selected_tags
-            .unselect_tag.ui.secondary.compact.button
-                strong #{this}
-    each all_tags
-        .ui.compact.button.select_tag(class=cloud_tag_class) 
-            strong #{this.name}
-    div
-    .ui.grey.inline.header 
-        i.user.small.icon
-        |authors
-
-    if selected_authors
-        //- #clear_tags.ui.secondary.icon.compact.button
-        //-     i.remove.icon
-        each selected_authors
-            .unselect_tag.ui.secondary.compact.button
-                strong #{this}
-    each all_authors
-        .ui.compact.button.select_author(class=cloud_tag_class) 
-            strong #{this.name}
-
-
-        
-
-template(name='item_card')
-    .ui.card
-        if title
-            .content
-                a.ui.header(href="/item/#{_id}/view")
-                    |#{title}
-        a(href="/item/#{_id}/view")
-            img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
-        //- a.content(href="/item/#{_id}/view")
-        //-     each tags
-        //-         .ui.basic.label #{this}
-        .content
-            .ui.basic.label(title='seller')
-                i.user.outline.icon
-                |#{_author_username}
-            .ui.inline.header $#{price}
-            if bought
-                .content
-                    |bought buy
-                    .ui.basic.label(title='buyer')
-                        |#{buyer_username}
-                    div
-                    strong {{long_date bought_timestamp}} ({{from_now bought_timestamp}})
-            else
-                if can_buy
-                    if has_enough
-                        .ui.green.button.buy
-                            |buy
-                    else
-                        .ui.green.basic.disabled.button
-                            |not enough
-                        
-                //- if can_edit
-                //-     a.ui.icon.button(href="/item/#{_id}/edit")
-                //-         i.pencil.icon
-            if can_edit
-                if bought
-                    .ui.button.cancel
-                        i.ban.icon
-                        |cancel
-            if is_admin
-                a.ui.icon.button(href="/item/#{_id}/edit")
-                    i.pencil.icon
-                
-                
-template(name='item_item')
-    .ui.basic.segment.stackable.grid
-        .four.wide.column
-            a.pointer(href="/item/#{_id}/view")
-                img.ui.inline.rounded.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
-        .twelve.wide.column
-            a.ui.header(href="/item/#{_id}/view")
-                |#{title}
-            .ui.inline.green.header $#{price}
-            .spacer
-            each tags
-                .ui.basic.compact.button #{this}
-            div
-            .ui.inline.header seller:
-            .ui.basic.label 
-                i.user.outline.icon
-                |#{_author_username}
-            if buyer_username
-                .ui.inline.header buyer:
-                .ui.basic.label 
-                    |#{buyer_username}
-            unless bought
-                if can_buy
-                    if has_enough
-                        .ui.green.button.buy
-                            |buy
-                    else
-                        .ui.green.basic.disabled.button
-                            |not enough
-                        
-            if can_edit
-                if bought
-                    .ui.button.cancel
-                        i.ban.icon
-                        |cancel
-            if can_edit
-                a.ui.icon.button(href="/item/#{_id}/edit")
-                    i.pencil.icon
-                
-                
-
-
+//- template(name='market')
+//-     .ui.padded.stackable.grid
+//-         .four.wide.column
+//-             if currentUser
+//-                 a#add.ui.icon.button(title='add market item')
+//-                     i.plus.large.green.icon
 //- 
-//- template(name='set_limit')
-//-     .item.set_limit #{amount}
+//-                 +session_edit_value_button key='view_mode' value='market' label='market' icon='shop'
+//-                 +session_edit_value_button key='view_mode' value='bought' label='bought' icon='money'
+//-                 +session_edit_value_button key='view_mode' value='selling' label='selling' icon='clock'
+//-                 +session_edit_value_button key='view_mode' value='sold' label='sold' icon='checkmark'
+//-             +cloud
+//-         .twelve.wide.column
+//-             .ui.icon.input
+//-                 if current_query
+//-                     i.remove.link.icon.clear_query
+//-                 else        
+//-                     i.search.icon
+//-                 input#search(type='text' autocomplete="off" value=current_query)
+//-             .ui.compact.small.menu(title='sort by')
+//-                 .ui.simple.dropdown.item
+//-                     strong #{current_sort_key}
+//-                     i.dropdown.icon
+//-                     .menu
+//-                         each sortable_fields
+//-                             .item.set_sort_key 
+//-                                 |#{title}
+//-             .ui.compact.icon.button.set_sort_direction(title='sort direction')
+//-                 if sorting_up
+//-                     i.sort.amount.down.icon
+//-                 else
+//-                     i.sort.amount.up.icon
+//-             .ui.simple.dropdown(title='result limit')
+//-                 .text.large #{current_limit}
+//-                 i.dropdown.icon
+//-                 .menu
+//-                     +set_limit amount=1
+//-                     +set_limit amount=5
+//-                     +set_limit amount=10
+//-                     +set_limit amount=20
+//-                     +set_limit amount=50
+//-             |&nbsp;
+//-             |&nbsp;
+//-             |&nbsp;
+//- 
+//- 
+//-             span.mobile.hidden
+//-                 +session_edit_value_button key='layout_mode' value='list' label='list' icon='list'
+//-                 +session_edit_value_button key='layout_mode' value='grid' label='grid' icon='th'
+//-                 //- .spacer
+//-             if session_key_value_is 'layout_mode' 'grid'
+//-                 .ui.stackable.four.cards
+//-                     each docs
+//-                         +item_card
+//-             if session_key_value_is 'layout_mode' 'list'
+//-                 .scrolling
+//-                     .ui.basic.segments
+//-                         each docs
+//-                             +item_item
+//-                             .ui.divider
+//- 
+//- 
+//- 
+//- 
+//- template(name='cloud')
+//-     div
+//-     .ui.grey.inline.header 
+//-         i.tags.small.icon
+//-         |tags
+//-     if selected_tags
+//-         //- #clear_tags.ui.secondary.icon.compact.button
+//-         //-     i.remove.icon
+//-         each selected_tags
+//-             .unselect_tag.ui.secondary.compact.button
+//-                 strong #{this}
+//-     each all_tags
+//-         .ui.compact.button.select_tag(class=cloud_tag_class) 
+//-             strong #{this.name}
+//-     div
+//-     .ui.grey.inline.header 
+//-         i.user.small.icon
+//-         |authors
+//- 
+//-     if selected_authors
+//-         //- #clear_tags.ui.secondary.icon.compact.button
+//-         //-     i.remove.icon
+//-         each selected_authors
+//-             .unselect_tag.ui.secondary.compact.button
+//-                 strong #{this}
+//-     each all_authors
+//-         .ui.compact.button.select_author(class=cloud_tag_class) 
+//-             strong #{this.name}
+//- 
+//- 
+//- 
+//- 
+//- template(name='item_card')
+//-     .ui.card
+//-         if title
+//-             .content
+//-                 a.ui.header(href="/item/#{_id}/view")
+//-                     |#{title}
+//-         a(href="/item/#{_id}/view")
+//-             img.ui.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+//-         //- a.content(href="/item/#{_id}/view")
+//-         //-     each tags
+//-         //-         .ui.basic.label #{this}
+//-         .content
+//-             .ui.basic.label(title='seller')
+//-                 i.user.outline.icon
+//-                 |#{_author_username}
+//-             .ui.inline.header $#{price}
+//-             if bought
+//-                 .content
+//-                     |bought buy
+//-                     .ui.basic.label(title='buyer')
+//-                         |#{buyer_username}
+//-                     div
+//-                     strong {{long_date bought_timestamp}} ({{from_now bought_timestamp}})
+//-             else
+//-                 if can_buy
+//-                     if has_enough
+//-                         .ui.green.button.buy
+//-                             |buy
+//-                     else
+//-                         .ui.green.basic.disabled.button
+//-                             |not enough
+//- 
+//-                 //- if can_edit
+//-                 //-     a.ui.icon.button(href="/item/#{_id}/edit")
+//-                 //-         i.pencil.icon
+//-             if can_edit
+//-                 if bought
+//-                     .ui.button.cancel
+//-                         i.ban.icon
+//-                         |cancel
+//-             if is_admin
+//-                 a.ui.icon.button(href="/item/#{_id}/edit")
+//-                     i.pencil.icon
+//- 
+//- 
+//- template(name='item_item')
+//-     .ui.basic.segment.stackable.grid
+//-         .four.wide.column
+//-             a.pointer(href="/item/#{_id}/view")
+//-                 img.ui.inline.rounded.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+//-         .twelve.wide.column
+//-             a.ui.header(href="/item/#{_id}/view")
+//-                 |#{title}
+//-             .ui.inline.green.header $#{price}
+//-             .spacer
+//-             each tags
+//-                 .ui.basic.compact.button #{this}
+//-             div
+//-             .ui.inline.header seller:
+//-             .ui.basic.label 
+//-                 i.user.outline.icon
+//-                 |#{_author_username}
+//-             if buyer_username
+//-                 .ui.inline.header buyer:
+//-                 .ui.basic.label 
+//-                     |#{buyer_username}
+//-             unless bought
+//-                 if can_buy
+//-                     if has_enough
+//-                         .ui.green.button.buy
+//-                             |buy
+//-                     else
+//-                         .ui.green.basic.disabled.button
+//-                             |not enough
+//- 
+//-             if can_edit
+//-                 if bought
+//-                     .ui.button.cancel
+//-                         i.ban.icon
+//-                         |cancel
+//-             if can_edit
+//-                 a.ui.icon.button(href="/item/#{_id}/edit")
+//-                     i.pencil.icon
+//- 
+//- 
+//- 
+//- 
+//- //- 
+//- //- template(name='set_limit')
+//- //-     .item.set_limit #{amount}
