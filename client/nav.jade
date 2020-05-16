@@ -8,9 +8,9 @@ template(name='nav')
         .right.menu
             //- a.icon.item(href="/m/model") 
             //-     i.code.large.icon
-            //- if is_admin
-            //-     a.icon.item(href="/admin") 
-            //-         i.shield.large.icon
+            if is_admin
+                a.icon.item(href="/admin") 
+                    i.shield.large.icon
             if currentUser
                 a.item(href="/user/#{currentUser.username}/credit")
                     h4 {{fixed currentUser.credit}}c

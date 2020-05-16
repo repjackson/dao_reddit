@@ -4,11 +4,12 @@ template(name='market')
             if currentUser
                 a#add.ui.icon.button(title='add question')
                     i.plus.large.green.icon
-
-                //- +session_edit_value_button key='view_mode' value='market' label='market' icon='shop'
-                //- +session_edit_value_button key='view_mode' value='bought' label='bought' icon='money'
-                //- +session_edit_value_button key='view_mode' value='selling' label='selling' icon='clock'
-                //- +session_edit_value_button key='view_mode' value='sold' label='sold' icon='checkmark'
+                div
+                +session_edit_value_button key='view_mode' value='voted' label='voted' icon='shop'
+                +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up'
+                +session_edit_value_button key='view_mode' value='downvoted' label='downvoted' icon='thumbs down'
+                +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon=''
+            div
             +cloud
         .twelve.wide.column
             .ui.basic.segments
@@ -58,25 +59,21 @@ template(name='question_item')
         //-         img.ui.inline.rounded.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         .sixteen.wide.column
             a.ui.header(href="/item/#{_id}/view")
-                |#{question}
+                |#{title}
             .spacer
             if bounty
                 i.green.money.icon
-            each tags
-                .ui.basic.compact.button #{this}
-            .ui.inline.header author:
-            .ui.basic.label 
-                i.user.outline.icon
-                |#{_author_username}
-            .ui.inline.header buyers:
+            if is_admin
+                each tags
+                    .ui.basic.compact.button #{this}
+                .ui.inline.header author:
+                .ui.basic.label 
+                    i.user.outline.icon
+                    |#{_author_username}
+            .ui.inline.header voters:
             each voters
                 .ui.basic.label 
-                    |#{buyer_username}
-            if can_edit
-                if bought
-                    .ui.button.cancel
-                        i.ban.icon
-                        |cancel
+                    |#{username}
             if can_edit
                 a.ui.icon.button(href="/item/#{_id}/edit")
                     i.pencil.icon

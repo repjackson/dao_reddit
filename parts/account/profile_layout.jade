@@ -16,16 +16,7 @@ template(name='profile_layout')
                             //- strong #{user.first_name} #{user.last_name}
                             //- small @#{user.username}        
                     a.ui.center.aligned.inline.header(href="/user/#{user.username}/credit" title='credit')
-                        |${{fixed user.credit}}
-                    //- if checkedin
-                    //-     .ui.animated.large.green.fade.button.checkout
-                    //-         .hidden.content
-                    //-             |checkout?
-                    //-         .visible.content
-                    //-             |checked in
-                    //- else 
-                    //-     .ui.large.button.checkin
-                    //-         |checkin
+                        |{{fixed user.credit}}c
                     .ui.header
                         i.phone.small.grey.icon
                         | #{phone}
@@ -67,25 +58,22 @@ template(name='profile_layout')
                         i.large.money.icon
                         //- +i name='money' classes='ui avatar image'
                         |credit
-                    a.ui.dashboard.button(href="/user/#{username}/sales" class="{{isActiveRoute regex='user_sales'}}")
-                        i.large.checkmark.icon
-                        //- +i name='invoice' classes='ui avatar image'
-                        |sales
-                    //- a.ui.dashboard.button(href="/user/#{username}/badges" class="{{isActiveRoute regex='user_badges'}}")
-                    //-     i.large.certificate.icon
-                    //-     //- +i name='certificate' classes='ui avatar image'
-                    //-     |badges
-                    a.ui.dashboard.button(href="/user/#{username}/purchases" class="{{isActiveRoute regex='user_purchases'}}")
-                        //- +i name='shopping-cart' classes='ui avatar image'
-                        i.large.cart.icon
-                        |purchases
-                    a.ui.dashboard.button(href="/user/#{username}/earnings" class="{{isActiveRoute regex='user_earnings'}}")
-                        +i name='shopping-cart' classes='ui avatar image'
-                        //- i.large.cart.icon
-                        |earnings
-                    a.ui.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_chat'}}")
-                        //- +i name='chat' classes='ui avatar image'
-                        i.large.chat.icon
-                        |chat
+                    //- a.ui.dashboard.button(href="/user/#{username}/purchases" class="{{isActiveRoute regex='user_purchases'}}")
+                    //-     //- +i name='shopping-cart' classes='ui avatar image'
+                    //-     i.large.cart.icon
+                    //-     |purchases
+                    //- a.ui.dashboard.button(href="/user/#{username}/earnings" class="{{isActiveRoute regex='user_earnings'}}")
+                    //-     +i name='shopping-cart' classes='ui avatar image'
+                    //-     //- i.large.cart.icon
+                    //-     |earnings
+                    a.ui.dashboard.button(href="/user/#{username}/true" class="{{isActiveRoute regex='user_true'}}")
+                        i.large.thumbs.up.icon
+                        |voted true
+                    a.ui.dashboard.button(href="/user/#{username}/false" class="{{isActiveRoute regex='user_true'}}")
+                        i.large.thumbs.down.icon
+                        |voted false
+                    //- a.ui.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_chat'}}")
+                    //-     i.large.chat.icon
+                    //-     |chat
                     .spacer
                     +yield

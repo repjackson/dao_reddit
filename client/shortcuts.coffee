@@ -13,16 +13,16 @@ globalHotkeys.add
         Meteor.call 'set_facets', model_slug, ->
             Session.set 'loading', false
 
-globalHotkeys.add
-	combo: "?"
-	callback: ->
-		$('.global_search').focus()
-
-		# $('.ui.basic.modal').modal(
-		# 	inverted:true
-		# 	duration:200
-		# 	).modal('show')
-		Session.set('current_global_query', null)
+# globalHotkeys.add
+# 	combo: "?"
+# 	callback: ->
+# 		$('.global_search').focus()
+#
+# 		# $('.ui.basic.modal').modal(
+# 		# 	inverted:true
+# 		# 	duration:200
+# 		# 	).modal('show')
+# 		Session.set('current_global_query', null)
 
 globalHotkeys.add
 	combo: "d c"
@@ -46,15 +46,17 @@ globalHotkeys.add
 globalHotkeys.add
 	combo: "r a"
 	callback: ->
-	# 	# if Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
-    #     if Meteor.user().admin
-    #         Meteor.users.update Meteor.userId(),
-	# 			$pull:roles:'admin'
-	# 			$set:admin:false
-    #     else
-    #         Meteor.users.update Meteor.userId(),
-	# 			$addToSet:roles:'admin'
-	# 			$set:admin:true
+		Meteor.users.update Meteor.userId(),
+			$set:admin:!Meteor.user().admin
+		# # if Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
+        # if Meteor.user().admin?
+        #     Meteor.users.update Meteor.userId(),
+		# 		$pull:roles:'admin'
+		# 		$set:admin:false
+        # else
+        #     Meteor.users.update Meteor.userId(),
+		# 		$addToSet:roles:'admin'
+		# 		$set:admin:true
 
 globalHotkeys.add
 	combo: "r s"
