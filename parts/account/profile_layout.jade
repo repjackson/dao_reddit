@@ -72,8 +72,5 @@ template(name='profile_layout')
                     a.ui.dashboard.button(href="/user/#{username}/false" class="{{isActiveRoute regex='user_true'}}")
                         i.large.thumbs.down.icon
                         |voted false
-                    //- a.ui.button(href="/user/#{username}/chat" class="{{isActiveRoute regex='user_chat'}}")
-                    //-     i.large.chat.icon
-                    //-     |chat
                     .spacer
                     +yield

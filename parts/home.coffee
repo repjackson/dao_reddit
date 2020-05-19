@@ -1,10 +1,5 @@
 if Meteor.isClient
-    Router.route '/market', (->
-        @render 'market'
-        ), name:'market'
-
-
-    Template.market.onCreated ->
+    Template.home.onCreated ->
         # Session.setDefault 'layout_mode','list'
         # Session.setDefault 'sort_key','_timestamp'
         # Session.setDefault 'sort_direction', -1
@@ -19,7 +14,7 @@ if Meteor.isClient
             # Session.get('sort_direction')
             )
 
-    Template.market.helpers
+    Template.home.helpers
         docs: ->
             Docs.find {
                 model:'question'
@@ -45,7 +40,7 @@ if Meteor.isClient
 
 
 
-    Template.market.events
+    Template.home.events
         'click #add': ->
             new_id =
                 Docs.insert
@@ -141,7 +136,7 @@ if Meteor.isClient
             # Session.get('view_mode')
             # Session.get('current_query')
         )
-        Session.setDefault('view_mode', 'market')
+        Session.setDefault('view_mode', 'home')
 
     Template.cloud.helpers
         all_tags: ->
@@ -185,7 +180,7 @@ if Meteor.isServer
 
 
         match.model = 'question'
-        if view_mode is 'market'
+        if view_mode is 'home'
             match.bought = $ne:true
             match._author_id = $ne: Meteor.userId()
         if view_mode is 'bought'
@@ -256,7 +251,7 @@ if Meteor.isServer
         )->
         match = {model:'question'}
         # if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
-        # if view_mode is 'market'
+        # if view_mode is 'home'
         #     match.bought = $ne:true
         #     match._author_id = $ne: Meteor.userId()
         # if view_mode is 'bought'

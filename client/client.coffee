@@ -8,5 +8,5 @@ Template.nav.onCreated ->
 if Meteor.isClient
     Router.route '/', (->
         @layout 'layout'
-        @render 'market'
+        @render 'home'
         ), name:'home'

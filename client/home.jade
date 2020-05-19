@@ -1,6 +1,6 @@
-template(name='market')
+template(name='home')
     .ui.padded.stackable.grid
-        .four.wide.column
+        .six.wide.column
             if currentUser
                 a#add.ui.icon.button(title='add question')
                     i.plus.large.green.icon
@@ -11,7 +11,7 @@ template(name='market')
                 +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon=''
             div
             +cloud
-        .twelve.wide.column
+        .ten.wide.column
             .ui.basic.segments
                 each docs
                     +question_item
@@ -61,8 +61,8 @@ template(name='question_item')
             a.ui.header(href="/item/#{_id}/view")
                 |#{title}
             .spacer
-            if bounty
-                i.green.money.icon
+            //- if bounty
+            //-     i.green.money.icon
             if is_admin
                 each tags
                     .ui.basic.compact.button #{this}
@@ -74,11 +74,20 @@ template(name='question_item')
             each voters
                 .ui.basic.label 
                     |#{username}
+            //- +voting_full
+            +answer_small
             if can_edit
                 a.ui.icon.button(href="/item/#{_id}/edit")
                     i.pencil.icon
 
 
+
+
+template(name='answer_small')
+    .ui.circular.icon.button
+        i.large.green.checkmark.icon
+    .ui.circular.icon.button
+        i.large.red.cancel.icon
 
 
 //- 

@@ -12,8 +12,8 @@ template(name='nav')
                 a.icon.item(href="/admin") 
                     i.shield.large.icon
             if currentUser
-                a.item(href="/user/#{currentUser.username}/credit")
-                    h4 {{fixed currentUser.credit}}c
+                //- a.item(href="/user/#{currentUser.username}/credit")
+                //-     h4 {{fixed currentUser.credit}}c
                 a.item(href="/user/#{currentUser.username}") 
                     if currentUser.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")

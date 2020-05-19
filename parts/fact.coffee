@@ -1,28 +1,28 @@
 if Meteor.isClient
-    Router.route '/item/:doc_id/view', (->
+    Router.route '/fact/:doc_id/view', (->
         @layout 'layout'
-        @render 'item_view'
-        ), name:'item_view'
-    Router.route '/item/:doc_id/edit', (->
+        @render 'fact_view'
+        ), name:'fact_view'
+    Router.route '/fact/:doc_id/edit', (->
         @layout 'layout'
-        @render 'item_edit'
-        ), name:'item_edit'
+        @render 'fact_edit'
+        ), name:'fact_edit'
 
 
-    Template.item_edit.onCreated ->
+    Template.fact_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.item_view.onCreated ->
+    Template.fact_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc_matches', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
-    Template.item_view.onRendered ->
+    Template.fact_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
-    Template.item_view.helpers
+    Template.fact_view.helpers
         matches: ->
             if @match_ids
                 Docs.find
                     _id: $in:@match_ids
-    Template.item_view.events
+    Template.fact_view.events
         'click .clone': ->
             Swal.fire({
                 title: "clone #{@title}"
@@ -36,12 +36,12 @@ if Meteor.isClient
                     # food = Docs.findOne Router.current().params.doc_id
                     new_id =
                         Docs.insert
-                            model:'item'
+                            model:'fact'
                             title:@title
                             tags:@tags
                             price:@price
                             image_id:@image_id
-                    Router.go "/item/#{new_id}/edit"
+                    Router.go "/fact/#{new_id}/edit"
             )
 
         'click .buy': ->
@@ -70,14 +70,14 @@ if Meteor.isClient
                 Router.go "/login"
 
 
-        'click .recalc_similar_items': ->
-            Meteor.call 'recalc_similar_items', @, ->
+        'click .recalc_similar_facts': ->
+            Meteor.call 'recalc_similar_facts', @, ->
 
 
     Template.seller_card.helpers
         seller: ->
             # console.log @valueOf()
-            item = Docs.findOne Router.current().params.doc_id
+            fact = Docs.findOne Router.current().params.doc_id
             res =
                 Meteor.users.findOne
                     _id:@valueOf()
@@ -91,20 +91,20 @@ if Meteor.isServer
         Docs.find
             _id:$in:doc.match_ids
     Meteor.methods
-        recalc_similar_items:(item)->
-            console.log item
-            item.tags
-            all_items =
+        recalc_similar_facts:(fact)->
+            console.log fact
+            fact.tags
+            all_facts =
                 Docs.find
-                    model:'item'
+                    model:'fact'
             matches = []
-            for this_item in all_items.fetch()
-                union_count = _.union this_item.tags, item.tags
+            for this_fact in all_facts.fetch()
+                union_count = _.union this_fact.tags, fact.tags
                 console.log union_count
                 if union_count.length > 0
                     matches.push {
-                        _id:this_item._id
+                        _id:this_fact._id
                         count:union_count.length
                     }
-            Docs.update item._id,
+            Docs.update fact._id,
                 $set:matches:matches

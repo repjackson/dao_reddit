@@ -1,17 +1,17 @@
-template(name='sort_item')
+template(name='sort_fact')
     .item.set_sort #{label}
     
 
-template(name='item_view')
+template(name='fact_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             //- .row
             //-     .sixteen.wide.column
-            //-         +item_calendar
+            //-         +fact_calendar
             .row
                 .five.wide.column
-                    //- a.ui.fluid.button(href='/' title='items')
+                    //- a.ui.fluid.button(href='/' title='facts')
                     //-     i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
@@ -23,8 +23,8 @@ template(name='item_view')
                 .six.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
-                        if bounty
-                            i.green.money.icon
+                        //- if bounty
+                        //-     i.green.money.icon
                     div
                     i.tag.icon
                     each tags
@@ -32,7 +32,7 @@ template(name='item_view')
                     div
                 .five.wide.column
                     if can_edit
-                        a.ui.large.button(href="/item/#{_id}/edit" title='edit')
+                        a.ui.large.button(href="/fact/#{_id}/edit" title='edit')
                             i.pencil.blue.icon
                             |edit
                     div
@@ -42,14 +42,14 @@ template(name='item_view')
                     
             
             
-template(name='item_edit')
+template(name='fact_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .five.wide.column
-                    //- a.ui.fluid.button(href='/' title='items')
+                    //- a.ui.fluid.button(href='/' title='facts')
                     //-     i.left.chevron.large.icon
-                    a.ui.large.fluid.button(href="/item/#{_id}/view" title='save')
+                    a.ui.large.fluid.button(href="/fact/#{_id}/view" title='save')
                         i.checkmark.green.icon
                         |save
                     a(href="{{c.url image_id }}" target='_window')
@@ -63,11 +63,11 @@ template(name='item_edit')
                 .six.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
-                    if bounty
-                        i.green.money.icon
+                    //- if bounty
+                    //-     i.green.money.icon
                     +text_edit key='title' label='title' direct=true
                     +array_edit key='tags' label='tags' direct=true
-                    +boolean_edit key='bounty' label='bounty' direct=true
+                    //- +boolean_edit key='bounty' label='bounty' direct=true
             
             
             
