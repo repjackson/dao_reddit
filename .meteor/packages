@@ -27,17 +27,12 @@ mquandalle:jade
 underscore@1.0.10
 coffeescript
 fourseven:scss
-lepozepo:cloudinary
 ecmascript@0.14.3
 modules@0.15.0
 reactive-var@1.0.11
 accounts-password@1.6.0
 flowkey:hotkeys
 dburles:collection-helpers
-zimme:active-route
-mrgalaxy:stripe
 lookback:emails
 multiply:iron-router-progress
 francocatena:status
-reywood:publish-composite
-http

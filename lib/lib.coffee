@@ -3,19 +3,6 @@
 @Authors = new Meteor.Collection 'authors'
 
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    # console.log Meteor.settings.private.cloudinary_key
-    # console.log Meteor.settings.private.cloudinary_secret
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.private.cloudinary_key
-        api_secret: Meteor.settings.private.cloudinary_secret
-
 
 Router.configure
     layoutTemplate: 'layout'
@@ -152,46 +139,6 @@ Meteor.users.helpers
 
 
 Meteor.methods
-    elements: ->
-        # console.log elements.elements
-        el_list = elements.elements
-        for el in el_list
-            console.log el
-            found_doc =
-                Docs.findOne
-                    model:'chemical_element'
-                    name: el.name
-            if found_doc
-                Docs.remove found_doc._id
-            el.model = 'chemical_element'
-            Docs.insert el
-
-
-    add_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:delta_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:delta_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
-    remove_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            Docs.update { _id:delta_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:delta_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
-
     pin: (doc)->
         if doc.pinned_ids and Meteor.userId() in doc.pinned_ids
             Docs.update doc._id,
