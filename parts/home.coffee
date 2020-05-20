@@ -17,7 +17,7 @@ if Meteor.isClient
     Template.home.helpers
         docs: ->
             Docs.find {
-                model:'question'
+                model:'thought'
             },
                 limit:Session.get('limit')
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
@@ -44,8 +44,8 @@ if Meteor.isClient
         'click #add': ->
             new_id =
                 Docs.insert
-                    model:'question'
-            Router.go "/question/#{new_id}/edit"
+                    model:'thought'
+            Router.go "/thought/#{new_id}/edit"
 
 
         # 'click .set_sort_key': ->
@@ -86,20 +86,20 @@ if Meteor.isClient
 
 
 
-    Template.question_item.helpers
+    Template.thought_item.helpers
         can_buy: ->
             Meteor.userId() isnt @_author_id
 
         has_enough: ->
             Meteor.user().credit > @price
 
-    Template.question_item.events
+    Template.thought_item.events
         'click .buy': ->
             if Meteor.userId()
                 Swal.fire({
                     title: 'confirm purchase'
                     text: "this will charge you #{@price} credit"
-                    icon: 'question'
+                    icon: 'thought'
                     showCancelButton: true,
                     confirmButtonText: 'confirm'
                     cancelButtonText: 'cancel'
@@ -116,7 +116,7 @@ if Meteor.isClient
             Swal.fire({
                 title: "confirm cancel of #{@title}?"
                 text: "this will return #{@price} credit to buyer"
-                icon: 'question'
+                icon: 'thought'
                 showCancelButton: true,
                 confirmButtonText: 'confirm'
                 cancelButtonText: 'cancel'
@@ -158,9 +158,6 @@ if Meteor.isClient
         'click .select_author': -> selected_authors.push @name
         'click .unselect_author': -> selected_authors.remove @valueOf()
         'click #clear_authors': -> selected_authors.clear()
-    Template.set_limit.events
-        'click .set_limit': ->
-            Session.set('limit', @amount)
 
 
 if Meteor.isServer
@@ -179,7 +176,7 @@ if Meteor.isServer
         if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
 
 
-        match.model = 'question'
+        match.model = 'thought'
         if view_mode is 'home'
             match.bought = $ne:true
             match._author_id = $ne: Meteor.userId()
@@ -249,7 +246,7 @@ if Meteor.isServer
         # doc_sort_key='_timestamp'
         # doc_sort_direction=1
         )->
-        match = {model:'question'}
+        match = {model:'thought'}
         # if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
         # if view_mode is 'home'
         #     match.bought = $ne:true

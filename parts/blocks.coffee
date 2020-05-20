@@ -60,12 +60,6 @@ if Meteor.isClient
 
 
 
-    Template.doc_card.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Template.currentData().doc_id
-    Template.doc_card.helpers
-        doc: ->
-            Docs.findOne
-                _id:Template.currentData().doc_id
 
 
 

@@ -14,7 +14,7 @@ template(name='home')
         .ten.wide.column
             .ui.basic.segments
                 each docs
-                    +question_item
+                    +thought_item
                     .ui.divider
 
 
@@ -52,13 +52,13 @@ template(name='cloud')
 
 
 
-template(name='question_item')
+template(name='thought_item')
     .ui.basic.segment.stackable.grid
         //- .four.wide.column
-        //-     a.pointer(href="/item/#{_id}/view")
+        //-     a.pointer(href="/thought/#{_id}/view")
         //-         img.ui.inline.rounded.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         .sixteen.wide.column
-            a.ui.header(href="/item/#{_id}/view")
+            a.ui.header(href="/thought/#{_id}/view")
                 |#{title}
             .spacer
             //- if bounty
@@ -77,7 +77,7 @@ template(name='question_item')
             //- +voting_full
             +answer_small
             if can_edit
-                a.ui.icon.button(href="/item/#{_id}/edit")
+                a.ui.icon.button(href="/thought/#{_id}/edit")
                     i.pencil.icon
 
 
