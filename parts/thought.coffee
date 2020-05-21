@@ -17,62 +17,29 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'all_users'
     Template.thought_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
-    Template.thought_view.helpers
-        matches: ->
-            if @match_ids
-                Docs.find
-                    _id: $in:@match_ids
+    Template.thought_edit.events
+        'blur .thought_text': (e,t)->
+            thought_text = t.$('.thought_text').val().trim()
+            Docs.update Router.current().params.doc_id,
+                $set:title:thought_text
+            t.$('.thought_text').val('')
+
+        'keyup .new_element': (e,t)->
+            if e.which is 13
+                element_val = t.$('.new_element').val().trim()
+                Docs.update Router.current().params.doc_id,
+                    $addToSet:tags:element_val
+                t.$('.new_element').val('')
+
+        'click .remove_element': (e,t)->
+            element = @valueOf()
+            field = Template.currentData()
+            Docs.update Router.current().params.doc_id,
+                $pull:tags:element
+            t.$('.new_element').focus()
+            t.$('.new_element').val(element)
+
     Template.thought_view.events
-        'click .clone': ->
-            Swal.fire({
-                title: "clone #{@title}"
-                text: "this will copy content into a new doc"
-                icon: 'question'
-                showCancelButton: true,
-                confirmButtonText: 'confirm'
-                cancelButtonText: 'cancel'
-            }).then((result) =>
-                if result.value
-                    # food = Docs.findOne Router.current().params.doc_id
-                    new_id =
-                        Docs.insert
-                            model:'thought'
-                            title:@title
-                            tags:@tags
-                            price:@price
-                            image_id:@image_id
-                    Router.go "/thought/#{new_id}/edit"
-            )
-
-        'click .buy': ->
-            if Meteor.userId()
-                Swal.fire({
-                    title: 'confirm purchase'
-                    text: "this will charge you #{@price} credit"
-                    icon: 'question'
-                    showCancelButton: true,
-                    confirmButtonText: 'confirm'
-                    cancelButtonText: 'cancel'
-                }).then((result) =>
-                    if result.value
-                        # food = Docs.findOne Router.current().params.doc_id
-                        Meteor.call 'purchase', @, =>
-                            $('body').toast({
-                                class:'success'
-                                title: 'purchase confirmed',
-                                message: "#{@title}"
-                                showProgress: 'bottom',
-                                classProgress: 'blue'
-
-                            })
-                )
-            else
-                Router.go "/login"
-
-
-        'click .recalc_similar_thoughts': ->
-            Meteor.call 'recalc_similar_thoughts', @, ->
-
 
     Template.seller_card.helpers
         seller: ->

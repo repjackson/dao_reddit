@@ -19,8 +19,8 @@ if Meteor.isClient
             Docs.find {
                 model:'thought'
             },
-                limit:Session.get('limit')
-                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+                limit:1
+                sort:_timestamp:-1
 
         # current_limit: -> Session.get('limit')
         # current_query: -> Session.get('current_query')

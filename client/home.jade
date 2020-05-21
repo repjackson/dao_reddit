@@ -1,9 +1,9 @@
 template(name='home')
     .ui.padded.stackable.grid
-        .six.wide.column
+        .eight.wide.right.aligned.column
             if currentUser
                 a#add.ui.icon.button(title='add question')
-                    i.plus.large.green.icon
+                    i.plus.large.icon
                 div
                 +session_edit_value_button key='view_mode' value='voted' label='voted' icon='shop'
                 +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up'
@@ -11,42 +11,37 @@ template(name='home')
                 +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon=''
             div
             +cloud
-        .ten.wide.column
+        .eight.wide.column
             .ui.basic.segments
                 each docs
                     +thought_item
-                    .ui.divider
+                    //- .ui.divider
 
 
 
 
 template(name='cloud')
     div
-    .ui.grey.inline.header 
-        i.tags.small.icon
-        |tags
+    i.tags.large.grey.icon(title='tags')
     if selected_tags
         //- #clear_tags.ui.secondary.icon.compact.button
         //-     i.remove.icon
         each selected_tags
-            .unselect_tag.ui.secondary.compact.button
+            .unselect_tag.ui.secondary.compact.large.button
                 strong #{this}
     each all_tags
-        .ui.compact.button.select_tag(class=cloud_tag_class) 
+        .ui.compact.large.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
     div
-    .ui.grey.inline.header 
-        i.user.small.icon
-        |authors
-
+    i.user.large.grey.icon(title='author')
     if selected_authors
         //- #clear_tags.ui.secondary.icon.compact.button
         //-     i.remove.icon
         each selected_authors
-            .unselect_tag.ui.secondary.compact.button
+            .unselect_tag.ui.secondary.compact.large.button
                 strong #{this}
     each all_authors
-        .ui.compact.button.select_author(class=cloud_tag_class) 
+        .ui.compact.large.button.select_author(class=cloud_tag_class) 
             strong #{this.name}
 
 
@@ -62,20 +57,20 @@ template(name='thought_item')
                 |#{title}
             .spacer
             //- if bounty
-            //-     i.green.money.icon
+            //-     i.money.icon
+            each tags
+                .ui.basic.compact.button #{this}
             if is_admin
-                each tags
-                    .ui.basic.compact.button #{this}
                 .ui.inline.header author:
                 .ui.basic.label 
                     i.user.outline.icon
                     |#{_author_username}
-            .ui.inline.header voters:
+            //- .ui.inline.header voters:
             each voters
                 .ui.basic.label 
                     |#{username}
-            //- +voting_full
-            +answer_small
+            if currentUser
+                +voting_full
             if can_edit
                 a.ui.icon.button(href="/thought/#{_id}/edit")
                     i.pencil.icon
@@ -83,11 +78,11 @@ template(name='thought_item')
 
 
 
-template(name='answer_small')
-    .ui.circular.icon.button
-        i.large.green.checkmark.icon
-    .ui.circular.icon.button
-        i.large.red.cancel.icon
+//- template(name='answer_small')
+//-     .ui.circular.icon.button
+//-         i.large.thumbs.up.icon
+//-     .ui.circular.icon.button
+//-         i.large.thumbs.down.icon
 
 
 //- 

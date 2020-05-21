@@ -22,39 +22,18 @@ template(name='user_edit_layout')
                         a.item(href="/user/#{current_user._id}/edit/friends" class="{{active_path regex='user_edit_friends'}}") 
                             |friends
                             i.grey.users.icon 
-                        a.item(href="/user/#{current_user._id}/edit/alerts" class="{{active_path regex='user_edit_alerts'}}") 
-                            |alerts
-                            i.grey.bell.icon 
-                        a.item(href="/user/#{current_user._id}/edit/styles" class="{{active_path regex='user_edit_styles'}}") 
-                            |styles
-                            i.grey.paintbrush.icon 
-                        a.item(href="/user/#{current_user._id}/edit/privacy" class="{{active_path regex='user_edit_privacy'}}") 
-                            | privacy
-                            i.grey.lock.icon 
-                        a.item(href="/user/#{current_user._id}/edit/money" class="{{active_path regex='user_edit_money'}}") 
-                            | money
-                            i.grey.money.icon 
-                        a.item(href="/user/#{current_user._id}/edit/membership" class="{{active_path regex='user_edit_membership'}}") 
-                            | membership
-                            i.grey.shield.icon 
-                        a.item(href="/user/#{current_user._id}/edit/ads" class="{{active_path regex='user_edit_ads'}}") 
-                            |ads
-                            i.grey.bullhorn.icon 
                 .twelve.wide.column
                     +yield
 
 template(name='user_edit_info')
     .ui.two.column.stackable.grid
         .column
-            +image_edit key='image_id' icon='picture' title='profile image' direct=true
+            //- +image_edit key='image_id' icon='picture' title='profile image' direct=true
         .column
-            +text_edit key='first_name' label='first name' direct=true
-            +text_edit key='last_name' label='last name' direct=true
-            +number_edit key='phone' label='phone' direct=true
             .ui.header 
                 i.envelope.outline.icon
                 |emails
-            +emails_edit
+            //- +emails_edit
         .column
             //- if is_admin
             //-     .ui.segment 
@@ -65,30 +44,10 @@ template(name='user_edit_info')
             //-         +text_edit key='parent_code' label='parent code' direct=true
             //-         +number_edit key='credit' label='credit' icon='money' direct=true
             //- div
-            +phone_edit key='phone' label='phone' icon='phone' direct=true
-            +array_edit key='tags' label='tags' direct=true
+            //- +phone_edit key='phone' label='phone' icon='phone' direct=true
+            //- +array_edit key='tags' label='tags' direct=true
 
      
-template(name='phone_editor')
-    .ui.small.header    
-        i.phone.icon
-        |phone
-    .ui.icon.fluid.input(title='Add Phone')
-        i.plus.icon
-        input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
-    if current_user.profile.phone
-        if current_user.profile.phone_verified
-            .ui.label verified
-        else
-            p
-                .ui.label not verified
-                a.resend_verification(href='#')
-                    |resend code
-                .ui.small.icon.button.remove_phone(title='remove phone')
-                    i.remove.icon
-    else
-        .ui.fluid.button.update_phone add phone
-
 
 
 template(name='password_edit')
@@ -152,36 +111,6 @@ template(name='user_edit_friends')
         | friends
     
     
-template(name='user_edit_alerts')
-    .ui.header
-        i.users.icon
-        | alerts
-        .ui.header email when sold
-        .ui.header email when sold
-    
-    
-template(name='user_edit_money')
-    .ui.header
-        i.users.icon
-        | money
-    +text_edit key='venmo_username' label='venmo username' direct=true
-    
-    
-    
-template(name='user_edit_privacy')
-    .ui.header
-        i.shield.icon
-        | privacy
-    .ui.grid 
-        .row 
-            .four.wide.column
-                +boolean_edit key='publish_profile' label='publish profile' direct=true
-            .twelve.wide.column
-                .ui.header 
-                    |make profile public 
-                .ui.small.header 
-                    |Allow others to find your profile and follow you. Allows you to follow others. Enrolls you in public leaderboards.
-
 template(name='user_edit_account')
     .ui.header 
         i.cog.icons

@@ -1,13 +1,12 @@
 template(name='nav')
     //- .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
-    .ui.attached.fluid.borderless.topnav.invert.inverted.menu(class=global_settings.nav_color)
+    .ui.attached.fluid.borderless.topnav.invert.inverted.menu
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
-        //- a.ui.icon.item(href='/m/question' class="{{active_path '/m/question'}}" title='questions')
-        //-     i.large.question.icon
+        a.ui.icon.item(href='/grid' class="{{active_path '/grid'}}" title='home')
+            i.large.th.icon
+        
         .right.menu
-            //- a.icon.item(href="/m/model") 
-            //-     i.code.large.icon
             if is_admin
                 a.icon.item(href="/admin") 
                     i.shield.large.icon
@@ -15,10 +14,7 @@ template(name='nav')
                 //- a.item(href="/user/#{currentUser.username}/credit")
                 //-     h4 {{fixed currentUser.credit}}c
                 a.item(href="/user/#{currentUser.username}") 
-                    if currentUser.image_id
-                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
-                    else 
-                        i.user.icon
+                    i.user.icon
                     |#{currentUser.username}
             else 
                 a.item(href="/login")

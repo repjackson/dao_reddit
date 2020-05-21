@@ -11,34 +11,10 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_friends'
         ), name:'user_edit_friends'
-    Router.route '/user/:user_id/edit/payment', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_payment'
-        ), name:'user_edit_payment'
     Router.route '/user/:user_id/edit/account', (->
         @layout 'user_edit_layout'
         @render 'user_edit_account'
         ), name:'user_edit_account'
-    Router.route '/user/:user_id/edit/tutoring', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_tutoring'
-        ), name:'user_edit_tutoring'
-    Router.route '/user/:user_id/edit/alerts', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_alerts'
-        ), name:'user_edit_alerts'
-    Router.route '/user/:user_id/edit/privacy', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_privacy'
-        ), name:'user_edit_privacy'
-    Router.route '/user/:user_id/edit/membership', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_membership'
-        ), name:'user_edit_membership'
-    Router.route '/user/:user_id/edit/styles', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_styles'
-        ), name:'user_edit_styles'
 
     Template.user_edit_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
@@ -49,47 +25,6 @@ if Meteor.isClient
             $('.button').popup()
         , 2000
 
-
-    # Template.phone_editor.helpers
-    #     'newNumber': ->
-    #         Phoneformat.formatLocal 'US', Meteor.user().profile.phone
-
-    Template.phone_editor.events
-        'click .remove_phone': (event, template) ->
-            Meteor.call 'UpdateMobileNo'
-            return
-        'click .resend_verification': (event, template) ->
-            Meteor.call 'generateAuthCode', Meteor.userId(), Meteor.user().profile.phone
-            bootbox.prompt 'We texted you a validation code. Enter the code below:', (result) ->
-                code = result.toUpperCase()
-                if Meteor.user().profile.phone_auth == code
-                    Meteor.call 'updatePhoneVerified', (err, res) ->
-                        if err
-                            toastr.error err.reason
-                        else
-                            toastr.success 'Your phone was successfully verified!'
-                        return
-                else
-                    toastr.success 'Your verification code does not match.'
-
-        'click .update_phone': ->
-            `var phone`
-            phone = $('#phone').val()
-            phone = Phoneformat.formatE164('US', phone)
-            Meteor.call 'savePhone2', Meteor.userId(), phone, (error, result) ->
-                if error
-                    toastr.success 'There was an error processing your request.'
-                else
-                    if result.error
-                        toastr.success result.message
-                    else
-                        bootbox.prompt result.message, (result) ->
-                            code = result.toUpperCase()
-                            if Meteor.user().profile.phone_auth == code
-                                Meteor.call 'updatePhoneVerified'
-                                toastr.success 'Your phone was successfully verified!'
-                            else
-                                toastr.success 'Your verification code does not match.'
 
 
     Template.user_edit_layout.events

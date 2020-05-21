@@ -45,38 +45,28 @@ template(name='thought_view')
                     
             
             
-template(name='thought_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .six.wide.column
-                    //- a.ui.fluid.button(href='/' title='thoughts')
-                    //-     i.left.chevron.large.icon
-                    a.ui.large.fluid.icon.button(href="/thought/#{_id}/view" title='save')
-                        i.checkmark.large.icon
-                    a(href="{{c.url image_id }}" target='_window')
-                        img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
-                    .ui.header added by #{_author_username}
-                    |#{when}
-                    .ui.small.header #{view_count} views
-                    //- with _author_id
-                    //-     +user_card
-                    
-                .ten.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{title}
-                    //- if bounty
-                    //-     i.green.money.icon
-                    .ui.small.header thought
-                    .ui.fluid.input 
-                        input(type='text' value=title)
-                    //- +text_edit key='title' label='title' direct=true
-                    //- +array_edit key='tags' label='tags' direct=true
-                    //- +boolean_edit key='bounty' label='bounty' direct=true
             
             
-            
-            
+template(name='array_edit')
+    div
+    if icon
+        //- i.grey.icon(class=icon)
+        +ismall name=icon classes='ui middle aligned image'
+    .ui.inline.header
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+    .ui.input
+        input.new_element(type='text' placeholder='+' autocomplete="off")
+        //- +clear_value                
+    if field_value
+        each field_value
+            .ui.large.label
+                i.delete.icon.remove_element
+                |#{this}
             
             
             

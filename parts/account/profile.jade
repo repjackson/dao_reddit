@@ -1,164 +1,22 @@
-
-
-template(name='last_bought')
-    .ui.grey.header 
-        i.clock.icon
-        |last bought
-    .mediumscroll
-        .ui.segments
-            each last_bought
-                .ui.segment
-                    a(href="/item/#{_id}/view")
-                        img.ui.inline.mini.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                        
-                        .ui.inline.header #{title}
-                        .ui.green.inline.header $#{price}
-                    div
-                    |{{long_date bought_timestamp}}
-
-
-template(name='user_feed')
-    .ui.header feed
-template(name='user_info_widget')
-
-
-template(name='user_dashboard')             
-    .ui.stackable.padded.grid
-        .row
-            .eight.wide.column
-                +user_feed
-            .eight.wide.column
-                +user_info_widget
-        .row
-            .eight.wide.column
-                +user_following
-            .eight.wide.column
-                +last_bought
-            .eight.wide.column
-                .ui.grey.header 
-                    i.rss.icon
-                    |feed
-                each user_events
-                    .item 
-                        |#{body}
-                        small #{when}
-            .eight.wide.column
-                a.ui.header.recalc_user_stats.pointer
-                    i.line.chart.icon
-                    |stats
-                with user_stats_doc
-                    .ui.header total purchase amount $#{total_purchase_amount}
-                    .ui.header total sold amount $#{total_sale_amount}
-                
-                    .ui.list
-                        .ui.item #{selling_ranking} seller ranking
-                        .ui.item $#{total_deposit_amount} total deposit amount
-                        .ui.item #{total_deposit_count} total deposits count
-                        .ui.item #{total_doc_count} total docs 
-                        .ui.item #{total_item_count} total items
-                        .ui.item #{total_sales_count} sales
-                        .ui.item #{total_selling_count} selling
-                        .ui.item $#{total_site_profit} site profit
-                        .ui.item $#{total_withdrawal_amount} total withdrew
-                
-        .row
-            .sixteen.wide.column
-                unless is_current_user
-                    .ui.secondary.segment
-                        .ui.header #{user.credit} credit
-                        .ui.button.send_credit
-                            |send credit
-                        .ui.button.request_credit
-                            |request
-                
-                
-template(name='user_sales')  
-    .ui.header #{sales.length} sales
-    .ui.large.animated.selection.list
-        each sales
-            +sale_segment
-        
-template(name='sale_segment')        
-    .ui.item
-        .header #{title}
-                
-                
-                
-template(name='user_purchases')  
-    //- .ui.header purchases
-    .ui.stackable.grid
-        .four.column.row
-            .column
-                .ui.header $#{purchased_this_week}
-                .ui.small.grey.header this week
-            .column
-                .ui.header $#{purchased_this_month}
-                .ui.small.grey.header this month
-            .column
-                .ui.header $#{purchased_yesterday}
-                .ui.small.grey.header yesterday
-            .column
-                .ui.header $#{purchased_today}
-                .ui.small.grey.header today
-                
-    .ui.large.animated.selection.list
-        each purchases
-            +purchase_segment
-        
-template(name='purchase_segment')        
-    a.item(href="/item/#{_id}/view")
-        img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
-        .content
-            .header #{title} - $#{price}
-            .content
-                strong {{from_now bought_timestamp}}
-                small from
-                strong #{buyer_username}
-    
-                
-            
-            
-            
-                
-template(name='user_credit')  
-    .ui.stackable.two.column.grid
-        if is_current_user
-            .column
-                .ui.header 
-                    |withdraw
-                |10% charge, takes one business day 
-                .ui.action.fluid.input
-                    input.withdrawal_amount(type='number' min='1' max="#{currentUser.credit}" placeholder='amount')
-                    .ui.icon.button.initial_withdrawal 
-                        i.right.chevron.icon
-                .ui.small.header withdrawals
-                .ui.bulleted.list
-                    each withdrawals
-                        .item
-                            .ui.header #{when} for #{amount} credit
-                            |status: #{status}
-                            .ui.button.cancel_withdrawal
-                                i.ban.icon
-                                |cancel
-            .column
-                .ui.header 
-                    |deposits
-                |includes 2% processing fee
-                .ui.action.fluid.input
-                    input.deposit_amount(type='number' min='1' placeholder='deposit')
-                    .ui.icon.button.add_credit   
-                        i.right.chevron.icon
-                .ui.small.header deposits
-                .ui.large.bulleted.list
-                    each deposits
-                        .item 
-                            .content
-                                .header 
-                                    |$#{deposit_amount}
-                                .description #{when} {{long_date _timestamp}}
-                                if is_admin
-                                    +remove_button
-            if is_admin
-                .column
-                    .ui.header admin 
-                    +number_edit key='credit' label='credit' direct=true
+template(name='profile')
+    with user
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a(href="/user/#{user.username}")
+                        .ui.center.aligned.header
+                            strong #{user.name}
+                            //- 
+                            //- strong #{user.first_name} #{user.last_name}
+                            //- small @#{user.username}        
+                    if is_current_user
+                        a.ui.large.button(href="/user/#{user._id}/edit" title='profile settings')
+                            i.cog.icon
+                            |settings
+                        .ui.button.logout
+                            i.sign.out.alternate.icon
+                            |sign out
+                        //- a.ui.fluid.button.logout_other_clients(href="#" title='logout other clients')
+                        //-     i.globe.icon
+                        //-     |log out other clients
+                .twelve.wide.column

@@ -1,0 +1,15 @@
+template(name='grid')
+    .ui.padded.stackable.grid
+        .four.wide.column
+            |al
+            .ui.input.omega
+                input.add_al(type='text')
+            each al_messages
+                .ui.small.header #{body}
+                
+        .twelve.wide.column
+            each sections
+                .ui.big.selection.animated.list
+            a.ui.icon.header(href="/m/event")
+                i.calendar.icon
+                |events

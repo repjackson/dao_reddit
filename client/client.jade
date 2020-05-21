@@ -15,7 +15,7 @@ head
     
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
     
-    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
+    //- /* script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9") */
 
     //- /* script(async='' src='//embed.redditmedia.com/widgets/platform.js' charset='UTF-8') */
     //- // Global site tag (gtag.js) - Google Analytics
@@ -40,8 +40,8 @@ template(name='layout')
         .ui.stackable.grid
             .sixteen.wide.column
                 +yield
-    if is_admin
-        +admin_footer
+    //- if is_admin
+    //-     +admin_footer
     //- .ui.basic.modal
     //-     +global_search_modal
         
@@ -74,5 +74,5 @@ template(name='not_found')
 
 
 
-template(name='admin_footer')
-    .ui.inline.header #{doc_count} docs
+//- template(name='admin_footer')
+//-     .ui.inline.header #{doc_count} docs
