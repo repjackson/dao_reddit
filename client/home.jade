@@ -4,10 +4,10 @@ template(name='home')
             if currentUser
                 a#add.ui.icon.button(title='add question')
                     i.plus.large.icon
-                div
-                +session_edit_value_button key='view_mode' value='voted' label='voted' icon='shop'
-                +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up'
-                +session_edit_value_button key='view_mode' value='downvoted' label='downvoted' icon='thumbs down'
+                //- div
+                +session_edit_value_button key='view_mode' value='voted' label='voted'
+                +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up outline'
+                +session_edit_value_button key='view_mode' value='downvoted' label='downvoted' icon='thumbs down outline'
                 +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon=''
             div
             +cloud

@@ -3,9 +3,6 @@ template(name='nav')
     .ui.attached.fluid.borderless.topnav.invert.inverted.menu
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.large.yin.yang.icon
-        a.ui.icon.item(href='/grid' class="{{active_path '/grid'}}" title='home')
-            i.large.th.icon
-        
         .right.menu
             if is_admin
                 a.icon.item(href="/admin") 

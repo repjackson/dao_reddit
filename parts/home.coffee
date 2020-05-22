@@ -6,8 +6,8 @@ if Meteor.isClient
         # Session.setDefault 'limit',10
         @autorun -> Meteor.subscribe('docs',
             selected_tags.array()
-            # selected_authors.array()
-            # Session.get('view_mode')
+            selected_authors.array()
+            Session.get('view_mode')
             # Session.get('current_query')
             # Session.get('limit')
             # Session.get('sort_key')
@@ -177,17 +177,13 @@ if Meteor.isServer
 
 
         match.model = 'thought'
-        if view_mode is 'home'
-            match.bought = $ne:true
+        if view_mode is 'voted'
             match._author_id = $ne: Meteor.userId()
-        if view_mode is 'bought'
-            match.bought = true
-            match.buyer_id = Meteor.userId()
-        if view_mode is 'selling'
-            match.bought = $ne:true
-            match._author_id = Meteor.userId()
-        if view_mode is 'sold'
-            match.bought = true
+        if view_mode is 'upvoted'
+            match.upvoter_ids = $in:[Meteor.userId()]
+        if view_mode is 'downvoted'
+            match.downvoter_ids = $in:[Meteor.userId()]
+        if view_mode is 'unvoted'
             match._author_id = Meteor.userId()
 
         if limit
@@ -239,8 +235,8 @@ if Meteor.isServer
 
     Meteor.publish 'docs', (
         selected_tags
-        # selected_authors
-        # view_mode
+        selected_authors
+        view_mode
         # current_query=''
         # doc_limit=10
         # doc_sort_key='_timestamp'
@@ -248,18 +244,13 @@ if Meteor.isServer
         )->
         match = {model:'thought'}
         # if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
-        # if view_mode is 'home'
-        #     match.bought = $ne:true
-        #     match._author_id = $ne: Meteor.userId()
-        # if view_mode is 'bought'
-        #     match.bought = true
-        #     match.buyer_id = Meteor.userId()
-        # if view_mode is 'selling'
-        #     match.bought = $ne:true
-        #     match._author_id = Meteor.userId()
-        # if view_mode is 'sold'
-        #     match.bought = true
-        #     match._author_id = Meteor.userId()
+        if view_mode is 'upvoted'
+            match.upvoter_ids = $in:[Meteor.userId()]
+        if view_mode is 'downvoted'
+            match.downvoter_ids = $in:[Meteor.userId()]
+        if view_mode is 'unvoted'
+            match.upvoter_ids = $nin:[Meteor.userId()]
+            match.downvoter_ids = $nin:[Meteor.userId()]
         # console.log selected_tags
         console.log match
         # if doc_limit
