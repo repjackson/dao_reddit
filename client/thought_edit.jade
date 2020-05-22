@@ -2,10 +2,10 @@ template(name='thought_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.column
+                .four.wide.column
                     //- a.ui.fluid.button(href='/' title='thoughts')
                     //-     i.left.chevron.large.icon
-                    a.ui.large.fluid.icon.button(href="/thought/#{_id}/view" title='save')
+                    a.ui.large.fluid.icon.circular.button(href="/thought/#{_id}/view" title='save')
                         i.checkmark.large.icon
                     //- .ui.header added by #{_author_username}
                     |#{when}
@@ -13,15 +13,15 @@ template(name='thought_edit')
                     //- with _author_id
                     //-     +user_card
                     
-                .ten.wide.column
+                .twelve.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
                     //- if bounty
                     //-     i.green.money.icon
-                    .ui.small.header thought
+                    .ui.small.inline.header thought
                     .ui.fluid.input 
                         input.thought_text(type='text' value=title)
-                    .ui.small.header tags
+                    .ui.small.inline.header tags
                     .ui.input
                         input.new_element(type='text' placeholder='+' autocomplete="off")
                         //- +clear_value                

@@ -41,8 +41,8 @@ if Meteor.isClient
 
     Template.thought_view.events
 
-    Template.seller_card.helpers
-        seller: ->
+    Template.author_card.helpers
+        author: ->
             # console.log @valueOf()
             thought = Docs.findOne Router.current().params.doc_id
             res =

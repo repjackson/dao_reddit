@@ -2,11 +2,11 @@ template(name='nav')
     //- .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
     .ui.attached.fluid.borderless.topnav.invert.inverted.menu
         a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
-            i.large.yin.yang.icon
+            i.yin.yang.large.icon
         .right.menu
             if is_admin
                 a.icon.item(href="/admin") 
-                    i.shield.large.icon
+                    i.shield.icon
             if currentUser
                 //- a.item(href="/user/#{currentUser.username}/credit")
                 //-     h4 {{fixed currentUser.credit}}c
@@ -15,4 +15,4 @@ template(name='nav')
                     |#{currentUser.username}
             else 
                 a.item(href="/login")
-                    i.sign.in.alternate.large.icon
+                    i.sign.in.alternate.icon

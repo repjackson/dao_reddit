@@ -77,7 +77,7 @@ body {
 }
 
 .ui.button {
-    border-radius: 10px !important;
+    /* border-radius: 10px !important; */
     margin: 3px !important;
 }
 
@@ -204,7 +204,7 @@ input {
 }
 
 .topnav::-webkit-scrollbar {
-    height: 1px !important;
+    height: 0px !important;
   /* border-radius: 10px !important; */
 }
 

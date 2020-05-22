@@ -1,87 +1,83 @@
 template(name='home')
     .ui.padded.stackable.grid
-        .eight.wide.right.aligned.column
+        .sixteen.wide.center.aligned.column
             if currentUser
-                a#add.ui.icon.button(title='add question')
+                a#add.ui.icon.circular.button(title='add thought')
                     i.plus.large.icon
                 //- div
-                +session_edit_value_button key='view_mode' value='voted' label='voted'
+                +session_edit_value_button key='view_mode' value='voted' label='voted' icon='checkmark'
                 +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up outline'
                 +session_edit_value_button key='view_mode' value='downvoted' label='downvoted' icon='thumbs down outline'
-                +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon=''
+                +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon='question'
             div
             +cloud
-        .eight.wide.column
+        .sixteen.wide.column
             .ui.basic.segments
+                //- if one_doc
                 each docs
                     +thought_item
-                    //- .ui.divider
+                        //- .ui.divider
 
 
 
 
 template(name='cloud')
     div
-    i.tags.large.grey.icon(title='tags')
+    //- i.tags.large.grey.icon(title='tags')
     if selected_tags
-        //- #clear_tags.ui.secondary.icon.compact.button
-        //-     i.remove.icon
+        #clear_tags.ui.secondary.icon.compact.circular.button
+            i.remove.icon
         each selected_tags
-            .unselect_tag.ui.secondary.compact.large.button
+            .unselect_tag.ui.secondary.compact.large.circular.button
                 strong #{this}
     each all_tags
-        .ui.compact.large.button.select_tag(class=cloud_tag_class) 
+        .ui.compact.large.circular.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
     div
-    i.user.large.grey.icon(title='author')
-    if selected_authors
-        //- #clear_tags.ui.secondary.icon.compact.button
-        //-     i.remove.icon
-        each selected_authors
-            .unselect_tag.ui.secondary.compact.large.button
-                strong #{this}
-    each all_authors
-        .ui.compact.large.button.select_author(class=cloud_tag_class) 
-            strong #{this.name}
+    //- i.user.large.grey.icon(title='author')
+    //- if selected_authors
+    //-     //- #clear_tags.ui.secondary.icon.compact.circular.button
+    //-     //-     i.remove.icon
+    //-     each selected_authors
+    //-         .unselect_tag.ui.secondary.compact.large.circular.button
+    //-             strong #{this}
+    //- each all_authors
+    //-     .ui.compact.large.circular.button.select_author(class=cloud_tag_class) 
+    //-         strong #{this.name}
 
 
 
 
 template(name='thought_item')
-    .ui.basic.segment.stackable.grid
-        //- .four.wide.column
-        //-     a.pointer(href="/thought/#{_id}/view")
-        //-         img.ui.inline.rounded.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
-        .sixteen.wide.column
-            a.ui.header(href="/thought/#{_id}/view")
-                |#{title}
-            .spacer
-            //- if bounty
-            //-     i.money.icon
-            each tags
-                .ui.basic.compact.button #{this}
-            if is_admin
-                .ui.inline.header author:
-                .ui.basic.label 
-                    i.user.outline.icon
-                    |#{_author_username}
-            //- .ui.inline.header voters:
-            each voters
-                .ui.basic.label 
-                    |#{username}
-            if currentUser
-                +voting_full
-            if can_edit
-                a.ui.icon.button(href="/thought/#{_id}/edit")
-                    i.pencil.icon
+    .ui.basic.center.aligned.segment
+        a.ui.header(href="/thought/#{_id}/view")
+            |#{title}
+        .spacer
+        //- if currentUser
+        //-     each tags
+        //-         .ui.basic.compact.circular.button #{this}
+        if is_admin
+            .ui.inline.header author:
+            .ui.basic.label 
+                i.user.outline.icon
+                |#{_author_username}
+        //- .ui.inline.header voters:
+        //- each voters
+        //-     .ui.basic.label 
+        //-         |#{username}
+        if currentUser
+            +voting_full
+        if can_edit
+            a.ui.icon.circular.button(href="/thought/#{_id}/edit")
+                i.pencil.icon
 
 
 
 
 //- template(name='answer_small')
-//-     .ui.circular.icon.button
+//-     .ui.circular.icon.circular.button
 //-         i.large.thumbs.up.icon
-//-     .ui.circular.icon.button
+//-     .ui.circular.icon.circular.button
 //-         i.large.thumbs.down.icon
 
 

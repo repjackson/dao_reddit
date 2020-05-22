@@ -21,7 +21,7 @@ template(name='thought_view')
                     .ui.small.header #{view_count} views
                     div
                     if can_edit
-                        a.ui.large.button(href="/thought/#{_id}/edit" title='edit')
+                        a.ui.large.circular.button(href="/thought/#{_id}/edit" title='edit')
                             i.pencil.icon
                             |edit
                     div
@@ -41,39 +41,15 @@ template(name='thought_view')
                     each tags
                         .ui.large.label #{this}
                     //- with _author_id
-                    //-     +seller_card
+                    //-     +author_card
                     
             
             
             
             
-template(name='array_edit')
-    div
-    if icon
-        //- i.grey.icon(class=icon)
-        +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
-    .ui.input
-        input.new_element(type='text' placeholder='+' autocomplete="off")
-        //- +clear_value                
-    if field_value
-        each field_value
-            .ui.large.label
-                i.delete.icon.remove_element
-                |#{this}
-            
-            
-            
-                    
-template(name='seller_card')
-    .ui.header seller
-    with seller
+template(name='author_card')
+    .ui.header author
+    with author
         .ui.card
             img.ui.centered.rounded.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
             .content

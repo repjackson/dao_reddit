@@ -9,10 +9,9 @@ template(name='user_edit_layout')
                         | #{current_user.first_name} #{current_user.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{current_user.username}
-                    a.ui.fluid.basic.large.button(href="/user/#{current_user.username}/") 
-                        i.green.checkmark.icon
-                        strong save
-                    .ui.vertical.large.fluid.pointing.menu(class="{{currentUser.nav_color}}")
+                    a.ui.fluid.circular.large.button(href="/user/#{current_user.username}/") 
+                        i.checkmark.large.icon
+                    .ui.vertical.large.fluid.pointing.menu
                         a.item(href="/user/#{current_user._id}/edit/info" class="{{active_path regex='user_edit_info'}}") 
                             |info
                             i.grey.info.icon 
@@ -109,6 +108,12 @@ template(name='user_edit_friends')
     .ui.header
         i.users.icon
         | friends
+    +array_edit key='friend_usernames' label='friend usernames' direct=true
+    .ui.divider
+    each friend_usernames
+        a.ui.large.button(href="/user/#{this}")
+            i.user.outline.icon
+            |#{this}
     
     
 template(name='user_edit_account')

@@ -1,5 +1,5 @@
 template(name='call_method')
-    .ui.button.call_method call #{method}
+    .ui.circular.button.call_method call #{method}
 
 
 template(name='comments')
@@ -35,11 +35,11 @@ template(name='viewing')
     div
     if currentUser
         unless viewed_by
-            .ui.icon.button.mark_read
+            .ui.icon.circular.button.mark_read
                 i.eye.icon
         else 
             if is_dev
-                .ui.icon.button.mark_unread
+                .ui.icon.circular.button.mark_unread
                     i.cancel.icon
     .ui.inline.header viewed by
     each read_ids
@@ -52,7 +52,7 @@ template(name='user_info')
 
 
 template(name='session_boolean_toggle')
-    .ui.compact.button.toggle_session_key(class=calculated_class)
+    .ui.compact.circular.button.toggle_session_key(class=calculated_class)
         +i name=icon classes='ui avatar image'
         |#{label}
         //- if icon_view 
@@ -63,13 +63,13 @@ template(name='session_boolean_toggle')
                 |#{value}
 
 template(name='session_edit_value_button')
-    .ui.large.button.set_session_value(class=calculated_class)
+    .ui.large.icon.circular.button.set_session_value(class=calculated_class title=label)
         if icon
-            i.icon(class=icon)
-        if label
-            |#{label}
-        else 
-            |#{value}
+            i.large.icon(class=icon)
+        //- if label
+        //-     |#{label}
+        //- else 
+        //-     |#{value}
 
 
 template(name='set_sort_key')
@@ -91,29 +91,29 @@ template(name='goto_model')
 
 
 template(name='toggle_edit')
-    .ui.button.toggle_edit
+    .ui.circular.button.toggle_edit
         i.pencil.icon
 
 template(name='user_list_info')
-    a.ui.button.item(href="/user/#{user._id}/view")
+    a.ui.circular.button.item(href="/user/#{user._id}/view")
         img.ui.avatar.image(src=user.profile.profilePic title=name)
         |#{user.profile.name}
         +user_status user
 
 //- template(name='call_watson')
-//-     .ui.button.autotag
+//-     .ui.circular.button.autotag
 //-         //- i.chess.icon
 //-         +ismall name='dna-helix'
 //-         |call watson
 
 template(name='view_full_button')
-    a.ui.icon.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
+    a.ui.icon.circular.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
         i.double.icon
         |view
 
 
 template(name='delete_button')
-    .ui.icon.button.delete
+    .ui.icon.circular.button.delete
         i.remove.icon
 
 template(name='user_card')
@@ -162,7 +162,7 @@ template(name='big_user_card')
                     +array_view key='roles' direct=true
                         
 template(name='user_button')
-    a.ui.compact.button(href="/user/#{user.username}/")
+    a.ui.compact.circular.button(href="/user/#{user.username}/")
         if user.kiosk_photo
             img.ui.avatar.inline.image(src="{{c.url user.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
         else if user.image_id
@@ -177,7 +177,7 @@ template(name='user_button')
 
 
 template(name='username_info')
-    .ui.small.compact.button.goto_profile
+    .ui.small.compact.circular.button.goto_profile
         if is_member
             img.ui.avatar.image(src="{{c.url user.image_id width=100}}")
         else if user.kiosk_photo
@@ -191,11 +191,11 @@ template(name='username_info')
 
 template(name='role_editor')
     each roles
-        .ui.button #{this}
+        .ui.circular.button #{this}
 
 template(name='author_info')
     with author
-        a.ui.compact.button(href="/user/#{username}")
+        a.ui.compact.circular.button(href="/user/#{username}")
             if kiosk_photo
                 img.ui.avatar.image(src="{{c.url kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
             else if image_id
@@ -208,7 +208,7 @@ template(name='creation_info')
 
 template(name='user_list_toggle')
     if currentUser
-        .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
+        .ui.icon.compact.circular.button.toggle(class=user_list_toggle_class title=label)
             if in_list
                 i.large.icon(class=remove_icon)
             else
@@ -220,11 +220,11 @@ template(name='user_list_toggle')
 
 
 template(name='voting')
-    .ui.icon.button.upvote(title='upvote')
+    .ui.icon.circular.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
     //- each upvoter_ids
     //-     +user_info
-    .ui.icon.button.downvote(title='downvote')
+    .ui.icon.circular.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
     //- each downvoter_ids
     //-     +user_info
@@ -248,38 +248,38 @@ template(name='voting_small')
 
 template(name='voting_full')
     div
-    .ui.large.icon.button.upvote(title='upvote')
-        i.thumbs.up.icon(class=upvote_class)
+    .ui.big.icon.circular.button.upvote(title='upvote')
+        i.thumbs.up.large.icon(class=upvote_class)
         //- |like
-    .ui.large.icon.button.downvote(title='downvote')
-        i.thumbs.down.icon(class=downvote_class)
+    .ui.big.icon.circular.button.downvote(title='downvote')
+        i.thumbs.down.large.icon(class=downvote_class)
         //- |dislike
-    if points
-        .ui.large.basic.label(title='points') #{points} pts
-        //- .ui.large.label(title='anon points') #{anon_points} anon pts
-    if upvoter_ids
-        .ui.small.header 
-            i.thumbs.up.icon
-            |upvoters
-        each upvoter_ids
-            +user_info
-    if downvoter_ids
-        .ui.small.header 
-            i.thumbs.up.icon
-            |downvoters
-        each downvoter_ids
-            +user_info
+    //- if points
+    //-     .ui.large.basic.label(title='points') #{points} pts
+    //-     //- .ui.large.label(title='anon points') #{anon_points} anon pts
+    //- if upvoter_ids
+    //-     .ui.small.header 
+    //-         i.thumbs.up.icon
+    //-         |upvoters
+    //-     each upvoter_ids
+    //-         +user_info
+    //- if downvoter_ids
+    //-     .ui.small.header 
+    //-         i.thumbs.up.icon
+    //-         |downvoters
+    //-     each downvoter_ids
+    //-         +user_info
 
 
 
 template(name='view_button')
-    a.ui.icon.compact.button.view(title='view' href="/m/#{model}/#{_id}/view")
+    a.ui.icon.compact.circular.button.view(title='view' href="/m/#{model}/#{_id}/view")
         //- i.right.chevron.large.icon
         +i name='chevron right' classes='ui mini inline image'
 
 
 template(name='remove_button')
-    .ui.icon.button.remove_doc(title='delete')
+    .ui.icon.circular.button.remove_doc(title='delete')
         i.remove.red.icon
         //- |Delete
 
@@ -288,7 +288,7 @@ template(name='remove_icon')
     //- |Delete
 
 template(name='add_button')
-    a.ui.large.button.add(title="add #{model}")
+    a.ui.large.circular.button.add(title="add #{model}")
         //- |#{model.icon}
         if model.icon
             //- i.icon(class=icon)
@@ -302,18 +302,18 @@ template(name='add_button')
 
 
 template(name='edit_button')
-    a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
+    a.ui.circular.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
         i.pencil.icon
         |Edit
 
 
 template(name='save_button')
-    a.ui.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
+    a.ui.circular.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
         i.checkmark.icon
         |Save
 
 template(name='toggle_button')
-    .ui.icon.toggle.button(title=label)
+    .ui.icon.toggle.circular.button(title=label)
         i.icon(class=icon)
     each selected
         |#{username}
@@ -325,7 +325,7 @@ template(name='view_user_button')
         |View
 
 template(name='add_model_button')
-    .ui.icon.button.add(title="add #{model}")
+    .ui.icon.circular.button.add(title="add #{model}")
         i.plus.icon
         |#{model}
 
@@ -333,11 +333,11 @@ template(name='add_model_button')
             
 template(name='email_validation_check')
     //- if email_verified
-    //-     .ui.large.button
+    //-     .ui.large.circular.button
     //-         i.checkmark.icon
     //-         |email validated
     unless email_verified
-        .ui.fluid.button.send_verification
+        .ui.fluid.circular.button.send_verification
             //- i.user.shield.icon
             //- +i name='user-shield' classes='ui inline image'
             |resend verification email
@@ -347,10 +347,10 @@ template(name='email_validation_check')
             //- else
                 //- |#{times}x sent
         if is_staff
-            .ui.button.toggle_email_verified
+            .ui.circular.button.toggle_email_verified
                 |mark email verified
         
 
 template(name='print_this')
-    .ui.icon.button.print_this
+    .ui.icon.circular.button.print_this
         i.orange.code.icon
