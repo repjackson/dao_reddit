@@ -1,5 +1,6 @@
 template(name='home')
     div
+    +loginButtons
     .ui.icon.input
         if current_query
             i.link.remove.icon.clear_query
@@ -7,7 +8,7 @@ template(name='home')
             i.search.grey.icon
         input#search(type='text' autocomplete="off")
     if currentUser
-        a#add.ui.icon.circular.button(title='add post')
+        a#add.ui.icon.button(title='add post')
             i.plus.large.icon
         //- div
         +session_edit_value_button key='view_mode' value='voted' label='voted' icon='checkmark'
@@ -28,24 +29,24 @@ template(name='cloud')
     //- div
     //- i.tags.large.grey.icon(title='tags')
     if selected_tags
-        #clear_tags.ui.secondary.icon.compact.large.circular.button
+        #clear_tags.ui.secondary.icon.compact.large.button
             i.remove.icon
         each selected_tags
-            .unselect_tag.ui.secondary.compact.large.circular.button
+            .unselect_tag.ui.secondary.compact.large.button
                 strong #{this}
     each all_tags
-        .ui.compact.large.circular.button.select_tag(class=cloud_tag_class) 
+        .ui.compact.large.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
     div
     //- i.user.large.grey.icon(title='author')
     //- if selected_authors
-    //-     //- #clear_tags.ui.secondary.icon.compact.circular.button
+    //-     //- #clear_tags.ui.secondary.icon.compact.button
     //-     //-     i.remove.icon
     //-     each selected_authors
-    //-         .unselect_tag.ui.secondary.compact.large.circular.button
+    //-         .unselect_tag.ui.secondary.compact.large.button
     //-             strong #{this}
     //- each all_authors
-    //-     .ui.compact.large.circular.button.select_author(class=cloud_tag_class) 
+    //-     .ui.compact.large.button.select_author(class=cloud_tag_class) 
     //-         strong #{this.name}
 
 
@@ -67,7 +68,7 @@ template(name='post_item')
 
         //- if currentUser
         //-     each tags
-        //-         .ui.basic.compact.circular.button #{this}
+        //-         .ui.basic.compact.button #{this}
         if is_admin
             .ui.inline.header author:
             .ui.basic.label 
@@ -80,16 +81,16 @@ template(name='post_item')
         if currentUser
             +voting_full
         if can_edit
-            a.ui.icon.circular.button(href="/post/#{_id}/edit")
+            a.ui.icon.button(href="/post/#{_id}/edit")
                 i.pencil.icon
 
 
 
 
 //- template(name='answer_small')
-//-     .ui.circular.icon.circular.button
+//-     .ui.icon.button
 //-         i.large.thumbs.up.icon
-//-     .ui.circular.icon.circular.button
+//-     .ui.icon.button
 //-         i.large.thumbs.down.icon
 
 

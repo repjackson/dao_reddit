@@ -36,3 +36,6 @@ lepozepo:cloudinary
 flowkey:hotkeys
 zimme:active-route
 http
+accounts-github
+accounts-ui
+github-config-ui

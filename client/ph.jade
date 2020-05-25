@@ -6,7 +6,29 @@ template(name='ph_view')
             //-     .sixteen.wide.column
             //-         +ph_calendar
             .row
-                .five.wide.column
+                .twelve.wide.column
+                    .ui.center.aligned.inline.header #{title}
+                    div
+                    +pornhub_view key='video_id' direct=true
+                    i.tag.icon
+                    each tags
+                        .ui.large.label #{this}
+                    div
+                    +comments
+                .four.wide.column
+                    .ui.header info
+                    .ui.small.header 
+                        |published {{from_now publish_date}}
+                    .ui.list
+                        .item #{ratings} ratings
+                        .item #{rating} rating
+                    if can_edit
+                        a.ui.large.icon.button(href="/ph/#{_id}/edit" title='edit')
+                            i.pencil.blue.icon
+                    div
+                    //- +viewing
+                    with _author_id
+                        +user_card
                     //- a.ui.fluid.button(href='/' title='phs')
                     //-     i.left.chevron.large.icon
                     a(href="{{c.url image_id }}" target='_window')
@@ -16,26 +38,7 @@ template(name='ph_view')
                     .ui.small.header #{view_count} views
                     //- with _author_id
                     //-     +user_card
-                .six.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{title}
-                        //- if bounty
-                        //-     i.green.money.icon
-                    div
-                    i.tag.icon
-                    each tags
-                        .ui.large.label #{this}
-                    div
-                .five.wide.column
-                    if can_edit
-                        a.ui.large.button(href="/ph/#{_id}/edit" title='edit')
-                            i.pencil.blue.icon
-                            |edit
-                    div
-                    //- +viewing
-                    with _author_id
-                        +seller_card
-                    
+                    +print_this
             
             
 template(name='ph_edit')

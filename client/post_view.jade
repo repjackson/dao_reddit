@@ -44,7 +44,7 @@ template(name='post_view')
                     .ui.small.header #{view_count} views
                     div
                     if can_edit
-                        a.ui.large.icon.circular.button(href="/post/#{_id}/edit" title='edit')
+                        a.ui.large.icon.button(href="/post/#{_id}/edit" title='edit')
                             i.pencil.icon
                             //- |edit
                     div

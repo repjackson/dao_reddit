@@ -7,11 +7,11 @@ template(name='profile')
                         .ui.center.aligned.header
                             strong #{user.username}
                     if is_current_user
-                        a.ui.large.circular.icon.button(href="/user/#{user._id}/edit" title='profile settings')
+                        a.ui.large.icon.button(href="/user/#{user._id}/edit" title='profile settings')
                             i.cog.large.icon
-                        .ui.large.circular.icon.button.recalc_user_stats(title='profile settings')
+                        .ui.large.icon.button.recalc_user_stats(title='profile settings')
                             i.refresh.large.icon
-                        .ui.circular.icon.large.button.logout(title='sign out')
+                        .ui.icon.large.button.logout(title='sign out')
                             i.sign.out.alternate.large.icon
                 .twelve.wide.column
                     .ui.header #{like_count} liked

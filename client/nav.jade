@@ -1,11 +1,17 @@
 template(name='nav')
     .ui.attached.borderless.topnav.invert.inverted.menu
-        a.icon.circular.item(href='/' class="{{active_path '/'}}" title='home')
+        a.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.yin.yang.large.icon
         .right.menu
             if is_admin
                 a.icon.item(href="/admin") 
                     i.shield.icon
+                a.icon.item(href="/m/model") 
+                    i.code.icon
+                a.icon.item(href="/m/ph") 
+                    i.video.icon
+            .item
+                +loginButtons
             if currentUser
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                     .ui.inline.inverted.header {{fixed currentUser.credit}}c

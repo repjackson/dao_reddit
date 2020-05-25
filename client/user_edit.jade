@@ -9,7 +9,7 @@ template(name='user_edit_layout')
                         | #{current_user.first_name} #{current_user.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{current_user.username}
-                    a.ui.fluid.circular.large.button(href="/user/#{current_user.username}/") 
+                    a.ui.fluid.large.button(href="/user/#{current_user.username}/") 
                         i.checkmark.large.icon
                     .ui.vertical.large.fluid.pointing.menu
                         a.item(href="/user/#{current_user._id}/edit/info" class="{{active_path regex='user_edit_info'}}") 
