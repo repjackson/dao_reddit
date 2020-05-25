@@ -263,9 +263,53 @@ template(name='text_edit')
         else if key
             |#{key}
             //- +clear_value
-    .ui.icon.input
+    div
+    .ui.icon.fluid.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
+        
+template(name='raw_edit')
+    .ui.form
+        .field
+            label 
+                //- if icon
+                //-     i.icon(class=field_value)
+                    //- +i name=icon classes='ui middle aligned image'
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                //- else if key
+                //-     |#{key}
+                //- else
+                //-     |#{this}
+            textarea.edit_raw(rows='5') #{field_value}
+    if field_value
+        .invert !{field_value}
+
+
+template(name='raw_view')
+    .invert !{field_value}
+
+template(name='pornhub_edit')
+    .ui.inline.header
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+            //- +clear_value
+    .ui.icon.input
+        input.edit_pornhub(type='text' value=field_value placeholder=placeholder autocomplete="off")
+    if field_value
+        //- .invert !{field_value}
+        iframe.invert(src="https://www.pornhub.com/embed/#{field_value}" frameborder="0" width="100%" height="500" scrolling="no" allowfullscreen) 
+
+
+template(name='pornhub_view')
+    iframe.invert(src="https://www.pornhub.com/embed/#{field_value}" frameborder="0" width="100%" height="500" scrolling="no" allowfullscreen) 
+    //- .invert !{field_value}
 
 template(name='slug_edit')
     if icon

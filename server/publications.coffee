@@ -17,7 +17,8 @@ Meteor.publish 'tags', (
     if selected_authors.length > 0 then match._author_username = $all: selected_authors
     if selected_tags.length > 0 then match.tags = $all: selected_tags
     if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
-
+    unless Meteor.user()
+        match.porn = $ne:true
     if current_query
         match.title = {$regex:"#{current_query}", $options: 'i'}
 

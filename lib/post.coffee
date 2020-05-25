@@ -18,26 +18,26 @@ if Meteor.isClient
     Template.post_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
     Template.post_edit.events
-        'blur .post_text': (e,t)->
-            post_text = t.$('.post_text').val().trim()
-            Docs.update Router.current().params.doc_id,
-                $set:title:post_text
-            t.$('.post_text').val('')
+        # 'blur .post_text': (e,t)->
+        #     post_text = t.$('.post_text').val().trim()
+        #     Docs.update Router.current().params.doc_id,
+        #         $set:title:post_text
+        #     t.$('.post_text').val('')
 
-        'keyup .new_element': (e,t)->
-            if e.which is 13
-                element_val = t.$('.new_element').val().trim()
-                Docs.update Router.current().params.doc_id,
-                    $addToSet:tags:element_val
-                t.$('.new_element').val('')
+        # 'keyup .new_element': (e,t)->
+        #     if e.which is 13
+        #         element_val = t.$('.new_element').val().trim()
+        #         Docs.update Router.current().params.doc_id,
+        #             $addToSet:tags:element_val
+        #         t.$('.new_element').val('')
 
-        'click .remove_element': (e,t)->
-            element = @valueOf()
-            field = Template.currentData()
-            Docs.update Router.current().params.doc_id,
-                $pull:tags:element
-            t.$('.new_element').focus()
-            t.$('.new_element').val(element)
+        # 'click .remove_element': (e,t)->
+        #     element = @valueOf()
+        #     field = Template.currentData()
+        #     Docs.update Router.current().params.doc_id,
+        #         $pull:tags:element
+        #     t.$('.new_element').focus()
+        #     t.$('.new_element').val(element)
 
     Template.post_view.events
 

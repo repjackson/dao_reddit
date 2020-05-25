@@ -71,6 +71,19 @@ if Meteor.isClient
             Meteor.call @method
 
 
+    Template.input_method.onCreated ->
+        # @autorun => Meteor.subscribe 'doc', Template.currentData().doc_id
+    Template.input_method.events
+        'keyup .call_input_method': (e,t)->
+            if e.which is 13
+                input = t.$('.call_input_method').val().trim()
+                if input.length > 0
+                    # console.log element_val, 'hi'
+                    Meteor.call @name, input, (err,res)->
+                        console.log res
+                        if res
+                            Router.go res
+
 
     # Template.call_watson.events
     #     'click .autotag': ->

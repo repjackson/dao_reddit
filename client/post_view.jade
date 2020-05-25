@@ -10,32 +10,18 @@ template(name='post_view')
             //-     .sixteen.wide.column
             //-         +post_calendar
             .row
-                .six.wide.column
-                    //- a.ui.fluid.button(href='/' title='posts')
-                    //-     i.left.chevron.large.icon
-                    //- a(href="{{c.url image }}" target='_window')
-                    //-     img.ui.centered.rounded.medium.invert.image(src="{{c.url image width=400 height=400 crop='fit'}}")
-                    .ui.small.inline.header added by #{_author_username}
-                    |#{when}
-                    .ui.small.header #{view_count} views
-                    div
-                    if can_edit
-                        a.ui.large.circular.button(href="/post/#{_id}/edit" title='edit')
-                            i.pencil.icon
-                            |edit
-                    div
-                    //- +viewing
-                    .ui.header whos seen this
-                    .ui.header who upvoted
-                    .ui.header who downvoted
-                    //- with _author_id
-                    //-     +user_card
-                .ten.wide.column
+                .twelve.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
                         //- if bounty
                         //-     i.green.money.icon
                     div
+                    if porn
+                        .ui.green.label porn
+                    if pornhub_id
+                        +pornhub_view key='pornhub_id' direct=true
+                    if raw
+                        +raw_view key='raw' direct=true
                     if image
                         +image_view key='image' direct=true
                     if body 
@@ -45,9 +31,37 @@ template(name='post_view')
                         .ui.large.label #{this}
                     //- with _author_id
                     //-     +author_card
+                    +comments
                     
             
-            
+                .four.wide.column
+                    //- a.ui.fluid.button(href='/' title='posts')
+                    //-     i.left.chevron.large.icon
+                    //- a(href="{{c.url image }}" target='_window')
+                    //-     img.ui.centered.rounded.medium.invert.image(src="{{c.url image width=400 height=400 crop='fit'}}")
+                    .ui.small.inline.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    div
+                    if can_edit
+                        a.ui.large.icon.circular.button(href="/post/#{_id}/edit" title='edit')
+                            i.pencil.icon
+                            //- |edit
+                    div
+                    //- +viewing
+                    .ui.grey.header viewed
+                    .ui.grey.header upvoted
+                    .ui.list
+                        each upvoters
+                            a.item(href="/user/#{username}") #{username}
+                    .ui.grey.header downvoted
+                    .ui.list
+                        each downvoters
+                            a.item(href="/user/#{username}") #{username}
+                    
+                    //- with _author_id
+                    //-     +user_card
+
             
             
 template(name='author_card')

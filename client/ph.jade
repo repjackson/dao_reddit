@@ -1,0 +1,71 @@
+template(name='ph_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +ph_calendar
+            .row
+                .five.wide.column
+                    //- a.ui.fluid.button(href='/' title='phs')
+                    //-     i.left.chevron.large.icon
+                    a(href="{{c.url image_id }}" target='_window')
+                        img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    //- with _author_id
+                    //-     +user_card
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                        //- if bounty
+                        //-     i.green.money.icon
+                    div
+                    i.tag.icon
+                    each tags
+                        .ui.large.label #{this}
+                    div
+                .five.wide.column
+                    if can_edit
+                        a.ui.large.button(href="/ph/#{_id}/edit" title='edit')
+                            i.pencil.blue.icon
+                            |edit
+                    div
+                    //- +viewing
+                    with _author_id
+                        +seller_card
+                    
+            
+            
+template(name='ph_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .five.wide.column
+                    //- a.ui.fluid.button(href='/' title='phs')
+                    //-     i.left.chevron.large.icon
+                    a.ui.large.fluid.button(href="/ph/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                        |save
+                    a(href="{{c.url image_id }}" target='_window')
+                        img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    .ui.small.header #{view_count} views
+                    //- with _author_id
+                    //-     +user_card
+                    
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    //- if bounty
+                    //-     i.green.money.icon
+                    +text_edit key='title' label='title' direct=true
+                    +array_edit key='tags' label='tags' direct=true
+                    //- +boolean_edit key='bounty' label='bounty' direct=true
+            
+            
+            
+            
+            

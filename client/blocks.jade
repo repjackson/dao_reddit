@@ -1,6 +1,10 @@
 template(name='call_method')
     .ui.circular.button.call_method call #{method}
 
+template(name='input_method')
+    .ui.small.inline.header #{name}
+    .ui.input
+        input.call_input_method(type='text')
 
 template(name='comments')
     .ui.header

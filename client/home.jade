@@ -60,6 +60,11 @@ template(name='post_item')
             |!{content}
         if image
             +image_view key='image' direct=true
+        //- if raw
+        //-     +raw_view key='raw' direct=true
+        if pornhub_id
+            +pornhub_view key='pornhub_id' direct=true
+
         //- if currentUser
         //-     each tags
         //-         .ui.basic.compact.circular.button #{this}

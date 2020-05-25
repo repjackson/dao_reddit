@@ -8,32 +8,31 @@ template(name='post_edit')
                     a.ui.large.fluid.icon.circular.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.large.icon
                     //- .ui.header added by #{_author_username}
-                    |#{when}
-                    //- .ui.small.header #{view_count} views
                     //- with _author_id
                     //-     +user_card
+                    +array_edit key='tags' label='tags' direct=true
+                    +link_edit key='link' label='link' direct=true
+                    +boolean_edit key='porn' label='porn' direct=true
                     
-                .twelve.wide.column
+                .twelve.wide.column.scrolling
                     h2
                         .ui.center.aligned.inline.header #{title}
                     //- if bounty
                     //-     i.green.money.icon
-                    .ui.small.inline.header post
-                    .ui.fluid.input 
-                        input.post_text(type='text' value=title)
-                    .ui.small.inline.header tags
-                    .ui.input
-                        input.new_element(type='text' placeholder='+' autocomplete="off")
+                    +text_edit key='title' label='title' direct=true
+                    //- .ui.fluid.input 
+                    //-     input.post_text(type='text' value=title)
+                    //- .ui.small.inline.header tags
+                    //- .ui.input
+                    //-     input.new_element(type='text' placeholder='+' autocomplete="off")
                         //- +clear_value                
-                    each tags
-                        .ui.large.label
-                            i.delete.icon.remove_element
-                            |#{this}
+                    //- each tags
+                    //-     .ui.large.label
+                    //-         i.delete.icon.remove_element
+                    //-         |#{this}
                     +image_edit key='image' label='image' direct=true
                     +textarea_edit key='body' label='body' direct=true
-                    +link_edit key='link' label='link' direct=true
-                    //- +text_edit key='title' label='title' direct=true
-                    //- +array_edit key='tags' label='tags' direct=true
-                    //- +boolean_edit key='bounty' label='bounty' direct=true
+                    //- +raw_edit key='raw' label='raw' direct=true
+                    +pornhub_edit key='pornhub_id' label='pornhub id' direct=true
             
             

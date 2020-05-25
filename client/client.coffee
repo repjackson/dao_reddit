@@ -25,6 +25,10 @@ Template.registerHelper 'can_edit', () ->
             @_author_id is Meteor.userId()
     else
         @_author_id is Meteor.userId()
+Template.registerHelper 'is_admin', () ->
+    if Meteor.user() and Meteor.user().roles
+        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
+        if 'admin' in Meteor.user().roles then true else false
 
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
@@ -110,15 +114,6 @@ Template.registerHelper 'global_settings', () ->
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
     new Spacebars.SafeString(nl2br)
-
-
-
-
-# Template.registerHelper 'is_admin', () ->
-#     # Meteor.users.findOne username:Router.current().params.username
-#     Meteor.user().admin
-#     # if Meteor.user() and Meteor.user().roles
-#     #     if 'admin' in Meteor.user().roles then true else false
 
 
 

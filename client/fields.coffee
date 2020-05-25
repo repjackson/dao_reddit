@@ -129,20 +129,22 @@ Template.image_edit.events
 Template.array_edit.events
     'keyup .new_element': (e,t)->
         if e.which is 13
-            element_val = t.$('.new_element').val().trim()
-            if @direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
-            doc = Docs.findOne parent._id
-            user = Meteor.users.findOne parent._id
-            if doc
-                Docs.update parent._id,
-                    $addToSet:"#{@key}":element_val
-            else if user
-                Meteor.users.update parent._id,
-                    $addToSet:"#{@key}":element_val
-            t.$('.new_element').val('')
+            element_val = t.$('.new_element').val().trim().toLowerCase()
+            if element_val.length > 0
+                # console.log element_val, 'hi'
+                if @direct
+                    parent = Template.parentData()
+                else
+                    parent = Template.parentData(5)
+                doc = Docs.findOne parent._id
+                user = Meteor.users.findOne parent._id
+                if doc
+                    Docs.update parent._id,
+                        $addToSet:"#{@key}":element_val
+                else if user
+                    Meteor.users.update parent._id,
+                        $addToSet:"#{@key}":element_val
+                t.$('.new_element').val('')
 
     'click .remove_element': (e,t)->
         element = @valueOf()
@@ -196,7 +198,7 @@ Template.textarea_edit.events
 
 Template.text_edit.events
     'blur .edit_text': (e,t)->
-        val = t.$('.edit_text').val()
+        val = t.$('.edit_text').val().trim().toLowerCase()
         if @direct
             parent = Template.parentData()
         else
@@ -210,6 +212,37 @@ Template.text_edit.events
         else if user
             Meteor.users.update parent._id,
                 $set:"#{@key}":val
+
+
+Template.raw_edit.events
+    'blur .edit_raw': (e,t)->
+        val = t.$('.edit_raw').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+
+
+Template.pornhub_edit.events
+    'blur .edit_pornhub': (e,t)->
+        val = t.$('.edit_pornhub').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+
+        doc = Docs.findOne parent._id
+        Docs.update parent._id,
+            $set:"#{@key}":val
 
 
 Template.slug_edit.events
