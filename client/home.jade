@@ -1,31 +1,34 @@
 template(name='home')
-    .ui.padded.stackable.grid
-        .sixteen.wide.center.aligned.column
-            if currentUser
-                a#add.ui.icon.circular.button(title='add thought')
-                    i.plus.large.icon
-                //- div
-                +session_edit_value_button key='view_mode' value='voted' label='voted' icon='checkmark'
-                +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up outline'
-                +session_edit_value_button key='view_mode' value='downvoted' label='downvoted' icon='thumbs down outline'
-                +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon='question'
-            div
-            +cloud
-        .sixteen.wide.column
-            .ui.basic.segments
-                //- if one_doc
-                each docs
-                    +thought_item
-                        //- .ui.divider
+    div
+    .ui.icon.input
+        if current_query
+            i.link.remove.icon.clear_query
+        else 
+            i.search.grey.icon
+        input#search(type='text' autocomplete="off")
+    if currentUser
+        a#add.ui.icon.circular.button(title='add post')
+            i.plus.large.icon
+        //- div
+        +session_edit_value_button key='view_mode' value='voted' label='voted' icon='checkmark'
+        +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up outline'
+        +session_edit_value_button key='view_mode' value='downvoted' label='downvoted' icon='thumbs down outline'
+        +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon='question'
+    +cloud
+    .ui.basic.center.aligned.segment
+        if one_post
+            each posts
+                +post_item
+                //- .ui.divider
 
 
 
 
 template(name='cloud')
-    div
+    //- div
     //- i.tags.large.grey.icon(title='tags')
     if selected_tags
-        #clear_tags.ui.secondary.icon.compact.circular.button
+        #clear_tags.ui.secondary.icon.compact.large.circular.button
             i.remove.icon
         each selected_tags
             .unselect_tag.ui.secondary.compact.large.circular.button
@@ -48,11 +51,15 @@ template(name='cloud')
 
 
 
-template(name='thought_item')
+template(name='post_item')
     .ui.basic.center.aligned.segment
-        a.ui.header(href="/thought/#{_id}/view")
+        a.ui.header(href="/post/#{_id}/view")
             |#{title}
         .spacer
+        if content
+            |!{content}
+        if image
+            +image_view key='image' direct=true
         //- if currentUser
         //-     each tags
         //-         .ui.basic.compact.circular.button #{this}
@@ -68,7 +75,7 @@ template(name='thought_item')
         if currentUser
             +voting_full
         if can_edit
-            a.ui.icon.circular.button(href="/thought/#{_id}/edit")
+            a.ui.icon.circular.button(href="/post/#{_id}/edit")
                 i.pencil.icon
 
 

@@ -63,7 +63,7 @@ template(name='session_boolean_toggle')
                 |#{value}
 
 template(name='session_edit_value_button')
-    .ui.large.icon.circular.button.set_session_value(class=calculated_class title=label)
+    .ui.icon.circular.inline.button.set_session_value(class=calculated_class title=label)
         if icon
             i.large.icon(class=icon)
         //- if label
@@ -247,11 +247,11 @@ template(name='voting_small')
 
 
 template(name='voting_full')
-    div
-    .ui.big.icon.circular.button.upvote(title='upvote')
+    //- div
+    .ui.icon.circular.button.upvote(title='upvote')
         i.thumbs.up.large.icon(class=upvote_class)
         //- |like
-    .ui.big.icon.circular.button.downvote(title='downvote')
+    .ui.icon.circular.button.downvote(title='downvote')
         i.thumbs.down.large.icon(class=downvote_class)
         //- |dislike
     //- if points

@@ -11,6 +11,8 @@ if Meteor.isClient
         @render 'home'
         ), name:'home'
 
+$.cloudinary.config
+    cloud_name:"facet"
 
 
 Template.registerHelper 'user_by_id', () ->

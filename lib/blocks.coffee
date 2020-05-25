@@ -82,11 +82,11 @@ if Meteor.isClient
 
     Template.voting_full.events
         'click .upvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'upvote', @
+            # $(e.currentTarget).closest('.button').transition('pulse',200)
+            Meteor.call 'upvote', @, ->
         'click .downvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'downvote', @
+            # $(e.currentTarget).closest('.button').transition('pulse',200)
+            Meteor.call 'downvote', @, ->
 
 
 

@@ -1,37 +1,40 @@
 @selected_tags = new ReactiveArray []
 
 Template.home.onCreated ->
-    @autorun -> Meteor.subscribe('docs',
+    @autorun -> Meteor.subscribe('posts',
         selected_tags.array()
         selected_authors.array()
         Session.get('view_mode')
+        Session.get('current_query')
         )
 
 Template.home.helpers
-    docs: ->
+    current_query: -> Session.get('current_query')
+    posts: ->
         Docs.find {
-            model:'thought'
+            model:'post'
         },
             limit:1
             sort:_timestamp:-1
 
-    one_doc: ->
+    one_post: ->
         Docs.find({
-            model:'thought'
+            model:'post'
         }).count() is 1
 
 
 Template.home.events
+
     'click #add': ->
         new_id =
             Docs.insert
-                model:'thought'
-        Router.go "/thought/#{new_id}/edit"
+                model:'post'
+        Router.go "/post/#{new_id}/edit"
 
 
     #
-    'click  .clear_query': (e,t)->
-        Session.set('current_query', null)
+    'click  .clear_query': (e,t)-> Session.set('current_query', null)
+
     'keyup #search': _.throttle((e,t)->
         # query = $('#search').val()
         search = $('#search').val().toLowerCase()
@@ -49,7 +52,7 @@ Template.home.events
                 # Meteor.setTimeout ->
                 #     Session.set('dummy', !Session.get('dummy'))
                 # , 10000
-    , 1000)
+    , 500)
 
 
 
@@ -60,19 +63,19 @@ Template.cloud.onCreated ->
         selected_tags.array()
         selected_authors.array()
         Session.get('view_mode')
-        # Session.get('current_query')
+        Session.get('current_query')
     )
     Session.setDefault('view_mode', 'home')
 
 Template.cloud.helpers
     all_tags: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
+        post_count = Docs.find().count()
+        if 0 < post_count < 3 then Tags.find { count: $lt: post_count } else Tags.find()
     selected_tags: -> selected_tags.array()
 
     all_authors: ->
-        doc_count = Docs.find().count()
-        if 0 < doc_count < 3 then Authors.find { count: $lt: doc_count } else Authors.find()
+        post_count = Docs.find().count()
+        if 0 < post_count < 3 then Authors.find { count: $lt: post_count } else Authors.find()
     selected_authorss: -> selected_authors.array()
 
 

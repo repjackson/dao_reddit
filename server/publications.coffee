@@ -18,8 +18,10 @@ Meteor.publish 'tags', (
     if selected_tags.length > 0 then match.tags = $all: selected_tags
     if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
 
+    if current_query
+        match.title = {$regex:"#{current_query}", $options: 'i'}
 
-    match.model = 'thought'
+    match.model = 'post'
     # if view_mode is 'voted'
         # match._author_id = $ne: Meteor.userId()
     if view_mode is 'upvoted'
@@ -34,7 +36,7 @@ Meteor.publish 'tags', (
         console.log 'limit', limit
         calc_limit = limit
     else
-        calc_limit = 20
+        calc_limit = 42
     cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
@@ -77,17 +79,18 @@ Meteor.publish 'tags', (
     self.ready()
 
 
-Meteor.publish 'docs', (
+Meteor.publish 'posts', (
     selected_tags
     selected_authors
     view_mode
-    # current_query=''
+    current_query=''
     # doc_limit=10
     # doc_sort_key='_timestamp'
     # doc_sort_direction=1
     )->
-    match = {model:'thought'}
-    # if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
+    match = {model:'post'}
+
+    if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
     if view_mode is 'upvoted'
         match.upvoter_ids = $in:[Meteor.userId()]
     if view_mode is 'downvoted'
@@ -132,7 +135,7 @@ Meteor.publish 'model_docs', (model)->
         model:model
 
 Meteor.publish 'user_from_username', (username)->
-    # console.log 'pulling doc'
+    # console.log 'pulling user_from_username', username
     Meteor.users.find
         username:username
 

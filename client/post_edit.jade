@@ -1,11 +1,11 @@
-template(name='thought_edit')
+template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    //- a.ui.fluid.button(href='/' title='thoughts')
+                    //- a.ui.fluid.button(href='/' title='posts')
                     //-     i.left.chevron.large.icon
-                    a.ui.large.fluid.icon.circular.button(href="/thought/#{_id}/view" title='save')
+                    a.ui.large.fluid.icon.circular.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.large.icon
                     //- .ui.header added by #{_author_username}
                     |#{when}
@@ -18,9 +18,9 @@ template(name='thought_edit')
                         .ui.center.aligned.inline.header #{title}
                     //- if bounty
                     //-     i.green.money.icon
-                    .ui.small.inline.header thought
+                    .ui.small.inline.header post
                     .ui.fluid.input 
-                        input.thought_text(type='text' value=title)
+                        input.post_text(type='text' value=title)
                     .ui.small.inline.header tags
                     .ui.input
                         input.new_element(type='text' placeholder='+' autocomplete="off")
@@ -29,7 +29,9 @@ template(name='thought_edit')
                         .ui.large.label
                             i.delete.icon.remove_element
                             |#{this}
-        
+                    +image_edit key='image' label='image' direct=true
+                    +textarea_edit key='body' label='body' direct=true
+                    +link_edit key='link' label='link' direct=true
                     //- +text_edit key='title' label='title' direct=true
                     //- +array_edit key='tags' label='tags' direct=true
                     //- +boolean_edit key='bounty' label='bounty' direct=true

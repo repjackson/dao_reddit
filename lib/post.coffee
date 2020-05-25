@@ -1,28 +1,28 @@
 if Meteor.isClient
-    Router.route '/thought/:doc_id/view', (->
+    Router.route '/post/:doc_id/view', (->
         @layout 'layout'
-        @render 'thought_view'
-        ), name:'thought_view'
-    Router.route '/thought/:doc_id/edit', (->
+        @render 'post_view'
+        ), name:'post_view'
+    Router.route '/post/:doc_id/edit', (->
         @layout 'layout'
-        @render 'thought_edit'
-        ), name:'thought_edit'
+        @render 'post_edit'
+        ), name:'post_edit'
 
 
-    Template.thought_edit.onCreated ->
+    Template.post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.thought_view.onCreated ->
+    Template.post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc_matches', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
-    Template.thought_view.onRendered ->
+    Template.post_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
-    Template.thought_edit.events
-        'blur .thought_text': (e,t)->
-            thought_text = t.$('.thought_text').val().trim()
+    Template.post_edit.events
+        'blur .post_text': (e,t)->
+            post_text = t.$('.post_text').val().trim()
             Docs.update Router.current().params.doc_id,
-                $set:title:thought_text
-            t.$('.thought_text').val('')
+                $set:title:post_text
+            t.$('.post_text').val('')
 
         'keyup .new_element': (e,t)->
             if e.which is 13
@@ -39,12 +39,12 @@ if Meteor.isClient
             t.$('.new_element').focus()
             t.$('.new_element').val(element)
 
-    Template.thought_view.events
+    Template.post_view.events
 
     Template.author_card.helpers
         author: ->
             # console.log @valueOf()
-            thought = Docs.findOne Router.current().params.doc_id
+            post = Docs.findOne Router.current().params.doc_id
             res =
                 Meteor.users.findOne
                     _id:@valueOf()
@@ -58,20 +58,20 @@ if Meteor.isServer
         Docs.find
             _id:$in:doc.match_ids
     Meteor.methods
-        recalc_similar_thoughts:(thought)->
-            console.log thought
-            thought.tags
-            all_thoughts =
+        recalc_similar_posts:(post)->
+            console.log post
+            post.tags
+            all_posts =
                 Docs.find
-                    model:'thought'
+                    model:'post'
             matches = []
-            for this_thought in all_thoughts.fetch()
-                union_count = _.union this_thought.tags, thought.tags
+            for this_post in all_posts.fetch()
+                union_count = _.union this_post.tags, post.tags
                 console.log union_count
                 if union_count.length > 0
                     matches.push {
-                        _id:this_thought._id
+                        _id:this_post._id
                         count:union_count.length
                     }
-            Docs.update thought._id,
+            Docs.update post._id,
                 $set:matches:matches

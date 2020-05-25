@@ -1,18 +1,18 @@
 template(name='nav')
     //- .ui.attached.fluid.borderless.topnav.menu(class=currentUser.nav_color)
-    .ui.attached.fluid.borderless.topnav.invert.inverted.menu
-        a.ui.icon.item(href='/' class="{{active_path '/'}}" title='home')
-            i.yin.yang.large.icon
-        .right.menu
-            if is_admin
-                a.icon.item(href="/admin") 
-                    i.shield.icon
-            if currentUser
-                //- a.item(href="/user/#{currentUser.username}/credit")
-                //-     h4 {{fixed currentUser.credit}}c
-                a.item(href="/user/#{currentUser.username}") 
-                    i.user.icon
-                    |#{currentUser.username}
-            else 
-                a.item(href="/login")
-                    i.sign.in.alternate.icon
+    //- .ui.attached.borderless.topnav.invert.inverted.inline.menu
+    a.ui.icon.circular.button(href='/' class="{{active_path '/'}}" title='home')
+        i.yin.yang.large.icon
+    //- .right.menu
+    if is_admin
+        a.ui.icon.circular.button(href="/admin") 
+            i.shield.icon
+    if currentUser
+        //- a.circular.button(href="/user/#{currentUser.username}/credit")
+        //-     h4 {{fixed currentUser.credit}}c
+        a.ui.circular.button(href="/user/#{currentUser.username}") 
+            i.user.icon
+            |#{currentUser.username}
+    else 
+        a.ui.circular.button(href="/login")
+            i.sign.in.alternate.icon

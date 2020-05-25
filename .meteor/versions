@@ -64,6 +64,7 @@ iron:url@1.0.11
 jquery@1.11.11
 lai:collection-extensions@0.2.1_1
 launch-screen@1.2.0
+lepozepo:cloudinary@4.2.6
 livedata@1.0.18
 localstorage@1.2.0
 logging@1.1.20

@@ -218,7 +218,7 @@ input {
 .button:active{
     -webkit-transform: translate(0, 2px) !important; /* depth of button press */
     transition: all .25s !important;
-    transform: translate(0, 3px) !important; /* depth of button press */
+    transform: translate(0, 2px) !important; /* depth of button press */
 }
 
 
