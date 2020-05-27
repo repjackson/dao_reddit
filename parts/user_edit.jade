@@ -108,9 +108,8 @@ template(name='user_edit_friends')
     .ui.header
         i.users.icon
         | friends
-    +array_edit key='friend_usernames' label='friend usernames' direct=true
-    .ui.divider
-    each friend_usernames
+    .ui.hidden.divider
+    each friends
         a.ui.large.button(href="/user/#{this}")
             i.user.outline.icon
             |#{this}

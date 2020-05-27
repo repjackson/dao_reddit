@@ -26,5 +26,5 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.methods
         click: ->
-            Meteor.users.update Meteor.userId()
+            Meteor.users.update Meteor.userId(),
                 $inc:points:1

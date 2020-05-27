@@ -1,0 +1,54 @@
+template(name='covid')
+    .ui.stackable.padded.grid
+        .four.wide.column
+            .ui.inline.header covid
+            .ui.icon.button.pull_latest
+                i.refresh.icon
+            .ui.left.icon.large.search.input
+                if template_subs_ready
+                    i.grey.globe.icon
+                    //- i.icons.refresh_tags
+                        //- i.search.corner.icon
+                else
+                    i.globe.loading.large.icon
+                input#search.prompt(type='text' autofocus='' autocomplete="off")
+
+            if selected_covid_tags_plural
+                .ui.icon.circular.black.compact.large.button.clear_selected_tags
+                    i.remove.icon
+            each selected_covid_tags
+                button.ui.black.compact.circular.large.button.unselect_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each covid_tags
+                button.ui.basic.circular.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
+                    //- small #{count}
+                
+            each countries
+                .ui.label #{title}
+        .twelve.wide.column
+            //- .ui.compact.small.menu
+            //-     .ui.simple.dropdown.item
+            //-         strong #{current_doc_sort_label}
+            //-         i.dropdown.icon
+            //-         .menu
+            //-             +set_doc_sort_key key='ups' label='upvotes' icon='thumbs up outline'
+            //-             +set_doc_sort_key key='sadness_percent' label='sadness' color='blue'
+            //-             +set_doc_sort_key key='joy_percent' label='joy' color='green'
+            //-             +set_doc_sort_key key='fear_percent' label='fear' color='black'
+            //-             +set_doc_sort_key key='disgust_percent' label='disgust' color='yellow'
+            //-             +set_doc_sort_key key='anger_percent' label='anger' color='red'
+            //-             +set_doc_sort_key key='_timestamp' label='added' icon='clock'
+            //-             +set_doc_sort_key key='doc_sentiment_label' label='sentiment' icon='yin yang'
+            //-             +set_doc_sort_key key='comment_count' label='comment count' icon='chat'
+            
+            .ui.list 
+                each covid_stats
+                    .item 
+                        .ui.label
+                            |#{country}: 
+                        |#{date}
+                        span.ui.red.text #{deaths} deaths
+                        span.ui.yellow.text #{confirmed} confirmed
+                        span.ui.yellow.text #{recovered} recovered
+                

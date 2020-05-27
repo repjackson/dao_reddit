@@ -1,0 +1,21 @@
+template(name='tag_facet')
+    //- .ui.left.icon.small.inline.input
+    //-     i.search.icon
+    //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" placeholder='Search...'
+    |&nbsp;    
+    .ui.inverted.header 
+        +icolor name='hashtag' classes='ui mini inline image' tooltip='Browse Themes'
+        |theme tags
+    if selected_theme_tags
+        #clear_theme_tags.ui.large.icon.circular.black.button
+            i.remove.icon
+        each selected_theme_tags
+            .unselect_theme_tag.ui.large.circular.black.button
+                strong #{this}
+    div            
+        each theme_tags
+            .ui.circular.button.select_theme_tag(class=theme_tag_class) 
+                strong #{this.name}
+                // if isInRole 'admin'
+                //     small #{this.count}
+        // .ui.divider

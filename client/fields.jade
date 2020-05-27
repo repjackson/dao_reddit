@@ -147,8 +147,8 @@ template(name='link_view')
             +ismall name=icon classes='ui middle aligned image'
         //- .ui.inline.header 
         //-     |#{title} #{label}
-        a.ui.header(href=field_value target='_window') #{label}
-        //- a(href=field_value target='_window') #{field_value}
+        //- a.ui.header(href=field_value target='_window') #{label}
+        a(href=field_value target='_window') #{field_value}
         //- img.ui.fluid.image(src=field_value)
 
 template(name='image_view')

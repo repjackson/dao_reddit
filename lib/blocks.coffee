@@ -176,7 +176,7 @@ if Meteor.isClient
     Template.user_list_toggle.events
         'click .toggle': (e,t)->
             parent = Template.parentData()
-            $(e.currentTarget).closest('.button').transition('pulse',200)
+            # $(e.currentTarget).closest('.button').transition('pulse',200)
             if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"]
                 Docs.update parent._id,
                     $pull:"#{@key}":Meteor.userId()
@@ -187,7 +187,7 @@ if Meteor.isClient
         user_list_toggle_class: ->
             if Meteor.user()
                 parent = Template.parentData()
-                if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then '' else ''
+                if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then 'active' else ''
             else
                 'disabled'
         in_list: ->

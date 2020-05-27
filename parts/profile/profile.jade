@@ -12,10 +12,10 @@ template(name='profile')
                                 | #{user.first_name} #{user.last_name}
                         .ui.inline.header @#{user.username}
                     if is_current_user
+                        .ui.large.icon.button.recalc_user_stats(title='profile settings')
+                            i.refresh.icon
                         a.ui.large.icon.button(href="/user/#{user._id}/edit" title='profile settings')
                             i.cog.large.icon
-                        .ui.large.icon.button.recalc_user_stats(title='profile settings')
-                            i.refresh.large.icon
                         .ui.icon.large.button.logout(title='sign out')
                             i.sign.out.alternate.large.icon
                     if is_admin
@@ -84,10 +84,11 @@ template(name='profile')
                     
                     
 template(name='user_dashboard')
-    .ui.header #{like_count} liked
+    div
+    .ui.inline.header #{like_count} liked
     each upvoted_docs
         .ui.small.header #{_id}
-    .ui.header #{dislike_count} disliked
+    .ui.inline.header #{dislike_count} disliked
     each downvoted_docs
         .ui.small.header #{_id}
     if currentUser

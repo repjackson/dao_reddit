@@ -13,7 +13,9 @@ template(name='post_edit')
                     +array_edit key='tags' label='tags' direct=true
                     +link_edit key='link' label='link' direct=true
                     +boolean_edit key='porn' label='porn' direct=true
+                    +boolean_edit key='published' label='published' direct=true
                     
+                    +delete_button
                 .twelve.wide.column.scrolling
                     h2
                         .ui.center.aligned.inline.header #{title}
@@ -33,6 +35,6 @@ template(name='post_edit')
                     +image_edit key='image' label='image' direct=true
                     +textarea_edit key='body' label='body' direct=true
                     //- +raw_edit key='raw' label='raw' direct=true
-                    +pornhub_edit key='pornhub_id' label='pornhub id' direct=true
+                    //- +pornhub_edit key='pornhub_id' label='pornhub id' direct=true
             
             

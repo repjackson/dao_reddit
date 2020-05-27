@@ -41,7 +41,8 @@ if Meteor.isClient
         # console.log 'key', key
         delta = Docs.findOne model:'delta'
         # console.log 'value', value
-        delta["#{key}"] is value
+        if delta
+            delta["#{key}"] is value
 
 
 
@@ -337,7 +338,8 @@ if Meteor.isClient
     Template.toggle_visible_field.helpers
         field_visible: ->
             delta = Docs.findOne model:'delta'
-            @_id in delta.viewable_fields
+            if delta
+                @_id in delta.viewable_fields
 
     Template.set_limit.events
         'click .set_limit': ->

@@ -135,7 +135,7 @@ Template.registerHelper 'is_current_user', () ->
         if Meteor.user().username is Router.current().params.username
             true
     else
-        if Meteor.user().roles and 'dev' in Meteor.user().roles
+        if Meteor.user().roles and 'admin' in Meteor.user().roles
             true
         else
             false

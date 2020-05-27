@@ -6,6 +6,24 @@ template(name='input_method')
     .ui.input
         input.call_input_method(type='text')
 
+
+template(name='month_selector')
+    +key_value_edit key='month' value='jan'
+    +key_value_edit key='month' value='feb'
+    +key_value_edit key='month' value='mar'
+    +key_value_edit key='month' value='april'
+    +key_value_edit key='month' value='may'
+    +key_value_edit key='month' value='jun'
+    +key_value_edit key='month' value='jul'
+    +key_value_edit key='month' value='aug'
+    +key_value_edit key='month' value='sep'
+    +key_value_edit key='month' value='oct'
+    +key_value_edit key='month' value='nov'
+    +key_value_edit key='month' value='dec'
+
+
+
+
 template(name='comments')
     .ui.header
         i.chat.outline.icon
@@ -213,10 +231,11 @@ template(name='creation_info')
 template(name='user_list_toggle')
     if currentUser
         .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
-            if in_list
-                i.large.icon(class=remove_icon)
-            else
-                i.large.icon(class=add_icon)
+            //- if in_list
+            //-     i.large.icon(class=remove_icon)
+            //- else
+            //-     i.large.icon(class=add_icon)
+            i.icon(class=icon)
             //- +ismall name=icon
             //- |#{label}
         //- each list_users
