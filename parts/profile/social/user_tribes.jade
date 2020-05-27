@@ -1,0 +1,12 @@
+template(name='user_tribes')
+    with current_user
+        //- .ui.center.aligned.header 
+        //-     +icolor name='log-cabin'
+        //-     | tribes
+        each user_tribes
+            .ui.segment
+                a.ui.header(href="/tribe/#{slug}") 
+                    img.ui.small.image(src="{{c.url image_id width=200 height=200}}")
+                    |#{title}
+                if key_value_is 'leader' current_user.username
+                    +icolor name='crown' classes='ui inline image' title='tribe leader'

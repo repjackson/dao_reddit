@@ -1,7 +1,7 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
-        @layout 'layout'
-        @render 'profile'
+        @layout 'profile'
+        @render 'user_dashboard'
         ), name:'user_dashboard'
 
     Template.profile.onCreated ->

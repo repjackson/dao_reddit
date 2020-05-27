@@ -1,0 +1,45 @@
+template(name='user_messages')
+    //- .ui.center.aligned.header 
+    //-     +icolor name='inbox'
+    //-     |user messages
+    if currentUser
+        .ui.fluid.icon.input
+            i.plus.icon
+            input.new_message(type='text' placeholder='new message...')
+    each user_messages
+        +user_message
+
+template(name='user_message')
+    .ui.smoothed.segment(class=message_segment_class)
+        .ui.small.header #{body}
+        //- each tags
+        //-     .ui.label #{this}
+        div
+        +notify_message
+        +mark_read_button
+        if read
+            small {{ from_now read_timestamp }}
+        //- +user_list_toggle key='read_by_ids' label='mark read' icon='eye'
+        if can_edit
+            .ui.circular.basic.icon.button.remove_message
+                i.remove.red.icon
+        div
+        +author_info
+        +creation_info
+        //- +watson_view
+        
+template(name='notify_message')
+    unless notified
+        .ui.basic.icon.button.notify(title="notify #{to_username}")
+            i.rss.icon
+
+
+template(name='mark_read_button')
+    if read
+        .ui.compact.small.button.mark_unread
+            i.invisible.icon
+            |mark unread
+    else 
+        .ui.compact.small.basic.button.mark_read
+            i.eye.icon
+            |mark read

@@ -3,6 +3,40 @@ if Meteor.isClient
         @render 'delta'
         ), name:'delta'
 
+    Template.registerHelper 'current_model', ->
+        Docs.findOne
+            model:'model'
+            slug: Router.current().params.model_slug
+
+    Template.registerHelper 'fields', () ->
+        model = Docs.findOne
+            model:'model'
+            slug:Router.current().params.model_slug
+        if model
+            match = {}
+            # if Meteor.user()
+            #     match.view_roles = $in:Meteor.user().roles
+            match.model = 'field'
+            match.parent_id = model._id
+            # console.log model
+            cur = Docs.find match,
+                sort:rank:1
+            # console.log cur.fetch()
+            cur
+
+    Template.registerHelper 'edit_fields', () ->
+        console.log 'finding edit fields'
+        model = Docs.findOne
+            model:'model'
+            slug:Router.current().params.model_slug
+        if model
+            Docs.find {
+                model:'field'
+                parent_id:model._id
+                # edit_roles:$in:Meteor.user().roles
+            }, sort:rank:1
+
+
     Template.registerHelper 'delta_key_value_is', (key, value) ->
         # console.log 'key', key
         delta = Docs.findOne model:'delta'

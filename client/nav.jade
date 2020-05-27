@@ -1,17 +1,28 @@
 template(name='nav')
     .ui.attached.borderless.topnav.invert.inverted.menu
+        a.icon.item(href='/grid' class="{{active_path '/grid'}}" title='grid')
+            i.th.large.icon
         a.icon.item(href='/' class="{{active_path '/'}}" title='home')
             i.yin.yang.large.icon
+        a.icon.item(href='/exercise' class="{{active_path '/exercise'}}" title='home')
+            i.running.large.icon
+        a.icon.item(href='/users' class="{{active_path '/users'}}" title='home')
+            i.users.large.icon
+        .item
+            .ui.inverted.transparent.icon.input
+                i.search.icon
+                input#search(type='text')
+        if talk_result
+            .item
+                |#{talk_result}
         .right.menu
             if is_admin
                 a.icon.item(href="/admin") 
                     i.shield.icon
                 a.icon.item(href="/m/model") 
                     i.code.icon
-                a.icon.item(href="/m/ph") 
-                    i.video.icon
-            .item
-                +loginButtons
+                //- a.icon.item(href="/m/ph") 
+                //-     i.video.icon
             if currentUser
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                     .ui.inline.inverted.header {{fixed currentUser.credit}}c
