@@ -36,30 +36,24 @@ Meteor.publish 'overlap', (
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: selected_overlap_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 100 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        results = []
+        ], {
+            allowDiskUse: true
+        }
 
         # console.log 'agg', target_tag_cloud.toArray()
+        target_tags = target_tag_cloud.toArray()
+        console.log 'target_tags', target_tags
 
-        target_tag_cloud.forEach (tag)=>
-            # console.log 'tag', tag
-            results.push tag
-            # self.added 'tags', Random.id(),
-            #     name: tag.name
-            #     count: tag.count
-            #     index: i
-        console.log 'res', results
-        target_tag_list = _.pluck(results, 'name')
-        console.log 'target_tag_list', target_tag_list
-
-
+        # console.log 'target_results', self.target_results
+        target_tag_list = _.pluck(target_tags, 'name')
+        # console.log 'target_tag_list', target_tag_list
 
         my_match = {}
 
         if selected_overlap_tags.length > 0 then my_match.tags = $all: selected_overlap_tags
-        my_match._author_id = Meteor.userId()
+        # my_match._author_id = Meteor.userId()
 
         # my_match.model = model
 
@@ -73,28 +67,16 @@ Meteor.publish 'overlap', (
             { $limit: 100 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-        results2 = []
+        # results2 = []
         # console.log 'agg', target_tag_cloud.toArray()
-        my_tag_cloud.forEach (tag)=>
-            console.log 'my tagtag', tag
-            results.push tag
-            # self.added 'tags', Random.id(),
-            #     name: tag.name
-            #     count: tag.count
-            #     index: i
-        console.log 'res', results2
-
-
-
-        my_tag_list = _.pluck(results2, 'name')
-
-
-
+        my_tags = my_tag_cloud.toArray()
+        # console.log 'res', results2
+        my_tag_list = _.pluck(my_tags, 'name')
 
         intersection = _.intersection(my_tag_list, target_tag_list)
         console.log 'intersection', intersection
 
-        result = []
+        overlap_result = []
 
         for term in intersection
             other_count = _.findWhere(target_tag_cloud, {name: term})
@@ -106,10 +88,10 @@ Meteor.publish 'overlap', (
             term_summed_count = {}
             term_summed_count.name = term
             term_summed_count.count = other_count.count + my_count.count
-            result.push term_summed_count
+            overlap_result.push term_summed_count
 
 
-        result.forEach (tag, i) ->
+        overlap_result.forEach (tag, i) ->
             self.added 'tags', Random.id(),
                 name: tag.name
                 count: tag.count

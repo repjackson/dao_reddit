@@ -35,13 +35,16 @@ template(name='profile')
                     a.ui.button(href="/user/#{username}/profile" class="{{isActiveRoute regex='user_profile'}}")
                         +ismall name='info' classes='ui inline image'
                         |profile
-                    a.ui.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
-                        +ismall name='coins' classes='ui inline image'
-                        |credit
-                    a.ui.button(href="/user/#{username}/events" class="{{isActiveRoute regex='user_events'}}")
-                        +ismall name='calendar' classes='ui inline image'
-                        //- i.grey.calendar.icon
-                        |calendar
+                    a.ui.button(href="/user/#{username}/comparison" class="{{isActiveRoute regex='user_comparison'}}")
+                        +ismall name='exchange' classes='ui inline image'
+                        |comparison
+                    //- a.ui.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                    //-     +ismall name='coins' classes='ui inline image'
+                    //-     |credit
+                    //- a.ui.button(href="/user/#{username}/events" class="{{isActiveRoute regex='user_events'}}")
+                    //-     +ismall name='calendar' classes='ui inline image'
+                    //-     //- i.grey.calendar.icon
+                    //-     |calendar
                     
                     //- if is_admin
                     a.ui.button(href="/user/#{username}/karma" class="{{isActiveRoute regex=user_karma}}")

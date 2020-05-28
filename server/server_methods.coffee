@@ -43,6 +43,7 @@ Meteor.methods
         # tag_cloud.forEach (tag, i)=>
         #     console.log tag
         #     res.push tag
+        console.log res
         res
 
 
