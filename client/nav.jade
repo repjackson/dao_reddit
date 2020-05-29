@@ -1,37 +1,18 @@
 template(name='nav')
-    .ui.attached.borderless.topnav.invert.inverted.menu
-        a.icon.item(href='/grid' class="{{active_path '/grid'}}" title='grid')
-            i.th.large.icon
-        a.icon.item(href='/' class="{{active_path '/'}}" title='home')
-            i.yin.yang.large.icon
-        a.icon.item(href='/exercise' class="{{active_path '/exercise'}}" title='home')
-            i.running.large.icon
-        a.icon.item(href='/users' class="{{active_path '/users'}}" title='home')
-            i.users.large.icon
-        .item
-            .ui.inverted.transparent.icon.input
-                i.search.icon
-                input#search(type='text')
-        if talk_result
-            .item
-                |#{talk_result}
-        .right.menu
-            if is_admin
-                a.icon.item(href="/admin") 
-                    i.shield.icon
-                a.icon.item(href="/m/model") 
-                    i.code.icon
-                //- a.icon.item(href="/m/ph") 
-                //-     i.video.icon
-            if currentUser
-                a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
-                    .ui.inline.inverted.header {{fixed currentUser.credit}}c
-                a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_dashboard'}}" title='profile')
-                    if currentUser.image_id
-                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
-                    else
-                        i.user.icon
-                    span.mobile.hidden #{currentUser.name}
-            else 
-                a.item(href="/login")
-                    i.sign.in.alternate.icon
+    //- .ui.attached.borderless.topnav.invert.inverted.menu
+    a.ui.icon.button(href='/' class="{{isActivePath '/'}}" title='home')
+        i.yin.yang.large.icon
+    //- a.icon.item(href='/users' class="{{isActivePath '/users'}}" title='home')
+    //-     i.users.large.icon
+    //- .right.menu
+    if currentUser
+        a.ui.button(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_dashboard'}}" title='profile')
+            if currentUser.image_id
+                img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+            else
+                i.user.icon
+            span.mobile.hidden #{currentUser.name} {{fixed currentUser.credit}}c
+            
+    else 
+        a.ui.button(href="/login")
+            i.sign.in.alternate.icon

@@ -12,13 +12,13 @@ template(name='user_edit_layout')
                     a.ui.fluid.large.button(href="/user/#{current_user.username}/") 
                         i.checkmark.large.icon
                     .ui.vertical.large.fluid.pointing.menu
-                        a.item(href="/user/#{current_user._id}/edit/info" class="{{active_path regex='user_edit_info'}}") 
+                        a.item(href="/user/#{current_user._id}/edit/info")
                             |info
                             i.grey.info.icon 
-                        a.item(href="/user/#{current_user._id}/edit/account" class="{{active_path regex='user_edit_account'}}") 
+                        a.item(href="/user/#{current_user._id}/edit/account")
                             |account
                             i.grey.cog.icon 
-                        a.item(href="/user/#{current_user._id}/edit/friends" class="{{active_path regex='user_edit_friends'}}") 
+                        a.item(href="/user/#{current_user._id}/edit/friends")
                             |friends
                             i.grey.users.icon 
                 .twelve.wide.column
@@ -34,15 +34,6 @@ template(name='user_edit_info')
                 |emails
             +emails_edit
         .column
-            if is_admin
-                .ui.segment 
-                    .ui.small.header 
-                        i.grey.shield.icon 
-                        |admin
-                    +text_edit key='student_code' label='student code' direct=true
-                    +text_edit key='parent_code' label='parent code' direct=true
-                    +number_edit key='credit' label='credit' icon='money' direct=true
-            div
             +phone_edit key='phone' label='phone' icon='phone' direct=true
             +array_edit key='tags' label='tags' direct=true
 
@@ -104,15 +95,6 @@ template(name='emails_edit')
 
 
 
-template(name='user_edit_friends')
-    .ui.header
-        i.users.icon
-        | friends
-    .ui.hidden.divider
-    each friends
-        a.ui.large.button(href="/user/#{this}")
-            i.user.outline.icon
-            |#{this}
     
     
 template(name='user_edit_account')

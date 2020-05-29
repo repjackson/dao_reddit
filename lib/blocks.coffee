@@ -71,28 +71,6 @@ if Meteor.isClient
             Meteor.call @method
 
 
-    Template.input_method.onCreated ->
-        # @autorun => Meteor.subscribe 'doc', Template.currentData().doc_id
-    Template.input_method.events
-        'keyup .call_input_method': (e,t)->
-            if e.which is 13
-                input = t.$('.call_input_method').val().trim()
-                if input.length > 0
-                    # console.log element_val, 'hi'
-                    Meteor.call @name, input, (err,res)->
-                        console.log res
-                        if res
-                            Router.go res
-
-
-    # Template.call_watson.events
-    #     'click .autotag': ->
-    #         doc = Docs.findOne Router.current().params.doc_id
-    #         console.log doc
-    #         console.log @
-    #
-    #         Meteor.call 'call_watson', doc._id, @key, @mode
-
     Template.voting_full.events
         'click .upvote': (e,t)->
             # $(e.currentTarget).closest('.button').transition('pulse',200)
@@ -145,19 +123,6 @@ if Meteor.isClient
     #     @autorun => Meteor.subscribe 'user_from_id', @data
     # Template.user_info.helpers
     #     user: -> Meteor.users.findOne @valueOf()
-
-
-    Template.toggle_edit.events
-        'click .toggle_edit': ->
-            console.log @
-            console.log Template.currentData()
-            console.log Template.parentData()
-            console.log Template.parentData(1)
-            console.log Template.parentData(2)
-            console.log Template.parentData(3)
-            console.log Template.parentData(4)
-
-
 
 
     Template.user_list_info.onCreated ->

@@ -7,26 +7,13 @@ template(name='input_method')
         input.call_input_method(type='text')
 
 
-template(name='month_selector')
-    +key_value_edit key='month' value='jan'
-    +key_value_edit key='month' value='feb'
-    +key_value_edit key='month' value='mar'
-    +key_value_edit key='month' value='april'
-    +key_value_edit key='month' value='may'
-    +key_value_edit key='month' value='jun'
-    +key_value_edit key='month' value='jul'
-    +key_value_edit key='month' value='aug'
-    +key_value_edit key='month' value='sep'
-    +key_value_edit key='month' value='oct'
-    +key_value_edit key='month' value='nov'
-    +key_value_edit key='month' value='dec'
 
 
 
 
 template(name='comments')
     .ui.header
-        i.chat.outline.icon
+        i.chat.outline.grey.icon
         |comments
     div
     if currentUser
@@ -104,12 +91,6 @@ template(name='set_sort_key')
             else if icon
                 i.icon(class=icon)
             |#{label}
-
-template(name='goto_model')
-    if is_staff
-        a.goto_model(href="/m/#{slug}" title="goto #{slug}")
-            i.external.icon
-            //- +i name='external-link'
 
 
 template(name='toggle_edit')

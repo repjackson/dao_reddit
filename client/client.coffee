@@ -13,6 +13,21 @@ if Meteor.isClient
 
 $.cloudinary.config
     cloud_name:"facet"
+Template.registerHelper 'youtube_id', () ->
+    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+    match = @url.match(regExp)
+    if (match && match[2].length == 11)
+        console.log 'match 2', match[2]
+        match[2]
+    else
+        console.log 'error'
+
+
+
+Template.registerHelper 'is_streamable', () ->
+    @domain is 'streamable.com'
+Template.registerHelper 'is_youtube', () ->
+    @domain is 'youtube.com'
 
 
 Template.registerHelper 'user_by_id', () ->
@@ -39,26 +54,6 @@ Template.registerHelper 'session_key_value_is', (key, value) ->
 Template.registerHelper 'fixed', (input) ->
     if input
         input.toFixed()
-
-
-Template.registerHelper 'field_value', () ->
-    # console.log @
-    parent = Template.parentData()
-    parent5 = Template.parentData(5)
-    parent6 = Template.parentData(6)
-
-
-    if @direct
-        parent = Template.parentData()
-    else if parent5
-        if parent5._id
-            parent = Template.parentData(5)
-    else if parent6
-        if parent6._id
-            parent = Template.parentData(6)
-    # console.log 'parent', parent
-    if parent
-        parent["#{@key}"]
 
 
 Template.registerHelper 'template_subs_ready', () ->
@@ -90,24 +85,10 @@ Template.registerHelper 'in_role', (role)->
     else
         false
 
-Template.registerHelper 'page_doc', () ->
-    page_doc = Docs.findOne Router.current().params.doc_id
-
-Template.registerHelper 'global_settings', () ->
-    Docs.findOne model:'global_settings'
-
-
-# Template.registerHelper 'field_value', () ->
-#     if @direct
-#         parent = Template.parentData()
-#     else if parent5
-#         if parent5._id
-#             parent = Template.parentData(5)
-#     else if parent6
-#         if parent6._id
-#             parent = Template.parentData(6)
-#     if parent
-#         parent["#{@key}"]
+Template.registerHelper 'field_value', () ->
+    parent = Template.parentData()
+    if parent
+        parent["#{@key}"]
 
 
 
@@ -139,32 +120,6 @@ Template.registerHelper 'is_current_user', () ->
             true
         else
             false
-
-
-Template.registerHelper 'upvote_class', () ->
-    if Meteor.userId()
-        if @upvoter_ids and Meteor.userId() in @upvoter_ids then '' else 'outline'
-    else ''
-Template.registerHelper 'downvote_class', () ->
-    if Meteor.userId()
-        if @downvoter_ids and Meteor.userId() in @downvoter_ids then '' else 'outline'
-    else ''
-
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-
-
-Template.registerHelper 'current_delta', () -> Docs.findOne model:'delta'
-
-Template.registerHelper 'hsd', () ->
-    Docs.findOne
-        model:'home_stats'
-
-Template.registerHelper 'can_buy', ()->
-    Meteor.userId() isnt @_author_id
-
-Template.registerHelper 'has_enough', ()->
-    Meteor.user().credit > @price
 
 
 
@@ -201,47 +156,3 @@ Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 Template.registerHelper 'is_eric', ()-> if Meteor.userId() and Meteor.userId() in ['K77p8B9jpXbTz6nfD'] then true else false
 Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
-
-Template.registerHelper 'field_type_doc', ->
-    doc =
-        Docs.findOne
-            model:'field_type'
-            _id: @field_type_id
-    # if doc
-    #     console.log 'found field_type doc', doc
-    # else
-    #     console.log 'NO found field_type doc'
-    if doc
-        doc
-
-Template.registerHelper 'active_path', ->
-    false
-
-Template.registerHelper 'view_template', ->
-    # console.log 'view template this', @
-    field_type_doc =
-        Docs.findOne
-            model:'field_type'
-            _id: @field_type_id
-    # console.log 'field type doc', field_type_doc
-    "#{field_type_doc.slug}_view"
-
-
-Template.registerHelper 'edit_template', ->
-    field_type_doc =
-        Docs.findOne
-            model:'field_type'
-            _id: @field_type_id
-
-    # console.log 'field type doc', field_type_doc
-    "#{field_type_doc.slug}_edit"
-
-
-Template.registerHelper 'is_an_admin', ()->
-    if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c'] then true else false
-
-
-
-Template.registerHelper 'view_template', -> "#{@field_type}_view"
-Template.registerHelper 'edit_template', -> "#{@field_type}_edit"

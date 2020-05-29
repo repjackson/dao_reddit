@@ -92,13 +92,6 @@ Meteor.publish 'posts', (
     match = {model:'post'}
 
     if current_query.length > 0 then match.title = {$regex:"#{current_query}", $options: 'i'}
-    if view_mode is 'upvoted'
-        match.upvoter_ids = $in:[Meteor.userId()]
-    if view_mode is 'downvoted'
-        match.downvoter_ids = $in:[Meteor.userId()]
-    if view_mode is 'unvoted'
-        match.upvoter_ids = $nin:[Meteor.userId()]
-        match.downvoter_ids = $nin:[Meteor.userId()]
     # console.log selected_tags
     # console.log match
     # if doc_limit
@@ -124,7 +117,7 @@ Meteor.publish 'posts', (
         sort:
             points:-1
             _timestamp:-1
-        limit: 4
+        limit: 12
 
 
 Meteor.publish 'me', ->

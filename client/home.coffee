@@ -24,14 +24,11 @@ Template.home.helpers
 
 
 Template.home.events
-
     'click #add': ->
         new_id =
             Docs.insert
                 model:'post'
         Router.go "/post/#{new_id}/edit"
-
-
     #
     'click  .clear_query': (e,t)-> Session.set('current_query', null)
 

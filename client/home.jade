@@ -1,25 +1,24 @@
 template(name='home')
-    div
-    .ui.icon.input
-        if current_query
-            i.link.remove.icon.clear_query
-        else 
-            i.search.grey.icon
-        input#search(type='text' autocomplete="off")
-    if currentUser
-        a#add.ui.icon.button(title='add post')
-            i.plus.large.icon
-        //- div
-        +session_edit_value_button key='view_mode' value='voted' label='voted' icon='checkmark'
-        +session_edit_value_button key='view_mode' value='upvoted' label='upvoted' icon='thumbs up outline'
-        +session_edit_value_button key='view_mode' value='downvoted' label='downvoted' icon='thumbs down outline'
-        +session_edit_value_button key='view_mode' value='unvoted' label='unvoted' icon='question'
-    +cloud
-    .ui.basic.center.aligned.segment
-        //- if one_post
-        each posts
-            +post_item
-            //- .ui.divider
+    .ui.padded.stackable.grid
+        .row
+            .six.wide.right.aligned.column
+                +nav
+                if currentUser
+                    a#add.ui.icon.button(title='add post')
+                        i.plus.large.icon
+                            //- div
+                div
+                .ui.icon.input
+                    if current_query
+                        i.link.remove.icon.clear_query
+                    else 
+                        i.search.grey.icon
+                    input#search(type='text' autocomplete="off")
+                +cloud
+            .ten.wide.column
+                each posts
+                    +post_item
+                //- .ui.divider
 
 
 
@@ -52,47 +51,234 @@ template(name='cloud')
 
 
 template(name='post_item')
-    .ui.basic.center.aligned.segment
-        a.ui.header(href="/post/#{_id}/view")
-            |#{title}
-        .spacer
-        if content
-            |!{content}
-        if image
-            +image_view key='image' direct=true
-        //- if raw
-        //-     +raw_view key='raw' direct=true
-        if pornhub_id
-            +pornhub_view key='pornhub_id' direct=true
+    .ui.grid
+        .six.wide.column
+            h2
+                .ui.center.aligned.inline.header #{title}
+            div
+            if image
+                +image_view key='image' direct=true
+            if body 
+                +textarea_view key='body' direct=true
+            i.tag.icon
+            each tags
+                .ui.large.label #{this}
+            //- with _author_id
+            //-     +author_card
+            //- if cal_embed
+            //-     +raw_view key='cal_embed' label='cal embed code' direct=true
+            +comments
+        .six.wide.column
+            .ui.header available 
+            +boolean_view key='for_sale' label='for sale' direct=true
+            div
+            if for_sale
+                +number_view key='sale_price' label='sale price'
+                .ui.green.button
+                    |buy
+                div
+            +boolean_view key='rentable' label='rentable' direct=true
+            div
+            if rentable
+                +boolean_view key='hourly' label='hourly' direct=true
+                div
+                if hourly
+                    +number_view key='hourly_rate' label='hourly rate'
+                    .ui.green.button
+                        |rent
+                div
+                +boolean_view key='daily' label='daily' direct=true
+                div
+                if daily
+                    +number_view key='daily_rate' label='daily rate'
+                    .ui.green.button
+                        |rent
+                div
+                +boolean_view key='weekly' label='weekly' direct=true
+                div
+                if weekly
+                    +number_view key='weekly_rate' label='weekly rate'
+                    .ui.green.button
+                        |rent
+                                
 
-        //- if currentUser
-        //-     each tags
-        //-         .ui.basic.compact.button #{this}
-        if is_admin
-            .ui.inline.header author:
-            .ui.basic.label 
-                i.user.outline.icon
-                |#{_author_username}
-        //- .ui.inline.header voters:
-        //- each voters
-        //-     .ui.basic.label 
-        //-         |#{username}
-        if currentUser
-            +voting_full
-        if can_edit
-            a.ui.icon.button(href="/post/#{_id}/edit")
-                i.pencil.icon
+    //- .ui.card
+    //-     .content
+    //-     a.ui.center.aligned.centered.header(href="/post/#{_id}/view")
+    //-         |#{title}
+    //-         .spacer
+    //-     if image
+    //-         a(href="/post/#{_id}/view")
+    //-             img.ui.centered.rounded.tiny.image(src="{{c.url image height=300 crop='fit'}}")
+    //-             //- +image_view key='image' direct=true
+    //-     if body
+    //-         |#{body}
+    //-     //- if currentUser
+    //-     //-     each tags
+    //-     //-         .ui.basic.compact.button #{this}
+    //-     //- if is_admin
+    //-     //-     .ui.inline.header author:
+    //-     //-     .ui.basic.label 
+    //-     //-         i.user.outline.icon
+    //-     //-         |#{_author_username}
+    //- 
+
+
+
+template(name='post_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href='/' title='posts')
+                        i.left.chevron.large.icon
+                    //- a(href="{{c.url image }}" target='_window')
+                    //-     img.ui.centered.rounded.medium.invert.image(src="{{c.url image width=400 height=400 crop='fit'}}")
+                    a.ui.large.button(href="/user/#{_author_username}")
+                        |by #{_author_username}
+                    //- |#{when}
+                    div
+                    if can_edit
+                        a.ui.large.icon.button(href="/post/#{_id}/edit" title='edit')
+                            i.pencil.icon
+                    div
+                    //- with _author_id
+                    //-     +user_card
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    div
+                    if image
+                        +image_view key='image' direct=true
+                    if body 
+                        +textarea_view key='body' direct=true
+                    i.tag.icon
+                    each tags
+                        .ui.large.label #{this}
+                    //- with _author_id
+                    //-     +author_card
+                    //- if cal_embed
+                    //-     +raw_view key='cal_embed' label='cal embed code' direct=true
+                    +comments
+                .six.wide.column
+                    .ui.header available 
+                    +boolean_view key='for_sale' label='for sale' direct=true
+                    div
+                    if for_sale
+                        +number_view key='sale_price' label='sale price'
+                        .ui.green.button
+                            |buy
+                        div
+                    +boolean_view key='rentable' label='rentable' direct=true
+                    div
+                    if rentable
+                        +boolean_view key='hourly' label='hourly' direct=true
+                        div
+                        if hourly
+                            +number_view key='hourly_rate' label='hourly rate'
+                            .ui.green.button
+                                |rent
+                        div
+                        +boolean_view key='daily' label='daily' direct=true
+                        div
+                        if daily
+                            +number_view key='daily_rate' label='daily rate'
+                            .ui.green.button
+                                |rent
+                        div
+                        +boolean_view key='weekly' label='weekly' direct=true
+                        div
+                        if weekly
+                            +number_view key='weekly_rate' label='weekly rate'
+                            .ui.green.button
+                                |rent
+                            
+                    
+            
+template(name='post_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.large.fluid.icon.button(href="/post/#{_id}/view" title='save')
+                        i.checkmark.large.icon
+                    +delete_button
+                .six.wide.column
+                    h2
+                        .ui.center.aligned.inline.header #{title}
+                    +text_edit key='title' label='title' direct=true
+                    +array_edit key='tags' label='tags' direct=true
+                    +image_edit key='image' label='image' direct=true
+                    +textarea_edit key='body' label='body' direct=true
+                    //- +raw_edit key='cal_embed' label='cal embed code' direct=true
+                .six.wide.column
+                    +boolean_edit key='for_sale' label='for sale' direct=true
+                    div
+                    if for_sale
+                        +number_edit key='sale_price' label='sale price'
+                        div
+                    +boolean_edit key='rentable' label='rentable' direct=true
+                    div
+                    if rentable
+                        +boolean_edit key='hourly' label='hourly' direct=true
+                        div
+                        if hourly
+                            +number_edit key='hourly_rate' label='hourly rate'
+                        div
+                        +boolean_edit key='daily' label='daily' direct=true
+                        div
+                        if daily
+                            +number_edit key='daily_rate' label='daily rate'
+                        div
+                        +boolean_edit key='weekly' label='weekly' direct=true
+                        div
+                        if weekly
+                            +number_edit key='weekly_rate' label='weekly rate'
+                        
+                    
+            
+            
+template(name='author_card')
+    .ui.header author
+    with author
+        .ui.card
+            img.ui.centered.rounded.image(src="{{c.url image width=400 height=400 crop='fit'}}")
+            .content
+                a.header(href="/user/#{username}") #{username}
+                .ui.list
+                    .item #{sales_count} sales
+                    .item #{selling_count} selling
 
 
 
 
-//- template(name='answer_small')
-//-     .ui.icon.button
-//-         i.large.thumbs.up.icon
-//-     .ui.icon.button
-//-         i.large.thumbs.down.icon
-
-
-//- 
-//- template(name='set_limit')
-//-     .item.set_limit #{amount}
+template(name='profile')
+    with user
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    img.ui.centered.medium.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    //- img.ui.tiny.inline.rounded.profile_image.image.mobile.only(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
+                    a(href="/user/#{username}")
+                        //- if user.first_name
+                        //-     .ui.center.aligned.inline.header
+                        //-         | #{user.first_name} #{user.last_name}
+                        .ui.inline.header @#{user.username}
+                    if is_current_user
+                        //- .ui.large.icon.button.recalc_user_stats(title='profile settings')
+                        //-     i.refresh.icon
+                        a.ui.large.icon.button(href="/user/#{user._id}/edit" title='profile settings')
+                            i.cog.large.icon
+                        .ui.icon.large.button.logout(title='sign out')
+                            i.sign.out.alternate.large.icon
+                .twelve.wide.column
+                    .ui.large.selection.animated.list
+                        each posts
+                            a.item(href="/post/#{_id}/view")
+                                img.ui.tiny.rounded.image(src="{{c.url image height=300 width=300 crop='fill'}}")
+                                .content
+                                    .header #{title}
+                                    .description
+                                        |#{body}
+                                    
+                        
