@@ -52,7 +52,7 @@ template(name='cloud')
 
 template(name='post_item')
     .ui.grid
-        .six.wide.column
+        .sixteen.wide.column
             h2
                 .ui.center.aligned.inline.header #{title}
             div
@@ -68,7 +68,6 @@ template(name='post_item')
             //- if cal_embed
             //-     +raw_view key='cal_embed' label='cal embed code' direct=true
             +comments
-        .six.wide.column
             .ui.header available 
             +boolean_view key='for_sale' label='for sale' direct=true
             div
@@ -144,7 +143,7 @@ template(name='post_view')
                     div
                     //- with _author_id
                     //-     +user_card
-                .six.wide.column
+                .twelve.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}
                     div
@@ -160,7 +159,6 @@ template(name='post_view')
                     //- if cal_embed
                     //-     +raw_view key='cal_embed' label='cal embed code' direct=true
                     +comments
-                .six.wide.column
                     .ui.header available 
                     +boolean_view key='for_sale' label='for sale' direct=true
                     div

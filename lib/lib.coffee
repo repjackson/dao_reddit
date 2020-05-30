@@ -21,21 +21,20 @@ Router.configure
     loadingTemplate: 'splash'
     trackPageView: false
 
-# force_loggedin =  ()->
-#     if !Meteor.userId()
-#         @render 'login'
-#     else
-#         @next()
+force_loggedin =  ()->
+    if !Meteor.userId()
+        @render 'login'
+    else
+        @next()
 
-# Router.onBeforeAction(force_loggedin, {
-#   # only: ['admin']
-#   except: [
-#     'register'
-#     'login'
-#     'find_mentor'
-#     'verify-email'
-#   ]
-# });
+Router.onBeforeAction(force_loggedin, {
+  # only: ['admin']
+  except: [
+    'register'
+    'login'
+    'verify-email'
+  ]
+});
 
 
 
@@ -69,11 +68,8 @@ Router.route('verify-email', {
 })
 
 
-# Router.route '/user/:username', -> @render 'user'
 Router.route '/verification_confirmation', -> @render 'verification_confirmation'
 Router.route '*', -> @render 'not_found'
-
-# Router.route '/user/:username/m/:type', -> @render 'profile', 'user_section'
 
 Router.route '/forgot_password', -> @render 'forgot_password'
 

@@ -67,7 +67,7 @@ Template.cloud.onCreated ->
 Template.cloud.helpers
     all_tags: ->
         post_count = Docs.find().count()
-        if 0 < post_count < 3 then Tags.find { count: $lt: post_count } else Tags.find()
+        if 0 < post_count < 3 then Tags.find { count: $lt: post_count } else Tags.find({},limit:20)
     selected_tags: -> selected_tags.array()
 
     all_authors: ->
