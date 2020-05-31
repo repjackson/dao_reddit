@@ -33,6 +33,7 @@ template(name='home')
                 .ui.button
                     |sort
                     |#{sort_key}
+                .spacer
                 .ui.four.stackable.cards
                     each posts
                         +post_item
@@ -83,37 +84,3 @@ template(name='author_card')
                 .ui.list
                     .item #{sales_count} sales
                     .item #{selling_count} selling
-
-
-
-
-template(name='profile')
-    with user
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column
-                    img.ui.centered.medium.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                    //- img.ui.tiny.inline.rounded.profile_image.image.mobile.only(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
-                    a(href="/user/#{username}")
-                        //- if user.first_name
-                        //-     .ui.center.aligned.inline.header
-                        //-         | #{user.first_name} #{user.last_name}
-                        .ui.inline.header @#{user.username}
-                    if is_current_user
-                        //- .ui.large.icon.button.recalc_user_stats(title='profile settings')
-                        //-     i.refresh.icon
-                        a.ui.large.icon.button(href="/user/#{user._id}/edit" title='profile settings')
-                            i.cog.large.icon
-                        .ui.icon.large.button.logout(title='sign out')
-                            i.sign.out.alternate.large.icon
-                .twelve.wide.column
-                    .ui.large.selection.animated.list
-                        each posts
-                            a.item(href="/post/#{_id}/view")
-                                img.ui.tiny.rounded.image(src="{{c.url image height=300 width=300 crop='fill'}}")
-                                .content
-                                    .header #{title}
-                                    .description
-                                        |#{body}
-                                    
-                        

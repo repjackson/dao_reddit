@@ -1,9 +1,9 @@
 template(name='nav')
     .ui.attached.borderless.topnav.invert.inverted.menu
-        a.icon.item(href='/' class="{{isActivePath '/'}}" title='home')
+        a.icon.item.open(href='/' class="{{isActivePath '/'}}" title='home')
             i.yin.yang.large.icon
-        //- a.icon.item(href='/users' class="{{isActivePath '/users'}}" title='home')
-        //-     i.users.large.icon
+        a.icon.item(href='/users' class="{{isActivePath '/users'}}" title='home')
+            i.users.large.icon
         .right.menu
             if currentUser
                 a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_dashboard'}}" title='profile')

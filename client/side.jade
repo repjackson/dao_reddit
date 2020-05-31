@@ -1,0 +1,26 @@
+template(name='side')
+    ul#slide-out.sidenav
+      li
+        .user-view
+          .background
+            img(src="images/office.jpg")
+          a(href="#user")
+            img.circle(src="images/yuna.jpg")
+          a(href="#name")
+            span.white-text.name John Doe
+          a(href="#email")
+            span.white-text.email jdandturk@gmail.com
+      li
+        a(href="#!")
+          i.material-icons cloud
+          | First Link With Icon
+      li
+        a(href="#!") Second Link
+      li
+        .divider
+      li
+        a.subheader Subheader
+      li
+        a.waves-effect(href="#!") Third Link With Waves
+    a.sidenav-trigger(href="#" data-target="slide-out")
+      i.material-icons menu

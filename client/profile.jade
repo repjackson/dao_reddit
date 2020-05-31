@@ -1,0 +1,45 @@
+template(name='profile')
+    with user
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    img.ui.centered.medium.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    //- img.ui.tiny.inline.rounded.profile_image.image.mobile.only(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
+                    a(href="/user/#{username}")
+                        //- if user.first_name
+                        //-     .ui.center.aligned.inline.header
+                        //-         | #{user.first_name} #{user.last_name}
+                        .ui.inline.header @#{user.username}
+                    if is_current_user
+                        //- .ui.large.icon.button.recalc_user_stats(title='profile settings')
+                        //-     i.refresh.icon
+                        a.ui.large.icon.button(href="/user/#{user._id}/edit" title='profile settings')
+                            i.cog.large.icon
+                        .ui.icon.large.button.logout(title='sign out')
+                            i.sign.out.alternate.large.icon
+                .twelve.wide.column
+                    .ui.fluid.button.view_friends
+                        i.users.icon
+                        |friends
+                    .ui.fluid.button.view_posts
+                        i.blog.icon
+                        |posts
+                    if view_posts
+                        +user_posts
+                    if view_friends
+                        +view_friends
+                        
+template(name='user_friends')
+    .ui.header user friends
+                        
+template(name='user_posts')
+    .ui.large.selection.animated.list.scrolling
+        each posts
+            a.item(href="/post/#{_id}/view")
+                img.ui.mini.rounded.image(src="{{c.url image height=300 width=300 crop='fill'}}")
+                .content
+                    .header #{title}
+                    .description
+                        |#{body}
+                    
+        
