@@ -16,17 +16,23 @@ template(name='home')
                 +cloud
             .twelve.wide.column.scrolling
                 .ui.button
+                    i.cart.icon
                     |sale
                 .ui.button
+                    i.clock.icon
                     |rentable
                 .ui.button
+                    i.sun.icon
                     |daily
                 .ui.button
+                    i.clock.icon
                     |hourly
                 .ui.button
+                    i.calendar.icon
                     |weekly
                 .ui.button
                     |sort
+                    |#{sort_key}
                 .ui.four.stackable.cards
                     each posts
                         +post_item
@@ -65,47 +71,6 @@ template(name='cloud')
 
                     
             
-template(name='post_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column
-                    a.ui.large.fluid.icon.button(href="/post/#{_id}/view" title='save')
-                        i.checkmark.large.icon
-                    +delete_button
-                .six.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{title}
-                    +text_edit key='title' label='title' direct=true
-                    +array_edit key='tags' label='tags' direct=true
-                    +image_edit key='image' label='image' direct=true
-                    +textarea_edit key='body' label='body' direct=true
-                    //- +raw_edit key='cal_embed' label='cal embed code' direct=true
-                .six.wide.column
-                    +boolean_edit key='for_sale' label='for sale' direct=true
-                    div
-                    if for_sale
-                        +number_edit key='sale_price' label='sale price'
-                        div
-                    +boolean_edit key='rentable' label='rentable' direct=true
-                    div
-                    if rentable
-                        +boolean_edit key='hourly' label='hourly' direct=true
-                        div
-                        if hourly
-                            +number_edit key='hourly_rate' label='hourly rate'
-                        div
-                        +boolean_edit key='daily' label='daily' direct=true
-                        div
-                        if daily
-                            +number_edit key='daily_rate' label='daily rate'
-                        div
-                        +boolean_edit key='weekly' label='weekly' direct=true
-                        div
-                        if weekly
-                            +number_edit key='weekly_rate' label='weekly rate'
-                        
-                    
             
             
 template(name='author_card')
