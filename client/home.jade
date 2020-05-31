@@ -1,8 +1,7 @@
 template(name='home')
     .ui.padded.stackable.grid
         .row
-            .six.wide.right.aligned.column
-                +nav
+            .four.wide.column
                 if currentUser
                     a#add.ui.icon.button(title='add post')
                         i.plus.large.icon
@@ -15,9 +14,22 @@ template(name='home')
                         i.search.grey.icon
                     input#search(type='text' autocomplete="off")
                 +cloud
-            .ten.wide.column
-                each posts
-                    +post_item
+            .twelve.wide.column.scrolling
+                .ui.button
+                    |sale
+                .ui.button
+                    |rentable
+                .ui.button
+                    |daily
+                .ui.button
+                    |hourly
+                .ui.button
+                    |weekly
+                .ui.button
+                    |sort
+                .ui.four.stackable.cards
+                    each posts
+                        +post_item
                 //- .ui.divider
 
 
@@ -36,161 +48,21 @@ template(name='cloud')
         .ui.compact.large.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
     div
-    //- i.user.large.grey.icon(title='author')
-    //- if selected_authors
-    //-     //- #clear_tags.ui.secondary.icon.compact.button
-    //-     //-     i.remove.icon
-    //-     each selected_authors
-    //-         .unselect_tag.ui.secondary.compact.large.button
-    //-             strong #{this}
-    //- each all_authors
-    //-     .ui.compact.large.button.select_author(class=cloud_tag_class) 
-    //-         strong #{this.name}
+    i.user.large.grey.icon(title='author')
+    if selected_authors
+        //- #clear_tags.ui.secondary.icon.compact.button
+        //-     i.remove.icon
+        each selected_authors
+            .unselect_tag.ui.secondary.compact.large.button
+                strong #{this}
+    each all_authors
+        .ui.compact.large.button.select_author(class=cloud_tag_class) 
+            strong #{this.name}
 
 
 
 
-template(name='post_item')
-    .ui.grid
-        .sixteen.wide.column
-            h2
-                .ui.center.aligned.inline.header #{title}
-            div
-            if image
-                +image_view key='image' direct=true
-            if body 
-                +textarea_view key='body' direct=true
-            i.tag.icon
-            each tags
-                .ui.large.label #{this}
-            //- with _author_id
-            //-     +author_card
-            //- if cal_embed
-            //-     +raw_view key='cal_embed' label='cal embed code' direct=true
-            +comments
-            .ui.header available 
-            +boolean_view key='for_sale' label='for sale' direct=true
-            div
-            if for_sale
-                +number_view key='sale_price' label='sale price'
-                .ui.green.button
-                    |buy
-                div
-            +boolean_view key='rentable' label='rentable' direct=true
-            div
-            if rentable
-                +boolean_view key='hourly' label='hourly' direct=true
-                div
-                if hourly
-                    +number_view key='hourly_rate' label='hourly rate'
-                    .ui.green.button
-                        |rent
-                div
-                +boolean_view key='daily' label='daily' direct=true
-                div
-                if daily
-                    +number_view key='daily_rate' label='daily rate'
-                    .ui.green.button
-                        |rent
-                div
-                +boolean_view key='weekly' label='weekly' direct=true
-                div
-                if weekly
-                    +number_view key='weekly_rate' label='weekly rate'
-                    .ui.green.button
-                        |rent
-                                
 
-    //- .ui.card
-    //-     .content
-    //-     a.ui.center.aligned.centered.header(href="/post/#{_id}/view")
-    //-         |#{title}
-    //-         .spacer
-    //-     if image
-    //-         a(href="/post/#{_id}/view")
-    //-             img.ui.centered.rounded.tiny.image(src="{{c.url image height=300 crop='fit'}}")
-    //-             //- +image_view key='image' direct=true
-    //-     if body
-    //-         |#{body}
-    //-     //- if currentUser
-    //-     //-     each tags
-    //-     //-         .ui.basic.compact.button #{this}
-    //-     //- if is_admin
-    //-     //-     .ui.inline.header author:
-    //-     //-     .ui.basic.label 
-    //-     //-         i.user.outline.icon
-    //-     //-         |#{_author_username}
-    //- 
-
-
-
-template(name='post_view')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column
-                    a.ui.fluid.button(href='/' title='posts')
-                        i.left.chevron.large.icon
-                    //- a(href="{{c.url image }}" target='_window')
-                    //-     img.ui.centered.rounded.medium.invert.image(src="{{c.url image width=400 height=400 crop='fit'}}")
-                    a.ui.large.button(href="/user/#{_author_username}")
-                        |by #{_author_username}
-                    //- |#{when}
-                    div
-                    if can_edit
-                        a.ui.large.icon.button(href="/post/#{_id}/edit" title='edit')
-                            i.pencil.icon
-                    div
-                    //- with _author_id
-                    //-     +user_card
-                .twelve.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{title}
-                    div
-                    if image
-                        +image_view key='image' direct=true
-                    if body 
-                        +textarea_view key='body' direct=true
-                    i.tag.icon
-                    each tags
-                        .ui.large.label #{this}
-                    //- with _author_id
-                    //-     +author_card
-                    //- if cal_embed
-                    //-     +raw_view key='cal_embed' label='cal embed code' direct=true
-                    +comments
-                    .ui.header available 
-                    +boolean_view key='for_sale' label='for sale' direct=true
-                    div
-                    if for_sale
-                        +number_view key='sale_price' label='sale price'
-                        .ui.green.button
-                            |buy
-                        div
-                    +boolean_view key='rentable' label='rentable' direct=true
-                    div
-                    if rentable
-                        +boolean_view key='hourly' label='hourly' direct=true
-                        div
-                        if hourly
-                            +number_view key='hourly_rate' label='hourly rate'
-                            .ui.green.button
-                                |rent
-                        div
-                        +boolean_view key='daily' label='daily' direct=true
-                        div
-                        if daily
-                            +number_view key='daily_rate' label='daily rate'
-                            .ui.green.button
-                                |rent
-                        div
-                        +boolean_view key='weekly' label='weekly' direct=true
-                        div
-                        if weekly
-                            +number_view key='weekly_rate' label='weekly rate'
-                            .ui.green.button
-                                |rent
-                            
                     
             
 template(name='post_edit')

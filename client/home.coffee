@@ -14,7 +14,7 @@ Template.home.helpers
         Docs.find {
             model:'post'
         },
-            limit:1
+            limit:20
             sort:_timestamp:-1
 
     one_post: ->

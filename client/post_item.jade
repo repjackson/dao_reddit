@@ -1,0 +1,70 @@
+template(name='post_item')
+    a.ui.card(href="/post/#{_id}/view" title=body)
+        if image
+            +image_view key='image' direct=true
+        .content
+            .ui.center.aligned.inline.header #{title}
+            div
+            //- if body 
+            //-     +textarea_view key='body' direct=true
+            //- i.tag.icon
+            //- each tags
+            //-     .ui.large.label #{this}
+            //- with _author_id
+            //-     +author_card
+            //- if cal_embed
+            //-     +raw_view key='cal_embed' label='cal embed code' direct=true
+            //- +comments
+            //- .ui.header available 
+            //- +boolean_view key='for_sale' label='for sale' direct=true
+            //- div
+            //- if for_sale
+            //-     +number_view key='sale_price' label='sale price'
+            //-     .ui.green.button
+            //-         |buy
+            //-     div
+            //- +boolean_view key='rentable' label='rentable' direct=true
+            //- div
+            //- if rentable
+            //-     +boolean_view key='hourly' label='hourly' direct=true
+            //-     div
+            //-     if hourly
+            //-         +number_view key='hourly_rate' label='hourly rate'
+            //-         .ui.green.button
+            //-             |rent
+            //-     div
+            //-     +boolean_view key='daily' label='daily' direct=true
+            //-     div
+            //-     if daily
+            //-         +number_view key='daily_rate' label='daily rate'
+            //-         .ui.green.button
+            //-             |rent
+            //-     div
+            //-     +boolean_view key='weekly' label='weekly' direct=true
+            //-     div
+            //-     if weekly
+            //-         +number_view key='weekly_rate' label='weekly rate'
+            //-         .ui.green.button
+            //-             |rent
+                                
+
+    //- .ui.card
+    //-     .content
+    //-     a.ui.center.aligned.centered.header(href="/post/#{_id}/view")
+    //-         |#{title}
+    //-         .spacer
+    //-     if image
+    //-         a(href="/post/#{_id}/view")
+    //-             img.ui.centered.rounded.tiny.image(src="{{c.url image height=300 crop='fit'}}")
+    //-             //- +image_view key='image' direct=true
+    //-     if body
+    //-         |#{body}
+    //-     //- if currentUser
+    //-     //-     each tags
+    //-     //-         .ui.basic.compact.button #{this}
+    //-     //- if is_admin
+    //-     //-     .ui.inline.header author:
+    //-     //-     .ui.basic.label 
+    //-     //-         i.user.outline.icon
+    //-     //-         |#{_author_username}
+    //- 

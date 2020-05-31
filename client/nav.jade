@@ -1,18 +1,17 @@
 template(name='nav')
-    //- .ui.attached.borderless.topnav.invert.inverted.menu
-    a.ui.icon.button(href='/' class="{{isActivePath '/'}}" title='home')
-        i.yin.yang.large.icon
-    //- a.icon.item(href='/users' class="{{isActivePath '/users'}}" title='home')
-    //-     i.users.large.icon
-    //- .right.menu
-    if currentUser
-        a.ui.button(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_dashboard'}}" title='profile')
-            if currentUser.image_id
-                img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
-            else
-                i.user.icon
-            span.mobile.hidden #{currentUser.name} {{fixed currentUser.credit}}c
-            
-    else 
-        a.ui.button(href="/login")
-            i.sign.in.alternate.icon
+    .ui.attached.borderless.topnav.invert.inverted.menu
+        a.icon.item(href='/' class="{{isActivePath '/'}}" title='home')
+            i.yin.yang.large.icon
+        //- a.icon.item(href='/users' class="{{isActivePath '/users'}}" title='home')
+        //-     i.users.large.icon
+        .right.menu
+            if currentUser
+                a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_dashboard'}}" title='profile')
+                    if currentUser.image_id
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                    else
+                        i.user.icon
+                    span.mobile.hidden #{currentUser.name} {{fixed currentUser.credit}}c
+            else 
+                a.item(href="/login")
+                    i.sign.in.alternate.icon

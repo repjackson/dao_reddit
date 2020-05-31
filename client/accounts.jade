@@ -2,11 +2,11 @@ template(name='login')
     .ui.padded.stackable.grid
         .centered.row
             .eight.wide.column
-                //- .ui.center.aligned.basic.segment
-                //-     //- a.ui.icon.large.button(href="/" title='return home')
-                //-     //-     i.home.icon
-                //-         //- |home
-                //-     i.huge.yin.yang.icon
+                .ui.center.aligned.basic.segment
+                    //- a.ui.icon.large.button(href="/" title='return home')
+                    //-     i.home.icon
+                        //- |home
+                    i.huge.yin.yang.icon
                     //- img.ui.rounded.large.centered.inline.image(src="{{c.url 'forest_logo_blue' width=400 height=400}}")
                     //- .ui.inline.large.header login
                 div
@@ -39,9 +39,9 @@ template(name='login')
                         //-         i.user.plus.icon
                         //-         | register
                 .ui.center.aligned.basic.segment    
-                    a.ui.icon.large.button(href='/forgot_password')
+                    a.ui.large.button(href='/forgot_password')
                         i.refresh.icon
-                        //- |forgot password
+                        |forgot password
                     //- a.ui.icon.large.button(href='/register') 
                     //-     i.user.plus.icon
                         //- |register
