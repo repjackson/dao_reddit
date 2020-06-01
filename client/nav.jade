@@ -4,6 +4,8 @@ template(name='nav')
             i.yin.yang.large.icon
         a.icon.item(href='/users' class="{{isActivePath '/users'}}" title='home')
             i.users.large.icon
+        //- a.item.waves-effect.waves-light.btn-large
+        //-     |waves
         .right.menu
             if currentUser
                 a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_dashboard'}}" title='profile')
@@ -15,3 +17,4 @@ template(name='nav')
             else 
                 a.item(href="/login")
                     i.sign.in.alternate.icon
+          

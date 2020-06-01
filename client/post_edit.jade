@@ -6,6 +6,8 @@ template(name='post_edit')
                     a.ui.large.fluid.icon.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.large.icon
                     +delete_button
+                    +boolean_edit key='published' label='published' direct=true
+                    
                 .six.wide.column
                     h2
                         .ui.center.aligned.inline.header #{title}

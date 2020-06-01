@@ -21,8 +21,7 @@ template(name='post_view')
                     with _author_id
                         +user_card
                 .six.wide.column
-                    h2
-                        .ui.center.aligned.inline.header #{title}
+                    .ui.center.aligned.inline.header #{title}
                     div
                     if image
                         +image_view key='image' direct=true

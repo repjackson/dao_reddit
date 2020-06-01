@@ -1,4 +1,5 @@
 template(name='profile')
+    +nav
     with user
         .ui.stackable.padded.grid
             .row
@@ -18,16 +19,23 @@ template(name='profile')
                         .ui.icon.large.button.logout(title='sign out')
                             i.sign.out.alternate.large.icon
                 .twelve.wide.column
-                    .ui.fluid.button.view_friends
+                    a.ui.button(href="/user/#{username}/credit")
+                        i.money.icon
+                        |credit
+                    a.ui.button(href="/user/#{username}/friends")
                         i.users.icon
                         |friends
-                    .ui.fluid.button.view_posts
+                    a.ui.button(href="/user/#{username}/posts")
                         i.blog.icon
                         |posts
                     if view_posts
                         +user_posts
                     if view_friends
                         +view_friends
+                    +yield
+                        
+template(name='user_dashboard')
+    .ui.header user dashboard
                         
 template(name='user_friends')
     .ui.header user friends

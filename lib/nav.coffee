@@ -3,16 +3,8 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_stats', Router.current().params.username
     Template.nav.onRendered ->
-        Meteor.setTimeout ->
-            $('.sidenav').sidenav();
-        , 200
-    Template.nav.events
-        'click .open': (e,t)->
-            console.log @
-            instance = M.Sidenav.getInstance(e);
-            console.log instance
-            instance.open();
 
+    Template.nav.events
         'keyup #search': (e,t)->
             if e.which is 13
                 val = t.$('#search').val().trim().toLowerCase()

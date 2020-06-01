@@ -1,6 +1,6 @@
 if Meteor.isClient
     Router.route '/user/:username/credit', (->
-        @layout 'layout'
+        @layout 'profile'
         @render 'user_credit'
         ), name:'user_credit'
 
