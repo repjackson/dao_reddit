@@ -1,9 +1,4 @@
 if Meteor.isClient
-    Router.route '/user/:username', (->
-        @layout 'profile'
-        @render 'user_dashboard'
-        ), name:'user_dashboard'
-
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'model_docs', 'post'
@@ -21,11 +16,6 @@ if Meteor.isClient
     Template.profile.helpers
         user: ->
             Meteor.users.findOne username:Router.current().params.username
-        posts: ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find
-                model:'post'
-                _author_id: user._id
 if Meteor.isServer
     Meteor.methods
         recalc_user_stats: (username)->

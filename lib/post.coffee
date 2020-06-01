@@ -41,15 +41,15 @@ if Meteor.isClient
 
     Template.post_view.events
 
-    Template.author_card.helpers
-        author: ->
-            # console.log @valueOf()
-            post = Docs.findOne Router.current().params.doc_id
-            res =
-                Meteor.users.findOne
-                    _id:@valueOf()
-            # console.log res
-            res
+    # Template.author_card.helpers
+    #     author: ->
+    #         # console.log @valueOf()
+    #         post = Docs.findOne Router.current().params.doc_id
+    #         res =
+    #             Meteor.users.findOne
+    #                 _id:@valueOf()
+    #         # console.log res
+    #         res
 
 
 if Meteor.isServer

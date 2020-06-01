@@ -32,19 +32,19 @@ template(name='login')
                         //- i.sign.in.alternate.icon
                         i.right.chevron.icon
                 else
-                    //- if username
-                        //- .ui.center.aligned.basic.segment
-                        //-     .ui.header no '#{username}' user
-                        //-     a.ui.button(href='/register')
-                        //-         i.user.plus.icon
-                        //-         | register
+                    if username
+                        .ui.center.aligned.basic.segment
+                            .ui.header no '#{username}' user
+                            a.ui.button(href='/register')
+                                i.user.plus.icon
+                                | register
                 .ui.center.aligned.basic.segment    
                     a.ui.large.button(href='/forgot_password')
                         i.refresh.icon
                         |forgot password
-                    //- a.ui.icon.large.button(href='/register') 
-                    //-     i.user.plus.icon
-                        //- |register
+                    a.ui.icon.large.button(href='/register') 
+                        i.user.plus.icon
+                        |register
                     //- .ui.center.aligned.inline.header see the front desk to register an account
 
 

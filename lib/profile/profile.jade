@@ -19,6 +19,9 @@ template(name='profile')
                         .ui.icon.large.button.logout(title='sign out')
                             i.sign.out.alternate.large.icon
                 .twelve.wide.column
+                    a.ui.button(href="/user/#{username}/")
+                        i.dashboard.icon
+                        |dashboard
                     a.ui.button(href="/user/#{username}/credit")
                         i.money.icon
                         |credit
@@ -37,17 +40,5 @@ template(name='profile')
 template(name='user_dashboard')
     .ui.header user dashboard
                         
-template(name='user_friends')
-    .ui.header user friends
                         
-template(name='user_posts')
-    .ui.large.selection.animated.list.scrolling
-        each posts
-            a.item(href="/post/#{_id}/view")
-                img.ui.mini.rounded.image(src="{{c.url image height=300 width=300 crop='fill'}}")
-                .content
-                    .header #{title}
-                    .description
-                        |#{body}
-                    
         

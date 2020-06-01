@@ -1,0 +1,119 @@
+template(name='user_badges')
+    a.ui.header(href="/badges")
+        +i name='badge'
+        |badges
+    div
+    each user_badges
+        a.ui.big.button(href="/badge/#{_id}/view" title=title)
+            +i name=icon
+            
+            
+template(name='user_edit_styles')
+    a.ui.header(href="/badges")
+        +i name='badge'
+        |badges
+    div
+    +text_edit key='nav_color' label='nav color' direct=true
+            
+
+
+    
+template(name='user_friends')
+    a.ui.header(href="/users") 
+        |friends
+    .ui.small.inline.grey.header users who can see your inventory
+    div
+    +user_friend_button
+    .ui.stackable.grid
+        .two.column.row
+            .column
+                .ui.small.header connected to
+                .ui.middle.aligned.selection.animated.large.list
+                    each friends
+                        +user_segment
+            .column
+                .ui.small.header connected by
+                .ui.middle.aligned.selection.animated.large.list
+                    each friends_with
+                        +user_segment
+
+
+template(name='user_segment')
+    a.item(href="/user/#{username}")
+        img.ui.avatar.image(src="{{c.url image_id gravity='face' crop='fit'}}")
+        .content
+            .header
+                |#{name}
+                small $#{credit}
+            .description
+                each tags
+                    .ui.basic.label #{this}
+
+    //- .ui.horizontal.card
+    //-     .image
+    //-         if image_id
+    //-             img(src="{{c.url image_id gravity='face' crop='crop'}}")
+    //-     .content
+    //-         a.ui.header(href="/user/#{username}")
+    //-             |#{first_name} #{last_name}
+    //-             //- |#{username}
+    //-         //- .ui.header Tags
+    //-         each tags
+    //-             .ui.basic.label #{this}
+    //-         +user_status user
+    //-         .ui.header #{body}
+    //-         +user_friend_button
+template(name='user_friend_button')
+    if is_friend
+        .ui.blue.fade.animated.button.unfriend
+            .visible.content
+                |connected
+            .hidden.content
+                i.minus.icon
+    else
+        .ui.button.friend
+            i.plus.icon
+            |connect
+
+
+            
+template(name='user_bookmarks_small')
+    .ui.inline.header
+        i.bookmark.small.icon
+        | bookmarks
+    div
+    .ui.large.link.list
+        each bookmarks
+            a.item(href="/#{model}/#{_id}/view") #{title} [#{model}]
+        
+
+
+                
+                
+                
+template(name='user_orders')
+    .ui.header
+        i.list.icon
+        |orders
+    .scrolling
+        each orders
+            +order_segment
+            
+            
+template(name='order_segment')
+    .ui.segment
+        .ui.header #{when} #{_author_username}
+        .ui.list
+            .item buyer: #{buyer_username}
+            .item seller: #{seller_username}
+            .item product_id: #{product_id}
+        with product
+            .ui.header product #{title}
+        a.ui.button(href="/alpha/#{product_id}/view")
+            |view product
+        if can_edit
+            .ui.small.button.cancel
+                i.remove.icon
+                |cancel
+        if is_admin
+            +remove_button
