@@ -14,6 +14,13 @@ body {
     /* background: #0e0e44 !important; */
 }
 
+/* #map {
+  min-height: 350px;
+  min-width: 100%;
+}
+ */
+
+
 .large120 {
     font-size: 120%;
     line-height: 150%;
