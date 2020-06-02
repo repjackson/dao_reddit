@@ -1,6 +1,11 @@
 template(name='home')
     .ui.padded.grid
-        .sixteen.wide.column
+        .four.wide.column
+            .ui.big.fluid.button.need
+                |i need help
+            .ui.big.fluid.button.help
+                |i can help
+        .four.wide.column
             //- if is_admin
             //-     .ui.icon.button.add_section
             //-         i.link.plus.large.icon
@@ -21,4 +26,20 @@ template(name='home')
                 input.add_thought(type='text')
             .ui.selection.animated.list
                 each thoughts
+                    a.item(href="/thought/#{_id}/view") #{body}
+        .four.wide.column
+            .ui.header requests
+            .ui.input
+                i.plus.icon
+                input.add_thought(type='text')
+            .ui.selection.animated.list
+                each requests
+                    a.item(href="/thought/#{_id}/view") #{title}: #{body}
+        .four.wide.column
+            .ui.header offers
+            .ui.input
+                i.plus.icon
+                input.add_thought(type='text')
+            .ui.selection.animated.list
+                each offers
                     a.item(href="/thought/#{_id}/view") #{body}
