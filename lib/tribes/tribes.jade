@@ -1,0 +1,23 @@
+template(name='tribes')
+    .ui.header tribes
+    each tribes
+        .ui.header #{title}
+template(name='tribe_card')
+    .ui.fluid.segment.stackable.grid
+        a.four.wide.column(href="/tribe/#{slug}")
+            if image_id
+                img.ui.fluid.image(src="{{c.url image_id}}")
+        .twelve.wide.column
+            a.ui.header(href="/tribe/#{slug}")
+                |#{title}
+            |#{member_ids.length} members
+            |!{description}
+            //- +ismall name='tags' classes='ui inline image'
+            each tags
+                .ui.basic.label #{this}
+            div
+            if is_admin
+                .ui.small.header slug: #{slug}
+            if can_edit
+                a.ui.circular.basic.icon.button(href="/tribe/#{_id}/edit")
+                    i.pencil.blue.icon

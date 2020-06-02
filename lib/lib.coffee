@@ -28,15 +28,15 @@ force_loggedin =  ()->
     else
         @next()
 
-Router.onBeforeAction(force_loggedin, {
-    # only: ['admin']
-    except: [
-        'home'
-        'register'
-        'login'
-        'verify-email'
-    ]
-    })
+# Router.onBeforeAction(force_loggedin, {
+#     # only: ['admin']
+#     except: [
+#         'home'
+#         'register'
+#         'login'
+#         'verify-email'
+#     ]
+#     })
 
 
 

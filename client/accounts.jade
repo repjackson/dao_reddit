@@ -1,7 +1,7 @@
 template(name='login')
     .ui.padded.stackable.grid
         .centered.row
-            .eight.wide.column
+            .ten.wide.column
                 .ui.center.aligned.basic.segment
                     //- a.ui.icon.large.button(href="/" title='return home')
                     //-     i.home.icon
@@ -9,18 +9,23 @@ template(name='login')
                     i.huge.yin.yang.icon
                     //- img.ui.rounded.large.centered.inline.image(src="{{c.url 'forest_logo_blue' width=400 height=400}}")
                     //- .ui.inline.large.header login
+
+        
+        .centered.divided.row
+            .eight.wide.column
+                .ui.center.aligned.header login
                 div
                 if message
                     h4.ui.center.aligned.header #{message}
-                //- .ui.inline.small.header 
-                //-     i.user.outline.icon
-                //-     |username
+                .ui.inline.small.header 
+                    i.user.outline.icon
+                    |username
                 .ui.fluid.large.input(class=login_class)
                     input.username(type='text')
                 .spacer
-                //- .ui.inline.small.header 
-                //-     i.lock.icon
-                //-     | password
+                .ui.inline.small.header 
+                    i.lock.icon
+                    | password
                 .ui.fluid.large.input(class=login_class)
                     input.password(type='password')
                 //- if username
@@ -46,6 +51,8 @@ template(name='login')
                         i.user.plus.icon
                         |register
                     //- .ui.center.aligned.inline.header see the front desk to register an account
+            .eight.wide.column
+                .ui.header anon account
 
 
 

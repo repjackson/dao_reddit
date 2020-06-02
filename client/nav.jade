@@ -8,8 +8,14 @@ template(name='nav')
             i.fire.large.icon
         a.icon.item(href='/baro' class="{{isActivePath '/share'}}" title='baro')
             i.share.large.icon
+        a.icon.item(href='/covid' class="{{isActivePath '/covid'}}" title='covid')
+            i.dna.large.icon
+        a.icon.item(href='/votes' class="{{isActivePath '/votes'}}" title='votes')
+            i.thumbs.up.large.icon
         a.icon.item(href='/events' class="{{isActivePath '/events'}}" title='baro')
             i.calendar.large.icon
+        a.icon.item(href='/map' class="{{isActivePath '/map'}}" title='baro')
+            i.location.large.icon
         .right.menu
             if currentUser
                 .icon.item

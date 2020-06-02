@@ -1,29 +1,24 @@
 template(name='home')
     .ui.padded.grid
         .sixteen.wide.column
-            if is_admin
-                .ui.icon.button.add_section
-                    i.link.plus.large.icon
-            .ui.cards
-                a.card(href="/news")
-                    .content
-                        .header 
-                            i.newspaper.icon
-                            |news
+            //- if is_admin
+            //-     .ui.icon.button.add_section
+            //-         i.link.plus.large.icon
+            //- .ui.cards
+            //-     a.card(href="/news")
+            //-         .content
+            //-             .header 
+            //-                 i.newspaper.icon
+            //-                 |news
                 a.card(href="/baro")
                     .content
                         .header 
                             i.share.icon
                             |baro
-            //- .ui.stackable.cards
-                //- each home_sections
-                //-     .ui.card
-                //-         .content
-                //-             if is_admin
-                //-                 +text_edit key='title' direct=true
-                //-                 +text_edit key='icon' direct=true
-                //-                 +text_edit key='slug' direct=true
-                //-             a.ui.header(href="/#{slug}")
-                //-                 i.icon(class=icon)
-                //-                 |#{title}
-            
+            .ui.header thoughts
+            .ui.input
+                i.plus.icon
+                input.add_thought(type='text')
+            .ui.selection.animated.list
+                each thoughts
+                    a.item(href="/thought/#{_id}/view") #{body}

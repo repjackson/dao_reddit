@@ -31,10 +31,9 @@ template(name='profile')
                     a.ui.button(href="/user/#{username}/posts")
                         i.blog.icon
                         |posts
-                    if view_posts
-                        +user_posts
-                    if view_friends
-                        +view_friends
+                    a.ui.button(href="/user/#{username}/upvoted")
+                        i.thumbs.up.icon
+                        |upvoted
                     +yield
                         
 template(name='user_dashboard')
