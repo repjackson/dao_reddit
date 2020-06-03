@@ -374,7 +374,7 @@ if Meteor.isServer
                 { $match: _id: $nin: selected_tags }
                 # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
                 { $sort: count: -1, _id: 1 }
-                { $limit: 25 }
+                { $limit: 20 }
                 { $project: _id: 0, name: '$_id', count: 1 }
             ], {
                 allowDiskUse: true

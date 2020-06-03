@@ -18,12 +18,12 @@
             "url": "https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/37f08ca3-6c5b-439e-8270-78d96b54d635"
 		},
 		"language": {
-            "apikey": "bsbqj-_iQaA-ZwGUBK7NbGqZTaLvPHJgZW2OEXoN5C6P",
+            "apikey": "WfilOI8O3M5n3cbU8byEczW_hctUm4viZDVaBSV-Gju3",
             "iam_apikey_description": "Auto-generated for key 4149ce4a-7fdb-4481-9c49-92493045c5f8",
             "iam_apikey_name": "Auto-generated service credentials",
             "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
             "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/1a5125f977724658a10776a2be77fa4f::serviceid:ServiceId-29fd900e-ddab-4cfa-b56c-3c7be59485c4",
-            "url": "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/5556901d-0bb1-4283-a2e3-d4cd8c42d15c"
+            "url": "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/b5195ac7-a729-46ea-b099-deb37d1dc65b"
 		},
 		"visual": {
 			"apikey": "dKgeK3U6JYQn235P2f4y1JchqFROfW9ZwlhGe_5ffRA-",
