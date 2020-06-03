@@ -14,39 +14,6 @@ Meteor.methods
 #             # console.log 'result doc', Docs.findOne doc._id
 # #
 
-    calc_redditor_tag_cloud: (handle)->
-        redditor = Redditors.findOne handle
-
-    calc_leaders: (selected_tags)->
-        # console.log selected_tags
-        match = {}
-        match.model = 'reddit'
-
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
-        # match.tags = $all: selected_tags
-        # console.log 'match for tags', match
-        tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
-        res = []
-        # tag_cloud.toArray()
-        res = tag_cloud.toArray()
-        # tag_cloud.forEach (tag, i)=>
-        #     console.log tag
-        #     res.push tag
-        res
-
-
     call_wiki: (query)->
         console.log 'calling wiki', query
         term = query.split(' ').join('_')
@@ -77,38 +44,6 @@ Meteor.methods
                         ups: 1000000
                         url:"https://en.wikipedia.org/wiki/#{term}"
                     Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
-
-
-    call_imdb: (query)->
-        console.log 'calling imdb', query
-        term = query.split(' ').join('_')
-        HTTP.get "https://www.imdb.com/title/#{title_id}",(err,response)=>
-            # console.log response.data
-            if err
-                console.log 'error'
-                console.log err
-            else
-
-                console.log response
-                console.log 'response'
-
-                # found_doc =
-                #     Docs.findOne
-                #         url: "https://en.wikipedia.org/wiki/#{term}"
-                # if found_doc
-                #     console.log 'found wiki doc for term', term, found_doc
-                #     Docs.update found_doc._id,
-                #         $addToSet:tags:'wikipedia'
-                #     Meteor.call 'call_watson', found_doc._id, 'url','url', ->
-                # else
-                #     new_wiki_id = Docs.insert
-                #         title: query
-                #         tags:['wikipedia', query]
-                #         source: 'wikipedia'
-                #         ups: 1000000
-                #         url:"https://en.wikipedia.org/wiki/#{term}"
-                #     Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
-
 
 
     calc_doc_count: ->
@@ -184,7 +119,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=20",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=10",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1

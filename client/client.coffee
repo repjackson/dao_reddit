@@ -2,12 +2,6 @@
 @selected_authors = new ReactiveArray []
 
 
-if Meteor.isClient
-    Router.route '/', (->
-        @layout 'layout'
-        @render 'home'
-        ), name:'home'
-
 Template.registerHelper 'youtube_id', () ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
     match = @url.match(regExp)
@@ -27,28 +21,12 @@ Template.registerHelper 'is_youtube', () ->
 
 Template.registerHelper 'user_by_id', () ->
     Meteor.users.findOne @
-Template.registerHelper 'can_edit', () ->
-    if Meteor.user().roles
-        if 'admin' in Meteor.user().roles
-            true
-        else
-            @_author_id is Meteor.userId()
-    else
-        @_author_id is Meteor.userId()
-Template.registerHelper 'is_admin', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
-        if 'admin' in Meteor.user().roles then true else false
 
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
     # console.log 'value', value
     Session.equals key,value
-
-Template.registerHelper 'fixed', (input) ->
-    if input
-        input.toFixed()
 
 
 Template.registerHelper 'template_subs_ready', () ->
@@ -58,33 +36,6 @@ Template.registerHelper 'global_subs_ready', () ->
     Session.get('global_subs_ready')
 
 
-Template.registerHelper 'key_value_is', (key, value)->
-    # console.log 'key', key
-    # console.log 'value', value
-    # console.log 'this', this
-    @["#{key}"] is value
-
-Template.registerHelper 'key_value_isnt', (key, value)->
-    # console.log 'key', key
-    # console.log 'value', value
-    # console.log 'this', this
-    @["#{key}"] isnt value
-
-
-Template.registerHelper 'in_role', (role)->
-    if Meteor.user() and Meteor.user().roles
-        if role in Meteor.user().roles
-            true
-        else
-            false
-    else
-        false
-
-Template.registerHelper 'field_value', () ->
-    parent = Template.parentData()
-    if parent
-        parent["#{@key}"]
-
 
 
 Template.registerHelper 'nl2br', (text)->
@@ -93,33 +44,6 @@ Template.registerHelper 'nl2br', (text)->
 
 
 
-Template.registerHelper 'current_doc', () ->
-    # console.log 'looking for cd', Router.current().params.doc_id
-    # Meteor.users.findOne username:Router.current().params.username
-    Docs.findOne Router.current().params.doc_id
-
-Template.registerHelper 'product', () ->
-    Docs.findOne @product_id
-
-
-Template.registerHelper 'current_user', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    Meteor.users.findOne Router.current().params.user_id
-Template.registerHelper 'is_current_user', () ->
-    if Meteor.user()
-        # if Meteor.user().username is Router.current().params.username
-        if Meteor.user().username is Router.current().params.username
-            true
-    else
-        if Meteor.user().roles and 'admin' in Meteor.user().roles
-            true
-        else
-            false
-
-
-
-Template.registerHelper 'session_is', (key, value)->
-    Session.equals(key, value)
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
