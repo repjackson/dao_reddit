@@ -53,7 +53,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'doc_matches', (doc_id)->
+    Meteor.publish 'request_matches', (doc_id)->
         doc = Docs.find doc_id
         Docs.find
             _id:$in:doc.match_ids

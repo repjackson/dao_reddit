@@ -7,6 +7,10 @@ if Meteor.isClient
 
     Template.tribes.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'tribe'
+    Template.tribes.events
+        'click .add_tribe': ->
+            Docs.insert 
+                model:'tribe'
     Template.tribes.helpers
         tribes: ->
             Docs.find

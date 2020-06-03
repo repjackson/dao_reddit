@@ -187,6 +187,9 @@
     'posts'
     'top posts topics'
     'day'
+    'reddit premium reddit gifts'
+    'good bot moderator'
+    'blog terms'
 ]
 
 

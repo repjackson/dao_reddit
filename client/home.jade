@@ -1,5 +1,5 @@
 template(name='home')
-    .ui.padded.grid
+    .ui.padded.stackable.grid
         .four.wide.column
             .ui.big.fluid.button.need
                 |i need help
@@ -15,13 +15,13 @@ template(name='home')
             //-             .header 
             //-                 i.newspaper.icon
             //-                 |news
-                a.card(href="/baro")
+                a.card(href="/shop")
                     .content
                         .header 
                             i.share.icon
-                            |baro
+                            |shop
             .ui.header thoughts
-            .ui.input
+            .ui.icon.input
                 i.plus.icon
                 input.add_thought(type='text')
             .ui.selection.animated.list
@@ -29,17 +29,17 @@ template(name='home')
                     a.item(href="/thought/#{_id}/view") #{body}
         .four.wide.column
             .ui.header requests
-            .ui.input
+            .ui.icon.input
                 i.plus.icon
-                input.add_thought(type='text')
+                input.quick_request(type='text')
             .ui.selection.animated.list
                 each requests
                     a.item(href="/thought/#{_id}/view") #{title}: #{body}
         .four.wide.column
             .ui.header offers
-            .ui.input
+            .ui.icon.input
                 i.plus.icon
-                input.add_thought(type='text')
+                input.quick_offer(type='text')
             .ui.selection.animated.list
                 each offers
                     a.item(href="/thought/#{_id}/view") #{body}

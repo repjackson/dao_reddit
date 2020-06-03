@@ -5,8 +5,8 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     /* font-size: 110% !important; */
     /* line-height: 200% !important; */
-    /* background: rgba(0,0,0,.01) !important; */
     background: rgba(0,0,0,.85) !important;
+    /* background: rgba(0,0,0,.01) !important; */
     filter: invert(.9) !important;
     /* overscroll-behavior: none; */
     transition: all 1s !important;
@@ -84,7 +84,7 @@ body {
 }
 
 .ui.button {
-    /* border-radius: 15px !important; */
+    border-radius: 10px !important;
     margin: 3px !important;
 }
 
@@ -92,14 +92,14 @@ body {
     cursor: pointer !important;
 }
 
-img, .ui.image, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, .blue.header, .orange.header, .invert{
+.ui.image, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, .blue.header, .orange.header, .invert{
     /* border-radius: 10px !important; */
     filter: invert(1) !important;
 }
 
-/* img {
-    filter: invert(1) !important;
-} */ */
+img {
+    /* filter: invert(1) !important; */
+}
 
 .invert{
     /* border-radius: 10px !important; */

@@ -1,11 +1,11 @@
 @selected_tags = new ReactiveArray []
-Router.route '/baro', (->
+Router.route '/shop', (->
     @layout 'layout'
-    @render 'baro'
-    ), name:'baro'
+    @render 'shop'
+    ), name:'shop'
 
 
-Template.baro.onCreated ->
+Template.shop.onCreated ->
     @autorun -> Meteor.subscribe('posts',
         selected_tags.array()
         selected_authors.array()
@@ -13,7 +13,7 @@ Template.baro.onCreated ->
         Session.get('current_query')
         )
 
-Template.baro.helpers
+Template.shop.helpers
     current_query: -> Session.get('current_query')
     posts: ->
         Docs.find {
@@ -28,7 +28,7 @@ Template.baro.helpers
         }).count() is 1
 
 
-Template.baro.events
+Template.shop.events
     'click #add': ->
         new_id =
             Docs.insert

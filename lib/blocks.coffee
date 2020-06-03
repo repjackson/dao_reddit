@@ -66,6 +66,16 @@ Meteor.methods
 
 
 if Meteor.isClient
+    Template.session_toggle_button.helpers
+        session_toggle_button_class: ->
+            if Template.instance().subscriptionsReady()
+                if Session.get(@key) then 'grey' else 'basic'
+            else
+                'disabled loading'
+    Template.session_toggle_button.events
+        'click .toggle': ->
+            Session.set(@key, !Session.get(@key))
+
     Template.comments.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()

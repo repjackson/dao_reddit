@@ -8,8 +8,8 @@ Template.nav.onCreated ->
 if Meteor.isClient
     Router.route '/', (->
         @layout 'layout'
-        @render 'home'
-        ), name:'home'
+        @render 'reddit'
+        ), name:'reddit'
 
 $.cloudinary.config
     cloud_name:"facet"

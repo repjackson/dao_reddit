@@ -7,6 +7,9 @@ template(name='input_method')
         input.call_input_method(type='text')
 
 
+template(name='session_toggle_button')
+    .ui.circular.compact.icon.button.toggle(class=session_toggle_button_class title=title)
+        i.large.icon(class=icon)
 
 
 
@@ -75,8 +78,8 @@ template(name='session_edit_value_button')
     .ui.icon.inline.button.set_session_value(class=calculated_class title=label)
         if icon
             i.large.icon(class=icon)
-        //- if label
-        //-     |#{label}
+        if label
+            |#{label}
         //- else 
         //-     |#{value}
 
