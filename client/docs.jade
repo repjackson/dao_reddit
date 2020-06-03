@@ -16,13 +16,14 @@ template(name='doc_item')
             .meta
                 if is_video
                     i.video.large.icon
-                a.ui.small.compact.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
-                    i.comments.spaced.icon
-                    |#{comment_count}
-                a.ui.small.compact.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
-                    //- span.ui.grey.text(title='reddit upvotes')
-                    i.thumbs.up.outline.icon
-                    |#{ups}
+                .ui.buttons
+                    a.ui.small.compact.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                        i.comments.spaced.icon
+                        |#{comment_count}
+                    a.ui.small.compact.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                        //- span.ui.grey.text(title='reddit upvotes')
+                        i.thumbs.up.outline.icon
+                        |#{ups}
                 //- i.thumbs.down.outline.icon
                 //-     |#{downs}
             
