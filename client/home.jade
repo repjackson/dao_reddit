@@ -1,0 +1,78 @@
+template(name='home')
+    .ui.stackable.padded.grid.home(class=invert_class)
+        .centered.row 
+            .six.wide.right.aligned.column
+                //- .ui.header #{connection.status}
+                unless connected
+                    //- .ui.inline.header disconnected
+                    .ui.green.basic.circular.button.reconnect reconnect
+                .ui.left.icon.large.search.input
+                    if template_subs_ready
+                        i.grey.search.icon
+                        //- i.icons.refresh_tags
+                            //- i.search.corner.icon
+                    else
+                        i.yin.yang.loading.large.icon
+                    input#search.prompt(type='text' autofocus='' autocomplete="off")
+
+                //- if selected_tags_plural
+                //-     .ui.icon.circular.black.compact.large.button.clear_selected_tags
+                //-         i.remove.icon
+                each selected_tags
+                    button.ui.black.compact.circular.large.button.unselect_tag(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each tags
+                    button.ui.compact.large.button.result(tabindex="0" class=result_class title=count) #{title}
+                        //- small #{count}
+                .spacer
+            .ten.wide.column
+                .scrolling
+                    .ui.list
+                        each docs
+                            +doc_item
+                            .ui.hidden.divider
+
+
+template(name='doc_item')
+    .ui.item
+        if has_thumbnail
+            .image.invert.rounded
+                img(src=thumbnail)
+        .content        
+            .header
+                if title 
+                    .ui.header(title="view full" href=url target='_window') !{title}
+                    //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
+                    //- .ui.header.pointer.goto_article(title="view full") !{title}
+                else if watson.metadata.title
+                    .ui.header.pointer.goto_article(title="view full") !{watson.metadata.title}
+                if is_video 
+                    i.video.grey.icon
+            .meta
+                if is_video
+                    i.video.large.icon
+                .ui.buttons
+                    a.ui.small.compact.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                        i.comments.spaced.icon
+                        |#{comment_count}
+                    a.ui.small.compact.circular.button(href="http://www.reddit.com/#{permalink}" target='_window')
+                        //- span.ui.grey.text(title='reddit upvotes')
+                        i.thumbs.up.outline.icon
+                        |#{ups}
+                //- i.thumbs.down.outline.icon
+                //-     |#{downs}
+            
+                //- if view_more
+                //-     i.chevron.down.grey.link.circular.large.icon.toggle_more
+                //- else     
+                //-     i.chevron.right.grey.link.circular.large.icon.toggle_more
+                //- .meta
+                //- if dev
+                //-     .ui.small.inline.grey.header 
+                //-         i.tags.small.icon
+                //-         |#{tags.length}
+                a.ui.compact.button(href=url target='_window' title="goto #{url}")
+                    i.external.icon
+                    | #{domain}
+        

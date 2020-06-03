@@ -1,9 +1,8 @@
 @Terms = new Meteor.Collection 'terms'
-@Redditors = new Meteor.Collection 'redditors'
-@Subreddits = new Meteor.Collection 'subreddits'
+# @Subreddits = new Meteor.Collection 'subreddits'
 @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
 
-@Redditor_leaders = new Meteor.Collection 'redditor_leaders'
+# @Redditor_leaders = new Meteor.Collection 'redditor_leaders'
 
 if Meteor.isClient
     @selected_subreddits = new ReactiveArray []
@@ -32,7 +31,7 @@ if Meteor.isClient
     #     @render 'reddit'
     #     ), name:'reddit'
 
-    Template.reddit.onCreated ->
+    Template.home.onCreated ->
         Session.setDefault 'view_images', true
         Session.setDefault 'view_videos', true
         Session.setDefault 'view_articles', true
@@ -54,7 +53,7 @@ if Meteor.isClient
     #             $('#search').val('')
     #             $('#search').blur()
     #
-    Template.reddit.onCreated ->
+    Template.home.onCreated ->
         @autorun => @subscribe 'reddit_tags',
             selected_tags.array()
             selected_authors.array()
@@ -77,25 +76,25 @@ if Meteor.isClient
             Session.get('doc_sort_key')
             Session.get('doc_sort_direction')
 
-        @autorun => @subscribe 'all_redditors'
+        # @autorun => @subscribe 'all_redditors'
 
 
 
-    Template.reddit.events
+    Template.home.events
         # 'click .toggle_dark': ->
         #     Meteor.users.update Meteor.userId(),
         #         $set: dark_mode: !Meteor.user().dark_mode
         # 'click .toggle_menu': ->
         #     Session.set('view_menu', !Session.get('view_menu'))
-        'click .calc_leaderboard': ->
-            # console.log @
-            # console.log selected_tags.array()
-            Meteor.call 'calc_leaders', selected_tags.array(), (err,res)->
-                console.log res
-
-        'click .toggle_images': -> Session.set('view_images', !Session.get('view_images'))
-        'click .toggle_videos': -> Session.set('view_videos', !Session.get('view_videos'))
-        'click .toggle_articles': -> Session.set('view_articles', !Session.get('view_articles'))
+        # 'click .calc_leaderboard': ->
+        #     # console.log @
+        #     # console.log selected_tags.array()
+        #     Meteor.call 'calc_leaders', selected_tags.array(), (err,res)->
+        #         console.log res
+        #
+        # 'click .toggle_images': -> Session.set('view_images', !Session.get('view_images'))
+        # 'click .toggle_videos': -> Session.set('view_videos', !Session.get('view_videos'))
+        # 'click .toggle_articles': -> Session.set('view_articles', !Session.get('view_articles'))
 
         'click .result': (event,template)->
             # console.log @
@@ -152,11 +151,6 @@ if Meteor.isClient
         'click .calc_doc_count': ->
             Meteor.call 'calc_doc_count', ->
 
-        'click .create_redditor': ->
-            Meteor.call 'create_redditor', @title, ->
-
-        'click .calc_redditor': ->
-            Meteor.call 'calc_redditor_stats', @handle, ->
 
         'click .calc_post': ->
             console.log @
@@ -177,24 +171,12 @@ if Meteor.isClient
         'click .reconnect': ->
             Meteor.reconnect()
 
-        'click .goto_redditor': ->
-            Router.go "/redditor/#{@title}"
-
-        'click .set_sort_direction': ->
-            if Session.get('doc_sort_direction') is -1
-                Session.set('doc_sort_direction', 1)
-            else
-                Session.set('doc_sort_direction', -1)
 
 
-    Template.reddit.helpers
+    Template.home.helpers
         sorting_up: ->
             parseInt(Session.get('doc_sort_direction')) is 1
 
-        view_images_class: -> if Session.get('view_images') then 'white' else 'grey'
-        view_videos_class: -> if Session.get('view_videos') then 'white' else 'grey'
-        view_articles_class: -> if Session.get('view_articles') then 'white' else 'grey'
-        view_tweets_class: -> if Session.get('view_tweets') then 'white' else 'grey'
         connection: ->
             console.log Meteor.status()
             Meteor.status()
@@ -204,7 +186,6 @@ if Meteor.isClient
             if Meteor.user()
                 if Meteor.user().dark_mode
                     'invert'
-        view_menu: -> Session.get('view_menu')
         tags: ->
             if Session.get('current_query') and Session.get('current_query').length > 1
                 Terms.find({}, sort:count:-1)
@@ -234,7 +215,7 @@ if Meteor.isClient
                 model:'reddit'
             },
                 sort: "#{Session.get('doc_sort_key')}":parseInt(Session.get('doc_sort_direction'))
-                limit:Session.get('doc_limit')
+                limit:3
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -244,36 +225,6 @@ if Meteor.isClient
                 Session.set('global_subs_ready', true)
             else
                 Session.set('global_subs_ready', false)
-
-
-
-        redditor_leaders: ->
-            # if selected_tags.array().length > 0
-            Redditor_leaders.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        subreddit_results: ->
-            # if selected_tags.array().length > 0
-            Subreddits.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        timestamp_tags: ->
-            # if selected_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        redditor: ->
-            Redditors.findOne
-                handle:@title
 
         doc_limit: ->
             Session.get('doc_limit')
@@ -285,33 +236,6 @@ if Meteor.isClient
         result_cloud: ->
             console.log @
 
-    # Template.set_doc_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('doc_limit', @amount)
-    #
-    # Template.set_doc_sort_key.events
-    #     'click .set_sort': ->
-    #         console.log @
-    #         Session.set('doc_sort_key', @key)
-    #         Session.set('doc_sort_label', @label)
-
-    # Template.session_edit_value_button.events
-    #     'click .set_session_value': ->
-    #         # console.log @key
-    #         # console.log @value
-    #         Session.set(@key, @value)
-    #
-    # Template.session_edit_value_button.helpers
-    #     calculated_class: ->
-    #         res = ''
-    #         # console.log @
-    #         if @classes
-    #             res += @classes
-    #         if Session.equals(@key,@value)
-    #             res += ' active'
-    #         # console.log res
-    #         res
 
 if Meteor.isServer
     Meteor.publish 'reddit_tags', (
@@ -388,65 +312,6 @@ if Meteor.isServer
                     count: tag.count
                     # category:key
                     # index: i
-            redditor_leader_cloud = Docs.aggregate [
-                { $match: match }
-                { $project: "author": 1 }
-                { $group: _id: "$author", count: $sum: 1 }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 10 }
-                { $project: _id: 0, title: '$_id', count: 1 }
-            ], {
-                allowDiskUse: true
-            }
-
-            redditor_leader_cloud.forEach (redditor, i) =>
-                # console.log 'queried redditor ', redditor
-                self.added 'redditor_leaders', Random.id(),
-                    title: redditor.title
-                    count: redditor.count
-                    # category:key
-                    # index: i
-
-            subreddit_cloud = Docs.aggregate [
-                { $match: match }
-                { $project: "subreddit": 1 }
-                { $group: _id: "$subreddit", count: $sum: 1 }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 10 }
-                { $project: _id: 0, title: '$_id', count: 1 }
-            ], {
-                allowDiskUse: true
-            }
-
-            subreddit_cloud.forEach (redditor, i) =>
-                # console.log 'queried redditor ', redditor
-                self.added 'subreddits', Random.id(),
-                    title: redditor.title
-                    count: redditor.count
-                    # category:key
-                    # index: i
-
-
-            timestamp_tag_cloud = Docs.aggregate [
-                { $match: match }
-                { $project: "_timestamp_tags": 1 }
-                { $unwind: "$_timestamp_tags" }
-                { $group: _id: "$_timestamp_tags", count: $sum: 1 }
-                { $match: _id: $nin: selected_timestamp_tags }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 10 }
-                { $project: _id: 0, title: '$_id', count: 1 }
-            ], {
-                allowDiskUse: true
-            }
-
-            timestamp_tag_cloud.forEach (timestamp_tag, i) =>
-                # console.log 'queried timestamp_tag ', timestamp_tag
-                self.added 'timestamp_tags', Random.id(),
-                    title: timestamp_tag.title
-                    count: timestamp_tag.count
-                    # category:key
-                    # index: i
 
             # console.log doc_tag_cloud.count()
 
@@ -489,7 +354,3 @@ if Meteor.isServer
             sort:"#{sort}":-1
             # sort:_timestamp:-1
             limit: 10
-
-
-    Meteor.publish 'all_redditors', ->
-        Redditors.find()

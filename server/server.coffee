@@ -25,14 +25,3 @@ Meteor.users.allow
             true
         # if user_id and doc._id == user_id
         #     true
-
-# Meteor.publish 'me', ()->
-#     if Meteor.user()
-#         Meteor.users.find Meteor.user_id()
-#     else
-#         []
-#
-Cloudinary.config
-    cloud_name: 'facet'
-    api_key: Meteor.settings.private.cloudinary_key
-    api_secret: Meteor.settings.private.cloudinary_secret

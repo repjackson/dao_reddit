@@ -2,17 +2,12 @@
 @selected_authors = new ReactiveArray []
 
 
-Template.nav.onCreated ->
-    @autorun => Meteor.subscribe 'me'
-
 if Meteor.isClient
     Router.route '/', (->
         @layout 'layout'
-        @render 'reddit'
-        ), name:'reddit'
+        @render 'home'
+        ), name:'home'
 
-$.cloudinary.config
-    cloud_name:"facet"
 Template.registerHelper 'youtube_id', () ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
     match = @url.match(regExp)

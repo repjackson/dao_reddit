@@ -118,27 +118,3 @@ Meteor.publish 'posts', (
             points:-1
             _timestamp:-1
         limit: 12
-
-
-Meteor.publish 'me', ->
-    Meteor.users.find @userId
-
-Meteor.publish 'model_docs', (model)->
-    # console.log 'pulling doc'
-    Docs.find
-        model:model
-
-Meteor.publish 'user_from_username', (username)->
-    # console.log 'pulling user_from_username', username
-    Meteor.users.find
-        username:username
-
-
-
-Meteor.publish 'all_users', ()->
-    Meteor.users.find()
-
-
-
-Meteor.publish 'doc', (doc_id)->
-    Docs.find doc_id
