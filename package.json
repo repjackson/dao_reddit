@@ -2,7 +2,6 @@
 	"dependencies": {
 		"@babel/runtime": "^7.6.3",
 		"bcrypt": "^4.0.0",
-		"mailgun-js": "^0.22.0",
 		"ibm-watson": "^5.1.0"
 	},
 	"scripts": {
