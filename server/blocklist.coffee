@@ -40,6 +40,7 @@
     'blocklist'
     'browser extension'
     'google'
+    'reddit'
     'reason'
     'case sensitive'
     'aug'

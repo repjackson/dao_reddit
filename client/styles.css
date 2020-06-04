@@ -104,14 +104,9 @@ body {
 }
 
 img {
-    /* filter: invert(1) !important; */
+    filter: invert(1) !important;
 }
 
-.invert{
-    /* border-radius: 10px !important; */
-    background: rgba(0,0,0,.85) !important;
-    /* filter: invert(1) !important; */
-}
 
 i.invert{
     /* border-radius: 10px !important; */
@@ -127,11 +122,6 @@ i.invert{
 }
 
 
-.invert{
-    /* background: rgba(0,0,0,.85) !important; */
-    /* border-radius: 10px !important; */
-    filter: invert(1) !important;
-}
 
 /* iframe {
     border-radius: 10px !important;
@@ -150,7 +140,7 @@ i.invert{
 
 input {
     margin: 5px !important;
-    border-radius: 10px !important;
+    border-radius: 15px !important;
 }
 
 ::-webkit-scrollbar {

@@ -17,22 +17,6 @@ Template.registerHelper 'calc_size', (metric) ->
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
 
-
-
-
-
-# Template.body.events
-#     'keydown':(e,t)->
-#         # console.log e.keyCode
-#         # console.log e.keyCode
-#         if e.keyCode is 27
-#             console.log 'hi'
-#             # console.log 'hi'
-#             Session.set('current_query', null)
-#             selected_tags.clear()
-#             $('#search').val('')
-#             $('#search').blur()
-#
 Template.home.onCreated ->
     @autorun => @subscribe 'reddit_tags',
         selected_tags.array()
@@ -44,15 +28,18 @@ Template.home.onCreated ->
 Template.home.events
     'click .result': (event,template)->
         # console.log @
-        if selected_tags.array().length is 1
-            Meteor.call 'call_wiki', search, ->
+        # if selected_tags.array().length is 1
+        #     Meteor.call 'call_wiki', search, ->
         Meteor.call 'log_term', @title, ->
         selected_tags.push @title
         $('#search').val('')
-        Meteor.call 'call_wiki', @title, ->
+        # Meteor.call 'call_wiki', @title, ->
         Session.set('current_query', null)
         Session.set('searching', false)
         Meteor.call 'search_reddit', selected_tags.array(), ->
+        Meteor.setTimeout ->
+            Session.set('dummy', !Session.get('dummy'))
+        , 5000
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
         , 10000
@@ -60,14 +47,14 @@ Template.home.events
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
         # console.log selected_tags.array()
-        if selected_tags.array().length is 1
-            Meteor.call 'call_wiki', search, ->
+        # if selected_tags.array().length is 1
+        #     Meteor.call 'call_wiki', search, ->
 
         if selected_tags.array().length > 0
             Meteor.call 'search_reddit', selected_tags.array(), ->
 
-    'click .refresh_tags': ->
-        Session.set('dummy', !Session.get('dummy'))
+    # 'click .refresh_tags': ->
+    #     Session.set('dummy', !Session.get('dummy'))
 
     'click .clear_selected_tags': ->
         Session.set('current_query',null)
@@ -82,7 +69,7 @@ Template.home.events
             if search.length > 0
                 selected_tags.push search
                 console.log 'search', search
-                Meteor.call 'call_wiki', search, ->
+                # Meteor.call 'call_wiki', search, ->
                 Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
@@ -91,16 +78,11 @@ Template.home.events
                 # # $( "p" ).blur();
                 Meteor.setTimeout ->
                     Session.set('dummy', !Session.get('dummy'))
+                , 5000
+                Meteor.setTimeout ->
+                    Session.set('dummy', !Session.get('dummy'))
                 , 10000
     , 1000)
-
-    'click .calc_doc_count': ->
-        Meteor.call 'calc_doc_count', ->
-
-
-    'click .calc_post': ->
-        console.log @
-        # Meteor.call 'get_reddit_post', (@_id)->
 
 
     # 'keydown #search': _.throttle((e,t)->
@@ -150,11 +132,15 @@ Template.home.helpers
         Docs.find().count() is 1
     docs: ->
         # if selected_tags.array().length > 0
-        Docs.find {
-            model:'reddit'
-        },
-            sort:ups:-1
-            limit:3
+        cursor =
+            Docs.find {
+                # model:'reddit'
+            },
+                sort:ups:-1
+                limit:3
+        # console.log cursor.fetch()
+        cursor
+
 
     home_subs_ready: ->
         Template.instance().subscriptionsReady()
@@ -165,15 +151,6 @@ Template.home.helpers
         else
             Session.set('global_subs_ready', false)
 
-    doc_limit: ->
-        Session.get('doc_limit')
-
-    current_doc_sort_label: ->
-        Session.get('doc_sort_label')
-
-
-    result_cloud: ->
-        console.log @
 Template.doc_item.events
     'click .call_watson': ->
         Meteor.call 'call_watson', @_id, 'url', 'url'

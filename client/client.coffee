@@ -22,6 +22,9 @@ Template.registerHelper 'is_youtube', () ->
 Template.registerHelper 'user_by_id', () ->
     Meteor.users.findOne @
 
+Template.registerHelper 'lowered_title', () ->
+    @title.toLowerCase()
+
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
