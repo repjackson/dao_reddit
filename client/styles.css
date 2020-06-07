@@ -62,12 +62,8 @@ a.title, #title {
     color: grey !important;
 }
 
-.ui.image, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, #title, .blue.header, .orange.header, .invert{
+.ui.image, .card, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, #title, .blue.header, .orange.header, .invert{
     /* border-radius: 10px !important; */
-    filter: invert(1) !important;
-}
-
-img {
     filter: invert(1) !important;
 }
 

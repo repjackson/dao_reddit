@@ -1,18 +1,18 @@
 Meteor.methods
-#     stringify_tags: ->
-#         docs = Docs.find({
-#             tags: $exists: true
-#             tags_string: $exists: false
-#         },{limit:1000})
-#         for doc in docs.fetch()
-#             # doc = Docs.findOne id
-#             console.log 'about to stringify', doc
-#             tags_string = doc.tags.toString()
-#             console.log 'tags_string', tags_string
-#             Docs.update doc._id,
-#                 $set: tags_string:tags_string
-#             # console.log 'result doc', Docs.findOne doc._id
-# #
+    stringify_tags: ->
+        docs = Docs.find({
+            tags: $exists: true
+            tags_string: $exists: false
+        },{limit:1000})
+        for doc in docs.fetch()
+            # doc = Docs.findOne id
+            console.log 'about to stringify', doc
+            tags_string = doc.tags.toString()
+            console.log 'tags_string', tags_string
+            Docs.update doc._id,
+                $set: tags_string:tags_string
+            # console.log 'result doc', Docs.findOne doc._id
+#
 
     call_wiki: (query)->
         console.log 'calling wiki', query

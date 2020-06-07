@@ -1,11 +1,11 @@
 @selected_tags = new ReactiveArray []
 
 Template.home.onCreated ->
-    @autorun => @subscribe 'reddit_tags',
+    @autorun => @subscribe 'tags',
         selected_tags.array()
         Session.get('current_query')
         Session.get('dummy')
-    @autorun => @subscribe 'reddit_docs',
+    @autorun => @subscribe 'docs',
         selected_tags.array()
 
 Template.home.events
@@ -159,7 +159,16 @@ Template.registerHelper 'youtube_id', () ->
         console.log 'error'
 
 
+Template.registerHelper 'is_image', () ->
+    regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
+    match = @url.match(regExp)
+    # console.log 'image match', match
+    if match then true
 
+
+
+Template.registerHelper 'is_twitter', () ->
+    @domain is 'twitter.com'
 Template.registerHelper 'is_streamable', () ->
     @domain is 'streamable.com'
 Template.registerHelper 'is_youtube', () ->

@@ -9,7 +9,7 @@ Docs.allow
         else
             user_id is doc._author_id
 
-Meteor.publish 'reddit_tags', (
+Meteor.publish 'tags', (
     selected_tags
     query
     dummy
@@ -76,7 +76,7 @@ Meteor.publish 'reddit_tags', (
 
         self.ready()
 
-Meteor.publish 'reddit_docs', (
+Meteor.publish 'docs', (
     selected_tags
     )->
     # console.log selected_tags

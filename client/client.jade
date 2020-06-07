@@ -14,6 +14,8 @@ head
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
     script(async src="https://www.googletagmanager.com/gtag/js?id=UA-156965333-1")
+    //- script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")        
+    
     script.
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -30,7 +32,7 @@ template(name='home')
         .centered.row 
             //- if selected_tags
             .scrolling.sixty
-                .ui.centered.cards
+                .ui.centered.doubling.cards
                     each docs
                         //- .ui.fitted.hidden.divider
                         +doc_item
@@ -71,28 +73,59 @@ template(name='home')
 template(name='doc_item')
     //- .ui.center.aligned.basic.compact.segment
     
-    a.ui.link.card(href=url target='_window')
+    .ui.green.inverted.card
         //- img.image.rounded(src=url)
-        if is_youtube
-            .invert
-                iframe(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-        else if has_thumbnail
-            //- .four.wide.center.aligned.column
-            .image
-                //- img.rounded(src=thumbnail)
-                //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
-                //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
-                img.rounded(src=url)
+        //- .invert
+        //-     blockquote(class="reddit-card" data-card-created="1591519131")
+                //- a.invert(href="https://www.reddit.com/r/CryptoCurrency/comments/fxf0bz/reddit_is_implementing_a_points_system_on_the/")
+                //-     |#{title}
+                //- |from 
+                //- a(href="http://www.reddit.com/r/CryptoCurrency")
+                //-     |r/CryptoCurrency
         .content
             if title 
                 a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}
                 //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
                 //- .ui.header.pointer.goto_article(title="view full") !{title}
             else if watson.metadata.title
-                .ui.grey.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
+                .ui.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
+        if is_youtube
+            iframe(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+            //- .invert
+        if is_twitter
+            blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
+                p(lang="en" dir="ltr")
+                    |#{title}
+                    //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
+                a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
+                    |February 21, 2018
+            script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+        //- else if has_thumbnail
+        if is_image
+            //- .four.wide.center.aligned.column
+            .image
+                //- img.rounded(src=thumbnail)
+                //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
+                //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
+                img(src=url)
+        .content
             .meta
-                |#{domain}
+                .ui.small.horizontal.link.inverted.list
+                    a.item(href="https://www.reddit.com/user/#{author}" target="_blank")
+                        i.grey.user.icon
+                        |#{author}
+                    .item
+                        |#{domain}
+                    a.item(href="https://www.reddit.com/#{permalink}" target="_blank")
+                        i.grey.chat.outline.icon
+                        |#{comment_count}
+                    a.item(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                        |r/#{subreddit}
+                    .item
+                        i.grey.thumbs.up.icon
+                        |#{ups}
                 //-     if dev
                 //-         .ui.small.inline.grey.header 
                 //-             i.tags.small.icon
                 //-             |#{tags.length}
+        
