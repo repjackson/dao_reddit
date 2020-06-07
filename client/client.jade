@@ -73,7 +73,10 @@ template(name='doc_item')
     
     a.ui.link.card(href=url target='_window')
         //- img.image.rounded(src=url)
-        if has_thumbnail
+        if is_youtube
+            .invert
+                iframe(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+        else if has_thumbnail
             //- .four.wide.center.aligned.column
             .image
                 //- img.rounded(src=thumbnail)

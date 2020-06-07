@@ -163,7 +163,7 @@ Template.registerHelper 'youtube_id', () ->
 Template.registerHelper 'is_streamable', () ->
     @domain is 'streamable.com'
 Template.registerHelper 'is_youtube', () ->
-    @domain is 'youtube.com'
+    @domain in ['youtube.com', 'youtu.be']
 
 
 Template.registerHelper 'lowered_title', () ->
