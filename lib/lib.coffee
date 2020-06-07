@@ -1,13 +1,7 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 # @Authors = new Meteor.Collection 'authors'
-
-
 @Terms = new Meteor.Collection 'terms'
-# @Subreddits = new Meteor.Collection 'subreddits'
-# @Timestamp_tags = new Meteor.Collection 'timestamp_tags'
-
-# @Redditor_leaders = new Meteor.Collection 'redditor_leaders'
 
 
 Docs.before.insert (userId, doc)->

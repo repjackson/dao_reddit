@@ -9,27 +9,6 @@ Docs.allow
         else
             user_id is doc._author_id
 
-Meteor.users.allow
-    insert: (user_id, doc, fields, modifier) ->
-        # user_id
-        true
-        # if user_id and doc._id == user_id
-        #     true
-    update: (user_id, doc, fields, modifier) ->
-        # true
-        if user_id and doc._id == user_id
-            true
-    remove: (user_id, doc, fields, modifier) ->
-        user = Meteor.users.findOne user_id
-        if user_id and 'admin' in user.roles
-            true
-        # if user_id and doc._id == user_id
-        #     true
-
-
-
-
-
 Meteor.publish 'reddit_tags', (
     selected_tags
     query
@@ -41,7 +20,7 @@ Meteor.publish 'reddit_tags', (
 
     self = @
     match = {}
-    match.model = 'reddit'
+    match.model = $in: ['reddit','wikipedia']
     if query and query.length > 1
     #     console.log 'searching query', query
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
@@ -52,7 +31,7 @@ Meteor.publish 'reddit_tags', (
         },
             sort:
                 count: -1
-            limit: 20
+            limit: 10
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
@@ -67,8 +46,8 @@ Meteor.publish 'reddit_tags', (
 
     else
         # unless query and query.length > 2
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
-        # match.tags = $all: selected_tags
+        # if selected_tags.length > 0 then match.tags = $all: selected_tags
+        match.tags = $all: selected_tags
         # console.log 'match for tags', match
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -78,7 +57,7 @@ Meteor.publish 'reddit_tags', (
             { $match: _id: $nin: selected_tags }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 42 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -103,20 +82,19 @@ Meteor.publish 'reddit_docs', (
     # console.log selected_tags
     self = @
     match = {model:'reddit'}
-    if selected_tags.length > 0
-        match.tags = $all: selected_tags
-        sort = 'ups'
-    else
-        match.tags = $nin: ['wikipedia']
-        sort = '_timestamp'
-        # match. = $ne:'wikipedia'
+    # if selected_tags.length > 0
+    match.tags = $all: selected_tags
+    # else
+    #     match.tags = $nin: ['wikipedia']
+    #     sort = '_timestamp'
+    #     # match. = $ne:'wikipedia'
     console.log 'reddit match', match
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
     Docs.find match,
         sort:"ups":-1
         # sort:_timestamp:-1
-        limit: 5
+        limit: 10
 
 Meteor.methods
     search_reddit: (query)->
@@ -131,7 +109,7 @@ Meteor.methods
                 # console.log 'found data'
                 # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
-                    console.log item.data
+                    # console.log item.data
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200

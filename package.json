@@ -5,7 +5,7 @@
 		"ibm-watson": "^5.1.0"
 	},
 	"scripts": {
-		"start": "MONGO_URL=mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb MAIL_URL=smtp://postmaster%40mg.whatscookin.at:a059db19f1be833785350d69d9c24d27-46ac6b00-86bf6762@smtp.mailgun.org:587 meteor --settings settings.json",
+		"start": "MONGO_URL=mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb  meteor --settings settings.json",
 		"local": "meteor --settings settings.json"
 	}
 }

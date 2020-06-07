@@ -1,0 +1,98 @@
+head
+    title dao
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(name="msapplication-TileColor" content="#da532c")
+    meta(name="theme-color" content="#000")
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
+    
+    //- script(src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js")
+    //- script(src="https://semantic-ui.com/javascript/library/tablesort.js")
+
+    link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
+    script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
+    script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
+    script(async src="https://www.googletagmanager.com/gtag/js?id=UA-156965333-1")
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-156965333-1');
+
+body
+    +home
+
+
+template(name='home')
+    .ui.stackable.grid.home
+        .centered.row 
+            .sixteen.wide.center.aligned.column
+                .scrolling
+                    //- .ui.header #{connection.status}
+                    unless connected
+                        //- .ui.inline.header disconnected
+                        .ui.hidden.divider
+                        i.lightning.large.circular.grey.icon.reconnect 
+                    if connected
+                        //- unless selected_tags
+                        //-     i.huge.yin.yang.grey.icon
+                        unless selected_tags
+                            .ui.basic.center.aligned.segment
+                                .ui.hidden.divider
+                                i.huge.yin.yang.grey.icon
+                        each selected_tags
+                            button.ui.grey.compact.circular.large.button.unselect_tag(tabindex='0')
+                                //- i.remove.icon
+                                | #{this}
+                        .ui.icon.search.input.wrap_input
+                            //- if template_subs_ready
+                            //-     i.grey.search.icon
+                            unless template_subs_ready
+                                i.yin.yang.loading.large.icon
+                            input#search.wrap_input(type='text' autofocus='' autocomplete="off")
+                        //- div
+                        //- if selected_tags_plural
+                        //-     .ui.icon.circular.black.compact.large.large.button.clear_selected_tags
+                        //-         i.remove.icon
+                        each tags
+                            button.ui.compact.large.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
+                                //- small #{count}
+                        //- .ui.hidden.divider
+                    //- if one_post
+                if selected_tags
+                    .scrolling
+                        .ui.stackable.centered.cards
+                            each docs
+                                //- .ui.fitted.hidden.divider
+                                +doc_item
+
+
+template(name='doc_item')
+    //- .ui.center.aligned.basic.compact.segment
+    .ui.card
+        //- img.image.rounded(src=url)
+        if has_thumbnail
+            //- .four.wide.center.aligned.column
+            .image
+                a(href=url target='_window')
+                    img.rounded(src=thumbnail)
+            .content
+                if title 
+                    a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}
+                    //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
+                    //- .ui.header.pointer.goto_article(title="view full") !{title}
+                else if watson.metadata.title
+                    .ui.grey.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
+                .meta
+                    if dev
+                        .ui.small.inline.grey.header 
+                            i.tags.small.icon
+                            |#{tags.length}
+        else
+            .content
+                if title 
+                    a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}
+                else if watson.metadata.title
+                    .ui.grey.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
