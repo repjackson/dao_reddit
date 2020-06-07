@@ -14,7 +14,7 @@ body {
     /* background: #0e0e44 !important; */
 }
 .yeah {
-    font-size: 1.40rem !important;
+    font-size: 1.20rem !important;
 }
 
 .header {
@@ -130,8 +130,9 @@ input {
     border-style: solid !important; */
 	overflow-y:scroll;
 	overflow-x:hidden;
-	max-height:50vh;
+	max-height:48vh;
 	/* padding-top: .2em; */
+	padding: .2em;
 	/*padding-left: 1em;*/
 }
 

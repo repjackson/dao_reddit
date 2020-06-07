@@ -1,6 +1,6 @@
 head
     title dao
-    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='viewport', content='user-scalable=yes, initial-scale=1.0, maximum-scale=1.5, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
     meta(name="msapplication-TileColor" content="#da532c")
@@ -28,13 +28,19 @@ body
 template(name='home')
     .ui.stackable.grid.home
         .centered.row 
+            if selected_tags
+                .scrolling
+                    .ui.stackable.centered.five.cards
+                        each docs
+                            //- .ui.fitted.hidden.divider
+                            +doc_item
             .sixteen.wide.center.aligned.column
                 .scrolling
                     //- .ui.header #{connection.status}
                     unless connected
                         //- .ui.inline.header disconnected
                         .ui.hidden.divider
-                        i.lightning.large.circular.grey.icon.reconnect 
+                        i.lightning.circular.grey.link.icon.reconnect 
                     if connected
                         //- unless selected_tags
                         //-     i.huge.yin.yang.grey.icon
@@ -43,41 +49,35 @@ template(name='home')
                                 .ui.hidden.divider
                                 i.huge.yin.yang.grey.icon
                         each selected_tags
-                            button.ui.grey.compact.circular.large.button.unselect_tag(tabindex='0')
+                            button.ui.grey.compact.circular.button.unselect_tag(tabindex='0')
                                 //- i.remove.icon
                                 | #{this}
                         .ui.icon.search.input.wrap_input
                             //- if template_subs_ready
                             //-     i.grey.search.icon
                             unless template_subs_ready
-                                i.yin.yang.loading.large.icon
+                                i.yin.yang.loading.icon
                             input#search.wrap_input(type='text' autofocus='' autocomplete="off")
                         //- div
                         //- if selected_tags_plural
-                        //-     .ui.icon.circular.black.compact.large.large.button.clear_selected_tags
+                        //-     .ui.icon.circular.black.compact.button.clear_selected_tags
                         //-         i.remove.icon
                         each tags
-                            button.ui.compact.large.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
+                            button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                                 //- small #{count}
                         //- .ui.hidden.divider
                     //- if one_post
-                if selected_tags
-                    .scrolling
-                        .ui.stackable.centered.cards
-                            each docs
-                                //- .ui.fitted.hidden.divider
-                                +doc_item
 
 
 template(name='doc_item')
     //- .ui.center.aligned.basic.compact.segment
-    .ui.card
+    
+    a.ui.card(href=url target='_window')
         //- img.image.rounded(src=url)
         if has_thumbnail
             //- .four.wide.center.aligned.column
             .image
-                a(href=url target='_window')
-                    img.rounded(src=thumbnail)
+                img.rounded(src=thumbnail)
             .content
                 if title 
                     a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}

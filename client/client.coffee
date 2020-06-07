@@ -1,8 +1,4 @@
-@selected_subreddits = new ReactiveArray []
-@selected_timestamp_tags = new ReactiveArray []
-
 @selected_tags = new ReactiveArray []
-@selected_authors = new ReactiveArray []
 
 Template.home.onCreated ->
     @autorun => @subscribe 'reddit_tags',
@@ -26,10 +22,7 @@ Template.home.events
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
-        , 5000
-        Meteor.setTimeout ->
-            Session.set('dummy', !Session.get('dummy'))
-        , 10000
+        , 7000
     'click .select_query': -> queries.push @title
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
@@ -65,10 +58,7 @@ Template.home.events
                 # # $( "p" ).blur();
                 Meteor.setTimeout ->
                     Session.set('dummy', !Session.get('dummy'))
-                , 5000
-                Meteor.setTimeout ->
-                    Session.set('dummy', !Session.get('dummy'))
-                , 10000
+                , 7000
     , 1000)
 
 
@@ -174,9 +164,6 @@ Template.registerHelper 'is_youtube', () ->
     @domain is 'youtube.com'
 
 
-Template.registerHelper 'user_by_id', () ->
-    Meteor.users.findOne @
-
 Template.registerHelper 'lowered_title', () ->
     @title.toLowerCase()
 
@@ -208,21 +195,6 @@ Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'to_percent', (number)->
     # console.log number
     (number*100).toFixed()
-Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
-Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
-Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
-Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
-Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
-Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do YYYY")
-Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
-Template.registerHelper 'int', (input)-> input.toFixed(0)
-Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
-
-Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
-
 
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
@@ -230,6 +202,3 @@ Template.registerHelper 'loading_class', ()->
 # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
-
-Template.registerHelper 'is_eric', ()-> if Meteor.userId() and Meteor.userId() in ['K77p8B9jpXbTz6nfD'] then true else false
-Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
