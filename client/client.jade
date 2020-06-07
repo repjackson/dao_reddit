@@ -26,73 +26,70 @@ body
 
 
 template(name='home')
-    .ui.stackable.grid.home
+    .ui.stackable.padded.grid.home
         .centered.row 
-            if selected_tags
-                .scrolling
-                    .ui.stackable.centered.five.cards
-                        each docs
-                            //- .ui.fitted.hidden.divider
-                            +doc_item
-            .sixteen.wide.center.aligned.column
-                .scrolling
-                    //- .ui.header #{connection.status}
-                    unless connected
-                        //- .ui.inline.header disconnected
-                        .ui.hidden.divider
-                        i.lightning.circular.grey.link.icon.reconnect 
-                    if connected
-                        //- unless selected_tags
-                        //-     i.huge.yin.yang.grey.icon
-                        unless selected_tags
-                            .ui.basic.center.aligned.segment
-                                .ui.hidden.divider
-                                i.huge.yin.yang.grey.icon
-                        each selected_tags
-                            button.ui.grey.compact.circular.button.unselect_tag(tabindex='0')
-                                //- i.remove.icon
-                                | #{this}
-                        .ui.icon.search.input.wrap_input
-                            //- if template_subs_ready
-                            //-     i.grey.search.icon
-                            unless template_subs_ready
-                                i.yin.yang.loading.icon
-                            input#search.wrap_input(type='text' autofocus='' autocomplete="off")
-                        //- div
-                        //- if selected_tags_plural
-                        //-     .ui.icon.circular.black.compact.button.clear_selected_tags
-                        //-         i.remove.icon
-                        each tags
-                            button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
-                                //- small #{count}
-                        //- .ui.hidden.divider
-                    //- if one_post
+            //- if selected_tags
+            .scrolling.sixty
+                .ui.centered.cards
+                    each docs
+                        //- .ui.fitted.hidden.divider
+                        +doc_item
+            .scrolling.forty
+                //- .ui.header #{connection.status}
+                unless connected
+                    //- .ui.inline.header disconnected
+                    .ui.hidden.divider
+                    i.lightning.circular.grey.link.icon.reconnect 
+                if connected
+                    //- unless selected_tags
+                    //-     i.huge.yin.yang.grey.icon
+                    unless selected_tags
+                        .ui.basic.center.aligned.segment
+                            .ui.hidden.divider
+                            i.huge.yin.yang.grey.link.icon.pick_dao
+                    each selected_tags
+                        button.ui.grey.compact.circular.button.unselect_tag(tabindex='0')
+                            //- i.remove.icon
+                            | #{this}
+                    .ui.icon.search.input.wrap_input
+                        //- if template_subs_ready
+                        //-     i.grey.search.icon
+                        unless template_subs_ready
+                            i.yin.yang.loading.icon
+                        input#search.wrap_input(type='text' autofocus='' autocomplete="off")
+                    //- div
+                    //- if selected_tags_plural
+                    //-     .ui.icon.circular.black.compact.button.clear_selected_tags
+                    //-         i.remove.icon
+                    each tags
+                        button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
+                            //- small #{count}
+                    //- .ui.hidden.divider
+                //- if one_post
 
 
 template(name='doc_item')
     //- .ui.center.aligned.basic.compact.segment
     
-    a.ui.card(href=url target='_window')
+    a.ui.link.card(href=url target='_window')
         //- img.image.rounded(src=url)
         if has_thumbnail
             //- .four.wide.center.aligned.column
             .image
-                img.rounded(src=thumbnail)
-            .content
-                if title 
-                    a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}
-                    //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
-                    //- .ui.header.pointer.goto_article(title="view full") !{title}
-                else if watson.metadata.title
-                    .ui.grey.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
-                .meta
-                    if dev
-                        .ui.small.inline.grey.header 
-                            i.tags.small.icon
-                            |#{tags.length}
-        else
-            .content
-                if title 
-                    a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}
-                else if watson.metadata.title
-                    .ui.grey.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
+                //- img.rounded(src=thumbnail)
+                //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
+                //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
+                img.rounded(src=url)
+        .content
+            if title 
+                a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}
+                //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
+                //- .ui.header.pointer.goto_article(title="view full") !{title}
+            else if watson.metadata.title
+                .ui.grey.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
+            .meta
+                |#{domain}
+                //-     if dev
+                //-         .ui.small.inline.grey.header 
+                //-             i.tags.small.icon
+                //-             |#{tags.length}

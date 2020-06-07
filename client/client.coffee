@@ -9,7 +9,9 @@ Template.home.onCreated ->
         selected_tags.array()
 
 Template.home.events
-    'click .result': (event,template)->
+    'click .pick_dao': (e,t)->
+        selected_tags.push 'dao'
+    'click .result': (e,t)->
         # console.log @
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
