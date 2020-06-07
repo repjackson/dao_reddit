@@ -102,14 +102,14 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=10",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=1",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
                 # console.log 'found data'
                 # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
-                    # console.log item.data
+                    console.log item.data
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
@@ -170,7 +170,7 @@ Meteor.methods
             if err then console.error err
             else
                 rd = res.data.data.children[0].data
-                # console.log rd.url
+                console.log rd
                 if rd.is_video
                     # console.log 'pulling video comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
@@ -212,7 +212,7 @@ Meteor.methods
 
                 Docs.update doc_id,
                     $set:
-                        # rd: rd
+                        rd: rd
                         url: rd.url
                         thumbnail: rd.thumbnail
                         subreddit: rd.subreddit

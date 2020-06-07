@@ -1,5 +1,11 @@
 {
- "name": "App",
+ "name": "dao",
+ "short_name": "dao",
+ "description": "wei wu wei",
+ "background_color": "grey",
+ "theme_color": "grey",
+ "start_url": "/",
+ "display": "fullscreen",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",

@@ -20,12 +20,12 @@ Meteor.methods
         HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
             # console.log response.data
             if err
-                console.log 'error'
-                console.log err
+                console.log 'error finding wiki article for ', query
+                # console.log err
             else
 
-                console.log response
-                console.log 'response'
+                # console.log response
+                # console.log 'response'
 
                 found_doc =
                     Docs.findOne
@@ -114,64 +114,3 @@ Meteor.methods
             res = Docs.update doc._id,
                 $pull: tags: tag
             console.log res
-
-
-
-    calc_post: (doc_id)->
-        doc = Docs.findOne doc_id
-        # console.log 'got post', doc
-
-        HTTP.get "http://reddit.com/by_id/t3_#{doc.reddit_id}.json", (err,res)->
-            if err then console.error err
-            else
-                rd = res.data.data.children[0].data
-                # console.log rd.url
-                # if rd.is_video
-                #     console.log 'pulling image comments watson'
-                #     Meteor.call 'call_watson', doc_id, 'url', 'video'
-                # else if rd.is_image
-                #     console.log 'pulling image comments watson'
-                #     Meteor.call 'call_watson', doc_id, 'url', 'image'
-
-                # if rd.selftext
-                #     unless rd.is_video
-                #         # if Meteor.isDevelopment
-                #         #     console.log "self text", rd.selftext
-                #         Docs.update doc_id, {
-                #             $set: body: rd.selftext
-                #         }, ->
-                #         #     Meteor.call 'pull_site', doc_id, url
-                #             # console.log 'hi'
-                # if rd.selftext_html
-                #     unless rd.is_video
-                #         Docs.update doc_id, {
-                #             $set: html: rd.selftext_html
-                #         }, ->
-                        #     Meteor.call 'pull_site', doc_id, url
-                            # console.log 'hi'
-                # if rd.url
-                #     unless rd.is_video￼
-                #         url = rd.url
-                #         # if Meteor.isDevelopment
-                #         #     console.log "found url", url
-                #         Docs.update doc_id, {
-                #             $set:
-                #                 reddit_url: url
-                #                 url: url
-                #         }, ->
-                #             Meteor.call 'call_watson', doc_id, 'url', 'url', ->
-                # update_ob = {}
-
-                Docs.update doc_id,
-                    $set:
-                        # rd: rd
-                        thumbnail: rd.thumbnail
-                        subreddit: rd.subreddit
-                        author: rd.author
-                        is_video: rd.is_video
-                        ups: rd.ups
-                        downs: rd.downs
-                        over_18: rd.over_18
-                    # $addToSet:
-                        # tags: $each: [rd.subreddit]
-                # console.log Docs.findOne(doc_id)
