@@ -35,6 +35,10 @@ template(name='omega_doc_view')
             .ui.header selected tags
             each selected_tags
                 .ui.label #{this}
+            .ui.header agg res 
+            each agg
+                .ui.header title:#{title}
+                .ui.header count:#{count}
                 
 
 template(name='home')
@@ -67,7 +71,7 @@ template(name='home')
                     //- if selected_tags_plural
                     .ui.icon.circular.black.compact.button.clear_selected_tags
                         i.remove.icon
-                    each omega_doc.tags
+                    each omega_doc.agg
                         button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                             //- small #{count}
                     //- .ui.hidden.divider
