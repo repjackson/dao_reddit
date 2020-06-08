@@ -37,13 +37,14 @@ Meteor.publish 'tags', (
     match = {}
     match.model = $in: ['reddit','wikipedia']
     # console.log 'query length', query.length
+    # if omega.query and omega.query.length > 0
     if query and query.length > 0
     #     console.log 'searching query', query
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
     #
         Terms.find {
-            title: {$regex:"#{query}", $options: 'i'}
+            title: {$regex:"#{omega.query}", $options: 'i'}
         },
             sort:
                 count: -1
@@ -63,7 +64,7 @@ Meteor.publish 'tags', (
     else
         # unless query and query.length > 2
         # if selected_tags.length > 0 then match.tags = $all: selected_tags
-        match.tags = $all: selected_tags
+        match.tags = $all: omega.selected_tags
         # console.log 'match for tags', match
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -87,7 +88,11 @@ Meteor.publish 'tags', (
                 count: tag.count
                 # category:key
                 # index: i
-
+            # Docs.update omega._id,
+            #     $addToSet:
+            #         tags:
+            #             title:tag.name
+            #             count:tag.count
         # console.log doc_tag_cloud.count()
 
         self.ready()
@@ -107,6 +112,9 @@ Meteor.publish 'docs', (
     console.log 'reddit match', match
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
+    omega =
+        Docs.findOne
+            model:'omega_session'
     Docs.find match,
         sort:"ups":-1
         # sort:_timestamp:-1
