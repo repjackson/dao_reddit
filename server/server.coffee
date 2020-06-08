@@ -155,7 +155,7 @@ Meteor.methods
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 42 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe

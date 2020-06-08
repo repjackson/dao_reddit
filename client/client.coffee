@@ -104,12 +104,12 @@ Template.home.events
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
                 # Session.set('current_query', '')
-                Meteor.call 'omega_agg', ->
                 Docs.update omega._id,
                     $set:
                         current_query:''
                 # # $('#search').val('').blur()
                 # # $( "p" ).blur();
+                Meteor.call 'agg_omega', ->
                 Meteor.setTimeout ->
                     Session.set('dummy', !Session.get('dummy'))
                 , 6000

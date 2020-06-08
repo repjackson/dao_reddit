@@ -26,7 +26,8 @@ head
 body
     +home
     .ui.divider
-    +omega_doc_view
+    //- unless dev
+    //-     +omega_doc_view
 
 template(name='omega_doc_view')
     with omega_doc
@@ -44,7 +45,7 @@ template(name='omega_doc_view')
 template(name='home')
     .ui.stackable.padded.grid.home
         .centered.row 
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 //- .scrolling.forty
                 //- .ui.header #{connection.status}
                 unless connected
@@ -57,6 +58,9 @@ template(name='home')
                     unless omega_doc.selected_tags
                             .ui.hidden.divider
                             i.huge.yin.yang.black.link.icon.pick_dao
+                    //- if selected_tags
+                    //-     .ui.icon.circular.black.compact.button.clear_selected_tags
+                    //-         i.remove.icon
                     each omega_doc.selected_tags
                         button.ui.black.compact.circular.button.unselect_tag(tabindex='0')
                             //- i.remove.icon
@@ -69,8 +73,6 @@ template(name='home')
                         input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
                     //- div
                     //- if selected_tags_plural
-                    .ui.icon.circular.black.compact.button.clear_selected_tags
-                        i.remove.icon
                     each omega_doc.agg
                         button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                             //- small #{count}
@@ -78,14 +80,14 @@ template(name='home')
                 //- if one_post
             
                 //- if selected_tags
-        .centered.row 
-            //- .scrolling.sixty
-            .ui.stackable.padded.grid
-                .four.column.row
-                    each docs
-                        .column
-                            +doc_item
-                            .ui.hidden.divider
+        //- .centered.row 
+        //-     //- .scrolling.sixty
+        //-     .ui.stackable.padded.grid
+        //-         .four.column.row
+        //-             each docs
+        //-                 .column
+        //-                     +doc_item
+        //-                     .ui.hidden.divider
             //-         .sixteen.wide.greecolumn
             //-             |hi
             //- .ui.centered.doubling.cards
