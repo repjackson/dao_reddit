@@ -122,24 +122,40 @@ Meteor.publish 'docs', (
 
 Meteor.methods
     # agg_omega: (query, key, collection)->
-    agg_omega: ()->
+    agg_omega: ->
+        # agg_res = Meteor.call 'agg_omega2', (err, res)->
+        #     console.log res
+        #     console.log 'res from async agg'
+        agg_res = Meteor.call 'agg_omega2'
+        console.log 'hi'
+        console.log 'agg res', agg_res
+        omega = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $set:agg:agg_res
+    agg_omega2: ()->
         omega =
             Docs.findOne
                 model:'omega_session'
 
         console.log 'running agg omega', omega
         match = {}
-        match.tags = $all: selected_tags
+        match.tags = $all: omega.selected_tags
 
-        limit=20
+
+        # Docs.update omega._id,
+        #     $set:
+        #         match:match
+        # limit=20
         options = { explain:false }
+        # console.log 'omega_match', match
+        # { $match: tags:$all: omega.selected_tags }
         pipe =  [
-            { $match: omega.match }
+            { $match: match }
             { $project: tags: 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
-            { $limit: limit }
+            { $limit: 1 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         if pipe
@@ -148,9 +164,12 @@ Meteor.methods
             res = {}
             if agg
                 agg.toArray()
-                console.log agg.toArray()
-                Docs.update omega._id,
-                    $set:agg:agg.toArray()
+                # printed = console.log(agg.toArray())
+                # # console.log(agg.toArray())
+                # omega = Docs.findOne model:'omega_session'
+                # Docs.update omega._id,
+                #     $set:
+                #         agg:agg.toArray()
         else
             return null
 

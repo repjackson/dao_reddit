@@ -31,7 +31,7 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson'
+        # console.log 'calling watson'
         self = @
         # console.log doc_id
         # console.log key
@@ -92,11 +92,11 @@ Meteor.methods
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
                 # console.log 'watson error for', parameters.url
-                console.log err
+                # console.log err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
-                    console.log 'not html, flaggged doc for future skip', parameters.url
+                    # console.log 'not html, flaggged doc for future skip', parameters.url
                 else
                     console.log '403 error api key'
             else
@@ -154,7 +154,7 @@ Meteor.methods
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 Meteor.call 'clear_blocklist_doc', doc_id, ->
-                if Meteor.isDevelopment
-                    console.log 'all tags', final_doc.tags
+                # if Meteor.isDevelopment
+                #     console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )

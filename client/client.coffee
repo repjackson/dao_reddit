@@ -14,8 +14,9 @@ Template.home.events
     'click .pick_dao': (e,t)->
         # selected_tags.push 'dao'
         omega  = Docs.findOne model:'omega_session'
-        Docs.update omega._id,
-            $set:selected_tags:['dao']
+        if omega
+            Docs.update omega._id,
+                $set:selected_tags:['dao']
         Meteor.call 'agg_omega', ->
 
     'click .result': (e,t)->
@@ -226,11 +227,11 @@ Template.registerHelper 'youtube_id', () ->
 
 
 Template.registerHelper 'is_image', () ->
-    regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
-    match = @url.match(regExp)
-    # console.log 'image match', match
-    if match then true
-
+    # regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
+    # match = @url.match(regExp)
+    # # console.log 'image match', match
+    # if match then true
+    true
 
 
 Template.registerHelper 'is_twitter', () ->

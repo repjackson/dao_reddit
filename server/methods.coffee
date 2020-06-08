@@ -6,16 +6,16 @@ Meteor.methods
         },{limit:1000})
         for doc in docs.fetch()
             # doc = Docs.findOne id
-            console.log 'about to stringify', doc
+            # console.log 'about to stringify', doc
             tags_string = doc.tags.toString()
-            console.log 'tags_string', tags_string
+            # console.log 'tags_string', tags_string
             Docs.update doc._id,
                 $set: tags_string:tags_string
             # console.log 'result doc', Docs.findOne doc._id
 #
 
     call_wiki: (query)->
-        console.log 'calling wiki', query
+        # console.log 'calling wiki', query
         term = query.split(' ').join('_')
         HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
             # console.log response.data
@@ -35,7 +35,7 @@ Meteor.methods
                     # Docs.update found_doc._id,
                     #     $addToSet:
                     #         tags:'wikipedia'
-                    console.log 'found wiki doc', found_doc
+                    # console.log 'found wiki doc', found_doc
                     Meteor.call 'call_watson', found_doc._id, 'url','url', ->
                 else
                     new_wiki_id = Docs.insert
@@ -52,8 +52,8 @@ Meteor.methods
         if Meteor.user()
             doc_count = Docs.find(author_id:Meteor.userId()).count()
             term_count = Terms.find(author_id:Meteor.userId()).count()
-            console.log 'doc_count', doc_count
-            console.log 'term_count', term_count
+            # console.log 'doc_count', doc_count
+            # console.log 'term_count', term_count
             Meteor.users.update Meteor.userId(),
                 $set:
                     doc_count: doc_count
@@ -85,7 +85,7 @@ Meteor.methods
     lookup: =>
         selection = @words[4000..4500]
         for word in selection
-            console.log 'searching ', word
+            # console.log 'searching ', word
             # Meteor.setTimeout ->
             Meteor.call 'search_reddit', ([word])
             # , 5000
