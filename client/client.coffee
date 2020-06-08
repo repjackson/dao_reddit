@@ -1,6 +1,7 @@
 @selected_tags = new ReactiveArray []
 
 Template.home.onCreated ->
+    Session.setDefault('current_query', '')
     @autorun => @subscribe 'tags',
         selected_tags.array()
         Session.get('current_query')
@@ -19,7 +20,7 @@ Template.home.events
         selected_tags.push @title
         $('#search').val('')
         Meteor.call 'call_wiki', @title, ->
-        Session.set('current_query', null)
+        Session.set('current_query', '')
         Session.set('searching', false)
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
@@ -39,7 +40,7 @@ Template.home.events
     # 'click .refresh_tags': ->
 
     'click .clear_selected_tags': ->
-        Session.set('current_query',null)
+        Session.set('current_query','')
         selected_tags.clear()
 
     'keyup #search': _.throttle((e,t)->
@@ -55,12 +56,12 @@ Template.home.events
                 Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
-                Session.set('current_query', null)
+                Session.set('current_query', '')
                 # # $('#search').val('').blur()
                 # # $( "p" ).blur();
                 Meteor.setTimeout ->
                     Session.set('dummy', !Session.get('dummy'))
-                , 7000
+                , 6000
     , 500)
 
 
@@ -87,7 +88,8 @@ Template.home.helpers
     connected: ->
         Meteor.status().connected
     tags: ->
-        if Session.get('current_query') and Session.get('current_query').length > 1
+        console.log Session.get('current_query')
+        if Session.get('current_query').length > 0
             Terms.find({}, sort:count:-1)
         else
             doc_count = Docs.find().count()

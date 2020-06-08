@@ -5,9 +5,9 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     /* font-size: 110% !important; */
     /* line-height: 200% !important; */
-    background: rgba(0,0,0,.99) !important;
+    /* background: rgba(0,0,0,.99) !important; */
     /* background: rgba(0,0,0,.01) !important; */
-    filter: invert(1) !important;
+    /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
     transition: all 1s !important;
     /* background: rgba(250, 250, 250, .05) !important */
@@ -63,7 +63,7 @@ a.title, #title {
 
 .card, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, #title, .blue.header, .orange.header, .invert{
     /* border-radius: 10px !important; */
-    filter: invert(1) !important;
+    /* filter: invert(1) !important; */
 }
 
 
@@ -145,7 +145,7 @@ body {
 
 
 .button:active{
-    -webkit-transform: translate(0, 2px) !important; /* depth of button press */
+    -webkit-transform: translate(0, 1px) !important; /* depth of button press */
     transition: all .5s !important;
     transform: translate(0, 2px) !important; /* depth of button press */
 }

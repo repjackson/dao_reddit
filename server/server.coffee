@@ -21,8 +21,8 @@ Meteor.publish 'tags', (
     self = @
     match = {}
     match.model = $in: ['reddit','wikipedia']
-    console.log 'query length', query.length
-    if query and query.length > 1
+    # console.log 'query length', query.length
+    if query and query.length > 0
     #     console.log 'searching query', query
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
@@ -219,6 +219,6 @@ Meteor.methods
                         ups: rd.ups
                         downs: rd.downs
                         over_18: rd.over_18
-                    $addToSet:
-                        tags: $each: [rd.subreddit.toLowerCase()]
+                    # $addToSet:
+                    #     tags: $each: [rd.subreddit.toLowerCase()]
                 # console.log Docs.findOne(doc_id)
