@@ -9,6 +9,16 @@ Docs.allow
         else
             user_id is doc._author_id
 
+Meteor.publish 'omega_doc', ->
+    omega =
+        Docs.findOne
+            model:'omega_session'
+    if omega
+        Docs.find omega._id
+    else
+        Docs.insert
+            model:'omega_session'
+
 Meteor.publish 'tags', (
     selected_tags
     query
@@ -17,6 +27,11 @@ Meteor.publish 'tags', (
     # console.log 'dummy', dummy
     # console.log 'query', query
     console.log 'selected tags', selected_tags
+
+
+    omega =
+        Docs.findOne
+            model:'omega_session'
 
     self = @
     match = {}
@@ -32,7 +47,7 @@ Meteor.publish 'tags', (
         },
             sort:
                 count: -1
-            limit: 20
+            limit: 10
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
@@ -58,7 +73,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: selected_tags }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -95,7 +110,7 @@ Meteor.publish 'docs', (
     Docs.find match,
         sort:"ups":-1
         # sort:_timestamp:-1
-        limit:7
+        limit:5
 
 Meteor.methods
     search_reddit: (query)->

@@ -2,6 +2,7 @@
 
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
+    @autorun => @subscribe 'omega_doc'
     @autorun => @subscribe 'tags',
         selected_tags.array()
         Session.get('current_query')
@@ -12,12 +13,21 @@ Template.home.onCreated ->
 Template.home.events
     'click .pick_dao': (e,t)->
         selected_tags.push 'dao'
+        omega  = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $set:selected_tags:['dao']
+
     'click .result': (e,t)->
         # console.log @
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
         Meteor.call 'log_term', @title, ->
         selected_tags.push @title
+        omega  = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $addToSet:
+                selected_tags:@title
+
         $('#search').val('')
         Meteor.call 'call_wiki', @title, ->
         Session.set('current_query', '')
@@ -26,9 +36,20 @@ Template.home.events
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
         , 7000
-    'click .select_query': -> queries.push @title
+    'click .select_query': ->
+        queries.push @title
+        omega  = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $addToSet:
+                selected_tags:@valueOf()
+
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
+        omega  = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $pull:
+                selected_tags:@valueOf()
+
         # console.log selected_tags.array()
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
@@ -42,7 +63,11 @@ Template.home.events
     'click .clear_selected_tags': ->
         Session.set('current_query','')
         selected_tags.clear()
-
+        omega  = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $set:
+                selected_tags:[]
+                current_query:''
     'keyup #search': _.throttle((e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
@@ -51,6 +76,11 @@ Template.home.events
             search = $('#search').val().trim().toLowerCase()
             if search.length > 0
                 selected_tags.push search
+                omega  = Docs.findOne model:'omega_session'
+                Docs.update omega._id,
+                    $addToSet:
+                        selected_tags:search
+                        current_query:''
                 console.log 'search', search
                 Meteor.call 'call_wiki', search, ->
                 Meteor.call 'search_reddit', selected_tags.array(), ->
@@ -89,7 +119,10 @@ Template.home.helpers
         Meteor.status().connected
     tags: ->
         console.log Session.get('current_query')
-        if Session.get('current_query').length > 0
+        omega = Docs.findOne model:'omega_session'
+
+        # if Session.get('current_query').length > 0
+        if omega.current_query.length > 0
             Terms.find({}, sort:count:-1)
         else
             doc_count = Docs.find().count()
@@ -105,8 +138,19 @@ Template.home.helpers
         # else
         #     'disabled'
 
-    selected_tags: -> selected_tags.array()
-    selected_tags_plural: -> selected_tags.array().length > 1
+    selected_tags: ->
+        selected_tags.array()
+        omega  = Docs.findOne model:'omega_session'
+        omega.selected_tags
+        # Docs.update omega._id,
+        #     $addToSet:
+        #         selected_tags:search
+
+    selected_tags_plural: ->
+        selected_tags.array().length > 1
+        omega  = Docs.findOne model:'omega_session'
+        omega.selected_tags.length > 1
+
     searching: -> Session.get('searching')
 
     one_post: ->
@@ -118,7 +162,7 @@ Template.home.helpers
                 # model:'reddit'
             },
                 sort:ups:-1
-                limit:20
+                limit:3
         # console.log cursor.fetch()
         cursor
 
