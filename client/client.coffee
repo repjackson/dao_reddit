@@ -61,7 +61,7 @@ Template.home.events
                 Meteor.setTimeout ->
                     Session.set('dummy', !Session.get('dummy'))
                 , 7000
-    , 1000)
+    , 500)
 
 
     # 'keydown #search': _.throttle((e,t)->
@@ -145,7 +145,7 @@ Template.doc_item.events
 Template.doc_item.helpers
     has_thumbnail: ->
         # console.log @thumbnail
-        @thumbnail not in ['self','default']
+        @thumbnail and @thumbnail not in ['self','default']
 
 
 

@@ -36,7 +36,7 @@ template(name='home')
                 unless connected
                     //- .ui.inline.header disconnected
                     .ui.hidden.divider
-                    i.lightning.circular.grey.link.icon.reconnect 
+                    i.lightning.circular.grey.link.big.icon.reconnect 
                 if connected
                     //- unless selected_tags
                     //-     i.huge.yin.yang.grey.icon
@@ -47,12 +47,12 @@ template(name='home')
                         button.ui.grey.compact.circular.button.unselect_tag(tabindex='0')
                             //- i.remove.icon
                             | #{this}
-                    .ui.left.icon.search.input.wrap_input
+                    .ui.left.icon.search.large.input
                         if template_subs_ready
                             i.grey.search.icon
                         unless template_subs_ready
-                            i.yin.yang.loading.icon
-                        input#search.wrap_input(type='text' autofocus='' autocomplete="off")
+                            i.yin.yang.large.loading.icon
+                        input#search(type='text' autofocus='' autocomplete="off")
                     //- div
                     //- if selected_tags_plural
                     //-     .ui.icon.circular.black.compact.button.clear_selected_tags
@@ -66,7 +66,7 @@ template(name='home')
                 //- if selected_tags
         .centered.row 
             //- .scrolling.sixty
-            .ui.stackable.grid
+            .ui.stackable.padded.grid
                 .row
                     each docs
                         .four.wide.column
@@ -112,16 +112,19 @@ template(name='doc_item')
         //-             |February 21, 2018
         //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
         //- else if has_thumbnail
+        
         if is_image
             //- .four.wide.center.aligned.column
             //- .image
-                //- img.rounded(src=thumbnail)
                 //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
                 //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
             img.ui.rounded.fluid.image(src=url)
+        else if has_thumbnail    
+            img.rounded(src=thumbnail)
+        .spacer
         .content
             .meta
-                .ui.small.inverted.link.horizontal.list
+                .ui.small.inverted.link.horizontal.grey.list
                     //- a.item(href="https://www.reddit.com/user/#{author}" target="_blank")
                     //-     i.grey.user.outline.icon
                     //-     |#{author}
@@ -137,6 +140,7 @@ template(name='doc_item')
                     //- .item
                     //-     i.grey.thumbs.up.icon
                     //-     |#{ups}
+                    
                 //-     if dev
                 //-         .ui.small.inline.grey.header 
                 //-             i.tags.small.icon

@@ -21,6 +21,7 @@ Meteor.publish 'tags', (
     self = @
     match = {}
     match.model = $in: ['reddit','wikipedia']
+    console.log 'query length', query.length
     if query and query.length > 1
     #     console.log 'searching query', query
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
@@ -31,7 +32,7 @@ Meteor.publish 'tags', (
         },
             sort:
                 count: -1
-            limit: 10
+            limit: 20
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
@@ -94,7 +95,7 @@ Meteor.publish 'docs', (
     Docs.find match,
         sort:"ups":-1
         # sort:_timestamp:-1
-        limit: 10
+        limit:7
 
 Meteor.methods
     search_reddit: (query)->
@@ -219,5 +220,5 @@ Meteor.methods
                         downs: rd.downs
                         over_18: rd.over_18
                     $addToSet:
-                        tags: $each: [rd.subreddit]
+                        tags: $each: [rd.subreddit.toLowerCase()]
                 # console.log Docs.findOne(doc_id)
