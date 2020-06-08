@@ -55,8 +55,8 @@ template(name='home')
                         input#search(type='text' autofocus='' autocomplete="off")
                     //- div
                     //- if selected_tags_plural
-                    //-     .ui.icon.circular.black.compact.button.clear_selected_tags
-                    //-         i.remove.icon
+                    .ui.icon.circular.black.compact.button.clear_selected_tags
+                        i.remove.icon
                     each tags
                         button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                             //- small #{count}

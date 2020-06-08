@@ -12,7 +12,7 @@ Template.home.onCreated ->
 
 Template.home.events
     'click .pick_dao': (e,t)->
-        selected_tags.push 'dao'
+        # selected_tags.push 'dao'
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $set:selected_tags:['dao']
@@ -22,7 +22,7 @@ Template.home.events
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
         Meteor.call 'log_term', @title, ->
-        selected_tags.push @title
+        # selected_tags.push @title
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $addToSet:
@@ -30,21 +30,25 @@ Template.home.events
 
         $('#search').val('')
         Meteor.call 'call_wiki', @title, ->
-        Session.set('current_query', '')
-        Session.set('searching', false)
+        # Session.set('current_query', '')
+        # Session.set('searching', false)
+        Docs.update omega._id,
+            $set:
+                current_query:''
+                searching:false
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
         , 7000
     'click .select_query': ->
-        queries.push @title
+        # queries.push @title
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $addToSet:
-                selected_tags:@valueOf()
+                queries:@title
 
     'click .unselect_tag': ->
-        selected_tags.remove @valueOf()
+        # selected_tags.remove @valueOf()
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $pull:
@@ -54,39 +58,48 @@ Template.home.events
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
 
-        if selected_tags.array().length > 0
-            Meteor.call 'search_reddit', selected_tags.array(), ->
+        # if selected_tags.array().length > 0
+        if omega.selected_tags.length > 0
+            Meteor.call 'search_reddit', omega.selected_tags, ->
                 Session.set('dummy', !Session.get('dummy'))
 
     # 'click .refresh_tags': ->
 
     'click .clear_selected_tags': ->
-        Session.set('current_query','')
-        selected_tags.clear()
+        # Session.set('current_query','')
+        # selected_tags.clear()
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $set:
                 selected_tags:[]
                 current_query:''
     'keyup #search': _.throttle((e,t)->
+        omega  = Docs.findOne model:'omega_session'
         query = $('#search').val()
-        Session.set('current_query', query)
+        Docs.update omega._id,
+            $set:current_query:query
+        # Session.set('current_query', query)
         # console.log Session.get('current_query')
         if e.which is 13
             search = $('#search').val().trim().toLowerCase()
             if search.length > 0
-                selected_tags.push search
+                # selected_tags.push search
                 omega  = Docs.findOne model:'omega_session'
                 Docs.update omega._id,
+                    $set:
+                        current_query:''
                     $addToSet:
                         selected_tags:search
-                        current_query:''
                 console.log 'search', search
                 Meteor.call 'call_wiki', search, ->
-                Meteor.call 'search_reddit', selected_tags.array(), ->
+                # Meteor.call 'search_reddit', selected_tags.array(), ->
+                Meteor.call 'search_reddit', omega.selected_tags, ->
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
-                Session.set('current_query', '')
+                # Session.set('current_query', '')
+                Docs.update omega._id,
+                    $set:
+                        current_query:''
                 # # $('#search').val('').blur()
                 # # $( "p" ).blur();
                 Meteor.setTimeout ->
@@ -120,7 +133,7 @@ Template.home.helpers
     tags: ->
         console.log Session.get('current_query')
         omega = Docs.findOne model:'omega_session'
-
+        console.log omega.current_query, 'omega current query'
         # if Session.get('current_query').length > 0
         if omega.current_query.length > 0
             Terms.find({}, sort:count:-1)

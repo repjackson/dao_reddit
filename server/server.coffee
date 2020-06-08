@@ -38,7 +38,7 @@ Meteor.publish 'tags', (
     match.model = $in: ['reddit','wikipedia']
     # console.log 'query length', query.length
     # if omega.query and omega.query.length > 0
-    if query and query.length > 0
+    if omega.query and omega.query.length > 0
     #     console.log 'searching query', query
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}

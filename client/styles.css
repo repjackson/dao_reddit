@@ -63,7 +63,7 @@ a.title, #title {
 
 .card, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, #title, .blue.header, .orange.header, .invert{
     /* border-radius: 10px !important; */
-    /* filter: invert(1) !important; */
+    filter: invert(1) !important;
 }
 
 
