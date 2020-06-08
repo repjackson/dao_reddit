@@ -32,8 +32,9 @@ template(name='omega_doc_view')
     with omega_doc
         .ui.segment
             .ui.header query #{query}
-        each selected_tags
-            .ui.label #{this}
+            .ui.header selected tags
+            each selected_tags
+                .ui.label #{this}
                 
 
 template(name='home')
@@ -49,10 +50,10 @@ template(name='home')
                 if connected
                     //- unless selected_tags
                     //-     i.huge.yin.yang.black.icon
-                    unless selected_tags
+                    unless omega_doc.selected_tags
                             .ui.hidden.divider
                             i.huge.yin.yang.black.link.icon.pick_dao
-                    each selected_tags
+                    each omega_doc.selected_tags
                         button.ui.black.compact.circular.button.unselect_tag(tabindex='0')
                             //- i.remove.icon
                             | #{this}
@@ -61,12 +62,12 @@ template(name='home')
                             i.black.search.icon
                         unless template_subs_ready
                             i.yin.yang.large.loading.icon
-                        input#search(type='text' autofocus='' autocomplete="off")
+                        input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
                     //- div
                     //- if selected_tags_plural
                     .ui.icon.circular.black.compact.button.clear_selected_tags
                         i.remove.icon
-                    each tags
+                    each omega_doc.tags
                         button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                             //- small #{count}
                     //- .ui.hidden.divider

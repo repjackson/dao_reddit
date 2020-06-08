@@ -127,14 +127,17 @@ Meteor.methods
             Docs.findOne
                 model:'omega_session'
 
-        # console.log 'running agg', query
+        console.log 'running agg omega', omega
+        match = {}
+        match.tags = $all: selected_tags
+
         limit=20
         options = { explain:false }
         pipe =  [
             { $match: omega.match }
-            { $project: "#{key}": 1 }
-            { $unwind: "$#{key}" }
-            { $group: _id: "$#{key}", count: $sum: 1 }
+            { $project: tags: 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
             { $limit: limit }
             { $project: _id: 0, name: '$_id', count: 1 }
@@ -145,9 +148,9 @@ Meteor.methods
             res = {}
             if agg
                 agg.toArray()
-                console.log add.toArray()
+                console.log agg.toArray()
                 Docs.update omega._id,
-                    $set:agg:add.toArray()
+                    $set:agg:agg.toArray()
         else
             return null
 

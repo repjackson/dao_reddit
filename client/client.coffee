@@ -16,6 +16,7 @@ Template.home.events
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $set:selected_tags:['dao']
+        Meteor.call 'agg_omega', ->
 
     'click .result': (e,t)->
         # console.log @
@@ -36,6 +37,8 @@ Template.home.events
             $set:
                 current_query:''
                 searching:false
+        Meteor.call 'agg_omega', ->
+
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
@@ -46,6 +49,7 @@ Template.home.events
         Docs.update omega._id,
             $addToSet:
                 queries:@title
+        Meteor.call 'agg_omega', ->
 
     'click .unselect_tag': ->
         # selected_tags.remove @valueOf()
@@ -53,6 +57,7 @@ Template.home.events
         Docs.update omega._id,
             $pull:
                 selected_tags:@valueOf()
+        Meteor.call 'agg_omega', ->
 
         # console.log selected_tags.array()
         # if selected_tags.array().length is 1
@@ -73,6 +78,7 @@ Template.home.events
             $set:
                 selected_tags:[]
                 current_query:''
+        Meteor.call 'agg_omega', ->
     'keyup #search': _.throttle((e,t)->
         omega  = Docs.findOne model:'omega_session'
         query = $('#search').val()
@@ -97,6 +103,7 @@ Template.home.events
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
                 # Session.set('current_query', '')
+                Meteor.call 'omega_agg', ->
                 Docs.update omega._id,
                     $set:
                         current_query:''
