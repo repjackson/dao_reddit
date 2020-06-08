@@ -30,13 +30,8 @@ body
 template(name='home')
     .ui.stackable.padded.grid.home
         .centered.row 
-            //- if selected_tags
-            .scrolling.sixty
-                .ui.centered.doubling.cards
-                    each docs
-                        //- .ui.fitted.hidden.divider
-                        +doc_item
-            .scrolling.forty
+            .sixteen.wide.column
+                //- .scrolling.forty
                 //- .ui.header #{connection.status}
                 unless connected
                     //- .ui.inline.header disconnected
@@ -46,16 +41,15 @@ template(name='home')
                     //- unless selected_tags
                     //-     i.huge.yin.yang.grey.icon
                     unless selected_tags
-                        .ui.basic.center.aligned.segment
                             .ui.hidden.divider
                             i.huge.yin.yang.grey.link.icon.pick_dao
                     each selected_tags
                         button.ui.grey.compact.circular.button.unselect_tag(tabindex='0')
                             //- i.remove.icon
                             | #{this}
-                    .ui.icon.search.input.wrap_input
-                        //- if template_subs_ready
-                        //-     i.grey.search.icon
+                    .ui.left.icon.search.input.wrap_input
+                        if template_subs_ready
+                            i.grey.search.icon
                         unless template_subs_ready
                             i.yin.yang.loading.icon
                         input#search.wrap_input(type='text' autofocus='' autocomplete="off")
@@ -68,12 +62,28 @@ template(name='home')
                             //- small #{count}
                     //- .ui.hidden.divider
                 //- if one_post
+            
+                //- if selected_tags
+        .centered.row 
+            //- .scrolling.sixty
+            .ui.stackable.grid
+                .row
+                    each docs
+                        .four.wide.column
+                            +doc_item
+                            .ui.hidden.divider
+            //-         .sixteen.wide.greecolumn
+            //-             |hi
+            //- .ui.centered.doubling.cards
+            //-     each docs
+            //-         //- .ui.fitted.hidden.divider
+            //-         +doc_item
 
 
 template(name='doc_item')
     //- .ui.center.aligned.basic.compact.segment
     
-    .ui.green.inverted.card
+    //- .ui.inverted.card
         //- img.image.rounded(src=url)
         //- .invert
         //-     blockquote(class="reddit-card" data-card-created="1591519131")
@@ -82,50 +92,53 @@ template(name='doc_item')
                 //- |from 
                 //- a(href="http://www.reddit.com/r/CryptoCurrency")
                 //-     |r/CryptoCurrency
-        .content
-            if title 
-                a#title.ui.yeah.small.header(href=url target='_window') !{lowered_title}
-                //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
-                //- .ui.header.pointer.goto_article(title="view full") !{title}
-            else if watson.metadata.title
-                .ui.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
+    .content.invert
+        if title 
+            a#title.ui.yeah.header(href=url target='_window') !{lowered_title}
+            .spacer
+            //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
+            //- .ui.header.pointer.goto_article(title="view full") !{title}
+        else if watson.metadata.title
+            .ui.middle.aligned.header.pointer.goto_article !{watson.metadata.title}
         if is_youtube
             iframe(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
             //- .invert
-        if is_twitter
-            blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
-                p(lang="en" dir="ltr")
-                    |#{title}
-                    //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
-                a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
-                    |February 21, 2018
-            script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+        //- if is_twitter
+        //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
+        //-         p(lang="en" dir="ltr")
+        //-             |#{title}
+        //-             //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
+        //-         a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
+        //-             |February 21, 2018
+        //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
         //- else if has_thumbnail
         if is_image
             //- .four.wide.center.aligned.column
-            .image
+            //- .image
                 //- img.rounded(src=thumbnail)
                 //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
                 //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
-                img(src=url)
+            img.ui.rounded.fluid.image(src=url)
         .content
             .meta
-                .ui.small.horizontal.link.inverted.list
-                    a.item(href="https://www.reddit.com/user/#{author}" target="_blank")
-                        i.grey.user.icon
-                        |#{author}
+                .ui.small.inverted.link.horizontal.list
+                    //- a.item(href="https://www.reddit.com/user/#{author}" target="_blank")
+                    //-     i.grey.user.outline.icon
+                    //-     |#{author}
                     .item
+                        //- i.grey.globe.icon
                         |#{domain}
                     a.item(href="https://www.reddit.com/#{permalink}" target="_blank")
                         i.grey.chat.outline.icon
                         |#{comment_count}
                     a.item(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                        //- i.grey.reddit.icon
                         |r/#{subreddit}
-                    .item
-                        i.grey.thumbs.up.icon
-                        |#{ups}
+                    //- .item
+                    //-     i.grey.thumbs.up.icon
+                    //-     |#{ups}
                 //-     if dev
                 //-         .ui.small.inline.grey.header 
                 //-             i.tags.small.icon
                 //-             |#{tags.length}
-        
+    

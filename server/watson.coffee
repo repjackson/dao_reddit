@@ -154,7 +154,7 @@ Meteor.methods
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 Meteor.call 'clear_blocklist_doc', doc_id, ->
-                # if Meteor.isDevelopment
-                #     console.log 'all tags', final_doc.tags
+                if Meteor.isDevelopment
+                    console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )

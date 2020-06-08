@@ -5,22 +5,20 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     /* font-size: 110% !important; */
     /* line-height: 200% !important; */
-    background: rgba(0,0,0,.95) !important;
+    background: rgba(0,0,0,.99) !important;
     /* background: rgba(0,0,0,.01) !important; */
-    filter: invert(.9) !important;
+    filter: invert(1) !important;
     /* overscroll-behavior: none; */
     transition: all 1s !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
 .yeah {
-    font-size: 1.20rem !important;
-}
-
-.header {
-    font-weight: 400 !important;
+    font-size: 1.30rem !important;
+    font-weight: 500 !important;
     /* border-radius: 0 0 10px 10px !important; */
     transition: color 2s ease !important;
+    margin-bottom: 10px !important;
     /* background-color: rgba(250,250,250,.6) !important; */
     /* opacity: .7 !important; */
 }
@@ -38,6 +36,7 @@ body {
 }
 
 .card {
+    background: black !important;
     border-radius: 10px !important;
 }
 
@@ -47,8 +46,8 @@ a.goto_article {
 
 .ui.button {
     /* border-radius: 20px !important; */
-    margin: 3px !important;
-    padding: 13px !important;
+    margin: 2px !important;
+    padding: 12px !important;
     font-weight: lighter !important;
     font-size: 120% !important;
 }
@@ -62,7 +61,7 @@ a.title, #title {
     color: grey !important;
 }
 
-.ui.image, .card, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, #title, .blue.header, .orange.header, .invert{
+.card, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, #title, .blue.header, .orange.header, .invert{
     /* border-radius: 10px !important; */
     filter: invert(1) !important;
 }
@@ -131,12 +130,12 @@ input {
 	/*padding-left: 1em;*/
 }
 .forty {
-    max-height:32vh !important;
-    min-height:32vh !important;
+    max-height:38vh !important;
+    min-height:38vh !important;
 }
 .sixty {
-    max-height:65vh !important;
-    min-height:65vh !important;
+    max-height:58vh !important;
+    min-height:58vh !important;
 }
 
 body {

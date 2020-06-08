@@ -116,7 +116,7 @@ Template.home.helpers
                 # model:'reddit'
             },
                 sort:ups:-1
-                limit:10
+                limit:20
         # console.log cursor.fetch()
         cursor
 
