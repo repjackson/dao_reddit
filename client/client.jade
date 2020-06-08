@@ -25,7 +25,16 @@ head
 
 body
     +home
+    .ui.divider
+    +omega_doc_view
 
+template(name='omega_doc_view')
+    with omega_doc
+        .ui.segment
+            .ui.header query #{query}
+        each selected_tags
+            .ui.label #{this}
+                
 
 template(name='home')
     .ui.stackable.padded.grid.home

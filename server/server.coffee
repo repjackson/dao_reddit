@@ -121,6 +121,38 @@ Meteor.publish 'docs', (
         limit:5
 
 Meteor.methods
+    # agg_omega: (query, key, collection)->
+    agg_omega: ()->
+        omega =
+            Docs.findOne
+                model:'omega_session'
+
+        # console.log 'running agg', query
+        limit=20
+        options = { explain:false }
+        pipe =  [
+            { $match: omega.match }
+            { $project: "#{key}": 1 }
+            { $unwind: "$#{key}" }
+            { $group: _id: "$#{key}", count: $sum: 1 }
+            { $sort: count: -1, _id: 1 }
+            { $limit: limit }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        if pipe
+            agg = global['Docs'].rawCollection().aggregate(pipe,options)
+            # else
+            res = {}
+            if agg
+                agg.toArray()
+                console.log add.toArray()
+                Docs.update omega._id,
+                    $set:agg:add.toArray()
+        else
+            return null
+
+
+
     search_reddit: (query)->
         # console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")

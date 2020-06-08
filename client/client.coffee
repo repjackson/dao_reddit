@@ -237,6 +237,10 @@ Template.registerHelper 'is_youtube', () ->
 Template.registerHelper 'lowered_title', () ->
     @title.toLowerCase()
 
+Template.registerHelper 'omega_doc', () ->
+    Docs.findOne
+        model:'omega_session'
+
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
