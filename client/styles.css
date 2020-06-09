@@ -14,7 +14,8 @@ body {
     /* background: #0e0e44 !important; */
 }
 .yeah {
-    font-size: 1.30rem !important;
+    text-align: center !important;
+    /* font-size: 1.30rem !important; */
     font-weight: 500 !important;
     /* border-radius: 0 0 10px 10px !important; */
     transition: color 2s ease !important;
@@ -61,7 +62,7 @@ a.title, #title {
     color: grey !important;
 }
 
-.card, .green.button, .red.button, .ui.embed, .ui.text, .green.header, i.green, i.red, .red.header, #title, .blue.header, .orange.header, .invert{
+.card, .ui.embed, .ui.text, #title, .invert{
     /* border-radius: 10px !important; */
     filter: invert(1) !important;
 }

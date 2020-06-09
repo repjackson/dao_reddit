@@ -139,16 +139,19 @@ Meteor.methods
 
         # console.log 'running agg omega', omega
         match = {}
-        match.tags = $all: omega.selected_tags
+        match.tags =
+            $all: omega.selected_tags
 
+        doc_match = match
+        doc_match.model = 'reddit'
         doc_results =
-            Docs.find( match,
+            Docs.find( doc_match,
                 {
                     limit:1
                     sort:ups:-1
                 }
             ).fetch()
-        console.log doc_results
+        # console.log doc_results
         Docs.update omega._id,
             $set:doc_results:doc_results
         # Docs.update omega._id,
@@ -165,7 +168,7 @@ Meteor.methods
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 10 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe
