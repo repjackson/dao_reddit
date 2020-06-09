@@ -78,7 +78,9 @@ template(name='home')
                             //- small #{count}
                     //- .ui.hidden.divider
                 //- if one_post
-            
+        each omega_doc.doc_results
+            +doc_item
+    
                 //- if selected_tags
         //- .centered.row 
         //-     //- .scrolling.sixty
@@ -86,7 +88,7 @@ template(name='home')
         //-         .four.column.row
         //-             each docs
         //-                 .column
-        //-                     +doc_item
+                            //- +doc_item
         //-                     .ui.hidden.divider
             //-         .sixteen.wide.greecolumn
             //-             |hi

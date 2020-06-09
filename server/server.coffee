@@ -141,7 +141,16 @@ Meteor.methods
         match = {}
         match.tags = $all: omega.selected_tags
 
-
+        doc_results =
+            Docs.find( match,
+                {
+                    limit:1
+                    sort:ups:-1
+                }
+            ).fetch()
+        console.log doc_results
+        Docs.update omega._id,
+            $set:doc_results:doc_results
         # Docs.update omega._id,
         #     $set:
         #         match:match
@@ -154,7 +163,7 @@ Meteor.methods
             { $project: tags: 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: omega.selected_tags }            
+            { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
             { $project: _id: 0, title: '$_id', count: 1 }
