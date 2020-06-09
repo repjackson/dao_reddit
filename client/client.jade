@@ -51,7 +51,7 @@ template(name='home')
                 unless connected
                     //- .ui.inline.header disconnected
                     .ui.hidden.divider
-                    i.lightning.circular.black.link.big.icon.reconnect 
+                    i.lightning.circular.black.link.large.icon.reconnect 
                 if connected
                     //- unless selected_tags
                     //-     i.huge.yin.yang.black.icon
@@ -62,7 +62,7 @@ template(name='home')
                     //-     .ui.icon.circular.black.compact.button.clear_selected_tags
                     //-         i.remove.icon
                     each omega_doc.selected_tags
-                        button.ui.black.compact.circular.huge.button.unselect_tag(tabindex='0')
+                        button.ui.black.compact.circular.large.button.unselect_tag(tabindex='0')
                             //- i.remove.icon
                             | #{this}
                     .ui.left.icon.search.input
@@ -74,7 +74,7 @@ template(name='home')
                     //- div
                     //- if selected_tags_plural
                     each omega_doc.agg
-                        button.ui.compact.white.basic.huge.circular.button.result(tabindex="0" class=result_class) #{title}
+                        button.ui.compact.white.basic.large.circular.button.result(tabindex="0" class=result_class) #{title}
                         //- button.ui.compact.white.basic.huge.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                             //- small #{count}
                     //- .ui.hidden.divider
@@ -139,9 +139,9 @@ template(name='doc_item')
                 //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
                 //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
             img.ui.rounded.fluid.image(src=url)
-        //- else 
-        //-     if has_thumbnail    
-        img.ui.centered.image.rounded(src=thumbnail)
+        else 
+            if has_thumbnail    
+                img.ui.centered.image.rounded(src=thumbnail)
         //- .spacer
         //- .ui.center.aligned.basic.segment
         //-     a.ui.circular.large.compact.grey.basic.button(href="https://www.reddit.com/user/#{author}" target="_blank")
