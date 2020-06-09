@@ -127,8 +127,8 @@ Meteor.methods
         #     console.log res
         #     console.log 'res from async agg'
         agg_res = Meteor.call 'agg_omega2'
-        console.log 'hi'
-        console.log 'agg res', agg_res
+        # console.log 'hi'
+        # console.log 'agg res', agg_res
         omega = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $set:agg:agg_res
@@ -137,7 +137,7 @@ Meteor.methods
             Docs.findOne
                 model:'omega_session'
 
-        console.log 'running agg omega', omega
+        # console.log 'running agg omega', omega
         match = {}
         match.tags = $all: omega.selected_tags
 
@@ -154,8 +154,9 @@ Meteor.methods
             { $project: tags: 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: omega.selected_tags }            
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 20 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe
@@ -184,8 +185,8 @@ Meteor.methods
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
-                console.log 'found data'
-                console.log 'data length', response.data.data.children.length
+                # console.log 'found data'
+                # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
                     # console.log item.data
                     unless item.domain is "OneWordBan"
@@ -245,7 +246,7 @@ Meteor.methods
             if err then console.error err
             else
                 rd = res.data.data.children[0].data
-                console.log rd
+                # console.log rd
                 if rd.is_video
                     # console.log 'pulling video comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'video', ->

@@ -44,14 +44,14 @@ a.goto_article {
     color: grey !important;
 }
 
-.ui.button {
+/* .ui.button { */
     /* border-radius: 20px !important; */
-    margin: 2px !important;
-    padding: 12px !important;
-    font-weight: lighter !important;
-    font-size: 120% !important;
-}
-
+    /* margin: 2px !important; */
+    /* padding: 12px !important; */
+    /* font-weight: lighter !important; */
+    /* font-size: 120% !important; */
+/* } */
+/*  */
 .pointer:hover {
     cursor: pointer !important;
 }

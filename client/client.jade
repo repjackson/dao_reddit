@@ -25,7 +25,7 @@ head
 
 body
     +home
-    .ui.divider
+    //- .ui.divider
     //- unless dev
     //-     +omega_doc_view
 
@@ -62,10 +62,10 @@ template(name='home')
                     //-     .ui.icon.circular.black.compact.button.clear_selected_tags
                     //-         i.remove.icon
                     each omega_doc.selected_tags
-                        button.ui.black.compact.circular.button.unselect_tag(tabindex='0')
+                        button.ui.black.compact.circular.huge.button.unselect_tag(tabindex='0')
                             //- i.remove.icon
                             | #{this}
-                    .ui.left.icon.search.large.input
+                    .ui.left.icon.search.input
                         if template_subs_ready
                             i.black.search.icon
                         unless template_subs_ready
@@ -74,7 +74,7 @@ template(name='home')
                     //- div
                     //- if selected_tags_plural
                     each omega_doc.agg
-                        button.ui.compact.white.basic.circular.button.result(tabindex="0" class=result_class title=count) #{title}
+                        button.ui.compact.white.basic.huge.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                             //- small #{count}
                     //- .ui.hidden.divider
                 //- if one_post
