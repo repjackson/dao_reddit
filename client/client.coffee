@@ -13,6 +13,8 @@ Template.home.onCreated ->
 Template.home.events
     'click .refresh_agg': (e,t)->
         Meteor.call 'agg_omega', ->
+        omega  = Docs.findOne model:'omega_session'
+        console.log omega
     'click .pick_dao': (e,t)->
         # selected_tags.push 'dao'
         omega  = Docs.findOne model:'omega_session'
@@ -109,6 +111,12 @@ Template.home.events
                         current_query:''
                     $addToSet:
                         selected_tags:search
+                if search is 'dark'
+                    alert 'dark'
+                    Docs.update omega._id,
+                        $set:
+                            dark_mode:true
+
                 console.log 'search', search
                 Meteor.call 'call_wiki', search, ->
                 # Meteor.call 'search_reddit', selected_tags.array(), ->

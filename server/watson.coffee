@@ -31,13 +31,13 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson'
+        # console.log 'calling watson'
         self = @
         # console.log doc_id
         # console.log key
         # console.log mode
         doc = Docs.findOne doc_id
-        console.log 'calling watson on', doc.title, doc
+        console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
         #     console.log 'skipping flagged doc', doc.title
         # else
