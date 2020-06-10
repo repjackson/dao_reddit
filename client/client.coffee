@@ -10,39 +10,27 @@ Template.home.onCreated ->
     @autorun => @subscribe 'docs',
         selected_tags.array()
 
-Template.doc_item.onRendered ->
-    Meteor.setTimeout ->
-        $('.header').popup(
-            preserve:true;
-            hoverable:false;
-        )
-    , 1000
-
-Template.doc_item.events
-    'click .pull_post': (e,t)->
-        console.log @
-        Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
-    'click .call_watson': (e,t)->
-        console.log @
-        Meteor.call 'call_watson', @_id, 'url', 'url', =>
 Template.home.events
     'click .refresh_agg': (e,t)->
+        $(e.currentTarget).closest('.button').transition('pulse', 1000)
+        Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
         omega  = Docs.findOne model:'omega_session'
         console.log omega
     'click .pick_dao': (e,t)->
         # selected_tags.push 'dao'
-        $('.button').transition('pulse')
+        $(e.currentTarget).closest('.button').transition('pulse', 1000)
         omega  = Docs.findOne model:'omega_session'
         if omega
             Docs.update omega._id,
                 $set:selected_tags:['dao']
+        Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
 
     'click .result': (e,t)->
-        # $('.button').
-        # transition('pulse')
-        $(e.currentTarget).closest('.button').transition('pulse', 100)
+        $(e.currentTarget).closest('.button').transition('pulse', 1000)
 
         # console.log @
         # if selected_tags.array().length is 1
@@ -62,7 +50,9 @@ Template.home.events
             $set:
                 current_query:''
                 searching:false
+        Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
@@ -75,7 +65,9 @@ Template.home.events
         Docs.update omega._id,
             $addToSet:
                 queries:@title
+        Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
             # Session.set('dummy', !Session.get('dummy'))
@@ -87,7 +79,9 @@ Template.home.events
         Docs.update omega._id,
             $pull:
                 selected_tags:@valueOf()
+        Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
             # Session.set('dummy', !Session.get('dummy'))
@@ -173,6 +167,8 @@ Template.home.events
 
 
 Template.home.helpers
+    is_loading: ->
+        Session.get('is_loading')
     omega_dark_mode: ->
         omega = Docs.findOne model:'omega_session'
         omega.dark
@@ -240,7 +236,23 @@ Template.home.helpers
     #     else
     #         Session.set('global_subs_ready', false)
 
+
+Template.doc_item.onRendered ->
+    Meteor.setTimeout ->
+        $('.header').popup(
+            preserve:true;
+            hoverable:false;
+        )
+    , 1000
+
 Template.doc_item.events
+    'click .print_me': (e,t)->
+        console.log @
+    'click .pull_post': (e,t)->
+        console.log @
+        Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
+        Meteor.call 'agg_omega', ->
+
     'click .call_watson': ->
         if @rd and @rd.selftext_html
             dom = document.createElement('textarea')
@@ -252,6 +264,8 @@ Template.doc_item.events
                 $set:
                     parsed_selftext_html:dom.value
         Meteor.call 'call_watson', @_id, 'url', 'url'
+        Meteor.call 'agg_omega', ->
+
     'click .call_watson_image': ->
         Meteor.call 'call_watson', @_id, 'url', 'image'
     'click .print_me': ->

@@ -9,7 +9,7 @@ body {
     background: rgba(0,0,0,.01) !important;
     /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
-    transition: all 1s !important;
+    transition: all 5s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -21,17 +21,17 @@ body {
 
 .yeah {
     text-align: center !important;
-    font-size: 1.20rem !important;
-    font-weight: 500 !important;
+    font-size: 1.30rem !important;
+    font-weight: 400 !important;
     /* border-radius: 0 0 10px 10px !important; */
-    transition: all 2s ease !important;
+    transition: all 5s ease !important;
     margin-bottom: 10px !important;
     /* background-color: rgba(250,250,250,.6) !important; */
     /* opacity: .7 !important; */
 }
 
 .pointer:hover{
-    transition: transform .5s; /* Animation */
+    transition: transform 2s; /* Animation */
     color: white !important;
     /* padding-top: 5em !important; */
     /* box-shadow: 0 2px 2px 2px rgba(50, 50, 100, 0.1) !important; */
@@ -54,6 +54,8 @@ a.goto_article {
 .ui.button {
     /* border-radius: 20px !important; */
     margin: 2px !important;
+    transition: all 5s ease !important;
+
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
     /* font-size: 120% !important; */
@@ -177,8 +179,8 @@ body {
 .button, .selector, .card, body, .header, .icon, .item{
     animation: fadein 5s;
     -webkit-transition: opacity 5s ease-in;
-    -webkit-transition: opacity 5s ease-out;
-    animation: fadeout 5s;
+    /* -webkit-transition: opacity 5s ease-out; */
+    /* animation: fadeout 5s; */
 }
 
 
