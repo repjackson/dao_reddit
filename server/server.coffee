@@ -30,6 +30,10 @@ Meteor.publish 'omega_doc', ->
             model:'omega_session'
 
 
+Meteor.publish 'doc', (doc_id)->
+    Docs.find
+        _id:doc_id
+
 # Meteor.publish 'terms', (searching, query)->
 #     console.log searching
 #     console.log query

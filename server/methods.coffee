@@ -152,7 +152,7 @@ Meteor.methods
         doc_results =
             Docs.find( doc_match,
                 {
-                    limit:7
+                    limit:3
                     sort:ups:-1
                     fields:
                         _id:1

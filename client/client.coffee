@@ -3,14 +3,14 @@
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
     Session.setDefault('dummy', true)
-    @autorun => @subscribe 'omega_results', Session.get('dummy')
+    # @autorun => @subscribe 'omega_results', Session.get('dummy')
     @autorun => @subscribe 'omega_doc'
-    @autorun => @subscribe 'tags',
-        selected_tags.array()
-        Session.get('current_query')
-        Session.get('dummy')
-    @autorun => @subscribe 'docs',
-        selected_tags.array()
+    # @autorun => @subscribe 'tags',
+    #     selected_tags.array()
+    #     Session.get('current_query')
+    #     Session.get('dummy')
+    # @autorun => @subscribe 'docs',
+    #     selected_tags.array()
 
 Template.home.events
     'click .lightbulb': (e,t)->
@@ -69,7 +69,7 @@ Template.home.events
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
-            # Session.set('dummy', !Session.get('dummy'))
+            Session.set('dummy', !Session.get('dummy'))
         , 6000
     'click .select_query': ->
         # queries.push @title
@@ -83,7 +83,7 @@ Template.home.events
             Session.set('dummy',!Session.get('dummy'))
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
-            # Session.set('dummy', !Session.get('dummy'))
+            Session.set('dummy', !Session.get('dummy'))
         , 6000
 
     'click .unselect_tag': ->
@@ -95,8 +95,11 @@ Template.home.events
         Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
+                Session.set('dummy',!Session.get('dummy'))
+
             # Session.set('dummy', !Session.get('dummy'))
         , 6000
 
@@ -144,7 +147,7 @@ Template.home.events
                         $set:
                             dark_mode:true
 
-                console.log 'search', search
+                # console.log 'search', search
                 Meteor.call 'call_wiki', search, ->
                 # Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'search_reddit', omega.selected_tags, ->
@@ -159,7 +162,7 @@ Template.home.events
                 Meteor.call 'agg_omega'
                 Meteor.setTimeout ->
                     Meteor.call 'agg_omega', ->
-                    # Session.set('dummy', !Session.get('dummy'))
+                    Session.set('dummy', !Session.get('dummy'))
                 , 6000
 
 
@@ -186,10 +189,10 @@ Template.home.helpers
         omega = Docs.findOne model:'omega_session'
         omega.dark_mode
         if omega.dark_mode
-            console.log 'hi dark'
+            # console.log 'hi dark'
             'dark_mode'
         else
-            console.log 'hi light'
+            # console.log 'hi light'
             ''
     connection: ->
         console.log Meteor.status()
@@ -234,16 +237,16 @@ Template.home.helpers
 
     one_post: ->
         Docs.find().count() is 1
-    omega_doc_results: ->
-        # if selected_tags.array().length > 0
-        cursor =
-            Docs.find {
-                # model:'reddit'
-            },
-                sort:ups:-1
-                limit:4
-        # console.log cursor.fetch()
-        cursor
+    # omega_doc_results: ->
+    #     # if selected_tags.array().length > 0
+    #     cursor =
+    #         Docs.find {
+    #             # model:'reddit'
+    #         },
+    #             sort:ups:-1
+    #             limit:2
+    #     # console.log cursor.fetch()
+    #     cursor
 
 
     # docs: ->
@@ -267,6 +270,9 @@ Template.home.helpers
     #     else
     #         Session.set('global_subs_ready', false)
 
+Template.doc_item.onCreated ->
+    # console.log @
+    @autorun => @subscribe 'doc', @data
 
 Template.doc_item.onRendered ->
     Meteor.setTimeout ->
@@ -282,7 +288,7 @@ Template.doc_item.events
     'click .pull_post': (e,t)->
         console.log @
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
-        Meteor.call 'agg_omega', ->
+        # Meteor.call 'agg_omega', ->
 
     'click .call_watson': ->
         if @rd and @rd.selftext_html
@@ -295,7 +301,7 @@ Template.doc_item.events
                 $set:
                     parsed_selftext_html:dom.value
         Meteor.call 'call_watson', @_id, 'url', 'url'
-        Meteor.call 'agg_omega', ->
+        # Meteor.call 'agg_omega', ->
 
     'click .call_watson_image': ->
         Meteor.call 'call_watson', @_id, 'url', 'image'
@@ -307,25 +313,35 @@ Template.doc_item.events
         # Router.go "/doc/#{@_id}/view"
 
 Template.doc_item.helpers
+    doc_object: ->
+        Docs.findOne
+            _id:Template.instance().data
     omega_dark_mode_class: ->
         omega = Docs.findOne model:'omega_session'
         omega.dark_mode
         if omega.dark_mode
-            console.log 'hi dark'
+            # console.log 'hi dark'
             'dark_mode'
         else
-            console.log 'hi light'
+            # console.log 'hi light'
             ''
 
     sentiment_class: ->
         # console.log @
         # console.log @doc_sentiment_label
+        res = ''
+        omega = Docs.findOne model:'omega_session'
+        omega.dark_mode
+        if omega.dark_mode
+            # console.log 'hi dark'
+            res+=' dark_mode'
         if @doc_sentiment_label is 'negative'
-            'red'
+            res+='red'
         else if @doc_sentiment_label is 'positive'
-            'green'
+            res+='green'
         else
-            'black'
+            res+='black'
+        res
 
     truncated: ->
         # console.log @
@@ -357,6 +373,12 @@ Template.registerHelper 'is_image', () ->
     if match then true
     # true
 
+
+Template.registerHelper 'above_50', (input) ->
+    # console.log 'input', input
+    # console.log @
+    # console.log @["#{input}"]
+    @["#{input}"] > .49
 
 Template.registerHelper 'parse', (input) ->
     console.log 'input', input
@@ -420,6 +442,9 @@ Template.registerHelper 'nl2br', (text)->
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'fixed', (number)->
+    # console.log number
+    (number*100).toFixed()
+Template.registerHelper 'to_percent', (number)->
     # console.log number
     (number*100).toFixed()
 
