@@ -104,7 +104,7 @@ Meteor.methods
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 response = response.result
-                console.log response
+                # console.log response
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories

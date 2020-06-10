@@ -19,6 +19,13 @@ Meteor.publish 'omega_doc', ->
         Docs.insert
             model:'omega_session'
 
+
+Meteor.publish 'terms', (searching, query)->
+    console.log searching
+    console.log query
+
+
+
 # Meteor.publish 'tags', (
 #     selected_tags
 #     query

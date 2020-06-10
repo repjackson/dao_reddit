@@ -26,6 +26,7 @@
 
 @blocklist = [
     'reddit app reddit'
+    'reddit post'
     'user account menu'
     'reddit premium reddit'
     'reddit inc'

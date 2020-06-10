@@ -112,7 +112,7 @@ template(name='doc_item')
                 //- |from 
                 //- a(href="http://www.reddit.com/r/CryptoCurrency")
                 //-     |r/CryptoCurrency
-    .ui.center.aligned.column
+    .ui.column
         if title 
             a#title.ui.center.aligned.yeah.header(href=url target='_window') !{lowered_title}
             .spacer
@@ -143,6 +143,12 @@ template(name='doc_item')
             if has_thumbnail   
                 unless is_youtube 
                     img.ui.centered.image.rounded(src=thumbnail)
+        if reddit_id
+            i.circular.link.reddit.icon.pull_post
+            
+        if rd.selftext
+            +markdown
+                |!{truncated}
         //- .spacer
         //- .ui.center.aligned.basic.segment
         //-     a.ui.circular.compact.grey.basic.button(href="https://www.reddit.com/user/#{author}" target="_blank")

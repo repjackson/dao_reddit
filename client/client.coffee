@@ -10,6 +10,10 @@ Template.home.onCreated ->
     @autorun => @subscribe 'docs',
         selected_tags.array()
 
+Template.doc_item.events
+    'click .pull_post': (e,t)->
+        Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
+            console.log @
 Template.home.events
     'click .refresh_agg': (e,t)->
         Meteor.call 'agg_omega', ->
@@ -153,6 +157,7 @@ Template.home.events
 
 
 Template.home.helpers
+
     connection: ->
         console.log Meteor.status()
         Meteor.status()
@@ -230,6 +235,13 @@ Template.doc_item.events
         # Router.go "/doc/#{@_id}/view"
 
 Template.doc_item.helpers
+    truncated: ->
+        # console.log @
+        # console.log @rd.selftext
+        # console.log @rd.selftext.substr(0, 100)
+        @rd.selftext.substr(0, 300)
+
+
     has_thumbnail: ->
         # console.log @thumbnail
         @thumbnail and @thumbnail not in ['self','default']

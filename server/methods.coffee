@@ -205,7 +205,7 @@ Meteor.methods
                 # console.log 'found data'
                 # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
-                    # console.log item.data
+                    console.log item.data
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
@@ -274,38 +274,40 @@ Meteor.methods
                     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
                     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
 
-                # if rd.selftext
-                #     unless rd.is_video
-                #         # if Meteor.isDevelopment
-                #         #     console.log "self text", rd.selftext
-                #         Docs.update doc_id, {
-                #             $set: body: rd.selftext
-                #         }, ->
-                #         #     Meteor.call 'pull_site', doc_id, url
-                #             # console.log 'hi'
-                # if rd.selftext_html
-                #     unless rd.is_video
-                #         Docs.update doc_id, {
-                #             $set: html: rd.selftext_html
-                #         }, ->
-                #             # Meteor.call 'pull_site', doc_id, url
-                #             console.log 'hi'
-                # if rd.url
-                #     unless rd.is_video￼
-                #         url = rd.url
-                #         # if Meteor.isDevelopment
-                #         #     console.log "found url", url
-                #         Docs.update doc_id, {
-                #             $set:
-                #                 reddit_url: url
-                #                 url: url
-                #         }, ->
-                #             Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                if rd.selftext
+                    unless rd.is_video
+                        # if Meteor.isDevelopment
+                        #     console.log "self text", rd.selftext
+                        Docs.update doc_id, {
+                            $set:
+                                body: rd.selftext
+                        }, ->
+                        #     Meteor.call 'pull_site', doc_id, url
+                            # console.log 'hi'
+                if rd.selftext_html
+                    unless rd.is_video
+                        Docs.update doc_id, {
+                            $set:
+                                html: rd.selftext_html
+                        }, ->
+                            # Meteor.call 'pull_site', doc_id, url
+                            console.log 'hi'
+                if rd.url
+                    unless rd.is_video
+                        url = rd.url
+                        # if Meteor.isDevelopment
+                        #     console.log "found url", url
+                        Docs.update doc_id, {
+                            $set:
+                                reddit_url: url
+                                url: url
+                        }, ->
+                            Meteor.call 'call_watson', doc_id, 'url', 'url', ->
                 # update_ob = {}
 
                 Docs.update doc_id,
                     $set:
-                        # rd: rd
+                        rd: rd
                         url: rd.url
                         thumbnail: rd.thumbnail
                         subreddit: rd.subreddit
