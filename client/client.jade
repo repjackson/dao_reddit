@@ -115,16 +115,16 @@ template(name='doc_item')
     .ui.column
         if title
             if key_value_is 'model' 'wikipedia'
-                a#title.ui.center.aligned.yeah.link.header(href=url target='_window') 
+                a#title.ui.center.aligned.yeah.link.header(href=url target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                     i.wikipedia.link.icon
                     |!{lowered_title}
             else
-                a#title.ui.center.aligned.yeah.header(href=url target='_window' class=sentiment_class) !{lowered_title}
+                a#title.ui.center.aligned.yeah.header(href=url target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%" class=sentiment_class) !{lowered_title}
             .spacer
             //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
             //- .ui.header.pointer.goto_article(title="view full") !{title}
         else if watson.metadata.title
-            .ui.center.aligned.header.pointer.goto_article !{watson.metadata.title}
+            .ui.center.aligned.header.pointer.goto_article(title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
         if is_youtube
             iframe(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
             //- .invert

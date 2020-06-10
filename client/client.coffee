@@ -10,6 +10,14 @@ Template.home.onCreated ->
     @autorun => @subscribe 'docs',
         selected_tags.array()
 
+Template.doc_item.onRendered ->
+    Meteor.setTimeout ->
+        $('.header').popup(
+            preserve:true;
+            hoverable:false;
+        )
+    , 1000
+
 Template.doc_item.events
     'click .pull_post': (e,t)->
         console.log @
@@ -248,11 +256,11 @@ Template.doc_item.events
 
 Template.doc_item.helpers
     sentiment_class: ->
-        console.log @
-        console.log @doc_sentiment_label
+        # console.log @
+        # console.log @doc_sentiment_label
         if @doc_sentiment_label is 'negative'
             'red'
-        else if @doc_sentiment_label is 'postitive'
+        else if @doc_sentiment_label is 'positive'
             'green'
         else
             'black'
@@ -349,7 +357,7 @@ Template.registerHelper 'nl2br', (text)->
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
-Template.registerHelper 'to_percent', (number)->
+Template.registerHelper 'fixed', (number)->
     # console.log number
     (number*100).toFixed()
 
