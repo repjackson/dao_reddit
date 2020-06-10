@@ -14,8 +14,9 @@ body {
     /* background: #0e0e44 !important; */
 }
 
-.dark {
+.dark_mode {
     filter: invert(1) !important;
+    background: rgba(250,250,250,.99) !important;
 
 }
 
@@ -176,7 +177,7 @@ body {
 }
 
 
-.button, .selector, .card, body, .header, .icon, .item{
+.button, .selector, .card, body, .header, i, .icon, .item{
     animation: fadein 5s;
     -webkit-transition: opacity 5s ease-in;
     /* -webkit-transition: opacity 5s ease-out; */

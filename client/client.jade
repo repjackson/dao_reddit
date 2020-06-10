@@ -31,7 +31,7 @@ body
                 
 
 template(name='home')
-    .ui.stackable.padded.grid.home(class=omega_dark_mode)
+    .ui.stackable.padded.grid.home(class=omega_dark_mode_class)
         .centered.row 
             .sixteen.wide.center.aligned.column
                 //- .scrolling.forty
@@ -43,21 +43,22 @@ template(name='home')
                 if connected
                     //- unless selected_tags
                     //-     i.huge.yin.yang.black.icon
+                    i.large.lightbulb.link.icon
                     unless omega_doc.selected_tags
-                            .ui.hidden.divider
-                            i.massive.yin.yang.black.thin.link.icon.pick_dao
+                        .ui.hidden.divider
+                        i.massive.yin.yang.black.thin.link.icon.pick_dao(class=omega_dark_mode_class)
                     //- if selected_tags
                     //-     .ui.icon.circular.black.compact.button.clear_selected_tags
                     //-         i.remove.icon
                     each omega_doc.selected_tags
-                        button.ui.black.compact.circular.large.button.unselect_tag(tabindex='0')
+                        button.ui.black.compact.circular.large.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                             //- i.remove.icon
                             | #{this}
                     .ui.left.icon.search.circular.input
                         unless is_loading
                             i.search.link.icon.refresh_agg
                         if is_loading
-                            i.yin.yang.large.loading.icon
+                            i.yin.yang.large.loading.large.icon
                         input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
                     //- div
                     //- if selected_tags_plural
@@ -70,7 +71,8 @@ template(name='home')
                     //- .ui.hidden.divider
                 //- if one_post
         .centered.four.column.row 
-            each omega_doc.doc_results
+            //- each omega_doc.doc_results
+            each omega_doc_results
                 +doc_item
     
                 //- if selected_tags
@@ -101,6 +103,7 @@ template(name='doc_item')
                 //- |from 
                 //- a(href="http://www.reddit.com/r/CryptoCurrency")
                 //-     |r/CryptoCurrency
+    //- .ui.column(class=omega_dark_mode_class)
     .ui.column
         if title
             if key_value_is 'model' 'wikipedia'
@@ -115,7 +118,7 @@ template(name='doc_item')
         else if watson.metadata.title
             .ui.center.aligned.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
         if is_youtube
-            iframe(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+            iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
             //- .invert
         //- if is_twitter
         //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
@@ -132,11 +135,11 @@ template(name='doc_item')
             //- .image
                 //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
                 //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
-            img.ui.rounded.fluid.image(src=url)
+            img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
         else 
             if has_thumbnail   
                 unless is_youtube 
-                    img.ui.centered.image.rounded(src=thumbnail)
+                    img.ui.centered.image.rounded(src=thumbnail class=omega_dark_mode_class)
         .smallscroll            
             if reddit_id
                 .ui.circular.icon.button.pull_post

@@ -9,6 +9,15 @@ Docs.allow
         else
             user_id is doc._author_id
 
+
+Meteor.publish 'omega_results', (dummy)->
+    omega =
+        Docs.findOne
+            model:'omega_session'
+    Docs.find
+        _id:$in:omega.doc_result_ids
+
+
 Meteor.publish 'omega_doc', ->
     omega =
         Docs.findOne
@@ -20,9 +29,9 @@ Meteor.publish 'omega_doc', ->
             model:'omega_session'
 
 
-Meteor.publish 'terms', (searching, query)->
-    console.log searching
-    console.log query
+# Meteor.publish 'terms', (searching, query)->
+#     console.log searching
+#     console.log query
 
 
 

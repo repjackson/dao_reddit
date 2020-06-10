@@ -154,11 +154,18 @@ Meteor.methods
                 {
                     limit:7
                     sort:ups:-1
+                    fields:
+                        _id:1
                 }
             ).fetch()
         # console.log doc_results
+        doc_result_ids = []
+        for result in doc_results
+            doc_result_ids.push result._id
+        # console.log _.keys(doc_results,'_id')
         Docs.update omega._id,
-            $set:doc_results:doc_results
+            $set:
+                doc_result_ids:doc_result_ids
 
         found_wiki_doc =
             Docs.findOne
@@ -167,7 +174,7 @@ Meteor.methods
         if found_wiki_doc
             Docs.update omega._id,
                 $addToSet:
-                    doc_results:found_wiki_doc
+                    doc_result_ids:found_wiki_doc._id
 
         # Docs.update omega._id,
         #     $set:
@@ -215,14 +222,14 @@ Meteor.methods
                 # console.log 'found data'
                 # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
-                    console.log item.data
+                    # console.log item.data
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
                         added_tags = [query]
                         # added_tags.push data.domain.toLowerCase()
                         # added_tags.push data.author.toLowerCase()
-                        console.log 'added_tags', added_tags
+                        # console.log 'added_tags', added_tags
                         reddit_post =
                             reddit_id: data.id
                             url: data.url
@@ -268,22 +275,22 @@ Meteor.methods
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        console.log 'getting reddit post', doc_id, reddit_id
+        # console.log 'getting reddit post', doc_id, reddit_id
         HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
             if err then console.error err
             else
                 rd = res.data.data.children[0].data
-                console.log rd
+                # console.log rd
                 result =
                     Docs.update doc_id,
                         $set:
                             rd: rd
-                console.log result
+                # console.log result
                 if rd.is_video
-                    console.log 'pulling video comments watson'
+                    # console.log 'pulling video comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
                 else if rd.is_image
-                    console.log 'pulling image comments watson'
+                    # console.log 'pulling image comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
                 else
                     Meteor.call 'call_watson', doc_id, 'url', 'url', ->

@@ -2,6 +2,7 @@
 
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
+    @autorun => @subscribe 'omega_results'
     @autorun => @subscribe 'omega_doc'
     @autorun => @subscribe 'tags',
         selected_tags.array()
@@ -11,6 +12,11 @@ Template.home.onCreated ->
         selected_tags.array()
 
 Template.home.events
+    'click .lightbulb': (e,t)->
+        omega  = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $set:
+                dark_mode:!omega.dark_mode
     'click .refresh_agg': (e,t)->
         $(e.currentTarget).closest('.button').transition('pulse', 1000)
         Session.set('is_loading',true)
@@ -169,9 +175,15 @@ Template.home.events
 Template.home.helpers
     is_loading: ->
         Session.get('is_loading')
-    omega_dark_mode: ->
+    omega_dark_mode_class: ->
         omega = Docs.findOne model:'omega_session'
-        omega.dark
+        omega.dark_mode
+        if omega.dark_mode
+            console.log 'hi dark'
+            'dark_mode'
+        else
+            console.log 'hi light'
+            ''
     connection: ->
         console.log Meteor.status()
         Meteor.status()
@@ -215,6 +227,18 @@ Template.home.helpers
 
     one_post: ->
         Docs.find().count() is 1
+    omega_doc_results: ->
+        # if selected_tags.array().length > 0
+        cursor =
+            Docs.find {
+                # model:'reddit'
+            },
+                sort:ups:-1
+                # limit:3
+        # console.log cursor.fetch()
+        cursor
+
+
     # docs: ->
     #     # if selected_tags.array().length > 0
     #     cursor =
@@ -276,6 +300,16 @@ Template.doc_item.events
         # Router.go "/doc/#{@_id}/view"
 
 Template.doc_item.helpers
+    omega_dark_mode_class: ->
+        omega = Docs.findOne model:'omega_session'
+        omega.dark_mode
+        if omega.dark_mode
+            console.log 'hi dark'
+            'dark_mode'
+        else
+            console.log 'hi light'
+            ''
+
     sentiment_class: ->
         # console.log @
         # console.log @doc_sentiment_label
