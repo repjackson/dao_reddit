@@ -2,7 +2,8 @@
 
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
-    @autorun => @subscribe 'omega_results'
+    Session.setDefault('dummy', true)
+    @autorun => @subscribe 'omega_results', Session.get('dummy')
     @autorun => @subscribe 'omega_doc'
     @autorun => @subscribe 'tags',
         selected_tags.array()
@@ -17,11 +18,14 @@ Template.home.events
         Docs.update omega._id,
             $set:
                 dark_mode:!omega.dark_mode
+        Session.set('dummy',!Session.get('dummy'))
+
     'click .refresh_agg': (e,t)->
         $(e.currentTarget).closest('.button').transition('pulse', 1000)
         Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
         omega  = Docs.findOne model:'omega_session'
         console.log omega
     'click .pick_dao': (e,t)->
@@ -34,6 +38,7 @@ Template.home.events
         Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
 
     'click .result': (e,t)->
         $(e.currentTarget).closest('.button').transition('pulse', 1000)
@@ -59,6 +64,7 @@ Template.home.events
         Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
@@ -74,6 +80,7 @@ Template.home.events
         Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
             # Session.set('dummy', !Session.get('dummy'))
@@ -234,7 +241,7 @@ Template.home.helpers
                 # model:'reddit'
             },
                 sort:ups:-1
-                # limit:3
+                limit:4
         # console.log cursor.fetch()
         cursor
 

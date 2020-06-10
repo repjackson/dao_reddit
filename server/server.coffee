@@ -11,6 +11,7 @@ Docs.allow
 
 
 Meteor.publish 'omega_results', (dummy)->
+    console.log 'ummy', dummy
     omega =
         Docs.findOne
             model:'omega_session'
