@@ -153,13 +153,15 @@ template(name='doc_item')
                 i.circular.link.reddit.icon.pull_post
             i.circular.link.dna.icon.call_watson
                 
-            if rd.selftext
-                .content
-                    +markdown
-                        !{truncated}
-            else rd.selftext_html
-                .content
-                    |!{rd.selftext_html}
+            if rd.selftext_html
+                //- .content
+                |!{parsed_selftext_html}
+                //- |!{rd.selftext_html}
+            else
+                if rd.selftext
+                    .content
+                        +markdown
+                            !{truncated}
             .spacer
             if key_value_is 'model' 'reddit'
                 .ui.link.selection.list

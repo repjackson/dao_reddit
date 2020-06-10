@@ -1,4 +1,6 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
+ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
+
 { IamAuthenticator } = require('ibm-watson/auth')
 
 natural_language_understanding = new NaturalLanguageUnderstandingV1(
@@ -8,8 +10,42 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
     })
     url: Meteor.settings.private.language.url)
 
+tone_analyzer = new ToneAnalyzerV3(
+    version: '2017-09-21'
+    authenticator: new IamAuthenticator({
+        apikey: Meteor.settings.private.tone.apikey
+    })
+    url: Meteor.settings.private.tone.url)
 
 Meteor.methods
+    call_tone: (doc_id, key, mode)->
+        self = @
+        doc = Docs.findOne doc_id
+        # console.log key
+        # console.log mode
+        # if doc.html or doc.body
+        #     # stringed = JSON.stringify(doc.html, null, 2)
+        if mode is 'html'
+            params =
+                toneInput:doc["#{key}"]
+                content_type:'text/html'
+        if mode is 'text'
+            params =
+                toneInput: { 'text': doc.body }
+                contentType: 'application/json'
+        # console.log 'params', params
+        tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
+            if err
+                console.log err
+            else
+                # console.dir response
+                Docs.update { _id: doc_id},
+                    $set:
+                        tone: response
+                # console.log(JSON.stringify(response, null, 2))
+            )
+        # else return
+
     call_visual_link: (doc_id, field)->
         self = @
         doc = Docs.findOne doc_id
@@ -110,6 +146,37 @@ Meteor.methods
                     console.log 'categories',response.categories
                 emotions = response.emotion.document.emotion
                 #
+                emotions = response.emotion.document.emotion
+
+                emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+                main_emotions = []
+                for emotion in emotion_list
+                    if emotions["#{emotion}"] > .5
+                        # console.log emotion_doc["#{emotion}_percent"]
+                        main_emotions.push emotion
+
+                console.log 'emotions', emotions
+                sadness_percent = emotions.sadness
+                joy_percent = emotions.joy
+                fear_percent = emotions.fear
+                anger_percent = emotions.anger
+                disgust_percent = emotions.disgust
+                console.log 'main_emotions', main_emotions
+                if mode is 'url'
+                    Docs.update { _id: doc_id },
+                        $set:
+                            body:response.analyzed_text
+                            watson: response
+                            sadness_percent: sadness_percent
+                            joy_percent: joy_percent
+                            fear_percent: fear_percent
+                            anger_percent: anger_percent
+                            disgust_percent: disgust_percent
+                            watson_concepts: concept_array
+                            watson_keywords: keyword_array
+                            doc_sentiment_score: response.sentiment.document.score
+                            doc_sentiment_label: response.sentiment.document.label
+
 
 
                 # adding_tags = []
@@ -150,8 +217,8 @@ Meteor.methods
                         tags:$each:keywords_concepts
                 final_doc = Docs.findOne doc_id
                 # console.log final_doc
-                # if mode is 'url'
-                #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
+                if mode is 'url'
+                    Meteor.call 'call_tone', doc_id, 'body', 'text', ->
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment

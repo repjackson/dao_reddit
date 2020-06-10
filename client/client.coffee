@@ -227,6 +227,15 @@ Template.home.helpers
 
 Template.doc_item.events
     'click .call_watson': ->
+        if @rd and @rd.selftext_html
+            dom = document.createElement('textarea')
+            # dom.innerHTML = doc.body
+            dom.innerHTML = @rd.selftext_html
+            console.log 'innner html', dom.value
+            # return dom.value
+            Docs.update @_id,
+                $set:
+                    parsed_selftext_html:dom.value
         Meteor.call 'call_watson', @_id, 'url', 'url'
     'click .call_watson_image': ->
         Meteor.call 'call_watson', @_id, 'url', 'image'
@@ -267,6 +276,22 @@ Template.registerHelper 'is_image', () ->
     # console.log 'image match', match
     if match then true
     # true
+
+
+Template.registerHelper 'parse', (input) ->
+    console.log 'input', input
+
+    # parser = new DOMParser()
+    # doc = parser.parseFromString(input, 'text/html')
+    # console.log 'dom parser', doc, doc.body
+    # console.log 'dom parser', doc.body
+
+    # // Otherwise, fallback to old-school method
+    dom = document.createElement('textarea')
+    # dom.innerHTML = doc.body
+    dom.innerHTML = input
+    console.log 'innner html', dom
+    return dom.value
 
 
 Template.registerHelper 'is_twitter', () ->
