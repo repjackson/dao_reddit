@@ -130,7 +130,7 @@ Meteor.methods
         console.log 'doc count', doc_count
         filtered_agg_res = []
         for agg_tag in agg_res
-            if agg_tag.count < doc_count
+            if agg_tag.count > doc_count
                 filtered_agg_res.push agg_tag
 
         Docs.update omega._id,
