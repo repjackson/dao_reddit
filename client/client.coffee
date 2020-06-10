@@ -11,6 +11,8 @@ Template.home.onCreated ->
         selected_tags.array()
 
 Template.home.events
+    'click .refresh_agg': (e,t)->
+        Meteor.call 'agg_omega', ->
     'click .pick_dao': (e,t)->
         # selected_tags.push 'dao'
         omega  = Docs.findOne model:'omega_session'
@@ -42,8 +44,9 @@ Template.home.events
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
-            Session.set('dummy', !Session.get('dummy'))
-        , 7000
+            Meteor.call 'agg_omega', ->
+            # Session.set('dummy', !Session.get('dummy'))
+        , 6000
     'click .select_query': ->
         # queries.push @title
         omega  = Docs.findOne model:'omega_session'
@@ -51,6 +54,10 @@ Template.home.events
             $addToSet:
                 queries:@title
         Meteor.call 'agg_omega', ->
+        Meteor.setTimeout ->
+            Meteor.call 'agg_omega', ->
+            # Session.set('dummy', !Session.get('dummy'))
+        , 6000
 
     'click .unselect_tag': ->
         # selected_tags.remove @valueOf()
@@ -59,15 +66,19 @@ Template.home.events
             $pull:
                 selected_tags:@valueOf()
         Meteor.call 'agg_omega', ->
+        Meteor.setTimeout ->
+            Meteor.call 'agg_omega', ->
+            # Session.set('dummy', !Session.get('dummy'))
+        , 6000
 
         # console.log selected_tags.array()
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
 
         # if selected_tags.array().length > 0
-        if omega.selected_tags.length > 0
-            Meteor.call 'search_reddit', omega.selected_tags, ->
-                Session.set('dummy', !Session.get('dummy'))
+        # if omega.selected_tags.length > 0
+        #     Meteor.call 'search_reddit', omega.selected_tags, ->
+        #         Session.set('dummy', !Session.get('dummy'))
 
     # 'click .refresh_tags': ->
 
@@ -80,11 +91,12 @@ Template.home.events
                 selected_tags:[]
                 current_query:''
         Meteor.call 'agg_omega', ->
-    'keyup #search': _.throttle((e,t)->
+    # 'keyup #search': _.throttle((e,t)->
+    'keyup #search': (e,t)->
         omega  = Docs.findOne model:'omega_session'
         query = $('#search').val()
-        Docs.update omega._id,
-            $set:current_query:query
+        # Docs.update omega._id,
+        #     $set:current_query:query
         # Session.set('current_query', query)
         # console.log Session.get('current_query')
         if e.which is 13
@@ -109,11 +121,11 @@ Template.home.events
                         current_query:''
                 # # $('#search').val('').blur()
                 # # $( "p" ).blur();
-                Meteor.call 'agg_omega', ->
+                Meteor.call 'agg_omega'
                 Meteor.setTimeout ->
-                    Session.set('dummy', !Session.get('dummy'))
+                    Meteor.call 'agg_omega', ->
+                    # Session.set('dummy', !Session.get('dummy'))
                 , 6000
-    , 500)
 
 
     # 'keydown #search': _.throttle((e,t)->
@@ -176,26 +188,26 @@ Template.home.helpers
 
     one_post: ->
         Docs.find().count() is 1
-    docs: ->
-        # if selected_tags.array().length > 0
-        cursor =
-            Docs.find {
-                # model:'reddit'
-            },
-                sort:ups:-1
-                limit:3
-        # console.log cursor.fetch()
-        cursor
+    # docs: ->
+    #     # if selected_tags.array().length > 0
+    #     cursor =
+    #         Docs.find {
+    #             # model:'reddit'
+    #         },
+    #             sort:ups:-1
+    #             limit:3
+    #     # console.log cursor.fetch()
+    #     cursor
 
 
-    home_subs_ready: ->
-        Template.instance().subscriptionsReady()
-
-    home_subs_ready: ->
-        if Template.instance().subscriptionsReady()
-            Session.set('global_subs_ready', true)
-        else
-            Session.set('global_subs_ready', false)
+    # home_subs_ready: ->
+    #     Template.instance().subscriptionsReady()
+    #
+    # home_subs_ready: ->
+    #     if Template.instance().subscriptionsReady()
+    #         Session.set('global_subs_ready', true)
+    #     else
+    #         Session.set('global_subs_ready', false)
 
 Template.doc_item.events
     'click .call_watson': ->
@@ -205,7 +217,7 @@ Template.doc_item.events
     'click .print_me': ->
         console.log @
     'click .goto_article': ->
-        console.log @
+        # console.log @
         Meteor.call 'log_view', @_id, ->
         # Router.go "/doc/#{@_id}/view"
 
@@ -220,7 +232,7 @@ Template.registerHelper 'youtube_id', () ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
     match = @url.match(regExp)
     if (match && match[2].length == 11)
-        console.log 'match 2', match[2]
+        # console.log 'match 2', match[2]
         match[2]
     else
         console.log 'error'

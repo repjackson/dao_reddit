@@ -31,30 +31,30 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        # console.log 'calling watson'
+        console.log 'calling watson'
         self = @
         # console.log doc_id
         # console.log key
         # console.log mode
         doc = Docs.findOne doc_id
-        # console.log 'value', doc["#{key}"]
+        console.log 'calling watson on', doc.title, doc
         # if doc.skip_watson is false
         #     console.log 'skipping flagged doc', doc.title
         # else
         # console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
             concepts:
-                limit:10
+                limit:20
             features:
                 entities:
                     emotion: false
                     sentiment: false
                     mentions: false
-                    # limit: 2
+                    limit: 20
                 keywords:
                     emotion: false
                     sentiment: false
-                    # limit: 2
+                    limit: 20
                 concepts: {}
                 # categories:
                 #     explanation:false
@@ -104,7 +104,7 @@ Meteor.methods
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 response = response.result
-                # console.log response
+                console.log response
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories

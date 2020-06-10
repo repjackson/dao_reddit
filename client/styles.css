@@ -5,9 +5,9 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     /* font-size: 110% !important; */
     /* line-height: 200% !important; */
-    background: rgba(0,0,0,.99) !important;
-    /* background: rgba(0,0,0,.01) !important; */
-    filter: invert(1) !important;
+    /* background: rgba(0,0,0,.99) !important; */
+    background: rgba(0,0,0,.01) !important;
+    /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
     transition: all 1s !important;
     /* background: rgba(250, 250, 250, .05) !important */
@@ -45,13 +45,13 @@ a.goto_article {
     color: grey !important;
 }
 
-/* .ui.button { */
+.ui.button {
     /* border-radius: 20px !important; */
-    /* margin: 2px !important; */
+    margin: 2px !important;
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
     /* font-size: 120% !important; */
-/* } */
+}
 /*  */
 .pointer:hover {
     cursor: pointer !important;
@@ -64,7 +64,7 @@ a.title, #title {
 
 .card, .ui.embed, .ui.text, #title, .invert{
     /* border-radius: 10px !important; */
-    filter: invert(1) !important;
+    /* filter: invert(1) !important; */
 }
 
 
@@ -94,7 +94,7 @@ a.title, #title {
 
 input {
     margin: 5px !important;
-    border-radius: 15px !important;
+    border-radius: 20px !important;
 }
 
 ::-webkit-scrollbar {
@@ -152,11 +152,11 @@ body {
 }
 
 
-/* .button, .selector, .card, body, .item{
-    animation: fadein .25s;
+.button, .selector, .card, body, .item{
+    animation: fadein 5s;
     /* -webkit-transition: opacity 2s ease-out; */
     /* animation: fadeout 1s; */
-/*  */
+}
 
 
 @keyframes fadein {

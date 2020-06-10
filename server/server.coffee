@@ -19,106 +19,106 @@ Meteor.publish 'omega_doc', ->
         Docs.insert
             model:'omega_session'
 
-Meteor.publish 'tags', (
-    selected_tags
-    query
-    dummy
-    )->
-    # console.log 'dummy', dummy
-    # console.log 'query', query
-    console.log 'selected tags', selected_tags
+# Meteor.publish 'tags', (
+#     selected_tags
+#     query
+#     dummy
+#     )->
+#     # console.log 'dummy', dummy
+#     # console.log 'query', query
+#     console.log 'selected tags', selected_tags
+#
+#
+#     omega =
+#         Docs.findOne
+#             model:'omega_session'
+#
+#     self = @
+#     match = {}
+#     match.model = $in: ['reddit','wikipedia']
+#     # console.log 'query length', query.length
+#     # if omega.query and omega.query.length > 0
+#     if omega.query and omega.query.length > 0
+#     #     console.log 'searching query', query
+#     #     # match.tags = {$regex:"#{query}", $options: 'i'}
+#     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
+#     #
+#         Terms.find {
+#             title: {$regex:"#{omega.query}", $options: 'i'}
+#         },
+#             sort:
+#                 count: -1
+#             limit: 10
+#         # tag_cloud = Docs.aggregate [
+#         #     { $match: match }
+#         #     { $project: "tags": 1 }
+#         #     { $unwind: "$tags" }
+#         #     { $group: _id: "$tags", count: $sum: 1 }
+#         #     { $match: _id: $nin: selected_tags }
+#         #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
+#         #     { $sort: count: -1, _id: 1 }
+#         #     { $limit: 42 }
+#         #     { $project: _id: 0, name: '$_id', count: 1 }
+#         #     ]
+#
+#     else
+#         # unless query and query.length > 2
+#         # if selected_tags.length > 0 then match.tags = $all: selected_tags
+#         match.tags = $all: omega.selected_tags
+#         # console.log 'match for tags', match
+#         tag_cloud = Docs.aggregate [
+#             { $match: match }
+#             { $project: "tags": 1 }
+#             { $unwind: "$tags" }
+#             { $group: _id: "$tags", count: $sum: 1 }
+#             { $match: _id: $nin: selected_tags }
+#             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+#             { $sort: count: -1, _id: 1 }
+#             { $limit: 20 }
+#             { $project: _id: 0, name: '$_id', count: 1 }
+#         ], {
+#             allowDiskUse: true
+#         }
+#
+#         tag_cloud.forEach (tag, i) =>
+#             # console.log 'queried tag ', tag
+#             # console.log 'key', key
+#             self.added 'tags', Random.id(),
+#                 title: tag.name
+#                 count: tag.count
+#                 # category:key
+#                 # index: i
+#             # Docs.update omega._id,
+#             #     $addToSet:
+#             #         tags:
+#             #             title:tag.name
+#             #             count:tag.count
+#         # console.log doc_tag_cloud.count()
+#
+#         self.ready()
 
-
-    omega =
-        Docs.findOne
-            model:'omega_session'
-
-    self = @
-    match = {}
-    match.model = $in: ['reddit','wikipedia']
-    # console.log 'query length', query.length
-    # if omega.query and omega.query.length > 0
-    if omega.query and omega.query.length > 0
-    #     console.log 'searching query', query
-    #     # match.tags = {$regex:"#{query}", $options: 'i'}
-    #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-    #
-        Terms.find {
-            title: {$regex:"#{omega.query}", $options: 'i'}
-        },
-            sort:
-                count: -1
-            limit: 10
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: selected_tags }
-        #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 42 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        #     ]
-
-    else
-        # unless query and query.length > 2
-        # if selected_tags.length > 0 then match.tags = $all: selected_tags
-        match.tags = $all: omega.selected_tags
-        # console.log 'match for tags', match
-        tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
-
-        tag_cloud.forEach (tag, i) =>
-            # console.log 'queried tag ', tag
-            # console.log 'key', key
-            self.added 'tags', Random.id(),
-                title: tag.name
-                count: tag.count
-                # category:key
-                # index: i
-            # Docs.update omega._id,
-            #     $addToSet:
-            #         tags:
-            #             title:tag.name
-            #             count:tag.count
-        # console.log doc_tag_cloud.count()
-
-        self.ready()
-
-Meteor.publish 'docs', (
-    selected_tags
-    )->
-    # console.log selected_tags
-    self = @
-    match = {model:'reddit'}
-    # if selected_tags.length > 0
-    match.tags = $all: selected_tags
-    # else
-    #     match.tags = $nin: ['wikipedia']
-    #     sort = '_timestamp'
-    #     # match. = $ne:'wikipedia'
-    console.log 'reddit match', match
-    # console.log 'sort key', sort_key
-    # console.log 'sort direction', sort_direction
-    omega =
-        Docs.findOne
-            model:'omega_session'
-    Docs.find match,
-        sort:"ups":-1
-        # sort:_timestamp:-1
-        limit:5
+# Meteor.publish 'docs', (
+#     selected_tags
+#     )->
+#     # console.log selected_tags
+#     self = @
+#     match = {model:'reddit'}
+#     # if selected_tags.length > 0
+#     match.tags = $all: selected_tags
+#     # else
+#     #     match.tags = $nin: ['wikipedia']
+#     #     sort = '_timestamp'
+#     #     # match. = $ne:'wikipedia'
+#     console.log 'reddit match', match
+#     # console.log 'sort key', sort_key
+#     # console.log 'sort direction', sort_direction
+#     omega =
+#         Docs.findOne
+#             model:'omega_session'
+#     Docs.find match,
+#         sort:"ups":-1
+#         # sort:_timestamp:-1
+#         limit:5
 
 Meteor.methods
     # agg_omega: (query, key, collection)->
@@ -147,7 +147,7 @@ Meteor.methods
         doc_results =
             Docs.find( doc_match,
                 {
-                    limit:1
+                    limit:7
                     sort:ups:-1
                 }
             ).fetch()
@@ -168,7 +168,7 @@ Meteor.methods
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 40 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe
@@ -193,7 +193,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=10",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=50",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -300,14 +300,14 @@ Meteor.methods
 
                 Docs.update doc_id,
                     $set:
-                        rd: rd
+                        # rd: rd
                         url: rd.url
                         thumbnail: rd.thumbnail
                         subreddit: rd.subreddit
                         author: rd.author
                         is_video: rd.is_video
                         ups: rd.ups
-                        downs: rd.downs
+                        # downs: rd.downs
                         over_18: rd.over_18
                     # $addToSet:
                     #     tags: $each: [rd.subreddit.toLowerCase()]
