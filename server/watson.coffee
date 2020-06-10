@@ -58,11 +58,11 @@ Meteor.methods
                 concepts: {}
                 # categories:
                 #     explanation:false
-                # emotion: {}
-                # metadata: {}
+                emotion: {}
+                metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                # sentiment: {}
+                sentiment: {}
 
         switch mode
             when 'html'
@@ -73,7 +73,7 @@ Meteor.methods
             when 'url'
                 # parameters.url = doc["#{key}"]
                 parameters.url = doc.url
-                parameters.returnAnalyzedText = false
+                parameters.returnAnalyzedText = true
                 parameters.clean = true
             when 'video'
                 parameters.url = "https://www.reddit.com#{doc.permalink}"
@@ -91,12 +91,12 @@ Meteor.methods
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
-                # console.log 'watson error for', parameters.url
+                console.log 'watson error for', parameters.url
                 # console.log err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
-                    # console.log 'not html, flaggged doc for future skip', parameters.url
+                    console.log 'not html, flaggged doc for future skip', parameters.url
                 else
                     console.log '403 error api key'
             else
@@ -104,24 +104,24 @@ Meteor.methods
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 response = response.result
-                # console.log response
+                console.log response
                 # console.log 'lowered keywords', lowered_keywords
-                # if Meteor.isDevelopment
-                #     console.log 'categories',response.categories
-                # emotions = response.emotion.document.emotion
+                if Meteor.isDevelopment
+                    console.log 'categories',response.categories
+                emotions = response.emotion.document.emotion
                 #
 
 
                 # adding_tags = []
-                # if response.categories
-                #     for category in response.categories
-                #         # console.log category.label.split('/')[1..]
-                #         # console.log category.label.split('/')
-                #         for category in category.label.split('/')
-                #             if category.length > 0
-                #                 # adding_tags.push category
-                #                 Docs.update doc_id,
-                #                     $addToSet: categories: category
+                if response.categories
+                    for category in response.categories
+                        # console.log category.label.split('/')[1..]
+                        # console.log category.label.split('/')
+                        for category in category.label.split('/')
+                            if category.length > 0
+                                # adding_tags.push category
+                                Docs.update doc_id,
+                                    $addToSet: categories: category
                 # Docs.update { _id: doc_id },
                 #     $addToSet:
                 #         tags:$each:adding_tags

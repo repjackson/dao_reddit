@@ -151,6 +151,7 @@ template(name='doc_item')
         .smallscroll            
             if reddit_id
                 i.circular.link.reddit.icon.pull_post
+            i.circular.link.dna.icon.call_watson
                 
             if rd.selftext
                 .content
@@ -179,7 +180,7 @@ template(name='doc_item')
                         |#{ups}
                 .spacer
                     
-            //-     if dev
-            //-         .ui.small.inline.black.header 
-            //-             i.tags.small.icon
-            //-             |#{tags.length}
+                if dev
+                    .ui.small.inline.black.header 
+                        i.tags.small.icon
+                        |#{tags.length}

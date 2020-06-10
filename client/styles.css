@@ -15,10 +15,10 @@ body {
 }
 .yeah {
     text-align: center !important;
-    /* font-size: 1.30rem !important; */
+    font-size: 1.20rem !important;
     font-weight: 500 !important;
     /* border-radius: 0 0 10px 10px !important; */
-    transition: color 2s ease !important;
+    transition: all 2s ease !important;
     margin-bottom: 10px !important;
     /* background-color: rgba(250,250,250,.6) !important; */
     /* opacity: .7 !important; */
@@ -59,7 +59,7 @@ a.goto_article {
 
 
 a.title, #title {
-    color: grey !important;
+    color: black !important;
 }
 
 .card, .ui.embed, .ui.text, #title, .invert{

@@ -14,6 +14,9 @@ Template.doc_item.events
     'click .pull_post': (e,t)->
         console.log @
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
+    'click .call_watson': (e,t)->
+        console.log @
+        Meteor.call 'call_watson', @_id, 'url', 'url', =>
 Template.home.events
     'click .refresh_agg': (e,t)->
         Meteor.call 'agg_omega', ->
