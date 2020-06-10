@@ -27,19 +27,7 @@ body
     +home
     //- .ui.divider
     //- unless dev
-    //-     +omega_doc_view
 
-template(name='omega_doc_view')
-    with omega_doc
-        .ui.segment
-            .ui.header query #{query}
-            .ui.header selected tags
-            each selected_tags
-                .ui.label #{this}
-            .ui.header agg res 
-            each agg
-                .ui.header title:#{title}
-                .ui.header count:#{count}
                 
 
 template(name='home')
@@ -115,16 +103,16 @@ template(name='doc_item')
     .ui.column
         if title
             if key_value_is 'model' 'wikipedia'
-                a#title.ui.center.aligned.yeah.link.header(href=url target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                a#title.ui.center.aligned.yeah.link.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                     i.wikipedia.link.icon
                     |!{lowered_title}
             else
-                a#title.ui.center.aligned.yeah.header(href=url target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%" class=sentiment_class) !{lowered_title}
+                a#title.ui.center.aligned.yeah.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
             .spacer
             //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
             //- .ui.header.pointer.goto_article(title="view full") !{title}
         else if watson.metadata.title
-            .ui.center.aligned.header.pointer.goto_article(title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+            .ui.center.aligned.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
         if is_youtube
             iframe(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
             //- .invert

@@ -32,6 +32,7 @@ Template.home.events
         console.log omega
     'click .pick_dao': (e,t)->
         # selected_tags.push 'dao'
+        $('.button').transition('pulse')
         omega  = Docs.findOne model:'omega_session'
         if omega
             Docs.update omega._id,
@@ -39,6 +40,10 @@ Template.home.events
         Meteor.call 'agg_omega', ->
 
     'click .result': (e,t)->
+        # $('.button').
+        # transition('pulse')
+        $(e.currentTarget).closest('.button').transition('pulse', 100)
+
         # console.log @
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
@@ -168,7 +173,9 @@ Template.home.events
 
 
 Template.home.helpers
-
+    omega_dark_mode: ->
+        omega = Docs.findOne model:'omega_session'
+        omega.dark
     connection: ->
         console.log Meteor.status()
         Meteor.status()

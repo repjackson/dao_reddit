@@ -13,6 +13,12 @@ body {
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
+
+.dark {
+    filter: invert(1) !important;
+
+}
+
 .yeah {
     text-align: center !important;
     font-size: 1.20rem !important;
@@ -168,10 +174,11 @@ body {
 }
 
 
-.button, .selector, .card, body, .item{
+.button, .selector, .card, body, .header, .icon, .item{
     animation: fadein 5s;
-    /* -webkit-transition: opacity 2s ease-out; */
-    /* animation: fadeout 1s; */
+    -webkit-transition: opacity 5s ease-in;
+    -webkit-transition: opacity 5s ease-out;
+    animation: fadeout 5s;
 }
 
 
