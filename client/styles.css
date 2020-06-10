@@ -58,9 +58,9 @@ a.goto_article {
 }
 
 
-a.title, #title {
+/* a.title, #title {
     color: black !important;
-}
+} */
 
 .card, .ui.embed, .ui.text, #title, .invert{
     /* border-radius: 10px !important; */

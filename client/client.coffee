@@ -247,6 +247,16 @@ Template.doc_item.events
         # Router.go "/doc/#{@_id}/view"
 
 Template.doc_item.helpers
+    sentiment_class: ->
+        console.log @
+        console.log @doc_sentiment_label
+        if @doc_sentiment_label is 'negative'
+            'red'
+        else if @doc_sentiment_label is 'postitive'
+            'green'
+        else
+            'black'
+
     truncated: ->
         # console.log @
         # console.log @rd.selftext

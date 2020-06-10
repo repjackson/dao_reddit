@@ -119,7 +119,7 @@ template(name='doc_item')
                     i.wikipedia.link.icon
                     |!{lowered_title}
             else
-                a#title.ui.center.aligned.yeah.header(href=url target='_window') !{lowered_title}
+                a#title.ui.center.aligned.yeah.header(href=url target='_window' class=sentiment_class) !{lowered_title}
             .spacer
             //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
             //- .ui.header.pointer.goto_article(title="view full") !{title}
