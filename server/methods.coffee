@@ -148,7 +148,7 @@ Meteor.methods
             $all: omega.selected_tags
 
         doc_match = match
-        doc_match.model = $in:['reddit','wikipedia']
+        doc_match.model = $in:['reddit']
         doc_results =
             Docs.find( doc_match,
                 {
@@ -159,6 +159,16 @@ Meteor.methods
         # console.log doc_results
         Docs.update omega._id,
             $set:doc_results:doc_results
+
+        found_wiki_doc =
+            Docs.findOne
+                model:'wikipedia'
+                title:$in:omega.selected_tags
+        if found_wiki_doc
+            Docs.update omega._id,
+                $addToSet:
+                    doc_results:found_wiki_doc
+
         # Docs.update omega._id,
         #     $set:
         #         match:match
@@ -258,17 +268,22 @@ Meteor.methods
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        # console.log 'getting reddit post'
+        console.log 'getting reddit post', doc_id, reddit_id
         HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
             if err then console.error err
             else
                 rd = res.data.data.children[0].data
-                # console.log rd
+                console.log rd
+                result =
+                    Docs.update doc_id,
+                        $set:
+                            rd: rd
+                console.log result
                 if rd.is_video
-                    # console.log 'pulling video comments watson'
+                    console.log 'pulling video comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
                 else if rd.is_image
-                    # console.log 'pulling image comments watson'
+                    console.log 'pulling image comments watson'
                     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
                 else
                     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
@@ -291,7 +306,7 @@ Meteor.methods
                                 html: rd.selftext_html
                         }, ->
                             # Meteor.call 'pull_site', doc_id, url
-                            console.log 'hi'
+                            # console.log 'hi'
                 if rd.url
                     unless rd.is_video
                         url = rd.url

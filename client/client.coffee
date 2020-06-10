@@ -12,8 +12,8 @@ Template.home.onCreated ->
 
 Template.doc_item.events
     'click .pull_post': (e,t)->
+        console.log @
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
-            console.log @
 Template.home.events
     'click .refresh_agg': (e,t)->
         Meteor.call 'agg_omega', ->
@@ -239,7 +239,7 @@ Template.doc_item.helpers
         # console.log @
         # console.log @rd.selftext
         # console.log @rd.selftext.substr(0, 100)
-        @rd.selftext.substr(0, 300)
+        @rd.selftext.substr(0, 2500)
 
 
     has_thumbnail: ->
@@ -286,6 +286,11 @@ Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
     # console.log 'value', value
     Session.equals key,value
+
+Template.registerHelper 'key_value_is', (key, value) ->
+    # console.log 'key', key
+    # console.log 'value', value
+    @["#{key}"] is value
 
 
 Template.registerHelper 'template_subs_ready', () ->

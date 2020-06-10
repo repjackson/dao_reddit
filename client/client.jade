@@ -113,8 +113,13 @@ template(name='doc_item')
                 //- a(href="http://www.reddit.com/r/CryptoCurrency")
                 //-     |r/CryptoCurrency
     .ui.column
-        if title 
-            a#title.ui.center.aligned.yeah.header(href=url target='_window') !{lowered_title}
+        if title
+            if key_value_is 'model' 'wikipedia'
+                a#title.ui.center.aligned.yeah.link.header(href=url target='_window') 
+                    i.wikipedia.link.icon
+                    |!{lowered_title}
+            else
+                a#title.ui.center.aligned.yeah.header(href=url target='_window') !{lowered_title}
             .spacer
             //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
             //- .ui.header.pointer.goto_article(title="view full") !{title}
@@ -143,30 +148,37 @@ template(name='doc_item')
             if has_thumbnail   
                 unless is_youtube 
                     img.ui.centered.image.rounded(src=thumbnail)
-        if reddit_id
-            i.circular.link.reddit.icon.pull_post
-            
-        if rd.selftext
-            +markdown
-                |!{truncated}
-        //- .spacer
-        //- .ui.center.aligned.basic.segment
-        //-     a.ui.circular.compact.grey.basic.button(href="https://www.reddit.com/user/#{author}" target="_blank")
-        //-         i.user.outline.icon
-        //-         |#{author}
-        //-     .ui.circular.large.compact.grey.basic.button
-        //-         i.globe.icon
-        //-         |#{domain}
-        //-     a.ui.circular.large.compact.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-        //-         i.chat.outline.icon
-        //-         |#{comment_count}
-        //-     a.ui.circular.large.compact.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-        //-         i.reddit.icon
-        //-         |r/#{subreddit}
-        //-     .ui.circular.large.compact.grey.basic.button
-        //-         i.thumbs.up.icon
-        //-         |#{ups}
-            
+        .smallscroll            
+            if reddit_id
+                i.circular.link.reddit.icon.pull_post
+                
+            if rd.selftext
+                .content
+                    +markdown
+                        !{truncated}
+            else rd.selftext_html
+                .content
+                    |!{rd.selftext_html}
+            .spacer
+            if key_value_is 'model' 'reddit'
+                .ui.link.selection.list
+                    a.item(href="https://www.reddit.com/user/#{author}" target="_blank")
+                        i.user.outline.icon
+                        |#{author}
+                    .item
+                        i.globe.icon
+                        |#{domain}
+                    a.item(href="https://www.reddit.com/#{permalink}" target="_blank")
+                        i.chat.outline.icon
+                        |#{comment_count}
+                    a.item(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                        i.reddit.icon
+                        |r/#{subreddit}
+                    .item
+                        i.thumbs.up.icon
+                        |#{ups}
+                .spacer
+                    
             //-     if dev
             //-         .ui.small.inline.black.header 
             //-             i.tags.small.icon
