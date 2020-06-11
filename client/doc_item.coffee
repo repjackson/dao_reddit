@@ -9,14 +9,8 @@ Template.doc_item.onRendered ->
     #         hoverable:false;
     #     )
     # , 1000
-Template.doc_item.events
-    'click .toggle_tags': (e,t)->
-        if Session.equals('view_tags', @_id)
-            Session.set('view_tags', null)
-        else
-            Session.set('view_tags', @_id)
 
-Template.meta_buttons.events
+Template.doc_item.events
     'click .toggle_tag': (e,t)->
         omega = Docs.findOne model:'omega_session'
         Docs.update omega._id,
@@ -124,10 +118,7 @@ Template.meta_buttons.events
         Meteor.call 'log_view', @_id, ->
         # Router.go "/doc/#{@_id}/view"
 
-Template.meta_buttons.helpers
-    view_tags: -> Session.equals('view_tags', @_id)
 Template.doc_item.helpers
-    view_tags: -> Session.equals('view_tags', @_id)
     doc_object: ->
         Docs.findOne
             _id:Template.instance().data
