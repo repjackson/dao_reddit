@@ -14,6 +14,13 @@ Meteor.methods
             # console.log 'result doc', Docs.findOne doc._id
 #
 
+    set_points: ->
+        Docs.update(
+            {
+                $exists:points:false
+            }
+        )
+
     call_wiki: (query)->
         # console.log 'calling wiki', query
         term = query.split(' ').join('_')
@@ -192,7 +199,7 @@ Meteor.methods
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 20 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe

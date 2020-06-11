@@ -54,61 +54,61 @@ template(name='doc_item')
                 //-     +doc_emotion
                 //-     //- +doc_sentiment
                 //-     //- +tone
-                if key_value_is 'model' 'reddit'
-                    if reddit_id
-                        unless rd
-                            .ui.circular.icon.basic.button.pull_post
-                                i.reddit.icon
-                unless watson
-                    .ui.circular.icon.basic.button.call_watson
-                        i.dna.icon
-                if dev 
-                    i.circular.code.link.icon.print_me
-                
-                //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
-                //-     i.user.outline.icon
-                //-     |#{author}
-                .ui.tertiary.grey.basic.disabled.button.select_date(title='select date')
-                    i.calendar.icon
-                    //- |#{watson.metadata.publication_date}
-                    |#{publish_when}
-                .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
-                    i.globe.icon
-                    |#{domain}
-                a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-                    i.chat.outline.icon
-                    |#{comment_count}
-                a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                    i.reddit.icon
-                    |r/#{subreddit}
-                .ui.tertiary.grey.basic.button
-                    i.thumbs.up.icon
-                    |#{ups}
-                .ui.circular.icon.button.vote_up
-                    i.thumbs.up.icon
-                strong #{points}
-                .ui.circular.icon.button.vote_down
-                    i.thumbs.down.icon
-                .ui.icon.small.input
-                    i.tag.icon
-                    input.add_tag(type='text')
-                each user_tags
-                    .ui.label #{this}
-                
+            if key_value_is 'model' 'reddit'
+                if reddit_id
+                    unless rd
+                        .ui.circular.icon.basic.button.pull_post
+                            i.reddit.icon
+            unless watson
+                .ui.circular.icon.basic.button.call_watson
+                    i.dna.icon
+            if dev 
+                i.circular.code.link.icon.print_me
+            
+            //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+            //-     i.user.outline.icon
+            //-     |#{author}
+            .ui.tertiary.grey.basic.disabled.button.select_date(title='select date')
+                i.calendar.icon
+                //- |#{watson.metadata.publication_date}
+                |#{publish_when}
+            .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                i.globe.icon
+                |#{domain}
+            a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                i.chat.outline.icon
+                |#{comment_count}
+            a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                i.reddit.icon
+                |r/#{subreddit}
+            .ui.tertiary.grey.basic.button
+                i.thumbs.up.icon
+                |#{ups}
+            .ui.circular.icon.button.vote_up
+                i.thumbs.up.icon
+            strong #{points}
+            .ui.circular.icon.button.vote_down
+                i.thumbs.down.icon
+            .ui.icon.small.input
+                i.tag.icon
+                input.add_tag(type='text')
+            each user_tags
+                .ui.label #{this}
+            
 
-                if rd.selftext_html
-                    //- unless tone
-                    //- .content
-                    |!{parsed_selftext_html}
-                    //- |!{rd.selftext_html}
-                else
-                    if tone
-                        +tone
-                    //- else
-                if rd.selftext
-                    .content
-                        +markdown
-                            !{rd.selftext}
+            if rd.selftext_html
+                //- unless tone
+                //- .content
+                |!{parsed_selftext_html}
+                //- |!{rd.selftext_html}
+            else
+                if tone
+                    +tone
+                //- else
+            if rd.selftext
+                .content
+                    +markdown
+                        !{rd.selftext}
         .ui.tertiary.grey.basic.button.toggle_tags
             i.tags.icon
             |#{tags.length}

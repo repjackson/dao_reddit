@@ -20,6 +20,10 @@ Docs.before.insert (userId, doc)->
     month = moment(timestamp).format('MMMM')
     year = moment(timestamp).format('YYYY')
 
+
+    doc.points = 0
+
+
     # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
     date_array = [ap, weekday, month, date, year]
     if _
