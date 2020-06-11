@@ -86,9 +86,20 @@ Template.doc_item.events
     'click .vote_up': (e,t)->
         Docs.update @_id,
             $inc:points:1
+        Session.set('is_loading',true)
+        Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
+
+
     'click .vote_down': (e,t)->
         Docs.update @_id,
             $inc:points:-1
+        Session.set('is_loading',true)
+        Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
+
     'click .print_me': (e,t)->
         console.log @
     'click .pull_post': (e,t)->
