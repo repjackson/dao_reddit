@@ -21,7 +21,7 @@ Template.home.events
         Session.set('dummy',!Session.get('dummy'))
 
     'click .refresh_agg': (e,t)->
-        $(e.currentTarget).closest('.button').transition('pulse', 1000)
+        # $(e.currentTarget).closest('.button').transition('pulse', 1000)
         Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
@@ -30,7 +30,7 @@ Template.home.events
         console.log omega
     'click .pick_dao': (e,t)->
         # selected_tags.push 'dao'
-        $(e.currentTarget).closest('.button').transition('pulse', 1000)
+        # $(e.currentTarget).closest('.button').transition('pulse', 1000)
         omega  = Docs.findOne model:'omega_session'
         if omega
             Docs.update omega._id,
@@ -41,7 +41,7 @@ Template.home.events
             Session.set('dummy',!Session.get('dummy'))
 
     'click .result': (e,t)->
-        $(e.currentTarget).closest('.button').transition('pulse', 1000)
+        # $(e.currentTarget).closest('.button').transition('pulse', 1000)
 
         # console.log @
         # if selected_tags.array().length is 1
@@ -270,91 +270,6 @@ Template.home.helpers
     #     else
     #         Session.set('global_subs_ready', false)
 
-Template.doc_item.onCreated ->
-    # console.log @
-    @autorun => @subscribe 'doc', @data
-
-Template.doc_item.onRendered ->
-    Meteor.setTimeout ->
-        $('.header').popup(
-            preserve:true;
-            hoverable:false;
-        )
-    , 1000
-
-Template.doc_item.events
-    'click .print_me': (e,t)->
-        console.log @
-    'click .pull_post': (e,t)->
-        console.log @
-        Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
-        # Meteor.call 'agg_omega', ->
-
-    'click .call_watson': ->
-        if @rd and @rd.selftext_html
-            dom = document.createElement('textarea')
-            # dom.innerHTML = doc.body
-            dom.innerHTML = @rd.selftext_html
-            console.log 'innner html', dom.value
-            # return dom.value
-            Docs.update @_id,
-                $set:
-                    parsed_selftext_html:dom.value
-        Meteor.call 'call_watson', @_id, 'url', 'url'
-        # Meteor.call 'agg_omega', ->
-
-    'click .call_watson_image': ->
-        Meteor.call 'call_watson', @_id, 'url', 'image'
-    'click .print_me': ->
-        console.log @
-    'click .goto_article': ->
-        # console.log @
-        Meteor.call 'log_view', @_id, ->
-        # Router.go "/doc/#{@_id}/view"
-
-Template.doc_item.helpers
-    doc_object: ->
-        Docs.findOne
-            _id:Template.instance().data
-    omega_dark_mode_class: ->
-        omega = Docs.findOne model:'omega_session'
-        omega.dark_mode
-        if omega.dark_mode
-            # console.log 'hi dark'
-            'dark_mode'
-        else
-            # console.log 'hi light'
-            ''
-
-    sentiment_class: ->
-        # console.log @
-        # console.log @doc_sentiment_label
-        res = ''
-        omega = Docs.findOne model:'omega_session'
-        omega.dark_mode
-        if omega.dark_mode
-            # console.log 'hi dark'
-            res+=' dark_mode'
-        if @doc_sentiment_label is 'negative'
-            res+='red'
-        else if @doc_sentiment_label is 'positive'
-            res+='green'
-        else
-            res+='black'
-        res
-
-    truncated: ->
-        # console.log @
-        # console.log @rd.selftext
-        # console.log @rd.selftext.substr(0, 100)
-        @rd.selftext.substr(0, 2500)
-
-
-    has_thumbnail: ->
-        # console.log @thumbnail
-        @thumbnail and @thumbnail not in ['self','default']
-
-
 
 Template.registerHelper 'youtube_id', () ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
@@ -404,10 +319,13 @@ Template.registerHelper 'is_youtube', () ->
     @domain in ['youtube.com', 'youtu.be']
 
 
-Template.registerHelper 'lowered_title', () ->
+Template.registerHelper 'lowered_title', ()->
     @title.toLowerCase()
 
-Template.registerHelper 'omega_doc', () ->
+Template.registerHelper 'lowered', (input)->
+    input.toLowerCase()
+
+Template.registerHelper 'omega_doc', ()->
     Docs.findOne
         model:'omega_session'
 
@@ -431,6 +349,22 @@ Template.registerHelper 'global_subs_ready', () ->
 
 
 
+Template.registerHelper 'calculated_size', (metric) ->
+    console.log 'metric', metric
+    # console.log typeof parseFloat(@relevance)
+    # console.log typeof (@relevance*100).toFixed()
+    whole = parseInt(@["#{metric}"]*10)
+    console.log 'whole', whole
+
+    if whole is 2 then 'f2'
+    else if whole is 3 then 'f3'
+    else if whole is 4 then 'f4'
+    else if whole is 5 then 'f5'
+    else if whole is 6 then 'f6'
+    else if whole is 7 then 'f7'
+    else if whole is 8 then 'f8'
+    else if whole is 9 then 'f9'
+    else if whole is 10 then 'f10'
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')

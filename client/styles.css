@@ -9,7 +9,7 @@ body {
     background: rgba(0,0,0,.01) !important;
     /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
-    transition: all 3s ease !important;
+    transition: all 2s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -21,14 +21,18 @@ body {
 }
 .green.header.dark_mode {
     filter: invert(1) !important;
-
+}
+.home {
+    min-height:100% !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 .yeah {
     text-align: center !important;
     font-size: 1.30rem !important;
     font-weight: 400 !important;
     /* border-radius: 0 0 10px 10px !important; */
-    transition: all 3s ease !important;
+    transition: all 2s ease !important;
     margin-bottom: 10px !important;
     /* background-color: rgba(250,250,250,.6) !important; */
     /* opacity: .7 !important; */
@@ -56,9 +60,9 @@ a.goto_article {
 }
 
 .ui.button {
-    /* border-radius: 20px !important; */
     margin: 2px !important;
-    transition: all 3s ease !important;
+    /* border-radius: 20px !important; *2
+    /* transition: all 2s ease !important; */
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
@@ -96,6 +100,61 @@ a.goto_article {
     border-radius: 10px !important;
     filter: invert(1) !important;
 } */
+
+
+.f13 {
+  font-size: 400% !important;
+  line-height: 120% !important;
+  margin-bottom: 10px !important; }
+.f13 {
+  font-size: 300% !important;
+  line-height: 120% !important;
+  margin-bottom: 10px !important; }
+.f11 {
+  font-size: 250% !important;
+  line-height: 120% !important;
+  margin-bottom: 10px !important; }
+.f10 {
+  font-size: 200% !important;
+  line-height: 120% !important;
+  margin-bottom: 10px !important; }
+.f9 {
+  font-size: 180% !important;
+  line-height: 120% !important;
+  margin-bottom: 5px !important; }
+.f8 {
+  font-size: 160% !important;
+  line-height: 160% !important; }
+.f7 {
+  font-size: 140% !important;
+  line-height: 140% !important; }
+.f6 {
+  font-size: 120% !important;
+  line-height: 120% !important; }
+.f5 {
+  font-size: 110% !important;
+  line-height: 110% !important; }
+.f4 {
+  font-size: 100% !important;
+  line-height: 100% !important; }
+.f3 {
+  font-size: 90% !important;
+  line-height: 90% !important; }
+.f2 {
+  font-size: 70% !important;
+  line-height: 70% !important; }
+.f1 {
+  font-size: 50% !important;
+  line-height: 50% !important; }
+.f0 { display:none; }
+
+
+.large120 {
+    font-size: 120%;
+    line-height: 120%;
+}
+
+
 
 
 .spacer {
@@ -168,23 +227,23 @@ input {
 }
 
 body {
-    transition: all 3s !important;
+    transition: all 2s !important;
 }
 
 
 
 .button:active{
-    -webkit-transform: translate(0, 1px) !important; /* depth of button press */
-    transition: all .5s !important;
+    -webkit-transform: translate(0, 2px) !important; /* depth of button press */
+    /* transition: all .5s !important; */
     transform: translate(0, 2px) !important; /* depth of button press */
 }
 
 
 .button, .selector, .card, .dark_mode, .header, i, .icon, .item{
-    animation: fadein 3s;
-    -webkit-transition: opacity 3s ease-in;
-    /* -webkit-transition: opacity 3s ease-out; */
-    /* animation: fadeout 3s; */
+    animation: fadein 2s;
+    -webkit-transition: opacity 2s ease-in;
+    /* -webkit-transition: opacity 2s ease-out; */
+    /* animation: fadeout 2s; */
 }
 
 
