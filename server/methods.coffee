@@ -169,14 +169,14 @@ Meteor.methods
             $set:
                 doc_result_ids:doc_result_ids
 
-        found_wiki_doc =
-            Docs.findOne
-                model:'wikipedia'
-                title:$in:omega.selected_tags
-        if found_wiki_doc
-            Docs.update omega._id,
-                $addToSet:
-                    doc_result_ids:found_wiki_doc._id
+        # found_wiki_doc =
+        #     Docs.findOne
+        #         model:'wikipedia'
+        #         title:$in:omega.selected_tags
+        # if found_wiki_doc
+        #     Docs.update omega._id,
+        #         $addToSet:
+        #             doc_result_ids:found_wiki_doc._id
 
         # Docs.update omega._id,
         #     $set:
