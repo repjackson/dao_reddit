@@ -101,12 +101,13 @@ template(name='meta_buttons')
     a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
         i.reddit.icon
         |r/#{subreddit}
-    //- .ui.tertiary.grey.basic.button
-    //-     i.thumbs.up.icon
-    //-     |#{ups}
+    .ui.tertiary.grey.basic.button
+        i.thumbs.up.icon
+        |#{ups}
     .ui.circular.icon.button.vote_up
         i.thumbs.up.icon
-    .ui.circular.icon.button.vote_up
+    strong #{points}
+    .ui.circular.icon.button.vote_down
         i.thumbs.down.icon
     .ui.icon.small.input
         i.tag.icon

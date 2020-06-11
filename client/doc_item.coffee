@@ -39,6 +39,12 @@ Template.meta_buttons.events
             Session.set('view_tags', null)
         else
             Session.set('view_tags', @_id)
+    'click .vote_up': (e,t)->
+        Docs.update @_id,
+            $inc:points:1
+    'click .vote_down': (e,t)->
+        Docs.update @_id,
+            $inc:points:-1
     'click .print_me': (e,t)->
         console.log @
     'click .pull_post': (e,t)->
