@@ -76,7 +76,6 @@
     'man'
     'us'
     'questions'
-    'youtube'
     'month'
     'community'
     'discussion'
