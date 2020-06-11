@@ -198,7 +198,7 @@ input {
     border-width: 1px !important;
     border-color: grey !important;
     border-style: solid !important; */
-    max-height: 300px !important;
+    max-height: 500px !important;
     overflow-y:scroll;
 	overflow-x:hidden;
 	/* padding-top: .2em; */

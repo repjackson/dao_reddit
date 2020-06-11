@@ -385,6 +385,6 @@ Template.registerHelper 'to_percent', (number)->
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 
-# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
+Template.registerHelper 'publish_when', ()-> moment(@watson.metadata.publication_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
