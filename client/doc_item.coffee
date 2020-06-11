@@ -9,6 +9,12 @@ Template.doc_item.onRendered ->
     #         hoverable:false;
     #     )
     # , 1000
+Template.doc_item.events
+    'click .toggle_tags': (e,t)->
+        if Session.equals('view_tags', @_id)
+            Session.set('view_tags', null)
+        else
+            Session.set('view_tags', @_id)
 
 Template.meta_buttons.events
     'click .toggle_tag': (e,t)->
@@ -31,6 +37,50 @@ Template.meta_buttons.events
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
             Session.set('dummy',!Session.get('dummy'))
+
+    'keyup .add_tag': (e,t)->
+        # omega  = Docs.findOne model:'omega_session'
+        # Docs.update omega._id,
+        #     $set:current_query:query
+        # Session.set('current_query', query)
+        # console.log Session.get('current_query')
+        if e.which is 13
+            tag = $(e.currentTarget).closest('.add_tag').val().trim().toLowerCase()
+            console.log 'tag', tag
+            # search = $('#search').val()
+            if tag.length > 0
+                # selected_tags.push search
+                # omega  = Docs.findOne model:'omega_session'
+                Docs.update @_id,
+                    # $set:
+                    #     current_query:''
+                    $addToSet:
+                        tags:tag
+                        user_tags:tag
+                $(e.currentTarget).closest('.add_tag').val('')
+                # if search is 'dark'
+                #     alert 'dark'
+                #     Docs.update omega._id,
+                #         $set:
+                #             dark_mode:true
+                #
+                # # console.log 'search', search
+                # Meteor.call 'call_wiki', search, ->
+                # # Meteor.call 'search_reddit', selected_tags.array(), ->
+                # Meteor.call 'search_reddit', omega.selected_tags, ->
+                # Meteor.call 'log_term', search, ->
+                # $('#search').val('')
+                # # Session.set('current_query', '')
+                # Docs.update omega._id,
+                #     $set:
+                #         current_query:''
+                # # $('#search').val('').blur()
+                # # $( "p" ).blur();
+                # Meteor.call 'agg_omega'
+                # Meteor.setTimeout ->
+                #     Meteor.call 'agg_omega', ->
+                #     Session.set('dummy', !Session.get('dummy'))
+                # , 6000
 
 
 
@@ -77,6 +127,7 @@ Template.meta_buttons.events
 Template.meta_buttons.helpers
     view_tags: -> Session.equals('view_tags', @_id)
 Template.doc_item.helpers
+    view_tags: -> Session.equals('view_tags', @_id)
     doc_object: ->
         Docs.findOne
             _id:Template.instance().data

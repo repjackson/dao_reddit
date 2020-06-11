@@ -111,7 +111,9 @@ template(name='meta_buttons')
         i.thumbs.down.icon
     .ui.icon.small.input
         i.tag.icon
-        input(type='text')
+        input.add_tag(type='text')
+    each user_tags
+        .ui.label #{this}
     .ui.tertiary.grey.basic.button.toggle_tags
         i.tags.icon
         |#{tags.length}
