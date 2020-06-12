@@ -1,7 +1,7 @@
 template(name='home')
     .ui.padded.grid.home(class=omega_dark_mode_class)
         .centered.row.flat
-            .sixteen.wide.center.aligned.column
+            .eight.wide.right.aligned.column.scrolling
                 each omega_doc.selected_tags
                     button.ui.active.compact.large.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                         //- i.remove.icon
@@ -12,9 +12,6 @@ template(name='home')
                     if is_loading
                         i.yin.yang.large.loading.large.icon
                     input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
-        
-        .centered.row.flat
-            .eight.wide.right.aligned.column.scrolling
                 //- .scrolling.forty
                 //- .ui.header #{connection.status}
                 unless connected
