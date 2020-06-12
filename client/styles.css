@@ -30,10 +30,10 @@ body {
 .yeah {
     text-align: center !important;
     font-size: 1.30rem !important;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
     /* border-radius: 0 0 10px 10px !important; */
     transition: all 1s ease !important;
-    margin-bottom: 10px !important;
+    /* margin-bottom: 10px !important; */
     /* background-color: rgba(250,250,250,.6) !important; */
     /* opacity: .7 !important; */
 }

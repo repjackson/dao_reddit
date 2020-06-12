@@ -15,7 +15,7 @@ template(name='doc_item')
         //- .ui.column(class=omega_dark_mode_class)
         .ui.column
             .ui.stackable.grid
-                .eight.wide.column.scrolling
+                .sixteen.wide.column.scrolling
                     if is_image
                         //- .four.wide.center.aligned.column
                         //- .image
@@ -27,19 +27,27 @@ template(name='doc_item')
                     if title
                         if has_thumbnail   
                             unless is_youtube 
-                                img.ui.centered.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                                unless is_image
+                                    img.ui.centered.image.rounded(src=thumbnail class=omega_dark_mode_class)
                         if key_value_is 'model' 'wikipedia'
-                            a#title.ui.center.aligned.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                            a#title.ui.center.aligned.yeah.link.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                                 i.wikipedia.link.icon
                                 |!{lowered_title}
                         else
-                            a#title.ui.center.aligned.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                            a#title.ui.center.aligned.yeah.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
                         .spacer
                         //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
                         //- .ui.header.pointer.goto_article(title="view full") !{title}
                     else if watson.metadata.title
                         .ui.center.aligned.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
-                    
+                    //- div
+                    .ui.center.aligned.basic.segment
+                        .ui.icon.large.button.vote_up
+                            i.thumbs.up.large.outline.icon
+                        strong #{points}
+                        .ui.icon.large.button.vote_down
+                            i.thumbs.down.large.outline.icon
+
                     if is_youtube
                         iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                         //- .invert
@@ -65,63 +73,58 @@ template(name='doc_item')
                     unless watson
                         .ui.circular.icon.basic.big.button.call_watson
                             i.dna.large.icon
-                    if dev 
-                        i.circular.code.link.icon.print_me
-                    
-                    //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
-                    //-     i.user.outline.icon
-                    //-     |#{author}
-                    .ui.tertiary.grey.basic.disabled.button.select_date(title='select date')
-                        i.calendar.icon
-                        //- |#{watson.metadata.publication_date}
-                        |#{publish_when}
-                    .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
-                        i.globe.icon
-                        |#{domain}
-                    a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-                        i.chat.outline.icon
-                        |#{comment_count}
-                    a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                        i.reddit.icon
-                        |r/#{subreddit}
-                    .ui.icon.small.input
-                        i.tag.icon
-                        input.add_tag(type='text')
-                    each user_tags
-                        .ui.label #{this}
-                        
-                    //- .ui.tertiary.grey.basic.button
-                    //- i.thumbs.up.icon
-                    //- |#{ups}
-                    
-                    //- if tone
-                    //-     +tone
-                    if rd.selftext_html
-                        //- unless tone
-                        //- .content
-                        |!{parsed_selftext_html}
-                        //- |!{rd.selftext_html}
-                    else
-                        if tone
-                            +tone
-                        //- else
-                    if rd.selftext
-                        .content
-                            +markdown
-                                !{rd.selftext}
-
-                    div
-                    .ui.center.aligned.basic.segment
-                        .ui.circular.icon.massive.button.vote_up
-                            i.thumbs.up.big.icon
-                        strong #{points}
-                        .ui.circular.icon.massive.button.vote_down
-                            i.thumbs.down.big.icon
-                .eight.wide.column.scrolling
-                    .ui.tertiary.grey.basic.button.toggle_tags
-                        i.tags.icon
-                        |#{tags.length}
-                    //- if view_tags
-                    each tags
-                        .ui.compact.large.basic.tertiary.button.toggle_tag
-                                |#{this}
+                    //- if dev 
+                    //-     i.circular.code.link.icon.print_me
+                    //- 
+                    //- //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+                    //- //-     i.user.outline.icon
+                    //- //-     |#{author}
+                    //- .ui.small.grey.inline.header
+                    //-     i.calendar.icon
+                    //-     //- |#{watson.metadata.publication_date}
+                    //-     |#{publish_when}
+                    //- .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                    //-     i.globe.icon
+                    //-     |#{domain}
+                    //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                    //-     i.chat.outline.icon
+                    //-     |#{comment_count}
+                    //- //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                    //- //-     i.reddit.icon
+                    //- //-     |r/#{subreddit}
+                    //- .ui.icon.small.input
+                    //-     i.tag.icon
+                    //-     input.add_tag(type='text')
+                    //- each user_tags
+                    //-     .ui.label #{this}
+                //- 
+                //-     //- .ui.tertiary.grey.basic.button
+                //-     //- i.thumbs.up.icon
+                //-     //- |#{ups}
+                //- 
+                //-     //- if tone
+                //-     //-     +tone
+                //- 
+                //- 
+                //-     //- if rd.selftext_html
+                //-     //-     //- unless tone
+                //-     //-     //- .content
+                //-     //-     |!{parsed_selftext_html}
+                //-     //-     //- |!{rd.selftext_html}
+                //-     //- else
+                //-     //-     if tone
+                //-     //-         +tone
+                //-     //-     //- else
+                //-     //- if rd.selftext
+                //-     //-     .content
+                //-     //-         +markdown
+                //-     //-             !{rd.selftext}
+                //- 
+                //- .eight.wide.column.scrolling
+                //-     //- .ui.tertiary.grey.basic.button.toggle_tags
+                //-     //-     i.tags.icon
+                //-     //-     |#{tags.length}
+                //-     //- if view_tags
+                //-     each tags
+                //-         .ui.compact.large.tertiary.button.toggle_tag
+                //-                 |#{this}
