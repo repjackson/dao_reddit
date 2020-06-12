@@ -13,14 +13,25 @@ template(name='doc_item')
                     //- a(href="http://www.reddit.com/r/CryptoCurrency")
                     //-     |r/CryptoCurrency
         //- .ui.column(class=omega_dark_mode_class)
-        .ui.center.aligned.column
+        .ui.column
+            if is_image
+                //- .four.wide.center.aligned.column
+                //- .image
+                    //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
+                    //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
+                img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
+            //- else 
+        
             if title
+                if has_thumbnail   
+                    unless is_youtube 
+                        img.ui.centered.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
                 if key_value_is 'model' 'wikipedia'
-                    a#title.ui.center.aligned.yeah.link.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                    a#title.ui.center.aligned.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                         i.wikipedia.link.icon
                         |!{lowered_title}
                 else
-                    a#title.ui.center.aligned.yeah.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                    a#title.ui.center.aligned.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
                 .spacer
                 //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
                 //- .ui.header.pointer.goto_article(title="view full") !{title}
@@ -40,16 +51,6 @@ template(name='doc_item')
             //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
             //- else if has_thumbnail
             
-            if is_image
-                //- .four.wide.center.aligned.column
-                //- .image
-                    //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
-                    //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
-                img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
-            else 
-                if has_thumbnail   
-                    unless is_youtube 
-                        img.ui.centered.image.rounded(src=thumbnail class=omega_dark_mode_class)
                 //- if watson
                 //-     +doc_emotion
                 //-     //- +doc_sentiment
@@ -91,9 +92,22 @@ template(name='doc_item')
             //- i.thumbs.up.icon
             //- |#{ups}
             
-            if tone
-                +tone
-            
+            //- if tone
+            //-     +tone
+            if rd.selftext_html
+                //- unless tone
+                //- .content
+                |!{parsed_selftext_html}
+                //- |!{rd.selftext_html}
+            else
+                if tone
+                    +tone
+                //- else
+            if rd.selftext
+                .content
+                    +markdown
+                        !{rd.selftext}
+
             div
             .ui.center.aligned.basic.segment
                 .ui.circular.icon.massive.button.vote_up
@@ -102,17 +116,6 @@ template(name='doc_item')
                 .ui.circular.icon.massive.button.vote_down
                     i.thumbs.down.big.icon
             //- 
-            //- if rd.selftext_html
-            //-     //- unless tone
-            //-     //- .content
-            //-     |!{parsed_selftext_html}
-            //-     //- |!{rd.selftext_html}
-            //- else
-            //-     //- else
-            //- if rd.selftext
-            //-     .content
-            //-         +markdown
-            //-             !{rd.selftext}
         .ui.tertiary.grey.basic.button.toggle_tags
             i.tags.icon
             |#{tags.length}
