@@ -13,68 +13,72 @@ template(name='doc_item')
                     //- a(href="http://www.reddit.com/r/CryptoCurrency")
                     //-     |r/CryptoCurrency
         //- .ui.column(class=omega_dark_mode_class)
-        .ui.column
+        .ui.right.aligned.column
             .ui.stackable.grid
-                .four.wide.column
-                    if is_image
-                        //- .four.wide.column
-                        //- .image
-                            //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
-                            //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
-                        img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
-                    //- else 
-                
-                    if title
-                        if has_thumbnail   
-                            unless is_youtube 
-                                unless is_image
-                                    img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
-                .twelve.wide.column
-                    if title
-                        if key_value_is 'model' 'wikipedia'
-                            a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
-                                i.wikipedia.link.icon
-                                |!{lowered_title}
-                        else
-                            a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
-                        //- .spacer
-                        //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
-                        //- .ui.header.pointer.goto_article(title="view full") !{title}
-                    else if watson.metadata.title
-                        .ui.inline.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
-                    //- div
-                    //- .ui.basic.segment
-                    .ui.icon.large.circular.button.vote_up
-                        i.thumbs.up.large.outline.icon
-                    strong #{points}
-                    .ui.icon.large.circular.button.vote_down
-                        i.thumbs.down.large.outline.icon
-
-                    if is_youtube
-                        iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                        //- .invert
-                    //- if is_twitter
-                    //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
-                    //-         p(lang="en" dir="ltr")
-                    //-             |#{title}
-                    //-             //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
-                    //-         a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
-                    //-             |February 21, 2018
-                    //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
-                    //- else if has_thumbnail
+                .right.aligned.row
+                    .twelve.wide.column
+                        if title
+                            if key_value_is 'model' 'wikipedia'
+                                a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                                    i.wikipedia.link.icon
+                                    |!{lowered_title}
+                            else
+                                a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                            //- .spacer
+                            //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
+                            //- .ui.header.pointer.goto_article(title="view full") !{title}
+                        else if watson.metadata.title
+                            .ui.inline.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+                        if is_youtube
+                            iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                            //- .invert
+                        //- if is_twitter
+                        //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
+                        //-         p(lang="en" dir="ltr")
+                        //-             |#{title}
+                        //-             //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
+                        //-         a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
+                        //-             |February 21, 2018
+                        //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+                        //- else if has_thumbnail
+                        
+                            //- if watson
+                            //-     +doc_emotion
+                            //-     //- +doc_sentiment
+                            //-     //- +tone
+                        if key_value_is 'model' 'reddit'
+                            if reddit_id
+                                unless rd
+                                    .ui.circular.icon.basic.big.button.pull_post
+                                        i.reddit.large.icon
+                        unless watson
+                            .ui.circular.icon.basic.big.button.call_watson
+                                i.dna.large.icon
+                    .four.wide.column
+                        if is_image
+                            //- .four.wide.column
+                            //- .image
+                                //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
+                                //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
+                            img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
+                        //- else 
                     
-                        //- if watson
-                        //-     +doc_emotion
-                        //-     //- +doc_sentiment
-                        //-     //- +tone
-                    if key_value_is 'model' 'reddit'
-                        if reddit_id
-                            unless rd
-                                .ui.circular.icon.basic.big.button.pull_post
-                                    i.reddit.large.icon
-                    unless watson
-                        .ui.circular.icon.basic.big.button.call_watson
-                            i.dna.large.icon
+                        //- if title
+                        //- unless is_youtube 
+                        //-     unless is_image
+                        if has_thumbnail   
+                            img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
+                        div
+                        //- .ui.basic.segment
+                        .ui.icon.large.circular.button.vote_up
+                            i.thumbs.up.large.outline.icon
+                        strong #{points}
+                        .ui.icon.large.circular.button.vote_down
+                            i.thumbs.down.large.outline.icon
+
+            
+                                    
+                                
                     //- if dev 
                     //-     i.circular.code.link.icon.print_me
                     //- 

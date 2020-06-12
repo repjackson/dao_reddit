@@ -2,6 +2,10 @@ template(name='home')
     .ui.padded.grid.home(class=omega_dark_mode_class)
         .centered.row.flat
             .eight.wide.right.aligned.column.scrolling
+                each omega_doc.doc_result_ids
+                    +doc_item
+        
+            .eight.wide.column.scrolling
                 each omega_doc.selected_tags
                     button.ui.active.compact.large.circular.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                         //- i.remove.icon
@@ -44,9 +48,9 @@ template(name='home')
             //- .centered.one.column.row
             //- each omega_doc.doc_results
             //- each omega_doc_results
-            .eight.wide.column.scrolling
-                each omega_doc.doc_result_ids
-                    +doc_item
+            //- .eight.wide.column.scrolling
+            //-     each omega_doc.doc_result_ids
+            //-         +doc_item
                 //- if selected_tags
         //-     //- .scrolling.sixty
         //-     .ui.stackable.padded.grid
@@ -67,6 +71,6 @@ template(name='home')
             .ui.inverted.center.aligned.middle.aligned.grey.header 
                 |sponsored by
                 a(href="https://ciomastermind.com/" target="_window")
-                    |ciomastermind
-        
+                    //- |ciomastermind
+                    img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
             
