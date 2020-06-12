@@ -1,7 +1,7 @@
 template(name='home')
     .ui.stackable.padded.grid.home(class=omega_dark_mode_class)
         .centered.row
-            .sixteen.wide.center.aligned.column
+            .five.wide.right.aligned.column
                 //- .scrolling.forty
                 //- .ui.header #{connection.status}
                 unless connected
@@ -41,11 +41,12 @@ template(name='home')
                         //- button.ui.compact.white.basic.huge.circular.button.result(tabindex="0" class=result_class title=count) #{title}
                     //- .ui.hidden.divider
                 //- if one_post
-        .centered.one.column.row
+            //- .centered.one.column.row
             //- each omega_doc.doc_results
             //- each omega_doc_results
-            each omega_doc.doc_result_ids
-                +doc_item
+            .eleven.wide.column
+                each omega_doc.doc_result_ids
+                    +doc_item
                 //- if selected_tags
         //-     //- .scrolling.sixty
         //-     .ui.stackable.padded.grid
