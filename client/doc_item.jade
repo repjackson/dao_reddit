@@ -15,7 +15,7 @@ template(name='doc_item')
         //- .ui.column(class=omega_dark_mode_class)
         .ui.column
             .ui.stackable.grid
-                .sixteen.wide.column.scrolling
+                .four.wide.column
                     if is_image
                         //- .four.wide.column
                         //- .image
@@ -29,6 +29,8 @@ template(name='doc_item')
                             unless is_youtube 
                                 unless is_image
                                     img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
+                .twelve.wide.column
+                    if title
                         if key_value_is 'model' 'wikipedia'
                             a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                                 i.wikipedia.link.icon
@@ -42,10 +44,10 @@ template(name='doc_item')
                         .ui.inline.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
                     //- div
                     //- .ui.basic.segment
-                    .ui.icon.large.button.vote_up
+                    .ui.icon.large.circular.button.vote_up
                         i.thumbs.up.large.outline.icon
                     strong #{points}
-                    .ui.icon.large.button.vote_down
+                    .ui.icon.large.circular.button.vote_down
                         i.thumbs.down.large.outline.icon
 
                     if is_youtube
