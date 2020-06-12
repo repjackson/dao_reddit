@@ -9,7 +9,7 @@ body {
     background: rgba(0,0,0,.01) !important;
     /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -32,14 +32,14 @@ body {
     font-size: 1.30rem !important;
     font-weight: 400 !important;
     /* border-radius: 0 0 10px 10px !important; */
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
     margin-bottom: 10px !important;
     /* background-color: rgba(250,250,250,.6) !important; */
     /* opacity: .7 !important; */
 }
 
 .pointer:hover{
-    transition: transform 2s; /* Animation */
+    transition: transform 1s; /* Animation */
     color: white !important;
     /* padding-top: 5em !important; */
     /* box-shadow: 0 2px 2px 2px rgba(50, 50, 100, 0.1) !important; */
@@ -62,7 +62,7 @@ a.goto_article {
 .ui.button {
     margin: 2px !important;
     /* border-radius: 20px !important; *2
-    /* transition: all 2s ease !important; */
+    /* transition: all 1s ease !important; */
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
@@ -150,8 +150,8 @@ a.goto_article {
 
 
 .large120 {
-    font-size: 120%;
-    line-height: 120%;
+    font-size: 140%;
+    line-height: 150%;
 }
 
 
@@ -228,7 +228,7 @@ input {
 }
 
 body {
-    transition: all 2s !important;
+    transition: all 1s !important;
 }
 
 
@@ -241,10 +241,10 @@ body {
 
 
 .button, .selector, .card, .dark_mode, .header, i, .icon, .item{
-    animation: fadein 2s;
-    -webkit-transition: opacity 2s ease-in;
-    /* -webkit-transition: opacity 2s ease-out; */
-    /* animation: fadeout 2s; */
+    animation: fadein 1s;
+    -webkit-transition: opacity 1s ease-in;
+    /* -webkit-transition: opacity 1s ease-out; */
+    /* animation: fadeout 1s; */
 }
 
 

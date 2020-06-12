@@ -167,6 +167,10 @@ Meteor.methods
                         _id:1
                 }
             ).fetch()
+        console.log doc_results[0]
+        unless doc_results[0].rd
+            if doc_results[0].reddit_id
+                Meteor.call 'get_reddit_post', doc_results[0]._id, doc_results[0].reddit_id, =>
         # console.log doc_results
         doc_result_ids = []
         for result in doc_results

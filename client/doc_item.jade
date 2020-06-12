@@ -57,11 +57,11 @@ template(name='doc_item')
             if key_value_is 'model' 'reddit'
                 if reddit_id
                     unless rd
-                        .ui.circular.icon.basic.button.pull_post
-                            i.reddit.icon
+                        .ui.circular.icon.basic.big.button.pull_post
+                            i.reddit.large.icon
             unless watson
-                .ui.circular.icon.basic.button.call_watson
-                    i.dna.icon
+                .ui.circular.icon.basic.big.button.call_watson
+                    i.dna.large.icon
             if dev 
                 i.circular.code.link.icon.print_me
             
@@ -81,40 +81,42 @@ template(name='doc_item')
             a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                 i.reddit.icon
                 |r/#{subreddit}
-            //- .ui.tertiary.grey.basic.button
-            //- i.thumbs.up.icon
-            //- |#{ups}
-            div
-            .ui.center.aligned.basic.segment
-                .ui.circular.icon.massive.button.vote_up
-                    i.thumbs.up.icon
-                strong #{points}
-                .ui.circular.icon.massive.button.vote_down
-                    i.thumbs.down.icon
             .ui.icon.small.input
                 i.tag.icon
                 input.add_tag(type='text')
             each user_tags
                 .ui.label #{this}
+                
+            //- .ui.tertiary.grey.basic.button
+            //- i.thumbs.up.icon
+            //- |#{ups}
             
-
-            if rd.selftext_html
-                //- unless tone
-                //- .content
-                |!{parsed_selftext_html}
-                //- |!{rd.selftext_html}
-            else
-                if tone
-                    +tone
-                //- else
-            if rd.selftext
-                .content
-                    +markdown
-                        !{rd.selftext}
+            if tone
+                +tone
+            
+            div
+            .ui.center.aligned.basic.segment
+                .ui.circular.icon.massive.button.vote_up
+                    i.thumbs.up.big.icon
+                strong #{points}
+                .ui.circular.icon.massive.button.vote_down
+                    i.thumbs.down.big.icon
+            //- 
+            //- if rd.selftext_html
+            //-     //- unless tone
+            //-     //- .content
+            //-     |!{parsed_selftext_html}
+            //-     //- |!{rd.selftext_html}
+            //- else
+            //-     //- else
+            //- if rd.selftext
+            //-     .content
+            //-         +markdown
+            //-             !{rd.selftext}
         .ui.tertiary.grey.basic.button.toggle_tags
             i.tags.icon
             |#{tags.length}
         //- if view_tags
         each tags
-            .ui.compact.basic.tertiary.button.toggle_tag
+            .ui.compact.large.basic.tertiary.button.toggle_tag
                     |#{this}
