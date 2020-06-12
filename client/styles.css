@@ -5,8 +5,8 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     /* font-size: 110% !important; */
     /* line-height: 200% !important; */
-    /* background: rgba(0,0,0,.99) !important; */
-    background: rgba(0,0,0,.01) !important;
+    background: rgba(0,0,0,.99) !important;
+    /* background: rgba(0,0,0,.01) !important; */
     /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
     transition: all 1s ease !important;
@@ -23,7 +23,7 @@ body {
     filter: invert(1) !important;
 }
 .home {
-    min-height:100% !important;
+    /* min-height:100% !important; */
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
 }
@@ -152,6 +152,12 @@ a.goto_article {
 .large120 {
     font-size: 120%;
     line-height: 150%;
+}
+
+
+.ui.grid > .centered.row.flat {
+    padding-top: 0 !important;
+    margin: 1px !important;
 }
 
 

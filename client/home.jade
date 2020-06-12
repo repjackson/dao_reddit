@@ -1,7 +1,20 @@
 template(name='home')
-    .ui.stackable.padded.grid.home(class=omega_dark_mode_class)
-        .centered.row
-            .five.wide.right.aligned.column
+    .ui.grid.home(class=omega_dark_mode_class)
+        .centered.row.flat
+            .sixteen.wide.center.aligned.column
+                each omega_doc.selected_tags
+                    button.ui.active.circular.compact.large.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
+                        //- i.remove.icon
+                        | #{this}
+                .ui.left.icon.search.circular.input
+                    unless is_loading
+                        i.search.link.icon.refresh_agg
+                    if is_loading
+                        i.yin.yang.large.loading.large.icon
+                    input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
+        
+        .centered.row.flat
+            .five.wide.right.aligned.column.scrolling
                 //- .scrolling.forty
                 //- .ui.header #{connection.status}
                 unless connected
@@ -11,7 +24,7 @@ template(name='home')
                 if connected
                     //- unless selected_tags
                     //-     i.huge.yin.yang.black.icon
-                    i.grey.lightbulb.link.circular.icon
+                    //- i.grey.lightbulb.link.circular.icon
                     unless omega_doc.selected_tags
                         .ui.hidden.divider
                         if omega_doc.dark_mode
@@ -21,16 +34,6 @@ template(name='home')
                     //- if selected_tags
                     //-     .ui.icon.circular.black.compact.button.clear_selected_tags
                     //-         i.remove.icon
-                    each omega_doc.selected_tags
-                        button.ui.active.circular.compact.large.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
-                            //- i.remove.icon
-                            | #{this}
-                    .ui.left.icon.search.circular.input
-                        unless is_loading
-                            i.search.link.icon.refresh_agg
-                        if is_loading
-                            i.yin.yang.large.loading.large.icon
-                        input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
                     //- div
                     //- if selected_tags_plural
                     //- each omega_doc.agg

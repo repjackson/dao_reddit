@@ -15,7 +15,7 @@ template(name='doc_item')
         //- .ui.column(class=omega_dark_mode_class)
         .ui.column
             .ui.stackable.grid
-                .eight.wide.column
+                .eight.wide.column.scrolling
                     if is_image
                         //- .four.wide.center.aligned.column
                         //- .image
@@ -117,7 +117,7 @@ template(name='doc_item')
                         strong #{points}
                         .ui.circular.icon.massive.button.vote_down
                             i.thumbs.down.big.icon
-                .eight.wide.column
+                .eight.wide.column.scrolling
                     .ui.tertiary.grey.basic.button.toggle_tags
                         i.tags.icon
                         |#{tags.length}
