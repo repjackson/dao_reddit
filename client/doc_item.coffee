@@ -195,8 +195,3 @@ Template.doc_item.helpers
         # console.log @rd.selftext
         # console.log @rd.selftext.substr(0, 100)
         @rd.selftext.substr(0, 2500)
-
-
-    has_thumbnail: ->
-        # console.log @thumbnail
-        @thumbnail and @thumbnail not in ['self','default']

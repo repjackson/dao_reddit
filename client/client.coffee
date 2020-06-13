@@ -26,6 +26,10 @@ Template.registerHelper 'above_50', (input) ->
     # console.log @["#{input}"]
     @["#{input}"] > .49
 
+Template.registerHelper 'has_thumbnail', (input) ->
+    # console.log @thumbnail
+    @thumbnail and @thumbnail not in ['self','default']
+
 Template.registerHelper 'parse', (input) ->
     console.log 'input', input
 
