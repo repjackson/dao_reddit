@@ -104,7 +104,7 @@ Template.registerHelper 'nl2br', (text)->
 
 
 
-Template.registerHelper 'is_loading', -> Session.get 'loading'
+Template.registerHelper 'is_loading', -> Session.get 'is_loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'fixed', (number)->
     # console.log number
@@ -116,6 +116,8 @@ Template.registerHelper 'to_percent', (number)->
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 
-Template.registerHelper 'publish_when', ()-> moment(@watson.metadata.publication_date).fromNow()
+Template.registerHelper 'publish_when', ()->
+    if @watson.metadata.publication_date
+        moment(@watson.metadata.publication_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment

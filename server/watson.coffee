@@ -98,7 +98,7 @@ Meteor.methods
                 metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                # sentiment: {}
+                sentiment: {}
 
         switch mode
             when 'html'
@@ -174,8 +174,8 @@ Meteor.methods
                             # disgust_percent: disgust_percent
                             # watson_concepts: concept_array
                             # watson_keywords: keyword_array
-                            # doc_sentiment_score: response.sentiment.document.score
-                            # doc_sentiment_label: response.sentiment.document.label
+                            doc_sentiment_score: response.sentiment.document.score
+                            doc_sentiment_label: response.sentiment.document.label
 
 
 

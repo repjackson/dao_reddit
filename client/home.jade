@@ -29,9 +29,9 @@ template(name='home')
                     unless omega_doc.selected_tags
                         .ui.hidden.divider
                         if omega_doc.dark_mode
-                            i.big.yin.yang.grey.link.icon.pick_dao
+                            i.massive.loading.yin.yang.grey.link.icon.pick_dao
                         else
-                            i.big.yin.yang.grey.link.icon.pick_dao
+                            i.massive.loading.yin.yang.grey.link.icon.pick_dao
                     //- if selected_tags
                     //-     .ui.icon.black.compact.button.clear_selected_tags
                     //-         i.remove.icon
@@ -67,8 +67,8 @@ template(name='home')
             //-         +doc_item
     .centered.middle.aligned.row.flat
         .sixteen.wide.middle.aligned.column
-            .ui.hidden.divider
-            .ui.inverted.center.aligned.middle.aligned.grey.header 
+            //- .ui.hidden.divider
+            .ui.center.aligned.middle.aligned.grey.header 
                 |sponsored by
                 a(href="https://ciomastermind.com/" target="_window")
                     //- |ciomastermind

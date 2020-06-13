@@ -86,19 +86,24 @@ Template.doc_item.events
     'click .vote_up': (e,t)->
         Docs.update @_id,
             $inc:points:1
-        # Session.set('is_loading',true)
-        # Meteor.call 'agg_omega', ->
-        #     Session.set('is_loading',false)
-        #     Session.set('dummy',!Session.get('dummy'))
+        # console.log 'firing'
+        # _.throttle((e,t)=>
+            # console.log 'firing'
+        Session.set('is_loading',true)
+        Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
+        # , 1000)
+
 
 
     'click .vote_down': (e,t)->
         Docs.update @_id,
             $inc:points:-1
-        # Session.set('is_loading',true)
-        # Meteor.call 'agg_omega', ->
-        #     Session.set('is_loading',false)
-        #     Session.set('dummy',!Session.get('dummy'))
+        Session.set('is_loading',true)
+        Meteor.call 'agg_omega', ->
+            Session.set('is_loading',false)
+            Session.set('dummy',!Session.get('dummy'))
 
     'click .print_me': (e,t)->
         console.log @
@@ -148,14 +153,14 @@ Template.doc_item.helpers
         # console.log @doc_sentiment_label
         res = ''
         omega = Docs.findOne model:'omega_session'
-        omega.dark_mode
-        if omega.dark_mode
-            # console.log 'hi dark'
-            res+=' dark_mode'
+        # omega.dark_mode
+        # if omega.dark_mode
+        #     # console.log 'hi dark'
+        #     res+=' dark_mode'
         if @doc_sentiment_label is 'negative'
-            res+='red'
+            res+='teal'
         else if @doc_sentiment_label is 'positive'
-            res+='green'
+            res+='pink'
         else
             res+='black'
         res

@@ -14,6 +14,13 @@ template(name='doc_item')
                     //-     |r/CryptoCurrency
         //- .ui.column(class=omega_dark_mode_class)
         .ui.right.aligned.column
+            //- if is_loading
+            //-     .ui.right.aligned.placeholder
+            //-         .image.right.aligned.header
+            //-             .line
+            //-         .right.aligned.paragraph
+            //-             .line
+            //- else
             .ui.stackable.grid
                 .right.aligned.row
                     .twelve.wide.column
@@ -29,6 +36,7 @@ template(name='doc_item')
                             //- .ui.header.pointer.goto_article(title="view full") !{title}
                         else if watson.metadata.title
                             .ui.inline.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+                        div
                         if is_youtube
                             iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                             //- .invert
@@ -46,15 +54,37 @@ template(name='doc_item')
                             //-     +doc_emotion
                             //-     //- +doc_sentiment
                             //-     //- +tone
+                        
                         if key_value_is 'model' 'reddit'
                             if reddit_id
                                 unless rd
+                                    //- div
                                     .ui.circular.icon.basic.big.button.pull_post
                                         i.reddit.large.icon
-                        unless watson
-                            .ui.circular.icon.basic.big.button.call_watson
-                                i.dna.large.icon
-                    .four.wide.column
+                            unless watson
+                                .ui.circular.icon.basic.button.call_watson
+                                    i.dna.large.icon
+                            //- if dev 
+                            //-     i.circular.code.link.icon.print_me
+                            
+                            //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+                            //-     i.user.outline.icon
+                            //-     |#{author}
+                        if publish_when
+                            .ui.small.grey.tertiary.button
+                                i.calendar.icon
+                                //- |#{watson.metadata.publication_date}
+                                |#{publish_when}
+                        .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                            i.globe.icon
+                            |#{domain}
+                        a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                            i.chat.outline.icon
+                            |#{comment_count}
+                        //- if tone
+                        //-     +tone
+                        
+                    .four.wide.center.aligned.column
                         if is_image
                             //- .four.wide.column
                             //- .image
@@ -70,46 +100,26 @@ template(name='doc_item')
                             img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
                         div
                         //- .ui.basic.segment
-                        .ui.icon.large.circular.button.vote_up
-                            i.thumbs.up.large.outline.icon
-                        strong #{points}
-                        .ui.icon.large.circular.button.vote_down
-                            i.thumbs.down.large.outline.icon
+                        i.thumbs.up.large.outline.circular.grey.link.icon.vote_up
+                        //- .ui.inline.header #{points}
+                        i.thumbs.down.large.outline.circular.grey.link.icon.vote_down
 
             
                                     
                                 
-                    //- if dev 
-                    //-     i.circular.code.link.icon.print_me
-                    //- 
-                    //- //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
-                    //- //-     i.user.outline.icon
-                    //- //-     |#{author}
-                    //- .ui.small.grey.inline.header
-                    //-     i.calendar.icon
-                    //-     //- |#{watson.metadata.publication_date}
-                    //-     |#{publish_when}
-                    //- .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
-                    //-     i.globe.icon
-                    //-     |#{domain}
-                    //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-                    //-     i.chat.outline.icon
-                    //-     |#{comment_count}
-                    //- //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                    //- //-     i.reddit.icon
-                    //- //-     |r/#{subreddit}
-                    //- .ui.icon.small.input
-                    //-     i.tag.icon
-                    //-     input.add_tag(type='text')
-                    //- each user_tags
-                    //-     .ui.label #{this}
+                        //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                        //-     i.reddit.icon
+                        //-     |r/#{subreddit}
+                        //- .ui.icon.small.input
+                        //-     i.tag.icon
+                        //-     input.add_tag(type='text')
+                        //- each user_tags
+                        //-     .ui.label #{this}
                 //- 
                 //-     //- .ui.tertiary.grey.basic.button
                 //-     //- i.thumbs.up.icon
                 //-     //- |#{ups}
                 //- 
-                //-     //- if tone
-                //-     //-     +tone
                 //- 
                 //- 
                 //-     //- if rd.selftext_html
