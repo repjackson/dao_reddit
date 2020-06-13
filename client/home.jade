@@ -68,7 +68,13 @@ template(name='home')
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
                 //- .ui.header selected doc
-                .ui.header #{title}
+                //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
+                //- if is_image   
+                .ui.header 
+                    img.ui.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                    //- if has_thumbnail   
+
+                    |#{title}
                 a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                     i.reddit.icon
                     |r/#{subreddit}
@@ -86,6 +92,27 @@ template(name='home')
                     
                 if watson
                     +doc_emotion
+                div
+                if key_value_is 'model' 'reddit'
+                    if reddit_id
+                        unless rd
+                            //- div
+                            .ui.circular.icon.basic.big.button.pull_post
+                                i.reddit.large.icon
+                    //- unless watson
+                    .ui.circular.icon.basic.button.call_watson
+                        i.dna.large.icon
+                    //- if dev 
+                    //-     i.circular.code.link.icon.print_me
+                    
+                    //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+                    //-     i.user.outline.icon
+                    //-     |#{author}
+                .ui.icon.circular.button.vote_up(title=points)
+                    i.thumbs.up.large.outline.grey.icon
+                | #{points}
+                .ui.icon.circular.button.vote_down(title=points)
+                    i.thumbs.down.large.outline.grey.icon
                     
                 .ui.icon.small.input
                     i.tag.icon
@@ -105,6 +132,79 @@ template(name='home')
                     .content
                         +markdown
                             !{rd.selftext}
+                if is_youtube
+                    iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    //- .invert
+                //- if is_twitter
+                //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
+                //-         p(lang="en" dir="ltr")
+                //-             |#{title}
+                //-             //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
+                //-         a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
+                //-             |February 21, 2018
+                //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+                //- else if has_thumbnail
+                
+                    //- if watson
+                    //-     +doc_emotion
+                    //-     //- +doc_sentiment
+                    //-     //- +tone
+                
+                
+                //- if tone
+                //-     +tone
+                
+                //- .four.wide.center.aligned.column
+                if is_image
+                    //- .four.wide.column
+                    //- .image
+                        //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
+                        //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
+                    img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
+                //- else 
+            
+                //- if title
+                //- unless is_youtube 
+                //-     unless is_image
+                //- if has_thumbnail   
+                //-     img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
+                div
+                //- .ui.basic.segment
+                .spacer
+
+    
+                            
+                        
+                //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                //-     i.reddit.icon
+                //-     |r/#{subreddit}
+                //- .ui.icon.small.input
+                //-     i.tag.icon
+                //-     input.add_tag(type='text')
+                //- each user_tags
+                //-     .ui.label #{this}
+            //- if rd.selftext_html
+            //-     //- unless tone
+            //-     //- .content
+            //-     |!{parsed_selftext_html}
+            //-     //- |!{rd.selftext_html}
+            //- else
+            //-     if tone
+            //-         +tone
+            //-     //- else
+            //- if rd.selftext
+            //-     .content
+            //-         +markdown
+            //-             !{rd.selftext}
+        //- 
+        //- .eight.wide.column.scrolling
+        //-     //- .ui.tertiary.grey.basic.button.toggle_tags
+        //-     //-     i.tags.icon
+        //-     //-     |#{tags.length}
+        //-     //- if view_tags
+        //-     each tags
+        //-         .ui.compact.large.tertiary.button.toggle_tag
+        //-                 |#{this}
 
             
     .centered.middle.aligned.row.flat

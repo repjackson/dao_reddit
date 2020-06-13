@@ -55,16 +55,6 @@ Meteor.methods
                     Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
 
 
-    calc_doc_count: ->
-        if Meteor.user()
-            doc_count = Docs.find(author_id:Meteor.userId()).count()
-            term_count = Terms.find(author_id:Meteor.userId()).count()
-            # console.log 'doc_count', doc_count
-            # console.log 'term_count', term_count
-            Meteor.users.update Meteor.userId(),
-                $set:
-                    doc_count: doc_count
-                    term_count:term_count
 
     log_doc_terms: (doc_id)->
         doc = Docs.findOne doc_id
@@ -132,7 +122,7 @@ Meteor.methods
         # console.log 'hi'
         # console.log 'agg res', agg_res
         omega = Docs.findOne model:'omega_session'
-        doc_count = omega.doc_results.length
+        doc_count = omega.doc_result_ids.length
 
         console.log 'doc count', doc_count
         filtered_agg_res = []
@@ -203,7 +193,7 @@ Meteor.methods
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 20 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe
