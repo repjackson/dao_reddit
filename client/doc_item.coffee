@@ -86,13 +86,14 @@ Template.doc_item.events
     'click .vote_up': (e,t)->
         Docs.update @_id,
             $inc:points:1
-        # console.log 'firing'
+            , ->
+        # # console.log 'firing'
         # _.throttle((e,t)=>
-            # console.log 'firing'
-        Session.set('is_loading',true)
-        Meteor.call 'agg_omega', ->
-            Session.set('is_loading',false)
-            Session.set('dummy',!Session.get('dummy'))
+        #     console.log 'firing'
+        #     Session.set('is_loading',true)
+        #     Meteor.call 'agg_omega', =>
+        #         Session.set('is_loading',false)
+        #         Session.set('dummy',!Session.get('dummy'))
         # , 1000)
 
 

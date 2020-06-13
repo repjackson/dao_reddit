@@ -159,7 +159,7 @@ Meteor.methods
         doc_results =
             Docs.find( doc_match,
                 {
-                    limit:7
+                    limit:5
                     sort:
                         points:-1
                         ups:-1
