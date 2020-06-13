@@ -70,7 +70,7 @@ template(name='home')
                 //- .ui.header selected doc
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 //- if is_image   
-                .ui.header 
+                .ui.grey.header 
                     img.ui.image.rounded(src=thumbnail class=omega_dark_mode_class)
                     //- if has_thumbnail   
 
@@ -92,7 +92,7 @@ template(name='home')
                     
                 //- if watson
                 //-     +doc_emotion
-                div
+                //- div
                 if key_value_is 'model' 'reddit'
                     if reddit_id
                         unless rd
@@ -113,16 +113,15 @@ template(name='home')
                 | #{points}
                 .ui.icon.circular.button.vote_down(title=points)
                     i.thumbs.down.large.outline.grey.icon
-                .ui.header tags
-                each tags
-                    .ui.button.toggle_tag
-                        |#{this}
     
                 .ui.icon.small.input
                     i.tag.icon
                     input.add_tag(type='text')
                 each user_tags
                     .ui.label #{this}
+                each tags
+                    .ui.small.inverted.button.toggle_tag
+                        |#{this}
                 if rd.selftext_html
                     //- unless tone
                     //- .content
@@ -130,7 +129,8 @@ template(name='home')
                     //- |!{rd.selftext_html}
                 else
                     if tone
-                        +tone
+                        .scrolling
+                            +tone
                     //- else
                 if rd.selftext
                     .content

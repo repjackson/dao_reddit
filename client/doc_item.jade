@@ -24,9 +24,9 @@ template(name='doc_item')
             .ui.grid
                 .row
                     if has_thumbnail   
-                        .four.wide.column
-                            img.ui.fluid.image.centered.rounded(src=thumbnail class=omega_dark_mode_class)
-                        .twelve.wide.column
+                        //- .four.wide.column
+                        .sixteen.wide.column
+                            img.ui.left.floated.image.rounded(src=thumbnail class=omega_dark_mode_class)
                             if title
                                 if key_value_is 'model' 'wikipedia'
                                     //- a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
