@@ -23,10 +23,11 @@ template(name='home')
                 //- i.grey.lightbulb.link.icon
                 unless omega_doc.selected_tags
                     .ui.hidden.divider
-                    if omega_doc.dark_mode
-                        i.massive.loading.yin.yang.grey.link.icon.pick_dao
-                    else
-                        i.massive.loading.yin.yang.grey.link.icon.pick_dao
+                    .ui.center.aligned.basic.segment
+                        if omega_doc.dark_mode
+                            i.massive.loading.yin.yang.grey.link.icon.pick_dao
+                        else
+                            i.massive.loading.yin.yang.grey.link.icon.pick_dao
                 //- if selected_tags
                 //-     .ui.icon.black.compact.button.clear_selected_tags
                 //-         i.remove.icon
@@ -60,10 +61,37 @@ template(name='home')
         //-     each docs
         //-         //- .ui.fitted.hidden.divider
         //-         +doc_item
-        .sixteen.wide.column
+        .eight.wide.column.scrolling
             each omega_doc.doc_result_ids
                 +doc_item
-        
+        .eight.wide.column
+            //- .ui.header #{omega_doc.selected_doc_id}
+            with selected_doc
+                //- .ui.header selected doc
+                .ui.header #{title}
+                a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                    i.reddit.icon
+                    |r/#{subreddit}
+                .ui.icon.small.input
+                    i.tag.icon
+                    input.add_tag(type='text')
+                each user_tags
+                    .ui.label #{this}
+                if rd.selftext_html
+                    //- unless tone
+                    //- .content
+                    |!{parsed_selftext_html}
+                    //- |!{rd.selftext_html}
+                else
+                    if tone
+                        +tone
+                    //- else
+                if rd.selftext
+                    .content
+                        +markdown
+                            !{rd.selftext}
+
+            
     .centered.middle.aligned.row.flat
         .sixteen.wide.middle.aligned.column
             //- .ui.hidden.divider

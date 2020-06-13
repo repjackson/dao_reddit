@@ -86,7 +86,7 @@ Template.doc_item.events
     'click .vote_up': (e,t)->
         Docs.update @_id,
             $inc:points:1
-            , ->
+            # , ->
         # # console.log 'firing'
         # _.throttle((e,t)=>
         #     console.log 'firing'
@@ -101,10 +101,10 @@ Template.doc_item.events
     'click .vote_down': (e,t)->
         Docs.update @_id,
             $inc:points:-1
-        Session.set('is_loading',true)
-        Meteor.call 'agg_omega', ->
-            Session.set('is_loading',false)
-            Session.set('dummy',!Session.get('dummy'))
+        # Session.set('is_loading',true)
+        # Meteor.call 'agg_omega', ->
+        #     Session.set('is_loading',false)
+        #     Session.set('dummy',!Session.get('dummy'))
 
     'click .print_me': (e,t)->
         console.log @
@@ -123,19 +123,25 @@ Template.doc_item.events
             Docs.update @_id,
                 $set:
                     parsed_selftext_html:dom.value
-        Meteor.call 'call_watson', @_id, 'url', 'url'
+        Meteor.call 'call_watson', @_id, 'url', 'url', ->
         # Meteor.call 'agg_omega', ->
 
     'click .call_watson_image': ->
-        Meteor.call 'call_watson', @_id, 'url', 'image'
+        Meteor.call 'call_watson', @_id, 'url', 'image', ->
     'click .print_me': ->
         console.log @
-    'click .goto_article': ->
-        # console.log @
-        Meteor.call 'log_view', @_id, ->
+    'click .select_doc': ->
+        console.log @
+        omega = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $set:
+                selected_doc_id: @_id
+
+        # Meteor.call 'log_view', @_id, ->
         # Router.go "/doc/#{@_id}/view"
 
 Template.doc_item.helpers
+
     doc_object: ->
         Docs.findOne
             _id:Template.instance().data

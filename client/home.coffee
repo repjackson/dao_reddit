@@ -181,6 +181,9 @@ Template.home.events
 
 
 Template.home.helpers
+    selected_doc: ->
+        omega = Docs.findOne model:'omega_session'
+        Docs.findOne omega.selected_doc_id
     is_loading: ->
         Session.get('is_loading')
     omega_dark_mode_class: ->

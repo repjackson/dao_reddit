@@ -29,16 +29,18 @@ template(name='doc_item')
                         .twelve.wide.column
                             if title
                                 if key_value_is 'model' 'wikipedia'
-                                    a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                                    //- a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                                    a#title.ui.yeah.link.inline.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                                         i.wikipedia.link.icon
                                         |!{lowered_title}
                                 else
-                                    a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                                    //- a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                                    a#title.ui.yeah.inline.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
                                 //- .spacer
                                 //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
-                                //- .ui.header.pointer.goto_article(title="view full") !{title}
+                                //- .ui.header.pointer.select_doc(title="view full") !{title}
                             else if watson.metadata.title
-                                .ui.inline.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+                                a.ui.inline.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
                             div
                             if key_value_is 'model' 'reddit'
                                 if reddit_id
@@ -46,44 +48,44 @@ template(name='doc_item')
                                         //- div
                                         .ui.circular.icon.basic.big.button.pull_post
                                             i.reddit.large.icon
-                                //- unless watson
-                                .ui.circular.icon.basic.button.call_watson
-                                    i.dna.large.icon
+                                unless watson
+                                    .ui.circular.icon.basic.button.call_watson
+                                        i.dna.large.icon
                                 //- if dev 
                                 //-     i.circular.code.link.icon.print_me
                                 
                                 //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
                                 //-     i.user.outline.icon
                                 //-     |#{author}
-                            if publish_when
-                                .ui.small.grey.tertiary.button
-                                    i.calendar.icon
-                                    //- |#{watson.metadata.publication_date}
-                                    |#{publish_when}
-                            .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
-                                i.globe.icon
-                                |#{domain}
-                            a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-                                i.chat.outline.icon
-                                |#{comment_count}
-                            i.thumbs.up.big.outline.circular.grey.link.icon.vote_up(title=points)
-                            | #{points}
-                            i.thumbs.down.big.outline.circular.grey.link.icon.vote_down(title=points)
+                            //- if publish_when
+                            //-     .ui.small.grey.tertiary.button
+                            //-         i.calendar.icon
+                            //-         //- |#{watson.metadata.publication_date}
+                            //-         |#{publish_when}
+                            //- .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                            //-     i.globe.icon
+                            //-     |#{domain}
+                            //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                            //-     i.chat.outline.icon
+                            //-     |#{comment_count}
+                            //- i.thumbs.up.big.outline.circular.grey.link.icon.vote_up(title=points)
+                            //- | #{points}
+                            //- i.thumbs.down.big.outline.circular.grey.link.icon.vote_down(title=points)
                             
                     else
                         .sixteen.wide.column
                             if title
                                 if key_value_is 'model' 'wikipedia'
-                                    a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                                    a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                                         i.wikipedia.link.icon
                                         |!{lowered_title}
                                 else
-                                    a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                                    a#title.ui.yeah.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
                                 //- .spacer
-                                //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
-                                //- .ui.header.pointer.goto_article(title="view full") !{title}
+                                //- a.ui.pointer.pointer.header(title="view full" href=url target='_window') !{title}
+                                //- .ui.pointer.header.pointer.select_doc(title="view full") !{title}
                             else if watson.metadata.title
-                                .ui.inline.header.pointer.goto_article(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+                                a.ui.inline.pointer.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
                             div
                             if key_value_is 'model' 'reddit'
                                 if reddit_id
@@ -105,15 +107,15 @@ template(name='doc_item')
                                     i.calendar.icon
                                     //- |#{watson.metadata.publication_date}
                                     |#{publish_when}
-                            .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
-                                i.globe.icon
-                                |#{domain}
-                            a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-                                i.chat.outline.icon
-                                |#{comment_count}
-                            i.thumbs.up.big.outline.circular.grey.link.icon.vote_up(title=points)
-                            | #{points}
-                            i.thumbs.down.big.outline.circular.grey.link.icon.vote_down(title=points)
+                            //- .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                            //-     i.globe.icon
+                            //-     |#{domain}
+                            //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                            //-     i.chat.outline.icon
+                            //-     |#{comment_count}
+                            //- i.thumbs.up.big.outline.circular.grey.link.icon.vote_up(title=points)
+                            //- | #{points}
+                            //- i.thumbs.down.big.outline.circular.grey.link.icon.vote_down(title=points)
                             
                     .sixteen.wide.column
                         if is_youtube
@@ -167,19 +169,19 @@ template(name='doc_item')
                         //-     input.add_tag(type='text')
                         //- each user_tags
                         //-     .ui.label #{this}
-                    if rd.selftext_html
-                        //- unless tone
-                        //- .content
-                        |!{parsed_selftext_html}
-                        //- |!{rd.selftext_html}
-                    else
-                        if tone
-                            +tone
-                        //- else
-                    if rd.selftext
-                        .content
-                            +markdown
-                                !{rd.selftext}
+                    //- if rd.selftext_html
+                    //-     //- unless tone
+                    //-     //- .content
+                    //-     |!{parsed_selftext_html}
+                    //-     //- |!{rd.selftext_html}
+                    //- else
+                    //-     if tone
+                    //-         +tone
+                    //-     //- else
+                    //- if rd.selftext
+                    //-     .content
+                    //-         +markdown
+                    //-             !{rd.selftext}
                 //- 
                 //- .eight.wide.column.scrolling
                 //-     //- .ui.tertiary.grey.basic.button.toggle_tags
