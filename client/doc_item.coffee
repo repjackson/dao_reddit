@@ -10,7 +10,7 @@ Template.doc_item.onRendered ->
     #     )
     # , 1000
 
-Template.doc_item.events
+Template.home.events
     'click .toggle_tag': (e,t)->
         omega = Docs.findOne model:'omega_session'
         Docs.update omega._id,
@@ -130,6 +130,7 @@ Template.doc_item.events
         Meteor.call 'call_watson', @_id, 'url', 'image', ->
     'click .print_me': ->
         console.log @
+Template.doc_item.events
     'click .select_doc': ->
         console.log @
         omega = Docs.findOne model:'omega_session'

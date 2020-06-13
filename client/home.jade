@@ -35,7 +35,7 @@ template(name='home')
                 //- if selected_tags_plural
                 //- each omega_doc.agg
                 each omega_doc.filtered_agg_res
-                    button.ui.compact.tertiary.white.circular.basic.big.button.result(tabindex="0" class=result_class title=count)
+                    button.ui.compact.tertiary.white.basic.big.button.result(tabindex="0" class=result_class title=count)
                         strong #{title}
                         //- small #{count}
                     //- button.ui.compact.white.basic.huge.button.result(tabindex="0" class=result_class title=count) #{title}
@@ -90,20 +90,20 @@ template(name='home')
                     i.chat.outline.icon
                     |#{comment_count}
                     
-                if watson
-                    +doc_emotion
+                //- if watson
+                //-     +doc_emotion
                 div
                 if key_value_is 'model' 'reddit'
                     if reddit_id
                         unless rd
                             //- div
-                            .ui.circular.icon.basic.big.button.pull_post
+                            .ui.icon.basic.big.button.pull_post
                                 i.reddit.large.icon
-                    //- unless watson
-                    .ui.circular.icon.basic.button.call_watson
-                        i.dna.large.icon
+                    unless watson
+                        .ui.icon.basic.button.call_watson
+                            i.dna.large.icon
                     //- if dev 
-                    //-     i.circular.code.link.icon.print_me
+                    //-     i.code.link.icon.print_me
                     
                     //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
                     //-     i.user.outline.icon
@@ -113,7 +113,11 @@ template(name='home')
                 | #{points}
                 .ui.icon.circular.button.vote_down(title=points)
                     i.thumbs.down.large.outline.grey.icon
-                    
+                .ui.header tags
+                each tags
+                    .ui.button.toggle_tag
+                        |#{this}
+    
                 .ui.icon.small.input
                     i.tag.icon
                     input.add_tag(type='text')
@@ -162,7 +166,7 @@ template(name='home')
                         //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
                     img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
                 //- else 
-            
+
                 //- if title
                 //- unless is_youtube 
                 //-     unless is_image
@@ -196,15 +200,10 @@ template(name='home')
             //-     .content
             //-         +markdown
             //-             !{rd.selftext}
-        //- 
-        //- .eight.wide.column.scrolling
-        //-     //- .ui.tertiary.grey.basic.button.toggle_tags
-        //-     //-     i.tags.icon
-        //-     //-     |#{tags.length}
-        //-     //- if view_tags
-        //-     each tags
-        //-         .ui.compact.large.tertiary.button.toggle_tag
-        //-                 |#{this}
+            //- .ui.tertiary.grey.basic.button.toggle_tags
+            //-     i.tags.icon
+            //-     |#{tags.length}
+            //- if view_tags
 
             
     .centered.middle.aligned.row.flat
