@@ -68,9 +68,11 @@ template(name='doc_item')
                             //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
                             //-     i.chat.outline.icon
                             //-     |#{comment_count}
-                            //- i.thumbs.up.big.outline.circular.grey.link.icon.vote_up(title=points)
-                            //- | #{points}
-                            //- i.thumbs.down.big.outline.circular.grey.link.icon.vote_down(title=points)
+                            .ui.icon.circular.button.vote_up(title=points)
+                                i.thumbs.up.big.outline.grey.icon
+                            | #{points}
+                            .ui.icon.circular.button.vote_down(title=points)
+                                i.thumbs.down.big.outline.grey.icon
                             
                     else
                         .sixteen.wide.column
@@ -102,20 +104,11 @@ template(name='doc_item')
                                 //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
                                 //-     i.user.outline.icon
                                 //-     |#{author}
-                            if publish_when
-                                .ui.small.grey.tertiary.button
-                                    i.calendar.icon
-                                    //- |#{watson.metadata.publication_date}
-                                    |#{publish_when}
-                            //- .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
-                            //-     i.globe.icon
-                            //-     |#{domain}
-                            //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-                            //-     i.chat.outline.icon
-                            //-     |#{comment_count}
-                            //- i.thumbs.up.big.outline.circular.grey.link.icon.vote_up(title=points)
-                            //- | #{points}
-                            //- i.thumbs.down.big.outline.circular.grey.link.icon.vote_down(title=points)
+                            .ui.icon.circular.button.vote_up(title=points)
+                                i.thumbs.up.big.outline.grey.icon
+                            | #{points}
+                            .ui.icon.circular.button.vote_down(title=points)
+                                i.thumbs.down.big.outline.grey.icon
                             
                     .sixteen.wide.column
                         if is_youtube

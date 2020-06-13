@@ -22,8 +22,8 @@ template(name='home')
                 //-     i.huge.yin.yang.black.icon
                 //- i.grey.lightbulb.link.icon
                 unless omega_doc.selected_tags
-                    .ui.hidden.divider
-                    .ui.center.aligned.basic.segment
+                    //- .ui.hidden.divider
+                    //- .ui.center.aligned.basic.segment
                         if omega_doc.dark_mode
                             i.massive.loading.yin.yang.grey.link.icon.pick_dao
                         else
@@ -61,10 +61,10 @@ template(name='home')
         //-     each docs
         //-         //- .ui.fitted.hidden.divider
         //-         +doc_item
-        .eight.wide.column.scrolling
+        .six.wide.column.scrolling
             each omega_doc.doc_result_ids
                 +doc_item
-        .eight.wide.column
+        .ten.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
                 //- .ui.header selected doc
@@ -72,6 +72,21 @@ template(name='home')
                 a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                     i.reddit.icon
                     |r/#{subreddit}
+                if publish_when
+                    .ui.small.grey.tertiary.button
+                        i.calendar.icon
+                        //- |#{watson.metadata.publication_date}
+                        |#{publish_when}
+                .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                    i.globe.icon
+                    |#{domain}
+                a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                    i.chat.outline.icon
+                    |#{comment_count}
+                    
+                if watson
+                    +doc_emotion
+                    
                 .ui.icon.small.input
                     i.tag.icon
                     input.add_tag(type='text')
