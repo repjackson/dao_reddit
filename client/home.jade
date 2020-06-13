@@ -15,7 +15,7 @@ template(name='home')
             //- .ui.header #{connection.status}
             unless connected
                 //- .ui.inline.header disconnected
-                .ui.hidden.divider
+                //- .ui.hidden.divider
                 i.lightning.yellow.link.big.icon.reconnect
             if connected
                 //- unless selected_tags
@@ -35,7 +35,7 @@ template(name='home')
                 //- if selected_tags_plural
                 //- each omega_doc.agg
                 each omega_doc.filtered_agg_res
-                    button.ui.compact.tertiary.white.basic.big.button.result(tabindex="0" class=result_class title=count)
+                    button.ui.compact.tertiary.white.basic.big.button.yeah.result(tabindex="0" class=result_class title=count)
                         strong #{title}
                         //- small #{count}
                     //- button.ui.compact.white.basic.huge.button.result(tabindex="0" class=result_class title=count) #{title}
@@ -70,14 +70,17 @@ template(name='home')
                 //- .ui.header selected doc
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 //- if is_image   
-                .ui.grey.header 
-                    img.ui.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                img.ui.left.floated.middle.aligned.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                .ui.header 
+                    img.ui.image.rounded(src=url class=omega_dark_mode_class)
                     //- if has_thumbnail   
 
                     |#{title}
-                a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                    i.reddit.icon
-                    |r/#{subreddit}
+                a.ui.icon.circular.button(href=url target="_blank")
+                    i.external.large.icon
+                //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                //-     i.reddit.icon
+                //-     |r/#{subreddit}
                 if publish_when
                     .ui.small.grey.tertiary.button
                         i.calendar.icon

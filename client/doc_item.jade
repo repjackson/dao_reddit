@@ -1,77 +1,78 @@
 
 template(name='doc_item')
     with doc_object
-        //- .ui.basic.compact.segment
-        
-        //- .ui.inverted.card
-            //- img.image.rounded(src=url)
-            //- .invert
-            //-     blockquote(class="reddit-card" data-card-created="1591519131")
-                    //- a.invert(href="https://www.reddit.com/r/CryptoCurrency/comments/fxf0bz/reddit_is_implementing_a_points_system_on_the/")
-                    //-     |#{title}
-                    //- |from 
-                    //- a(href="http://www.reddit.com/r/CryptoCurrency")
-                    //-     |r/CryptoCurrency
-        //- .ui.column(class=omega_dark_mode_class)
-        .ui.column
-            //- if is_loading
-            //-     .ui.placeholder
-            //-         .image.header
-            //-             .line
-            //-         .paragraph
-            //-             .line
-            //- else
-            .ui.grid
-                .row
-                    if has_thumbnail   
-                        //- .four.wide.column
-                        .sixteen.wide.column
-                            img.ui.left.floated.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                            if title
-                                if key_value_is 'model' 'wikipedia'
-                                    //- a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
-                                    a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
-                                        i.wikipedia.link.icon
-                                        |!{lowered_title}
-                                else
-                                    //- a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
-                                    a#title.ui.yeah.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
-                                //- .spacer
-                                //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
-                                //- .ui.header.pointer.select_doc(title="view full") !{title}
-                            else if watson.metadata.title
-                                a.ui.inline.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
-                            div
-                            //- if dev 
-                            //-     i.circular.code.link.icon.print_me
-                            
-                            //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
-                            //-     i.user.outline.icon
-                            //-     |#{author}
-                            //- if publish_when
-                            //-     .ui.small.grey.tertiary.button
-                            //-         i.calendar.icon
-                            //-         //- |#{watson.metadata.publication_date}
-                            //-         |#{publish_when}
-                            //- .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
-                            //-     i.globe.icon
-                            //-     |#{domain}
-                            //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
-                            //-     i.chat.outline.icon
-                            //-     |#{comment_count}
-                            
-                    else
-                        .sixteen.wide.column
-                            if title
-                                if key_value_is 'model' 'wikipedia'
-                                    a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
-                                        i.wikipedia.link.icon
-                                        |!{lowered_title}
-                                else
-                                    a#title.ui.yeah.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
-                                //- .spacer
-                                //- a.ui.pointer.pointer.header(title="view full" href=url target='_window') !{title}
-                                //- .ui.pointer.header.pointer.select_doc(title="view full") !{title}
-                            else if watson.metadata.title
-                                a.ui.inline.pointer.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
-                            
+        unless is_selected
+            //- .ui.basic.compact.segment
+            
+            //- .ui.inverted.card
+                //- img.image.rounded(src=url)
+                //- .invert
+                //-     blockquote(class="reddit-card" data-card-created="1591519131")
+                        //- a.invert(href="https://www.reddit.com/r/CryptoCurrency/comments/fxf0bz/reddit_is_implementing_a_points_system_on_the/")
+                        //-     |#{title}
+                        //- |from 
+                        //- a(href="http://www.reddit.com/r/CryptoCurrency")
+                        //-     |r/CryptoCurrency
+            //- .ui.column(class=omega_dark_mode_class)
+            .ui.column
+                //- if is_loading
+                //-     .ui.placeholder
+                //-         .image.header
+                //-             .line
+                //-         .paragraph
+                //-             .line
+                //- else
+                .ui.grid
+                    .row
+                        if has_thumbnail   
+                            //- .four.wide.column
+                            .sixteen.wide.column
+                                img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
+                                if title
+                                    if key_value_is 'model' 'wikipedia'
+                                        //- a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                                        a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                                            i.wikipedia.link.icon
+                                            |!{lowered_title}
+                                    else
+                                        //- a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                                        a#title.ui.yeah.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                                    //- .spacer
+                                    //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
+                                    //- .ui.header.pointer.select_doc(title="view full") !{title}
+                                else if watson.metadata.title
+                                    a.ui.inline.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+                                div
+                                //- if dev 
+                                //-     i.circular.code.link.icon.print_me
+                                
+                                //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+                                //-     i.user.outline.icon
+                                //-     |#{author}
+                                //- if publish_when
+                                //-     .ui.small.grey.tertiary.button
+                                //-         i.calendar.icon
+                                //-         //- |#{watson.metadata.publication_date}
+                                //-         |#{publish_when}
+                                //- .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                                //-     i.globe.icon
+                                //-     |#{domain}
+                                //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                                //-     i.chat.outline.icon
+                                //-     |#{comment_count}
+                                
+                        else
+                            .sixteen.wide.column
+                                if title
+                                    if key_value_is 'model' 'wikipedia'
+                                        a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                                            i.wikipedia.link.icon
+                                            |!{lowered_title}
+                                    else
+                                        a#title.ui.yeah.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                                    //- .spacer
+                                    //- a.ui.pointer.pointer.header(title="view full" href=url target='_window') !{title}
+                                    //- .ui.pointer.header.pointer.select_doc(title="view full") !{title}
+                                else if watson.metadata.title
+                                    a.ui.inline.pointer.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+                                

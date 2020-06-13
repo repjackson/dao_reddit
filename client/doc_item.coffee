@@ -142,6 +142,11 @@ Template.doc_item.events
         # Router.go "/doc/#{@_id}/view"
 
 Template.doc_item.helpers
+    is_selected: ->
+        # Session.equals('selected_doc_id',@_id)
+        omega = Docs.findOne model:'omega_session'
+        @_id is omega.selected_doc_id
+
 
     doc_object: ->
         Docs.findOne

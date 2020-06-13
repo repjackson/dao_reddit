@@ -139,17 +139,18 @@ Meteor.methods
             Docs.findOne
                 model:'omega_session'
 
-        # console.log 'running agg omega', omega
+        console.log 'running agg omega', omega
         match = {}
         match.tags =
             $all: omega.selected_tags
 
         doc_match = match
-        doc_match.model = $in:['reddit']
+        # console.log 'running agg omega', omega
+        doc_match.model = $in:['reddit','wikipedia']
         doc_results =
             Docs.find( doc_match,
                 {
-                    limit:5
+                    limit:7
                     sort:
                         points:-1
                         ups:-1
@@ -157,7 +158,7 @@ Meteor.methods
                         _id:1
                 }
             ).fetch()
-        console.log doc_results[0]
+        # console.log doc_results
         unless doc_results[0].rd
             if doc_results[0].reddit_id
                 Meteor.call 'get_reddit_post', doc_results[0]._id, doc_results[0].reddit_id, =>
@@ -170,14 +171,15 @@ Meteor.methods
             $set:
                 doc_result_ids:doc_result_ids
 
-        # found_wiki_doc =
-        #     Docs.findOne
-        #         model:'wikipedia'
-        #         title:$in:omega.selected_tags
-        # if found_wiki_doc
-        #     Docs.update omega._id,
-        #         $addToSet:
-        #             doc_result_ids:found_wiki_doc._id
+        # if doc_re
+        found_wiki_doc =
+            Docs.findOne
+                model:'wikipedia'
+                title:$in:omega.selected_tags
+        if found_wiki_doc
+            Docs.update omega._id,
+                $addToSet:
+                    doc_result_ids:found_wiki_doc._id
 
         # Docs.update omega._id,
         #     $set:
