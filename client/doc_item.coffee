@@ -158,12 +158,24 @@ Template.doc_item.helpers
         # if omega.dark_mode
         #     # console.log 'hi dark'
         #     res+=' dark_mode'
-        if @doc_sentiment_label is 'negative'
-            res+='teal'
-        else if @doc_sentiment_label is 'positive'
-            res+='pink'
-        else
-            res+='black'
+        if @max_emotion_name
+            if @max_emotion_name is 'anger'
+                res+='teal'
+            if @max_emotion_name is 'joy'
+                res+='pink'
+            if @max_emotion_name is 'fear'
+                res+='brown'
+            if @max_emotion_name is 'sadness'
+                res+='yellow'
+            if @max_emotion_name is 'disgust'
+                res+='orange'
+
+        # if @doc_sentiment_label is 'negative'
+        #     res+='teal'
+        # else if @doc_sentiment_label is 'positive'
+        #     res+='pink'
+        # else
+        #     res+='black'
         res
 
     truncated: ->
