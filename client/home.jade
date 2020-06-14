@@ -1,6 +1,6 @@
 template(name='home')
     .ui.stackable.grid.home(class=omega_dark_mode_class)
-        .sixteen.wide.center.aligned.column
+        .sixteen.wide.column
             each omega_doc.selected_tags
                 button.ui.active.compact.large.circular.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                     //- i.remove.icon
@@ -13,7 +13,7 @@ template(name='home')
                 input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
             //- .scrolling.forty
             //- .ui.header #{connection.status}
-            i.brain.yellow.link.big.icon.get_top_emotion
+            //- i.brain.yellow.link.big.icon.get_top_emotion
             unless connected
                 //- .ui.inline.header disconnected
                 //- .ui.hidden.divider
@@ -77,10 +77,18 @@ template(name='home')
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 if is_image   
                     img.ui.left.floated.image.rounded(src=url class=omega_dark_mode_class)
-                else
-                    if has_thumbnail
-                        //- img.ui.left.floated.middle.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                        img.ui.left.floated.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                //- if is_image_domain   
+                if is_gifv
+                    //- img.inverted(src="https://i.imgur.com/#{gif_filename}")
+                    img.invert(src=gif_filename)
+                //- img.ui.left.floated.image.rounded(src=url class=omega_dark_mode_class)
+                //- else
+                if has_thumbnail
+                    //- img.ui.left.floated.middle.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                    img.ui.left.floated.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                //- video   
+                //-    source(src="https://i.imgur.com/y4JdSvL.gif" type="video/gifv")
+                
                 .ui.header 
                     //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                     //- if has_thumbnail   
@@ -135,7 +143,7 @@ template(name='home')
                 each user_tags
                     .ui.label #{this}
                 each tags
-                    .ui.small.inverted.button.toggle_tag
+                    .ui.small.button.toggle_tag
                         |#{this}
                 if rd.selftext_html
                     //- unless tone

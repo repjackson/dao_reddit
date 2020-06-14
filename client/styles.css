@@ -29,13 +29,13 @@ body {
 }
 
 .ui.button.result {
-    transition: all .5s ease !important;
+    transition: all 1s ease !important;
 }
 
 .ui.button.result:hover{
-    transition: transform .5s; /* Animation */
+    transition: transform 1s; /* Animation */
     color: black !important;
-    font-size: 1.3rem !important;
+    /* font-size: 1.3rem !important; */
 }
 
 .yeah {
@@ -94,11 +94,13 @@ a.goto_article {
     border-radius:10px !important;
 }
 
-.card, .ui.embed, .ui.text, #title, .invert{
+.card, .ui.embed, .ui.text, .invert{
     /* border-radius: 10px !important; */
-    /* filter: invert(1) !important; */
+    filter: invert(1) !important;
 }
-
+.left.floated{
+    margin:3px !important;    
+}
 
 
 .embed{

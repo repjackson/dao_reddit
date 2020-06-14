@@ -268,11 +268,12 @@ template(name='tone')
                 span.large120(title="#{sentence_id}") {{lowered text}}
                     i.thumbs.up.outline.link.grey.icon
                     i.thumbs.down.outline.link.grey.icon
-                //- .content
+                    //- .content
                     //- .header(title="#{sentence_id}") {{lowered text}}
-                    //- each tones
-                    //-     //- .ui.basic.small.circular.label(class="{{calculated_size 'score'}}") 
-                    //-     |&nbsp; #{tone_id}
+                    each tones
+                        //- .ui.basic.small.circular.label(class="{{calculated_size 'score'}}") 
+                        .ui.basic.small.circular.label 
+                            |&nbsp; #{tone_id}
                         //- | {{ to_percent score }}% 
     // unless tone                
     //- #call_tone.ui.icon.button

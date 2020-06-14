@@ -121,14 +121,15 @@ Meteor.methods
         # console.log 'hi'
         # console.log 'agg res', agg_res
         omega = Docs.findOne model:'omega_session'
-        doc_count = omega.doc_result_ids.length
+        doc_count = omega.total_doc_result_count
+        # doc_count = omega.doc_result_ids.length
         unless omega.selected_doc_id in omega.doc_result_ids
             Docs.update omega._id,
                 $set:selected_doc_id:omega.doc_result_ids[0]
         # console.log 'doc count', doc_count
         filtered_agg_res = []
         for agg_tag in agg_res
-            if agg_tag.count > doc_count
+            if agg_tag.count < doc_count
                 filtered_agg_res.push agg_tag
 
         Docs.update omega._id,
@@ -149,7 +150,14 @@ Meteor.methods
         # console.log 'running agg omega', omega
         doc_match.model = $in:['reddit','wikipedia']
         # console.log 'doc_count', Docs.find(doc_match).count()
-
+        total_doc_result_count =
+            Docs.find( doc_match,
+                {
+                    fields:
+                        _id:1
+                }
+            ).count()
+        console.log total_doc_result_count
         doc_results =
             Docs.find( doc_match,
                 {
@@ -174,7 +182,7 @@ Meteor.methods
         Docs.update omega._id,
             $set:
                 doc_result_ids:doc_result_ids
-
+                total_doc_result_count:total_doc_result_count
         # if doc_re
         found_wiki_doc =
             Docs.findOne

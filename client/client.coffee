@@ -15,8 +15,27 @@ Template.registerHelper 'youtube_id', () ->
 Template.registerHelper 'is_image', () ->
     regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
     match = @url.match(regExp)
-    # console.log 'image match', match
+    console.log 'image match', match
     if match then true
+    # true
+Template.registerHelper 'is_gifv', () ->
+    regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:gifv).*/
+    match = @url.match(regExp)
+    console.log 'gifv match', match
+    if match then true
+    # true
+Template.registerHelper 'gif_filename', () ->
+    @url.slice(0,-1)
+    # true
+
+
+Template.registerHelper 'is_image_domain', () ->
+    # console.log 'image match', match
+    if @domain
+        console.log 'hi domain', @domain
+        if @domain in ['i.imgur.com']
+            console.log 'hi domain TRUE', @domain
+            true
     # true
 
 
