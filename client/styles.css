@@ -28,11 +28,11 @@ body {
     padding-bottom: 0 !important;
 }
 
-.ui.button.result {
+.ui.button.tertiary.result {
     transition: all 1s ease !important;
 }
 
-.ui.button.result:hover{
+.ui.button.tertiary.result:hover{
     transition: transform 1s; /* Animation */
     color: black !important;
     /* font-size: 1.3rem !important; */
@@ -99,7 +99,7 @@ a.goto_article {
     filter: invert(1) !important;
 }
 .left.floated{
-    margin:3px !important;    
+    margin:3px !important;
 }
 
 

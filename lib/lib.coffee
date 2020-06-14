@@ -3,6 +3,7 @@
 @Terms = new Meteor.Collection 'terms'
 
 
+
 Docs.before.insert (userId, doc)->
     if Meteor.user()
         doc._author_id = Meteor.userId()

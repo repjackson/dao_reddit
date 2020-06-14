@@ -15,13 +15,13 @@ Template.registerHelper 'youtube_id', () ->
 Template.registerHelper 'is_image', () ->
     regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
     match = @url.match(regExp)
-    console.log 'image match', match
+    # console.log 'image match', match
     if match then true
     # true
 Template.registerHelper 'is_gifv', () ->
     regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:gifv).*/
     match = @url.match(regExp)
-    console.log 'gifv match', match
+    # console.log 'gifv match', match
     if match then true
     # true
 Template.registerHelper 'gif_filename', () ->
@@ -119,6 +119,25 @@ Template.registerHelper 'calculated_size', (metric) ->
     else if whole is 8 then 'f8'
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
+
+Template.registerHelper 'tone_size', () ->
+    console.log 'this weight', @weight
+    # console.log typeof parseFloat(@relevance)
+    # console.log typeof (@relevance*100).toFixed()
+    # whole = parseInt(@["#{metric}"]*10)
+    # console.log 'whole', whole
+    if weight
+        if weight is 2 then 'f2'
+        else if weight is 3 then 'f3'
+        else if weight is 4 then 'f4'
+        else if weight is 5 then 'f5'
+        else if weight is 6 then 'f6'
+        else if weight is 7 then 'f7'
+        else if weight is 8 then 'f8'
+        else if weight is 9 then 'f9'
+        else if weight is 10 then 'f10'
+    else
+        'large120'
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')

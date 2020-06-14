@@ -10,6 +10,14 @@ Template.home.onCreated ->
     # @autorun => @subscribe 'docs',
     #     selected_tags.array()
 
+Template.tone.events
+    'click .upvote_sentence': ->
+        # console.log @
+        omega  = Docs.findOne model:'omega_session'
+        # selected_doc =
+        #     Docs.findOne _id:omega.selected_doc_id
+        Meteor.call 'upvote_sentence', omega.selected_doc_id, @, ->
+
 Template.home.events
     'click .lightbulb': (e,t)->
         omega  = Docs.findOne model:'omega_session'
@@ -248,20 +256,20 @@ Template.home.helpers
         Meteor.status()
     connected: ->
         Meteor.status().connected
-    tags: ->
-        # console.log Session.get('current_query')
-        omega = Docs.findOne model:'omega_session'
-        # console.log omega.current_query, 'omega current query'
-        # if Session.get('current_query').length > 0
-        if omega.current_query.length > 0
-            Terms.find({}, sort:count:-1)
-        else
-            doc_count = Docs.find().count()
-            # console.log 'doc count', doc_count
-            if doc_count < 3
-                Tags.find({count: $lt: doc_count})
-            else
-                Tags.find()
+    # tags: ->
+    #     # console.log Session.get('current_query')
+    #     omega = Docs.findOne model:'omega_session'
+    #     # console.log omega.current_query, 'omega current query'
+    #     # if Session.get('current_query').length > 0
+    #     if omega.current_query.length > 0
+    #         Terms.find({}, sort:count:-1)
+    #     else
+    #         doc_count = Docs.find().count()
+    #         # console.log 'doc count', doc_count
+    #         if doc_count < 3
+    #             Tags.find({count: $lt: doc_count})
+    #         else
+    #             Tags.find()
 
     result_class: ->
         # if Template.instance().subscriptionsReady()
