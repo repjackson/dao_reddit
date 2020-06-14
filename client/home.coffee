@@ -45,7 +45,7 @@ Template.home.events
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
         Meteor.call 'get_top_emotion', ->
-        
+
         Meteor.call 'log_term', @title, ->
         # selected_tags.push @title
         omega  = Docs.findOne model:'omega_session'
@@ -71,10 +71,11 @@ Template.home.events
             Meteor.call 'agg_omega', ->
             Session.set('dummy', !Session.get('dummy'))
         , 6000
-    'click .select_query': ->
+    'click .get_top_emotion': ->
+        Meteor.call 'get_top_emotion', ->
         # queries.push @title
 
-        Meteor.call 'get_top_emotion', ->
+    'click .select_query': ->
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $addToSet:
