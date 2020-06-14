@@ -188,22 +188,49 @@ Template.home.helpers
         Session.get('is_loading')
     omega_dark_mode_class: ->
         omega = Docs.findOne model:'omega_session'
-        omega.dark_mode
-        if omega.dark_mode
-            # console.log 'hi dark'
-            'dark_mode'
-        else
-            # console.log 'hi light'
-            ''
+        if omega
+            omega.dark_mode
+            if omega.dark_mode
+                # console.log 'hi dark'
+                'dark_mode'
+            else
+                # console.log 'hi light'
+                ''
+    emotion_color: ->
+        emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+
+        omega = Docs.findOne model:'omega_session'
+        current_most_emotion = ''
+        current_max_emotion_count = 0
+        results =
+            Docs.find(_id:$in:omega.doc_result_ids)
+        for emotion in emotion_list
+            omega = Docs.findOne model:'omega_session'
+            emotion_match = {}
+            emotion_match.max_emotion_name = emotion
+            found_emotions =
+                Docs.find(emotion_match)
+            Docs.update omega._id,
+                $set:
+                    "current_#{emotion}_count":found_emotions.count()
+            if omega.current_most_emotion < found_emotions.count()
+                Docs.update omega._id,
+                    $set:
+                        current_most_emotion:emotion
+                        current_max_emotion_count: found_emotions.count()
+
+        console.log 'found emotions for ', emotion, found_emotions.count()
+        console.log 'final', Docs.findOne model:'omega_session'
+
     connection: ->
-        console.log Meteor.status()
+        # console.log Meteor.status()
         Meteor.status()
     connected: ->
         Meteor.status().connected
     tags: ->
-        console.log Session.get('current_query')
+        # console.log Session.get('current_query')
         omega = Docs.findOne model:'omega_session'
-        console.log omega.current_query, 'omega current query'
+        # console.log omega.current_query, 'omega current query'
         # if Session.get('current_query').length > 0
         if omega.current_query.length > 0
             Terms.find({}, sort:count:-1)
