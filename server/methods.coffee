@@ -124,7 +124,7 @@ Meteor.methods
         omega = Docs.findOne model:'omega_session'
         doc_count = omega.doc_result_ids.length
 
-        console.log 'doc count', doc_count
+        # console.log 'doc count', doc_count
         filtered_agg_res = []
         for agg_tag in agg_res
             if agg_tag.count > doc_count
@@ -147,6 +147,28 @@ Meteor.methods
         doc_match = match
         # console.log 'running agg omega', omega
         doc_match.model = $in:['reddit','wikipedia']
+        console.log 'doc_count', Docs.find(doc_match).count()
+        # emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+        #
+        # current_most_emotion = ''
+        # current_max_emotion_count = 0
+        # for emotion in emotion_list
+        #     omega = Docs.findOne model:'omega_session'
+        #     emotion_match = doc_match
+        #     emotion_match.max_emotion_name = emotion
+        #     found_emotions =
+        #         Docs.find(emotion_match)
+        #     Docs.update omega._id,
+        #         $set:
+        #             "current_#{emotion}_count":found_emotions.count()
+        #     if omega.current_most_emotion < found_emotions.count()
+        #         Docs.update omega._id,
+        #             $set:
+        #                 current_most_emotion:emotion
+        #                 current_max_emotion_count: found_emotions.count()
+        #
+        #     console.log 'found emotions for ', emotion, found_emotions.count()
+
         doc_results =
             Docs.find( doc_match,
                 {
@@ -159,9 +181,10 @@ Meteor.methods
                 }
             ).fetch()
         # console.log doc_results
-        unless doc_results[0].rd
-            if doc_results[0].reddit_id
-                Meteor.call 'get_reddit_post', doc_results[0]._id, doc_results[0].reddit_id, =>
+        if doc_results[0]
+            unless doc_results[0].rd
+                if doc_results[0].reddit_id
+                    Meteor.call 'get_reddit_post', doc_results[0]._id, doc_results[0].reddit_id, =>
         # console.log doc_results
         doc_result_ids = []
         for result in doc_results

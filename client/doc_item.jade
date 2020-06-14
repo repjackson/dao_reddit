@@ -26,7 +26,7 @@ template(name='doc_item')
                     .row
                         if has_thumbnail   
                             //- .four.wide.column
-                            .sixteen.wide.column
+                            .sixteen.wide.right.aligned.column
                                 img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
                                 if title
                                     if key_value_is 'model' 'wikipedia'
@@ -62,7 +62,7 @@ template(name='doc_item')
                                 //-     |#{comment_count}
                                 
                         else
-                            .sixteen.wide.column
+                            .sixteen.wide.right.aligned.column
                                 if title
                                     if key_value_is 'model' 'wikipedia'
                                         a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 

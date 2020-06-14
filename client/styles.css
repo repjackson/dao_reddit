@@ -27,11 +27,22 @@ body {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
 }
+
+.ui.button.result {
+    transition: all 2s ease !important;
+}
+
+.ui.button.result:hover{
+    transition: transform .5s; /* Animation */
+    color: black !important;
+    font-size: 1.7rem !important;
+}
+
 .yeah {
     text-align: center !important;
     font-size: 1.2rem !important;
     font-weight: 400 !important;
-    color: grey !important;
+    /* color: grey !important; */
     /* border-radius: 0 0 10px 10px !important; */
     transition: all .5s ease !important;
     /* margin-bottom: 10px !important; */
