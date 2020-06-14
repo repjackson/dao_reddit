@@ -159,14 +159,14 @@ Meteor.methods
                             # console.log emotion_doc["#{emotion}_percent"]
                             # main_emotions.push emotion
                 #
-                console.log 'emotions', emotions
+                # console.log 'emotions', emotions
                 sadness_percent = emotions.sadness
                 joy_percent = emotions.joy
                 fear_percent = emotions.fear
                 anger_percent = emotions.anger
                 disgust_percent = emotions.disgust
-                console.log 'main_emotion', max_emotion_name
-                console.log 'max_emotion_percent', max_emotion_percent
+                # console.log 'main_emotion', max_emotion_name
+                # console.log 'max_emotion_percent', max_emotion_percent
                 if mode is 'url'
                     Docs.update { _id: doc_id },
                         $set:

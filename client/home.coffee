@@ -44,6 +44,8 @@ Template.home.events
         # console.log @
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
+        Meteor.call 'get_top_emotion', ->
+        
         Meteor.call 'log_term', @title, ->
         # selected_tags.push @title
         omega  = Docs.findOne model:'omega_session'
@@ -71,6 +73,8 @@ Template.home.events
         , 6000
     'click .select_query': ->
         # queries.push @title
+
+        Meteor.call 'get_top_emotion', ->
         omega  = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $addToSet:
@@ -199,6 +203,16 @@ Template.home.helpers
     emotion_color: ->
         omega = Docs.findOne model:'omega_session'
         omega.emotion_color
+        # main_emotion = Docs.findOne({max_emotion_name:$exists:true}).max_emotion_name
+        # console.log main_emotion
+        # if main_emotion is 'anger'
+        #     'green'
+        # else if main_emotion is 'disgust'
+        #     'teal'
+        # else if main_emotion is 'sadness'
+        #     'teal'
+        # else if main_emotion is 'joy'
+        #     'red'
     #     emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
     #
     #     omega = Docs.findOne model:'omega_session'

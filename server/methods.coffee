@@ -12,7 +12,6 @@ Meteor.methods
             Docs.update doc._id,
                 $set: tags_string:tags_string
             # console.log 'result doc', Docs.findOne doc._id
-#
 
     set_points: ->
         Docs.update(
@@ -76,7 +75,7 @@ Meteor.methods
             # console.log 'added term', term
         else
             Terms.update({_id:found_term._id},{$inc: count: 1}, -> )
-            console.log 'found term', term
+            # console.log 'found term', term
 
 
     lookup: =>
@@ -139,7 +138,7 @@ Meteor.methods
             Docs.findOne
                 model:'omega_session'
 
-        console.log 'running agg omega', omega
+        # console.log 'running agg omega', omega
         match = {}
         match.tags =
             $all: omega.selected_tags
@@ -147,28 +146,7 @@ Meteor.methods
         doc_match = match
         # console.log 'running agg omega', omega
         doc_match.model = $in:['reddit','wikipedia']
-        console.log 'doc_count', Docs.find(doc_match).count()
-        # emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-        #
-        # current_most_emotion = ''
-        # current_max_emotion_count = 0
-        # for emotion in emotion_list
-        #     omega = Docs.findOne model:'omega_session'
-        #     emotion_match = doc_match
-        #     emotion_match.max_emotion_name = emotion
-        #     found_emotions =
-        #         Docs.find(emotion_match)
-        #
-        #     Docs.update omega._id,
-        #         $set:
-        #             "current_#{emotion}_count":found_emotions.count()
-        #     if omega.current_most_emotion < found_emotions.count()
-        #         Docs.update omega._id,
-        #             $set:
-        #                 current_most_emotion:emotion
-        #                 current_max_emotion_count: found_emotions.count()
-        #
-        #     console.log 'found emotions for ', emotion, found_emotions.count()
+        # console.log 'doc_count', Docs.find(doc_match).count()
 
         doc_results =
             Docs.find( doc_match,
@@ -217,9 +195,10 @@ Meteor.methods
             { $project: tags: 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
+            # { $group: _id: "$max_emotion_name", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 20 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe
@@ -244,7 +223,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=50",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=20",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -370,3 +349,48 @@ Meteor.methods
                     # $addToSet:
                     #     tags: $each: [rd.subreddit.toLowerCase()]
                 # console.log Docs.findOne(doc_id)
+
+    get_top_emotion: ->
+        console.log 'getting emotion'
+        emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+        #
+        current_most_emotion = ''
+        current_max_emotion_count = 0
+        omega = Docs.findOne model:'omega_session'
+        # doc_results =
+            # Docs.find
+
+        doc_match = {_id:$in:omega.doc_result_ids}
+        for emotion in emotion_list
+            emotion_match = doc_match
+            emotion_match.max_emotion_name = emotion
+            found_emotions =
+                Docs.find(emotion_match)
+
+            # Docs.update omega._id,
+            #     $set:
+            #         "current_#{emotion}_count":found_emotions.count()
+            if omega.current_most_emotion < found_emotions.count()
+                current_most_emotion = emotion
+                current_max_emotion_count = found_emotions.count()
+        # console.log 'current_most_emotion ', current_most_emotion
+        Docs.update omega._id,
+            $set:
+                current_most_emotion:current_most_emotion
+                current_max_emotion_count: current_max_emotion_count
+        emotion_match = doc_match
+        emotion_match.max_emotion_name = $exists:true
+        main_emotion = Docs.findOne(emotion_match)
+        if main_emotion
+            # console.log main_emotion
+            if main_emotion.max_emotion_name is 'anger'
+                emotion_color = 'green'
+            else if main_emotion.max_emotion_name is 'disgust'
+                emotion_color = 'teal'
+            else if main_emotion.max_emotion_name is 'sadness'
+                emotion_color = 'blue'
+            else if main_emotion.max_emotion_name is 'joy'
+                emotion_color = 'red'
+            Docs.update omega._id,
+                $set:
+                    emotion_color:emotion_color
