@@ -24,6 +24,7 @@ Template.home.events
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
             Session.set('dummy',!Session.get('dummy'))
+            Meteor.call 'get_top_emotion', ->
         omega  = Docs.findOne model:'omega_session'
         console.log omega
     'click .pick_dao': (e,t)->
@@ -35,6 +36,7 @@ Template.home.events
                 $set:selected_tags:['dao']
         Session.set('is_loading',true)
         Meteor.call 'agg_omega', ->
+
             Session.set('is_loading',false)
             Session.set('dummy',!Session.get('dummy'))
 
@@ -99,9 +101,11 @@ Template.home.events
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
             Session.set('dummy',!Session.get('dummy'))
+            Meteor.call 'get_top_emotion', ->
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
                 Session.set('dummy',!Session.get('dummy'))
+                Meteor.call 'get_top_emotion', ->
 
             # Session.set('dummy', !Session.get('dummy'))
         , 6000

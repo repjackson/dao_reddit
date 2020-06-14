@@ -122,7 +122,9 @@ Meteor.methods
         # console.log 'agg res', agg_res
         omega = Docs.findOne model:'omega_session'
         doc_count = omega.doc_result_ids.length
-
+        unless omega.selected_doc_id in omega.doc_result_ids
+            Docs.update omega._id,
+                $set:selected_doc_id:omega.doc_result_ids[0]
         # console.log 'doc count', doc_count
         filtered_agg_res = []
         for agg_tag in agg_res
@@ -131,7 +133,7 @@ Meteor.methods
 
         Docs.update omega._id,
             $set:
-                agg:agg_res
+                # agg:agg_res
                 filtered_agg_res:filtered_agg_res
     agg_omega2: ()->
         omega =
@@ -367,11 +369,22 @@ Meteor.methods
             if doc.max_emotion_percent
                 if doc.max_emotion_percent > current_max_emotion_percent
                     current_max_emotion_percent = doc.max_emotion_percent
+                    if doc.max_emotion_name is 'anger'
+                        emotion_color = 'green'
+                    else if doc.max_emotion_name is 'disgust'
+                        emotion_color = 'teal'
+                    else if doc.max_emotion_name is 'sadness'
+                        emotion_color = 'orange'
+                    else if doc.max_emotion_name is 'fear'
+                        emotion_color = 'grey'
+                    else if doc.max_emotion_name is 'joy'
+                        emotion_color = 'red'
+
                     Docs.update omega._id,
                         $set:
                             current_most_emotion:doc.max_emotion_name
                             current_max_emotion_percent: current_max_emotion_percent
-
+                            emotion_color:emotion_color
         # for emotion in emotion_list
         #     emotion_match = doc_match
         #     emotion_match.max_emotion_name = emotion
@@ -393,14 +406,6 @@ Meteor.methods
         #     doc = Docs.findOne(doc_id)
         # if main_emotion
         #     console.log main_emotion
-        #     if main_emotion.max_emotion_name is 'anger'
-        #         emotion_color = 'green'
-        #     else if main_emotion.max_emotion_name is 'disgust'
-        #         emotion_color = 'teal'
-        #     else if main_emotion.max_emotion_name is 'sadness'
-        #         emotion_color = 'blue'
-        #     else if main_emotion.max_emotion_name is 'joy'
-        #         emotion_color = 'red'
         #     Docs.update omega._id,
         #         $set:
         #             emotion_color:emotion_color
