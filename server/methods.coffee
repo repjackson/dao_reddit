@@ -158,6 +158,7 @@ Meteor.methods
         #     emotion_match.max_emotion_name = emotion
         #     found_emotions =
         #         Docs.find(emotion_match)
+        #
         #     Docs.update omega._id,
         #         $set:
         #             "current_#{emotion}_count":found_emotions.count()
