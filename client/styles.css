@@ -9,7 +9,7 @@ body {
     /* background: rgba(0,0,0,.01) !important; */
     /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -29,15 +29,15 @@ body {
 }
 
 .ui.button.result {
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
 }
 
 .tone_item {
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
 }
 
 .ui.button.result:hover{
-    transition: transform 2s; /* Animation */
+    transition: transform 1s; /* Animation */
     color: black !important;
     font-size: 150% !important;
 }
@@ -86,7 +86,7 @@ a.goto_article {
 .ui.button {
     margin: 2px !important;
     /* border-radius: 20px !important; *2
-    /* transition: all 2s ease !important; */
+    /* transition: all 1s ease !important; */
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
@@ -128,50 +128,90 @@ a.goto_article {
 } */
 
 
-.f13 {
-  font-size: 400% !important;
-  line-height: 120% !important;
-  margin-bottom: 10px !important; }
-.f13 {
-  font-size: 300% !important;
-  line-height: 120% !important;
-  margin-bottom: 10px !important; }
-.f11 {
-  font-size: 250% !important;
-  line-height: 120% !important;
-  margin-bottom: 10px !important; }
-.f10 {
+.f20 {
   font-size: 200% !important;
-  line-height: 120% !important;
-  margin-bottom: 10px !important; }
-.f9 {
+  /* line-height: 200% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f19 {
+  font-size: 190% !important;
+  /* line-height: 190% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f18 {
   font-size: 180% !important;
-  line-height: 120% !important;
-  margin-bottom: 5px !important; }
-.f8 {
+  /* line-height: 180% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f17 {
+  font-size: 170% !important;
+  /* line-height: 170% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f16 {
   font-size: 160% !important;
-  line-height: 160% !important; }
-.f7 {
+  /* line-height: 160% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f15 {
+  font-size: 150% !important;
+  /* line-height: 150% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f14 {
   font-size: 140% !important;
-  line-height: 140% !important; }
-.f6 {
+  /* line-height: 140% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f13 {
+  font-size: 130% !important;
+  /* line-height: 130% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f12 {
   font-size: 120% !important;
-  line-height: 120% !important; }
-.f5 {
+  /* line-height: 120% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f11 {
   font-size: 110% !important;
-  line-height: 110% !important; }
-.f4 {
-  font-size: 100% !important;
-  line-height: 100% !important; }
-.f3 {
+  /* line-height: 120% !important; */
+  /* margin-bottom: 10px !important;  */
+}
+.f10 {
+    font-size: 100% !important;
+    line-height: 100% !important;
+    /* margin-bottom: 10px !important;  */
+}
+.f9 {
   font-size: 90% !important;
-  line-height: 90% !important; }
-.f2 {
+  line-height: 90% !important;
+  /* margin-bottom: 5px !important;  */
+}
+.f8 {
+  font-size: 80% !important;
+  line-height: 80% !important; }
+.f7 {
   font-size: 70% !important;
   line-height: 70% !important; }
-.f1 {
+.f6 {
+  font-size: 60% !important;
+  line-height: 60% !important; }
+.f5 {
   font-size: 50% !important;
   line-height: 50% !important; }
+.f4 {
+  font-size: 40% !important;
+  line-height: 40% !important; }
+.f3 {
+  font-size: 30% !important;
+  line-height: 30% !important; }
+.f2 {
+  font-size: 20% !important;
+  line-height: 20% !important; }
+.f1 {
+  font-size: 10% !important;
+  line-height: 10% !important; }
 .f0 { display:none; }
 
 
@@ -260,7 +300,7 @@ input {
 }
 
 body {
-    transition: all 2s !important;
+    transition: all 1s !important;
 }
 
 
@@ -273,10 +313,10 @@ body {
 
 
 .button, .selector, .card, .dark_mode, .header, i, .icon, .item{
-    animation: fadein 2s;
-    -webkit-transition: opacity 2s ease-in;
-    /* -webkit-transition: opacity 2s ease-out; */
-    /* animation: fadeout 2s; */
+    animation: fadein 1s;
+    -webkit-transition: opacity 1s ease-in;
+    /* -webkit-transition: opacity 1s ease-out; */
+    /* animation: fadeout 1s; */
 }
 
 
@@ -307,7 +347,7 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
 }
 .segment, .input, .header, .button {
-  animation: fadein 2s;
+  animation: fadein 1s;
 }
 
 
@@ -317,7 +357,7 @@ body {
 }
 
 .result_column {
-  animation: fadein 2s;
+  animation: fadein 1s;
 }
 
 @media screen and (max-width: 1100px) {
