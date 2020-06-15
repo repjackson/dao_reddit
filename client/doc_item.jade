@@ -62,7 +62,7 @@ template(name='doc_item')
                                 //-     |#{comment_count}
                                 
                         else
-                            .sixteen.wide.right.aligned.column
+                            .sixteen.wide.column
                                 if title
                                     if key_value_is 'model' 'wikipedia'
                                         a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 

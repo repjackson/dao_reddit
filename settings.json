@@ -26,12 +26,12 @@
             "url": "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/b5195ac7-a729-46ea-b099-deb37d1dc65b"
 		},
 		"visual": {
-			"apikey": "dKgeK3U6JYQn235P2f4y1JchqFROfW9ZwlhGe_5ffRA-",
-			"iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:watson-vision-combined:us-south:a/f18c8f41459468045d98bcffc36f39d4:a215dc07-48ca-41f5-be89-6e311afcb7e6::",
-			"iam_apikey_name": "auto-generated-apikey-63bf28e3-6093-4072-98e5-f9a64e795d39",
-			"iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-			"iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/f18c8f41459468045d98bcffc36f39d4::serviceid:ServiceId-e5742746-dd68-40fa-8962-f66d0f136a65",
-			"url": "https://gateway.watsonplatform.net/visual-recognition/api"
+            "apikey": "JEYJRbRNiOposxwFwUHUw76WZXTcevgl9VqXWEJn5O2a",
+            "iam_apikey_description": "Auto-generated for key 8cff1a6d-8195-4301-8c93-4bf9fd55149e",
+            "iam_apikey_name": "Auto-generated service credentials",
+            "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+            "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/f18c8f41459468045d98bcffc36f39d4::serviceid:ServiceId-95aa9f8c-3abd-44a3-828e-f897748abbd9",
+            "url": "https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/a215dc07-48ca-41f5-be89-6e311afcb7e6"
 		},
 		"personality": {
 			"apikey": "k3qTBQiTfIuJMWarQjXYG6Hc1GkK1XVmZcaPTtzShmU1",

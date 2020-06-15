@@ -18,7 +18,7 @@ Meteor.methods
 
         Docs.update(
             { _id:omega.selected_doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
-            { $set: { "tone.result.sentences_tone.$.weight": -3 } }
+            { $set: { "tone.result.sentences_tone.$.weight": -2 } }
         )
 
 
