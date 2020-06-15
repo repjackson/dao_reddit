@@ -73,10 +73,14 @@ Meteor.methods
         #   .catch(err => {
         #     console.log('error:', err);
         #   });
-
-        params =
-            url:doc.watson.metadata.image
-            # url:doc.url
+        if doc.watson
+            if doc.watson.metadata.image
+                params =
+                    url:doc.watson.metadata.image
+        else
+            params =
+                url:doc.thumbnail
+                # url:doc.url
             # images_file: images_file
             # classifier_ids: classifier_ids
         visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
@@ -85,7 +89,7 @@ Meteor.methods
             else
                 visual_tags = []
                 for tag in response.result.images[0].classifiers[0].classes
-                    visual_tags.push tag.class
+                    visual_tags.push tag.class.toLowerCase()
                 console.log(JSON.stringify(response, null, 2))
                 console.log visual_tags
                 Docs.update { _id: doc_id},
@@ -113,17 +117,17 @@ Meteor.methods
                 limit:20
             features:
                 entities:
-                    emotion: true
-                    sentiment: true
-                    mentions: true
+                    emotion: false
+                    sentiment: false
+                    mentions: false
                     limit: 20
                 keywords:
-                    emotion: true
-                    sentiment: true
+                    emotion: false
+                    sentiment: false
                     limit: 20
                 concepts: {}
                 categories:
-                    explanation:true
+                    explanation:false
                 emotion: {}
                 metadata: {}
                 # relations: {}
@@ -150,7 +154,7 @@ Meteor.methods
                 parameters.url = "https://www.reddit.com#{doc.permalink}"
                 parameters.returnAnalyzedText = false
                 parameters.clean = false
-                # console.log 'calling image'
+                console.log 'calling image'
 
         # console.log 'parameters', parameters
 
@@ -158,7 +162,9 @@ Meteor.methods
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
                 console.log 'watson error for', parameters.url
-                # console.log err
+                console.log err
+                if err.code is 400
+                    console.log 'sniff rejected by server'
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false

@@ -298,11 +298,11 @@ template(name='watson_view')
                 +concepts
             .column
                 +categories
-    +entities
+    //- +entities
     //- +semantic_roles
     //- +keyword_list
-    +keywords
-    +concept_list
+    //- +concept_list
+    //- +keywords
     //- .ui.hidden.divider
     //- +relations
     //- if dev
@@ -312,5 +312,5 @@ template(name='watson_view')
     //-             i.dropdown.icon
     //-         .content
     //-             +jsonView(json=watson)
-    //- +personality
-    //- +consumption_preferences
+    +personality
+    +consumption_preferences

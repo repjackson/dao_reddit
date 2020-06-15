@@ -3,7 +3,7 @@ template(name='home')
         .sixteen.wide.column
             each omega_doc.selected_tags
                 //- button.ui.active.large.circular.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
-                button.ui.big.circular.yeah.tertiary.active.button.unselect_tag(tabindex='0' class=emotion_color)
+                button.ui.large.compact.circular.yeah.secondary.active.button.unselect_tag(tabindex='0' class=emotion_color)
                     //- i.remove.icon
                     | #{this}
             .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
@@ -75,13 +75,14 @@ template(name='home')
                 //- .ui.header selected doc
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 if is_image   
-                    img.ui.left.floated.image.rounded.call_visual(src=url class=omega_dark_mode_class)
+                    img.ui.centered.image.rounded.pointer.call_visual(src=url class=omega_dark_mode_class)
                 if watson.metadata.image 
-                    img.ui.left.floated.image.rounded.call_visual(src=watson.metadata.image class=omega_dark_mode_class)
+                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image class=omega_dark_mode_class)
                 //- if is_image_domain   
                 if is_gifv
                     //- img.inverted(src="https://i.imgur.com/#{gif_filename}")
                     img.invert(src=gif_filename)
+                div
                 //- img.ui.left.floated.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                 //- else
                 if has_thumbnail
@@ -90,7 +91,7 @@ template(name='home')
                             unless watson.metadata.image
                                 //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                                 //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                                img.ui.left.floated.invert.image.rounded(src=thumbnail)
+                                img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
                 if is_video
                     .invert
                         blockquote(class="reddit-card")
@@ -118,8 +119,8 @@ template(name='home')
                 .ui.inline.small.grey.header #{points}
                 .ui.icon.circular.basic.button.vote_down(title=points)
                     i.chevron.down.large.grey.icon  
-                div
-                i.picture.icon
+                //- div
+                i.picture.icon(title='image tags')
                 each visual_tags
                     .ui.small.circular.basic.label #{this}
                   
@@ -128,7 +129,7 @@ template(name='home')
                 //-     +doc_emotion
                 //- a.ui.icon.circular.basic.button(href=url target="_blank")
                 //-     i.external.large.icon
-                a.ui.large.circular.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                a.ui.large.compact.circular.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
                     i.chat.outline.large.icon
                     |#{comment_count}
                 //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
