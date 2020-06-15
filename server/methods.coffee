@@ -163,7 +163,7 @@ Meteor.methods
         doc_results =
             Docs.find( doc_match,
                 {
-                    limit:15
+                    limit:20
                     sort:
                         points:-1
                         ups:-1
@@ -199,7 +199,10 @@ Meteor.methods
         #     $set:
         #         match:match
         # limit=20
-        options = { explain:false }
+        options = {
+            explain:false
+            allowDiskUse:true
+        }
         # console.log 'omega_match', match
         # { $match: tags:$all: omega.selected_tags }
         pipe =  [
@@ -210,9 +213,10 @@ Meteor.methods
             # { $group: _id: "$max_emotion_name", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 33 }
+            { $limit: 42 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
+
         if pipe
             agg = global['Docs'].rawCollection().aggregate(pipe,options)
             # else
@@ -249,7 +253,7 @@ Meteor.methods
                         added_tags = [query]
                         # added_tags.push data.domain.toLowerCase()
                         # added_tags.push data.author.toLowerCase()
-                        # console.log 'added_tags', added_tags
+                        console.log 'added_tags', added_tags
                         reddit_post =
                             reddit_id: data.id
                             url: data.url

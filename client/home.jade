@@ -127,11 +127,12 @@ template(name='home')
                     if reddit_id
                         unless rd
                             //- div
-                            .ui.icon.basic.big.button.pull_post
-                                i.reddit.large.icon
+                            .ui.icon.basic.big.circular.button.pull_post
+                                i.reddit.large.red.icon
                     unless watson.emotion
-                        .ui.icon.basic.button.call_watson
-                            i.dna.large.icon
+                        .ui.icon.basic.circular.button.call_watson
+                            i.dna.big.red.icon
+                            //- |daoload
                     //- if dev 
                     //-     i.code.link.icon.print_me
                     
