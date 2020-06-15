@@ -1,12 +1,13 @@
 template(name='home')
-    .ui.fluid.attached.inverted.menu
-        .item 
+    .ui.fluid.attached.borderless.menu
+        .header.item 
+            i.yin.yang.large.grey.icon
             |dao
         .right.menu
             .icon.item
                 i.user.icon
-    .ui.stackable.grid.home(class=omega_dark_mode_class)
-        .sixteen.wide.column
+    .ui.stackable.grid.home
+        .sixteen.wide.center.aligned.column
             each omega_doc.selected_tags
                 //- button.ui.active.large.circular.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 button.ui.large.compact.circular.yeah.secondary.active.button.unselect_tag(tabindex='0' class=emotion_color)
@@ -78,6 +79,11 @@ template(name='home')
         .eleven.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
+                a.ui.center.aligned.grey.header.centered(href=url target="_blank")
+                    //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
+                    //- if has_thumbnail   
+                    |!{lowered_title}
+                    //- |#{title} 
                 //- .ui.header selected doc
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 if is_image   
@@ -114,12 +120,9 @@ template(name='home')
                 //-     iframe(src=url frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                 //-         p
                 //-             a(href=url) via Gfycat #{url}
-                a.f15.yeah.centered(href=url target="_blank")
-                    //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
-                    //- if has_thumbnail   
-                    |!{lowered_title}
-                    //- |#{title} 
-                div
+                .spacer
+                //- a.f17.yeah.centered(href=url target="_blank")
+                .spacer
                 .ui.icon.circular.basic.button.vote_up(title=points)
                     i.chevron.up.large.grey.icon
                 .ui.inline.small.grey.header #{points}
