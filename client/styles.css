@@ -32,7 +32,7 @@ body {
 }
 
 .ui.tertiary.button.result {
-    transition: all .5s ease !important;
+    transition: all 1s ease !important;
     padding: 5px !important;
 }
 
@@ -41,7 +41,7 @@ body {
 }
 
 .ui.tertiary.button.result:hover{
-    transition: transform .5s; /* Animation */
+    transition: transform 1s; /* Animation */
     color: black !important;
     /* font-size: 120% !important; */
     /* : 130% !important; */
@@ -285,7 +285,7 @@ input {
 	/*padding-left: 1em;*/
 }
 .scrolling{
-    max-height: 80vh !important;
+    max-height: 95vh !important;
     /* padding: 5px !important;
     border-radius: 10px !important;
     border-width: 1px !important;

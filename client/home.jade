@@ -7,7 +7,7 @@ template(name='home')
     //-         .icon.item
     //-             i.user.icon
     .ui.stackable.grid.home
-        .sixteen.wide.column
+        .four.wide.column.scrolling
             each omega_doc.selected_tags
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
@@ -77,7 +77,7 @@ template(name='home')
         //-     each docs
         //-         //- .ui.fitted.hidden.divider
         //-         +doc_item
-        .eleven.wide.column
+        .eight.wide.column
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
                 a.ui.center.aligned.grey.header.centered(href=url target="_blank")
@@ -201,7 +201,7 @@ template(name='home')
                 //-     .ui.button.toggle_tag
                 //-         |#{this}
         //- .five.wide.column.scrolling
-        .five.wide.column
+        .four.wide.column.scrolling
             each omega_doc.doc_result_ids
                 +doc_item
                 .ui.hidden.divider
