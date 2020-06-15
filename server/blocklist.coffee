@@ -43,6 +43,7 @@
     'browser extension'
     'reddit'
     'reason'
+    'sub rules'
     'case sensitive'
     'aug'
     'question'

@@ -132,12 +132,17 @@ Template.home.events
         console.log @
 Template.doc_item.events
     'click .select_doc': ->
-        console.log @
+        # console.log @
+        # $(e.currentTarget).closest('.row.pointer').transition('pulse', 1000)
+        # Meteor.setTimeout( ->
         omega = Docs.findOne model:'omega_session'
         Docs.update omega._id,
             $set:
                 selected_doc_id: @_id
-
+        Meteor.call 'call_watson', @_id, 'url', 'image', ->
+        Meteor.call 'call_watson', @_id, 'url', 'url', ->
+        Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
+        # , 1000)
         # Meteor.call 'log_view', @_id, ->
         # Router.go "/doc/#{@_id}/view"
 

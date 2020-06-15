@@ -16,7 +16,7 @@ body {
 
 .dark_mode {
     filter: invert(1) !important;
-    background: rgba(250,250,250,.99) !important;
+    background: rgba(250,250,250,.9) !important;
 
 }
 .green.header.dark_mode {
@@ -28,24 +28,26 @@ body {
     padding-bottom: 0 !important;
 }
 
-.ui.button.result {
+.ui.button.tertiary.result {
     transition: all 1s ease !important;
+    padding: 7px !important;
 }
 
 .tone_item {
     transition: all 1s ease !important;
 }
 
-.ui.button.result:hover{
+.ui.button.tertiary.result:hover{
     transition: transform 1s; /* Animation */
     color: black !important;
-    font-size: 150% !important;
+    font-size: 120% !important;
+    /* : 130% !important; */
 }
 
 .yeah {
     text-align: center !important;
-    font-size: 1.20rem !important;
-    font-weight: 300 !important;
+    font-size: 1.30rem !important;
+    font-weight: 400 !important;
     /* color: grey !important; */
     /* border-radius: 0 0 10px 10px !important; */
     transition: all .5s ease !important;
@@ -244,7 +246,7 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 0 !important;
+  width: 2px !important;
   border-radius: 10px !important;
 }
 .wrap_input {
@@ -252,7 +254,7 @@ input {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: black;
+  background: grey;
   border-radius: 10px !important;
 }
 

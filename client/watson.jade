@@ -10,8 +10,8 @@ template(name='doc_sentiment')
     //-         | positive
     //-     else
     //-         | negative
-    //- |#{doc_sentiment_label}
-    //- |#{sentiment_score_percent}
+    |#{doc_sentiment_label}
+    |#{sentiment_score_percent}
 
 
 template(name='small_sentiment') 
@@ -27,22 +27,27 @@ template(name='doc_emotion')
     //- if above_50 'joy_percent'
         //- .spacer
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
-    .ui.basic.orange.large.circular.label {{ to_percent joy_percent }}% joy
+    span.ui.large.red.text(class="{{calculated_size 'joy_percent'}}") {{ to_percent joy_percent }}% joy 
+        |&nbsp;
     //- if above_50 'sadness_percent'
         //- .spacer
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
-    .ui.basic.green.large.circular.label {{ to_percent sadness_percent}}% sad
+    span.ui.large.orange.text(class="{{calculated_size 'sadness_percent'}}") {{ to_percent sadness_percent}}% sad 
+        |&nbsp;
     //- if above_50 'fear_percent'
         //- .spacer
-    .ui.basic.grey.large.circular.label {{ to_percent fear_percent }}% fear
+    span.ui.large.grey.text(class="{{calculated_size 'fear_percent'}}") {{ to_percent fear_percent }}% fear 
+        |&nbsp;
     //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     //- if above_50 'disgust_percent'
         //- .spacer
-    .ui.basic.teal.large.circular.label {{ to_percent disgust_percent }}% disgust
+    span.ui.large.teal.text(class="{{calculated_size 'disgust_percent'}}") {{ to_percent disgust_percent }}% disgust 
+        |&nbsp;
     //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     //- if above_50 'anger_percent'
         //- .spacer
-    .ui.basic.green.large.circular.label {{ to_percent anger_percent }}% anger
+    span.ui.large.green.text(class="{{calculated_size 'anger_percent'}}") {{ to_percent anger_percent }}% anger 
+        |&nbsp;
     //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     
 //- 

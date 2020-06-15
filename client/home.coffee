@@ -42,18 +42,18 @@ Template.home.events
             Meteor.call 'get_top_emotion', ->
         omega  = Docs.findOne model:'omega_session'
         console.log omega
-    'click .pick_dao': (e,t)->
-        # selected_tags.push 'dao'
-        # $(e.currentTarget).closest('.button').transition('pulse', 1000)
-        omega  = Docs.findOne model:'omega_session'
-        if omega
-            Docs.update omega._id,
-                $set:selected_tags:['dao']
-        Session.set('is_loading',true)
-        Meteor.call 'agg_omega', ->
-
-            Session.set('is_loading',false)
-            Session.set('dummy',!Session.get('dummy'))
+    # 'click .pick_dao': (e,t)->
+    #     # selected_tags.push 'dao'
+    #     # $(e.currentTarget).closest('.button').transition('pulse', 1000)
+    #     omega  = Docs.findOne model:'omega_session'
+    #     if omega
+    #         Docs.update omega._id,
+    #             $set:selected_tags:['dao']
+    #     Session.set('is_loading',true)
+    #     Meteor.call 'agg_omega', ->
+    #
+    #         Session.set('is_loading',false)
+    #         Session.set('dummy',!Session.get('dummy'))
 
     'click .result': (e,t)->
         # $(e.currentTarget).closest('.button').transition('pulse', 1000)
