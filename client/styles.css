@@ -31,7 +31,7 @@ body {
     padding-bottom: 0 !important;
 }
 
-.ui.button.tertiary.result {
+.ui.tertiary.button.result {
     transition: all .5s ease !important;
     padding: 5px !important;
 }
@@ -40,7 +40,7 @@ body {
     transition: all .5s ease !important;
 }
 
-.ui.button.tertiary.result:hover{
+.ui.tertiary.button.result:hover{
     transition: transform .5s; /* Animation */
     color: black !important;
     /* font-size: 120% !important; */

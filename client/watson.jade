@@ -262,10 +262,10 @@ template(name='consumption_preferences')
 //- 
 template(name='tone')
     //- h3 Tone
-    .ui.horizontal.list
-        each tone.result.document_tone.tones
-            .item #{tone_id} {{ to_percent score }}%
-    .ui.list
+    //- .ui.horizontal.list
+    //-     each tone.result.document_tone.tones
+    //-         .item #{tone_id} {{ to_percent score }}%
+    .ui.large.list
         each tone.result.sentences_tone
             .item
                 
@@ -277,10 +277,10 @@ template(name='tone')
                     //- .content
                     //- .header(title="#{sentence_id}") {{lowered text}}
                     //- |weight:#{weight}
-                    each tones
-                        //- .ui.basic.small.circular.label(class="{{calculated_size 'score'}}") 
-                        span.ui.grey.small.text
-                            |#{tone_id} &nbsp;
+                    //- each tones
+                    //-     //- .ui.basic.small.circular.label(class="{{calculated_size 'score'}}") 
+                    //-     span.ui.grey.small.text
+                    //-         |#{tone_id} &nbsp;
                         //- | {{ to_percent score }}% 
     // unless tone                
     //- #call_tone.ui.icon.button
