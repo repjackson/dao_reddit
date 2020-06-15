@@ -11,13 +11,16 @@ Template.home.onCreated ->
     #     selected_tags.array()
 
 Template.tone.events
-    'click .upvote_sentence': ->
+    # 'click .upvote_sentence': ->
+    'click .tone_item': ->
         # console.log @
         omega  = Docs.findOne model:'omega_session'
         # selected_doc =
         #     Docs.findOne _id:omega.selected_doc_id
-        Meteor.call 'upvote_sentence', omega.selected_doc_id, @, ->
-
+        if @weight is 3
+            Meteor.call 'reset_sentence', omega.selected_doc_id, @, ->
+        else
+            Meteor.call 'upvote_sentence', omega.selected_doc_id, @, ->
     'click .downvote_sentence': ->
         # console.log @
         omega  = Docs.findOne model:'omega_session'
@@ -26,12 +29,12 @@ Template.tone.events
         Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
 
 Template.home.events
-    'click .lightbulb': (e,t)->
-        omega  = Docs.findOne model:'omega_session'
-        Docs.update omega._id,
-            $set:
-                dark_mode:!omega.dark_mode
-        Session.set('dummy',!Session.get('dummy'))
+    # 'click .lightbulb': (e,t)->
+    #     omega  = Docs.findOne model:'omega_session'
+    #     Docs.update omega._id,
+    #         $set:
+    #             dark_mode:!omega.dark_mode
+    #     Session.set('dummy',!Session.get('dummy'))
 
     'click .refresh_agg': (e,t)->
         # $(e.currentTarget).closest('.button').transition('pulse', 1000)
