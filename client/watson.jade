@@ -27,22 +27,22 @@ template(name='doc_emotion')
     if above_50 'joy_percent'
         //- .spacer
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
-        .ui.basic.label {{ to_percent joy_percent }}% joy
+        .ui.basic.grey.large.circular.label {{ to_percent joy_percent }}% joy
     if above_50 'sadness_percent'
         //- .spacer
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
-        .ui.basic.label {{ to_percent sadness_percent}}% sad
+        .ui.basic.grey.large.circular.label {{ to_percent sadness_percent}}% sad
     if above_50 'fear_percent'
         //- .spacer
-        .ui.basic.label {{ to_percent fear_percent }}% fear
+        .ui.basic.grey.large.circular.label {{ to_percent fear_percent }}% fear
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     if above_50 'disgust_percent'
         //- .spacer
-        .ui.basic.label {{ to_percent disgust_percent }}% disgust
+        .ui.basic.grey.large.circular.label {{ to_percent disgust_percent }}% disgust
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     if above_50 'anger_percent'
         //- .spacer
-        .ui.basic.label {{ to_percent anger_percent }}% anger
+        .ui.basic.grey.large.circular.label {{ to_percent anger_percent }}% anger
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     
 //- 
@@ -266,14 +266,14 @@ template(name='tone')
                 
                 //- span #{sentence_id}
                 span.tone_item(title="#{sentence_id}" class=tone_size) {{lowered text}}
-                    i.chevron.up.link.grey.icon.upvote_sentence
-                    i.chevron.down.link.grey.icon.downvote_sentence
+                    i.chevron.up.link.grey.large.icon.upvote_sentence
+                    i.chevron.down.link.grey.large.icon.downvote_sentence
                     //- .content
                     //- .header(title="#{sentence_id}") {{lowered text}}
                     //- |weight:#{weight}
                     each tones
                         //- .ui.basic.small.circular.label(class="{{calculated_size 'score'}}") 
-                        .ui.basic.small.circular.label 
+                        .ui.basic.small.circular.grey.label 
                             |#{tone_id}
                         //- | {{ to_percent score }}% 
     // unless tone                

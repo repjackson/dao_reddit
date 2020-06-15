@@ -181,6 +181,8 @@ Template.doc_item.helpers
                 res+='yellow'
             if @max_emotion_name is 'disgust'
                 res+='orange'
+            else
+                'grey'
 
         # if @doc_sentiment_label is 'negative'
         #     res+='teal'

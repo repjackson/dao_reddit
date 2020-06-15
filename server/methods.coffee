@@ -162,7 +162,7 @@ Meteor.methods
         doc_results =
             Docs.find( doc_match,
                 {
-                    limit:7
+                    limit:10
                     sort:
                         points:-1
                         ups:-1
@@ -209,7 +209,7 @@ Meteor.methods
             # { $group: _id: "$max_emotion_name", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 42 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe

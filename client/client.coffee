@@ -128,16 +128,18 @@ Template.registerHelper 'tone_size', () ->
     # console.log 'whole', whole
     if @weight
         if @weight is -5 then 'f2'
-        else if @weight is -4 then 'f3'
-        else if @weight is -3 then 'f4'
-        else if @weight is -2 then 'f5'
-        else if @weight is -1 then 'f6'
-        else if @weight is 1 then 'f7'
-        else if @weight is 2 then 'f8'
-        else if @weight is 3 then 'f9'
-        else if @weight is 4 then 'f10'
+        else if @weight is -4 then 'f3 grey_text'
+        else if @weight is -3 then 'f4 grey_text'
+        else if @weight is -2 then 'f5 grey_text'
+        else if @weight is -1 then 'f6 grey_text'
+        else if @weight is 0 then 'f6 grey_text'
+        else if @weight is 1 then 'f6'
+        else if @weight is 2 then 'f7'
+        else if @weight is 3 then 'f8'
+        else if @weight is 4 then 'f9'
+        else if @weight is 5 then 'f10'
     else
-        'large120'
+        'large120 grey_text'
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')

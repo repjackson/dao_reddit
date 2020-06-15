@@ -9,7 +9,7 @@ body {
     /* background: rgba(0,0,0,.01) !important; */
     /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -29,11 +29,11 @@ body {
 }
 
 .ui.button.tertiary.result {
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
 }
 
 .tone_item {
-    transition: all 2s ease !important;
+    transition: all 1s ease !important;
 }
 
 .ui.button.tertiary.result:hover{
@@ -61,7 +61,9 @@ body {
     /* padding-top: 5em !important; */
     /* box-shadow: 0 2px 2px 2px rgba(50, 50, 100, 0.1) !important; */
 }
-
+.grey_text {
+    color: grey !important;
+}
 
 .rounded {
     border-radius: 5px !important;
@@ -264,9 +266,9 @@ body {
 
 
 .button:active{
-    -webkit-transform: translate(0, 2px) !important; /* depth of button press */
+    -webkit-transform: translate(0, 3px) !important; /* depth of button press */
     /* transition: all .5s !important; */
-    transform: translate(0, 2px) !important; /* depth of button press */
+    transform: translate(0, 3px) !important; /* depth of button press */
 }
 
 
