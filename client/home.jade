@@ -1,4 +1,10 @@
 template(name='home')
+    .ui.fluid.attached.inverted.menu
+        .item 
+            |dao
+        .right.menu
+            .icon.item
+                i.user.icon
     .ui.stackable.grid.home(class=omega_dark_mode_class)
         .sixteen.wide.column
             each omega_doc.selected_tags

@@ -101,7 +101,8 @@ Template.home.events
         Meteor.call 'get_top_emotion', ->
         # queries.push @title
     'click .call_visual': ->
-        Meteor.call 'call_visual', @_id, ->
+        Meteor.call 'call_visual', @_id, (err,res)->
+            console.log res
         # queries.push @title
 
     'click .select_query': ->
