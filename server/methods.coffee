@@ -147,6 +147,9 @@ Meteor.methods
         if omega.selected_tags.length > 0
             match.tags =
                 $all: omega.selected_tags
+        else
+            match.tags =
+                $all: ['dao']
 
         doc_match = match
         # console.log 'running agg omega', omega
@@ -203,7 +206,12 @@ Meteor.methods
             explain:false
             allowDiskUse:true
         }
-        # console.log 'omega_match', match
+
+        # if omega.selected_tags.length > 0
+        #     limit = 42
+        # else
+        limit = 42
+        console.log 'omega_match', match
         # { $match: tags:$all: omega.selected_tags }
         pipe =  [
             { $match: match }
@@ -213,7 +221,7 @@ Meteor.methods
             # { $group: _id: "$max_emotion_name", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: limit }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
 
