@@ -43,7 +43,7 @@ body {
 .ui.button.tertiary.result:hover{
     transition: transform .5s; /* Animation */
     color: black !important;
-    font-size: 120% !important;
+    /* font-size: 120% !important; */
     /* : 130% !important; */
 }
 

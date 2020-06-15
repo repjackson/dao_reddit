@@ -245,17 +245,18 @@ Template.home.helpers
         whole = parseInt(percent*10)+1
         # console.log 'whole', whole
 
-        if whole is 0 then "#{ec} f5"
-        else if whole is 1 then "#{ec} f11"
-        else if whole is 2 then "#{ec} f12"
-        else if whole is 3 then "#{ec} f13"
-        else if whole is 4 then "#{ec} f14"
-        else if whole is 5 then "#{ec} f15"
-        else if whole is 6 then "#{ec} f16"
-        else if whole is 7 then "#{ec} f17"
-        else if whole is 8 then "#{ec} f18"
-        else if whole is 9 then "#{ec} f19"
-        else if whole is 10 then "#{ec} f20"
+        # if whole is 0 then "#{ec} f5"
+        if whole is 0 then "f5"
+        else if whole is 1 then "f11"
+        else if whole is 2 then "f12"
+        else if whole is 3 then "f13"
+        else if whole is 4 then "f14"
+        else if whole is 5 then "f15"
+        else if whole is 6 then "f16"
+        else if whole is 7 then "f17"
+        else if whole is 8 then "f18"
+        else if whole is 9 then "f19"
+        else if whole is 10 then "f20"
 
     emotion_color: ->
         omega = Docs.findOne model:'omega_session'

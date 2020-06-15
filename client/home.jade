@@ -1,16 +1,16 @@
 template(name='home')
-    .ui.fluid.attached.borderless.menu
-        .header.item 
-            i.yin.yang.large.grey.icon
-            |dao
-        .right.menu
-            .icon.item
-                i.user.icon
+    //- .ui.fluid.attached.borderless.menu
+    //-     .header.item 
+    //-         i.yin.yang.large.grey.icon
+    //-         |dao
+    //-     .right.menu
+    //-         .icon.item
+    //-             i.user.icon
     .ui.stackable.grid.home
         .sixteen.wide.center.aligned.column
             each omega_doc.selected_tags
-                //- button.ui.active.large.circular.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
-                button.ui.large.compact.circular.yeah.secondary.active.button.unselect_tag(tabindex='0' class=emotion_color)
+                //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
+                button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
                     //- i.remove.icon
                     | #{this}
             .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
@@ -34,7 +34,7 @@ template(name='home')
                 //- i.grey.lightbulb.link.icon
                 //- unless omega_doc.selected_tags
                 //-     //- .ui.hidden.divider
-                //-     //- .ui.center.aligned.basic.segment
+                //-     //- .ui.center.aligned.segment
                 //-         if omega_doc.dark_mode
                 //-             i.massive.loading.yin.yang.link.icon.pick_dao
                 //-         else
@@ -50,11 +50,11 @@ template(name='home')
                 //- .ui.header #{tags.length}
                 span.hi
                     each omega_doc.filtered_agg_res
-                        //- button.ui.large.yeah.tertiary.circular.button.result(tabindex="0" class=tag_result title=count)
-                        button.ui.large.tertiary.basic.circular.button.result(tabindex="0" class=tag_result title=count)
+                        //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
+                        button.ui.large.tertiary.button.result(tabindex="0" class=tag_result title=count)
                             | #{title}
                         //- small #{count}
-                    //- button.ui.white.basic.huge.button.result(tabindex="0" class=result_class title=count) #{title}
+                    //- button.ui.white.huge.button.result(tabindex="0" class=result_class title=count) #{title}
             //- if one_post
         //- .centered.one.column.row
         //- each omega_doc.doc_results
@@ -123,25 +123,25 @@ template(name='home')
                 .spacer
                 //- a.f17.yeah.centered(href=url target="_blank")
                 .spacer
-                .ui.icon.circular.basic.button.vote_up(title=points)
+                .ui.icon.button.vote_up(title=points)
                     i.chevron.up.large.grey.icon
                 .ui.inline.small.grey.header #{points}
-                .ui.icon.circular.basic.button.vote_down(title=points)
+                .ui.icon.button.vote_down(title=points)
                     i.chevron.down.large.grey.icon  
                 //- div
                 i.picture.icon(title='image tags')
                 each visual_tags
-                    .ui.small.circular.basic.compact.button.toggle_tag #{this}
+                    .ui.small.compact.button.toggle_tag #{this}
                   
                 //- if watson
                 //-     +doc_sentiment
                 //-     +doc_emotion
-                //- a.ui.icon.circular.basic.button(href=url target="_blank")
+                //- a.ui.icon.button(href=url target="_blank")
                 //-     i.external.large.icon
-                a.ui.large.compact.circular.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                a.ui.large.compact.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
                     i.chat.outline.large.icon
                     |#{comment_count}
-                a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                a.ui.tertiary.grey.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                     i.reddit.icon
                     |r/#{subreddit}
                 if publish_when
@@ -149,7 +149,7 @@ template(name='home')
                         i.calendar.icon
                         //- |#{watson.metadata.publication_date}
                         |#{publish_when}
-                .ui.tertiary.grey.basic.button.toggle_domain(title='add domain')
+                .ui.tertiary.grey.button.toggle_domain(title='add domain')
                     i.globe.icon
                     |#{domain}
                     
@@ -160,15 +160,15 @@ template(name='home')
                     if reddit_id
                         unless rd
                             //- div
-                            .ui.icon.basic.big.circular.button.pull_post
+                            .ui.icon.big.button.pull_post
                                 i.reddit.large.red.icon
                     unless watson.emotion
-                        .ui.icon.basic.circular.button.call_watson
+                        .ui.icon.button.call_watson
                             i.dna.big.red.icon
                     if dev 
                         i.code.link.icon.print_me
                     
-                    //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+                    //- a.ui.tertiary.grey.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
                     //-     i.user.outline.icon
                     //-     |#{author}
     
@@ -197,7 +197,7 @@ template(name='home')
                 if watson
                     +watson_view
                 each tags
-                    .ui.circular.basic.tertiary.button.toggle_tag
+                    .ui.button.toggle_tag
                         |#{this}
         .five.wide.column.scrolling
             each omega_doc.doc_result_ids
@@ -241,13 +241,13 @@ template(name='home')
                 //- if has_thumbnail   
                 //-     img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
                 //- div
-                //- .ui.basic.segment
+                //- .ui.segment
                 //- .spacer
 
     
                             
                         
-                //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                //- a.ui.tertiary.grey.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                 //-     i.reddit.icon
                 //-     |r/#{subreddit}
                 //- .ui.icon.small.input
@@ -268,7 +268,7 @@ template(name='home')
             //-     .content
             //-         +markdown
             //-             !{rd.selftext}
-            //- .ui.tertiary.grey.basic.button.toggle_tags
+            //- .ui.tertiary.grey.button.toggle_tags
             //-     i.tags.icon
             //-     |#{tags.length}
             //- if view_tags
