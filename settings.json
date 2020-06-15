@@ -17,6 +17,14 @@
             "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/34a2c275aeff460081c2074ab5abe5c6::serviceid:ServiceId-fb595bbc-0851-4600-b24a-ad5907094a81",
             "url": "https://api.us-south.tone-analyzer.watson.cloud.ibm.com/instances/37f08ca3-6c5b-439e-8270-78d96b54d635"
 		},
+        "tts": {
+          "apikey": "qSyBKnE10MrN7ubjH5O2XORRHQ1_sExlfz-dAfQU9AJF",
+          "iam_apikey_description": "Auto-generated for key 58f9c9c6-3f41-4b84-a12b-846bcee7c31f",
+          "iam_apikey_name": "Auto-generated service credentials",
+          "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+          "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/f18c8f41459468045d98bcffc36f39d4::serviceid:ServiceId-14ab7679-9b7e-42d5-90fd-11911a3f4fc7",
+          "url": "https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/b357e943-0ac7-4bb7-9666-e21201af9129"
+        },
 		"language": {
             "apikey": "WfilOI8O3M5n3cbU8byEczW_hctUm4viZDVaBSV-Gju3",
             "iam_apikey_description": "Auto-generated for key 4149ce4a-7fdb-4481-9c49-92493045c5f8",

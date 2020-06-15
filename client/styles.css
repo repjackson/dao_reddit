@@ -112,7 +112,7 @@ a.goto_article {
     border-radius:10px !important;
 }
 
-.card, .ui.embed, .ui.text, .invert{
+.card, .ui.embed, .ui.text, .invert, img{
     /* border-radius: 10px !important; */
     filter: invert(1) !important;
 }

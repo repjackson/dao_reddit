@@ -75,9 +75,9 @@ template(name='home')
                 //- .ui.header selected doc
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 if is_image   
-                    img.ui.centered.image.rounded.pointer.call_visual(src=url class=omega_dark_mode_class)
+                    img.ui.centered.image.rounded.pointer.call_visual(src=url)
                 if watson.metadata.image 
-                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image class=omega_dark_mode_class)
+                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
                 //- if is_image_domain   
                 if is_gifv
                     //- img.inverted(src="https://i.imgur.com/#{gif_filename}")
@@ -97,7 +97,7 @@ template(name='home')
                         blockquote(class="reddit-card")
                             //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
                             a(href="https://www.reddit.com#{permalink}") 
-                                |I made some 3D art of Edgar discovering the meaning of life
+                                |dao
                             |from 
                             a(href="http://www.reddit.com/r/PewdiepieSubmissions")
                                 |r/
@@ -122,7 +122,7 @@ template(name='home')
                 //- div
                 i.picture.icon(title='image tags')
                 each visual_tags
-                    .ui.small.circular.basic.label #{this}
+                    .ui.small.circular.basic.compact.button.toggle_tag #{this}
                   
                 //- if watson
                 //-     +doc_sentiment
@@ -132,9 +132,9 @@ template(name='home')
                 a.ui.large.compact.circular.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
                     i.chat.outline.large.icon
                     |#{comment_count}
-                //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                //-     i.reddit.icon
-                //-     |r/#{subreddit}
+                a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                    i.reddit.icon
+                    |r/#{subreddit}
                 if publish_when
                     .ui.small.grey.tertiary.button
                         i.calendar.icon
@@ -170,15 +170,15 @@ template(name='home')
                     //- |!{rd.selftext_html}
                 else
                     if tone
-                        //- .scrolling
-                        +tone
+                        .scrolling
+                            +tone
                     //- else
                 if rd.selftext
                     .content
                         +markdown
                             !{rd.selftext}
                 if is_youtube
-                    iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                 .ui.icon.small.input
                     i.tag.icon
                     input.add_tag(type='text')
@@ -188,7 +188,7 @@ template(name='home')
                 if watson
                     +watson_view
                 each tags
-                    .ui.circular.basic.large.tertiary.button.toggle_tag
+                    .ui.circular.basic.tertiary.button.toggle_tag
                         |#{this}
         .five.wide.column.scrolling
             each omega_doc.doc_result_ids

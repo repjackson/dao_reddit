@@ -1,8 +1,22 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
 VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
+PersonalityInsightsV3 = require('ibm-watson/personality-insights/v3')
+TextToSpeechV1 = require('ibm-watson/text-to-speech/v1')
 
 { IamAuthenticator } = require('ibm-watson/auth')
+
+
+
+textToSpeech = new TextToSpeechV1({
+  authenticator: new IamAuthenticator({
+    apikey: Meteor.settings.private.tts.apikey,
+  }),
+  url: Meteor.settings.private.tts.url,
+});
+
+
+
 
 natural_language_understanding = new NaturalLanguageUnderstandingV1(
     version: '2019-07-12'
@@ -222,11 +236,11 @@ Meteor.methods
 
 
 
-                # adding_tags = []
-                # if response.categories
-                #     for category in response.categories
-                #         # console.log category.label.split('/')[1..]
-                #         # console.log category.label.split('/')
+                adding_tags = []
+                if response.categories
+                    for category in response.categories
+                        console.log category.label.split('/')[1..]
+                        console.log category.label.split('/')
                 #         for category in category.label.split('/')
                 #             if category.length > 0
                 #                 # adding_tags.push category
