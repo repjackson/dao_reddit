@@ -1,6 +1,6 @@
 template(name='home')
     .ui.stackable.grid.home(class=omega_dark_mode_class)
-        .sixteen.wide.center.aligned.column
+        .sixteen.wide.column
             each omega_doc.selected_tags
                 //- button.ui.active.compact.large.circular.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 button.ui.compact.large.circular.yeah.button.unselect_tag(tabindex='0' class=emotion_color)
@@ -47,7 +47,6 @@ template(name='home')
                             | #{title}
                         //- small #{count}
                     //- button.ui.compact.white.basic.huge.button.result(tabindex="0" class=result_class title=count) #{title}
-                //- .ui.hidden.divider
             //- if one_post
         //- .centered.one.column.row
         //- each omega_doc.doc_results
@@ -72,22 +71,23 @@ template(name='home')
         .five.wide.column.scrolling
             each omega_doc.doc_result_ids
                 +doc_item
+                .ui.divider
         .eleven.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
                 //- .ui.header selected doc
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 if is_image   
-                    img.ui.left.floated.image.rounded(src=url class=omega_dark_mode_class)
+                    img.ui.left.floated.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                 //- if is_image_domain   
                 if is_gifv
                     //- img.inverted(src="https://i.imgur.com/#{gif_filename}")
                     img.invert(src=gif_filename)
-                //- img.ui.left.floated.image.rounded(src=url class=omega_dark_mode_class)
+                //- img.ui.left.floated.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                 //- else
                 if has_thumbnail
-                    //- img.ui.left.floated.middle.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                    img.ui.left.floated.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                    //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                    img.ui.left.floated.top.aligned.image.rounded(src=thumbnail class=omega_dark_mode_class)
                 //- video   
                 //-    source(src="https://i.imgur.com/y4JdSvL.gif" type="video/gifv")
                 
@@ -96,6 +96,11 @@ template(name='home')
                     //- if has_thumbnail   
 
                     |#{title}
+                .ui.icon.circular.button.vote_up(title=points)
+                    i.thumbs.up.large.outline.grey.icon
+                | #{points}
+                .ui.icon.circular.button.vote_down(title=points)
+                    i.thumbs.down.large.outline.grey.icon                    
                 if watson
                     +doc_emotion
                 a.ui.icon.circular.button(href=url target="_blank")
@@ -133,11 +138,6 @@ template(name='home')
                     //- a.ui.tertiary.grey.basic.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
                     //-     i.user.outline.icon
                     //-     |#{author}
-                .ui.icon.circular.button.vote_up(title=points)
-                    i.thumbs.up.large.outline.grey.icon
-                | #{points}
-                .ui.icon.circular.button.vote_down(title=points)
-                    i.thumbs.down.large.outline.grey.icon
     
                 .ui.icon.small.input
                     i.tag.icon
@@ -161,7 +161,7 @@ template(name='home')
                 if is_youtube
                     iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                 each tags
-                    .ui.compact.circular.tertiary.large.button.toggle_tag
+                    .ui.compact.circular.basic.button.toggle_tag
                         |#{this}
 
                 

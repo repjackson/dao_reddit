@@ -144,8 +144,9 @@ Meteor.methods
 
         # console.log 'running agg omega', omega
         match = {}
-        match.tags =
-            $all: omega.selected_tags
+        if omega.selected_tags.length > 0
+            match.tags =
+                $all: omega.selected_tags
 
         doc_match = match
         # console.log 'running agg omega', omega
@@ -162,7 +163,7 @@ Meteor.methods
         doc_results =
             Docs.find( doc_match,
                 {
-                    limit:5
+                    limit:15
                     sort:
                         points:-1
                         ups:-1
@@ -209,7 +210,7 @@ Meteor.methods
             # { $group: _id: "$max_emotion_name", count: $sum: 1 }
             { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 33 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
         if pipe
