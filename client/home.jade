@@ -103,22 +103,23 @@ template(name='home')
                 //-     iframe(src=url frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                 //-         p
                 //-             a(href=url) via Gfycat #{url}
-                a.f13.yeah(href=url target="_blank")
+                a.f15.yeah(href=url target="_blank")
                     //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                     //- if has_thumbnail   
-
-                    |#{title}
-                .ui.icon.circular.button.vote_up(title=points)
-                    i.thumbs.up.large.outline.grey.icon
+                    |#{lowered_title}
+                    //- |#{title} 
+                div
+                .ui.icon.circular.basic.button.vote_up(title=points)
+                    i.chevron.up.large.grey.icon
                 .ui.inline.small.grey.header #{points}
-                .ui.icon.circular.button.vote_down(title=points)
-                    i.thumbs.down.large.outline.grey.icon                    
-                if watson
-                    +doc_sentiment
-                    +doc_emotion
-                //- a.ui.icon.circular.button(href=url target="_blank")
+                .ui.icon.circular.basic.button.vote_down(title=points)
+                    i.chevron.down.large.grey.icon                    
+                //- if watson
+                //-     +doc_sentiment
+                //-     +doc_emotion
+                //- a.ui.icon.circular.basic.button(href=url target="_blank")
                 //-     i.external.large.icon
-                a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank")
+                a.ui.large.compact.circular.basic.button(href="https://www.reddit.com/#{permalink}" target="_blank")
                     i.chat.outline.large.icon
                     |#{comment_count}
                 //- a.ui.tertiary.grey.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
@@ -153,11 +154,6 @@ template(name='home')
                     //-     i.user.outline.icon
                     //-     |#{author}
     
-                .ui.icon.small.input
-                    i.tag.icon
-                    input.add_tag(type='text')
-                each user_tags
-                    .ui.label #{this}
                 if rd.selftext_html
                     //- unless tone
                     //- .content
@@ -174,6 +170,13 @@ template(name='home')
                             !{rd.selftext}
                 if is_youtube
                     iframe(class=omega_dark_mode_class width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                .ui.icon.small.input
+                    i.tag.icon
+                    input.add_tag(type='text')
+                each user_tags
+                    .ui.label #{this}
+
+                
                 each tags
                     .ui.compact.circular.basic.button.toggle_tag
                         |#{this}

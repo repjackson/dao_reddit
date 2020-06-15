@@ -210,8 +210,8 @@ Meteor.methods
         # if omega.selected_tags.length > 0
         #     limit = 42
         # else
-        limit = 42
-        console.log 'omega_match', match
+        limit = 33
+        # console.log 'omega_match', match
         # { $match: tags:$all: omega.selected_tags }
         pipe =  [
             { $match: match }
