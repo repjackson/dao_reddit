@@ -2,6 +2,26 @@
 @Tags = new Meteor.Collection 'tags'
 @Terms = new Meteor.Collection 'terms'
 
+Meteor.methods
+    upvote_sentence: (doc_id, sentence)->
+        console.log sentence
+        omega  = Docs.findOne model:'omega_session'
+
+        Docs.update(
+            { _id:omega.selected_doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+            { $inc: { "tone.result.sentences_tone.$.weight": 1 } }
+        )
+
+    downvote_sentence: (doc_id, sentence)->
+        console.log sentence
+        omega  = Docs.findOne model:'omega_session'
+
+        Docs.update(
+            { _id:omega.selected_doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+            { $inc: { "tone.result.sentences_tone.$.weight": -1 } }
+        )
+
+
 
 
 Docs.before.insert (userId, doc)->

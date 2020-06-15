@@ -18,6 +18,13 @@ Template.tone.events
         #     Docs.findOne _id:omega.selected_doc_id
         Meteor.call 'upvote_sentence', omega.selected_doc_id, @, ->
 
+    'click .downvote_sentence': ->
+        # console.log @
+        omega  = Docs.findOne model:'omega_session'
+        # selected_doc =
+        #     Docs.findOne _id:omega.selected_doc_id
+        Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
+
 Template.home.events
     'click .lightbulb': (e,t)->
         omega  = Docs.findOne model:'omega_session'
@@ -54,7 +61,12 @@ Template.home.events
         # console.log @
         # if selected_tags.array().length is 1
         #     Meteor.call 'call_wiki', search, ->
-        Meteor.call 'get_top_emotion', ->
+        # $('.hi .result')
+        #     .transition({
+        #         animation : 'scale'
+        #         reverse   : 'auto'
+        #         interval  : 20
+        #     })
 
         Meteor.call 'log_term', @title, ->
         # selected_tags.push @title
@@ -75,12 +87,13 @@ Template.home.events
         Meteor.call 'agg_omega', ->
             Session.set('is_loading',false)
             Session.set('dummy',!Session.get('dummy'))
+            Meteor.call 'get_top_emotion', ->
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
             Meteor.call 'agg_omega', ->
             Session.set('dummy', !Session.get('dummy'))
-        , 6000
+        , 7000
     'click .get_top_emotion': ->
         Meteor.call 'get_top_emotion', ->
         # queries.push @title
@@ -215,7 +228,12 @@ Template.home.helpers
                 ''
     emotion_color: ->
         omega = Docs.findOne model:'omega_session'
+        # omega.emotion_color
+        # if omega.emotion_color is 'blue'
+        #     'sadness'
+        # else
         omega.emotion_color
+
         # main_emotion = Docs.findOne({max_emotion_name:$exists:true}).max_emotion_name
         # console.log main_emotion
         # if main_emotion is 'anger'

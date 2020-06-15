@@ -265,16 +265,16 @@ template(name='tone')
             .item
                 
                 //- span #{sentence_id}
-                span(title="#{sentence_id}" class=tone_size) {{lowered text}}
-                    i.thumbs.up.outline.link.grey.icon.upvote_sentence
-                    i.thumbs.down.outline.link.grey.icon.downvote_sentence
+                span.tone_item(title="#{sentence_id}" class=tone_size) {{lowered text}}
+                    i.chevron.up.link.grey.icon.upvote_sentence
+                    i.chevron.down.link.grey.icon.downvote_sentence
                     //- .content
                     //- .header(title="#{sentence_id}") {{lowered text}}
-                    |weight:#{weight}
+                    //- |weight:#{weight}
                     each tones
                         //- .ui.basic.small.circular.label(class="{{calculated_size 'score'}}") 
                         .ui.basic.small.circular.label 
-                            |&nbsp; #{tone_id}
+                            |#{tone_id}
                         //- | {{ to_percent score }}% 
     // unless tone                
     //- #call_tone.ui.icon.button

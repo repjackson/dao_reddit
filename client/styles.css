@@ -9,7 +9,7 @@ body {
     /* background: rgba(0,0,0,.01) !important; */
     /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
-    transition: all 1s ease !important;
+    transition: all 2s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -29,7 +29,11 @@ body {
 }
 
 .ui.button.tertiary.result {
-    transition: all 1s ease !important;
+    transition: all 2s ease !important;
+}
+
+.tone_item {
+    transition: all 2s ease !important;
 }
 
 .ui.button.tertiary.result:hover{
@@ -40,7 +44,7 @@ body {
 
 .yeah {
     text-align: center !important;
-    font-size: 1.2rem !important;
+    font-size: 1.25rem !important;
     font-weight: 400 !important;
     /* color: grey !important; */
     /* border-radius: 0 0 10px 10px !important; */
@@ -62,6 +66,11 @@ body {
 .rounded {
     border-radius: 5px !important;
 }
+
+.sadness {
+    color: rgb(45, 147, 173) !important;
+}
+
 
 .card {
     background: black !important;
