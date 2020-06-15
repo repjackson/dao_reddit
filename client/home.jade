@@ -75,7 +75,9 @@ template(name='home')
                 //- .ui.header selected doc
                 //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                 if is_image   
-                    img.ui.left.floated.inline.image.rounded(src=url class=omega_dark_mode_class)
+                    img.ui.left.floated.image.rounded.call_visual(src=url class=omega_dark_mode_class)
+                if watson.metadata.image 
+                    img.ui.left.floated.image.rounded.call_visual(src=watson.metadata.image class=omega_dark_mode_class)
                 //- if is_image_domain   
                 if is_gifv
                     //- img.inverted(src="https://i.imgur.com/#{gif_filename}")
@@ -85,9 +87,10 @@ template(name='home')
                 if has_thumbnail
                     unless is_image
                         unless is_video
-                            //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                            //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                            img.ui.left.floated.invert.image.rounded(src=thumbnail)
+                            unless watson.metadata.image
+                                //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                                //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                                img.ui.left.floated.invert.image.rounded(src=thumbnail)
                 if is_video
                     .invert
                         blockquote(class="reddit-card")
@@ -114,7 +117,12 @@ template(name='home')
                     i.chevron.up.large.grey.icon
                 .ui.inline.small.grey.header #{points}
                 .ui.icon.circular.basic.button.vote_down(title=points)
-                    i.chevron.down.large.grey.icon                    
+                    i.chevron.down.large.grey.icon  
+                div
+                i.picture.icon
+                each visual_tags
+                    .ui.small.circular.basic.label #{this}
+                  
                 //- if watson
                 //-     +doc_sentiment
                 //-     +doc_emotion

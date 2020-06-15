@@ -100,6 +100,9 @@ Template.home.events
     'click .get_top_emotion': ->
         Meteor.call 'get_top_emotion', ->
         # queries.push @title
+    'click .call_visual': ->
+        Meteor.call 'call_visual', @_id, ->
+        # queries.push @title
 
     'click .select_query': ->
         omega  = Docs.findOne model:'omega_session'

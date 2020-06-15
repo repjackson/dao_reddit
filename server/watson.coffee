@@ -1,5 +1,6 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
+VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
 
 { IamAuthenticator } = require('ibm-watson/auth')
 
@@ -16,6 +17,20 @@ tone_analyzer = new ToneAnalyzerV3(
         apikey: Meteor.settings.private.tone.apikey
     })
     url: Meteor.settings.private.tone.url)
+
+
+visual_recognition = new VisualRecognitionV3({
+  version: '2018-03-19',
+  authenticator: new IamAuthenticator({
+    apikey: Meteor.settings.private.visual.apikey,
+  }),
+  url: Meteor.settings.private.visual.url,
+});
+
+# const classify_params = {
+#   url: 'https://ibm.biz/BdzLPG',
+# };
+
 
 Meteor.methods
     call_tone: (doc_id, key, mode)->
@@ -46,25 +61,40 @@ Meteor.methods
             )
         # else return
 
-    call_visual_link: (doc_id, field)->
+    call_visual: (doc_id, field)->
         self = @
         doc = Docs.findOne doc_id
-        link = doc["#{field}"]
+        # link = doc["#{field}"]
+        # visual_recognition.classify(classify_params)
+        #   .then(response => {
+        #     const classifiedImages = response.result;
+        #     console.log(JSON.stringify(classifiedImages, null, 2));
+        #   })
+        #   .catch(err => {
+        #     console.log('error:', err);
+        #   });
 
         params =
-            url:link
+            url:doc.watson.metadata.image
+            # url:doc.url
             # images_file: images_file
             # classifier_ids: classifier_ids
         visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
             if err
                 console.log err
             else
+                visual_tags = []
+                for tag in response.result.images[0].classifiers[0].classes
+                    visual_tags.push tag.class
                 console.log(JSON.stringify(response, null, 2))
+                console.log visual_tags
                 Docs.update { _id: doc_id},
                     $set:
-                        visual_classes: response.images[0].classifiers[0].classes
+                        visual_classes: response.result.images[0].classifiers[0].classes
+                        visual_tags:visual_tags
+                    $addToSet:
+                        tags:$each:visual_tags
         )
-
 
     call_watson: (doc_id, key, mode) ->
         # console.log 'calling watson'
