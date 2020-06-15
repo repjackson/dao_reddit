@@ -26,8 +26,14 @@ template(name='doc_item')
                     .row.pointer
         if has_thumbnail   
             //- .four.wide.column
-            
-            img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
+            if watson.metadata.image
+                img.ui.fluid.rounded.image.pointer.select_doc(src=watson.metadata.image)
+            else
+                if is_image
+                    img.ui.fluid.rounded.image.pointer.select_doc(src=url)
+                else
+                    if has_thumbnail
+                        img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail)
             .sixteen.wide.column
                 //- img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
                 if title
