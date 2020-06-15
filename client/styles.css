@@ -32,7 +32,7 @@ body {
 }
 
 .ui.tertiary.button.result {
-    transition: all 1s ease !important;
+    /* transition: all 1s ease !important; */
     padding: 5px !important;
 }
 
@@ -41,7 +41,7 @@ body {
 }
 
 .ui.tertiary.button.result:hover{
-    transition: transform 1s; /* Animation */
+    /* transition: transform 1s; /* Animation */ */
     color: black !important;
     /* font-size: 120% !important; */
     /* : 130% !important; */
@@ -364,7 +364,7 @@ body {
 }
 
 .result_column {
-  animation: fadein .5s;
+  /* animation: fadein .5s; */
 }
 
 @media screen and (max-width: 1100px) {

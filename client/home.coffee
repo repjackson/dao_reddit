@@ -21,12 +21,12 @@ Template.tone.events
             Meteor.call 'reset_sentence', omega.selected_doc_id, @, ->
         else
             Meteor.call 'upvote_sentence', omega.selected_doc_id, @, ->
-    'click .downvote_sentence': ->
-        # console.log @
-        omega  = Docs.findOne model:'omega_session'
-        # selected_doc =
-        #     Docs.findOne _id:omega.selected_doc_id
-        Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
+    # 'click .downvote_sentence': ->
+    #     # console.log @
+    #     omega  = Docs.findOne model:'omega_session'
+    #     # selected_doc =
+    #     #     Docs.findOne _id:omega.selected_doc_id
+    #     Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
 
 Template.home.events
     # 'click .lightbulb': (e,t)->
@@ -93,10 +93,10 @@ Template.home.events
             Meteor.call 'get_top_emotion', ->
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
-        Meteor.setTimeout ->
-            Meteor.call 'agg_omega', ->
-            Session.set('dummy', !Session.get('dummy'))
-        , 7000
+        # Meteor.setTimeout ->
+        #     Meteor.call 'agg_omega', ->
+        #     Session.set('dummy', !Session.get('dummy'))
+        # , 7000
     'click .get_top_emotion': ->
         Meteor.call 'get_top_emotion', ->
         # queries.push @title
