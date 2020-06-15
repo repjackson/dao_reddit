@@ -228,25 +228,27 @@ Template.home.helpers
                 ''
     tag_result: ->
         omega = Docs.findOne model:'omega_session'
-        omega.emotion_color
+        ec = omega.emotion_color
         # console.log @
         # console.log omega.total_doc_result_count
         percent = @count/omega.total_doc_result_count
-        console.log 'percent', percent
+        # console.log 'percent', percent
         # console.log typeof parseFloat(@relevance)
         # console.log typeof (@relevance*100).toFixed()
-        whole = parseInt(percent*10)
-        console.log 'whole', whole
+        whole = parseInt(percent*10)+1
+        # console.log 'whole', whole
 
-        if whole is 2 then 'f2'
-        else if whole is 3 then 'f3'
-        else if whole is 4 then 'f4'
-        else if whole is 5 then 'f5'
-        else if whole is 6 then 'f6'
-        else if whole is 7 then 'f7'
-        else if whole is 8 then 'f8'
-        else if whole is 9 then 'f9'
-        else if whole is 10 then 'f10'
+        if whole is 0 then "#{ec} f0"
+        else if whole is 1 then "#{ec} f1"
+        else if whole is 2 then "#{ec} f2"
+        else if whole is 3 then "#{ec} f3"
+        else if whole is 4 then "#{ec} f4"
+        else if whole is 5 then "#{ec} f5"
+        else if whole is 6 then "#{ec} f6"
+        else if whole is 7 then "#{ec} f7"
+        else if whole is 8 then "#{ec} f8"
+        else if whole is 9 then "#{ec} f9"
+        else if whole is 10 then "#{ec} f10"
 
     emotion_color: ->
         omega = Docs.findOne model:'omega_session'

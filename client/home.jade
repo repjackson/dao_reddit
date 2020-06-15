@@ -3,7 +3,7 @@ template(name='home')
         .sixteen.wide.center.aligned.column
             each omega_doc.selected_tags
                 //- button.ui.active.compact.large.circular.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
-                button.ui.compact.large.circular.yeah.inverted.button.unselect_tag(tabindex='0' class=emotion_color)
+                button.ui.compact.large.circular.yeah.button.unselect_tag(tabindex='0' class=emotion_color)
                     //- i.remove.icon
                     | #{this}
             .ui.left.icon.search.input(class=emotion_color)
@@ -40,10 +40,10 @@ template(name='home')
                 //- .ui.inline.header #{omega_doc.emotion_color}
                 //- .ui.header #{tags.length}
                 .ui.inline.yeah.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
-                .hi
+                span.hi
                     each omega_doc.filtered_agg_res
                         //- button.ui.large.yeah.tertiary.circular.button.result(tabindex="0" class=tag_result title=count)
-                        button.ui.tertiary.circular.button.result(tabindex="0" class=tag_result title=count)
+                        button.ui.compact.secondary.yeah.basic.circular.button.result(tabindex="0" class=tag_result title=count)
                             | #{title}
                         //- small #{count}
                     //- button.ui.compact.white.basic.huge.button.result(tabindex="0" class=result_class title=count) #{title}
