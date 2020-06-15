@@ -20,7 +20,7 @@ template(name='home')
                 unless is_loading
                     i.search.link.icon.refresh_agg(class=emotion_color)
                 if is_loading
-                    i.yin.yang.large.loading.large.icon(class=emotion_color)
+                    i.yin.yang.large.loading.large.icon
                 input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
             //- .scrolling.forty
             //- .ui.header #{connection.status}
@@ -78,6 +78,13 @@ template(name='home')
             //-     each docs
             //-         //- .ui.fitted.hidden.divider
             //-         +doc_item
+            //- .five.wide.column.scrolling
+        .four.wide.column.scrolling
+            each omega_doc.doc_result_ids
+                +doc_item
+                .ui.hidden.divider
+
+            
         .eight.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
@@ -201,12 +208,6 @@ template(name='home')
                 //- each tags
                 //-     .ui.button.toggle_tag
                 //-         |#{this}
-        //- .five.wide.column.scrolling
-        .four.wide.column.scrolling
-            each omega_doc.doc_result_ids
-                +doc_item
-                .ui.hidden.divider
-
                 
                 
                     //- .invert

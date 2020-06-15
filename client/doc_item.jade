@@ -26,8 +26,10 @@ template(name='doc_item')
                     .row.pointer
         if has_thumbnail   
             //- .four.wide.column
+            
+            img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
             .sixteen.wide.column
-                img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
+                //- img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
                 if title
                     if key_value_is 'model' 'wikipedia'
                         //- a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 

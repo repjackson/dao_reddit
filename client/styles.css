@@ -32,7 +32,7 @@ body {
 }
 
 .ui.tertiary.button.result {
-    /* transition: all 1s ease !important; */
+    transition: all 2s ease !important;
     padding: 5px !important;
 }
 
@@ -41,9 +41,9 @@ body {
 }
 
 .ui.tertiary.button.result:hover{
-    /* transition: transform 1s; /* Animation */ */
+    transition: transform 1s; /* Animation */
     color: black !important;
-    /* font-size: 120% !important; */
+    font-size: 120% !important;
     /* : 130% !important; */
 }
 
