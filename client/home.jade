@@ -6,6 +6,8 @@ template(name='home')
                 button.ui.compact.large.circular.yeah.tertiary.active.button.unselect_tag(tabindex='0' class=emotion_color)
                     //- i.remove.icon
                     | #{this}
+            .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
+                    
             .ui.left.icon.search.input(class=emotion_color)
                 unless is_loading
                     i.search.link.icon.refresh_agg(class=emotion_color)
@@ -18,18 +20,18 @@ template(name='home')
             unless connected
                 //- .ui.inline.header disconnected
                 //- .ui.hidden.divider
-                i.lightning.yellow.link.big.icon.reconnect
+                i.yin.yang.massive.link.icon.reconnect
             if connected
                 //- unless selected_tags
                 //-     i.huge.yin.yang.black.icon
                 //- i.grey.lightbulb.link.icon
-                unless omega_doc.selected_tags
-                    //- .ui.hidden.divider
-                    //- .ui.center.aligned.basic.segment
-                        if omega_doc.dark_mode
-                            i.massive.loading.yin.yang.link.icon.pick_dao
-                        else
-                            i.massive.loading.yin.yang.link.icon.pick_dao
+                //- unless omega_doc.selected_tags
+                //-     //- .ui.hidden.divider
+                //-     //- .ui.center.aligned.basic.segment
+                //-         if omega_doc.dark_mode
+                //-             i.massive.loading.yin.yang.link.icon.pick_dao
+                //-         else
+                //-             i.massive.loading.yin.yang.link.icon.pick_dao
                 //- if selected_tags
                 //-     .ui.icon.black.compact.button.clear_selected_tags
                 //-         i.remove.icon
@@ -39,7 +41,6 @@ template(name='home')
                 //- .ui.header current most emotion #{omega_doc.current_most_emotion}
                 //- .ui.inline.header #{omega_doc.emotion_color}
                 //- .ui.header #{tags.length}
-                .ui.inline.yeah.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                 span.hi
                     each omega_doc.filtered_agg_res
                         //- button.ui.large.yeah.tertiary.circular.button.result(tabindex="0" class=tag_result title=count)
@@ -68,10 +69,6 @@ template(name='home')
         //-     each docs
         //-         //- .ui.fitted.hidden.divider
         //-         +doc_item
-        .five.wide.column.scrolling
-            each omega_doc.doc_result_ids
-                +doc_item
-                .ui.divider
         .eleven.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
@@ -86,8 +83,20 @@ template(name='home')
                 //- img.ui.left.floated.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                 //- else
                 if has_thumbnail
-                    //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                    img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                    unless is_image
+                        unless is_video
+                            //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                            img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                if is_video
+                    .invert
+                        blockquote(class="reddit-card")
+                            //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+                            a(href="https://www.reddit.com#{permalink}") 
+                                |I made some 3D art of Edgar discovering the meaning of life
+                            |from 
+                            a(href="http://www.reddit.com/r/PewdiepieSubmissions")
+                                |r/
+                            script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
                 //- video   
                 //-    source(src="https://i.imgur.com/y4JdSvL.gif" type="video/gifv")
                 //- div.invert(style='position:relative; padding-bottom:calc(66.52% + 44px')
@@ -168,6 +177,10 @@ template(name='home')
                 each tags
                     .ui.compact.circular.basic.button.toggle_tag
                         |#{this}
+        .five.wide.column.scrolling
+            each omega_doc.doc_result_ids
+                +doc_item
+                .ui.divider
 
                 
                 

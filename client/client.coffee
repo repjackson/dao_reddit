@@ -38,6 +38,12 @@ Template.registerHelper 'is_image_domain', () ->
             true
     # true
 
+Template.registerHelper 'is_video', () ->
+    if @domain
+        if @domain in ['v.redd.it']
+            true
+    # true
+
 
 Template.registerHelper 'above_50', (input) ->
     # console.log 'input', input
