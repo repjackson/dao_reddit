@@ -36,10 +36,10 @@ body {
     transition: all 2s ease !important;
 }
 
-.ui.button.tertiary.result:hover{
+.ui.button.result:hover{
     transition: transform 2s; /* Animation */
     color: black !important;
-    /* font-size: 1.3rem !important; */
+    font-size: 150% !important;
 }
 
 .yeah {
