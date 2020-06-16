@@ -1,19 +1,19 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
 VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
-PersonalityInsightsV3 = require('ibm-watson/personality-insights/v3')
-TextToSpeechV1 = require('ibm-watson/text-to-speech/v1')
+# PersonalityInsightsV3 = require('ibm-watson/personality-insights/v3')
+# TextToSpeechV1 = require('ibm-watson/text-to-speech/v1')
 
 { IamAuthenticator } = require('ibm-watson/auth')
 
 
 
-textToSpeech = new TextToSpeechV1({
-  authenticator: new IamAuthenticator({
-    apikey: Meteor.settings.private.tts.apikey,
-  }),
-  url: Meteor.settings.private.tts.url,
-});
+# textToSpeech = new TextToSpeechV1({
+#   authenticator: new IamAuthenticator({
+#     apikey: Meteor.settings.private.tts.apikey,
+#   }),
+#   url: Meteor.settings.private.tts.url,
+# });
 
 
 
