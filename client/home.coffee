@@ -355,8 +355,10 @@ Template.home.helpers
             Docs.find {
                 model:'reddit'
             },
-                sort:ups:-1
-                limit:2
+                sort:
+                    points:-1
+                    ups:-1
+                limit:10
         # console.log cursor.fetch()
         cursor
 
