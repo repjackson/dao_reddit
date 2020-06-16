@@ -7,7 +7,7 @@ template(name='home')
     //-         .icon.item
     //-             i.user.icon
     .ui.stackable.padded.grid.home
-        .four.wide.right.aligned.column
+        .sixteen.wide.column
             //- each omega_doc.selected_tags
             each selected_tags
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
@@ -26,40 +26,40 @@ template(name='home')
             //- .scrolling.forty
             //- .ui.header #{connection.status}
             //- i.brain.yellow.link.big.icon.get_top_emotion
-            .scrolling    
-                unless connected
-                    //- .ui.inline.header disconnected
-                    //- .ui.hidden.divider
-                    i.yin.yang.massive.link.icon.reconnect
-                if connected
-                    //- unless selected_tags
-                    //-     i.huge.yin.yang.black.icon
-                    //- i.grey.lightbulb.link.icon
-                    //- unless omega_doc.selected_tags
-                    //-     //- .ui.hidden.divider
-                    //-     //- .ui.center.aligned.segment
-                    //-         if omega_doc.dark_mode
-                    //-             i.massive.loading.yin.yang.link.icon.pick_dao
-                    //-         else
-                    //-             i.massive.loading.yin.yang.link.icon.pick_dao
-                    //- if selected_tags
-                    //-     .ui.icon.black.button.clear_selected_tags
-                    //-         i.remove.icon
-                    //- div
-                    //- if selected_tags_plural
-                    //- each omega_doc.agg
-                    //- .ui.header current most emotion #{omega_doc.current_most_emotion}
-                    //- .ui.inline.header #{omega_doc.emotion_color}
-                    //- .ui.header #{tags.length}
-                    span.hi
-                        //- each omega_doc.filtered_agg_res
-                        //- each filtered_agg_res
-                        each omega_tags
-                            //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
-                            button.ui.compact.large.basic.button.result(tabindex="0" class=tag_result title=count)
-                                | #{title}
-                            //- small #{count}
-                        //- button.ui.white.huge.button.result(tabindex="0" class=result_class title=count) #{title}
+            //- .scrolling    
+            //- unless connected
+            //-     //- .ui.inline.header disconnected
+            //-     //- .ui.hidden.divider
+            //-     i.yin.yang.massive.link.icon.reconnect
+            if connected
+                //- unless selected_tags
+                //-     i.huge.yin.yang.black.icon
+                //- i.grey.lightbulb.link.icon
+                //- unless omega_doc.selected_tags
+                //-     //- .ui.hidden.divider
+                //-     //- .ui.center.aligned.segment
+                //-         if omega_doc.dark_mode
+                //-             i.massive.loading.yin.yang.link.icon.pick_dao
+                //-         else
+                //-             i.massive.loading.yin.yang.link.icon.pick_dao
+                //- if selected_tags
+                //-     .ui.icon.black.button.clear_selected_tags
+                //-         i.remove.icon
+                //- div
+                //- if selected_tags_plural
+                //- each omega_doc.agg
+                //- .ui.header current most emotion #{omega_doc.current_most_emotion}
+                //- .ui.inline.header #{omega_doc.emotion_color}
+                //- .ui.header #{tags.length}
+                span.hi
+                    //- each omega_doc.filtered_agg_res
+                    //- each filtered_agg_res
+                    each omega_tags
+                        //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
+                        button.ui.compact.large.basic.button.result(tabindex="0" class=tag_result title=count)
+                            | #{title}
+                        //- small #{count}
+                    //- button.ui.white.huge.button.result(tabindex="0" class=result_class title=count) #{title}
                 //- if one_post
             //- .centered.one.column.row
             //- each omega_doc.doc_results
@@ -82,10 +82,11 @@ template(name='home')
             //-         //- .ui.fitted.hidden.divider
             //-         +doc_item
             //- .five.wide.column.scrolling
-        .four.wide.column.scrolling
+        .eight.wide.column.scrolling
             //- each omega_doc.doc_result_ids
-            each omega_doc_results
-                +doc_item
+            .ui.cards
+                each omega_doc_results
+                    +doc_item
                 //- .ui.hidden.divider
 
             

@@ -1,58 +1,86 @@
 
 template(name='doc_item')
-    //- .ui.header hi
-    //- with doc_object
-    //- unless is_selected
-        //- .ui.basic.compact.segment
-        
-        //- .ui.inverted.card
-            //- img.image.rounded(src=url)
-            //- .invert
-            //-     blockquote(class="reddit-card" data-card-created="1591519131")
-                    //- a.invert(href="https://www.reddit.com/r/CryptoCurrency/comments/fxf0bz/reddit_is_implementing_a_points_system_on_the/")
-                    //-     |#{title}
-                    //- |from 
-                    //- a(href="http://www.reddit.com/r/CryptoCurrency")
-                    //-     |r/CryptoCurrency
-        //- .ui.column(class=omega_dark_mode_class)
-        .ui.column
-            //- if is_loading
-            //-     .ui.placeholder
-            //-         .image.header
-            //-             .line
-            //-         .paragraph
-            //-             .line
-            //- else
-            .ui.grid
-                .row.pointer
-    if has_thumbnail   
-        //- .four.wide.column
+    .card
         if watson.metadata.image
             img.ui.fluid.rounded.image.pointer.select_doc(src=watson.metadata.image)
-        else
-            if is_image
-                img.ui.fluid.rounded.image.pointer.select_doc(src=url)
-            else
-                if has_thumbnail
-                    img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail)
-        .sixteen.wide.column
-            //- img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
+    
+        else 
+            if has_thumbnail   
+                //- .four.wide.column
+                if is_image
+                    img.ui.fluid.rounded.image.pointer.select_doc(src=url)
+                else
+                    if has_thumbnail
+                        img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail)
+        .content
             if title
                 if key_value_is 'model' 'wikipedia'
-                    //- a#title.ui.yeah.link.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
-                    a#title.ui.yeah.link.inline.pointer.header.select_doc(target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                    //- a#title.ui.link.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                    a#title.ui.link.pointer.header.select_doc(target='_window') 
                         i.wikipedia.link.icon
                         |!{lowered_title}
                 else
-                    //- a#title.ui.yeah.inline.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
-                    a#title.ui.yeah.inline.pointer.header.select_doc(target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                    //- a#title.ui.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                    a#title.ui.pointer.header.select_doc(target='_window') !{lowered_title}
                 //- .spacer
                 //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
                 //- .ui.header.pointer.select_doc(title="view full") !{title}
             else if watson.metadata.title
-                a.ui.inline.yeah.header.pointer.select_doc(title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
-                //- a.ui.inline.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
-            div
+                a.ui.header.pointer.select_doc !{watson.metadata.title}
+                //- a.ui.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+        
+    //- //- with doc_object
+    //- //- unless is_selected
+    //-     //- .ui.basic.compact.segment
+    //- 
+    //-     //- .ui.inverted.card
+    //-         //- img.image.rounded(src=url)
+    //-         //- .invert
+    //-         //-     blockquote(class="reddit-card" data-card-created="1591519131")
+    //-                 //- a.invert(href="https://www.reddit.com/r/CryptoCurrency/comments/fxf0bz/reddit_is_implementing_a_points_system_on_the/")
+    //-                 //-     |#{title}
+    //-                 //- |from 
+    //-                 //- a(href="http://www.reddit.com/r/CryptoCurrency")
+    //-                 //-     |r/CryptoCurrency
+    //-     //- .ui.column(class=omega_dark_mode_class)
+    //-     .ui.column
+    //-         //- if is_loading
+    //-         //-     .ui.placeholder
+    //-         //-         .image.header
+    //-         //-             .line
+    //-         //-         .paragraph
+    //-         //-             .line
+    //-         //- else
+    //-         .ui.grid
+    //-             .row.pointer
+    //- if has_thumbnail   
+    //-     //- .four.wide.column
+    //-     if watson.metadata.image
+    //-         img.ui.fluid.rounded.image.pointer.select_doc(src=watson.metadata.image)
+    //-     else
+    //-         if is_image
+    //-             img.ui.fluid.rounded.image.pointer.select_doc(src=url)
+    //-         else
+    //-             if has_thumbnail
+    //-                 img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail)
+    //-     .sixteen.wide.column
+    //-         //- img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
+    //-         if title
+    //-             if key_value_is 'model' 'wikipedia'
+    //-                 //- a#title.ui.link.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+    //-                 a#title.ui.link.pointer.header.select_doc(target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+    //-                     i.wikipedia.link.icon
+    //-                     |!{lowered_title}
+    //-             else
+    //-                 //- a#title.ui.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+    //-                 a#title.ui.pointer.header.select_doc(target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+    //-             //- .spacer
+    //-             //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
+    //-             //- .ui.header.pointer.select_doc(title="view full") !{title}
+    //-         else if watson.metadata.title
+    //-             a.ui.header.pointer.select_doc(title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+    //-             //- a.ui.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+    //-         div
                             //- if dev 
                             //-     i.circular.code.link.icon.print_me
                             
@@ -75,14 +103,14 @@ template(name='doc_item')
                     //-     .sixteen.wide.column
                     //-         if title
                     //-             if key_value_is 'model' 'wikipedia'
-                    //-                 a#title.ui.yeah.link.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
+                    //-                 a#title.ui.link.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 
                     //-                     i.wikipedia.link.icon
                     //-                     |!{lowered_title}
                     //-             else
-                    //-                 a#title.ui.yeah.inline.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
+                    //-                 a#title.ui.pointer.header.select_doc(class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
                     //-             //- .spacer
                     //-             //- a.ui.pointer.pointer.header(title="view full" href=url target='_window') !{title}
                     //-             //- .ui.pointer.header.pointer.select_doc(title="view full") !{title}
                     //-         else if watson.metadata.title
-                    //-             a.ui.inline.pointer.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
+                    //-             a.ui.pointer.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
                     //- 
