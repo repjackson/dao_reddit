@@ -12,14 +12,15 @@ Template.doc_item.onRendered ->
 
 Template.home.events
     'click .toggle_tag': (e,t)->
-        omega = Docs.findOne model:'omega_session'
-        Docs.update omega._id,
-            $addToSet:
-                selected_tags:@valueOf()
-        Session.set('is_loading',true)
-        Meteor.call 'agg_omega', ->
-            Session.set('is_loading',false)
-            Session.set('dummy',!Session.get('dummy'))
+        selected_tags.push @valueOf()
+        # omega = Docs.findOne model:'omega_session'
+        # Docs.update omega._id,
+        #     $addToSet:
+        #         selected_tags:@valueOf()
+        # Session.set('is_loading',true)
+        # Meteor.call 'agg_omega', ->
+        #     Session.set('is_loading',false)
+        #     Session.set('dummy',!Session.get('dummy'))
 
 
     'click .toggle_domain': (e,t)->
@@ -145,7 +146,7 @@ Template.doc_item.events
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
         Meteor.call 'call_visual', @_id, (err,res)->
             console.log res
-            
+
         # , 1000)
         # Meteor.call 'log_view', @_id, ->
         # Router.go "/doc/#{@_id}/view"

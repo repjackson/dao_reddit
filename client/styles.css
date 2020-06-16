@@ -14,7 +14,8 @@ body {
     /* background: #0e0e44 !important; */
 }
 .ui.cards > .card {
-    margin-bottom: 0 !important;
+    margin-bottom: 0px !important;
+    margin-top:  !important;
 }
 .centered {
     text-align: center !important;

@@ -6,7 +6,7 @@ template(name='home')
     //-     .right.menu
     //-         .icon.item
     //-             i.user.icon
-    .ui.stackable.padded.grid.home
+    .ui.stackable.grid.home
         .sixteen.wide.column
             //- each omega_doc.selected_tags
             each selected_tags
@@ -94,202 +94,204 @@ template(name='home')
         .eleven.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
-                a.ui.center.aligned.header.centered(href=url target="_blank")
-                    //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
-                    //- if has_thumbnail   
-                    |!{lowered_title}
-                    //- |#{title} 
-                //- .ui.header selected doc
-                //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
-                if is_image   
-                    img.ui.centered.image.rounded.pointer.call_visual(src=url)
-                if watson.metadata.image 
-                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
-                //- if is_image_domain   
-                if is_gifv
-                    //- img.inverted(src="https://i.imgur.com/#{gif_filename}")
-                    img.invert(src=gif_filename)
-                div
-                //- img.ui.left.floated.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                //- else
-                if has_thumbnail
-                    unless is_image
-                        unless is_video
-                            unless watson.metadata.image
-                                //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                                //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                                img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
-                if is_video
-                    .invert
-                        blockquote(class="reddit-card")
-                            //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
-                            a(href="https://www.reddit.com#{permalink}") 
-                                |dao
-                            |from 
-                            a(href="http://www.reddit.com/r/PewdiepieSubmissions")
-                                |r/
-                            script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
-                //- video   
-                //-    source(src="https://i.imgur.com/y4JdSvL.gif" type="video/gifv")
-                //- div.invert(style='position:relative; padding-bottom:calc(66.52% + 44px')
-                //-     iframe(src=url frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                //-         p
-                //-             a(href=url) via Gfycat #{url}
-                .spacer
-                //- a.f17.yeah.centered(href=url target="_blank")
-                .spacer
-                .ui.icon.circular.button.vote_up(title=points)
-                    i.chevron.up.large.icon
-                .ui.inline.small.header #{points}
-                .ui.icon.circular.button.vote_down(title=points)
-                    i.chevron.down.large.icon  
-                //- div
-                i.picture.icon(title='image tags')
-                each visual_tags
-                    .ui.compact.circular.button.toggle_tag #{this}
-                  
-                //- if watson
-                //-     +doc_sentiment
-                //-     +doc_emotion
-                //- a.ui.icon.button(href=url target="_blank")
-                //-     i.external.large.icon
-                a.ui.large.compact.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
-                    i.chat.outline.large.icon
-                    |#{comment_count}
-                //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                //-     i.reddit.icon
-                //-     |r/#{subreddit}
-                if publish_when
-                    .ui.small.tertiary.circular.button
-                        //- i.calendar.icon
-                        //- |#{watson.metadata.publication_date}
-                        |#{publish_when}
-                .ui.tertiary.circular.button.toggle_domain(title='add domain')
-                    //- i.globe.icon
-                    |#{domain}
-                    
-                //- if watson
-                //-     +doc_emotion
-                //- div
-                if key_value_is 'model' 'reddit'
-                    if reddit_id
-                        unless rd
-                            //- div
-                            .ui.icon.circular.button.pull_post
-                                i.reddit.icon
-                    unless watson.emotion
-                        .ui.icon.circular.button.call_watson
-                            i.dna.icon
-                    if dev 
-                        i.code.link.icon.print_me
-                .ui.icon.small.input
-                    i.tag.icon
-                    input.add_tag(type='text')
-                each user_tags
-                    .ui.circular.label #{this}
-
-                    //- a.ui.tertiary.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
-                    //-     i.user.outline.icon
-                    //-     |#{author}
-    
-                if rd.selftext_html
-                    //- unless tone
-                    //- .content
-                    |!{parsed_selftext_html}
-                    //- |!{rd.selftext_html}
-                else
-                    if tone
-                        //- .scrolling
-                        +tone
-                    //- else
-                if rd.selftext
+                .ui.fluid.segment
                     .content
-                        +markdown
-                            !{rd.selftext}
-                if is_youtube
-                    iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-
-                //- if watson
-                //-     +watson_view
-                each tags
-                    .ui.compact.circular.button.toggle_tag
-                        |#{this}
-                
-                
-                    //- .invert
-                //- if is_twitter
-                //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
-                //-         p(lang="en" dir="ltr")
-                //-             |#{title}
-                //-             //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
-                //-         a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
-                //-             |February 21, 2018
-                //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
-                //- else if has_thumbnail
-                
-                    //- if watson
-                    //-     +doc_emotion
-                    //-     //- +doc_sentiment
-                    //-     //- +tone
-                
-                
-                //- if tone
-                //-     +tone
-                
-                //- .four.wide.center.aligned.column
-                //- if is_image
-                    //- .four.wide.column
-                    //- .image
-                        //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
-                        //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
-                    //- img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
-                //- else 
-
-                //- if title
-                //- unless is_youtube 
-                //-     unless is_image
-                //- if has_thumbnail   
-                //-     img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
-                //- div
-                //- .ui.segment
-                //- .spacer
-
-    
+                        a.ui.center.aligned.header.centered(href=url target="_blank")
+                            //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
+                            //- if has_thumbnail   
+                            |!{lowered_title}
+                            //- |#{title} 
+                        //- .ui.header selected doc
+                        //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
+                        if is_image   
+                            img.ui.centered.image.rounded.pointer.call_visual(src=url)
+                        if watson.metadata.image 
+                            img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                        //- if is_image_domain   
+                        if is_gifv
+                            //- img.inverted(src="https://i.imgur.com/#{gif_filename}")
+                            img.invert(src=gif_filename)
+                        div
+                        //- img.ui.left.floated.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                        //- else
+                        if has_thumbnail
+                            unless is_image
+                                unless is_video
+                                    unless watson.metadata.image
+                                        //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                                        //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                                        img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+                        if is_video
+                            .invert
+                                blockquote(class="reddit-card")
+                                    //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+                                    a(href="https://www.reddit.com#{permalink}") 
+                                        |dao
+                                    |from 
+                                    a(href="http://www.reddit.com/r/PewdiepieSubmissions")
+                                        |r/
+                                    script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+                        //- video   
+                        //-    source(src="https://i.imgur.com/y4JdSvL.gif" type="video/gifv")
+                        //- div.invert(style='position:relative; padding-bottom:calc(66.52% + 44px')
+                        //-     iframe(src=url frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
+                        //-         p
+                        //-             a(href=url) via Gfycat #{url}
+                        .spacer
+                        //- a.f17.yeah.centered(href=url target="_blank")
+                        .spacer
+                        .ui.icon.circular.button.vote_up(title=points)
+                            i.chevron.up.large.icon
+                        .ui.inline.small.header #{points}
+                        .ui.icon.circular.button.vote_down(title=points)
+                            i.chevron.down.large.icon  
+                        //- div
+                        i.picture.icon(title='image tags')
+                        each visual_tags
+                            .ui.compact.circular.button.toggle_tag #{this}
+                          
+                        //- if watson
+                        //-     +doc_sentiment
+                        //-     +doc_emotion
+                        //- a.ui.icon.button(href=url target="_blank")
+                        //-     i.external.large.icon
+                        a.ui.large.compact.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                            i.chat.outline.large.icon
+                            |#{comment_count}
+                        //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                        //-     i.reddit.icon
+                        //-     |r/#{subreddit}
+                        if publish_when
+                            .ui.small.tertiary.circular.button
+                                //- i.calendar.icon
+                                //- |#{watson.metadata.publication_date}
+                                |#{publish_when}
+                        .ui.tertiary.circular.button.toggle_domain(title='add domain')
+                            //- i.globe.icon
+                            |#{domain}
                             
+                        //- if watson
+                        //-     +doc_emotion
+                        //- div
+                        if key_value_is 'model' 'reddit'
+                            if reddit_id
+                                unless rd
+                                    //- div
+                                    .ui.icon.circular.button.pull_post
+                                        i.reddit.icon
+                            unless watson.emotion
+                                .ui.icon.circular.button.call_watson
+                                    i.dna.icon
+                            if dev 
+                                i.code.link.icon.print_me
+                        .ui.icon.small.input
+                            i.tag.icon
+                            input.add_tag(type='text')
+                        each user_tags
+                            .ui.circular.label #{this}
+
+                            //- a.ui.tertiary.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+                            //-     i.user.outline.icon
+                            //-     |#{author}
+            
+                        if rd.selftext_html
+                            //- unless tone
+                            //- .content
+                            |!{parsed_selftext_html}
+                            //- |!{rd.selftext_html}
+                        else
+                            if tone
+                                //- .scrolling
+                                +tone
+                            //- else
+                        if rd.selftext
+                            .content
+                                +markdown
+                                    !{rd.selftext}
+                        if is_youtube
+                            iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+
+                        //- if watson
+                        //-     +watson_view
+                        each tags
+                            .ui.compact.circular.button.toggle_tag
+                                |#{this}
                         
-                //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                //-     i.reddit.icon
-                //-     |r/#{subreddit}
-                //- .ui.icon.small.input
-                //-     i.tag.icon
-                //-     input.add_tag(type='text')
-                //- each user_tags
-                //-     .ui.label #{this}
-            //- if rd.selftext_html
-            //-     //- unless tone
-            //-     //- .content
-            //-     |!{parsed_selftext_html}
-            //-     //- |!{rd.selftext_html}
-            //- else
-            //-     if tone
-            //-         +tone
-            //-     //- else
-            //- if rd.selftext
-            //-     .content
-            //-         +markdown
-            //-             !{rd.selftext}
-            //- .ui.tertiary.button.toggle_tags
-            //-     i.tags.icon
-            //-     |#{tags.length}
-            //- if view_tags
+                        
+                            //- .invert
+                        //- if is_twitter
+                        //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
+                        //-         p(lang="en" dir="ltr")
+                        //-             |#{title}
+                        //-             //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
+                        //-         a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
+                        //-             |February 21, 2018
+                        //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+                        //- else if has_thumbnail
+                        
+                            //- if watson
+                            //-     +doc_emotion
+                            //-     //- +doc_sentiment
+                            //-     //- +tone
+                        
+                        
+                        //- if tone
+                        //-     +tone
+                        
+                        //- .four.wide.center.aligned.column
+                        //- if is_image
+                            //- .four.wide.column
+                            //- .image
+                                //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
+                                //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
+                            //- img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
+                        //- else 
+
+                        //- if title
+                        //- unless is_youtube 
+                        //-     unless is_image
+                        //- if has_thumbnail   
+                        //-     img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
+                        //- div
+                        //- .ui.segment
+                        //- .spacer
 
             
-    //- .centered.middle.aligned.row.flat
-    //-     .sixteen.wide.middle.aligned.column
-    //-         //- .ui.hidden.divider
-    //-         .ui.center.aligned.middle.aligned.header 
-    //-             |sponsored by
-    //-             a(href="https://ciomastermind.com/" target="_window")
-    //-                 //- |ciomastermind
-    //-                 img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
-            
+                                    
+                                
+                        //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                        //-     i.reddit.icon
+                        //-     |r/#{subreddit}
+                        //- .ui.icon.small.input
+                        //-     i.tag.icon
+                        //-     input.add_tag(type='text')
+                        //- each user_tags
+                        //-     .ui.label #{this}
+                    //- if rd.selftext_html
+                    //-     //- unless tone
+                    //-     //- .content
+                    //-     |!{parsed_selftext_html}
+                    //-     //- |!{rd.selftext_html}
+                    //- else
+                    //-     if tone
+                    //-         +tone
+                    //-     //- else
+                    //- if rd.selftext
+                    //-     .content
+                    //-         +markdown
+                    //-             !{rd.selftext}
+                    //- .ui.tertiary.button.toggle_tags
+                    //-     i.tags.icon
+                    //-     |#{tags.length}
+                    //- if view_tags
+
+                    
+            //- .centered.middle.aligned.row.flat
+            //-     .sixteen.wide.middle.aligned.column
+            //-         //- .ui.hidden.divider
+            //-         .ui.center.aligned.middle.aligned.header 
+            //-             |sponsored by
+            //-             a(href="https://ciomastermind.com/" target="_window")
+            //-                 //- |ciomastermind
+            //-                 img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
+                    

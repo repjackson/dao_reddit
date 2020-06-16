@@ -14,13 +14,14 @@ Template.tone.events
     # 'click .upvote_sentence': ->
     'click .tone_item': ->
         # console.log @
+        doc_id = Session.get('selected_doc_id')
         omega  = Docs.findOne model:'omega_session'
         # selected_doc =
         #     Docs.findOne _id:omega.selected_doc_id
         if @weight is 3
-            Meteor.call 'reset_sentence', omega.selected_doc_id, @, ->
+            Meteor.call 'reset_sentence', doc_id, @, ->
         else
-            Meteor.call 'upvote_sentence', omega.selected_doc_id, @, ->
+            Meteor.call 'upvote_sentence', doc_id, @, ->
     # 'click .downvote_sentence': ->
     #     # console.log @
     #     omega  = Docs.findOne model:'omega_session'
@@ -224,6 +225,9 @@ Template.home.helpers
     selected_doc: ->
         # omega = Docs.findOne model:'omega_session'
         # Docs.findOne omega.selected_doc_id
+        # current_docs = Docs.find()
+        # if Session.get('selected_doc_id') in current_docs.fetch()
+
         Docs.findOne Session.get('selected_doc_id')
     is_loading: ->
         Session.get('is_loading')

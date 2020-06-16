@@ -69,7 +69,7 @@ Meteor.publish 'tag_results', (
         },
             sort:
                 count: -1
-            limit: 10
+            limit: 7
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
@@ -100,7 +100,7 @@ Meteor.publish 'tag_results', (
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 33 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -148,4 +148,4 @@ Meteor.publish 'doc_results', (
         sort:
             points:-1
             ups:-1
-        limit:20
+        limit:5
