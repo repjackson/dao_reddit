@@ -1,17 +1,17 @@
 
 template(name='doc_item')
-    .card
+    a.card.select_doc
         if watson.metadata.image
-            img.ui.fluid.rounded.image.pointer.select_doc(src=watson.metadata.image)
+            img.ui.rounded.image(src=watson.metadata.image)
     
         else 
             if has_thumbnail   
                 //- .four.wide.column
                 if is_image
-                    img.ui.fluid.rounded.image.pointer.select_doc(src=url)
+                    img.ui.rounded.image(src=url)
                 else
                     if has_thumbnail
-                        img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail)
+                        img.ui.rounded.image(src=thumbnail)
         .content
             if title
                 if key_value_is 'model' 'wikipedia'
@@ -21,12 +21,12 @@ template(name='doc_item')
                         |!{lowered_title}
                 else
                     //- a#title.ui.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{lowered_title}
-                    a#title.ui.pointer.header.select_doc(target='_window') !{lowered_title}
+                    a#title.pointer.header.select_doc(target='_window') !{lowered_title}
                 //- .spacer
                 //- a.ui.pointer.header(title="view full" href=url target='_window') !{title}
                 //- .ui.header.pointer.select_doc(title="view full") !{title}
             else if watson.metadata.title
-                a.ui.header.pointer.select_doc !{watson.metadata.title}
+                a.header.pointer.select_doc !{watson.metadata.title}
                 //- a.ui.header.pointer.select_doc(class=sentiment_class title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") !{watson.metadata.title}
         
     //- //- with doc_object
@@ -34,7 +34,7 @@ template(name='doc_item')
     //-     //- .ui.basic.compact.segment
     //- 
     //-     //- .ui.inverted.card
-    //-         //- img.image.rounded(src=url)
+    //-         //- img.image(src=url)
     //-         //- .invert
     //-         //-     blockquote(class="reddit-card" data-card-created="1591519131")
     //-                 //- a.invert(href="https://www.reddit.com/r/CryptoCurrency/comments/fxf0bz/reddit_is_implementing_a_points_system_on_the/")
@@ -56,15 +56,15 @@ template(name='doc_item')
     //- if has_thumbnail   
     //-     //- .four.wide.column
     //-     if watson.metadata.image
-    //-         img.ui.fluid.rounded.image.pointer.select_doc(src=watson.metadata.image)
+    //-         img.ui.fluid.image.pointer.select_doc(src=watson.metadata.image)
     //-     else
     //-         if is_image
-    //-             img.ui.fluid.rounded.image.pointer.select_doc(src=url)
+    //-             img.ui.fluid.image.pointer.select_doc(src=url)
     //-         else
     //-             if has_thumbnail
-    //-                 img.ui.fluid.rounded.image.pointer.select_doc(src=thumbnail)
+    //-                 img.ui.fluid.image.pointer.select_doc(src=thumbnail)
     //-     .sixteen.wide.column
-    //-         //- img.ui.left.floated.middle.aligned.rounded.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
+    //-         //- img.ui.left.floated.middle.aligned.image.pointer.select_doc(src=thumbnail class=omega_dark_mode_class)
     //-         if title
     //-             if key_value_is 'model' 'wikipedia'
     //-                 //- a#title.ui.link.header(href=url class=sentiment_class target='_window' title="#{doc_sentiment_label} {{fixed doc_sentiment_score}}%") 

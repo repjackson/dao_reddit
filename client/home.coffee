@@ -237,12 +237,13 @@ Template.home.helpers
     #         else
     #             # console.log 'hi light'
     #             ''
-    tag_result: ->
+    tag_result_class: ->
         # omega = Docs.findOne model:'omega_session'
         # ec = omega.emotion_color
         # console.log @
         # console.log omega.total_doc_result_count
         total_doc_result_count = Docs.find({}).count()
+        console.log total_doc_result_count
         percent = @count/total_doc_result_count
         # console.log 'percent', percent
         # console.log typeof parseFloat(@relevance)

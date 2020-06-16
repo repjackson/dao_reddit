@@ -59,7 +59,7 @@ Meteor.publish 'tag_results', (
     match.model = $in: ['reddit','wikipedia']
     # console.log 'query length', query.length
     # if omega.query and omega.query.length > 0
-    if query and query.length > 0
+    if query and query.length > 1
     #     console.log 'searching query', query
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
@@ -89,23 +89,25 @@ Meteor.publish 'tag_results', (
             match.tags = $all: selected_tags
         else
             match.tags = $all: ['dao']
-        console.log 'match for tags', match
+        # console.log 'match for tags', match
+        agg_doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
+            { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 33 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
         }
 
         tag_cloud.forEach (tag, i) =>
-            console.log 'queried tag ', tag
+            # console.log 'queried tag ', tag
             # console.log 'key', key
             self.added 'tags', Random.id(),
                 title: tag.name
@@ -146,4 +148,4 @@ Meteor.publish 'doc_results', (
         sort:
             points:-1
             ups:-1
-        limit:10
+        limit:20

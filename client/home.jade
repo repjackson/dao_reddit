@@ -1,7 +1,7 @@
 template(name='home')
     //- .ui.fluid.attached.borderless.menu
     //-     .header.item 
-    //-         i.yin.yang.large.grey.icon
+    //-         i.yin.yang.large.icon
     //-         |dao
     //-     .right.menu
     //-         .icon.item
@@ -12,9 +12,9 @@ template(name='home')
             each selected_tags
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
-                button.ui.large.compact.yeah.active.button.unselect_tag(tabindex='0')
+                button.ui.large.compact.yeah.active.circular.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
-                    | #{this}
+                    strong #{this}
             //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                     
             .ui.left.icon.search.input(class=emotion_color)
@@ -34,7 +34,7 @@ template(name='home')
             if connected
                 //- unless selected_tags
                 //-     i.huge.yin.yang.black.icon
-                //- i.grey.lightbulb.link.icon
+                //- i.lightbulb.link.icon
                 //- unless omega_doc.selected_tags
                 //-     //- .ui.hidden.divider
                 //-     //- .ui.center.aligned.segment
@@ -56,9 +56,10 @@ template(name='home')
                     //- each filtered_agg_res
                     each omega_tags
                         //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
-                        button.ui.compact.large.basic.button.result(tabindex="0" class=tag_result title=count)
+                        //- button.ui.compact.large.circular.button.result(tabindex="0" class=tag_result_class title=count)
+                        button.ui.compact.large.circular.button.result(tabindex="0" title=count)
                             | #{title}
-                        //- small #{count}
+                            //- small #{count}
                     //- button.ui.white.huge.button.result(tabindex="0" class=result_class title=count) #{title}
                 //- if one_post
             //- .centered.one.column.row
@@ -82,18 +83,18 @@ template(name='home')
             //-         //- .ui.fitted.hidden.divider
             //-         +doc_item
             //- .five.wide.column.scrolling
-        .eight.wide.column.scrolling
+        .five.wide.column.scrolling
             //- each omega_doc.doc_result_ids
-            .ui.cards
+            .ui.horizontal.cards
                 each omega_doc_results
                     +doc_item
                 //- .ui.hidden.divider
 
             
-        .eight.wide.column.scrolling
+        .eleven.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
-                a.ui.center.aligned.grey.header.centered(href=url target="_blank")
+                a.ui.center.aligned.header.centered(href=url target="_blank")
                     //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
                     //- if has_thumbnail   
                     |!{lowered_title}
@@ -137,15 +138,15 @@ template(name='home')
                 .spacer
                 //- a.f17.yeah.centered(href=url target="_blank")
                 .spacer
-                .ui.icon.button.vote_up(title=points)
-                    i.chevron.up.large.grey.icon
-                .ui.inline.small.grey.header #{points}
-                .ui.icon.button.vote_down(title=points)
-                    i.chevron.down.large.grey.icon  
+                .ui.icon.circular.button.vote_up(title=points)
+                    i.chevron.up.large.icon
+                .ui.inline.small.header #{points}
+                .ui.icon.circular.button.vote_down(title=points)
+                    i.chevron.down.large.icon  
                 //- div
                 i.picture.icon(title='image tags')
                 each visual_tags
-                    .ui.compact.button.toggle_tag #{this}
+                    .ui.compact.circular.button.toggle_tag #{this}
                   
                 //- if watson
                 //-     +doc_sentiment
@@ -155,15 +156,15 @@ template(name='home')
                 a.ui.large.compact.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
                     i.chat.outline.large.icon
                     |#{comment_count}
-                //- a.ui.tertiary.grey.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                 //-     i.reddit.icon
                 //-     |r/#{subreddit}
                 if publish_when
-                    .ui.small.grey.tertiary.button
+                    .ui.small.tertiary.circular.button
                         //- i.calendar.icon
                         //- |#{watson.metadata.publication_date}
                         |#{publish_when}
-                .ui.tertiary.grey.button.toggle_domain(title='add domain')
+                .ui.tertiary.circular.button.toggle_domain(title='add domain')
                     //- i.globe.icon
                     |#{domain}
                     
@@ -174,20 +175,20 @@ template(name='home')
                     if reddit_id
                         unless rd
                             //- div
-                            .ui.icon.big.button.pull_post
-                                i.reddit.large.red.icon
+                            .ui.icon.circular.button.pull_post
+                                i.reddit.icon
                     unless watson.emotion
-                        .ui.icon.button.call_watson
-                            i.dna.big.red.icon
+                        .ui.icon.circular.button.call_watson
+                            i.dna.icon
                     if dev 
                         i.code.link.icon.print_me
                 .ui.icon.small.input
                     i.tag.icon
                     input.add_tag(type='text')
                 each user_tags
-                    .ui.label #{this}
+                    .ui.circular.label #{this}
 
-                    //- a.ui.tertiary.grey.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
+                    //- a.ui.tertiary.small.button(href="https://www.reddit.com/user/#{author}" target="_blank")
                     //-     i.user.outline.icon
                     //-     |#{author}
     
@@ -211,7 +212,7 @@ template(name='home')
                 //- if watson
                 //-     +watson_view
                 each tags
-                    .ui.compact.button.toggle_tag
+                    .ui.compact.circular.button.toggle_tag
                         |#{this}
                 
                 
@@ -256,7 +257,7 @@ template(name='home')
     
                             
                         
-                //- a.ui.tertiary.grey.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                 //-     i.reddit.icon
                 //-     |r/#{subreddit}
                 //- .ui.icon.small.input
@@ -277,18 +278,18 @@ template(name='home')
             //-     .content
             //-         +markdown
             //-             !{rd.selftext}
-            //- .ui.tertiary.grey.button.toggle_tags
+            //- .ui.tertiary.button.toggle_tags
             //-     i.tags.icon
             //-     |#{tags.length}
             //- if view_tags
 
             
-    .centered.middle.aligned.row.flat
-        .sixteen.wide.middle.aligned.column
-            //- .ui.hidden.divider
-            .ui.center.aligned.middle.aligned.grey.header 
-                |sponsored by
-                a(href="https://ciomastermind.com/" target="_window")
-                    //- |ciomastermind
-                    img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
+    //- .centered.middle.aligned.row.flat
+    //-     .sixteen.wide.middle.aligned.column
+    //-         //- .ui.hidden.divider
+    //-         .ui.center.aligned.middle.aligned.header 
+    //-             |sponsored by
+    //-             a(href="https://ciomastermind.com/" target="_window")
+    //-                 //- |ciomastermind
+    //-                 img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
             
