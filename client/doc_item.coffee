@@ -135,13 +135,17 @@ Template.doc_item.events
         # console.log @
         # $(e.currentTarget).closest('.row.pointer').transition('pulse', 1000)
         # Meteor.setTimeout( ->
-        omega = Docs.findOne model:'omega_session'
-        Docs.update omega._id,
-            $set:
-                selected_doc_id: @_id
+        Session.set('selected_doc_id', @_id)
+        # omega = Docs.findOne model:'omega_session'
+        # Docs.update omega._id,
+        #     $set:
+        #         selected_doc_id: @_id
         Meteor.call 'call_watson', @_id, 'url', 'image', ->
         Meteor.call 'call_watson', @_id, 'url', 'url', ->
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
+        Meteor.call 'call_visual', @_id, (err,res)->
+            console.log res
+            
         # , 1000)
         # Meteor.call 'log_view', @_id, ->
         # Router.go "/doc/#{@_id}/view"
@@ -153,18 +157,18 @@ Template.doc_item.helpers
         @_id is omega.selected_doc_id
 
 
-    doc_object: ->
-        Docs.findOne
-            _id:Template.instance().data
-    omega_dark_mode_class: ->
-        omega = Docs.findOne model:'omega_session'
-        omega.dark_mode
-        if omega.dark_mode
-            # console.log 'hi dark'
-            'dark_mode'
-        else
-            # console.log 'hi light'
-            ''
+    # doc_object: ->
+    #     Docs.findOne
+    #         _id:Template.instance().data
+    # omega_dark_mode_class: ->
+    #     omega = Docs.findOne model:'omega_session'
+    #     omega.dark_mode
+    #     if omega.dark_mode
+    #         # console.log 'hi dark'
+    #         'dark_mode'
+    #     else
+    #         # console.log 'hi light'
+    #         ''
 
     sentiment_class: ->
         # console.log @

@@ -8,7 +8,8 @@ template(name='home')
     //-             i.user.icon
     .ui.stackable.padded.grid.home
         .four.wide.right.aligned.column
-            each omega_doc.selected_tags
+            //- each omega_doc.selected_tags
+            each selected_tags
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
                 button.ui.large.compact.yeah.active.button.unselect_tag(tabindex='0')
@@ -51,7 +52,9 @@ template(name='home')
                     //- .ui.inline.header #{omega_doc.emotion_color}
                     //- .ui.header #{tags.length}
                     span.hi
-                        each omega_doc.filtered_agg_res
+                        //- each omega_doc.filtered_agg_res
+                        //- each filtered_agg_res
+                        each omega_tags
                             //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
                             button.ui.large.tertiary.button.result(tabindex="0" class=tag_result title=count)
                                 | #{title}
@@ -80,9 +83,10 @@ template(name='home')
             //-         +doc_item
             //- .five.wide.column.scrolling
         .four.wide.column.scrolling
-            each omega_doc.doc_result_ids
+            //- each omega_doc.doc_result_ids
+            each omega_doc_results
                 +doc_item
-                .ui.hidden.divider
+                //- .ui.hidden.divider
 
             
         .eight.wide.column.scrolling
@@ -205,9 +209,9 @@ template(name='home')
 
                 //- if watson
                 //-     +watson_view
-                //- each tags
-                //-     .ui.button.toggle_tag
-                //-         |#{this}
+                each omega_tags
+                    .ui.compact.button.toggle_tag
+                        |#{this}
                 
                 
                     //- .invert

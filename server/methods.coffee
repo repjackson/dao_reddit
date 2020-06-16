@@ -247,7 +247,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=20",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=100",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -287,7 +287,7 @@ Meteor.methods
                             Docs.update existing_doc._id,
                                 $addToSet: tags: $each: query
 
-                                # console.log 'existing doc', existing_doc
+                                console.log 'existing doc', existing_doc.title
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                         unless existing_doc
                             # console.log 'importing url', data.url
@@ -327,7 +327,7 @@ Meteor.methods
                 else
                     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
                     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
-
+                    Meteor.call 'call_visual', doc_id, ->
                 if rd.selftext
                     unless rd.is_video
                         # if Meteor.isDevelopment
