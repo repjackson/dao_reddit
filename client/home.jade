@@ -6,7 +6,7 @@ template(name='home')
     //-     .right.menu
     //-         .icon.item
     //-             i.user.icon
-    .ui.stackable.grid.home
+    .ui.stackable.padded.grid.home
         .sixteen.wide.column
             //- each omega_doc.selected_tags
             each selected_tags
@@ -83,18 +83,19 @@ template(name='home')
             //-         //- .ui.fitted.hidden.divider
             //-         +doc_item
             //- .five.wide.column.scrolling
-        .five.wide.column.scrolling
-            //- each omega_doc.doc_result_ids
-            .ui.horizontal.cards
-                each omega_doc_results
-                    +doc_item
-                //- .ui.hidden.divider
-
-            
-        .eleven.wide.column.scrolling
+        //- .five.wide.column.scrolling
+        //-     //- each omega_doc.doc_result_ids
+        //-     .ui.horizontal.cards
+        //-         each omega_doc_results
+        //-             +doc_item
+        //-         //- .ui.hidden.divider
+        //- 
+        //- 
+        
+        .sixteen.wide.column.scrolling
             //- .ui.header #{omega_doc.selected_doc_id}
             with selected_doc
-                .ui.fluid.segment
+                .ui.fluegment
                     .content
                         a.ui.center.aligned.header.centered(href=url target="_blank")
                             //- img.ui.image.rounded(src=url class=omega_dark_mode_class)

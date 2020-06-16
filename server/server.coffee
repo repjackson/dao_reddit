@@ -148,4 +148,4 @@ Meteor.publish 'doc_results', (
         sort:
             points:-1
             ups:-1
-        limit:5
+        limit:1

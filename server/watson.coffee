@@ -104,8 +104,8 @@ Meteor.methods
                 visual_tags = []
                 for tag in response.result.images[0].classifiers[0].classes
                     visual_tags.push tag.class.toLowerCase()
-                console.log(JSON.stringify(response, null, 2))
-                console.log visual_tags
+                # console.log(JSON.stringify(response, null, 2))
+                # console.log visual_tags
                 Docs.update { _id: doc_id},
                     $set:
                         visual_classes: response.result.images[0].classifiers[0].classes
@@ -239,8 +239,8 @@ Meteor.methods
                 adding_tags = []
                 if response.categories
                     for category in response.categories
-                        console.log category.label.split('/')[1..]
-                        console.log category.label.split('/')
+                        # console.log category.label.split('/')[1..]
+                        # console.log category.label.split('/')
                         for category in category.label.split('/')
                             if category.length > 0
                                 # adding_tags.push category

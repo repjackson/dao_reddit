@@ -228,7 +228,10 @@ Template.home.helpers
         # current_docs = Docs.find()
         # if Session.get('selected_doc_id') in current_docs.fetch()
 
-        Docs.findOne Session.get('selected_doc_id')
+        # Docs.findOne Session.get('selected_doc_id')
+        Docs.findOne {}
+
+
     is_loading: ->
         Session.get('is_loading')
     # omega_dark_mode_class: ->
@@ -324,12 +327,12 @@ Template.home.helpers
         if Session.get('current_query').length > 0
             Terms.find({}, sort:count:-1)
         else
-            doc_count = Docs.find().count()
-            console.log 'doc count', doc_count
-            if doc_count < 3
-                Tags.find({count: $lt: doc_count})
-            else
-                Tags.find()
+            # doc_count = Docs.find().count()
+            # console.log 'doc count', doc_count
+            # if doc_count < 3
+            #     Tags.find({count: $lt: doc_count})
+            # else
+            Tags.find()
 
     result_class: ->
         # if Template.instance().subscriptionsReady()
@@ -363,7 +366,7 @@ Template.home.helpers
                 sort:
                     points:-1
                     ups:-1
-                limit:10
+                # limit:10
         # console.log cursor.fetch()
         cursor
 
