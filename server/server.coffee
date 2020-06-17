@@ -26,7 +26,7 @@ Meteor.publish 'tag_results', (
     dummy
     )->
     # console.log 'dummy', dummy
-    # console.log 'query', query
+    console.log 'query', query
     console.log 'selected tags', selected_tags
 
 
@@ -39,12 +39,12 @@ Meteor.publish 'tag_results', (
 
     match.model = $in: ['reddit','wikipedia']
     # console.log 'query length', query.length
-    # if omega.query and omega.query.length > 0
-    if query and query.length > 1
-    #     console.log 'searching query', query
-    #     # match.tags = {$regex:"#{query}", $options: 'i'}
-    #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-    #
+    # if query and query.length > 0
+    if query
+        console.log 'searching query', query
+        #     # match.tags = {$regex:"#{query}", $options: 'i'}
+        #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
+        #
         Terms.find {
             title: {$regex:"#{query}", $options: 'i'}
         },

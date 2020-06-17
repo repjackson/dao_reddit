@@ -145,7 +145,7 @@ Template.registerHelper 'tone_size', () ->
         else if @weight is 4 then 'f15'
         else if @weight is 5 then 'f16'
     else
-        'f12'
+        'f11'
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')

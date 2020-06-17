@@ -176,7 +176,7 @@ Meteor.methods
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
                 console.log 'watson error for', parameters.url
-                console.log err
+                # console.log err
                 if err.code is 400
                     console.log 'sniff rejected by server'
                 unless err.code is 403

@@ -15,72 +15,37 @@ Template.tone.events
     'click .tone_item': ->
         # console.log @
         doc_id = Docs.findOne()._id
-        # omega  = Docs.findOne model:'omega_session'
-        # selected_doc =
-        #     Docs.findOne _id:omega.selected_doc_id
         if @weight is 3
             Meteor.call 'reset_sentence', doc_id, @, ->
         else
             Meteor.call 'upvote_sentence', doc_id, @, ->
     # 'click .downvote_sentence': ->
     #     # console.log @
-    #     omega  = Docs.findOne model:'omega_session'
-    #     # selected_doc =
-    #     #     Docs.findOne _id:omega.selected_doc_id
     #     Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
 
 Template.home.events
     'click .result': (e,t)->
-        # $(e.currentTarget).closest('.button').transition('pulse', 1000)
-
-        # console.log @
-        # if selected_tags.array().length is 1
-        #     Meteor.call 'call_wiki', search, ->
-        # $('.hi .result')
-        #     .transition({
-        #         animation : 'scale'
-        #         reverse   : 'auto'
-        #         interval  : 20
-        #     })
-
         Meteor.call 'log_term', @title, ->
         selected_tags.push @title
-        # omega  = Docs.findOne model:'omega_session'
-        # Docs.update omega._id,
-        #     $addToSet:
-        #         selected_tags:@title
 
         $('#search').val('')
         Meteor.call 'call_wiki', @title, ->
-        # Session.set('current_query', '')
-        # Session.set('searching', false)
-        # Docs.update omega._id,
-        #     $set:
-        #         current_query:''
-        #         searching:false
-        # Session.set('is_loading',true)
-        # Meteor.call 'agg_omega', ->
-        #     Session.set('is_loading',false)
-        #     Session.set('dummy',!Session.get('dummy'))
-        #     Meteor.call 'get_top_emotion', ->
+        Session.set('current_query', '')
+        Session.set('searching', false)
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
-        # Meteor.setTimeout ->
-        #     Meteor.call 'agg_omega', ->
-        #     Session.set('dummy', !Session.get('dummy'))
-        # , 7000
-    # 'click .get_top_emotion': ->
-    #     Meteor.call 'get_top_emotion', ->
-    #     # queries.push @title
+        Meteor.setTimeout ->
+            Session.set('dummy', !Session.get('dummy'))
+        , 7000
     'click .call_visual': ->
         Meteor.call 'call_visual', @_id, (err,res)->
             console.log res
-        # queries.push @title
 
     'click .select_query': ->
         selected_tags.push @title
-
         Meteor.call 'search_reddit', selected_tags.array(), ->
+        $('#search').val('')
+        Session.set('current_query', '')
 
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
@@ -108,26 +73,14 @@ Template.home.events
     'keyup #search': (e,t)->
         # omega  = Docs.findOne model:'omega_session'
         query = $('#search').val()
-        # Docs.update omega._id,
-        #     $set:current_query:query
         Session.set('current_query', query)
-        # console.log Session.get('current_query')
+        # if query.length > 0
+        console.log Session.get('current_query')
         if e.which is 13
             search = $('#search').val().trim().toLowerCase()
             if search.length > 0
                 selected_tags.push search
                 # omega  = Docs.findOne model:'omega_session'
-                # Docs.update omega._id,
-                #     $set:
-                #         current_query:''
-                #     $addToSet:
-                #         selected_tags:search
-                # if search is 'dark'
-                #     alert 'dark'
-                #     Docs.update omega._id,
-                #         $set:
-                #             dark_mode:true
-
                 # console.log 'search', search
                 Meteor.call 'call_wiki', search, ->
                 Meteor.call 'search_reddit', selected_tags.array(), ->
@@ -135,12 +88,148 @@ Template.home.events
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
                 Session.set('current_query', '')
-                # Docs.update omega._id,
-                #     $set:
-                #         current_query:''
-                # # $('#search').val('').blur()
-                # # $( "p" ).blur();
-                # Meteor.call 'agg_omega'
+                Meteor.setTimeout ->
+                    Session.set('dummy', !Session.get('dummy'))
+                , 6000
+
+
+    # 'keydown #search': _.throttle((e,t)->
+    #     if e.which is 8
+    #         search = $('#search').val()
+    #         if search.length is 0
+    #             last_val = selected_tags.array().slice(-1)
+    #             console.log last_val
+    #             $('#search').val(last_val)
+    #             selected_tags.pop()
+    #             Meteor.call 'search_reddit', selected_tags.array(), ->
+    # , 1000)
+
+    'click .reconnect': ->
+        Meteor.reconnect()
+
+    'click .toggle_tag': (e,t)-> selected_tags.push @valueOf()
+
+
+    'click .toggle_domain': (e,t)->
+        omega = Docs.findOne model:'omega_session'
+        Docs.update omega._id,
+            $addToSet:
+                selected_tags:@domain
+
+    'keyup .add_tag': (e,t)->
+        # Session.set('current_query', query)
+        # console.log Session.get('current_query')
+        if e.which is 13
+            tag = $(e.currentTarget).closest('.add_tag').val().trim().toLowerCase()
+            console.log 'tag', tag
+            # search = $('#search').val()
+            if tag.length > 0
+                # selected_tags.push search
+                # omega  = Docs.findOne model:'omega_session'
+                Docs.update @_id,
+                    # $set:
+                    #     current_query:''
+                    $addToSet:
+                        tags:tag
+                        user_tags:tag
+                $(e.currentTarget).closest('.add_tag').val('')
+                # # console.log 'search', search
+                # Meteor.call 'call_wiki', search, ->
+                # # Meteor.call 'search_reddit', selected_tags.array(), ->
+                # Meteor.call 'search_reddit', omega.selected_tags, ->
+                # Meteor.call 'log_term', search, ->
+                # $('#search').val('')
+                Session.set('current_query', '')
+                #     Session.set('dummy', !Session.get('dummy'))
+                # , 6000
+
+    'click .vote_up': (e,t)->
+        Docs.update @_id,
+            $inc:points:1
+
+
+    'click .vote_down': (e,t)->
+        Docs.update @_id,
+            $inc:points:-1
+
+    'click .print_me': (e,t)->
+        console.log @
+    'click .pull_post': (e,t)->
+        console.log @
+        Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
+        # Meteor.call 'agg_omega', ->
+
+    'click .call_watson': ->
+        if @rd and @rd.selftext_html
+            dom = document.createElement('textarea')
+            # dom.innerHTML = doc.body
+            dom.innerHTML = @rd.selftext_html
+            console.log 'innner html', dom.value
+            # return dom.value
+            Docs.update @_id,
+                $set:
+                    parsed_selftext_html:dom.value
+        Meteor.call 'call_watson', @_id, 'url', 'url', ->
+        # Meteor.call 'agg_omega', ->
+
+    'click .call_watson_image': ->
+        Meteor.call 'call_watson', @_id, 'url', 'image', ->
+    'click .print_me': ->
+        console.log @
+
+        Meteor.call 'log_term', @title, ->
+        selected_tags.push @title
+        $('#search').val('')
+        Meteor.call 'call_wiki', @title, ->
+        Session.set('current_query', '')
+        Session.set('searching', false)
+
+        Meteor.call 'search_reddit', selected_tags.array(), ->
+    # 'click .get_top_emotion': ->
+    #     Meteor.call 'get_top_emotion', ->
+    #     # queries.push @title
+    'click .call_visual': ->
+        Meteor.call 'call_visual', @_id, (err,res)->
+            console.log res
+        # queries.push @title
+
+    'click .select_query': ->
+        selected_tags.push @title
+        Meteor.call 'search_reddit', selected_tags.array(), ->
+        Session.set('current_query', '')
+        Session.set('searching', false)
+
+    'click .unselect_tag': ->
+        selected_tags.remove @valueOf()
+        console.log selected_tags.array()
+        if selected_tags.array().length is 1
+            Meteor.call 'call_wiki', search, ->
+
+        # if omega.selected_tags.length > 0
+        if selected_tags.array().length > 0
+            Meteor.call 'search_reddit', selected_tags.array(), ->
+                Session.set('dummy', !Session.get('dummy'))
+
+    # 'click .refresh_tags': ->
+
+    'click .clear_selected_tags': ->
+        Session.set('current_query','')
+        selected_tags.clear()
+    # 'keyup #search': _.throttle((e,t)->
+    'keyup #search': (e,t)->
+        query = $('#search').val()
+        Session.set('current_query', query)
+        # console.log Session.get('current_query')
+        if e.which is 13
+            search = $('#search').val().trim().toLowerCase()
+            if search.length > 0
+                selected_tags.push search
+                Meteor.call 'call_wiki', search, ->
+                Meteor.call 'search_reddit', selected_tags.array(), ->
+                # Meteor.call 'search_reddit', omega.selected_tags, ->
+                Meteor.call 'log_term', search, ->
+                $('#search').val('')
+                Session.set('current_query', '')
                 Meteor.setTimeout ->
                 #     Meteor.call 'agg_omega', ->
                     Session.set('dummy', !Session.get('dummy'))
