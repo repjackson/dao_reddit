@@ -14,20 +14,16 @@ Meteor.methods
 
     reset_sentence: (doc_id, sentence)->
         console.log sentence
-        omega  = Docs.findOne model:'omega_session'
-
         Docs.update(
-            { _id:omega.selected_doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
             { $set: { "tone.result.sentences_tone.$.weight": -2 } }
         )
 
 
     downvote_sentence: (doc_id, sentence)->
         console.log sentence
-        omega  = Docs.findOne model:'omega_session'
-
         Docs.update(
-            { _id:omega.selected_doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
             { $inc: { "tone.result.sentences_tone.$.weight": -1 } }
         )
 
@@ -35,9 +31,9 @@ Meteor.methods
 
 
 Docs.before.insert (userId, doc)->
-    if Meteor.user()
-        doc._author_id = Meteor.userId()
-        doc._author_username = Meteor.user().username
+    # if Meteor.user()
+    #     doc._author_id = Meteor.userId()
+    #     doc._author_username = Meteor.user().username
     timestamp = Date.now()
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")

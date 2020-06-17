@@ -2,31 +2,12 @@ Docs.allow
     insert: (user_id, doc) -> true
     update: (user_id, doc) -> true
     # user_id is doc._author_id
-    remove: (user_id, doc) ->
-        user = Meteor.users.findOne user_id
-        if user.roles and 'admin' in user.roles
-            true
-        else
-            user_id is doc._author_id
-
-
-Meteor.publish 'omega_results', (dummy)->
-    omega =
-        Docs.findOne
-            model:'omega_session'
-    Docs.find
-        _id:$in:omega.doc_result_ids
-
-
-Meteor.publish 'omega_doc', ->
-    omega =
-        Docs.findOne
-            model:'omega_session'
-    if omega
-        Docs.find omega._id
-    else
-        Docs.insert
-            model:'omega_session'
+    remove: (user_id, doc) -> false
+        # user = Meteor.users.findOne user_id
+        # if user.roles and 'admin' in user.roles
+        #     true
+        # else
+        #     user_id is doc._author_id
 
 
 Meteor.publish 'doc', (doc_id)->
@@ -69,7 +50,7 @@ Meteor.publish 'tag_results', (
         },
             sort:
                 count: -1
-            limit: 7
+            limit: 20
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
@@ -100,7 +81,7 @@ Meteor.publish 'tag_results', (
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true

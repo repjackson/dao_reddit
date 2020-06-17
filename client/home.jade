@@ -17,36 +17,18 @@ template(name='home')
                     strong #{this}
             //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                     
-            .ui.left.icon.search.input(class=emotion_color)
+            .ui.left.icon.search.transparent.input
                 unless is_loading
-                    i.search.link.icon.refresh_agg(class=emotion_color)
+                    i.search.link.icon.refresh_agg
                 if is_loading
                     i.yin.yang.large.loading.large.icon
-                input#search(type='text' autofocus='' autocomplete="off" value=omega_doc.current_query)
-            //- .scrolling.forty
+                input#search(type='text' autofocus='' autocomplete="off" value=current_query)
             //- .ui.header #{connection.status}
-            //- i.brain.yellow.link.big.icon.get_top_emotion
-            //- .scrolling    
-            //- unless connected
-            //-     //- .ui.inline.header disconnected
-            //-     //- .ui.hidden.divider
-            //-     i.yin.yang.massive.link.icon.reconnect
+            unless connected
+                //- .ui.inline.header disconnected
+                //- .ui.hidden.divider
+                i.yin.yang.massive.link.icon.reconnect
             if connected
-                //- unless selected_tags
-                //-     i.huge.yin.yang.black.icon
-                //- i.lightbulb.link.icon
-                //- unless omega_doc.selected_tags
-                //-     //- .ui.hidden.divider
-                //-     //- .ui.center.aligned.segment
-                //-         if omega_doc.dark_mode
-                //-             i.massive.loading.yin.yang.link.icon.pick_dao
-                //-         else
-                //-             i.massive.loading.yin.yang.link.icon.pick_dao
-                //- if selected_tags
-                //-     .ui.icon.black.button.clear_selected_tags
-                //-         i.remove.icon
-                //- div
-                //- if selected_tags_plural
                 //- each omega_doc.agg
                 //- .ui.header current most emotion #{omega_doc.current_most_emotion}
                 //- .ui.inline.header #{omega_doc.emotion_color}
@@ -60,42 +42,9 @@ template(name='home')
                         button.ui.compact.large.circular.button.result(tabindex="0" title=count)
                             | #{title}
                             //- small #{count}
-                    //- button.ui.white.huge.button.result(tabindex="0" class=result_class title=count) #{title}
-                //- if one_post
-            //- .centered.one.column.row
-            //- each omega_doc.doc_results
-            //- each omega_doc_results
-            //- .eight.wide.column.scrolling
-            //-     each omega_doc.doc_result_ids
-            //-         +doc_item
-            //- if selected_tags
-            //-     //- .scrolling.sixty
-            //-     .ui.stackable.padded.grid
-            //-         .four.column.row
-            //-             each docs
-            //-                 .column
-                                //- +doc_item
-            //-                     .ui.hidden.divider
-            //-         .sixteen.wide.greecolumn
-            //-             |hi
-            //- .ui.centered.doubling.cards
-            //-     each docs
-            //-         //- .ui.fitted.hidden.divider
-            //-         +doc_item
-            //- .five.wide.column.scrolling
-        //- .five.wide.column.scrolling
-        //-     //- each omega_doc.doc_result_ids
-        //-     .ui.horizontal.cards
-        //-         each omega_doc_results
-        //-             +doc_item
-        //-         //- .ui.hidden.divider
-        //- 
-        //- 
-        
-        .sixteen.wide.column
-            //- .ui.header #{omega_doc.selected_doc_id}
+        .sixteen.wide.center.aligned.column
             with selected_doc
-                .ui.fluegment
+                .ui.container
                     .content
                         a.ui.center.aligned.header.centered(href=url target="_blank")
                             //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
@@ -138,7 +87,7 @@ template(name='home')
                         //-     iframe(src=url frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                         //-         p
                         //-             a(href=url) via Gfycat #{url}
-                        .spacer
+                        //- .spacerx    
                         //- a.f17.yeah.centered(href=url target="_blank")
                         .spacer
                         .ui.icon.circular.button.vote_up(title=points)
@@ -147,16 +96,13 @@ template(name='home')
                         .ui.icon.circular.button.vote_down(title=points)
                             i.chevron.down.large.icon  
                         //- div
-                        i.picture.icon(title='image tags')
-                        each visual_tags
-                            .ui.compact.circular.button.toggle_tag #{this}
                           
                         //- if watson
                         //-     +doc_sentiment
                         //-     +doc_emotion
                         //- a.ui.icon.button(href=url target="_blank")
                         //-     i.external.large.icon
-                        a.ui.large.compact.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                        a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
                             i.chat.outline.large.icon
                             |#{comment_count}
                         //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
@@ -185,6 +131,9 @@ template(name='home')
                                     i.dna.icon
                             if dev 
                                 i.code.link.icon.print_me
+                        i.picture.icon(title='image tags')
+                        each visual_tags
+                            .ui.compact.circular.button.toggle_tag #{this}
                         .ui.icon.small.input
                             i.tag.icon
                             input.add_tag(type='text')
@@ -214,85 +163,26 @@ template(name='home')
 
                         //- if watson
                         //-     +watson_view
-                        each tags
-                            .ui.compact.circular.button.toggle_tag
-                                |#{this}
+                        .ui.basic.center.aligned.segment
+                            each tags
+                                .ui.compact.circular.button.toggle_tag
+                                    |#{this}
                         
-                        
-                            //- .invert
-                        //- if is_twitter
-                        //-     blockquote(class="twitter-tweet" data-dnt="true" data-theme="dark")
-                        //-         p(lang="en" dir="ltr")
-                        //-             |#{title}
-                        //-             //- |Today’s Falcon launch carries 2 SpaceX test satellites for global broadband. If successful, Starlink constellation will serve least served.Elon Musk (@elonmusk) 
-                        //-         a(href="https://twitter.com/elonmusk/status/966298034978959361?ref_src=twsrc%5Etfw")
-                        //-             |February 21, 2018
-                        //-     script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
-                        //- else if has_thumbnail
-                        
-                            //- if watson
-                            //-     +doc_emotion
-                            //-     //- +doc_sentiment
-                            //-     //- +tone
-                        
-                        
-                        //- if tone
-                        //-     +tone
-                        
-                        //- .four.wide.center.aligned.column
-                        //- if is_image
-                            //- .four.wide.column
-                            //- .image
-                                //- div(style='position:relative; padding-bottom:calc(125.00% + 44px')
-                                //-     iframe.invert(src='https://gfycat.com/ifr/LoathsomeSpottedAlaskanmalamute' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)                
-                            //- img.ui.rounded.fluid.image(src=url class=omega_dark_mode_class)
-                        //- else 
-
-                        //- if title
-                        //- unless is_youtube 
-                        //-     unless is_image
-                        //- if has_thumbnail   
-                        //-     img.ui.centered.image.inline.rounded(src=thumbnail class=omega_dark_mode_class)
-                        //- div
-                        //- .ui.segment
-                        //- .spacer
-
-            
-                                    
-                                
                         //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
                         //-     i.reddit.icon
                         //-     |r/#{subreddit}
                         //- .ui.icon.small.input
                         //-     i.tag.icon
                         //-     input.add_tag(type='text')
-                        //- each user_tags
-                        //-     .ui.label #{this}
-                    //- if rd.selftext_html
-                    //-     //- unless tone
-                    //-     //- .content
-                    //-     |!{parsed_selftext_html}
-                    //-     //- |!{rd.selftext_html}
-                    //- else
-                    //-     if tone
-                    //-         +tone
-                    //-     //- else
-                    //- if rd.selftext
-                    //-     .content
-                    //-         +markdown
-                    //-             !{rd.selftext}
-                    //- .ui.tertiary.button.toggle_tags
-                    //-     i.tags.icon
-                    //-     |#{tags.length}
-                    //- if view_tags
-
+                        each user_tags
+                            .ui.label #{this}
                     
-            //- .centered.middle.aligned.row.flat
-            //-     .sixteen.wide.middle.aligned.column
-            //-         //- .ui.hidden.divider
-            //-         .ui.center.aligned.middle.aligned.header 
-            //-             |sponsored by
-            //-             a(href="https://ciomastermind.com/" target="_window")
-            //-                 //- |ciomastermind
-            //-                 img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
+            .centered.middle.aligned.row.flat
+                .sixteen.wide.middle.aligned.column
+                    //- .ui.hidden.divider
+                    .ui.center.aligned.middle.aligned.header 
+                        |sponsored by
+                        a(href="https://ciomastermind.com/" target="_window")
+                            //- |ciomastermind
+                            img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
                     

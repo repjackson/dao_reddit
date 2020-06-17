@@ -14,8 +14,8 @@ Template.tone.events
     # 'click .upvote_sentence': ->
     'click .tone_item': ->
         # console.log @
-        doc_id = Session.get('selected_doc_id')
-        omega  = Docs.findOne model:'omega_session'
+        doc_id = Docs.findOne()._id
+        # omega  = Docs.findOne model:'omega_session'
         # selected_doc =
         #     Docs.findOne _id:omega.selected_doc_id
         if @weight is 3
@@ -30,35 +30,6 @@ Template.tone.events
     #     Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
 
 Template.home.events
-    # 'click .lightbulb': (e,t)->
-    #     omega  = Docs.findOne model:'omega_session'
-    #     Docs.update omega._id,
-    #         $set:
-    #             dark_mode:!omega.dark_mode
-    #     Session.set('dummy',!Session.get('dummy'))
-
-    # 'click .refresh_agg': (e,t)->
-    #     # $(e.currentTarget).closest('.button').transition('pulse', 1000)
-    #     Session.set('is_loading',true)
-    #     Meteor.call 'agg_omega', ->
-    #         Session.set('is_loading',false)
-    #         Session.set('dummy',!Session.get('dummy'))
-    #         Meteor.call 'get_top_emotion', ->
-    #     omega  = Docs.findOne model:'omega_session'
-    #     console.log omega
-    # 'click .pick_dao': (e,t)->
-    #     # selected_tags.push 'dao'
-    #     # $(e.currentTarget).closest('.button').transition('pulse', 1000)
-    #     omega  = Docs.findOne model:'omega_session'
-    #     if omega
-    #         Docs.update omega._id,
-    #             $set:selected_tags:['dao']
-    #     Session.set('is_loading',true)
-    #     Meteor.call 'agg_omega', ->
-    #
-    #         Session.set('is_loading',false)
-    #         Session.set('dummy',!Session.get('dummy'))
-
     'click .result': (e,t)->
         # $(e.currentTarget).closest('.button').transition('pulse', 1000)
 
@@ -107,41 +78,12 @@ Template.home.events
         # queries.push @title
 
     'click .select_query': ->
-        # omega  = Docs.findOne model:'omega_session'
-        # Docs.update omega._id,
-        #     $addToSet:
-        #         queries:@title
-        # Session.set('is_loading',true)
-        # Meteor.call 'agg_omega', ->
-        #     Session.set('is_loading',false)
-        #     Session.set('dummy',!Session.get('dummy'))
-        # Meteor.setTimeout ->
-        #     Meteor.call 'agg_omega', ->
-        #     Session.set('dummy', !Session.get('dummy'))
-        # , 6000
         selected_tags.push @title
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
 
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
-        # omega  = Docs.findOne model:'omega_session'
-        # Docs.update omega._id,
-        #     $pull:
-        #         selected_tags:@valueOf()
-        # Session.set('is_loading',true)
-        # Meteor.call 'agg_omega', ->
-        #     Session.set('is_loading',false)
-        #     Session.set('dummy',!Session.get('dummy'))
-        #     Meteor.call 'get_top_emotion', ->
-        # Meteor.setTimeout ->
-        #     Meteor.call 'agg_omega', ->
-        #         Session.set('dummy',!Session.get('dummy'))
-        #         Meteor.call 'get_top_emotion', ->
-
-            # Session.set('dummy', !Session.get('dummy'))
-        # , 6000
-
         console.log selected_tags.array()
         if selected_tags.array().length is 1
             Meteor.call 'call_wiki', search, ->
