@@ -47,29 +47,69 @@ template(name='home')
                     each selected_doc
                         +doc_card
             if five_posts
-                .ui.centered.stackable.five.cards.scrolling
+                .ui.centered.stackable.four.cards.scrolling
                     each selected_doc
                         +doc_card
             if six_posts
-                .ui.centered.stackable.six.cards.scrolling
+                .ui.large.selection.list.scrolling
                     each selected_doc
-                        +doc_card
+                        .item #{title}
             if seven_posts
-                .ui.centered.stackable.seven.cards.scrolling
+                .ui.large.selection.list.scrolling
                     each selected_doc
-                        +doc_card
+                        .item #{title}
             if eight_posts
-                .ui.centered.stackable.eight.cards.scrolling
+                .ui.large.selection.list.scrolling
                     each selected_doc
-                        +doc_card
+                        .item 
+                            .header
+                                |#{title}
+                            a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                                i.chat.outline.large.icon
+                                |#{comment_count}
+                            a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                                i.reddit.icon
+                                |r/#{subreddit}
+                            if publish_when
+                                .ui.small.tertiary.circular.button
+                                    //- i.calendar.icon
+                                    //- |#{watson.metadata.publication_date}
+                                    |#{publish_when}
+                            .ui.tertiary.circular.button.toggle_domain(title='add domain')
+                                //- i.globe.icon
+                                |#{domain}
+                            
             if nine_posts
-                .ui.centered.stackable.nine.cards.scrolling
+                .ui.large.selection.list.scrolling
                     each selected_doc
-                        +doc_card
+                        .item #{title}
             if ten_posts
-                .ui.centered.stackable.ten.cards.scrolling
+                .ui.large.list.scrolling
                     each selected_doc
-                        +doc_card
+                        .item 
+                            if is_image   
+                                //- unless is_video
+                                img.ui.small.inline.image.rounded.pointer.call_visual(src=url)
+                            if watson.metadata.image 
+                                unless is_video
+                                    img.ui.small.inline.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                            .content
+                                .header #{title}
+                                a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                                    i.chat.outline.large.icon
+                                    |#{comment_count}
+                                a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                                    i.reddit.icon
+                                    |r/#{subreddit}
+                                if publish_when
+                                    .ui.small.tertiary.circular.button
+                                        //- i.calendar.icon
+                                        //- |#{watson.metadata.publication_date}
+                                        |#{publish_when}
+                                .ui.tertiary.circular.button.toggle_domain(title='add domain')
+                                    //- i.globe.icon
+                                    |#{domain}
+                            
             .centered.middle.aligned.row.flat
                 .sixteen.wide.middle.aligned.column
                     //- .ui.hidden.divider
