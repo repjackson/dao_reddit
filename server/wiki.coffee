@@ -2,7 +2,8 @@ Meteor.methods
     call_wiki: (query)->
         console.log 'calling wiki', query
         # term = query.split(' ').join('_')
-        term = query[0]
+        # term = query[0]
+        term = query
         HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
             # console.log response.data
             if err
@@ -17,7 +18,8 @@ Meteor.methods
                     Docs.findOne
                         url: "https://en.wikipedia.org/wiki/#{term}"
                 if found_doc
-                    console.log 'found wiki doc for term', term, found_doc
+                    console.log 'found wiki doc for term', term
+                    # console.log 'found wiki doc for term', term, found_doc
                     Docs.update found_doc._id,
                         $addToSet:
                             tags:'wikipedia'

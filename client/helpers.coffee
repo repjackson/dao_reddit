@@ -1,8 +1,3 @@
-@selected_tags = new ReactiveArray []
-
-Template.admin.helpers
-    doc_count: ->
-        Docs.find().count()
 
 Template.registerHelper 'youtube_id', () ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/

@@ -1,3 +1,10 @@
+@selected_tags = new ReactiveArray []
+
+Template.admin.helpers
+    doc_count: ->
+        Docs.find().count()
+
+
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
     Session.setDefault('dummy', true)
@@ -54,7 +61,6 @@ Template.home.events
         if selected_tags.array().length is 1
             Meteor.call 'call_wiki', selected_tags.array(), ->
 
-        # if omega.selected_tags.length > 0
         # if selected_tags.array().length > 0
         #     Meteor.call 'search_reddit', selected_tags.array(), ->
         #         Session.set('dummy', !Session.get('dummy'))
@@ -74,8 +80,8 @@ Template.home.events
             search = $('#search').val().trim().toLowerCase()
             if search.length > 0
                 selected_tags.push search
-                # console.log 'search', search
-                Meteor.call 'call_wiki', search, ->
+                console.log 'search', search
+                # Meteor.call 'call_wiki', search, ->
                 # Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
@@ -102,11 +108,11 @@ Template.home.events
     'click .toggle_tag': (e,t)-> selected_tags.push @valueOf()
 
 
-    'click .toggle_domain': (e,t)->
-        omega = Docs.findOne model:'omega_session'
-        Docs.update omega._id,
-            $addToSet:
-                selected_tags:@domain
+    # 'click .toggle_domain': (e,t)->
+    #     omega = Docs.findOne model:'omega_session'
+    #     Docs.update omega._id,
+    #         $addToSet:
+    #             selected_tags:@domain
 
     'keyup .add_tag': (e,t)->
         # Session.set('current_query', query)
@@ -170,31 +176,18 @@ Template.home.events
 
 Template.home.helpers
     selected_doc: ->
-        # omega = Docs.findOne model:'omega_session'
-        # Docs.findOne omega.selected_doc_id
         # current_docs = Docs.find()
         # if Session.get('selected_doc_id') in current_docs.fetch()
 
         # Docs.findOne Session.get('selected_doc_id')
         doc_count = Docs.find().count()
         # if doc_count is 1
-        Docs.findOne {}
+        Docs.find({})
 
 
-    is_loading: ->
-        Session.get('is_loading')
-    # omega_dark_mode_class: ->
-    #     omega = Docs.findOne model:'omega_session'
-    #     if omega
-    #         omega.dark_mode
-    #         if omega.dark_mode
-    #             # console.log 'hi dark'
-    #             'dark_mode'
-    #         else
-    #             # console.log 'hi light'
-    #             ''
+    is_loading: -> Session.get('is_loading')
+
     tag_result_class: ->
-        # omega = Docs.findOne model:'omega_session'
         # ec = omega.emotion_color
         # console.log @
         # console.log omega.total_doc_result_count
@@ -266,13 +259,10 @@ Template.home.helpers
     connection: ->
         # console.log Meteor.status()
         Meteor.status()
-    connected: ->
-        Meteor.status().connected
-    omega_tags: ->
+    connected: -> Meteor.status().connected
+
+    agg_tags: ->
         # console.log Session.get('current_query')
-        # omega = Docs.findOne model:'omega_session'
-        # console.log omega.current_query, 'omega current query'
-        # if omega.current_query.length > 0
         if Session.get('current_query').length > 0
             Terms.find({}, sort:count:-1)
         else
@@ -289,28 +279,19 @@ Template.home.helpers
         # else
         #     'disabled'
 
-    selected_tags: ->
-        selected_tags.array()
-        # omega  = Docs.findOne model:'omega_session'
-        # omega.selected_tags
-        # Docs.update omega._id,
-        #     $addToSet:
-        #         selected_tags:search
+    selected_tags: -> selected_tags.array()
 
-    selected_tags_plural: ->
-        selected_tags.array().length > 1
-        # omega  = Docs.findOne model:'omega_session'
-        # omega.selected_tags.length > 1
+    selected_tags_plural: -> selected_tags.array().length > 1
 
     searching: -> Session.get('searching')
 
-    one_post: ->
-        Docs.find().count() is 1
-    omega_doc_results: ->
+    one_post: -> Docs.find().count() is 1
+
+    docs: ->
         # if selected_tags.array().length > 0
         cursor =
             Docs.find {
-                model:'reddit'
+                model:['reddit','wikipedia']
             },
                 sort:
                     points:-1
@@ -318,18 +299,6 @@ Template.home.helpers
                 # limit:10
         # console.log cursor.fetch()
         cursor
-
-
-    # docs: ->
-    #     # if selected_tags.array().length > 0
-    #     cursor =
-    #         Docs.find {
-    #             # model:'reddit'
-    #         },
-    #             sort:ups:-1
-    #             limit:3
-    #     # console.log cursor.fetch()
-    #     cursor
 
 
     # home_subs_ready: ->

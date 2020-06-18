@@ -103,20 +103,17 @@ Meteor.publish 'doc_results', (
     selected_tags
     )->
     console.log 'got selected tags', selected_tags
-    # if selected_tags.length is 1
-    #     found_title_doc =
-    #         Docs.find(
-    #             title:selected_tags[0]
-    #         )
-    #     if found_title_doc.fetch()
-    #         console.log found_title_doc.fetch().title
-    #         # console.trace found_title_doc
-    #         found_title_doc
     # else
     self = @
     match = {model:$in:['reddit','wikipedia']}
     # if selected_tags.length > 0
     if selected_tags.length > 0
+        # if selected_tags.length is 1
+        #     console.log 'looking single doc', selected_tags[0]
+        #     found_doc = Docs.findOne(title:selected_tags[0])
+        #
+        #     match.title = selected_tags[0]
+        # else
         match.tags = $all: selected_tags
     else
         match.tags = $all: ['dao']
@@ -127,9 +124,6 @@ Meteor.publish 'doc_results', (
     console.log 'doc match', match
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
-    # omega =
-    #     Docs.findOne
-    #         model:'omega_session'
     Docs.find match,
         sort:
             points:-1

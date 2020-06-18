@@ -24,14 +24,14 @@ template(name='home')
                 i.yin.yang.massive.link.icon.reconnect
             if connected
                 span.hi
-                    each omega_tags
+                    each agg_tags
                         //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
                         //- button.ui.compact.large.circular.button.result(tabindex="0" class=tag_result_class title=count)
                         button.ui.compact.large.circular.button.result(tabindex="0" title=count)
                             | #{title}
                             //- small #{count}
         .sixteen.wide.column
-            with selected_doc
+            each selected_doc
                 .ui.container
                     .content
                         a.ui.center.aligned.header(href=url target="_blank")
@@ -121,10 +121,10 @@ template(name='home')
                                     .ui.icon.circular.button.pull_post
                                         i.reddit.icon
                             //- unless watson
-                            .ui.icon.circular.button.call_watson
-                                i.dna.icon
-                            if dev 
-                                i.code.link.icon.print_me
+                        .ui.icon.circular.button.call_watson
+                            i.dna.icon
+                        if dev 
+                            i.code.link.icon.print_me
                         //- i.picture.icon(title='image tags')
                         each visual_tags
                             .ui.compact.circular.button.toggle_tag #{this}
