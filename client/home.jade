@@ -1,6 +1,6 @@
 template(name='home')
     .ui.stackable.padded.grid.home
-        .sixteen.wide.column
+        .sixteen.wide.center.aligned.column.smallscroll
             //- each omega_doc.selected_tags
             each selected_tags
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
@@ -34,21 +34,42 @@ template(name='home')
             if one_result
                 each selected_doc
                     +one_doc
-            else 
+            if two_posts
+                .ui.centered.stackable.two.cards.scrolling
+                    each selected_doc
+                        +doc_card
+            if three_posts
+                .ui.centered.stackable.three.cards.scrolling
+                    each selected_doc
+                        +doc_card
+            if four_posts
                 .ui.centered.stackable.four.cards.scrolling
                     each selected_doc
-                        .card
-                            if is_youtube
-                                iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-
-                            if is_image   
-                                //- unless is_video
-                                img.ui.centered.image.rounded.pointer.call_visual(src=url)
-                            if watson.metadata.image 
-                                unless is_video
-                                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
-                            .content
-                                .header #{title}
+                        +doc_card
+            if five_posts
+                .ui.centered.stackable.five.cards.scrolling
+                    each selected_doc
+                        +doc_card
+            if six_posts
+                .ui.centered.stackable.six.cards.scrolling
+                    each selected_doc
+                        +doc_card
+            if seven_posts
+                .ui.centered.stackable.seven.cards.scrolling
+                    each selected_doc
+                        +doc_card
+            if eight_posts
+                .ui.centered.stackable.eight.cards.scrolling
+                    each selected_doc
+                        +doc_card
+            if nine_posts
+                .ui.centered.stackable.nine.cards.scrolling
+                    each selected_doc
+                        +doc_card
+            if ten_posts
+                .ui.centered.stackable.ten.cards.scrolling
+                    each selected_doc
+                        +doc_card
             .centered.middle.aligned.row.flat
                 .sixteen.wide.middle.aligned.column
                     //- .ui.hidden.divider

@@ -1,0 +1,30 @@
+template(name='doc_card')
+    .card
+        if is_youtube
+            iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+        if has_thumbnail
+            unless is_image
+                unless is_video
+                    unless watson.metadata.image
+                        //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                        //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                        img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+        if is_video
+            .invert
+                blockquote(class="reddit-card")
+                    //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+                    a(href="https://www.reddit.com#{permalink}") 
+                        |dao
+                    |from 
+                    a(href="http://www.reddit.com/r/news")
+                        |r/
+                    script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+
+        if is_image   
+            //- unless is_video
+            img.ui.centered.image.rounded.pointer.call_visual(src=url)
+        if watson.metadata.image 
+            unless is_video
+                img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+        .content
+            .header #{title}

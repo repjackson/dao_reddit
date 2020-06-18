@@ -287,6 +287,16 @@ Template.home.helpers
 
     one_post: -> Docs.find().count() is 1
 
+    two_posts: -> Docs.find().count() is 2
+    three_posts: -> Docs.find().count() is 3
+    four_posts: -> Docs.find().count() is 4
+    five_posts: -> Docs.find().count() is 5
+    six_posts: -> Docs.find().count() is 6
+    seven_posts: -> Docs.find().count() is 7
+    eight_posts: -> Docs.find().count() is 8
+    nine_posts: -> Docs.find().count() is 9
+    ten_posts: -> Docs.find().count() is 10
+
     one_result: ->
         Docs.find().count() is 1
 
