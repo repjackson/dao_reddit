@@ -142,11 +142,11 @@ Meteor.methods
                 concepts: {}
                 categories:
                     explanation:true
-                # emotion: {}
+                emotion: {}
                 metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                # sentiment: {}
+                sentiment: {}
 
         switch mode
             when 'html'
@@ -178,7 +178,7 @@ Meteor.methods
                 console.log 'watson error for', parameters.url
                 # console.log err
                 if err.code is 400
-                    console.log 'sniff rejected by server'
+                    console.log 'crawl rejected by server'
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
@@ -194,27 +194,27 @@ Meteor.methods
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
-                # emotions = response.emotion.document.emotion
+                emotions = response.emotion.document.emotion
 
-                # emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-                # # main_emotions = []
-                # max_emotion_percent = 0
-                # max_emotion_name = ''
-                #
-                # for emotion in emotion_list
-                #     if emotions["#{emotion}"] > max_emotion_percent
-                #         if emotions["#{emotion}"] > .5
-                #             max_emotion_percent = emotions["#{emotion}"]
-                #             max_emotion_name = emotion
-                #             # console.log emotion_doc["#{emotion}_percent"]
-                #             # main_emotions.push emotion
-                #
+                emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+                # main_emotions = []
+                max_emotion_percent = 0
+                max_emotion_name = ''
+
+                for emotion in emotion_list
+                    if emotions["#{emotion}"] > max_emotion_percent
+                        if emotions["#{emotion}"] > .5
+                            max_emotion_percent = emotions["#{emotion}"]
+                            max_emotion_name = emotion
+                            # console.log emotion_doc["#{emotion}_percent"]
+                            # main_emotions.push emotion
+
                 # console.log 'emotions', emotions
-                # sadness_percent = emotions.sadness
-                # joy_percent = emotions.joy
-                # fear_percent = emotions.fear
-                # anger_percent = emotions.anger
-                # disgust_percent = emotions.disgust
+                sadness_percent = emotions.sadness
+                joy_percent = emotions.joy
+                fear_percent = emotions.fear
+                anger_percent = emotions.anger
+                disgust_percent = emotions.disgust
                 # console.log 'main_emotion', max_emotion_name
                 # console.log 'max_emotion_percent', max_emotion_percent
                 if mode is 'url'

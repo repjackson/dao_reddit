@@ -26,13 +26,8 @@ Meteor.publish 'tag_results', (
     dummy
     )->
     # console.log 'dummy', dummy
-    console.log 'query', query
     console.log 'selected tags', selected_tags
-
-
-    # omega =
-    #     Docs.findOne
-    #         model:'omega_session'
+    console.log 'query', query
 
     self = @
     match = {}
@@ -107,26 +102,36 @@ Meteor.publish 'tag_results', (
 Meteor.publish 'doc_results', (
     selected_tags
     )->
-    # console.log selected_tags
-    self = @
-    match = {model:$in:['reddit','wikipedia']}
-    # if selected_tags.length > 0
-    if selected_tags.length > 0
-        match.tags = $all: selected_tags
+    console.log 'got selected tags', selected_tags
+    if selected_tags.length is 1
+        found_title_doc =
+            Docs.findOne
+                title:selected_tags[0]
+        if found_title_doc
+            console.log found_title_doc.title
+            console.trace found_title_doc
+            Docs.find
+                _id:found_title_doc
     else
-        match.tags = $all: ['dao']
-    # else
-    #     match.tags = $nin: ['wikipedia']
-    #     sort = '_timestamp'
-    #     # match. = $ne:'wikipedia'
-    console.log 'doc match', match
-    # console.log 'sort key', sort_key
-    # console.log 'sort direction', sort_direction
-    # omega =
-    #     Docs.findOne
-    #         model:'omega_session'
-    Docs.find match,
-        sort:
-            points:-1
-            ups:-1
-        limit:1
+        self = @
+        match = {model:$in:['reddit','wikipedia']}
+        # if selected_tags.length > 0
+        if selected_tags.length > 0
+            match.tags = $all: selected_tags
+        else
+            match.tags = $all: ['dao']
+        # else
+        #     match.tags = $nin: ['wikipedia']
+        #     sort = '_timestamp'
+        #     # match. = $ne:'wikipedia'
+        console.log 'doc match', match
+        # console.log 'sort key', sort_key
+        # console.log 'sort direction', sort_direction
+        # omega =
+        #     Docs.findOne
+        #         model:'omega_session'
+        Docs.find match,
+            sort:
+                points:-1
+                ups:-1
+            limit:10

@@ -24,8 +24,12 @@ head
       gtag('config', 'UA-156965333-1');
 
 body
+    if dev
+        +admin
     +home
     //- .ui.divider
     //- unless dev
 
-                
+
+template(name='admin')
+    .ui.header doc count #{doc_count}
