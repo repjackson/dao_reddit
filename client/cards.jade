@@ -26,5 +26,61 @@ template(name='doc_card')
         if watson.metadata.image 
             unless is_video
                 img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                
         .content
             .header #{title}
+            .spacer
+            .ui.icon.circular.button.vote_up(title=points)
+                i.chevron.up.large.icon
+            .ui.inline.small.header #{points}
+            .ui.icon.circular.button.vote_down(title=points)
+                i.chevron.down.large.icon  
+            if key_value_is 'model' 'reddit'
+                if reddit_id
+                    unless rd
+                        //- div
+                        .ui.icon.circular.button.pull_post
+                            i.reddit.icon
+                //- unless watson
+            .ui.icon.circular.button.call_watson
+                i.dna.icon
+            if dev 
+                i.code.link.icon.print_me
+            //- i.picture.icon(title='image tags')
+            each visual_tags
+                .ui.compact.circular.button.toggle_tag #{this}
+            .ui.icon.small.input
+                i.tag.icon
+                input.add_tag(type='text')
+            each user_tags
+                .ui.compact.circular.button.toggle_tag #{this}
+            
+            a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                i.chat.outline.large.icon
+                |#{comment_count}
+            a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                i.reddit.icon
+                |r/#{subreddit}
+            if publish_when
+                .ui.small.tertiary.circular.button
+                    //- i.calendar.icon
+                    //- |#{watson.metadata.publication_date}
+                    |#{publish_when}
+            .ui.tertiary.circular.button.toggle_domain(title='add domain')
+                //- i.globe.icon
+                |#{domain}
+            if rd.selftext_html
+                //- unless tone
+                //- .content
+                |!{parsed_selftext_html}
+                //- |!{rd.selftext_html}
+            else
+                if tone
+                    //- .scrolling
+                    +tone
+                //- else
+            if rd.selftext
+                .content
+                    +markdown
+                        !{rd.selftext}
+            

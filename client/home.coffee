@@ -8,8 +8,6 @@ Template.admin.helpers
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
     Session.setDefault('dummy', true)
-    # @autorun => @subscribe 'omega_results', Session.get('dummy')
-    # @autorun => @subscribe 'omega_doc'
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
         Session.get('current_query')
@@ -40,7 +38,7 @@ Template.home.events
         Session.set('current_query', '')
         Session.set('searching', false)
 
-        # Meteor.call 'search_reddit', selected_tags.array(), ->
+        Meteor.call 'search_reddit', selected_tags.array(), ->
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
         , 7000
@@ -50,7 +48,7 @@ Template.home.events
 
     'click .select_query': ->
         selected_tags.push @title
-        # Meteor.call 'search_reddit', selected_tags.array(), ->
+        Meteor.call 'search_reddit', selected_tags.array(), ->
         $('#search').val('')
         Session.set('current_query', '')
         Session.set('searching', false)
@@ -61,9 +59,9 @@ Template.home.events
         if selected_tags.array().length is 1
             Meteor.call 'call_wiki', selected_tags.array(), ->
 
-        # if selected_tags.array().length > 0
-        #     Meteor.call 'search_reddit', selected_tags.array(), ->
-        #         Session.set('dummy', !Session.get('dummy'))
+        if selected_tags.array().length > 0
+            Meteor.call 'search_reddit', selected_tags.array(), ->
+                Session.set('dummy', !Session.get('dummy'))
 
     # 'click .refresh_tags': ->
 
@@ -81,8 +79,8 @@ Template.home.events
             if search.length > 0
                 selected_tags.push search
                 console.log 'search', search
-                # Meteor.call 'call_wiki', search, ->
-                # Meteor.call 'search_reddit', selected_tags.array(), ->
+                Meteor.call 'call_wiki', search, ->
+                Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'log_term', search, ->
                 $('#search').val('')
                 Session.set('current_query', '')
@@ -132,14 +130,8 @@ Template.home.events
                         user_tags:tag
                 $(e.currentTarget).closest('.add_tag').val('')
                 # # console.log 'search', search
-                # Meteor.call 'call_wiki', search, ->
-                # # Meteor.call 'search_reddit', selected_tags.array(), ->
-                # Meteor.call 'search_reddit', omega.selected_tags, ->
-                # Meteor.call 'log_term', search, ->
-                # $('#search').val('')
-                Session.set('current_query', '')
-                #     Session.set('dummy', !Session.get('dummy'))
-                # , 6000
+                Meteor.call 'call_wiki', tag, ->
+                Meteor.call 'log_term', tag, ->
 
     'click .vote_up': (e,t)->
         Docs.update @_id,
