@@ -287,6 +287,9 @@ Template.home.helpers
 
     one_post: -> Docs.find().count() is 1
 
+    one_result: ->
+        Docs.find().count() is 1
+
     docs: ->
         # if selected_tags.array().length > 0
         cursor =
