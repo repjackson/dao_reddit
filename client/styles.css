@@ -114,8 +114,8 @@ a.title, #title {
 }
 
 .ui.embed, .ui.text, .invert, img{
-    /* border-radius: 10px !important; */
-    /* filter: invert(1) !important; */
+    border-radius: 10px !important;
+    filter: invert(1) !important;
 }
 .left.floated{
     margin:3px !important;

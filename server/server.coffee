@@ -103,35 +103,35 @@ Meteor.publish 'doc_results', (
     selected_tags
     )->
     console.log 'got selected tags', selected_tags
-    if selected_tags.length is 1
-        found_title_doc =
-            Docs.findOne
-                title:selected_tags[0]
-        if found_title_doc
-            console.log found_title_doc.title
-            console.trace found_title_doc
-            Docs.find
-                _id:found_title_doc
+    # if selected_tags.length is 1
+    #     found_title_doc =
+    #         Docs.find(
+    #             title:selected_tags[0]
+    #         )
+    #     if found_title_doc.fetch()
+    #         console.log found_title_doc.fetch().title
+    #         # console.trace found_title_doc
+    #         found_title_doc
+    # else
+    self = @
+    match = {model:$in:['reddit','wikipedia']}
+    # if selected_tags.length > 0
+    if selected_tags.length > 0
+        match.tags = $all: selected_tags
     else
-        self = @
-        match = {model:$in:['reddit','wikipedia']}
-        # if selected_tags.length > 0
-        if selected_tags.length > 0
-            match.tags = $all: selected_tags
-        else
-            match.tags = $all: ['dao']
-        # else
-        #     match.tags = $nin: ['wikipedia']
-        #     sort = '_timestamp'
-        #     # match. = $ne:'wikipedia'
-        console.log 'doc match', match
-        # console.log 'sort key', sort_key
-        # console.log 'sort direction', sort_direction
-        # omega =
-        #     Docs.findOne
-        #         model:'omega_session'
-        Docs.find match,
-            sort:
-                points:-1
-                ups:-1
-            limit:10
+        match.tags = $all: ['dao']
+    # else
+    #     match.tags = $nin: ['wikipedia']
+    #     sort = '_timestamp'
+    #     # match. = $ne:'wikipedia'
+    console.log 'doc match', match
+    # console.log 'sort key', sort_key
+    # console.log 'sort direction', sort_direction
+    # omega =
+    #     Docs.findOne
+    #         model:'omega_session'
+    Docs.find match,
+        sort:
+            points:-1
+            ups:-1
+        limit:10
