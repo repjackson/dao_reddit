@@ -6,7 +6,7 @@ Template.admin.helpers
 
 
 Template.agg_tag.onCreated ->
-    console.log @
+    # console.log @
     @autorun => @subscribe 'term', @data.title
 
 Template.home.onCreated ->
@@ -51,9 +51,9 @@ Template.agg_tag.events
         Session.set('searching', false)
 
         Meteor.call 'search_reddit', selected_tags.array(), ->
-        Meteor.setTimeout ->
-            Session.set('dummy', !Session.get('dummy'))
-        , 7000
+        # Meteor.setTimeout ->
+        #     Session.set('dummy', !Session.get('dummy'))
+        # , 7000
     # 'click .call_visual': ->
     #     Meteor.call 'call_visual', @_id, (err,res)->
     #         console.log res
@@ -81,8 +81,8 @@ Template.home.events
     'click .clear_selected_tags': ->
         Session.set('current_query','')
         selected_tags.clear()
-    # 'keyup #search': _.throttle((e,t)->
-    'keyup #search': (e,t)->
+    # 'keyup #search': (e,t)->
+    'keyup #search': _.throttle((e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
         # if query.length > 0
@@ -98,10 +98,10 @@ Template.home.events
 
                 $('#search').val('')
                 Session.set('current_query', '')
-                Meteor.setTimeout ->
-                    Session.set('dummy', !Session.get('dummy'))
-                , 6000
-
+                # Meteor.setTimeout ->
+                #     Session.set('dummy', !Session.get('dummy'))
+                # , 6000
+    , 5000)
 
     # 'keydown #search': _.throttle((e,t)->
     #     if e.which is 8
