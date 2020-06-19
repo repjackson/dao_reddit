@@ -5,6 +5,7 @@ template(name='home')
             each selected_tags
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
+                
                 button.ui.compact.yeah.grey.circular.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     if term.image
@@ -31,9 +32,7 @@ template(name='home')
                     each agg_tags
                         //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
                         //- button.ui.compact.large.circular.button.result(tabindex="0" class=tag_result_class title=count)
-                        button.ui.compact.large.circular.button.result(tabindex="0" title=count)
-                            | #{title}
-                            //- small #{count}
+                        +agg_tag
             if one_result
                 each selected_doc
                     +one_doc
@@ -53,6 +52,10 @@ template(name='home')
                         each selected_doc
                             +doc_card
             if five_posts
+                .ui.grid.mobile.only
+                    .two.column.centered.row
+                        each selected_doc
+                            +medium_card
                 .ui.grid
                     .five.column.centered.row
                         each selected_doc
@@ -99,7 +102,12 @@ template(name='home')
                 //-     each selected_doc
                 //-         .item #{title}
             if ten_posts
-                .ui.grid
+                .ui.grid.mobile.only
+                    .two.column.centered.row
+                        each selected_doc
+                            +medium_card
+            
+                .ui.grid.mobile.hidden
                     .five.column.centered.row
                         each selected_doc
                             +small_card
@@ -116,4 +124,13 @@ template(name='home')
             //-             a(href="https://ciomastermind.com/" target="_window")
             //-                 //- |ciomastermind
             //-                 img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
+                    
+                    
+template(name='agg_tag')
+    button.ui.compact.large.circular.button.result(tabindex="0" title=count)
+        if term.image
+            img.ui.avatar.image(src=term.image)
+    
+        | #{title}
+        //- small #{count}
                     

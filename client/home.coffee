@@ -5,6 +5,10 @@ Template.admin.helpers
         Docs.find().count()
 
 
+Template.agg_tag.onCreated ->
+    console.log @
+    @autorun => @subscribe 'term', @data.title
+
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
     Session.setDefault('dummy', true)
@@ -30,7 +34,12 @@ Template.tone.events
     #     # console.log @
     #     Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
 
-Template.home.events
+Template.agg_tag.helpers
+    term: ->
+        console.log @
+        Terms.findOne
+            title:@title
+Template.agg_tag.events
     'click .result': (e,t)->
         Meteor.call 'log_term', @title, ->
         selected_tags.push @title
@@ -56,6 +65,7 @@ Template.home.events
         Session.set('current_query', '')
         Session.set('searching', false)
 
+Template.home.events
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
         console.log selected_tags.array()

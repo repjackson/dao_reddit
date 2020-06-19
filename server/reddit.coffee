@@ -84,7 +84,7 @@ Meteor.methods
                 else
                     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
                     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
-                    Meteor.call 'call_visual', doc_id, ->
+                    # Meteor.call 'call_visual', doc_id, ->
                 if rd.selftext
                     unless rd.is_video
                         # if Meteor.isDevelopment
