@@ -35,31 +35,31 @@ template(name='home')
                 each selected_doc
                     +one_doc
             if two_posts
-                .ui.centered.stackable.two.cards.scrolling
+                .ui.centered.stackable.two.cards
                     each selected_doc
                         +doc_card
             if three_posts
-                .ui.centered.stackable.three.cards.scrolling
+                .ui.centered.stackable.three.cards
                     each selected_doc
                         +doc_card
             if four_posts
-                .ui.centered.stackable.four.cards.scrolling
+                .ui.centered.stackable.four.cards
                     each selected_doc
                         +doc_card
             if five_posts
-                .ui.centered.stackable.four.cards.scrolling
+                .ui.centered.stackable.five.cards
                     each selected_doc
                         +doc_card
             if six_posts
-                .ui.large.selection.list.scrolling
+                .ui.large.selection.list
                     each selected_doc
                         .item #{title}
             if seven_posts
-                .ui.large.selection.list.scrolling
+                .ui.large.selection.list
                     each selected_doc
                         .item #{title}
             if eight_posts
-                .ui.large.selection.list.scrolling
+                .ui.large.selection.list
                     each selected_doc
                         .item 
                             .header

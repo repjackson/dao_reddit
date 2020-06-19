@@ -39,11 +39,11 @@ template(name='doc_card')
                 if reddit_id
                     unless rd
                         //- div
-                        .ui.icon.circular.button.pull_post
-                            i.reddit.icon
-                //- unless watson
-            .ui.icon.circular.button.call_watson
-                i.dna.icon
+                        .ui.icon.circular.large.button.pull_post
+                            i.reddit.large.icon
+            unless watson
+                .ui.icon.circular.large.button.call_watson
+                    i.dna.large.icon
             if dev 
                 i.code.link.icon.print_me
             //- i.picture.icon(title='image tags')
