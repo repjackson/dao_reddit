@@ -45,7 +45,8 @@ Meteor.methods
                 title:term_title
         found_wiki_doc =
             Docs.findOne
-                model:'wikipedia'
+                model:$in:['wikipedia']
+                # model:$in:['wikipedia','reddit']
                 title:term_title
         if found_wiki_doc
             if found_wiki_doc.watson.metadata.image

@@ -36,7 +36,7 @@ Template.tone.events
 
 Template.agg_tag.helpers
     term: ->
-        console.log @
+        # console.log @
         Terms.findOne
             title:@title
 Template.agg_tag.events
@@ -181,6 +181,9 @@ Template.home.events
 
 
 Template.home.helpers
+    background_style: ->
+        "background-image:url(#{@image})"
+
     term_icon: ->
         console.log @
     selected_doc: ->

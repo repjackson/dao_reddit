@@ -33,3 +33,4 @@ constellation:subscriptions
 constellation:autopublish
 constellation:session
 babrahams:temple
+mdg:meteor-apm-agent
