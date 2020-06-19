@@ -288,7 +288,7 @@ Template.home.helpers
     eight_posts: -> Docs.find().count() is 8
     nine_posts: -> Docs.find().count() is 9
     ten_posts: -> Docs.find().count() is 10
-
+    more_than_ten: -> Docs.find().count() > 10
     one_result: ->
         Docs.find().count() is 1
 

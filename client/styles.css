@@ -21,6 +21,11 @@ body {
     text-align: center !important;
 }
 
+.small_card_header {
+    font-size: 90% !important;
+    color: grey !important;
+}
+
 .dark_mode {
     /* filter: invert(.95) !important; */
     /* background: rgba(250,250,250,.1) !important; */

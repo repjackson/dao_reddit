@@ -1,11 +1,11 @@
 template(name='home')
-    .ui.stackable.padded.grid.home
-        .sixteen.wide.center.aligned.column.smallscroll
+    .ui.stackable.padded.grid
+        .sixteen.wide.center.aligned.column
             //- each omega_doc.selected_tags
             each selected_tags
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
-                button.ui.large.compact.yeah.grey.circular.button.unselect_tag(tabindex='0')
+                button.ui.big.compact.yeah.grey.circular.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     strong #{this}
             //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
@@ -22,6 +22,7 @@ template(name='home')
                 //- .ui.inline.header disconnected
                 //- .ui.hidden.divider
                 i.yin.yang.massive.link.icon.reconnect
+            div
             if connected
                 span.hi
                     each agg_tags
@@ -30,7 +31,6 @@ template(name='home')
                         button.ui.compact.large.circular.button.result(tabindex="0" title=count)
                             | #{title}
                             //- small #{count}
-        .sixteen.wide.column
             if one_result
                 each selected_doc
                     +one_doc
@@ -45,62 +45,72 @@ template(name='home')
                         each selected_doc
                             +doc_card
             if four_posts
-                .ui.centered.stackable.four.cards
-                    each selected_doc
-                        +doc_card
+                .ui.grid
+                    .four.column.row
+                        each selected_doc
+                            +doc_card
             if five_posts
                 .ui.grid
                     .five.column.row
                         each selected_doc
-                            +doc_small_card
+                            +medium_card
                 //- .ui.centered.stackable.five.cards
             if six_posts
                 .ui.grid
                     .six.column.row
                         each selected_doc
-                            +doc_small_card
+                            +medium_card
             if seven_posts
                 .ui.grid
                     .seven.column.row
                         each selected_doc
-                            +doc_small_card
-            if eight_posts
-                .ui.large.selection.list
-                    each selected_doc
-                        .item 
-                            .header
-                                |#{title}
-                            a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
-                                i.chat.outline.large.icon
-                                |#{comment_count}
-                            a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                                i.reddit.icon
-                                |r/#{subreddit}
-                            if publish_when
-                                .ui.small.tertiary.circular.button
-                                    //- i.calendar.icon
-                                    //- |#{watson.metadata.publication_date}
-                                    |#{publish_when}
-                            .ui.tertiary.circular.button.toggle_domain(title='add domain')
-                                //- i.globe.icon
-                                |#{domain}
+                            +small_card
+            //- if eight_posts
+            //-     .ui.large.selection.list
+            //-         each selected_doc
+            //-             .item 
+            //-                 .header
+            //-                     |#{title}
+            //-                 a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+            //-                     i.chat.outline.large.icon
+            //-                     |#{comment_count}
+            //-                 a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+            //-                     i.reddit.icon
+            //-                     |r/#{subreddit}
+            //-                 if publish_when
+            //-                     .ui.small.tertiary.circular.button
+            //-                         //- i.calendar.icon
+            //-                         //- |#{watson.metadata.publication_date}
+            //-                         |#{publish_when}
+            //-                 .ui.tertiary.circular.button.toggle_domain(title='add domain')
+            //-                     //- i.globe.icon
+            //-                     |#{domain}
                             
             if nine_posts
-                .ui.large.selection.list.scrolling
-                    each selected_doc
-                        .item #{title}
+                .ui.grid
+                    .seven.column.centered.row
+                        each selected_doc
+                            +small_card
+                //- 
+                //- .ui.large.selection.list.scrolling
+                //-     each selected_doc
+                //-         .item #{title}
             if ten_posts
                 .ui.grid
-                    .five.column.row
+                    .seven.column.centered.row
                         each selected_doc
-                            +doc_small_card
-                            
-            .centered.middle.aligned.row.flat
-                .sixteen.wide.middle.aligned.column
-                    //- .ui.hidden.divider
-                    .ui.middle.aligned.header 
-                        |sponsored by
-                        a(href="https://ciomastermind.com/" target="_window")
-                            //- |ciomastermind
-                            img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
+                            +small_card
+            if more_than_ten
+                .ui.grid
+                    .seven.column.centered.row
+                        each selected_doc 
+                            +small_card
+            //- .centered.middle.aligned.row.flat
+            //-     .sixteen.wide.middle.aligned.column
+            //-         //- .ui.hidden.divider
+            //-         .ui.middle.aligned.header 
+            //-             |sponsored by
+            //-             a(href="https://ciomastermind.com/" target="_window")
+            //-                 //- |ciomastermind
+            //-                 img.ui.small.inline.image(src="https://static1.squarespace.com/static/5e7227fe0a7d0212a00b4e68/t/5e73a2c578579570907dfe02/1591829497276/?format=1500w")
                     
