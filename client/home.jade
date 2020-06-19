@@ -29,6 +29,8 @@ template(name='home')
                         //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
                         //- button.ui.compact.large.circular.button.result(tabindex="0" class=tag_result_class title=count)
                         button.ui.compact.large.circular.button.result(tabindex="0" title=count)
+                            if term_icon
+                                i.user.icon
                             | #{title}
                             //- small #{count}
             if one_result

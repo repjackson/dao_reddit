@@ -23,20 +23,34 @@ Meteor.methods
                 Meteor.call 'log_term', tag, ->
 
 
-    log_term: (term)->
+    log_term: (term_title)->
         # console.log 'logging term', term
         found_term =
             Terms.findOne
-                title:term
+                title:term_title
         unless found_term
             Terms.insert
-                title:term
+                title:term_title
             # if Meteor.user()
             #     Meteor.users.update({_id:Meteor.userId()},{$inc: karma: 1}, -> )
             # console.log 'added term', term
         else
             Terms.update({_id:found_term._id},{$inc: count: 1}, -> )
             # console.log 'found term', term
+            Meteor.call 'calc_term', @term_title, ->
+
+    calc_term: (term_title)->
+        term =
+            Terms.findOne
+                title:term_title
+        found_wiki_doc =
+            Docs.findOne
+                model:'wikipedia'
+                title:term_title
+        if found_wiki_doc
+            if found_wiki_doc.watson.metadata.image
+                Terms.update term._id,
+                    $set:image:found_wiki_doc.watson.metadata.image
 
 
     lookup: =>

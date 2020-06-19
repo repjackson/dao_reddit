@@ -55,17 +55,17 @@ template(name='small_card')
             //- each user_tags
             //-     .ui.compact.circular.button.toggle_tag #{this}
             //- 
-            //- a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
-            //-     i.chat.outline.large.icon
-            //-     |#{comment_count}
-            //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-            //-     i.reddit.icon
-            //-     |r/#{subreddit}
-            //- if publish_when
-            //-     .ui.small.tertiary.circular.button
-            //-         //- i.calendar.icon
-            //-         //- |#{watson.metadata.publication_date}
-            //-         |#{publish_when}
+            a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                i.chat.outline.large.icon
+                |#{comment_count}
+            a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+                i.reddit.icon
+                |r/#{subreddit}
+            if publish_when
+                .ui.small.tertiary.circular.button
+                    //- i.calendar.icon
+                    //- |#{watson.metadata.publication_date}
+                    |#{publish_when}
             //- .ui.tertiary.circular.button.toggle_domain(title='add domain')
             //-     //- i.globe.icon
             //-     |#{domain}

@@ -14,9 +14,10 @@ Meteor.publish 'doc', (doc_id)->
     Docs.find
         _id:doc_id
 
-Meteor.publish 'terms', (searching, query)->
-    console.log searching
-    console.log query
+Meteor.publish 'terms', (selected_tags, searching, query)->
+    console.log selected_tags
+    Terms.find
+        title:$in:selected_tags
 
 
 

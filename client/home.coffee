@@ -8,6 +8,8 @@ Template.admin.helpers
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
     Session.setDefault('dummy', true)
+    @autorun => @subscribe 'terms',
+        selected_tags.array()
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
         Session.get('current_query')
@@ -35,6 +37,7 @@ Template.home.events
 
         $('#search').val('')
         Meteor.call 'call_wiki', @title, ->
+        Meteor.call 'calc_term', @title, ->
         Session.set('current_query', '')
         Session.set('searching', false)
 
@@ -42,9 +45,9 @@ Template.home.events
         Meteor.setTimeout ->
             Session.set('dummy', !Session.get('dummy'))
         , 7000
-    'click .call_visual': ->
-        Meteor.call 'call_visual', @_id, (err,res)->
-            console.log res
+    # 'click .call_visual': ->
+    #     Meteor.call 'call_visual', @_id, (err,res)->
+    #         console.log res
 
     'click .select_query': ->
         selected_tags.push @title
@@ -167,6 +170,8 @@ Template.home.events
 
 
 Template.home.helpers
+    term_icon: ->
+        console.log @
     selected_doc: ->
         # current_docs = Docs.find()
         # if Session.get('selected_doc_id') in current_docs.fetch()
