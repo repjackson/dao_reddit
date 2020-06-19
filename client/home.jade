@@ -22,7 +22,7 @@ template(name='home')
                 //- .ui.inline.header disconnected
                 //- .ui.hidden.divider
                 i.yin.yang.massive.link.icon.reconnect
-            div
+            //- div
             if connected
                 span.hi
                     each agg_tags
@@ -101,7 +101,7 @@ template(name='home')
                         each selected_doc
                             +small_card
             if more_than_ten
-                .ui.grid
+                .ui.stackable.grid
                     .seven.column.centered.row
                         each selected_doc 
                             +small_card
