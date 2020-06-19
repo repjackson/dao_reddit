@@ -7,6 +7,9 @@ template(name='home')
                 //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
                 button.ui.compact.yeah.grey.circular.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
+                    if term.image
+                        img.ui.avatar.image(src=term.image)
+                    
                     strong #{this}
             //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                     
@@ -29,8 +32,6 @@ template(name='home')
                         //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
                         //- button.ui.compact.large.circular.button.result(tabindex="0" class=tag_result_class title=count)
                         button.ui.compact.large.circular.button.result(tabindex="0" title=count)
-                            if term_icon
-                                i.user.icon
                             | #{title}
                             //- small #{count}
             if one_result

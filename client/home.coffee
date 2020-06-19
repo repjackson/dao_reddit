@@ -85,6 +85,7 @@ Template.home.events
                 Meteor.call 'call_wiki', search, ->
                 Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'log_term', search, ->
+
                 $('#search').val('')
                 Session.set('current_query', '')
                 Meteor.setTimeout ->
@@ -310,6 +311,10 @@ Template.home.helpers
         # console.log cursor.fetch()
         cursor
 
+    term: ->
+        console.log @
+        Terms.findOne
+            title:@valueOf()
 
     # home_subs_ready: ->
     #     Template.instance().subscriptionsReady()
