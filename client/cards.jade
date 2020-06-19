@@ -1,5 +1,5 @@
 template(name='doc_card')
-    .card
+    .column
         if is_youtube
             iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
         if has_thumbnail

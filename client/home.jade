@@ -47,9 +47,11 @@ template(name='home')
                     each selected_doc
                         +doc_card
             if five_posts
-                .ui.centered.stackable.five.cards
-                    each selected_doc
-                        +doc_card
+                .ui.grid
+                    .five.column.row
+                        each selected_doc
+                            +doc_small_card
+                //- .ui.centered.stackable.five.cards
             if six_posts
                 .ui.large.selection.list
                     each selected_doc
