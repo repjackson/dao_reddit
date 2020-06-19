@@ -60,7 +60,7 @@ template(name='home')
                 .ui.grid
                     .two.column.row
                         each selected_doc
-                            +doc_card
+                            +medium_card
             if four_posts
                 .ui.stackable.grid
                     .four.column.row
@@ -71,7 +71,7 @@ template(name='home')
                 //-     .two.column.centered.row
                 //-         each selected_doc
                 //-             +small_card
-                .ui.grid
+                .ui.stackable.grid
                     .five.column.centered.row
                         each selected_doc
                             +small_card
@@ -80,7 +80,7 @@ template(name='home')
                 .ui.grid
                     .five.column.centered.row
                         each selected_doc
-                            +medium_card
+                            +small_card
             if seven_posts
                 .ui.grid
                     .five.column.centered.row

@@ -71,7 +71,7 @@ Meteor.publish 'tag_results', (
         if selected_tags.length > 0
             match.tags = $all: selected_tags
         else
-            match.tags = $all: ['blm']
+            match.tags = $all: ['summer']
         # console.log 'match for tags', match
         agg_doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
