@@ -71,6 +71,7 @@ Template.home.events
         console.log selected_tags.array()
         if selected_tags.array().length is 1
             Meteor.call 'call_wiki', selected_tags.array(), ->
+            Meteor.call 'calc_term', @title, ->
 
         if selected_tags.array().length > 0
             Meteor.call 'search_reddit', selected_tags.array(), ->
@@ -92,7 +93,9 @@ Template.home.events
             if search.length > 0
                 selected_tags.push search
                 console.log 'search', search
-                Meteor.call 'call_wiki', search, ->
+                Meteor.call 'call_wiki', search, =>
+                    Meteor.call 'calc_term', @title, ->
+
                 Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'log_term', search, ->
 

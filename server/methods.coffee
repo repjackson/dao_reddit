@@ -37,7 +37,8 @@ Meteor.methods
         else
             Terms.update({_id:found_term._id},{$inc: count: 1}, -> )
             # console.log 'found term', term
-            Meteor.call 'calc_term', @term_title, ->
+            Meteor.call 'call_wiki', @term_title, =>
+                Meteor.call 'calc_term', @term_title, ->
 
     calc_term: (term_title)->
         term =
