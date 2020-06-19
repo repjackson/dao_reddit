@@ -7,7 +7,7 @@ Template.admin.helpers
 
 Template.agg_tag.onCreated ->
     # console.log @
-    @autorun => @subscribe 'term', @data.title
+    # @autorun => @subscribe 'term', @data.title
 
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
@@ -101,7 +101,7 @@ Template.home.events
                 # Meteor.setTimeout ->
                 #     Session.set('dummy', !Session.get('dummy'))
                 # , 6000
-    , 5000)
+    , 500)
 
     # 'keydown #search': _.throttle((e,t)->
     #     if e.which is 8
@@ -275,14 +275,18 @@ Template.home.helpers
     agg_tags: ->
         # console.log Session.get('current_query')
         if Session.get('current_query').length > 0
-            Terms.find({}, sort:count:-1)
+            Terms.find({},
+                limit:5
+                sort:
+                    count:-1
+            )
         else
             # doc_count = Docs.find().count()
             # console.log 'doc count', doc_count
             # if doc_count < 3
             #     Tags.find({count: $lt: doc_count})
             # else
-            Tags.find()
+            Tags.find({})
 
     result_class: ->
         # if Template.instance().subscriptionsReady()

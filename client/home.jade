@@ -1,4 +1,17 @@
 template(name='home')
+    //- each selected_tags
+    //-     //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
+    //-     //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
+    //- 
+    //-     //- a.ui.circular.image.big.label.unselect_tag(tabindex='0' style=background_style)
+    //-     button.ui.active.circular.button.unselect_tag(tabindex='0' style=background_style)
+    //-         //- i.remove.icon
+    //-         if term.image
+    //-             img.ui.tiny.image(src=term.image)
+    //-             strong #{this}
+    //-         else
+    //-             .ui.small.inline.grey.header #{this}
+
     .ui.stackable.padded.grid
         .sixteen.wide.center.aligned.column
             //- each omega_doc.selected_tags
@@ -6,12 +19,14 @@ template(name='home')
                 //- button.ui.active.large.yeah.button.unselect_tag(tabindex='0' class=omega_dark_mode_class)
                 //- button.ui.large.compact.yeah.inverted.basic.active.button.unselect_tag(tabindex='0' class=emotion_color)
                 
-                button.ui.active.yeah.circular.button.unselect_tag(tabindex='0' style=background_style)
+                //- a.ui.circular.image.big.label.unselect_tag(tabindex='0' style=background_style)
+                button.ui.active.circular.button.unselect_tag(tabindex='0' style=background_style)
                     //- i.remove.icon
                     if term.image
-                        img.ui.tiny.inline.image(src=term.image)
-                    
-                    strong #{this}
+                        img.ui.tiny.image(src=term.image)
+                        strong #{this}
+                    else
+                        .ui.small.inline.grey.header #{this}
             //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                     
             .ui.left.icon.search.small.input
@@ -50,16 +65,16 @@ template(name='home')
                 .ui.stackable.grid
                     .four.column.row
                         each selected_doc
-                            +doc_card
-            if five_posts
-                .ui.grid.mobile.only
-                    .two.column.centered.row
-                        each selected_doc
                             +medium_card
+            if five_posts
+                //- .ui.grid.mobile.only
+                //-     .two.column.centered.row
+                //-         each selected_doc
+                //-             +small_card
                 .ui.grid
                     .five.column.centered.row
                         each selected_doc
-                            +medium_card
+                            +small_card
                 //- .ui.centered.stackable.five.cards
             if six_posts
                 .ui.grid
@@ -127,10 +142,13 @@ template(name='home')
                     
                     
 template(name='agg_tag')
-    button.ui.circular.button.result(tabindex="0" title=count)
+    //- button.ui.circular.button.result(tabindex="0" title=count)
+    button.ui.compact.circular.button.result(tabindex="0" title=count)
         if term.image
-            img.ui.tiny.inline.image(src=term.image)
+            img.ui.tiny.image(src=term.image)
+            | #{title}
+        else
+            .ui.small.inline.grey.header #{title}
     
-        | #{title}
         //- small #{count}
                     

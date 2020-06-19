@@ -8,7 +8,7 @@ Docs.allow
         #     true
         # else
         #     user_id is doc._author_id
-
+Facts.setUserIdFilter(()->true);
 
 Meteor.publish 'doc', (doc_id)->
     Docs.find
@@ -22,7 +22,8 @@ Meteor.publish 'terms', (selected_tags, searching, query)->
     console.log 'selected tags looking for terms', selected_tags
     console.log 'looking for tags', Tags.find().fetch()
     Terms.find
-        title:$in:selected_tags
+        image:$exists:true
+        # title:$in:selected_tags
 
 
 
@@ -70,7 +71,7 @@ Meteor.publish 'tag_results', (
         if selected_tags.length > 0
             match.tags = $all: selected_tags
         else
-            match.tags = $all: ['dao']
+            match.tags = $all: ['blm']
         # console.log 'match for tags', match
         agg_doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
