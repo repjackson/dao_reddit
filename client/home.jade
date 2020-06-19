@@ -35,13 +35,15 @@ template(name='home')
                 each selected_doc
                     +one_doc
             if two_posts
-                .ui.centered.stackable.two.cards
-                    each selected_doc
-                        +doc_card
+                .ui.grid
+                    .two.column.row
+                        each selected_doc
+                            +doc_card
             if three_posts
-                .ui.centered.stackable.three.cards
-                    each selected_doc
-                        +doc_card
+                .ui.grid
+                    .two.column.row
+                        each selected_doc
+                            +doc_card
             if four_posts
                 .ui.centered.stackable.four.cards
                     each selected_doc
@@ -53,13 +55,15 @@ template(name='home')
                             +doc_small_card
                 //- .ui.centered.stackable.five.cards
             if six_posts
-                .ui.large.selection.list
-                    each selected_doc
-                        .item #{title}
+                .ui.grid
+                    .six.column.row
+                        each selected_doc
+                            +doc_small_card
             if seven_posts
-                .ui.large.selection.list
-                    each selected_doc
-                        .item #{title}
+                .ui.grid
+                    .seven.column.row
+                        each selected_doc
+                            +doc_small_card
             if eight_posts
                 .ui.large.selection.list
                     each selected_doc
@@ -86,31 +90,10 @@ template(name='home')
                     each selected_doc
                         .item #{title}
             if ten_posts
-                .ui.large.list.scrolling
-                    each selected_doc
-                        .item 
-                            if is_image   
-                                //- unless is_video
-                                img.ui.small.inline.image.rounded.pointer.call_visual(src=url)
-                            if watson.metadata.image 
-                                unless is_video
-                                    img.ui.small.inline.image.rounded.pointer.call_visual(src=watson.metadata.image)
-                            .content
-                                .header #{title}
-                                a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
-                                    i.chat.outline.large.icon
-                                    |#{comment_count}
-                                a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
-                                    i.reddit.icon
-                                    |r/#{subreddit}
-                                if publish_when
-                                    .ui.small.tertiary.circular.button
-                                        //- i.calendar.icon
-                                        //- |#{watson.metadata.publication_date}
-                                        |#{publish_when}
-                                .ui.tertiary.circular.button.toggle_domain(title='add domain')
-                                    //- i.globe.icon
-                                    |#{domain}
+                .ui.grid
+                    .five.column.row
+                        each selected_doc
+                            +doc_small_card
                             
             .centered.middle.aligned.row.flat
                 .sixteen.wide.middle.aligned.column
