@@ -48,7 +48,8 @@ Meteor.publish 'tag_results', (
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
         #
         Terms.find {
-            title: {$regex:"#{query}", $options: 'i'}
+            title: {$regex:"#{query}"}
+            # title: {$regex:"#{query}", $options: 'i'}
         },
             sort:
                 count: -1

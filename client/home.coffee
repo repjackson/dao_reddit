@@ -7,13 +7,13 @@ Template.admin.helpers
 
 Template.agg_tag.onCreated ->
     # console.log @
-    # @autorun => @subscribe 'term', @data.title
+    @autorun => @subscribe 'term', @data.title
 
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
     Session.setDefault('dummy', true)
-    @autorun => @subscribe 'terms',
-        selected_tags.array()
+    # @autorun => @subscribe 'terms',
+    #     selected_tags.array()
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
         Session.get('current_query')
@@ -82,8 +82,8 @@ Template.home.events
     'click .clear_selected_tags': ->
         Session.set('current_query','')
         selected_tags.clear()
-    # 'keyup #search': (e,t)->
-    'keyup #search': _.throttle((e,t)->
+    # 'keyup #search': _.throttle((e,t)->
+    'keyup #search': (e,t)->
         query = $('#search').val()
         Session.set('current_query', query)
         # if query.length > 0
@@ -104,7 +104,7 @@ Template.home.events
                 # Meteor.setTimeout ->
                 #     Session.set('dummy', !Session.get('dummy'))
                 # , 6000
-    , 500)
+    # , 200)
 
     # 'keydown #search': _.throttle((e,t)->
     #     if e.which is 8
@@ -123,11 +123,7 @@ Template.home.events
     'click .toggle_tag': (e,t)-> selected_tags.push @valueOf()
 
 
-    # 'click .toggle_domain': (e,t)->
-    #     omega = Docs.findOne model:'omega_session'
-    #     Docs.update omega._id,
-    #         $addToSet:
-    #             selected_tags:@domain
+    'click .toggle_domain': (e,t)-> selected_tags.push @domain
 
     'keyup .add_tag': (e,t)->
         # Session.set('current_query', query)
@@ -138,17 +134,14 @@ Template.home.events
             # search = $('#search').val()
             if tag.length > 0
                 # selected_tags.push search
-                # omega  = Docs.findOne model:'omega_session'
                 Docs.update @_id,
-                    # $set:
-                    #     current_query:''
                     $addToSet:
                         tags:tag
                         user_tags:tag
                 $(e.currentTarget).closest('.add_tag').val('')
                 # # console.log 'search', search
-                Meteor.call 'call_wiki', tag, ->
-                Meteor.call 'log_term', tag, ->
+                Meteor.call 'call_wiki', tag, =>
+                    Meteor.call 'log_term', tag, ->
 
     'click .vote_up': (e,t)->
         Docs.update @_id,
@@ -227,48 +220,7 @@ Template.home.helpers
         else if whole is 9 then "f19"
         else if whole is 10 then "f20"
 
-    # emotion_color: ->
-    #     omega = Docs.findOne model:'omega_session'
-    #     # omega.emotion_color
-    #     # if omega.emotion_color is 'blue'
-    #     #     'sadness'
-    #     # else
-    #     omega.emotion_color
-    #
-    #     # main_emotion = Docs.findOne({max_emotion_name:$exists:true}).max_emotion_name
-    #     # console.log main_emotion
-    #     # if main_emotion is 'anger'
-    #     #     'green'
-        # else if main_emotion is 'disgust'
-        #     'teal'
-        # else if main_emotion is 'sadness'
-        #     'teal'
-        # else if main_emotion is 'joy'
-        #     'red'
-    #     emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-    #
-    #     omega = Docs.findOne model:'omega_session'
-    #     current_most_emotion = ''
-    #     current_max_emotion_count = 0
-    #     results =
-    #         Docs.find(_id:$in:omega.doc_result_ids)
-    #     for emotion in emotion_list
-    #         omega = Docs.findOne model:'omega_session'
-    #         emotion_match = {}
-    #         emotion_match.max_emotion_name = emotion
-    #         found_emotions =
-    #             Docs.find(emotion_match)
-    #         Docs.update omega._id,
-    #             $set:
-    #                 "current_#{emotion}_count":found_emotions.count()
-    #         if omega.current_most_emotion < found_emotions.count()
-    #             Docs.update omega._id,
-    #                 $set:
-    #                     current_most_emotion:emotion
-    #                     current_max_emotion_count: found_emotions.count()
-    #
-    #     console.log 'found emotions for ', emotion, found_emotions.count()
-    #     console.log 'final', Docs.findOne model:'omega_session'
+    emotion_color: ->
 
     connection: ->
         # console.log Meteor.status()
@@ -336,8 +288,8 @@ Template.home.helpers
         Terms.findOne
             title:@valueOf()
 
-    # home_subs_ready: ->
-    #     Template.instance().subscriptionsReady()
+    home_subs_ready: ->
+        Template.instance().subscriptionsReady()
     #
     # home_subs_ready: ->
     #     if Template.instance().subscriptionsReady()

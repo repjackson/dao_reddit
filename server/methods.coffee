@@ -49,6 +49,13 @@ Meteor.methods
                 model:$in:['wikipedia']
                 # model:$in:['wikipedia','reddit']
                 title:term_title
+        found_reddit_doc =
+            Docs.findOne
+                model:$in:['reddit']
+                "watson.metadata.image": $exists:true
+                # model:$in:['wikipedia','reddit']
+                title:term_title
+        console.log 'reddit doc', found_reddit_doc
         if found_wiki_doc
             if found_wiki_doc.watson.metadata.image
                 Terms.update term._id,

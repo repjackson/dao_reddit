@@ -5,9 +5,9 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
     font-size: 110% !important;
     /* line-height: 200% !important; */
-    background: rgba(0,0,0,.9) !important;
-    /* background: rgba(0,0,0,.1) !important; */
-    filter: invert(1) !important;
+    /* background: rgba(0,0,0,.9) !important; */
+    background: rgba(0,0,0,.3) !important;
+    /* filter: invert(1) !important; */
     /* overscroll-behavior: none; */
     transition: all .5s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
@@ -37,16 +37,17 @@ body {
     padding-bottom: 0 !important;
 }
 
-.ui.tertiary.button.result {
-    /* transition: all .5s ease !important; */
-    padding: 5px !important;
+.ui.button.result {
+    /* transition: all 1s ease !important; */
+    display: inline !important;
+    /* padding: 5px !important; */
 }
 
 .tone_item {
     transition: all .5s ease !important;
 }
 
-.ui.tertiary.button.result:hover{
+.ui.button.result:hover{
     /* transition: transform .5s; /* Animation */ */
     /* color: black !important; */
     /* font-size: 120% !important; */
@@ -68,7 +69,7 @@ body {
 }
 
 .pointer:hover{
-    /* transition: transform .25s; /* Animation */ */
+    transition: transform .25s; /* Animation */
     /* color: black !important; */
     /* font-size: 130% !important; */
     /* padding-top: 5em !important; */
@@ -98,8 +99,8 @@ a.goto_article {
 
 .ui.button {
     margin: 2px !important;
-    /* border-radius: 20px !important; *2
-    /* transition: all .5s ease !important; */
+    /* border-radius: 20px !important; */
+    transition: all .5s ease !important;
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
@@ -120,7 +121,7 @@ a.title, #title {
 
 .ui.embed, .ui.text, .invert, img{
     border-radius: 10px !important;
-    filter: invert(1) !important;
+    /* filter: invert(1) !important; */
 }
 .left.floated{
     margin:3px !important;

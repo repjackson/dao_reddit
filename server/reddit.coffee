@@ -4,7 +4,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=10",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=20",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -16,9 +16,9 @@ Meteor.methods
                         data = item.data
                         len = 200
                         added_tags = [query]
-                        # added_tags.push data.domain.toLowerCase()
-                        # added_tags.push data.author.toLowerCase()
-                        # console.log 'added_tags', added_tags
+                        added_tags.push data.domain.toLowerCase()
+                        added_tags.push data.author.toLowerCase()
+                        console.log 'added_tags', added_tags
                         reddit_post =
                             reddit_id: data.id
                             url: data.url
@@ -127,6 +127,6 @@ Meteor.methods
                         ups: rd.ups
                         # downs: rd.downs
                         over_18: rd.over_18
-                    # $addToSet:
-                    #     tags: $each: [rd.subreddit.toLowerCase()]
+                    $addToSet:
+                        tags: $each: [rd.subreddit.toLowerCase()]
                 # console.log Docs.findOne(doc_id)
