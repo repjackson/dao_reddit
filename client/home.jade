@@ -1,7 +1,7 @@
 template(name='home')
-    .ui.stackable.padded.middle.aligned.grid
-        .middle.aligned.row
-            .sixteen.wide.middle.aligned.column
+    .ui.stackable.padded.grid
+        .row
+            .eight.wide.right.aligned.column
                 //- each omega_doc.selected_tags
                 unless home_subs_ready
                     i.yin.yang.large.loading.large.icon
@@ -39,6 +39,7 @@ template(name='home')
                             //- button.ui.large.yeah.tertiary.button.result(tabindex="0" class=tag_result title=count)
                             //- button.ui.compact.large.circular.button.result(tabindex="0" class=tag_result_class title=count)
                             +agg_tag
+            .eight.wide.column
                 if one_result
                     each selected_doc
                         +one_doc
@@ -63,18 +64,18 @@ template(name='home')
                     //-         each selected_doc
                     //-             +small_card
                     .ui.stackable.grid
-                        .five.column.centered.row
+                        .four.column.row
                             each selected_doc
                                 +small_card
                     //- .ui.centered.stackable.five.cards
                 if six_posts
                     .ui.grid
-                        .five.column.centered.row
+                        .four.column.row
                             each selected_doc
                                 +small_card
                 if seven_posts
                     .ui.grid
-                        .five.column.centered.row
+                        .four.column.row
                             each selected_doc
                                 +small_card
                 //- if eight_posts
@@ -114,7 +115,7 @@ template(name='home')
                                 +medium_card
                 
                     .ui.grid.mobile.hidden
-                        .five.column.centered.row
+                        .four.column.row
                             each selected_doc
                                 +small_card
                 if more_than_ten
@@ -122,10 +123,10 @@ template(name='home')
                         .seven.column.centered.row
                             each selected_doc 
                                 +small_card
-                //- .centered.middle.aligned.row.flat
-                //-     .sixteen.wide.middle.aligned.column
+                //- .centered.row.flat
+                //-     .eight.wide.column
                 //-         //- .ui.hidden.divider
-                //-         .ui.middle.aligned.header 
+                //-         .ui.header 
                 //-             |sponsored by
                 //-             a(href="https://ciomastermind.com/" target="_window")
                 //-                 //- |ciomastermind

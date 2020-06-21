@@ -7,7 +7,8 @@ template(name='small_card')
                 unless watson.metadata.image
                     //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                     //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                    img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+                    a(href=url target='_window')
+                        img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
         //- if is_video
         //-     .invert
         //-         blockquote(class="reddit-card")
@@ -28,7 +29,7 @@ template(name='small_card')
                     img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
                 
         .content
-            .small_card_header #{title}
+            a.ui.small.header(href=url target='_window') #{title}
             .spacer
             //- .ui.icon.circular.button.vote_up(title=points)
             //-     i.chevron.up.large.icon

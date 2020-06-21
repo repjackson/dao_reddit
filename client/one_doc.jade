@@ -1,6 +1,6 @@
 template(name='one_doc')
     .ui.padded.stackable.grid
-        .two.column.row
+        .one.column.row
             .column
                 a.ui.center.aligned.header(href=url target="_blank")
                     //- img.ui.image.rounded(src=url class=omega_dark_mode_class)
@@ -125,5 +125,5 @@ template(name='one_doc')
                 //- if watson
                 //-     +watson_view
                 each tags
-                    .ui.compact.circular.button.toggle_tag
+                    .ui.compact.circular.inline.button.toggle_tag
                         |#{this}
