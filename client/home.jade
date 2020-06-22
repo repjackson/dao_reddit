@@ -4,17 +4,21 @@ template(name='home')
             .sixteen.wide.column
                 unless home_subs_ready
                     i.yin.yang.large.loading.large.icon
+                |#{cureent_date_setting}
+                .ui.button.set_all_time
+                    |all time
+                .ui.button.set_today
+                    |today
+                .ui.button.set_yesterday
+                    |yesterday
+                .ui.button.set_this_month
+                    |this month
                 each selected_tags
                     button.ui.active.compact.circular.button.unselect_tag(tabindex="0")
                         if term.image
                             img.ui.mini.image(src=term.image)
                         .ui.inline.header #{this}
                         //- button.ui.active.large.circular.button.unselect_tag(tabindex='0' style=background_style class=emotion_color)
-                //- i.remove.icon
-                if term.image
-                    img.ui.fluid.image(src=term.image)
-                else
-                    a.ui.inline.grey.header #{this}
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                         
                 .ui.left.icon.search.small.input

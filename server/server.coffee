@@ -31,6 +31,7 @@ Meteor.publish 'tag_results', (
     selected_tags
     query
     dummy
+    date_setting
     )->
     # console.log 'dummy', dummy
     console.log 'selected tags', selected_tags
@@ -69,6 +70,16 @@ Meteor.publish 'tag_results', (
     else
         # unless query and query.length > 2
         # if selected_tags.length > 0 then match.tags = $all: selected_tags
+        console.log date_setting
+        if date_setting
+            if date_setting is 'today'
+                now = Date.now()
+                day = 24*60*60*1000
+                yesterday = now-day
+                console.log yesterday
+                match._timestamp = $gt:yesterday
+
+
         if selected_tags.length > 0
             match.tags = $all: selected_tags
         else

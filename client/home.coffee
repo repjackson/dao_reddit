@@ -18,8 +18,10 @@ Template.home.onCreated ->
         selected_tags.array()
         Session.get('current_query')
         Session.get('dummy')
+        Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         selected_tags.array()
+        Session.get('date_setting')
 
 Template.tone.events
     # 'click .upvote_sentence': ->
@@ -63,6 +65,10 @@ Template.agg_tag.events
         Session.set('searching', false)
 
 Template.home.events
+    'click .set_today': -> Session.set('date_setting','today')
+    'click .set_yesterday': -> Session.set('date_setting','yesterday')
+    'click .set_this_month': -> Session.set('date_setting','set_this_month')
+    'click .set_all_time': -> Session.set('date_setting','all_time')
     'click .unselect_tag': ->
         selected_tags.remove @valueOf()
         console.log selected_tags.array()
@@ -174,6 +180,8 @@ Template.home.events
 
 
 Template.home.helpers
+    cureent_date_setting: -> Session.get('date_setting')
+
     background_style: ->
         "background-image:url(#{@image})"
 
