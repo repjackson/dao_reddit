@@ -23,13 +23,9 @@ head
 
       gtag('config', 'UA-156965333-1');
 
-body
-    //- if dev
-    //- +serverFacts    
-    //-     +admin
-    +home
-    //- .ui.divider
-    //- unless dev
+template(name='layout')
+    +yield
+
 
 
 template(name='admin')

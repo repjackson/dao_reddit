@@ -7,7 +7,8 @@ template(name='small_card')
                 unless watson.metadata.image
                     //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                     //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                    a(href=url target='_window')
+                    //- a(href=url target='_window')
+                    a(href="/doc/#{_id}/view")
                         img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
         //- if is_video
         //-     .invert
@@ -22,14 +23,18 @@ template(name='small_card')
 
         if is_image   
             //- unless is_video
-            img.ui.centered.image.rounded.pointer.call_visual(src=url)
+            //- img.ui.centered.image.rounded.pointer.call_visual(src=url)
+            a(href="/doc/#{_id}/view")
+                img.ui.centered.rouded.image(src=url)
         if watson.metadata.image 
             unless is_video
                 unless is_youtube
-                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                    a(href="/doc/#{_id}/view")
+                        img.ui.centered.rounded.image(src=watson.metadata.image)
                 
         .content
-            a.ui.small.header(href=url target='_window') #{title}
+            //- a.ui.small.header(href=url target='_window') #{title}
+            a.ui.small.header(href="/doc/#{_id}/view") #{title}
             .spacer
             //- .ui.icon.circular.button.vote_up(title=points)
             //-     i.chevron.up.large.icon
@@ -56,7 +61,7 @@ template(name='small_card')
             //- each user_tags
             //-     .ui.compact.circular.button.toggle_tag #{this}
             //- 
-            a.ui.large.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+            a.ui.large.compact.circular.button(href="https://www.reddit.com#{permalink}" target="_blank" title='view reddit comments')
                 i.chat.outline.large.icon
                 |#{comment_count}
             a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")

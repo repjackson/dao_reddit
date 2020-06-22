@@ -16,8 +16,8 @@ Meteor.methods
                         data = item.data
                         len = 200
                         added_tags = [query]
-                        added_tags.push data.domain.toLowerCase()
-                        added_tags.push data.author.toLowerCase()
+                        # added_tags.push data.domain.toLowerCase()
+                        # added_tags.push data.author.toLowerCase()
                         added_tags = _.flatten(added_tags)
                         console.log 'added_tags', added_tags
                         reddit_post =
@@ -128,6 +128,6 @@ Meteor.methods
                         ups: rd.ups
                         # downs: rd.downs
                         over_18: rd.over_18
-                    $addToSet:
-                        tags: $each: [rd.subreddit.toLowerCase()]
+                    # $addToSet:
+                    #     tags: $each: [rd.subreddit.toLowerCase()]
                 # console.log Docs.findOne(doc_id)

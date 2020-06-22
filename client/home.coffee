@@ -190,7 +190,7 @@ Template.home.helpers
     doc_results: ->
         current_docs = Docs.find()
         # if Session.get('selected_doc_id') in current_docs.fetch()
-        console.log current_docs.fetch()
+        # console.log current_docs.fetch()
         # Docs.findOne Session.get('selected_doc_id')
         doc_count = Docs.find().count()
         # if doc_count is 1

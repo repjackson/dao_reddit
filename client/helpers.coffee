@@ -25,6 +25,8 @@ Template.registerHelper 'gif_filename', () ->
     @url.slice(0,-1)
     # true
 
+Template.registerHelper 'current_doc', () ->
+    Docs.findOne Router.current().params.doc_id
 
 Template.registerHelper 'is_image_domain', () ->
     # console.log 'image match', match
@@ -164,7 +166,8 @@ Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 
 Template.registerHelper 'publish_when', ()->
-    if @watson.metadata.publication_date
-        moment(@watson.metadata.publication_date).fromNow()
+    if @watson
+        if @watson.metadata.publication_date
+            moment(@watson.metadata.publication_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment

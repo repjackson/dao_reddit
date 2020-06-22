@@ -5,9 +5,11 @@
 # but you can also edit it by hand.
 
 meteor-base@1.4.0             # Packages every Meteor app needs to have
+iron:router@=1.0.13
 mongo@1.10.0                   # The database Meteor supports right now
 session@1.2.0                 # Client-side reactive dictionary for your app
 tracker@1.2.0                 # Meteor's client-side reactive programming library
+accounts-base@1.6.0
 
 
 random@1.2.0
@@ -27,3 +29,9 @@ ecmascript@0.14.3
 modules@0.15.0
 http
 markdown
+reactive-var@1.0.11
+constellation:console
+constellation:subscriptions
+constellation:autopublish
+constellation:session
+babrahams:temple
