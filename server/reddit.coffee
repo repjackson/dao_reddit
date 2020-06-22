@@ -18,6 +18,7 @@ Meteor.methods
                         added_tags = [query]
                         added_tags.push data.domain.toLowerCase()
                         added_tags.push data.author.toLowerCase()
+                        added_tags = _.flatten(added_tags)
                         console.log 'added_tags', added_tags
                         reddit_post =
                             reddit_id: data.id

@@ -12,8 +12,8 @@ Template.agg_tag.onCreated ->
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
     Session.setDefault('dummy', true)
-    # @autorun => @subscribe 'terms',
-    #     selected_tags.array()
+    @autorun => @subscribe 'terms',
+        selected_tags.array()
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
         Session.get('current_query')
@@ -30,9 +30,6 @@ Template.tone.events
             Meteor.call 'reset_sentence', doc_id, @, ->
         else
             Meteor.call 'upvote_sentence', doc_id, @, ->
-    # 'click .downvote_sentence': ->
-    #     # console.log @
-    #     Meteor.call 'downvote_sentence', omega.selected_doc_id, @, ->
 
 Template.agg_tag.helpers
     term: ->
@@ -85,9 +82,9 @@ Template.home.events
     # 'keyup #search': _.throttle((e,t)->
     'keyup #search': (e,t)->
         query = $('#search').val()
-        Session.set('current_query', query)
+        # Session.set('current_query', query)
         # if query.length > 0
-        console.log Session.get('current_query')
+        # console.log Session.get('current_query')
         if e.which is 13
             search = $('#search').val().trim().toLowerCase()
             if search.length > 0
@@ -182,10 +179,10 @@ Template.home.helpers
 
     term_icon: ->
         console.log @
-    selected_doc: ->
-        # current_docs = Docs.find()
+    doc_results: ->
+        current_docs = Docs.find()
         # if Session.get('selected_doc_id') in current_docs.fetch()
-
+        console.log current_docs.fetch()
         # Docs.findOne Session.get('selected_doc_id')
         doc_count = Docs.find().count()
         # if doc_count is 1
@@ -260,13 +257,14 @@ Template.home.helpers
     two_posts: -> Docs.find().count() is 2
     three_posts: -> Docs.find().count() is 3
     four_posts: -> Docs.find().count() is 4
-    five_posts: -> Docs.find().count() is 5
-    six_posts: -> Docs.find().count() is 6
-    seven_posts: -> Docs.find().count() is 7
-    eight_posts: -> Docs.find().count() is 8
-    nine_posts: -> Docs.find().count() is 9
-    ten_posts: -> Docs.find().count() is 10
-    more_than_ten: -> Docs.find().count() > 10
+    # five_posts: -> Docs.find().count() is 5
+    # six_posts: -> Docs.find().count() is 6
+    # seven_posts: -> Docs.find().count() is 7
+    # eight_posts: -> Docs.find().count() is 8
+    # nine_posts: -> Docs.find().count() is 9
+    # ten_posts: -> Docs.find().count() is 10
+    # more_than_ten: -> Docs.find().count() > 10
+    more_than_four: -> Docs.find().count() > 4
     one_result: ->
         Docs.find().count() is 1
 

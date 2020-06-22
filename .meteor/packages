@@ -27,5 +27,3 @@ ecmascript@0.14.3
 modules@0.15.0
 http
 markdown
-mdg:meteor-apm-agent
-facts
