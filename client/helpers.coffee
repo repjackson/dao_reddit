@@ -1,4 +1,14 @@
 
+Template.registerHelper 'emotion_color_class', () ->
+    console.log @
+    # if @watson.setn
+    # 'red'
+    if @doc_sentiment_label
+        if @doc_sentiment_label is 'positive'
+            'green invert'
+        else
+            'red invert'
+
 Template.registerHelper 'youtube_id', () ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
     match = @url.match(regExp)

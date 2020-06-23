@@ -6,7 +6,7 @@ template(name='doc_page')
                     a.ui.circular.icon.large.button(href="/")
                         i.left.chevron.big.icon
                 .twelve.wide.column 
-                    .ui.center.aligned.header(title=ups) !{title}
+                    .ui.center.aligned.header(class=emotion_color_class) !{title}
             .row
                 .four.wide.column 
                     //- if has_thumb
@@ -82,8 +82,9 @@ template(name='doc_page')
                         iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                 
                     if url
-                        a.ui.small.header(href=url target='_window')
+                        a.ui.small.center.aligned.grey.header(href=url target='_window')
                             |#{url}
+                        .spacer
                     if is_image
                         img.ui.image(src=url)
                     else

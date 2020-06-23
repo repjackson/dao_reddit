@@ -105,7 +105,7 @@ a.goto_article {
 .ui.button {
     margin: 2px !important;
     /* border-radius: 20px !important; */
-    transition: all .5s ease !important;
+    /* transition: all .5s ease !important; */
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */

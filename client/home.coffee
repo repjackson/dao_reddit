@@ -2,6 +2,7 @@
 @selected_subreddits = new ReactiveArray []
 @selected_authors = new ReactiveArray []
 @selected_domains = new ReactiveArray []
+@selected_emotions = new ReactiveArray []
 
 Template.admin.helpers
     doc_count: ->
@@ -20,12 +21,18 @@ Template.home.onCreated ->
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
         selected_subreddits.array()
+        selected_domains.array()
+        selected_authors.array()
+        selected_emotions.array()
         Session.get('current_query')
         Session.get('dummy')
         Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         selected_tags.array()
         selected_subreddits.array()
+        selected_domains.array()
+        selected_authors.array()
+        selected_emotions.array()
         Session.get('date_setting')
 
 Template.tone.events
@@ -236,7 +243,6 @@ Template.home.helpers
         else if whole is 9 then "f19"
         else if whole is 10 then "f20"
 
-    emotion_color: ->
 
     connection: ->
         # console.log Meteor.status()
@@ -249,7 +255,7 @@ Template.home.helpers
             sort:
                 count:-1
         )
-        
+
     selected_subreddits: -> selected_subreddits.array()
 
     agg_tags: ->
@@ -310,7 +316,7 @@ Template.home.helpers
         cursor
 
     term: ->
-        console.log @
+        # console.log @
         Terms.findOne
             title:@valueOf()
 

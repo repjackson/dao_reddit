@@ -30,6 +30,9 @@ Meteor.publish 'terms', (selected_tags, searching, query)->
 Meteor.publish 'tag_results', (
     selected_tags
     selected_subreddits
+    selected_domains
+    selected_authors
+    selected_emotions
     query
     dummy
     date_setting
@@ -85,11 +88,15 @@ Meteor.publish 'tag_results', (
         if selected_tags.length > 0
             match.tags = $all: selected_tags
         else
-            match.tags = $all: ['universe']
+            match.tags = $all: ['future']
         # console.log 'match for tags', match
         if selected_subreddits.length > 0
             match.subreddit = $all: selected_subreddits
+        if selected_domains.length > 0
+            match.domain = $all: selected_domains
         # console.log 'match for tags', match
+
+
         agg_doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -124,7 +131,7 @@ Meteor.publish 'tag_results', (
             { $project: "subreddit": 1 }
             # { $unwind: "$subreddit" }
             { $group: _id: "$subreddit", count: $sum: 1 }
-            # { $match: _id: $nin: selected_tags }
+            { $match: _id: $nin: selected_tags }
             # { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
@@ -144,11 +151,40 @@ Meteor.publish 'tag_results', (
                 # index: i
         # console.log doc_tag_cloud.count()
 
+
+        domain_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "domain": 1 }
+            # { $unwind: "$domain" }
+            { $group: _id: "$domain", count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            # { $match: count: $lt: agg_doc_count }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+
+        domain_cloud.forEach (domain, i) =>
+            # console.log 'queried domain ', domain
+            # console.log 'key', key
+            self.added 'domains', Random.id(),
+                title: domain.name
+                count: domain.count
+                # category:key
+                # index: i
+        # console.log doc_tag_cloud.count()
+
         self.ready()
 
 Meteor.publish 'doc_results', (
     selected_tags
     selected_subreddits
+    selected_domains
+    selected_authors
+    selected_emotions
     date_setting
     )->
     console.log 'got selected tags', selected_tags
@@ -174,7 +210,7 @@ Meteor.publish 'doc_results', (
         # else
         match.tags = $all: selected_tags
     else
-        match.tags = $all: ['universe']
+        match.tags = $all: ['future']
     if selected_subreddits.length > 0
         match.subreddit = $all: selected_subreddits
 
