@@ -33,7 +33,7 @@ Template.registerHelper 'sentence_class', () ->
         'grey invert'
 
 Template.registerHelper 'emotion_color_class', () ->
-    console.log @
+    # console.log @
     # if @watson.setn
     # 'red'
     if @max_emotion_name

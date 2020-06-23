@@ -144,8 +144,8 @@ Meteor.methods
                     explanation:true
                 emotion: {}
                 metadata: {}
-                # relations: {}
-                # semantic_roles: {}
+                relations: {}
+                semantic_roles: {}
                 sentiment: {}
 
         switch mode
