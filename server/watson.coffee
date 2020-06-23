@@ -140,12 +140,12 @@ Meteor.methods
                     sentiment: false
                     limit: 20
                 concepts: {}
-                categories:
-                    explanation:true
+                # categories:
+                #     explanation:true
                 emotion: {}
                 metadata: {}
-                relations: {}
-                semantic_roles: {}
+                # relations: {}
+                # semantic_roles: {}
                 sentiment: {}
 
         switch mode
@@ -237,18 +237,18 @@ Meteor.methods
 
 
                 adding_tags = []
-                if response.categories
-                    for categories in response.categories
-                        # console.log category.label.split('/')[1..]
-                        # console.log category.label.split('/')
-                        for category in categories.label.split('/')
-                            if category.length > 0
-                                # console.log 'adding category', category
-                                # adding_tags.push category
-                                Docs.update doc_id,
-                                    $addToSet:
-                                        categories: category
-                                        tags: category
+                # if response.categories
+                #     for categories in response.categories
+                #         # console.log category.label.split('/')[1..]
+                #         # console.log category.label.split('/')
+                #         for category in categories.label.split('/')
+                #             if category.length > 0
+                #                 # console.log 'adding category', category
+                #                 # adding_tags.push category
+                #                 Docs.update doc_id,
+                #                     $addToSet:
+                #                         categories: category
+                #                         tags: category
                 # Docs.update { _id: doc_id },
                 #     $addToSet:
                 #         tags:$each:adding_tags

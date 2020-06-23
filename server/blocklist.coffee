@@ -25,6 +25,11 @@
 
 
 @blocklist = [
+    'technology and computing'
+    'web search'
+    'internet technology'
+    'social network'
+    'society'
     'reddit app reddit'
     'reddit post'
     'user account menu'

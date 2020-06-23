@@ -41,44 +41,44 @@ Meteor.methods
                 Meteor.call 'calc_term', @term_title, ->
 
     calc_term: (term_title)->
-        term =
+        found_term =
             Terms.findOne
                 title:term_title
         unless found_term
             Terms.insert
                 title:term_title
+        if found_term
+            found_term_docs =
+                Docs.find {
+                    model:'reddit'
+                    tags:$in:[term_title]
+                }, {
+                    sort:
+                        points:-1
+                        ups:-1
+                    limit:10
+                }
 
-        found_term_docs =
-            Docs.find {
-                model:'reddit'
-                tags:$in:[term_title]
-            }, {
-                sort:
-                    points:-1
-                    ups:-1
-                limit:10
-            }
-
-        console.log 'found_term docs', term_title, found_term_docs.fetch().length
+            console.log 'found_term docs', term_title, found_term_docs.fetch().length
 
 
-        unless term.image
-            found_wiki_doc =
-                Docs.findOne
-                    model:$in:['wikipedia']
-                    # model:$in:['wikipedia','reddit']
-                    title:term_title
-            found_reddit_doc =
-                Docs.findOne
-                    model:$in:['reddit']
-                    "watson.metadata.image": $exists:true
-                    # model:$in:['wikipedia','reddit']
-                    title:term_title
-            # console.log 'reddit doc', found_reddit_doc
-            if found_wiki_doc
-                if found_wiki_doc.watson.metadata.image
-                    Terms.update term._id,
-                        $set:image:found_wiki_doc.watson.metadata.image
+            unless found_term.image
+                found_wiki_doc =
+                    Docs.findOne
+                        model:$in:['wikipedia']
+                        # model:$in:['wikipedia','reddit']
+                        title:term_title
+                found_reddit_doc =
+                    Docs.findOne
+                        model:$in:['reddit']
+                        "watson.metadata.image": $exists:true
+                        # model:$in:['wikipedia','reddit']
+                        title:term_title
+                # console.log 'reddit doc', found_reddit_doc
+                if found_wiki_doc
+                    if found_wiki_doc.watson.metadata.image
+                        Terms.update term._id,
+                            $set:image:found_wiki_doc.watson.metadata.image
 
 
     lookup: =>
@@ -141,7 +141,12 @@ Meteor.methods
                         if agg_tag.title.length > 0
                             console.log 'agg tag', agg_tag
                             filtered_agg_res.push agg_tag
-            console.log 'max term emotion', _.max(filtered_agg_res, (tag)->tag.count)
+            # console.log 'max term emotion', _.max(filtered_agg_res, (tag)->tag.count)
+            term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
+            Terms.update term_doc._id,
+                $set:
+                    max_emotion_name:term_emotion
+            console.log 'term final emotion', term_emotion
 
             # Docs.update omega._id,
             #     $set:

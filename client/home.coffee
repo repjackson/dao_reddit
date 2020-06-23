@@ -50,6 +50,25 @@ Template.agg_tag.helpers
         # console.log @
         Terms.findOne
             title:@title
+    tag_result_class: ->
+        # console.log 'active_term class', @
+        term =
+            Terms.findOne title:@title
+        if term
+            # console.log 'found term emotion', term
+            if term.max_emotion_name
+                if term.max_emotion_name is 'anger'
+                    'red invert'
+                else if term.max_emotion_name is 'sadness'
+                    'blue invert'
+                else if term.max_emotion_name is 'joy'
+                    'green invert'
+                else if term.max_emotion_name is 'disgust'
+                    'orange invert'
+                else if term.max_emotion_name is 'fear'
+                    'grey invert'
+
+
 Template.agg_tag.events
     'click .result': (e,t)->
         Meteor.call 'log_term', @title, ->
@@ -58,6 +77,7 @@ Template.agg_tag.events
         $('#search').val('')
         Meteor.call 'call_wiki', @title, ->
         Meteor.call 'calc_term', @title, ->
+        Meteor.call 'omega', @title, ->
         Session.set('current_query', '')
         Session.set('searching', false)
 
@@ -126,8 +146,10 @@ Template.home.events
             if search.length > 0
                 selected_tags.push search
                 console.log 'search', search
+
                 Meteor.call 'call_wiki', search, =>
                     Meteor.call 'calc_term', @title, ->
+                    Meteor.call 'omega', @title, ->
 
                 Meteor.call 'search_reddit', selected_tags.array(), ->
                 Meteor.call 'log_term', search, ->
@@ -208,6 +230,25 @@ Template.home.events
 
 
 Template.home.helpers
+    active_term_class: ->
+        # console.log 'active_term class', @
+        term =
+            Terms.findOne title:@valueOf()
+        if term
+            # console.log 'found term emotion', term
+            if term.max_emotion_name
+                if term.max_emotion_name is 'anger'
+                    'red invert'
+                else if term.max_emotion_name is 'sadness'
+                    'blue invert'
+                else if term.max_emotion_name is 'joy'
+                    'green invert'
+                else if term.max_emotion_name is 'disgust'
+                    'orange invert'
+                else if term.max_emotion_name is 'fear'
+                    'grey invert'
+
+
     curent_date_setting: -> Session.get('date_setting')
 
     background_style: ->

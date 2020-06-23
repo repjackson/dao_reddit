@@ -113,7 +113,7 @@ Meteor.publish 'tag_results', (
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -131,31 +131,31 @@ Meteor.publish 'tag_results', (
 
 
 
-        # agg_doc_count = Docs.find(match).count()
-        subreddit_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "subreddit": 1 }
-            # { $unwind: "$subreddit" }
-            { $group: _id: "$subreddit", count: $sum: 1 }
-            { $match: _id: $nin: selected_subreddits }
-            # { $match: count: $lt: agg_doc_count }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
-
-        subreddit_cloud.forEach (subreddit, i) =>
-            # console.log 'queried subreddit ', subreddit
-            # console.log 'key', key
-            self.added 'subreddits', Random.id(),
-                title: subreddit.name
-                count: subreddit.count
-                # category:key
-                # index: i
-        # console.log doc_tag_cloud.count()
+        # # agg_doc_count = Docs.find(match).count()
+        # subreddit_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: "subreddit": 1 }
+        #     # { $unwind: "$subreddit" }
+        #     { $group: _id: "$subreddit", count: $sum: 1 }
+        #     { $match: _id: $nin: selected_subreddits }
+        #     # { $match: count: $lt: agg_doc_count }
+        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $limit: 10 }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        # ], {
+        #     allowDiskUse: true
+        # }
+        #
+        # subreddit_cloud.forEach (subreddit, i) =>
+        #     # console.log 'queried subreddit ', subreddit
+        #     # console.log 'key', key
+        #     self.added 'subreddits', Random.id(),
+        #         title: subreddit.name
+        #         count: subreddit.count
+        #         # category:key
+        #         # index: i
+        # # console.log doc_tag_cloud.count()
 
 
         domain_cloud = Docs.aggregate [
@@ -167,7 +167,7 @@ Meteor.publish 'tag_results', (
             # { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -192,7 +192,7 @@ Meteor.publish 'tag_results', (
             # { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -218,18 +218,18 @@ Meteor.publish 'doc_results', (
     selected_emotions
     date_setting
     )->
-    console.log 'got selected tags', selected_tags
+    # console.log 'got selected tags', selected_tags
     # else
     self = @
     match = {model:$in:['reddit','wikipedia']}
     # if selected_tags.length > 0
-    console.log date_setting
+    # console.log date_setting
     if date_setting
         if date_setting is 'today'
             now = Date.now()
             day = 24*60*60*1000
             yesterday = now-day
-            console.log yesterday
+            # console.log yesterday
             match._timestamp = $gt:yesterday
 
     if selected_tags.length > 0
@@ -258,7 +258,7 @@ Meteor.publish 'doc_results', (
     #     match.tags = $nin: ['wikipedia']
     #     sort = '_timestamp'
     #     # match. = $ne:'wikipedia'
-    console.log 'doc match', match
+    # console.log 'doc match', match
     # console.log 'sort key', sort_key
     # console.log 'sort direction', sort_direction
     Docs.find match,

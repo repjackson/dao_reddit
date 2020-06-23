@@ -3,9 +3,9 @@ template(name='home')
         .row
             .sixteen.wide.column
                 each selected_tags
-                    button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class=loading_class)
+                    button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         if term.image
-                            img.ui.mini.inline.image(src=term.image)
+                            img.ui.mini.inline.image(src=term.image class=active_term_class)
                         .ui.inline.small.header #{this}
                         //- button.ui.active.large.circular.button.unselect_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
@@ -41,8 +41,9 @@ template(name='home')
                     .ui.compact.circular.active.large.button.unselect_emotion #{this}
                 each emotion_results
                     if title.length
-                        .ui.compact.circular.large.button.select_emotion(class=emotion_selector_class) #{title}
+                        .ui.compact.circular.large.button.select_emotion(class=emotion_selector_class)
                             small #{count}
+                            |#{title}
                 div
                 .ui.circular.icon.disabled.button 
                     i.picture.large.icon
@@ -57,18 +58,18 @@ template(name='home')
                 .ui.compact.circular.button.set_today
                     i.sun.icon
                     |today
-                .spacer
-                .ui.small.grey.inline.header
-                    i.reddit.icon
-                    |subreddits
-                each selected_subreddits
-                    .ui.compact.circular.active.button.unselect_subreddit #{this}
-                each subreddit_results
-                    .ui.compact.circular.button.select_subreddit #{title}
-                .spacer
-                .ui.small.grey.inline.header
-                    i.user.outline.icon
-                    |authors
+                //- .spacer
+                //- .ui.small.grey.inline.header
+                //-     i.reddit.icon
+                //-     |subreddits
+                //- each selected_subreddits
+                //-     .ui.compact.circular.active.button.unselect_subreddit #{this}
+                //- each subreddit_results
+                //-     .ui.compact.circular.button.select_subreddit #{title}
+                //- .spacer
+                //- .ui.small.grey.inline.header
+                //-     i.user.outline.icon
+                //-     |authors
                 .spacer
                 .ui.small.grey.inline.header 
                     i.globe.icon
@@ -177,14 +178,14 @@ template(name='home')
                     
                     
 template(name='agg_tag')
-    button.ui.tertiary.active.large.button.result(tabindex="0" title=count)
+    button.ui.tertiary.large.button.result(tabindex="0" title=count)
         if term.image
             //- button.ui.compact.circular.button(tabindex="0" title=count)
             img.ui.avatar.image(src=term.image)
-            .ui.inline.small.thin.header #{title}
+            .ui.inline.small.thin.header(class=tag_result_class) #{title}
         else
             //- button.ui.compact.circular.button(tabindex="0" title=count)
-            .ui.inline.small.thin.header #{title}
+            .ui.inline.small.thin.header(class=tag_result_class) #{title}
 
         //- small #{count}
                     
