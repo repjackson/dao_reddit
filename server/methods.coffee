@@ -44,22 +44,41 @@ Meteor.methods
         term =
             Terms.findOne
                 title:term_title
-        found_wiki_doc =
-            Docs.findOne
-                model:$in:['wikipedia']
-                # model:$in:['wikipedia','reddit']
+        unless found_term
+            Terms.insert
                 title:term_title
-        found_reddit_doc =
-            Docs.findOne
-                model:$in:['reddit']
-                "watson.metadata.image": $exists:true
-                # model:$in:['wikipedia','reddit']
-                title:term_title
-        console.log 'reddit doc', found_reddit_doc
-        if found_wiki_doc
-            if found_wiki_doc.watson.metadata.image
-                Terms.update term._id,
-                    $set:image:found_wiki_doc.watson.metadata.image
+
+        found_term_docs =
+            Docs.find {
+                model:'reddit'
+                tags:$in:[term_title]
+            }, {
+                sort:
+                    points:-1
+                    ups:-1
+                limit:10
+            }
+
+        console.log 'found_term docs', term_title, found_term_docs.fetch().length
+
+
+        unless term.image
+            found_wiki_doc =
+                Docs.findOne
+                    model:$in:['wikipedia']
+                    # model:$in:['wikipedia','reddit']
+                    title:term_title
+            found_reddit_doc =
+                Docs.findOne
+                    model:$in:['reddit']
+                    "watson.metadata.image": $exists:true
+                    # model:$in:['wikipedia','reddit']
+                    title:term_title
+            # console.log 'reddit doc', found_reddit_doc
+            if found_wiki_doc
+                if found_wiki_doc.watson.metadata.image
+                    Terms.update term._id,
+                        $set:image:found_wiki_doc.watson.metadata.image
 
 
     lookup: =>
@@ -96,89 +115,97 @@ Meteor.methods
             console.log res
 
     # agg_omega: (query, key, collection)->
-    agg_omega: ->
+    omega: (term)->
         # agg_res = Meteor.call 'agg_omega2', (err, res)->
         #     console.log res
         #     console.log 'res from async agg'
-        agg_res = Meteor.call 'agg_omega2'
-        # console.log 'hi'
-        # console.log 'agg res', agg_res
-        omega = Docs.findOne model:'omega_session'
-        doc_count = omega.total_doc_result_count
-        # doc_count = omega.doc_result_ids.length
-        unless omega.selected_doc_id in omega.doc_result_ids
-            Docs.update omega._id,
-                $set:selected_doc_id:omega.doc_result_ids[0]
-        # console.log 'doc count', doc_count
-        filtered_agg_res = []
-        for agg_tag in agg_res
-            if agg_tag.count < doc_count
-                filtered_agg_res.push agg_tag
+        term_doc =
+            Terms.findOne(title:term)
+        if term_doc
+            agg_res = Meteor.call 'omega2', term
+            # console.log 'hi'
+            # console.log 'agg res', agg_res
+            # omega = Docs.findOne model:'omega_session'
+            # doc_count = omega.total_doc_result_count
+            # doc_count = omega.doc_result_ids.length
+            # unless omega.selected_doc_id in omega.doc_result_ids
+            #     Docs.update omega._id,
+            #         $set:selected_doc_id:omega.doc_result_ids[0]
+            # console.log 'doc count', doc_count
+            filtered_agg_res = []
 
-        Docs.update omega._id,
-            $set:
-                # agg:agg_res
-                filtered_agg_res:filtered_agg_res
-    agg_omega2: ()->
-        omega =
-            Docs.findOne
-                model:'omega_session'
+            for agg_tag in agg_res
+                # if agg_tag.count < doc_count
+                    # filtered_agg_res.push agg_tag
+                    if agg_tag.title
+                        if agg_tag.title.length > 0
+                            console.log 'agg tag', agg_tag
+                            filtered_agg_res.push agg_tag
+            console.log 'max term emotion', _.max(filtered_agg_res, (tag)->tag.count)
+
+            # Docs.update omega._id,
+            #     $set:
+            #         # agg:agg_res
+            #         filtered_agg_res:filtered_agg_res
+    omega2: (term)->
+        # omega =
+        #     Docs.findOne
+        #         model:'omega_session'
 
         # console.log 'running agg omega', omega
-        match = {}
-        if omega.selected_tags.length > 0
-            match.tags =
-                $all: omega.selected_tags
-        else
-            match.tags =
-                $all: ['dao']
+        match = {tags:$in:[term]}
+        # if omega.selected_tags.length > 0
+        #     match.tags =
+        #         $all: omega.selected_tags
+        # else
+        #     match.tags =
+        #         $all: ['dao']
 
-        doc_match = match
         # console.log 'running agg omega', omega
-        doc_match.model = $in:['reddit','wikipedia']
-        # console.log 'doc_count', Docs.find(doc_match).count()
+        match.model = $in:['reddit','wikipedia']
+        # console.log 'doc_count', Docs.find(match).count()
         total_doc_result_count =
-            Docs.find( doc_match,
+            Docs.find( match,
                 {
                     fields:
                         _id:1
                 }
             ).count()
-        # console.log total_doc_result_count
-        doc_results =
-            Docs.find( doc_match,
-                {
-                    limit:20
-                    sort:
-                        points:-1
-                        ups:-1
-                    fields:
-                        _id:1
-                }
-            ).fetch()
+        console.log 'doc result count',  total_doc_result_count
+        # doc_results =
+        #     Docs.find( match,
+        #         {
+        #             limit:20
+        #             sort:
+        #                 points:-1
+        #                 ups:-1
+        #             fields:
+        #                 _id:1
+        #         }
+        #     ).fetch()
         # console.log doc_results
-        if doc_results[0]
-            unless doc_results[0].rd
-                if doc_results[0].reddit_id
-                    Meteor.call 'get_reddit_post', doc_results[0]._id, doc_results[0].reddit_id, =>
+        # if doc_results[0]
+        #     unless doc_results[0].rd
+        #         if doc_results[0].reddit_id
+        #             Meteor.call 'get_reddit_post', doc_results[0]._id, doc_results[0].reddit_id, =>
         # console.log doc_results
-        doc_result_ids = []
-        for result in doc_results
-            doc_result_ids.push result._id
+        # doc_result_ids = []
+        # for result in doc_results
+        #     doc_result_ids.push result._id
         # console.log _.keys(doc_results,'_id')
-        Docs.update omega._id,
-            $set:
-                doc_result_ids:doc_result_ids
-                total_doc_result_count:total_doc_result_count
+        # Docs.update omega._id,
+        #     $set:
+        #         doc_result_ids:doc_result_ids
+        #         total_doc_result_count:total_doc_result_count
         # if doc_re
-        found_wiki_doc =
-            Docs.findOne
-                model:'wikipedia'
-                title:$in:omega.selected_tags
-        if found_wiki_doc
-            Docs.update omega._id,
-                $addToSet:
-                    doc_result_ids:found_wiki_doc._id
+        # found_wiki_doc =
+        #     Docs.findOne
+        #         model:'wikipedia'
+        #         title:$in:omega.selected_tags
+        # if found_wiki_doc
+        #     Docs.update omega._id,
+        #         $addToSet:
+        #             doc_result_ids:found_wiki_doc._id
 
         # Docs.update omega._id,
         #     $set:
@@ -197,13 +224,13 @@ Meteor.methods
         # { $match: tags:$all: omega.selected_tags }
         pipe =  [
             { $match: match }
-            { $project: tags: 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
+            { $project: max_emotion_name: 1 }
+            # { $unwind: "$max_emotion_name" }
+            { $group: _id: "$max_emotion_name", count: $sum: 1 }
             # { $group: _id: "$max_emotion_name", count: $sum: 1 }
-            { $match: _id: $nin: omega.selected_tags }
+            # { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: limit }
+            { $limit: 5 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
 
@@ -236,7 +263,7 @@ Meteor.methods
     #     # doc_results =
     #         # Docs.find
     #
-    #     doc_match = {_id:$in:omega.doc_result_ids}
+    #     match = {_id:$in:omega.doc_result_ids}
     #     for doc_id in omega.doc_result_ids
     #         doc = Docs.findOne(doc_id)
     #         if doc.max_emotion_percent
@@ -259,7 +286,7 @@ Meteor.methods
     #                         current_max_emotion_percent: current_max_emotion_percent
     #                         emotion_color:emotion_color
     #     # for emotion in emotion_list
-    #     #     emotion_match = doc_match
+    #     #     emotion_match = match
     #     #     emotion_match.max_emotion_name = emotion
     #     #     found_emotions =
     #     #         Docs.find(emotion_match)
@@ -271,7 +298,7 @@ Meteor.methods
     #     #         current_most_emotion = emotion
     #     #         current_max_emotion_count = found_emotions.count()
     #     # # console.log 'current_most_emotion ', current_most_emotion
-    #     emotion_match = doc_match
+    #     emotion_match = match
     #     emotion_match.max_emotion_name = $exists:true
     #     # main_emotion = Docs.findOne(emotion_match)
     #

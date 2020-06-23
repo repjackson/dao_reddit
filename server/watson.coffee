@@ -243,13 +243,15 @@ Meteor.methods
                         # console.log category.label.split('/')
                         for category in categories.label.split('/')
                             if category.length > 0
-                                console.log 'adding category', category
+                                # console.log 'adding category', category
                                 # adding_tags.push category
                                 Docs.update doc_id,
-                                    $addToSet: categories: category
-                Docs.update { _id: doc_id },
-                    $addToSet:
-                        tags:$each:adding_tags
+                                    $addToSet:
+                                        categories: category
+                                        tags: category
+                # Docs.update { _id: doc_id },
+                #     $addToSet:
+                #         tags:$each:adding_tags
                 if response.entities and response.entities.length > 0
                     for entity in response.entities
                         # console.log entity.type, entity.text
