@@ -88,12 +88,18 @@ Meteor.publish 'tag_results', (
         if selected_tags.length > 0
             match.tags = $all: selected_tags
         else
-            match.tags = $all: ['future']
+            # unless selected_domains.length > 0
+            #     unless selected_subreddits.length > 0
+            #         unless selected_subreddits.length > 0
+            #             unless selected_emotions.length > 0
+            match.tags = $all: ['history']
         # console.log 'match for tags', match
         if selected_subreddits.length > 0
             match.subreddit = $all: selected_subreddits
         if selected_domains.length > 0
             match.domain = $all: selected_domains
+        if selected_emotions.length > 0
+            match.max_emotion_name = $all: selected_emotions
         console.log 'match for tags', match
 
 
@@ -157,7 +163,7 @@ Meteor.publish 'tag_results', (
             { $project: "domain": 1 }
             # { $unwind: "$domain" }
             { $group: _id: "$domain", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
+            { $match: _id: $nin: selected_domains }
             # { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
@@ -173,6 +179,31 @@ Meteor.publish 'tag_results', (
             self.added 'domain_results', Random.id(),
                 title: domain.name
                 count: domain.count
+                # category:key
+                # index: i
+        # console.log doc_tag_cloud.count()
+
+        emotion_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "max_emotion_name": 1 }
+            # { $unwind: "$max_emotion_name" }
+            { $group: _id: "$max_emotion_name", count: $sum: 1 }
+            { $match: _id: $nin: selected_emotions }
+            # { $match: count: $lt: agg_doc_count }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+
+        emotion_cloud.forEach (emotion, i) =>
+            # console.log 'queried emotion ', emotion
+            # console.log 'key', key
+            self.added 'emotion_results', Random.id(),
+                title: emotion.name
+                count: emotion.count
                 # category:key
                 # index: i
         # console.log doc_tag_cloud.count()
@@ -210,9 +241,18 @@ Meteor.publish 'doc_results', (
         # else
         match.tags = $all: selected_tags
     else
-        match.tags = $all: ['future']
+        # unless selected_domains.length > 0
+        #     unless selected_subreddits.length > 0
+        #         unless selected_subreddits.length > 0
+        #             unless selected_emotions.length > 0
+        match.tags = $all: ['history']
+    if selected_domains.length > 0
+        match.domain = $all: selected_domains
+
     if selected_subreddits.length > 0
         match.subreddit = $all: selected_subreddits
+    if selected_emotions.length > 0
+        match.max_emotion_name = $all: selected_emotions
 
     # else
     #     match.tags = $nin: ['wikipedia']

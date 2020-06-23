@@ -94,9 +94,20 @@ Template.home.events
 
     'click .select_subreddit': ->
         selected_subreddits.push @title
-
     'click .unselect_subreddit': ->
         selected_subreddits.remove @valueOf()
+        # console.log selected_tags.array()
+
+    'click .select_domain': ->
+        selected_domains.push @title
+    'click .unselect_domain': ->
+        selected_domains.remove @valueOf()
+        # console.log selected_tags.array()
+
+    'click .select_emotion': ->
+        selected_emotions.push @title
+    'click .unselect_emotion': ->
+        selected_emotions.remove @valueOf()
         # console.log selected_tags.array()
 
     # 'click .refresh_tags': ->
@@ -256,6 +267,14 @@ Template.home.helpers
                 count:-1
         )
     selected_subreddits: -> selected_subreddits.array()
+
+    emotion_results: ->
+        Emotion_results.find({},
+            limit:10
+            sort:
+                count:-1
+        )
+    selected_emotions: -> selected_emotions.array()
 
     domain_results: ->
         Domain_results.find({},

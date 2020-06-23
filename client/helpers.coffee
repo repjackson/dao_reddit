@@ -1,6 +1,18 @@
 
-Template.registerHelper 'sentence_class', () ->
+Template.registerHelper 'emotion_selector_class', () ->
     console.log @
+    if @title is 'anger'
+        'red invert'
+    else if @title is 'sadness'
+        'blue invert'
+    else if @title is 'joy'
+        'green invert'
+    else if @title is 'disgust'
+        'orange invert'
+    else if @title is 'fear'
+        'grey invert'
+Template.registerHelper 'sentence_class', () ->
+    # console.log @
     if @tones
         for tone in @tones
             if tone.tone_id is 'sadness'

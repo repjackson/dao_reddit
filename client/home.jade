@@ -6,7 +6,7 @@ template(name='home')
                     button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class=loading_class)
                         if term.image
                             img.ui.mini.inline.image(src=term.image)
-                        .ui.inline.header #{this}
+                        .ui.inline.small.header #{this}
                         //- button.ui.active.large.circular.button.unselect_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                         
@@ -31,41 +31,53 @@ template(name='home')
                         +agg_tag
             .four.wide.column.scrolling
                 |#{curent_date_setting}
-                //- .ui.small.grey.header media
+                //- .spacer
+                //- .ui.small.grey.inline.header media
+                //- .spacer
+                .ui.small.grey.inline.header
+                    i.brain.icon
+                    |emotions
+                each selected_emotions
+                    .ui.compact.circular.active.large.button.unselect_emotion #{this}
+                each emotion_results
+                    if title.length
+                        .ui.compact.circular.large.button.select_emotion(class=emotion_selector_class) #{title}
+                            small #{count}
+                div
                 .ui.circular.icon.disabled.button 
                     i.picture.large.icon
                 .ui.circular.icon.disabled.button 
                     i.video.large.icon
                 .ui.circular.icon.disabled.button 
                     i.content.large.icon
+                div
                 .ui.compact.circular.button.set_all_time
                     i.calendar.outline.icon
                     |all time
                 .ui.compact.circular.button.set_today
                     i.sun.icon
                     |today
-                .ui.small.grey.header
+                .spacer
+                .ui.small.grey.inline.header
                     i.reddit.icon
                     |subreddits
                 each selected_subreddits
                     .ui.compact.circular.active.button.unselect_subreddit #{this}
                 each subreddit_results
                     .ui.compact.circular.button.select_subreddit #{title}
-                .ui.small.grey.header
+                .spacer
+                .ui.small.grey.inline.header
                     i.user.outline.icon
                     |authors
-                .ui.small.grey.header 
+                .spacer
+                .ui.small.grey.inline.header 
                     i.globe.icon
                     |domains
                 each selected_domains
                     .ui.compact.circular.active.button.unselect_domain #{this}
                 each domain_results
-                    .ui.compact.circular.button.select_domain #{title}
-                .ui.header emotions
-                each selected_emotions
-                    .ui.compact.circular.active.button.unselect_emotion #{this}
-                each emotions
-                    .ui.compact.circular.button.select_emotion #{title}
+                    if title.length
+                        .ui.compact.circular.button.select_domain #{title}
             .twelve.wide.column.scrolling
                 if one_result
                     each doc_results
@@ -91,7 +103,7 @@ template(name='home')
                     //-         each doc_results
                     //-             +small_card
                     .ui.stackable.grid
-                        .four.column.row
+                        .five.column.row
                             each doc_results
                                 +small_card
                     //- .ui.centered.stackable.five.cards
