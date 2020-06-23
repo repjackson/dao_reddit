@@ -249,10 +249,10 @@ Template.home.helpers
             Tags.find({})
 
     result_class: ->
-        # if Template.instance().subscriptionsReady()
-        #     ''
-        # else
-        #     'disabled'
+        if Template.instance().subscriptionsReady()
+            ''
+        else
+            'disabled'
 
     selected_tags: -> selected_tags.array()
 

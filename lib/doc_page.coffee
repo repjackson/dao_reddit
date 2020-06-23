@@ -8,8 +8,7 @@ if Meteor.isClient
     Template.doc_page.onCreated ->
         # @autorun => Meteor.subscribe('doc', Router.current().params.doc_id)
         # Meteor.subscribe 'doc', Router.current().params.doc_id
-        Meteor.subscribe 'current_doc', Router.current().params.doc_id
-        Meteor.subscribe 'users'
+        @autorun => Meteor.subscribe 'current_doc', Router.current().params.doc_id
         console.log @
     Template.doc_page.onRendered ->
         Meteor.setTimeout ->

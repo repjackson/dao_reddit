@@ -2,14 +2,12 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                unless home_subs_ready
-                    i.yin.yang.large.loading.large.icon
                 //- .ui.button.set_yesterday
                 //-     |yesterday
                 //- .ui.button.set_this_month
                 //-     |this month
                 each selected_tags
-                    button.ui.active.compact.circular.button.unselect_tag(tabindex="0")
+                    button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class=loading_class)
                         if term.image
                             img.ui.mini.inline.image(src=term.image)
                         .ui.inline.header #{this}
@@ -18,7 +16,10 @@ template(name='home')
                         
                 .ui.left.icon.search.small.input
                     unless is_loading
-                        i.search.link.icon.refresh_agg
+                        if home_subs_ready
+                            i.search.link.icon.refresh_agg
+                    unless home_subs_ready
+                        i.yin.yang.large.loading.large.icon
                     if is_loading
                         i.yin.yang.big.loading.large.icon
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
