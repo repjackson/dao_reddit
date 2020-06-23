@@ -31,8 +31,13 @@ template(name='home')
                         +agg_tag
             .four.wide.column
                 |#{curent_date_setting}
-                .ui.header media
-                
+                //- .ui.small.grey.header media
+                .ui.circular.icon.disabled.button 
+                    i.picture.large.icon
+                .ui.circular.icon.disabled.button 
+                    i.video.large.icon
+                .ui.circular.icon.disabled.button 
+                    i.content.large.icon
                 .ui.compact.circular.button.set_all_time
                     i.calendar.outline.icon
                     |all time

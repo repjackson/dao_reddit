@@ -28,7 +28,7 @@ template(name='doc_card')
                 img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
                 
         .content
-            .header #{title}
+            .ui.header(class=emotion_color_class) #{title}
             .spacer
             .ui.icon.circular.button.vote_up(title=points)
                 i.chevron.up.large.icon
