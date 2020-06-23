@@ -1,4 +1,7 @@
 @selected_tags = new ReactiveArray []
+@selected_subreddits = new ReactiveArray []
+@selected_authors = new ReactiveArray []
+@selected_domains = new ReactiveArray []
 
 Template.admin.helpers
     doc_count: ->
@@ -16,11 +19,13 @@ Template.home.onCreated ->
         selected_tags.array()
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
+        selected_subreddits.array()
         Session.get('current_query')
         Session.get('dummy')
         Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         selected_tags.array()
+        selected_subreddits.array()
         Session.get('date_setting')
 
 Template.tone.events
@@ -80,6 +85,13 @@ Template.home.events
             Meteor.call 'search_reddit', selected_tags.array(), ->
                 Session.set('dummy', !Session.get('dummy'))
 
+    'click .select_subreddit': ->
+        selected_subreddits.push @title
+
+    'click .unselect_subreddit': ->
+        selected_subreddits.remove @valueOf()
+        # console.log selected_tags.array()
+
     # 'click .refresh_tags': ->
 
     'click .clear_selected_tags': ->
@@ -120,13 +132,12 @@ Template.home.events
     #             Meteor.call 'search_reddit', selected_tags.array(), ->
     # , 1000)
 
-    'click .reconnect': ->
-        Meteor.reconnect()
+    'click .reconnect': -> Meteor.reconnect()
 
     'click .toggle_tag': (e,t)-> selected_tags.push @valueOf()
 
 
-    'click .toggle_domain': (e,t)-> selected_tags.push @domain
+    'click .toggle_domain': (e,t)-> selected_domains.push @domain
 
     'keyup .add_tag': (e,t)->
         # Session.set('current_query', query)
@@ -180,7 +191,7 @@ Template.home.events
 
 
 Template.home.helpers
-    cureent_date_setting: -> Session.get('date_setting')
+    curent_date_setting: -> Session.get('date_setting')
 
     background_style: ->
         "background-image:url(#{@image})"
@@ -231,6 +242,15 @@ Template.home.helpers
         # console.log Meteor.status()
         Meteor.status()
     connected: -> Meteor.status().connected
+
+    subreddits: ->
+        Subreddits.find({},
+            limit:10
+            sort:
+                count:-1
+        )
+        
+    selected_subreddits: -> selected_subreddits.array()
 
     agg_tags: ->
         # console.log Session.get('current_query')

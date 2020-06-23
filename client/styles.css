@@ -57,6 +57,11 @@ body {
 .centered {
     text-align: center !important;
 }
+.thin {
+    /* font-size: 1.10rem !important; */
+    font-weight: 400 !important;
+}
+
 .yeah {
     font-size: 1.10rem !important;
     font-weight: 300 !important;

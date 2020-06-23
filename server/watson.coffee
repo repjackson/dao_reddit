@@ -238,11 +238,12 @@ Meteor.methods
 
                 adding_tags = []
                 if response.categories
-                    for category in response.categories
+                    for categories in response.categories
                         # console.log category.label.split('/')[1..]
                         # console.log category.label.split('/')
-                        for category in category.label.split('/')
+                        for category in categories.label.split('/')
                             if category.length > 0
+                                console.log 'adding category', category
                                 # adding_tags.push category
                                 Docs.update doc_id,
                                     $addToSet: categories: category
@@ -277,7 +278,7 @@ Meteor.methods
 
                 # if mode is 'url'
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-                
+
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment

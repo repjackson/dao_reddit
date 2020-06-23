@@ -1,6 +1,9 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 @Terms = new Meteor.Collection 'terms'
+@Subreddits = new Meteor.Collection 'subreddits'
+@Authors = new Meteor.Collection 'authors'
+@Domains = new Meteor.Collection 'domain'
 
 Meteor.methods
     upvote_sentence: (doc_id, sentence)->

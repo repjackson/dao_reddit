@@ -2,10 +2,6 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                //- .ui.button.set_yesterday
-                //-     |yesterday
-                //- .ui.button.set_this_month
-                //-     |this month
                 each selected_tags
                     button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class=loading_class)
                         if term.image
@@ -33,13 +29,26 @@ template(name='home')
                 if connected
                     each agg_tags
                         +agg_tag
-            .three.wide.column
-                |#{cureent_date_setting}
+            .four.wide.column
+                |#{curent_date_setting}
+                .ui.header media
+                
                 .ui.compact.circular.button.set_all_time
+                    i.calendar.outline.icon
                     |all time
                 .ui.compact.circular.button.set_today
+                    i.sun.icon
                     |today
-            .thirteen.wide.column.scrolling
+                .ui.small.grey.header
+                    i.reddit.icon
+                    |subreddits
+                each selected_subreddits
+                    .ui.compact.circular.active.button.unselect_subreddit #{this}
+                each subreddits
+                    .ui.compact.circular.button.select_subreddit #{title}
+                .ui.header authors
+                .ui.header domains
+            .twelve.wide.column.scrolling
                 if one_result
                     each doc_results
                         +one_doc
@@ -52,7 +61,7 @@ template(name='home')
                     .ui.grid
                         .two.column.row
                             each doc_results
-                                +medium_card
+                                +small_cards
                 if four_posts
                     .ui.stackable.grid
                         .four.column.row
@@ -138,10 +147,10 @@ template(name='agg_tag')
         if term.image
             //- button.ui.compact.circular.button(tabindex="0" title=count)
             img.ui.avatar.image(src=term.image)
-            .ui.inline.small.header #{title}
+            .ui.inline.small.thin.header #{title}
         else
             //- button.ui.compact.circular.button(tabindex="0" title=count)
-            .ui.inline.small.header #{title}
+            .ui.inline.small.thin.header #{title}
 
         //- small #{count}
                     

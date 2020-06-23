@@ -29,9 +29,11 @@ Meteor.publish 'terms', (selected_tags, searching, query)->
 
 Meteor.publish 'tag_results', (
     selected_tags
+    selected_subreddits
     query
     dummy
     date_setting
+
     )->
     # console.log 'dummy', dummy
     console.log 'selected tags', selected_tags
@@ -85,13 +87,16 @@ Meteor.publish 'tag_results', (
         else
             match.tags = $all: ['universe']
         # console.log 'match for tags', match
+        if selected_subreddits.length > 0
+            match.subreddit = $all: selected_subreddits
+        # console.log 'match for tags', match
         agg_doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
+            # { $match: _id: $nin: selected_tags }
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
@@ -109,17 +114,41 @@ Meteor.publish 'tag_results', (
                 count: tag.count
                 # category:key
                 # index: i
-            # Docs.update _id,
-            #     $addToSet:
-            #         tags:
-            #             title:tag.name
-            #             count:tag.count
+        # console.log doc_tag_cloud.count()
+
+
+
+        # agg_doc_count = Docs.find(match).count()
+        subreddit_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "subreddit": 1 }
+            # { $unwind: "$subreddit" }
+            { $group: _id: "$subreddit", count: $sum: 1 }
+            # { $match: _id: $nin: selected_tags }
+            # { $match: count: $lt: agg_doc_count }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+
+        subreddit_cloud.forEach (subreddit, i) =>
+            # console.log 'queried subreddit ', subreddit
+            # console.log 'key', key
+            self.added 'subreddits', Random.id(),
+                title: subreddit.name
+                count: subreddit.count
+                # category:key
+                # index: i
         # console.log doc_tag_cloud.count()
 
         self.ready()
 
 Meteor.publish 'doc_results', (
     selected_tags
+    selected_subreddits
     date_setting
     )->
     console.log 'got selected tags', selected_tags
@@ -146,6 +175,9 @@ Meteor.publish 'doc_results', (
         match.tags = $all: selected_tags
     else
         match.tags = $all: ['universe']
+    if selected_subreddits.length > 0
+        match.subreddit = $all: selected_subreddits
+
     # else
     #     match.tags = $nin: ['wikipedia']
     #     sort = '_timestamp'

@@ -3,8 +3,7 @@ Meteor.methods
         # console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
-        # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=20",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=10&include_facets=true",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -15,11 +14,11 @@ Meteor.methods
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
-                        added_tags = [query]
+                        # added_tags = [query]
                         # added_tags.push data.domain.toLowerCase()
                         # added_tags.push data.author.toLowerCase()
-                        added_tags = _.flatten(added_tags)
-                        console.log 'added_tags', added_tags
+                        # added_tags = _.flatten(added_tags)
+                        # console.log 'added_tags', added_tags
                         reddit_post =
                             reddit_id: data.id
                             url: data.url
@@ -30,7 +29,7 @@ Meteor.methods
                             # root: query
                             selftext: false
                             # thumbnail: false
-                            tags: added_tags
+                            tags: query
                             model:'reddit'
                         existing_doc = Docs.findOne url:data.url
                         if existing_doc
