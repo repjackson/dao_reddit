@@ -153,9 +153,8 @@ Template.home.events
     'click .reconnect': -> Meteor.reconnect()
 
     'click .toggle_tag': (e,t)-> selected_tags.push @valueOf()
-
-
     'click .toggle_domain': (e,t)-> selected_domains.push @domain
+    'click .toggle_subreddit': (e,t)-> selected_subreddits.push @subreddit
 
     'keyup .add_tag': (e,t)->
         # Session.set('current_query', query)

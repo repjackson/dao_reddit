@@ -92,7 +92,7 @@ Meteor.publish 'tag_results', (
             #     unless selected_subreddits.length > 0
             #         unless selected_subreddits.length > 0
             #             unless selected_emotions.length > 0
-            match.tags = $all: ['history']
+            match.tags = $all: ['dao']
         # console.log 'match for tags', match
         if selected_subreddits.length > 0
             match.subreddit = $all: selected_subreddits
@@ -245,7 +245,7 @@ Meteor.publish 'doc_results', (
         #     unless selected_subreddits.length > 0
         #         unless selected_subreddits.length > 0
         #             unless selected_emotions.length > 0
-        match.tags = $all: ['history']
+        match.tags = $all: ['dao']
     if selected_domains.length > 0
         match.domain = $all: selected_domains
 

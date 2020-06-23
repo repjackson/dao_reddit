@@ -98,14 +98,18 @@ template(name='home')
                             each doc_results
                                 +medium_card
                 if more_than_four
+                    //- .ui.selection.list
+                    each doc_results
+                        +doc_list_item
+                        .spacer
                     //- .ui.grid.mobile.only
                     //-     .two.column.centered.row
                     //-         each doc_results
                     //-             +small_card
-                    .ui.stackable.grid
-                        .five.column.row
-                            each doc_results
-                                +small_card
+                    //- .ui.stackable.grid
+                    //-     .five.column.row
+                    //-         each doc_results
+                    //-             +small_card
                     //- .ui.centered.stackable.five.cards
                 //- if six_posts
                 //-     .ui.grid

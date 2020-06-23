@@ -1,6 +1,6 @@
 
 Template.registerHelper 'emotion_selector_class', () ->
-    console.log @
+    # console.log @
     if @title is 'anger'
         'red invert'
     else if @title is 'sadness'
@@ -13,23 +13,27 @@ Template.registerHelper 'emotion_selector_class', () ->
         'grey invert'
 Template.registerHelper 'sentence_class', () ->
     # console.log @
-    if @tones
+    if @tones.length
         for tone in @tones
             if tone.tone_id is 'sadness'
                 'blue invert'
             else if tone.tone_id is 'joy'
                 'green invert'
+            else if tone.tone_id is 'anger'
+                'red invert'
             else if tone.tone_id is 'analytical'
                 'yellow invert'
             else if tone.tone_id is 'tentative'
                 'olive invert'
             else if tone.tone_id is 'tentative'
                 'olive invert'
+            else
+                'grey invert'
     else
-        'white invert'
+        'grey invert'
 
 Template.registerHelper 'emotion_color_class', () ->
-    # console.log @
+    console.log @
     # if @watson.setn
     # 'red'
     if @max_emotion_name
