@@ -176,7 +176,7 @@ Template.home.events
     'click .print_me': (e,t)->
         console.log @
     'click .pull_post': (e,t)->
-        console.log @
+        # console.log @
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
         # Meteor.call 'agg_omega', ->
 
@@ -249,14 +249,21 @@ Template.home.helpers
         Meteor.status()
     connected: -> Meteor.status().connected
 
-    subreddits: ->
+    subreddit_results: ->
         Subreddits.find({},
             limit:10
             sort:
                 count:-1
         )
-
     selected_subreddits: -> selected_subreddits.array()
+
+    domain_results: ->
+        Domain_results.find({},
+            limit:10
+            sort:
+                count:-1
+        )
+    selected_domains: -> selected_domains.array()
 
     agg_tags: ->
         # console.log Session.get('current_query')

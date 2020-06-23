@@ -3,13 +3,13 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-family: 'Lato+Mono', sans-serif !important; */
     /* font-family: 'Lato', sans-serif !important; */
-    font-size: 110% !important;
+    /* font-size: 110% !important; */
     /* line-height: 200% !important; */
     background: rgba(0,0,0,.8) !important;
     /* background: rgba(0,0,0,.3) !important; */
     filter: invert(1) !important;
     /* overscroll-behavior: none; */
-    transition: all .5s ease !important;
+    transition: all 1s ease !important;
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
@@ -358,7 +358,7 @@ body {
 }
 
 .ui.header{
-    transition: all 1s ease !important;    
+    transition: all 1s ease !important;
     /* text-transform: capitalize !important; */
     /* font-family: 'Raleway', sans-serif !important; */
     /* font-family: 'Montserrat', sans-serif !important; */

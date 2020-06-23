@@ -29,7 +29,7 @@ template(name='home')
                 if connected
                     each agg_tags
                         +agg_tag
-            .four.wide.column
+            .four.wide.column.scrolling
                 |#{curent_date_setting}
                 //- .ui.small.grey.header media
                 .ui.circular.icon.disabled.button 
@@ -49,10 +49,23 @@ template(name='home')
                     |subreddits
                 each selected_subreddits
                     .ui.compact.circular.active.button.unselect_subreddit #{this}
-                each subreddits
+                each subreddit_results
                     .ui.compact.circular.button.select_subreddit #{title}
-                .ui.header authors
-                .ui.header domains
+                .ui.small.grey.header
+                    i.user.outline.icon
+                    |authors
+                .ui.small.grey.header 
+                    i.globe.icon
+                    |domains
+                each selected_domains
+                    .ui.compact.circular.active.button.unselect_domain #{this}
+                each domain_results
+                    .ui.compact.circular.button.select_domain #{title}
+                .ui.header emotions
+                each selected_emotions
+                    .ui.compact.circular.active.button.unselect_emotion #{this}
+                each emotions
+                    .ui.compact.circular.button.select_emotion #{title}
             .twelve.wide.column.scrolling
                 if one_result
                     each doc_results

@@ -277,7 +277,7 @@ template(name='tone')
             .item
                 
                 //- span #{sentence_id}
-                span.pointer.tone_item(title="#{sentence_id}" class=tone_size) 
+                span.ui.text.pointer.tone_item(title="#{sentence_id}" class="#{sentence_class} #{tone_size}") 
                     //- i.chevron.up.link.grey.large.icon.upvote_sentence
                     //- i.chevron.down.link.grey.large.icon.downvote_sentence
                     |{{lowered text}}

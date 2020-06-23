@@ -94,7 +94,7 @@ Meteor.publish 'tag_results', (
             match.subreddit = $all: selected_subreddits
         if selected_domains.length > 0
             match.domain = $all: selected_domains
-        # console.log 'match for tags', match
+        console.log 'match for tags', match
 
 
         agg_doc_count = Docs.find(match).count()
@@ -170,7 +170,7 @@ Meteor.publish 'tag_results', (
         domain_cloud.forEach (domain, i) =>
             # console.log 'queried domain ', domain
             # console.log 'key', key
-            self.added 'domains', Random.id(),
+            self.added 'domain_results', Random.id(),
                 title: domain.name
                 count: domain.count
                 # category:key

@@ -1,4 +1,21 @@
 
+Template.registerHelper 'sentence_class', () ->
+    console.log @
+    if @tones
+        for tone in @tones
+            if tone.tone_id is 'sadness'
+                'blue invert'
+            else if tone.tone_id is 'joy'
+                'green invert'
+            else if tone.tone_id is 'analytical'
+                'yellow invert'
+            else if tone.tone_id is 'tentative'
+                'olive invert'
+            else if tone.tone_id is 'tentative'
+                'olive invert'
+    else
+        'white invert'
+
 Template.registerHelper 'emotion_color_class', () ->
     # console.log @
     # if @watson.setn
