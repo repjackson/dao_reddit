@@ -38,7 +38,7 @@ body {
 }
 
 .ui.button.result {
-    /* transition: all 1s ease !important; */
+    transition: all .5s ease !important;
     display: inline !important;
     /* padding: 5px !important; */
 }
@@ -358,6 +358,7 @@ body {
 }
 
 .ui.header{
+    transition: all 1s ease !important;    
     /* text-transform: capitalize !important; */
     /* font-family: 'Raleway', sans-serif !important; */
     /* font-family: 'Montserrat', sans-serif !important; */

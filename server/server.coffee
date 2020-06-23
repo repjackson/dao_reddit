@@ -103,7 +103,7 @@ Meteor.publish 'tag_results', (
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            # { $match: _id: $nin: selected_tags }
+            { $match: _id: $nin: selected_tags }
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
@@ -131,7 +131,7 @@ Meteor.publish 'tag_results', (
             { $project: "subreddit": 1 }
             # { $unwind: "$subreddit" }
             { $group: _id: "$subreddit", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
+            { $match: _id: $nin: selected_subreddits }
             # { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }

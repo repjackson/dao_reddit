@@ -1,9 +1,26 @@
 
 Template.registerHelper 'emotion_color_class', () ->
-    console.log @
+    # console.log @
     # if @watson.setn
     # 'red'
-    if @doc_sentiment_label
+    if @max_emotion_name
+        switch @max_emotion_name
+            when 'joy'
+                # console.log 'joy'
+                'green invert'
+            when 'anger'
+                # console.log 'anger'
+                'red invert'
+            when 'sadness'
+                # console.log 'sadness'
+                'blue invert'
+            when 'disgust'
+                # console.log 'disgust'
+                'orange invert'
+            when 'fear'
+                # console.log 'fear'
+                'grey invert'
+    else if @doc_sentiment_label
         if @doc_sentiment_label is 'positive'
             'green invert'
         else
@@ -177,7 +194,8 @@ Template.registerHelper 'loading_class', ()->
 
 Template.registerHelper 'publish_when', ()->
     if @watson
-        if @watson.metadata.publication_date
-            moment(@watson.metadata.publication_date).fromNow()
+        if @watson.metadata
+            if @watson.metadata.publication_date
+                moment(@watson.metadata.publication_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
