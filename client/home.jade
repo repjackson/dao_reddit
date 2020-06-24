@@ -1,7 +1,7 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 each selected_tags
                     button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         if term.image
@@ -21,22 +21,22 @@ template(name='home')
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
                     input#search(type='text' autofocus='' autocomplete="off")
                 //- .ui.header #{connection.status}
+                div
                 unless connected
-                    //- .ui.inline.header disconnected
+                    //- .ui.header disconnected
                     //- .ui.hidden.divider
                     i.lightning.invert.yellow.big.circular.link.icon
                 //- div
                 if connected
                     each agg_tags
                         +agg_tag
-            .four.wide.column.scrolling
-                |#{curent_date_setting}
+            .four.wide.right.aligned.column
                 //- .spacer
-                //- .ui.small.grey.inline.header media
+                //- .ui.small.grey.header media
                 //- .spacer
-                .ui.small.grey.inline.header
-                    i.brain.icon
-                    |emotions
+                //- .ui.small.grey.header
+                //-     i.brain.icon
+                //-     |emotions
                 each selected_emotions
                     .ui.compact.circular.active.large.button.unselect_emotion #{this}
                 each emotion_results
@@ -44,14 +44,15 @@ template(name='home')
                         .ui.compact.circular.large.button.select_emotion(class=emotion_selector_class)
                             small #{count}
                             |#{title}
+                //- div
+                //- .ui.circular.icon.disabled.button 
+                //-     i.picture.large.icon
+                //- .ui.circular.icon.disabled.button 
+                //-     i.video.large.icon
+                //- .ui.circular.icon.disabled.button 
+                //-     i.content.large.icon
                 div
-                .ui.circular.icon.disabled.button 
-                    i.picture.large.icon
-                .ui.circular.icon.disabled.button 
-                    i.video.large.icon
-                .ui.circular.icon.disabled.button 
-                    i.content.large.icon
-                div
+                small #{curent_date_setting}
                 .ui.compact.circular.button.set_all_time
                     i.calendar.outline.icon
                     |all time
@@ -59,7 +60,7 @@ template(name='home')
                     i.sun.icon
                     |today
                 //- .spacer
-                //- .ui.small.grey.inline.header
+                //- .ui.small.grey.header
                 //-     i.reddit.icon
                 //-     |subreddits
                 //- each selected_subreddits
@@ -67,13 +68,13 @@ template(name='home')
                 //- each subreddit_results
                 //-     .ui.compact.circular.button.select_subreddit #{title}
                 //- .spacer
-                //- .ui.small.grey.inline.header
+                //- .ui.small.grey.header
                 //-     i.user.outline.icon
                 //-     |authors
                 .spacer
-                .ui.small.grey.inline.header 
-                    i.globe.icon
-                    |domains
+                //- .ui.small.grey.header 
+                //-     i.globe.icon
+                //-     |domains
                 each selected_domains
                     .ui.compact.circular.active.button.unselect_domain #{this}
                 each domain_results
