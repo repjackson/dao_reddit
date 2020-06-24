@@ -15,7 +15,7 @@ template(name='home')
                         if home_subs_ready
                             i.search.link.icon.refresh_agg
                     unless home_subs_ready
-                        i.yin.yang.large.loading.large.icon
+                        i.yin.yang.big.loading.link.icon.reconnect
                     if is_loading
                         i.yin.yang.big.loading.large.icon
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
@@ -24,7 +24,7 @@ template(name='home')
                 unless connected
                     //- .ui.inline.header disconnected
                     //- .ui.hidden.divider
-                    i.yin.yang.big.loading.link.icon.reconnect
+                    i.lightning.invert.yellow.big.circular.link.icon
                 //- div
                 if connected
                     each agg_tags
@@ -181,6 +181,7 @@ template(name='agg_tag')
     button.ui.tertiary.large.button.result(tabindex="0" title=count)
         if term.image
             //- button.ui.compact.circular.button(tabindex="0" title=count)
+            //- img.ui.mini.inline.image(src=term.image)
             img.ui.avatar.image(src=term.image)
             .ui.inline.small.thin.header(class=tag_result_class) #{title}
         else

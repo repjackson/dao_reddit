@@ -59,7 +59,7 @@ Meteor.methods
                     limit:10
                 }
 
-            console.log 'found_term docs', term_title, found_term_docs.fetch().length
+            # console.log 'found_term docs', term_title, found_term_docs.fetch().length
 
 
             unless found_term.image
@@ -139,14 +139,14 @@ Meteor.methods
                     # filtered_agg_res.push agg_tag
                     if agg_tag.title
                         if agg_tag.title.length > 0
-                            console.log 'agg tag', agg_tag
+                            # console.log 'agg tag', agg_tag
                             filtered_agg_res.push agg_tag
             # console.log 'max term emotion', _.max(filtered_agg_res, (tag)->tag.count)
             term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
             Terms.update term_doc._id,
                 $set:
                     max_emotion_name:term_emotion
-            console.log 'term final emotion', term_emotion
+            # console.log 'term final emotion', term_emotion
 
             # Docs.update omega._id,
             #     $set:
@@ -176,7 +176,7 @@ Meteor.methods
                         _id:1
                 }
             ).count()
-        console.log 'doc result count',  total_doc_result_count
+        # console.log 'doc result count',  total_doc_result_count
         # doc_results =
         #     Docs.find( match,
         #         {
