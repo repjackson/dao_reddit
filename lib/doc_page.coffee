@@ -25,7 +25,9 @@ if Meteor.isClient
         'click .pull_tone': ->
             Meteor.call 'call_tone', @_id, 'url', 'text', ->
 
-
+        'click .select_doc_tag': ->
+            selected_tags.push @valueOf()
+            Router.go '/'
     # Template.array_view.events
     #     'click .toggle_post_filter': ->
     #         console.log @

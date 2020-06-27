@@ -23,7 +23,18 @@ template(name='doc_page')
                             unless is_video
                                 a(href=watson.metadata.image target='_window')
                                     img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
-                    .scrollin
+                    if is_video
+                        .invert.full
+                            blockquote(class="reddit-card")
+                                //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+                                a(href="https://www.reddit.com#{permalink}") 
+                                    |dao
+                                |from 
+                                a(href="http://www.reddit.com/r/news")
+                                    |r/
+                                script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+                                    
+                    .scrolling
                         if rd.selftext_html
                             //- unless tone
                             //- .content
@@ -48,7 +59,7 @@ template(name='doc_page')
                         //- i.dropdown.icon
                         //- .active.content
                         each tags
-                            .ui.circular.large.label
+                            .ui.circular.compact.button.select_doc_tag
                                 |#{this}
                 .six.wide.column 
                     //- if has_thumb
@@ -65,19 +76,9 @@ template(name='doc_page')
                                 a(href=watson.metadata.image target='_window')
                                     img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
                         
-                        if is_video
-                            .invert
-                                blockquote(class="reddit-card")
-                                    //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
-                                    a(href="https://www.reddit.com#{permalink}") 
-                                        |dao
-                                    |from 
-                                    a(href="http://www.reddit.com/r/news")
-                                        |r/
-                                    script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
                     
                         .ui.header #{publish_when}
-                        .ui.header #{rd.score} score
+                        //- .ui.header #{rd.score} score
                         a.ui.circular.button(href=url target='_window')
                             i.external.icon
                             |view link
@@ -90,8 +91,8 @@ template(name='doc_page')
                             a.ui.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
                                 i.reddit.icon
                                 |#{subreddit}
-                        i.refresh.circular.link.icon.calc_post
-                        a.ui.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+                        //- i.refresh.circular.link.icon.calc_post
+                        a.ui.circular.button(href="https://www.reddit.com#{permalink}" target="_blank" title='view reddit comments')
                             i.chat.outline.large.icon
                             |#{comment_count}
                         if publish_when

@@ -17,6 +17,10 @@ body {
     margin-bottom: 0px !important;
     margin-top:  !important;
 }
+
+.full {
+    height: 100% !important;
+}
 .centered {
     text-align: center !important;
 }

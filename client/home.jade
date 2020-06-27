@@ -1,7 +1,7 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.center.aligned.column
+            .sixteen.wide.column
                 each selected_tags
                     button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         if term.image
@@ -21,7 +21,7 @@ template(name='home')
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
                     input#search(type='text' autofocus='' autocomplete="off")
                 //- .ui.header #{connection.status}
-                div
+                //- div
                 unless connected
                     //- .ui.header disconnected
                     //- .ui.hidden.divider
@@ -59,22 +59,22 @@ template(name='home')
                 .ui.compact.circular.button.set_today
                     i.sun.icon
                     |today
-                //- .spacer
-                //- .ui.small.grey.header
-                //-     i.reddit.icon
-                //-     |subreddits
-                //- each selected_subreddits
-                //-     .ui.compact.circular.active.button.unselect_subreddit #{this}
-                //- each subreddit_results
-                //-     .ui.compact.circular.button.select_subreddit #{title}
-                //- .spacer
+                .spacer
+                .ui.small.grey.header
+                    i.reddit.icon
+                    |subreddits
+                each selected_subreddits
+                    .ui.compact.circular.active.button.unselect_subreddit #{this}
+                each subreddit_results
+                    .ui.compact.circular.button.select_subreddit #{title}
+                .spacer
                 //- .ui.small.grey.header
                 //-     i.user.outline.icon
                 //-     |authors
-                .spacer
-                //- .ui.small.grey.header 
-                //-     i.globe.icon
-                //-     |domains
+                //- .spacer
+                .ui.small.grey.header 
+                    i.globe.icon
+                    |domains
                 each selected_domains
                     .ui.compact.circular.active.button.unselect_domain #{this}
                 each domain_results
@@ -179,7 +179,7 @@ template(name='home')
                     
                     
 template(name='agg_tag')
-    button.ui.tertiary.large.button.result(tabindex="0" title=count)
+    button.ui.tertiary.button.result(tabindex="0" title=count)
         if term.image
             //- button.ui.compact.circular.button(tabindex="0" title=count)
             //- img.ui.mini.inline.image(src=term.image)

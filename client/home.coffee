@@ -136,9 +136,14 @@ Template.home.events
         Session.set('current_query','')
         selected_tags.clear()
     # 'keyup #search': _.throttle((e,t)->
-    'keyup #search': (e,t)->
+    'keydown #search': (e,t)->
         query = $('#search').val()
         # Session.set('current_query', query)
+        # if query.length > 0
+        #     Session.set('searching', true)
+        # else
+        #     Session.set('searching', false)
+        Session.set('current_query', query)
         # if query.length > 0
         # console.log Session.get('current_query')
         if e.which is 13
@@ -326,7 +331,10 @@ Template.home.helpers
 
     agg_tags: ->
         # console.log Session.get('current_query')
-        if Session.get('current_query').length > 0
+        # if Session.get('current_query')
+        if Session.get('searching')
+            console.log 'current query', Session.get('current_query')
+            # if Session.get('current_query').length > 0
             Terms.find({},
                 limit:5
                 sort:
