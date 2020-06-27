@@ -2,13 +2,13 @@ template(name='doc_page')
     with current_doc
         .ui.stackable.padded.grid 
             .middle.aligned.row
-                .four.wide.center.aligned.column 
+                .two.wide.center.aligned.column 
                     a.ui.circular.icon.large.button(href="/")
                         i.left.chevron.big.icon
                 .twelve.wide.column 
-                    .ui.center.aligned.header(class=emotion_color_class) !{title}
+                    .ui.center.aligned.large.header(class=emotion_color_class) !{title}
             .row
-                .ten.wide.column 
+                .twelve.wide.column 
                     if is_youtube
                         iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                 
@@ -61,7 +61,10 @@ template(name='doc_page')
                         each tags
                             .ui.circular.compact.button.select_doc_tag
                                 |#{this}
-                .six.wide.column 
+                    if watson
+                        +watson_view
+                    
+                .four.wide.column 
                     //- if has_thumb
                     .meta
                         if has_thumbnail
@@ -71,11 +74,12 @@ template(name='doc_page')
                                         //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                                         //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
                                         img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
-                        if watson.metadata.image 
-                            unless is_video
-                                a(href=watson.metadata.image target='_window')
-                                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
-                        
+                        //- if watson.metadata.image 
+                        //-     unless is_image
+                        //-         unless is_video
+                        //-             a(href=watson.metadata.image target='_window')
+                        //-                 img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                        //- 
                     
                         .ui.header #{publish_when}
                         //- .ui.header #{rd.score} score
@@ -112,13 +116,14 @@ template(name='doc_page')
                     .ui.circular.button.call_watson_image
                         i.chess.icon
                         |tag image
+                    .ui.circular.button.call_geo_coordinates
+                        i.marker.icon
+                        |tag coordinates
                     .ui.circular.button.pull_tone
                         i.download.icon
                         |download content
                     .ui.circular.button.print_me
                         |print me
-                    if watson
-                        +watson_view
                     
 
 template(name='emotion_circle')

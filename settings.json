@@ -5,6 +5,7 @@
 		"stripe_client_id": "ca_6xrceWlIdjoZ0ebtxSUDBMG1yazAn5et"
     },
 	"private": {
+		"opencage": "f234c66b8ec44a448f8cb6a883335718",
 		"stripe_test_secret": "sk_test_6mQaKRMSWBoLX8HeBtNMvI6300QuPWkxYe",
 		"stripe_live_secret": "sk_live_3Eep237ePWB0LmcpX8C0oG3500ziv4bOHa",
 		"cloudinary_key": "754714459692734",

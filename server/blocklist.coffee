@@ -25,6 +25,10 @@
 
 
 @blocklist = [
+    'personal insults'
+    'media outlets'
+    'insightful discussion'
+    'physical harm'
     'technology and computing'
     'web search'
     'internet technology'

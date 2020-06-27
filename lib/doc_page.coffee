@@ -17,9 +17,11 @@ if Meteor.isClient
 
     Template.doc_page.events
         'click .call_watson': ->
-            Meteor.call 'call_watson', @_id, 'url', 'url'
+            Meteor.call 'call_watson', @_id, 'url', 'url', ->
+        'click .call_geo_coordinates': ->
+            Meteor.call 'tag_coordinates', @_id, ->
         'click .call_watson_image': ->
-            Meteor.call 'call_watson', @_id, 'url', 'image'
+            Meteor.call 'call_watson', @_id, 'url', 'image', ->
         'click .print_me': ->
             console.log @
         'click .pull_tone': ->

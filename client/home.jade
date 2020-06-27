@@ -60,7 +60,7 @@ template(name='home')
                     i.sun.icon
                     |today
                 .spacer
-                .ui.small.grey.header
+                .ui.small.grey.inline.header
                     i.reddit.icon
                     |subreddits
                 each selected_subreddits
@@ -72,7 +72,8 @@ template(name='home')
                 //-     i.user.outline.icon
                 //-     |authors
                 //- .spacer
-                .ui.small.grey.header 
+                div
+                .ui.small.grey.inline.header 
                     i.globe.icon
                     |domains
                 each selected_domains
