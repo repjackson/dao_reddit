@@ -32,15 +32,16 @@ Meteor.publish 'tag_results', (
     # selected_subreddits
     # selected_domains
     # selected_authors
-    selected_emotions
+    # selected_emotions
     query
-    dummy
-    date_setting
-
+    searching
+    # dummy
+    date_setting=0
     )->
     # console.log 'dummy', dummy
     console.log 'selected tags', selected_tags
     console.log 'query', query
+    console.log 'searching?', searching
 
     self = @
     match = {}
@@ -49,32 +50,25 @@ Meteor.publish 'tag_results', (
     # console.log 'query length', query.length
     # if query
     # if query and query.length > 1
-    if query.length > 1
-        # console.log 'searching query', query
-        # #     # match.tags = {$regex:"#{query}", $options: 'i'}
-        # #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-        # #
-        # terms = Terms.find({
-        #     # title: {$regex:"#{query}"}
-        #     title: {$regex:"#{query}", $options: 'i'}
-        # },
-        #     sort:
-        #         count: -1
-        #     limit: 5
-        # )
-        console.log terms.fetch()
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: selected_tags }
-        #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 42 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        #     ]
+    if searching
+        if query.length > 0
+            console.log 'searching query', query
+            # #     # match.tags = {$regex:"#{query}", $options: 'i'}
+            # #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
+            # #
+            terms =
+                Terms.find({
+                    # title: {$regex:"#{query}"}
+                    title: {$regex:"#{query}", $options: 'i'}
+                    },
+                        sort:
+                            count: -1
+                        limit: 5
+                )
+            # self.ready()
 
+            # console.log terms.fetch()
+            # terms
     else
         # unless query and query.length > 2
         # if selected_tags.length > 0 then match.tags = $all: selected_tags
@@ -101,8 +95,8 @@ Meteor.publish 'tag_results', (
         #     match.subreddit = $all: selected_subreddits
         # if selected_domains.length > 0
         #     match.domain = $all: selected_domains
-        if selected_emotions.length > 0
-            match.max_emotion_name = $all: selected_emotions
+        # if selected_emotions.length > 0
+        #     match.max_emotion_name = $all: selected_emotions
         console.log 'match for tags', match
 
 
@@ -186,38 +180,39 @@ Meteor.publish 'tag_results', (
         #         # index: i
         # # console.log doc_tag_cloud.count()
 
-        emotion_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "max_emotion_name": 1 }
-            # { $unwind: "$max_emotion_name" }
-            { $group: _id: "$max_emotion_name", count: $sum: 1 }
-            { $match: _id: $nin: selected_emotions }
-            # { $match: count: $lt: agg_doc_count }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 5 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
-
-        emotion_cloud.forEach (emotion, i) =>
-            # console.log 'queried emotion ', emotion
-            # console.log 'key', key
-            self.added 'emotion_results', Random.id(),
-                title: emotion.name
-                count: emotion.count
-                # category:key
-                # index: i
-        # console.log doc_tag_cloud.count()
+        # emotion_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: "max_emotion_name": 1 }
+        #     # { $unwind: "$max_emotion_name" }
+        #     { $group: _id: "$max_emotion_name", count: $sum: 1 }
+        #     { $match: _id: $nin: selected_emotions }
+        #     # { $match: count: $lt: agg_doc_count }
+        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $limit: 5 }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        # ], {
+        #     allowDiskUse: true
+        # }
+        #
+        # emotion_cloud.forEach (emotion, i) =>
+        #     # console.log 'queried emotion ', emotion
+        #     # console.log 'key', key
+        #     self.added 'emotion_results', Random.id(),
+        #         title: emotion.name
+        #         count: emotion.count
+        #         # category:key
+        #         # index: i
+        # # console.log doc_tag_cloud.count()
 
         self.ready()
 
 Meteor.publish 'doc_results', (
     selected_tags
-    selected_subreddits
-    selected_domains
-    selected_authors
+    current_query
+    # selected_subreddits
+    # selected_domains
+    # selected_authors
     selected_emotions
     date_setting
     )->
@@ -225,6 +220,9 @@ Meteor.publish 'doc_results', (
     # else
     self = @
     match = {model:$in:['reddit','wikipedia']}
+    if current_query.length > 0
+        console.log 'searching query', current_query
+        match.title = {$regex:"#{current_query}", $options: 'i'}
     # if selected_tags.length > 0
     # console.log date_setting
     if date_setting
@@ -249,11 +247,11 @@ Meteor.publish 'doc_results', (
         #         unless selected_subreddits.length > 0
         #             unless selected_emotions.length > 0
         match.tags = $all: ['dao']
-    if selected_domains.length > 0
-        match.domain = $all: selected_domains
-
-    if selected_subreddits.length > 0
-        match.subreddit = $all: selected_subreddits
+    # if selected_domains.length > 0
+    #     match.domain = $all: selected_domains
+    #
+    # if selected_subreddits.length > 0
+    #     match.subreddit = $all: selected_subreddits
     if selected_emotions.length > 0
         match.max_emotion_name = $all: selected_emotions
 

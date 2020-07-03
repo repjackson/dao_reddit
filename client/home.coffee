@@ -14,24 +14,27 @@ Template.agg_tag.onCreated ->
     @autorun => @subscribe 'term', @data.title
 
 Template.home.onCreated ->
-    Session.setDefault('current_query', '')
-    Session.setDefault('dummy', true)
+    # Session.setDefault('current_query', '')
+    # Session.setDefault('dummy', true)
     @autorun => @subscribe 'terms',
         selected_tags.array()
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
-        selected_subreddits.array()
-        selected_domains.array()
-        selected_authors.array()
-        selected_emotions.array()
+        # selected_subreddits.array()
+        # selected_domains.array()
+        # selected_authors.array()
+        # selected_emotions.array()
         Session.get('current_query')
-        Session.get('dummy')
-        Session.get('date_setting')
+        Session.get('searching')
+        # Session.get('dummy')
+        # Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         selected_tags.array()
-        selected_subreddits.array()
-        selected_domains.array()
-        selected_authors.array()
+        Session.get('current_query')
+
+        # selected_subreddits.array()
+        # selected_domains.array()
+        # selected_authors.array()
         selected_emotions.array()
         Session.get('date_setting')
 
@@ -89,6 +92,7 @@ Template.agg_tag.events
     #     Meteor.call 'call_visual', @_id, (err,res)->
     #         console.log res
 
+Template.home.events
     'click .select_query': ->
         selected_tags.push @title
         Meteor.call 'search_reddit', selected_tags.array(), ->
@@ -138,11 +142,10 @@ Template.home.events
     # 'keyup #search': _.throttle((e,t)->
     'keydown #search': (e,t)->
         query = $('#search').val()
-        # Session.set('current_query', query)
-        # if query.length > 0
-        #     Session.set('searching', true)
-        # else
-        #     Session.set('searching', false)
+        if query.length > 0
+            Session.set('searching', true)
+        else
+            Session.set('searching', false)
         Session.set('current_query', query)
         # if query.length > 0
         # console.log Session.get('current_query')
@@ -205,7 +208,6 @@ Template.home.events
         Docs.update @_id,
             $inc:points:1
 
-
     'click .vote_down': (e,t)->
         Docs.update @_id,
             $inc:points:-1
@@ -253,11 +255,7 @@ Template.home.helpers
                 else if term.max_emotion_name is 'fear'
                     'grey invert'
 
-
     curent_date_setting: -> Session.get('date_setting')
-
-    background_style: ->
-        "background-image:url(#{@image})"
 
     term_icon: ->
         console.log @
@@ -305,13 +303,13 @@ Template.home.helpers
         Meteor.status()
     connected: -> Meteor.status().connected
 
-    subreddit_results: ->
-        Subreddits.find({},
-            limit:10
-            sort:
-                count:-1
-        )
-    selected_subreddits: -> selected_subreddits.array()
+    # subreddit_results: ->
+    #     Subreddits.find({},
+    #         limit:10
+    #         sort:
+    #             count:-1
+    #     )
+    # selected_subreddits: -> selected_subreddits.array()
 
     emotion_results: ->
         Emotion_results.find({},
@@ -321,32 +319,29 @@ Template.home.helpers
         )
     selected_emotions: -> selected_emotions.array()
 
-    domain_results: ->
-        Domain_results.find({},
-            limit:10
+    # domain_results: ->
+    #     Domain_results.find({},
+    #         limit:10
+    #         sort:
+    #             count:-1
+    #     )
+    # selected_domains: -> selected_domains.array()
+
+    terms: ->
+        Terms.find({},
+            limit:5
             sort:
                 count:-1
         )
-    selected_domains: -> selected_domains.array()
-
     agg_tags: ->
-        # console.log Session.get('current_query')
-        # if Session.get('current_query')
-        if Session.get('searching')
-            console.log 'current query', Session.get('current_query')
-            # if Session.get('current_query').length > 0
-            Terms.find({},
-                limit:5
-                sort:
-                    count:-1
-            )
-        else
-            # doc_count = Docs.find().count()
-            # console.log 'doc count', doc_count
-            # if doc_count < 3
-            #     Tags.find({count: $lt: doc_count})
-            # else
-            Tags.find({})
+        # doc_count = Docs.find().count()
+        # console.log 'doc count', doc_count
+        # if doc_count < 3
+        #     Tags.find({count: $lt: doc_count})
+        # else
+        unless Session.get('searching')
+            unless Session.get('current_query').length > 0
+                Tags.find({})
 
     result_class: ->
         if Template.instance().subscriptionsReady()
@@ -358,7 +353,9 @@ Template.home.helpers
 
     selected_tags_plural: -> selected_tags.array().length > 1
 
-    searching: -> Session.get('searching')
+    searching: ->
+        console.log 'searching?', Session.get('searching')
+        Session.get('searching')
 
     one_post: -> Docs.find().count() is 1
 

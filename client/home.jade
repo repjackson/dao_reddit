@@ -1,9 +1,9 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 each selected_tags
-                    button.ui.active.compact.circular.button.unselect_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
+                    button.ui.active.compact.circular.large.button.unselect_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         if term.image
                             img.ui.mini.inline.image(src=term.image class=active_term_class)
                         .ui.inline.small.header #{this}
@@ -28,8 +28,13 @@ template(name='home')
                     i.lightning.invert.yellow.big.circular.link.icon
                 //- div
                 if connected
-                    each agg_tags
-                        +agg_tag
+                    if searching 
+                        each terms 
+                            //- +agg_tag
+                            .ui.button.select_query #{title}
+                    else 
+                        each agg_tags
+                            +agg_tag
                 //- .four.wide.right.aligned.column
                 //- .spacer
                 //- .ui.small.grey.header media
@@ -86,12 +91,12 @@ template(name='home')
                     each doc_results
                         +one_doc
                 if two_posts
-                    .ui.grid
+                    .ui.stackable.grid
                         .two.column.row
                             each doc_results
                                 +doc_card
                 if three_posts
-                    .ui.grid
+                    .ui.stackable.grid
                         .two.column.row
                             each doc_results
                                 +small_card
