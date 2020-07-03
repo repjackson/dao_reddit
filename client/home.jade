@@ -10,7 +10,7 @@ template(name='home')
                         //- button.ui.active.large.circular.button.unselect_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                         
-                .ui.left.icon.search.small.input
+                .ui.left.icon.search.large.input
                     unless is_loading
                         if home_subs_ready
                             i.search.link.icon.refresh_agg
@@ -30,7 +30,7 @@ template(name='home')
                 if connected
                     each agg_tags
                         +agg_tag
-            .four.wide.right.aligned.column
+                //- .four.wide.right.aligned.column
                 //- .spacer
                 //- .ui.small.grey.header media
                 //- .spacer
@@ -41,7 +41,7 @@ template(name='home')
                     .ui.compact.circular.active.large.button.unselect_emotion #{this}
                 each emotion_results
                     if title.length
-                        .ui.compact.circular.large.button.select_emotion(class=emotion_selector_class)
+                        .ui.compact.circular.large.basic.button.select_emotion(class=emotion_selector_class)
                             small #{count}
                             |#{title}
                 //- div
@@ -51,7 +51,7 @@ template(name='home')
                 //-     i.video.large.icon
                 //- .ui.circular.icon.disabled.button 
                 //-     i.content.large.icon
-                div
+                //- div
                 small #{curent_date_setting}
                 .ui.compact.circular.button.set_all_time
                     i.calendar.outline.icon
@@ -59,29 +59,29 @@ template(name='home')
                 .ui.compact.circular.button.set_today
                     i.sun.icon
                     |today
-                .spacer
-                .ui.small.grey.inline.header
-                    i.reddit.icon
-                    |subreddits
-                each selected_subreddits
-                    .ui.compact.circular.active.button.unselect_subreddit #{this}
-                each subreddit_results
-                    .ui.compact.circular.button.select_subreddit #{title}
-                .spacer
+                //- .spacer
+                //- .ui.small.grey.inline.header
+                //-     i.reddit.icon
+                //-     |subreddits
+                //- each selected_subreddits
+                //-     .ui.compact.circular.active.button.unselect_subreddit #{this}
+                //- each subreddit_results
+                //-     .ui.compact.circular.button.select_subreddit #{title}
+                //- .spacer
                 //- .ui.small.grey.header
                 //-     i.user.outline.icon
                 //-     |authors
                 //- .spacer
-                div
-                .ui.small.grey.inline.header 
-                    i.globe.icon
-                    |domains
-                each selected_domains
-                    .ui.compact.circular.active.button.unselect_domain #{this}
-                each domain_results
-                    if title.length
-                        .ui.compact.circular.button.select_domain #{title}
-            .twelve.wide.column.scrolling
+                //- div
+                //- .ui.small.grey.inline.header 
+                //-     i.globe.icon
+                //-     |domains
+                //- each selected_domains
+                //-     .ui.compact.circular.active.button.unselect_domain #{this}
+                //- each domain_results
+                //-     if title.length
+                //-         .ui.compact.circular.button.select_domain #{title}
+            .sixteen.wide.column.scrolling
                 if one_result
                     each doc_results
                         +one_doc
@@ -99,12 +99,16 @@ template(name='home')
                     .ui.stackable.grid
                         .four.column.row
                             each doc_results
-                                +medium_card
+                                +small_card
                 if more_than_four
                     //- .ui.selection.list
-                    each doc_results
-                        +doc_list_item
-                        .spacer
+                    .ui.stackable.grid
+                        .four.column.row
+                            each doc_results
+                                +small_card
+                    //- each doc_results
+                    //-     +doc_list_item
+                    //-     .spacer
                     //- .ui.grid.mobile.only
                     //-     .two.column.centered.row
                     //-         each doc_results
@@ -158,7 +162,7 @@ template(name='home')
                 //-     .ui.grid.mobile.only
                 //-         .two.column.centered.row
                 //-             each doc_results
-                //-                 +medium_card
+                //-                 +small_card
                 //- 
                 //-     .ui.grid.mobile.hidden
                 //-         .four.column.row
@@ -180,11 +184,11 @@ template(name='home')
                     
                     
 template(name='agg_tag')
-    button.ui.tertiary.button.result(tabindex="0" title=count)
+    button.ui.tertiary.large.button.result(tabindex="0" title=count)
         if term.image
             //- button.ui.compact.circular.button(tabindex="0" title=count)
             //- img.ui.mini.inline.image(src=term.image)
-            img.ui.avatar.image(src=term.image)
+            img.ui.mini.inline.image(src=term.image)
             .ui.inline.small.thin.header(class=tag_result_class) #{title}
         else
             //- button.ui.compact.circular.button(tabindex="0" title=count)

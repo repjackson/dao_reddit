@@ -1,21 +1,25 @@
 template(name='doc_list_item')
     .ui.stackable.grid
-        .four.wide.column
+        .six.wide.column
+            if is_youtube
+                iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
             if has_thumbnail
                 unless is_image
-                    unless watson.metadata.image
-                        a(href="/doc/#{_id}/view")
-                            img.ui.inline.image(src=thumbnail)
+                    unless is_youtube
+                        unless watson.metadata.image
+                            a(href="/doc/#{_id}/view")
+                                img.ui.inline.image(src=thumbnail)
             if is_image   
                 //- unless is_video
                 //- img.ui.centered.image.rounded.pointer.call_visual(src=url)
                 a(href="/doc/#{_id}/view")
                     img.ui.inline.image(src=url)
             if watson.metadata.image 
-                a(href="/doc/#{_id}/view")
-                    img.ui.inline.image(src=watson.metadata.image)
+                unless is_youtube
+                    a(href="/doc/#{_id}/view")
+                        img.ui.inline.image(src=watson.metadata.image)
                             
-        .twelve.wide.column
+        .ten.wide.column
             a.ui.inline.thin.header(href="/doc/#{_id}/view" class=emotion_color_class) !{lowered_title}
             div
             a.ui.tertiary.button(href="https://www.reddit.com#{permalink}" target="_blank" title='view reddit comments')
@@ -72,7 +76,7 @@ template(name='small_card')
                 
         .content
             //- a.ui.small.header(href=url target='_window') #{title}
-            a.ui.small.thin.header(href="/doc/#{_id}/view" class=emotion_color_class) !{lowered_title}
+            a.ui.thin.header(href="/doc/#{_id}/view" class=emotion_color_class) !{lowered_title}
             .spacer
             //- .ui.icon.circular.button.vote_up(title=points)
             //-     i.chevron.up.large.icon

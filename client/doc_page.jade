@@ -62,7 +62,8 @@ template(name='doc_page')
                             .ui.circular.compact.button.select_doc_tag
                                 |#{this}
                     if watson
-                        +watson_view
+                        .scrolling
+                            +watson_view
                     
                 .four.wide.column 
                     //- if has_thumb
