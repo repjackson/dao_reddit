@@ -39,9 +39,9 @@ Meteor.publish 'tag_results', (
     date_setting=0
     )->
     # console.log 'dummy', dummy
-    console.log 'selected tags', selected_tags
-    console.log 'query', query
-    console.log 'searching?', searching
+    # console.log 'selected tags', selected_tags
+    # console.log 'query', query
+    # console.log 'searching?', searching
 
     self = @
     match = {}
@@ -52,7 +52,7 @@ Meteor.publish 'tag_results', (
     # if query and query.length > 1
     if searching
         if query.length > 0
-            console.log 'searching query', query
+            # console.log 'searching query', query
             # #     # match.tags = {$regex:"#{query}", $options: 'i'}
             # #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
             # #
@@ -72,7 +72,7 @@ Meteor.publish 'tag_results', (
     else
         # unless query and query.length > 2
         # if selected_tags.length > 0 then match.tags = $all: selected_tags
-        console.log date_setting
+        # console.log date_setting
         if date_setting
             if date_setting is 'today'
                 now = Date.now()
@@ -97,7 +97,7 @@ Meteor.publish 'tag_results', (
         #     match.domain = $all: selected_domains
         # if selected_emotions.length > 0
         #     match.max_emotion_name = $all: selected_emotions
-        console.log 'match for tags', match
+        # console.log 'match for tags', match
 
 
         agg_doc_count = Docs.find(match).count()
@@ -219,10 +219,10 @@ Meteor.publish 'doc_results', (
     # console.log 'got selected tags', selected_tags
     # else
     self = @
+    console.log 'searching query', current_query
     match = {model:$in:['reddit','wikipedia']}
-    if current_query.length > 0
-        console.log 'searching query', current_query
-        match.title = {$regex:"#{current_query}", $options: 'i'}
+    # if current_query.length > 1
+    #     match.title = {$regex:"#{current_query}", $options: 'i'}
     # if selected_tags.length > 0
     # console.log date_setting
     if date_setting

@@ -30,7 +30,7 @@ Template.home.onCreated ->
         # Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         selected_tags.array()
-        Session.get('current_query')
+        # Session.get('current_query')
 
         # selected_subreddits.array()
         # selected_domains.array()
