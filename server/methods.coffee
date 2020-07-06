@@ -143,9 +143,10 @@ Meteor.methods
                             filtered_agg_res.push agg_tag
             # console.log 'max term emotion', _.max(filtered_agg_res, (tag)->tag.count)
             term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
-            Terms.update term_doc._id,
-                $set:
-                    max_emotion_name:term_emotion
+            if term_emotion
+                Terms.update term_doc._id,
+                    $set:
+                        max_emotion_name:term_emotion
             # console.log 'term final emotion', term_emotion
 
             # Docs.update omega._id,

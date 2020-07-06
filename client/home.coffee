@@ -12,28 +12,31 @@ Template.admin.helpers
 Template.agg_tag.onCreated ->
     # console.log @
     @autorun => @subscribe 'term', @data.title
+# Template.search_term.onCreated ->
+#     # console.log @
+#     @autorun => @subscribe 'term', @data.title
 
 Template.home.onCreated ->
-    # Session.setDefault('current_query', '')
+    Session.setDefault('current_query', '')
     # Session.setDefault('dummy', true)
     @autorun => @subscribe 'terms',
         selected_tags.array()
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
         # selected_subreddits.array()
-        # selected_domains.array()
+        selected_domains.array()
         # selected_authors.array()
-        # selected_emotions.array()
+        selected_emotions.array()
         Session.get('current_query')
         Session.get('searching')
         # Session.get('dummy')
-        # Session.get('date_setting')
+        Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         selected_tags.array()
         # Session.get('current_query')
 
         # selected_subreddits.array()
-        # selected_domains.array()
+        selected_domains.array()
         # selected_authors.array()
         selected_emotions.array()
         Session.get('date_setting')
@@ -48,6 +51,11 @@ Template.tone.events
         else
             Meteor.call 'upvote_sentence', doc_id, @, ->
 
+Template.search_term.helpers
+    term: ->
+        # console.log @
+        Terms.findOne
+            title:@title
 Template.agg_tag.helpers
     term: ->
         # console.log @
@@ -61,22 +69,21 @@ Template.agg_tag.helpers
             # console.log 'found term emotion', term
             if term.max_emotion_name
                 if term.max_emotion_name is 'anger'
-                    'red invert'
+                    'red invert circular'
                 else if term.max_emotion_name is 'sadness'
-                    'blue invert'
+                    'blue invert circular'
                 else if term.max_emotion_name is 'joy'
-                    'green invert'
+                    'green invert circular'
                 else if term.max_emotion_name is 'disgust'
-                    'orange invert'
+                    'orange invert circular'
                 else if term.max_emotion_name is 'fear'
-                    'grey invert'
+                    'grey invert circular'
 
 
 Template.agg_tag.events
     'click .result': (e,t)->
         Meteor.call 'log_term', @title, ->
         selected_tags.push @title
-
         $('#search').val('')
         Meteor.call 'call_wiki', @title, ->
         Meteor.call 'calc_term', @title, ->
@@ -116,18 +123,18 @@ Template.home.events
             Meteor.call 'search_reddit', selected_tags.array(), ->
                 Session.set('dummy', !Session.get('dummy'))
 
-    'click .select_subreddit': ->
-        selected_subreddits.push @title
-    'click .unselect_subreddit': ->
-        selected_subreddits.remove @valueOf()
-        # console.log selected_tags.array()
-
+    # 'click .select_subreddit': ->
+    #     selected_subreddits.push @title
+    # 'click .unselect_subreddit': ->
+    #     selected_subreddits.remove @valueOf()
+    #     # console.log selected_tags.array()
+    #
     'click .select_domain': ->
         selected_domains.push @title
     'click .unselect_domain': ->
         selected_domains.remove @valueOf()
         # console.log selected_tags.array()
-
+    #
     'click .select_emotion': ->
         selected_emotions.push @title
     'click .unselect_emotion': ->
@@ -164,6 +171,7 @@ Template.home.events
 
                 $('#search').val('')
                 Session.set('current_query', '')
+                Session.set('searching', false)
                 # Meteor.setTimeout ->
                 #     Session.set('dummy', !Session.get('dummy'))
                 # , 6000
@@ -319,17 +327,17 @@ Template.home.helpers
         )
     selected_emotions: -> selected_emotions.array()
 
-    # domain_results: ->
-    #     Domain_results.find({},
-    #         limit:10
-    #         sort:
-    #             count:-1
-    #     )
-    # selected_domains: -> selected_domains.array()
+    domain_results: ->
+        Domain_results.find({},
+            limit:10
+            sort:
+                count:-1
+        )
+    selected_domains: -> selected_domains.array()
 
     terms: ->
         Terms.find({},
-            limit:5
+            limit:20
             sort:
                 count:-1
         )
