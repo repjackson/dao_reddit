@@ -61,9 +61,6 @@ template(name='doc_page')
                         each tags
                             .ui.circular.compact.button.select_doc_tag
                                 |#{this}
-                    if watson
-                        .scrolling
-                            +watson_view
                     
                 .four.wide.column 
                     //- if has_thumb
@@ -125,7 +122,11 @@ template(name='doc_page')
                         |download content
                     .ui.circular.button.print_me
                         |print me
-                    
+        if watson
+            .row.scrolling
+                .sixteen.wide.column
+                    +watson_view
+
 
 template(name='emotion_circle')
     .ui.circular.label(class=emotion_circle_class title=emotion)

@@ -30,9 +30,9 @@ Meteor.publish 'terms', (selected_tags, searching, query)->
 Meteor.publish 'tag_results', (
     selected_tags
     # selected_subreddits
-    selected_domains
+    # selected_domains
     # selected_authors
-    selected_emotions
+    # selected_emotions
     query
     searching
     # dummy
@@ -85,16 +85,16 @@ Meteor.publish 'tag_results', (
         if selected_tags.length > 0
             match.tags = $all: selected_tags
         else
-            unless selected_domains.length > 0
-                unless selected_emotions.length > 0
-                    match.tags = $all: ['dao']
+            # unless selected_domains.length > 0
+            #     unless selected_emotions.length > 0
+            match.tags = $all: ['love']
         # console.log 'match for tags', match
         # if selected_subreddits.length > 0
         #     match.subreddit = $all: selected_subreddits
-        if selected_domains.length > 0
-            match.domain = $in: selected_domains
-        if selected_emotions.length > 0
-            match.max_emotion_name = $in: selected_emotions
+        # if selected_domains.length > 0
+        #     match.domain = $in: selected_domains
+        # if selected_emotions.length > 0
+        #     match.max_emotion_name = $in: selected_emotions
         # console.log 'match for tags', match
 
 
@@ -108,7 +108,7 @@ Meteor.publish 'tag_results', (
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 33 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -153,55 +153,55 @@ Meteor.publish 'tag_results', (
         # # console.log doc_tag_cloud.count()
         #
         #
-        domain_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "domain": 1 }
-            # { $unwind: "$domain" }
-            { $group: _id: "$domain", count: $sum: 1 }
-            { $match: _id: $nin: selected_domains }
-            # { $match: count: $lt: agg_doc_count }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 5 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
+        # domain_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: "domain": 1 }
+        #     # { $unwind: "$domain" }
+        #     { $group: _id: "$domain", count: $sum: 1 }
+        #     { $match: _id: $nin: selected_domains }
+        #     # { $match: count: $lt: agg_doc_count }
+        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $limit: 5 }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        # ], {
+        #     allowDiskUse: true
+        # }
 
-        domain_cloud.forEach (domain, i) =>
-            # console.log 'queried domain ', domain
-            # console.log 'key', key
-            self.added 'domain_results', Random.id(),
-                title: domain.name
-                count: domain.count
-                # category:key
-                # index: i
-        # console.log doc_tag_cloud.count()
+        # domain_cloud.forEach (domain, i) =>
+        #     # console.log 'queried domain ', domain
+        #     # console.log 'key', key
+        #     self.added 'domain_results', Random.id(),
+        #         title: domain.name
+        #         count: domain.count
+        #         # category:key
+        #         # index: i
+        # # console.log doc_tag_cloud.count()
 
-        emotion_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "max_emotion_name": 1 }
-            # { $unwind: "$max_emotion_name" }
-            { $group: _id: "$max_emotion_name", count: $sum: 1 }
-            { $match: _id: $nin: selected_emotions }
-            # { $match: count: $lt: agg_doc_count }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 5 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
+        # emotion_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: "max_emotion_name": 1 }
+        #     # { $unwind: "$max_emotion_name" }
+        #     { $group: _id: "$max_emotion_name", count: $sum: 1 }
+        #     { $match: _id: $nin: selected_emotions }
+        #     # { $match: count: $lt: agg_doc_count }
+        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $limit: 5 }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        # ], {
+        #     allowDiskUse: true
+        # }
 
-        emotion_cloud.forEach (emotion, i) =>
-            # console.log 'queried emotion ', emotion
-            # console.log 'key', key
-            self.added 'emotion_results', Random.id(),
-                title: emotion.name
-                count: emotion.count
-                # category:key
-                # index: i
-        # console.log doc_tag_cloud.count()
+        # emotion_cloud.forEach (emotion, i) =>
+        #     # console.log 'queried emotion ', emotion
+        #     # console.log 'key', key
+        #     self.added 'emotion_results', Random.id(),
+        #         title: emotion.name
+        #         count: emotion.count
+        #         # category:key
+        #         # index: i
+        # # console.log doc_tag_cloud.count()
 
         self.ready()
 
@@ -209,9 +209,9 @@ Meteor.publish 'doc_results', (
     selected_tags
     # current_query
     # selected_subreddits
-    selected_domains
+    # selected_domains
     # selected_authors
-    selected_emotions
+    # selected_emotions
     date_setting
     )->
     # console.log 'got selected tags', selected_tags
@@ -244,14 +244,14 @@ Meteor.publish 'doc_results', (
         #     unless selected_subreddits.length > 0
         #         unless selected_subreddits.length > 0
         #             unless selected_emotions.length > 0
-        match.tags = $all: ['dao']
-    if selected_domains.length > 0
-        match.domain = $all: selected_domains
-    #
-    # if selected_subreddits.length > 0
-    #     match.subreddit = $all: selected_subreddits
-    if selected_emotions.length > 0
-        match.max_emotion_name = $all: selected_emotions
+        match.tags = $all: ['love']
+    # if selected_domains.length > 0
+    #     match.domain = $all: selected_domains
+    # #
+    # # if selected_subreddits.length > 0
+    # #     match.subreddit = $all: selected_subreddits
+    # if selected_emotions.length > 0
+    #     match.max_emotion_name = $all: selected_emotions
 
     # else
     #     match.tags = $nin: ['wikipedia']

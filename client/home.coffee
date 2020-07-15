@@ -24,9 +24,9 @@ Template.home.onCreated ->
     @autorun => @subscribe 'tag_results',
         selected_tags.array()
         # selected_subreddits.array()
-        selected_domains.array()
+        # selected_domains.array()
         # selected_authors.array()
-        selected_emotions.array()
+        # selected_emotions.array()
         Session.get('current_query')
         Session.get('searching')
         # Session.get('dummy')
@@ -36,9 +36,9 @@ Template.home.onCreated ->
         # Session.get('current_query')
 
         # selected_subreddits.array()
-        selected_domains.array()
+        # selected_domains.array()
         # selected_authors.array()
-        selected_emotions.array()
+        # selected_emotions.array()
         Session.get('date_setting')
 
 Template.tone.events

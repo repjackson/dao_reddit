@@ -41,13 +41,13 @@ template(name='home')
                         //- .ui.small.grey.header
                         //-     i.brain.icon
                         //-     |emotions
-                        each selected_emotions
-                            .ui.compact.circular.active.large.button.unselect_emotion #{this}
-                        each emotion_results
-                            if title.length
-                                .ui.compact.circular.large.basic.button.select_emotion(class=emotion_selector_class)
-                                    small #{count}
-                                    |#{title}
+                        // each selected_emotions
+                        //     .ui.compact.circular.active.large.button.unselect_emotion #{this}
+                        // each emotion_results
+                        //     if title.length
+                        //         .ui.compact.circular.large.basic.button.select_emotion(class=emotion_selector_class)
+                        //             small #{count}
+                        //             |#{title}
                         //- div
                         //- .ui.circular.icon.disabled.button 
                         //-     i.picture.large.icon
@@ -80,11 +80,11 @@ template(name='home')
                         //- .ui.small.grey.inline.header 
                         //-     i.globe.icon
                         //-     |domains
-                        each selected_domains
-                            .ui.compact.circular.active.button.unselect_domain #{this}
-                        each domain_results
-                            if title.length
-                                .ui.compact.circular.button.select_domain #{title}
+                        // each selected_domains
+                        //     .ui.compact.circular.active.button.unselect_domain #{this}
+                        // each domain_results
+                        //     if title.length
+                        //         .ui.compact.circular.button.select_domain #{title}
             .sixteen.wide.column.scrolling
                 if one_result
                     each doc_results
@@ -96,7 +96,7 @@ template(name='home')
                                 +doc_card
                 if three_posts
                     .ui.stackable.grid
-                        .two.column.row
+                        .three.column.row
                             each doc_results
                                 +small_card
                 if four_posts
