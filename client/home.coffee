@@ -29,8 +29,8 @@ Template.home.onCreated ->
         # selected_emotions.array()
         Session.get('current_query')
         Session.get('searching')
-        # Session.get('dummy')
-        Session.get('date_setting')
+        Session.get('dummy')
+        # Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         selected_tags.array()
         # Session.get('current_query')
@@ -39,7 +39,8 @@ Template.home.onCreated ->
         # selected_domains.array()
         # selected_authors.array()
         # selected_emotions.array()
-        Session.get('date_setting')
+        Session.get('dummy')
+        # Session.get('date_setting')
 
 Template.tone.events
     # 'click .upvote_sentence': ->
@@ -106,6 +107,9 @@ Template.home.events
         $('#search').val('')
         Session.set('current_query', '')
         Session.set('searching', false)
+        Meteor.setTimeout =>
+            Session.set('dummy', !Session.get('dummy'))
+        , 6000
 
 Template.home.events
     'click .set_today': -> Session.set('date_setting','today')
@@ -120,8 +124,10 @@ Template.home.events
             Meteor.call 'calc_term', @title, ->
 
         if selected_tags.array().length > 0
-            Meteor.call 'search_reddit', selected_tags.array(), ->
-                Session.set('dummy', !Session.get('dummy'))
+            Meteor.call 'search_reddit', selected_tags.array(), =>
+        Meteor.setTimeout =>
+            Session.set('dummy', !Session.get('dummy'))
+        , 6000
 
     # 'click .select_subreddit': ->
     #     selected_subreddits.push @title
@@ -129,24 +135,24 @@ Template.home.events
     #     selected_subreddits.remove @valueOf()
     #     # console.log selected_tags.array()
     #
-    'click .select_domain': ->
-        selected_domains.push @title
-    'click .unselect_domain': ->
-        selected_domains.remove @valueOf()
-        # console.log selected_tags.array()
-    #
-    'click .select_emotion': ->
-        selected_emotions.push @title
-    'click .unselect_emotion': ->
-        selected_emotions.remove @valueOf()
-        # console.log selected_tags.array()
+    # 'click .select_domain': ->
+    #     selected_domains.push @title
+    # 'click .unselect_domain': ->
+    #     selected_domains.remove @valueOf()
+    #     # console.log selected_tags.array()
+    # #
+    # 'click .select_emotion': ->
+    #     selected_emotions.push @title
+    # 'click .unselect_emotion': ->
+    #     selected_emotions.remove @valueOf()
+    #     # console.log selected_tags.array()
 
     # 'click .refresh_tags': ->
 
-    'click .clear_selected_tags': ->
-        Session.set('current_query','')
-        selected_tags.clear()
-    # 'keyup #search': _.throttle((e,t)->
+    # 'click .clear_selected_tags': ->
+    #     Session.set('current_query','')
+    #     selected_tags.clear()
+    # # 'keyup #search': _.throttle((e,t)->
     'keydown #search': (e,t)->
         query = $('#search').val()
         if query.length > 0
@@ -172,9 +178,9 @@ Template.home.events
                 $('#search').val('')
                 Session.set('current_query', '')
                 Session.set('searching', false)
-                # Meteor.setTimeout ->
-                #     Session.set('dummy', !Session.get('dummy'))
-                # , 6000
+                Meteor.setTimeout ->
+                    Session.set('dummy', !Session.get('dummy'))
+                , 6000
     # , 200)
 
     # 'keydown #search': _.throttle((e,t)->

@@ -35,8 +35,8 @@ Meteor.publish 'tag_results', (
     # selected_emotions
     query
     searching
-    # dummy
-    date_setting=0
+    dummy
+    # date_setting=0
     )->
     # console.log 'dummy', dummy
     # console.log 'selected tags', selected_tags
@@ -73,13 +73,13 @@ Meteor.publish 'tag_results', (
         # unless query and query.length > 2
         # if selected_tags.length > 0 then match.tags = $all: selected_tags
         # console.log date_setting
-        if date_setting
-            if date_setting is 'today'
-                now = Date.now()
-                day = 24*60*60*1000
-                yesterday = now-day
-                console.log yesterday
-                match._timestamp = $gt:yesterday
+        # if date_setting
+        #     if date_setting is 'today'
+        #         now = Date.now()
+        #         day = 24*60*60*1000
+        #         yesterday = now-day
+        #         console.log yesterday
+        #         match._timestamp = $gt:yesterday
 
 
         if selected_tags.length > 0
@@ -212,7 +212,8 @@ Meteor.publish 'doc_results', (
     # selected_domains
     # selected_authors
     # selected_emotions
-    date_setting
+    dummy
+    # date_setting
     )->
     # console.log 'got selected tags', selected_tags
     # else
@@ -223,13 +224,13 @@ Meteor.publish 'doc_results', (
     #     match.title = {$regex:"#{current_query}", $options: 'i'}
     # if selected_tags.length > 0
     # console.log date_setting
-    if date_setting
-        if date_setting is 'today'
-            now = Date.now()
-            day = 24*60*60*1000
-            yesterday = now-day
-            # console.log yesterday
-            match._timestamp = $gt:yesterday
+    # if date_setting
+    #     if date_setting is 'today'
+    #         now = Date.now()
+    #         day = 24*60*60*1000
+    #         yesterday = now-day
+    #         # console.log yesterday
+    #         match._timestamp = $gt:yesterday
 
     if selected_tags.length > 0
         # if selected_tags.length is 1
@@ -264,4 +265,4 @@ Meteor.publish 'doc_results', (
         sort:
             points:-1
             ups:-1
-        limit:20
+        limit:10

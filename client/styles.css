@@ -15,7 +15,7 @@ body {
 }
 .ui.cards > .card {
     margin-bottom: 0px !important;
-    margin-top:  !important;
+    /*margin-top:  !important;*/
 }
 
 /* .full {
@@ -62,7 +62,7 @@ body {
     text-align: center !important;
 }
 .thin {
-    /* font-size: 110% !important; */
+    font-size: 120% !important; 
     font-weight: 400 !important;
 }
 

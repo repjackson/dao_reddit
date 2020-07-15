@@ -52,15 +52,6 @@ template(name='doc_page')
                 
                     //- +session_edit_value_button key='view_tone' value=false label='plain'
 
-                    if tags
-                        //- .ui.styled.accordion
-                        //- .active.title
-                        .ui.header #{tags.length} tags
-                        //- i.dropdown.icon
-                        //- .active.content
-                        each tags
-                            .ui.circular.compact.button.select_doc_tag
-                                |#{this}
                     
                 .four.wide.column 
                     //- if has_thumb
@@ -122,6 +113,16 @@ template(name='doc_page')
                         |download content
                     .ui.circular.button.print_me
                         |print me
+        if tags
+            //- .ui.styled.accordion
+            //- .active.title
+            .ui.header #{tags.length} tags
+            //- i.dropdown.icon
+            //- .active.content
+            each tags
+                .ui.circular.compact.button.select_doc_tag
+                    |#{this}
+                        
         if watson
             .row.scrolling
                 .sixteen.wide.column
