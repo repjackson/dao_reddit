@@ -62,12 +62,12 @@ body {
     text-align: center !important;
 }
 .thin {
-    font-size: 120% !important; 
+    font-size: 110% !important; 
     font-weight: 400 !important;
 }
 
 .yeah {
-    font-size: 1.10rem !important;
+    /*font-size: 1.10rem !important;*/
     font-weight: 300 !important;
     /* color: grey !important; */
     /* border-radius: 0 0 10px 10px !important; */
