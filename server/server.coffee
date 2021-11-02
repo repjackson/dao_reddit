@@ -29,7 +29,6 @@ Meteor.publish 'doc', (doc_id)->
 
 Meteor.publish 'tag_results', (
     picked_tags
-    # selected_subreddits
     # selected_domains
     # selected_authors
     # selected_emotions
@@ -93,6 +92,7 @@ Meteor.publish 'tag_results', (
             # category:key
             # index: i
     # console.log doc_tag_cloud.count()
+    self.ready()
 
 
 Meteor.publish 'doc_results', (
@@ -141,7 +141,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=20&include_facets=true",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=off&limit=20&include_facets=true",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=100&include_facets=true",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
