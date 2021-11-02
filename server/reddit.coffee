@@ -75,16 +75,16 @@ Meteor.methods
                         $set:
                             rd: rd
                 # console.log result
-                if rd.is_video
-                    # console.log 'pulling video comments watson'
-                    Meteor.call 'call_watson', doc_id, 'url', 'video', ->
-                else if rd.is_image
-                    # console.log 'pulling image comments watson'
-                    Meteor.call 'call_watson', doc_id, 'url', 'image', ->
-                else
-                    Meteor.call 'call_watson', doc_id, 'url', 'url', ->
-                    Meteor.call 'call_watson', doc_id, 'url', 'image', ->
-                    # Meteor.call 'call_visual', doc_id, ->
+                # if rd.is_video
+                #     # console.log 'pulling video comments watson'
+                #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
+                # else if rd.is_image
+                #     # console.log 'pulling image comments watson'
+                #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                # else
+                #     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                #     # Meteor.call 'call_visual', doc_id, ->
                 if rd.selftext
                     unless rd.is_video
                         # if Meteor.isDevelopment
@@ -113,7 +113,7 @@ Meteor.methods
                                 reddit_url: url
                                 url: url
                         }, ->
-                            Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                            # Meteor.call 'call_watson', doc_id, 'url', 'url', ->
                 # update_ob = {}
 
                 Docs.update doc_id,

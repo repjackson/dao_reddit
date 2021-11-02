@@ -3,11 +3,9 @@ template(name='home')
         .row
             .sixteen.wide.column
                 each selected_tags
-                    button.ui.active.compact.circular.large.button.unselect_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
-                        if term.image
-                            img.ui.mini.inline.image(src=term.image)
+                    button.ui.active.compact.circular.large.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         .ui.inline.small.header #{this}
-                        //- button.ui.active.large.circular.button.unselect_tag(tabindex='0' style=background_style class=emotion_color)
+                        //- button.ui.active.large.circular.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                         
                 .ui.left.icon.search.large.input
@@ -28,63 +26,12 @@ template(name='home')
                     i.lightning.invert.yellow.big.circular.link.icon
                 //- div
                 if connected
-                    if searching 
-                        each terms 
-                            +search_term
-                    else 
-                        each agg_tags
-                            +agg_tag
-                        //- .four.wide.right.aligned.column
-                        //- .spacer
-                        //- .ui.small.grey.header media
-                        //- .spacer
-                        //- .ui.small.grey.header
-                        //-     i.brain.icon
-                        //-     |emotions
-                        // each selected_emotions
-                        //     .ui.compact.circular.active.large.button.unselect_emotion #{this}
-                        // each emotion_results
-                        //     if title.length
-                        //         .ui.compact.circular.large.basic.button.select_emotion(class=emotion_selector_class)
-                        //             small #{count}
-                        //             |#{title}
-                        //- div
-                        //- .ui.circular.icon.disabled.button 
-                        //-     i.picture.large.icon
-                        //- .ui.circular.icon.disabled.button 
-                        //-     i.video.large.icon
-                        //- .ui.circular.icon.disabled.button 
-                        //-     i.content.large.icon
-                        //- div
-                        // small #{curent_date_setting}
-                        // .ui.compact.circular.button.set_all_time
-                        //     i.calendar.outline.icon
-                        //     |all time
-                        // .ui.compact.circular.button.set_today
-                        //     i.sun.icon
-                        //     |today
-                        //- .spacer
-                        //- .ui.small.grey.inline.header
-                        //-     i.reddit.icon
-                        //-     |subreddits
-                        //- each selected_subreddits
-                        //-     .ui.compact.circular.active.button.unselect_subreddit #{this}
-                        //- each subreddit_results
-                        //-     .ui.compact.circular.button.select_subreddit #{title}
-                        //- .spacer
-                        //- .ui.small.grey.header
-                        //-     i.user.outline.icon
-                        //-     |authors
-                        //- .spacer
-                        //- div
-                        //- .ui.small.grey.inline.header 
-                        //-     i.globe.icon
-                        //-     |domains
-                        // each selected_domains
-                        //     .ui.compact.circular.active.button.unselect_domain #{this}
-                        // each domain_results
-                        //     if title.length
-                        //         .ui.compact.circular.button.select_domain #{title}
+                    // if searching 
+                    //     each terms 
+                    //         +search_term
+                    // else 
+                    each agg_tags
+                        +agg_tag
             .sixteen.wide.column.scrolling
                 if one_result
                     each doc_results
@@ -123,14 +70,14 @@ template(name='search_term')
                     
 template(name='agg_tag')
     button.ui.tertiary.large.circular.button.result(tabindex="0" title=count)
-        if term.image
-            //- button.ui.compact.circular.button(tabindex="0" title=count)
-            //- img.ui.mini.inline.image(src=term.image)
-            img.ui.mini.inline.image(src=term.image)
-            .ui.inline.small.thin.header(class=tag_result_class) #{title}
-        else
-            //- button.ui.compact.circular.button(tabindex="0" title=count)
-            .ui.inline.small.thin.header(class=tag_result_class) #{title}
+        // if term.image
+        //     //- button.ui.compact.circular.button(tabindex="0" title=count)
+        //     //- img.ui.mini.inline.image(src=term.image)
+        //     img.ui.mini.inline.image(src=term.image)
+        //     .ui.inline.small.thin.header(class=tag_result_class) #{title}
+        // else
+        //     //- button.ui.compact.circular.button(tabindex="0" title=count)
+        .ui.inline.small.thin.header(class=tag_result_class) #{title}
 
         //- small #{count}
                     
