@@ -1,16 +1,4 @@
 @picked_tags = new ReactiveArray []
-# @selected_subreddits = new ReactiveArray []
-# @selected_authors = new ReactiveArray []
-# @selected_domains = new ReactiveArray []
-# @selected_emotions = new ReactiveArray []
-
-
-# Template.agg_tag.onCreated ->
-#     # console.log @
-#     @autorun => @subscribe 'term', @data.title
-# Template.search_term.onCreated ->
-#     # console.log @
-#     @autorun => @subscribe 'term', @data.title
 
 Template.home.onCreated ->
     Session.setDefault('current_query', '')
@@ -25,7 +13,7 @@ Template.home.onCreated ->
         # selected_emotions.array()
         Session.get('current_query')
         Session.get('searching')
-        Session.get('dummy')
+        # Session.get('dummy')
         # Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         picked_tags.array()
@@ -39,48 +27,16 @@ Template.home.onCreated ->
         # Session.get('date_setting')
 
 
-# Template.agg_tag.helpers
-#     term: ->
-#         # console.log @
-#         Terms.findOne
-#             title:@title
-#     tag_result_class: ->
-#         # console.log 'active_term class', @
-#         term =
-#             Terms.findOne title:@title
-#         if term
-#             # console.log 'found term emotion', term
-#             if term.max_emotion_name
-#                 if term.max_emotion_name is 'anger'
-#                     'red invert circular'
-#                 else if term.max_emotion_name is 'sadness'
-#                     'blue invert circular'
-#                 else if term.max_emotion_name is 'joy'
-#                     'green invert circular'
-#                 else if term.max_emotion_name is 'disgust'
-#                     'orange invert circular'
-#                 else if term.max_emotion_name is 'fear'
-#                     'grey invert circular'
-
 
 Template.agg_tag.events
     'click .result': (e,t)->
         Meteor.call 'log_term', @title, ->
         picked_tags.push @title
         $('#search').val('')
-        # Meteor.call 'call_wiki', @title, ->
-        # Meteor.call 'calc_term', @title, ->
-        # Meteor.call 'omega', @title, ->
         Session.set('current_query', '')
         Session.set('searching', false)
 
         Meteor.call 'search_reddit', picked_tags.array(), ->
-        # Meteor.setTimeout ->
-        #     Session.set('dummy', !Session.get('dummy'))
-        # , 7000
-    # 'click .call_visual': ->
-    #     Meteor.call 'call_visual', @_id, (err,res)->
-    #         console.log res
 
 Template.home.events
     'click .select_query': ->
@@ -88,16 +44,8 @@ Template.home.events
         Meteor.call 'search_reddit', picked_tags.array(), ->
         $('#search').val('')
         Session.set('current_query', '')
-        Session.set('searching', false)
-        Meteor.setTimeout =>
-            Session.set('dummy', !Session.get('dummy'))
-        , 6000
 
 Template.home.events
-    # 'click .set_today': -> Session.set('date_setting','today')
-    # 'click .set_yesterday': -> Session.set('date_setting','yesterday')
-    # 'click .set_this_month': -> Session.set('date_setting','set_this_month')
-    'click .set_all_time': -> Session.set('date_setting','all_time')
     'click .unpick_tag': ->
         picked_tags.remove @valueOf()
         console.log picked_tags.array()
@@ -107,62 +55,25 @@ Template.home.events
 
         if picked_tags.array().length > 0
             Meteor.call 'search_reddit', picked_tags.array(), =>
-        Meteor.setTimeout =>
-            Session.set('dummy', !Session.get('dummy'))
-        , 6000
-
-    # 'click .select_subreddit': ->
-    #     selected_subreddits.push @title
-    # 'click .unselect_subreddit': ->
-    #     selected_subreddits.remove @valueOf()
-    #     # console.log picked_tags.array()
-    #
-    # 'click .select_domain': ->
-    #     selected_domains.push @title
-    # 'click .unselect_domain': ->
-    #     selected_domains.remove @valueOf()
-    #     # console.log picked_tags.array()
-    # #
-    # 'click .select_emotion': ->
-    #     selected_emotions.push @title
-    # 'click .unselect_emotion': ->
-    #     selected_emotions.remove @valueOf()
-    #     # console.log picked_tags.array()
-
-    # 'click .refresh_tags': ->
-
-    # 'click .clear_picked_tags': ->
-    #     Session.set('current_query','')
-    #     picked_tags.clear()
     # # 'keyup #search': _.throttle((e,t)->
     'keydown #search': (e,t)->
         query = $('#search').val()
-        if query.length > 0
-            Session.set('searching', true)
-        else
-            Session.set('searching', false)
         Session.set('current_query', query)
         # if query.length > 0
         # console.log Session.get('current_query')
-        if e.which is 13
-            search = $('#search').val().trim().toLowerCase()
-            if search.length > 0
-                picked_tags.push search
-                console.log 'search', search
-
-                # Meteor.call 'call_wiki', search, =>
-                #     Meteor.call 'calc_term', @title, ->
-                #     Meteor.call 'omega', @title, ->
-
-                Meteor.call 'search_reddit', picked_tags.array(), ->
-                # Meteor.call 'log_term', search, ->
-
-                $('#search').val('')
-                Session.set('current_query', '')
-                Session.set('searching', false)
-                Meteor.setTimeout ->
-                    Session.set('dummy', !Session.get('dummy'))
-                , 6000
+        if query.length > 0
+            if e.which is 13
+                Session.set('searching', true)
+                search = $('#search').val().trim().toLowerCase()
+                if search.length > 0
+                    picked_tags.push search
+                    console.log 'search', search
+                    Meteor.call 'search_reddit', picked_tags.array(), ->
+                    # Meteor.call 'log_term', search, ->
+    
+                    $('#search').val('')
+                    Session.set('current_query', '')
+                    Session.set('searching', false)
     # , 200)
 
     # 'keydown #search': _.throttle((e,t)->
@@ -179,34 +90,6 @@ Template.home.events
     'click .reconnect': -> Meteor.reconnect()
 
     'click .toggle_tag': (e,t)-> picked_tags.push @valueOf()
-    # 'click .toggle_domain': (e,t)-> selected_domains.push @domain
-    # 'click .toggle_subreddit': (e,t)-> selected_subreddits.push @subreddit
-
-    # 'keyup .add_tag': (e,t)->
-    #     # Session.set('current_query', query)
-    #     # console.log Session.get('current_query')
-    #     if e.which is 13
-    #         tag = $(e.currentTarget).closest('.add_tag').val().trim().toLowerCase()
-    #         console.log 'tag', tag
-    #         # search = $('#search').val()
-    #         if tag.length > 0
-    #             # picked_tags.push search
-    #             Docs.update @_id,
-    #                 $addToSet:
-    #                     tags:tag
-    #                     user_tags:tag
-    #             $(e.currentTarget).closest('.add_tag').val('')
-    #             # # console.log 'search', search
-    #             Meteor.call 'call_wiki', tag, =>
-    #                 Meteor.call 'log_term', tag, ->
-
-    # 'click .vote_up': (e,t)->
-    #     Docs.update @_id,
-    #         $inc:points:1
-
-    # 'click .vote_down': (e,t)->
-    #     Docs.update @_id,
-    #         $inc:points:-1
 
     'click .print_me': (e,t)->
         console.log @
@@ -214,23 +97,6 @@ Template.home.events
         # console.log @
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
         # Meteor.call 'agg_omega', ->
-
-    # 'click .call_watson': ->
-    #     if @rd and @rd.selftext_html
-    #         dom = document.createElement('textarea')
-    #         # dom.innerHTML = doc.body
-    #         dom.innerHTML = @rd.selftext_html
-    #         console.log 'innner html', dom.value
-    #         # return dom.value
-    #         Docs.update @_id,
-    #             $set:
-    #                 parsed_selftext_html:dom.value
-    #     Meteor.call 'call_watson', @_id, 'url', 'url', ->
-    #     # Meteor.call 'agg_omega', ->
-
-
-
-
 
 Template.home.helpers
 
@@ -303,7 +169,7 @@ Template.home.helpers
     picked_tags_plural: -> picked_tags.array().length > 1
 
     searching: ->
-        console.log 'searching?', Session.get('searching')
+        # console.log 'searching?', Session.get('searching')
         Session.get('searching')
 
     one_post: -> Docs.find().count() is 1
@@ -311,13 +177,6 @@ Template.home.helpers
     two_posts: -> Docs.find().count() is 2
     three_posts: -> Docs.find().count() is 3
     four_posts: -> Docs.find().count() is 4
-    # five_posts: -> Docs.find().count() is 5
-    # six_posts: -> Docs.find().count() is 6
-    # seven_posts: -> Docs.find().count() is 7
-    # eight_posts: -> Docs.find().count() is 8
-    # nine_posts: -> Docs.find().count() is 9
-    # ten_posts: -> Docs.find().count() is 10
-    # more_than_ten: -> Docs.find().count() > 10
     more_than_four: -> Docs.find().count() > 4
     one_result: ->
         Docs.find().count() is 1
@@ -326,25 +185,14 @@ Template.home.helpers
         # if picked_tags.array().length > 0
         cursor =
             Docs.find {
-                model:['reddit','wikipedia']
+                model:'reddit'
             },
                 sort:
-                    points:-1
                     ups:-1
                 # limit:10
         # console.log cursor.fetch()
         cursor
 
-    # term: ->
-    #     # console.log @
-    #     Terms.findOne
-    #         title:@valueOf()
 
     home_subs_ready: ->
         Template.instance().subscriptionsReady()
-    #
-    # home_subs_ready: ->
-    #     if Template.instance().subscriptionsReady()
-    #         Session.set('global_subs_ready', true)
-    #     else
-    #         Session.set('global_subs_ready', false)

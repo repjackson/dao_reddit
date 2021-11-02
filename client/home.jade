@@ -37,20 +37,20 @@ template(name='home')
                     each doc_results
                         +one_doc
                 if two_posts
-                    .ui.two.cards
+                    .ui.two.stackable.cards
                         each doc_results
                             +doc_card
                 if three_posts
-                    .ui.three.cards
+                    .ui.three.stackable.cards
                         each doc_results
                             +small_card
                 if four_posts
-                    .ui.four.cards
+                    .ui.three.stackable.cards
                         each doc_results
                             +small_card
                 if more_than_four
                     //- .ui.selection.list
-                    .ui.four.cards
+                    .ui.three.stackable.cards
                         each doc_results
                             +small_card
             

@@ -18,11 +18,11 @@ template(name='doc_page')
                         .spacer
                     if is_image
                         img.ui.image(src=url)
-                    else
-                        if watson.metadata.image 
-                            unless is_video
-                                a(href=watson.metadata.image target='_window')
-                                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                    // else
+                    //     if watson.metadata.image 
+                    //         unless is_video
+                    //             a(href=watson.metadata.image target='_window')
+                    //                 img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
                     if is_video
                         .invert.full
                             blockquote(class="reddit-card")
@@ -59,7 +59,7 @@ template(name='doc_page')
                         if has_thumbnail
                             unless is_image
                                 unless is_video
-                                    unless watson.metadata.image
+                                    unless is_youtube
                                         //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                                         //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
                                         img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
@@ -99,18 +99,18 @@ template(name='doc_page')
                         
                         div
                         //- +voting_full
-                    .ui.circular.button.call_watson 
-                        i.chess.icon
-                        |tag url
-                    .ui.circular.button.call_watson_image
-                        i.chess.icon
-                        |tag image
-                    .ui.circular.button.call_geo_coordinates
-                        i.marker.icon
-                        |tag coordinates
-                    .ui.circular.button.pull_tone
-                        i.download.icon
-                        |download content
+                    // .ui.circular.button.call_watson 
+                    //     i.chess.icon
+                    //     |tag url
+                    // .ui.circular.button.call_watson_image
+                    //     i.chess.icon
+                    //     |tag image
+                    // .ui.circular.button.call_geo_coordinates
+                    //     i.marker.icon
+                    //     |tag coordinates
+                    // .ui.circular.button.pull_tone
+                    //     i.download.icon
+                    //     |download content
                     .ui.circular.button.print_me
                         |print me
         if tags
@@ -123,10 +123,10 @@ template(name='doc_page')
                 .ui.circular.compact.button.select_doc_tag
                     |#{this}
                         
-        if watson
-            .row.scrolling
-                .sixteen.wide.column
-                    +watson_view
+        // if watson
+        //     .row.scrolling
+        //         .sixteen.wide.column
+        //             +watson_view
 
 
 template(name='emotion_circle')
