@@ -2,7 +2,7 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                each selected_tags
+                each picked_tags
                     button.ui.active.compact.circular.large.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         .ui.inline.small.header #{this}
                         //- button.ui.active.large.circular.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
@@ -30,46 +30,34 @@ template(name='home')
                     //     each terms 
                     //         +search_term
                     // else 
-                    each agg_tags
+                    each unpicked_tags
                         +agg_tag
             .sixteen.wide.column.scrolling
                 if one_result
                     each doc_results
                         +one_doc
                 if two_posts
-                    .ui.stackable.grid
-                        .two.column.row
-                            each doc_results
-                                +doc_card
+                    .ui.two.cards
+                        each doc_results
+                            +doc_card
                 if three_posts
-                    .ui.stackable.grid
-                        .three.column.row
-                            each doc_results
-                                +small_card
+                    .ui.three.cards
+                        each doc_results
+                            +small_card
                 if four_posts
-                    .ui.stackable.grid
-                        .four.column.row
-                            each doc_results
-                                +small_card
+                    .ui.four.cards
+                        each doc_results
+                            +small_card
                 if more_than_four
                     //- .ui.selection.list
-                    .ui.stackable.grid
-                        .four.column.row
-                            each doc_results
-                                +small_card
+                    .ui.four.cards
+                        each doc_results
+                            +small_card
             
             
-template(name='search_term')
-    button.ui.big.compact.button.select_query
-        if term.image
-            //- button.ui.compact.circular.button(tabindex="0" title=count)
-            //- img.ui.mini.inline.image(src=term.image)
-            img.ui.mini.inline.image(src=term.image)
-        |#{title}
-                    
                     
 template(name='agg_tag')
-    button.ui.tertiary.large.circular.button.result(tabindex="0" title=count)
+    button.ui.large.circular.button.result(tabindex="0" title=count)
         // if term.image
         //     //- button.ui.compact.circular.button(tabindex="0" title=count)
         //     //- img.ui.mini.inline.image(src=term.image)
@@ -77,7 +65,7 @@ template(name='agg_tag')
         //     .ui.inline.small.thin.header(class=tag_result_class) #{title}
         // else
         //     //- button.ui.compact.circular.button(tabindex="0" title=count)
-        .ui.inline.small.thin.header(class=tag_result_class) #{title}
+        | #{title}
 
         //- small #{count}
                     

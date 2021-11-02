@@ -1,36 +1,10 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
-@Terms = new Meteor.Collection 'terms'
+# @Terms = new Meteor.Collection 'terms'
 # @Subreddits = new Meteor.Collection 'subreddits'
 # @Authors = new Meteor.Collection 'authors'
-@Domain_results = new Meteor.Collection 'domain_results'
-@Emotion_results = new Meteor.Collection 'emotion_results'
-
-Meteor.methods
-    upvote_sentence: (doc_id, sentence)->
-        console.log sentence
-        Docs.update(
-            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
-            { $inc: { "tone.result.sentences_tone.$.weight": 1 } }
-        )
-
-    reset_sentence: (doc_id, sentence)->
-        console.log sentence
-        Docs.update(
-            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
-            { $set: { "tone.result.sentences_tone.$.weight": -2 } }
-        )
-
-
-    downvote_sentence: (doc_id, sentence)->
-        console.log sentence
-        Docs.update(
-            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
-            { $inc: { "tone.result.sentences_tone.$.weight": -1 } }
-        )
-
-
-
+# @Domain_results = new Meteor.Collection 'domain_results'
+# @Emotion_results = new Meteor.Collection 'emotion_results'
 
 Docs.before.insert (userId, doc)->
     # if Meteor.user()

@@ -39,11 +39,6 @@ Template.home.onCreated ->
         # Session.get('date_setting')
 
 
-Template.search_term.helpers
-    # term: ->
-    #     # console.log @
-    #     Terms.findOne
-    #         title:@title
 # Template.agg_tag.helpers
 #     term: ->
 #         # console.log @
@@ -238,23 +233,6 @@ Template.home.events
 
 
 Template.home.helpers
-    active_term_class: ->
-        # console.log 'active_term class', @
-        term =
-            Terms.findOne title:@valueOf()
-        if term
-            # console.log 'found term emotion', term
-            if term.max_emotion_name
-                if term.max_emotion_name is 'anger'
-                    'red invert'
-                else if term.max_emotion_name is 'sadness'
-                    'blue invert'
-                else if term.max_emotion_name is 'joy'
-                    'green invert'
-                else if term.max_emotion_name is 'disgust'
-                    'orange invert'
-                else if term.max_emotion_name is 'fear'
-                    'grey invert'
 
     curent_date_setting: -> Session.get('date_setting')
 
@@ -304,37 +282,7 @@ Template.home.helpers
         Meteor.status()
     connected: -> Meteor.status().connected
 
-    # subreddit_results: ->
-    #     Subreddits.find({},
-    #         limit:10
-    #         sort:
-    #             count:-1
-    #     )
-    # selected_subreddits: -> selected_subreddits.array()
-
-    # emotion_results: ->
-    #     Emotion_results.find({},
-    #         limit:10
-    #         sort:
-    #             count:-1
-    #     )
-    # selected_emotions: -> selected_emotions.array()
-
-    # domain_results: ->
-    #     Domain_results.find({},
-    #         limit:10
-    #         sort:
-    #             count:-1
-    #     )
-    # selected_domains: -> selected_domains.array()
-
-    # terms: ->
-    #     Terms.find({},
-    #         limit:20
-    #         sort:
-    #             count:-1
-    #     )
-    agg_tags: ->
+    unpicked_tags: ->
         # # doc_count = Docs.find().count()
         # # console.log 'doc count', doc_count
         # # if doc_count < 3
