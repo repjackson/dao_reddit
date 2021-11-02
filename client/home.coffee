@@ -30,10 +30,10 @@ Template.home.onCreated ->
 
 Template.agg_tag.events
     'click .result': (e,t)->
-        Meteor.call 'log_term', @title, ->
+        # Meteor.call 'log_term', @title, ->
         picked_tags.push @title
         $('#search').val('')
-        Session.set('current_query', '')
+        Session.set('current_query', null)
         Session.set('searching', false)
 
         Meteor.call 'search_reddit', picked_tags.array(), ->
@@ -43,7 +43,7 @@ Template.home.events
         picked_tags.push @title
         Meteor.call 'search_reddit', picked_tags.array(), ->
         $('#search').val('')
-        Session.set('current_query', '')
+        Session.set('current_query', null)
 
 Template.home.events
     'click .unpick_tag': ->
@@ -72,7 +72,7 @@ Template.home.events
                     # Meteor.call 'log_term', search, ->
     
                     $('#search').val('')
-                    Session.set('current_query', '')
+                    Session.set('current_query', null)
                     Session.set('searching', false)
     # , 200)
 
@@ -99,7 +99,15 @@ Template.home.events
         # Meteor.call 'agg_omega', ->
 
 Template.home.helpers
-
+    search_class: ->
+        if Session.get('current_query')
+            'large' 
+        else
+            if picked_tags.array().length is 0
+                'big fluid'
+            else 
+                'large' 
+                
     curent_date_setting: -> Session.get('date_setting')
 
     term_icon: ->

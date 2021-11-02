@@ -7,8 +7,7 @@ template(name='home')
                         .ui.inline.small.header #{this}
                         //- button.ui.active.large.circular.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
-                        
-                .ui.left.icon.search.large.input
+                .ui.left.icon.search.input(class=search_class)
                     unless is_loading
                         if home_subs_ready
                             i.search.link.icon.refresh_agg
@@ -69,3 +68,140 @@ template(name='agg_tag')
 
         //- small #{count}
                     
+
+template(name='doc_list_item')
+    .ui.stackable.grid
+        .six.wide.column
+            if is_youtube
+                iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+            if has_thumbnail
+                unless is_image
+                    unless is_youtube
+                        unless watson.metadata.image
+                            a(href="/doc/#{_id}/view")
+                                img.ui.inline.image(src=thumbnail)
+            if is_image   
+                //- unless is_video
+                //- img.ui.centered.image.rounded.pointer.call_visual(src=url)
+                a(href="/doc/#{_id}/view")
+                    img.ui.inline.image(src=url)
+            if watson.metadata.image 
+                unless is_youtube
+                    a(href="/doc/#{_id}/view")
+                        img.ui.inline.image(src=watson.metadata.image)
+                            
+        .ten.wide.column
+            a.ui.inline.thin.header(href="/doc/#{_id}/view" class=emotion_color_class) !{lowered_title}
+            div
+            a.ui.tertiary.button(href="https://www.reddit.com#{permalink}" target="_blank" title='view reddit comments')
+                i.chat.outline.large.icon
+                |#{comment_count}
+            //- a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+            a.ui.tertiary.button.toggle_subreddit(title='toggle subreddit')
+                i.reddit.icon
+                |r/#{subreddit}
+            if publish_when
+                .ui.small.tertiary.circular.button
+                    //- i.calendar.icon
+                    //- |#{watson.metadata.publication_date}
+                    |#{publish_when}
+            .ui.tertiary.circular.button.toggle_domain(title='toggle domain')
+                //- i.globe.icon
+                |#{domain}
+            //- i.chevron.up.icon
+            //- i.chevron.down.icon
+
+template(name='small_card')
+    .card
+        if is_youtube
+            iframe.invert(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+        if has_thumbnail
+            unless is_image
+                unless watson.metadata.image
+                    //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                    //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                    //- a(href=url target='_window')
+                    a(href="/doc/#{_id}/view")
+                        img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+        //- if is_video
+        //-     .invert
+        //-         blockquote(class="reddit-card")
+        //-             //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+        //-             a(href="https://www.reddit.com#{permalink}") 
+        //-                 |dao
+        //-             |from 
+        //-             a(href="http://www.reddit.com/r/news")
+        //-                 |r/
+        //-             script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+
+        if is_image   
+            //- unless is_video
+            //- img.ui.centered.image.rounded.pointer.call_visual(src=url)
+            a(href="/doc/#{_id}/view")
+                img.ui.centered.rouded.image(src=url)
+        // if watson.metadata.image 
+        //     unless is_video
+        //         unless is_youtube
+        //             a(href="/doc/#{_id}/view")
+        //                 img.ui.centered.rounded.image(src=watson.metadata.image)
+                
+        .content
+            //- a.ui.small.header(href=url target='_window') #{title}
+            a.ui.thin.header(href="/doc/#{_id}/view" class=emotion_color_class) 
+                |!{title}
+                // |!{lowered_title}
+            .spacer
+            //- .ui.icon.circular.button.vote_up(title=points)
+            //-     i.chevron.up.large.icon
+            //- .ui.inline.small.header #{points}
+            //- .ui.icon.circular.button.vote_down(title=points)
+            //-     i.chevron.down.large.icon  
+            // if key_value_is 'model' 'reddit'
+            //     if reddit_id
+            //         unless rd
+            //             //- div
+            //             .ui.icon.circular.button.pull_post
+            //                 i.reddit.large.icon
+            // unless watson
+            //     .ui.icon.circular.button.call_watson
+            //         i.dna.large.icon
+            //- if dev 
+            //-     i.code.link.icon.print_me
+            //- //- i.picture.icon(title='image tags')
+            //- each visual_tags
+            //-     .ui.compact.circular.button.toggle_tag #{this}
+            //- .ui.icon.small.input
+            //-     i.tag.icon
+            //-     input.add_tag(type='text')
+            //- each user_tags
+            //-     .ui.compact.circular.button.toggle_tag #{this}
+            //- 
+            // a.ui.large.compact.circular.button(href="https://www.reddit.com#{permalink}" target="_blank" title='view reddit comments')
+            //     i.chat.outline.large.icon
+            //     |#{comment_count}
+            // a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+            //     i.reddit.icon
+            //     |r/#{subreddit}
+            // if publish_when
+            //     .ui.small.tertiary.circular.button
+            //         //- i.calendar.icon
+            //         //- |#{watson.metadata.publication_date}
+            //         |#{publish_when}
+            // .ui.tertiary.circular.button.toggle_domain(title='add domain')
+            //     //- i.globe.icon
+            //     |#{domain}
+            //- if rd.selftext_html
+            //-     //- unless tone
+            //-     //- .content
+            //-     |!{parsed_selftext_html}
+            //-     //- |!{rd.selftext_html}
+            //- else
+            //-     if tone
+            //-         //- .scrolling
+            //-         +tone
+            //-     //- else
+            //- if rd.selftext
+            //-     .content
+            //-         +markdown
+            //-             !{rd.selftext}
+            

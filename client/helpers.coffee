@@ -138,11 +138,11 @@ Template.registerHelper 'is_youtube', () ->
     @domain in ['youtube.com', 'youtu.be']
 
 
-Template.registerHelper 'lowered_title', ()->
-    @title.toLowerCase()
+# Template.registerHelper 'lowered_title', ()->
+#     @title.toLowerCase()
 
-Template.registerHelper 'lowered', (input)->
-    input.toLowerCase()
+# Template.registerHelper 'lowered', (input)->
+#     input.toLowerCase()
 
 Template.registerHelper 'omega_doc', ()->
     Docs.findOne
