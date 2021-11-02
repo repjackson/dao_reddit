@@ -14,16 +14,16 @@ Meteor.publish 'doc', (doc_id)->
     Docs.find
         _id:doc_id
 
-Meteor.publish 'term', (title)->
-    Terms.find
-        title:title
+# Meteor.publish 'term', (title)->
+#     Terms.find
+#         title:title
 
-Meteor.publish 'terms', (picked_tags, searching, query)->
-    # console.log 'selected tags looking for terms', picked_tags
-    # console.log 'looking for tags', Tags.find().fetch()
-    Terms.find
-        image:$exists:true
-        title:$in:picked_tags
+# Meteor.publish 'terms', (picked_tags, searching, query)->
+#     # console.log 'selected tags looking for terms', picked_tags
+#     # console.log 'looking for tags', Tags.find().fetch()
+#     Terms.find
+#         image:$exists:true
+#         title:$in:picked_tags
 
 
 
@@ -83,12 +83,12 @@ Meteor.publish 'tag_results', (
     #         match._timestamp = $gt:yesterday
 
 
-    if picked_tags.length > 0
-        match.tags = $all: picked_tags
-    else
-        # unless selected_domains.length > 0
-        #     unless selected_emotions.length > 0
-        match.tags = $all: ['love']
+    match.tags = $all: picked_tags
+    # if picked_tags.length > 0
+    # else
+    #     # unless selected_domains.length > 0
+    #     #     unless selected_emotions.length > 0
+    #     match.tags = $all: ['love']
     # console.log 'match for tags', match
     # if selected_subreddits.length > 0
     #     match.subreddit = $all: selected_subreddits
@@ -221,7 +221,7 @@ Meteor.publish 'doc_results', (
     self = @
     # console.log 'searching query', current_query
     # match = {model:$in:['reddit','wikipedia']}
-    match = {model:$in:['reddit']}
+    match = {model:'reddit'}
     # if current_query.length > 1
     #     match.title = {$regex:"#{current_query}", $options: 'i'}
     # if picked_tags.length > 0
@@ -234,20 +234,20 @@ Meteor.publish 'doc_results', (
     #         # console.log yesterday
     #         match._timestamp = $gt:yesterday
 
-    if picked_tags.length > 0
-        # if picked_tags.length is 1
-        #     console.log 'looking single doc', picked_tags[0]
-        #     found_doc = Docs.findOne(title:picked_tags[0])
-        #
-        #     match.title = picked_tags[0]
-        # else
-        match.tags = $all: picked_tags
-    else
-        # unless selected_domains.length > 0
-        #     unless selected_subreddits.length > 0
-        #         unless selected_subreddits.length > 0
-        #             unless selected_emotions.length > 0
-        match.tags = $all: ['love']
+    # if picked_tags.length > 0
+    #     # if picked_tags.length is 1
+    #     #     console.log 'looking single doc', picked_tags[0]
+    #     #     found_doc = Docs.findOne(title:picked_tags[0])
+    #     #
+    #     #     match.title = picked_tags[0]
+    #     # else
+    match.tags = $all: picked_tags
+    # else
+    #     # unless selected_domains.length > 0
+    #     #     unless selected_subreddits.length > 0
+    #     #         unless selected_subreddits.length > 0
+    #     #             unless selected_emotions.length > 0
+    #     match.tags = $all: ['love']
     # if selected_domains.length > 0
     #     match.domain = $all: selected_domains
     # #

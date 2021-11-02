@@ -41,7 +41,7 @@ template(name='doc_list_item')
             //- i.chevron.down.icon
 
 template(name='small_card')
-    .column
+    .card
         if is_youtube
             iframe.invert(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
         if has_thumbnail
@@ -68,11 +68,11 @@ template(name='small_card')
             //- img.ui.centered.image.rounded.pointer.call_visual(src=url)
             a(href="/doc/#{_id}/view")
                 img.ui.centered.rouded.image(src=url)
-        if watson.metadata.image 
-            unless is_video
-                unless is_youtube
-                    a(href="/doc/#{_id}/view")
-                        img.ui.centered.rounded.image(src=watson.metadata.image)
+        // if watson.metadata.image 
+        //     unless is_video
+        //         unless is_youtube
+        //             a(href="/doc/#{_id}/view")
+        //                 img.ui.centered.rounded.image(src=watson.metadata.image)
                 
         .content
             //- a.ui.small.header(href=url target='_window') #{title}
@@ -83,15 +83,15 @@ template(name='small_card')
             //- .ui.inline.small.header #{points}
             //- .ui.icon.circular.button.vote_down(title=points)
             //-     i.chevron.down.large.icon  
-            if key_value_is 'model' 'reddit'
-                if reddit_id
-                    unless rd
-                        //- div
-                        .ui.icon.circular.button.pull_post
-                            i.reddit.large.icon
-            unless watson
-                .ui.icon.circular.button.call_watson
-                    i.dna.large.icon
+            // if key_value_is 'model' 'reddit'
+            //     if reddit_id
+            //         unless rd
+            //             //- div
+            //             .ui.icon.circular.button.pull_post
+            //                 i.reddit.large.icon
+            // unless watson
+            //     .ui.icon.circular.button.call_watson
+            //         i.dna.large.icon
             //- if dev 
             //-     i.code.link.icon.print_me
             //- //- i.picture.icon(title='image tags')
