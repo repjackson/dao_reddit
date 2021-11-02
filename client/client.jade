@@ -25,3 +25,116 @@ head
 
 template(name='layout')
     +yield
+
+
+template(name='doc_page')
+    with current_doc
+        .ui.stackable.padded.grid 
+            .middle.aligned.row
+                .two.wide.center.aligned.column 
+                    a.ui.circular.icon.large.button(href="/")
+                        i.left.chevron.big.icon
+                .twelve.wide.column 
+                    .ui.center.aligned.large.header(class=emotion_color_class) !{title}
+            .row
+                .twelve.wide.column 
+                    if is_youtube
+                        iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                
+                    if url
+                        a.ui.small.center.aligned.grey.header(href=url target='_window')
+                            |#{url}
+                        .spacer
+                    if is_image
+                        img.ui.image(src=url)
+                    // else
+                    //     if watson.metadata.image 
+                    //         unless is_video
+                    //             a(href=watson.metadata.image target='_window')
+                    //                 img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                    if is_video
+                        .invert.full
+                            blockquote(class="reddit-card")
+                                //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+                                a(href="https://www.reddit.com#{permalink}") 
+                                    |dao
+                                |from 
+                                a(href="http://www.reddit.com/r/news")
+                                    |r/
+                                script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+                                    
+                    .scrolling
+                        if rd.selftext_html
+                            //- unless tone
+                            //- .content
+                            |!{parsed_selftext_html}
+                            //- |!{rd.selftext_html}
+                        else
+                            if tone
+                                //- .scrolling
+                                +tone
+                            //- else
+                        if rd.selftext
+                            .content
+                                +markdown
+                                    !{rd.selftext}
+                
+                    //- +session_edit_value_button key='view_tone' value=false label='plain'
+
+                    
+                .four.wide.column 
+                    //- if has_thumb
+                    .meta
+                        if has_thumbnail
+                            unless is_image
+                                unless is_video
+                                    unless is_youtube
+                                        //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                                        //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                                        img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+                        //- if watson.metadata.image 
+                        //-     unless is_image
+                        //-         unless is_video
+                        //-             a(href=watson.metadata.image target='_window')
+                        //-                 img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                        //- 
+                    
+                        .ui.header #{publish_when}
+                        //- .ui.header #{rd.score} score
+                        a.ui.circular.button(href=url target='_window')
+                            i.external.icon
+                            |view link
+                        //- span.ui.grey.text #{domain}
+                        if author
+                            a.ui.button(href="https://www.reddit.com/user/#{author}" target='_window')
+                                i.pencil.icon
+                                |#{author}
+                        if subreddit
+                            a.ui.circular.button(href="http://www.reddit.com/r/#{subreddit}" target='_window' title="visit #{subreddit} subreddit")
+                                i.reddit.icon
+                                |#{subreddit}
+                        //- i.refresh.circular.link.icon.calc_post
+                        a.ui.circular.button(href="https://www.reddit.com#{permalink}" target="_blank" title='view reddit comments')
+                            i.chat.outline.large.icon
+                            |#{comment_count}
+                        if publish_when
+                            .ui.circular.button
+                                //- i.calendar.icon
+                                //- |#{watson.metadata.publication_date}
+                                |#{publish_when}
+                        .ui.circular.button.toggle_domain(title='add domain')
+                            //- i.globe.icon
+                            |#{domain}
+                        
+                        div
+                    .ui.circular.button.print_me
+                        |print me
+        if tags
+            //- .ui.styled.accordion
+            //- .active.title
+            .ui.header #{tags.length} tags
+            //- i.dropdown.icon
+            //- .active.content
+            each tags
+                .ui.circular.compact.button.select_doc_tag
+                    |#{this}

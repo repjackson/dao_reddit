@@ -3,39 +3,18 @@ Docs.allow
     update: (user_id, doc) -> true
     # user_id is doc._author_id
     remove: (user_id, doc) -> false
-        # user = Meteor.users.findOne user_id
-        # if user.roles and 'admin' in user.roles
-        #     true
-        # else
-        #     user_id is doc._author_id
-# Facts.setUserIdFilter(()->true);
 
 Meteor.publish 'doc', (doc_id)->
     Docs.find
         _id:doc_id
 
-# Meteor.publish 'term', (title)->
-#     Terms.find
-#         title:title
-
-# Meteor.publish 'terms', (picked_tags, searching, query)->
-#     # console.log 'selected tags looking for terms', picked_tags
-#     # console.log 'looking for tags', Tags.find().fetch()
-#     Terms.find
-#         image:$exists:true
-#         title:$in:picked_tags
-
 
 
 Meteor.publish 'tag_results', (
     picked_tags
-    # selected_domains
-    # selected_authors
-    # selected_emotions
     query
     searching
     dummy
-    # date_setting=0
     )->
     # console.log 'dummy', dummy
     # console.log 'selected tags', picked_tags
@@ -52,21 +31,6 @@ Meteor.publish 'tag_results', (
 
 
     match.tags = $all: picked_tags
-    # if picked_tags.length > 0
-    # else
-    #     # unless selected_domains.length > 0
-    #     #     unless selected_emotions.length > 0
-    #     match.tags = $all: ['love']
-    # console.log 'match for tags', match
-    # if selected_subreddits.length > 0
-    #     match.subreddit = $all: selected_subreddits
-    # if selected_domains.length > 0
-    #     match.domain = $in: selected_domains
-    # if selected_emotions.length > 0
-    #     match.max_emotion_name = $in: selected_emotions
-    # console.log 'match for tags', match
-
-
     agg_doc_count = Docs.find(match).count()
     tag_cloud = Docs.aggregate [
         { $match: match }
@@ -106,14 +70,6 @@ Meteor.publish 'doc_results', (
     # console.log 'searching query', current_query
     # match = {model:$in:['reddit','wikipedia']}
     match = {model:'reddit'}
-    # if current_query.length > 1
-    #     match.title = {$regex:"#{current_query}", $options: 'i'}
-    # if picked_tags.length > 0
-    # console.log date_setting
-    # if date_setting
-    #     if date_setting is 'today'
-    #         now = Date.now()
-    #         day = 24*60*60*1000
     #         yesterday = now-day
     #         # console.log yesterday
     #         match._timestamp = $gt:yesterday
@@ -141,7 +97,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=20&include_facets=true",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=100&include_facets=true",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=42&include_facets=true",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1

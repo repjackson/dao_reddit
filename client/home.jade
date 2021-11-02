@@ -49,7 +49,7 @@ template(name='home')
                             +small_card
                 if more_than_four
                     //- .ui.selection.list
-                    .ui.three.stackable.cards
+                    .ui.four.stackable.cards
                         each doc_results
                             +small_card
             
@@ -147,7 +147,7 @@ template(name='small_card')
                 
         .content
             //- a.ui.small.header(href=url target='_window') #{title}
-            a.ui.thin.header(href="/doc/#{_id}/view" class=emotion_color_class) 
+            a.ui.small.header(href="/doc/#{_id}/view" class=emotion_color_class) 
                 |!{title}
                 // |!{lowered_title}
             .spacer
@@ -182,11 +182,11 @@ template(name='small_card')
             // a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
             //     i.reddit.icon
             //     |r/#{subreddit}
-            // if publish_when
-            //     .ui.small.tertiary.circular.button
-            //         //- i.calendar.icon
-            //         //- |#{watson.metadata.publication_date}
-            //         |#{publish_when}
+            if publish_when
+                .ui.small.tertiary.circular.button
+                    //- i.calendar.icon
+                    //- |#{watson.metadata.publication_date}
+                    |#{publish_when}
             // .ui.tertiary.circular.button.toggle_domain(title='add domain')
             //     //- i.globe.icon
             //     |#{domain}
