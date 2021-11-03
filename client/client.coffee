@@ -157,29 +157,10 @@ Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 Template.home.onCreated ->
     Session.setDefault('current_query', null)
-    # Session.setDefault('dummy', true)
-    # @autorun => @subscribe 'terms',
-    #     picked_tags.array()
     @autorun => @subscribe 'tag_results',
         picked_tags.array()
-        # selected_subreddits.array()
-        # selected_domains.array()
-        # selected_authors.array()
-        # selected_emotions.array()
-        Session.get('current_query')
-        Session.get('searching')
-        # Session.get('dummy')
-        # Session.get('date_setting')
     @autorun => @subscribe 'doc_results',
         picked_tags.array()
-        # Session.get('current_query')
-
-        # selected_subreddits.array()
-        # selected_domains.array()
-        # selected_authors.array()
-        # selected_emotions.array()
-        Session.get('dummy')
-        # Session.get('date_setting')
 
 
 
@@ -209,19 +190,17 @@ Template.home.events
     # # 'keyup #search': _.throttle((e,t)->
     'keydown #search': (e,t)->
         query = $('#search').val()
-        Session.set('current_query', query)
         # if query.length > 0
         # console.log Session.get('current_query')
         if query.length > 0
             if e.which is 13
+                Session.set('current_query', query)
                 Session.set('searching', true)
                 search = $('#search').val().trim().toLowerCase()
                 if search.length > 0
                     picked_tags.push search
-                    console.log 'search', search
+                    # console.log 'search', search
                     Meteor.call 'search_reddit', picked_tags.array(), ->
-                    # Meteor.call 'log_term', search, ->
-    
                     $('#search').val('')
                     Session.set('current_query', null)
                     Session.set('searching', false)
