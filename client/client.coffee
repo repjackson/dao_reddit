@@ -228,6 +228,9 @@ Template.home.events
         Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
         # Meteor.call 'agg_omega', ->
 
+Template.shortcut.events
+    'click .go': ->
+        picked_tags.push @key
 Template.home.helpers
     not_searching: ->
         picked_tags.array().length is 0 and Session.equals('current_query',null)
