@@ -161,10 +161,17 @@ template(name='home')
                     if is_loading
                         i.yin.yang.big.loading.large.icon
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
-                    input#search(type='text' autofocus='' autocomplete="off" placeholder='consult the dao...')
+                    input#search(type='text' autofocus='' autocomplete="off" placeholder='consult...')
                 //- .ui.header #{connection.status}
                 //- div
-                // if not_searching 
+                if not_searching
+                    .ui.center.aligned.basic.segment
+                        +shortcut key='skiing' icon='skiing'
+                        +shortcut key='food' icon='food'
+                        +shortcut key='code' icon='code'
+                        +shortcut key='money' icon='money'
+                        +shortcut key='running' icon='running'
+                        +shortcut key='space' icon='rocket'
                 unless connected
                     //- .ui.header disconnected
                     //- .ui.hidden.divider
@@ -200,6 +207,9 @@ template(name='home')
                         +small_card
             
             
+                   
+template(name='shortcut')                   
+    i.big.icon.go.spaced.zoomer(class=icon)
                     
 template(name='agg_tag')
     button.ui.large.circular.button.result(tabindex="0" title=count)

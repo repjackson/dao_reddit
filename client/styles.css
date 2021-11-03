@@ -250,8 +250,18 @@ a.title, #title {
     margin: 1px !important;
 }
 
+.zoomer {
+  transition: transform .5s; /* Animation */
+  cursor:pointer !important;
+}
+.zoomer:hover {
+  transform: scale(1.2) !important;
+}
 
 
+.spaced {
+  margin: 10px !important;
+}
 
 .spacer {
   height: 10px;
