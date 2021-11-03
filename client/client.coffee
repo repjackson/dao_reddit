@@ -126,26 +126,6 @@ Template.registerHelper 'calculated_size', (metric) ->
     else if whole is 9 then 'f14'
     else if whole is 10 then 'f15'
 
-Template.registerHelper 'tone_size', () ->
-    # console.log 'this weight', @weight
-    # console.log typeof parseFloat(@relevance)
-    # console.log typeof (@relevance*100).toFixed()
-    # whole = parseInt(@["#{metric}"]*10)
-    # console.log 'whole', whole
-    if @weight
-        if @weight is -5 then 'f6'
-        else if @weight is -4 then 'f7'
-        else if @weight is -3 then 'f8'
-        else if @weight is -2 then 'f9'
-        else if @weight is -1 then 'f10'
-        else if @weight is 0 then 'f12'
-        else if @weight is 1 then 'f12'
-        else if @weight is 2 then 'f13'
-        else if @weight is 3 then 'f14'
-        else if @weight is 4 then 'f15'
-        else if @weight is 5 then 'f16'
-    else
-        'f11'
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
@@ -176,7 +156,7 @@ Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 
 Template.home.onCreated ->
-    Session.setDefault('current_query', '')
+    Session.setDefault('current_query', null)
     # Session.setDefault('dummy', true)
     # @autorun => @subscribe 'terms',
     #     picked_tags.array()
@@ -224,10 +204,6 @@ Template.home.events
     'click .unpick_tag': ->
         picked_tags.remove @valueOf()
         console.log picked_tags.array()
-        # if picked_tags.array().length is 1
-        #     Meteor.call 'call_wiki', picked_tags.array(), ->
-        #     Meteor.call 'calc_term', @title, ->
-
         if picked_tags.array().length > 0
             Meteor.call 'search_reddit', picked_tags.array(), =>
     # # 'keyup #search': _.throttle((e,t)->
@@ -274,6 +250,9 @@ Template.home.events
         # Meteor.call 'agg_omega', ->
 
 Template.home.helpers
+    not_searching: ->
+        picked_tags.array().length is 0 and Session.equals('current_query',null)
+        
     search_class: ->
         if Session.get('current_query')
             'large' 
