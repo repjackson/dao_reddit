@@ -364,7 +364,7 @@ Template.home.helpers
             Router.go '/'
     
         'click .call_watson': ->
-            Meteor.call 'call_watson', Router.current().params.doc_id,'body','text', ->
+            Meteor.call 'call_watson', Router.current().params.doc_id,'body','html', ->
     
         'click .print_me': ->
             console.log @
