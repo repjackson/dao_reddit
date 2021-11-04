@@ -362,6 +362,13 @@ Template.home.helpers
         'click .select_doc_tag': ->
             selected_tags.push @valueOf()
             Router.go '/'
+    
+        'click .call_watson': ->
+            Meteor.call 'call_watson', Router.current().params.doc_id,'body','text', ->
+    
+        'click .print_me': ->
+            console.log @
+    
     # Template.array_view.events
     #     'click .toggle_post_filter': ->
     #         console.log @

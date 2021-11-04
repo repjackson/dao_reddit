@@ -105,6 +105,9 @@ template(name='doc_page')
                             i.external.icon
                             |view link
                         //- span.ui.grey.text #{domain}
+                        .ui.icon.circular.large.button.call_watson
+                            i.dna.large.icon
+
                         if author
                             a.ui.button(href="https://www.reddit.com/user/#{author}" target='_window')
                                 i.pencil.icon
@@ -274,7 +277,7 @@ template(name='small_card')
         if has_thumbnail
             unless is_image
                 a(href="/doc/#{_id}/view")
-                    img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+                    img.ui.invert.fluid.image.rounded.pointer.call_visual(src=thumbnail)
                     // unless watson.metadata.image
                     //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                     //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)

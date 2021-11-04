@@ -176,13 +176,13 @@ Meteor.methods
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
                 # console.log 'watson error for', parameters.url
-                # console.log err
+                console.log err
                 if err.code is 400
                     console.log 'crawl rejected by server'
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
-                    # console.log 'not html, flaggged doc for future skip', parameters.url
+                    console.log 'not html, flaggged doc for future skip', parameters.url
                 else
                     console.log '403 error api key'
             else
