@@ -62,7 +62,6 @@ template(name='doc_page')
                                 a(href="http://www.reddit.com/r/news")
                                     |r/
                                 script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
-                                    
                     .scrolling
                         if rd.selftext_html
                             //- unless tone
@@ -130,18 +129,20 @@ template(name='doc_page')
                             |#{domain}
                         
                         div
-                    .ui.circular.button.print_me
-                        |print me
-        if tags
-            //- .ui.styled.accordion
-            //- .active.title
-            .ui.header #{tags.length} tags
-            //- i.dropdown.icon
-            //- .active.content
-            each tags
-                .ui.circular.compact.button.select_doc_tag
-                    |#{this}
-                    
+                    .ui.circular.icon.button.print_me
+                        i.code.icon
+                    if tags
+                        //- .ui.styled.accordion
+                        //- .active.title
+                        .ui.inline.header #{tags.length} tags
+                        //- i.dropdown.icon
+                        //- .active.content
+                        each tags
+                            .ui.circular.compact.button.select_doc_tag
+                                |#{this}
+                    if watson 
+                        +watson_view
+                                
                     
 template(name='home')
     .ui.stackable.padded.grid

@@ -360,9 +360,10 @@ Template.home.helpers
 
     Template.doc_page.events
         'click .select_doc_tag': ->
-            selected_tags.push @valueOf()
+            picked_tags.push @valueOf()
             Router.go '/'
-    
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+
         'click .call_watson': ->
             Meteor.call 'call_watson', Router.current().params.doc_id,'body','html', ->
     
@@ -382,27 +383,27 @@ Template.home.helpers
             #     if value in key_array
             #         key_array = _.without(key_array, value)
             #         match["#{current.key}"] = key_array
-            #         selected_tags.remove value
+            #         picked_tags.remove value
             #         Session.set('match', match)
             #     else
             #         key_array.push value
-            #         selected_tags.push value
+            #         picked_tags.push value
             #         Session.set('match', match)
-            #         Meteor.call 'search_reddit', selected_tags.array(), ->
+            #         Meteor.call 'search_reddit', picked_tags.array(), ->
             #         # Meteor.call 'agg_idea', value, current.key, 'entity', ->
             #         console.log @
             #         # match["#{current.key}"] = ["#{value}"]
             # else
-            # if value in selected_tags.array()
-            #     selected_tags.remove value
+            # if value in picked_tags.array()
+            #     picked_tags.remove value
             # else
             #     # match["#{current.key}"] = ["#{value}"]
-            #     selected_tags.push value
-            #     # console.log selected_tags.array()
+            #     picked_tags.push value
+            #     # console.log picked_tags.array()
             # # Session.set('match', match)
-            # # console.log selected_tags.array()
-            # if selected_tags.array().length > 0
-            #     Meteor.call 'search_reddit', selected_tags.array(), ->
+            # # console.log picked_tags.array()
+            # if picked_tags.array().length > 0
+            #     Meteor.call 'search_reddit', picked_tags.array(), ->
             # console.log Session.get('match')
 
     # Template.array_view.helpers
@@ -417,7 +418,7 @@ Template.home.helpers
     #         # console.log key
     #         # console.log doc
     #         # console.log @
-    #         if @valueOf() in selected_tags.array()
+    #         if @valueOf() in picked_tags.array()
     #             'active'
     #         else
     #             'basic'
