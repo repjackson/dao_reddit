@@ -88,7 +88,16 @@ Meteor.publish 'doc_results', (
         sort:
             ups:-1
             # points:-1
-        limit:10
+        limit:20
+        fields:
+            youtube_id:1
+            thumbnail:1
+            url:1
+            title:1
+            model:1
+            tags:1
+            _timestamp:1
+            domain:1
 
 
 Meteor.methods

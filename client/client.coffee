@@ -232,12 +232,12 @@ Template.home.helpers
         
     search_class: ->
         if Session.get('current_query')
-            'large' 
+            'big' 
         else
             if picked_tags.array().length is 0
-                'big fluid'
+                'huge fluid'
             else 
-                'large' 
+                'big' 
                 
     curent_date_setting: -> Session.get('date_setting')
 

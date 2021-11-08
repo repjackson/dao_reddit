@@ -167,7 +167,7 @@ template(name='home')
                     if is_loading
                         i.yin.yang.big.loading.large.icon
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
-                    input#search(type='text' autofocus='' autocomplete="off" placeholder='consult...')
+                    input#search(type='text' autofocus='' autocomplete="off" placeholder='...')
                 //- .ui.header #{connection.status}
                 //- div
                 if not_searching
@@ -216,7 +216,7 @@ template(name='agg_tag')
 template(name='small_card')
     .ui.button
         if is_youtube
-            iframe.invert(width="100%" height="300" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+            iframe.invert(width="400" height="400" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
         if has_thumbnail
             unless is_image
                 a(href="/doc/#{_id}/view")
@@ -225,16 +225,16 @@ template(name='small_card')
                     //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
                     //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
                     //- a(href=url target='_window')
-        //- if is_video
-        //-     .invert
-        //-         blockquote(class="reddit-card")
-        //-             //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
-        //-             a(href="https://www.reddit.com#{permalink}") 
-        //-                 |dao
-        //-             |from 
-        //-             a(href="http://www.reddit.com/r/news")
-        //-                 |r/
-        //-             script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+        // - if is_video
+        // -     .invert
+        // -         blockquote(class="reddit-card")
+        // -             //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+        // -             a(href="https://www.reddit.com#{permalink}") 
+        // -                 |dao
+        // -             |from 
+        // -             a(href="http://www.reddit.com/r/news")
+        // -                 |r/
+        // -             script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
 
         if is_image   
             //- unless is_video
