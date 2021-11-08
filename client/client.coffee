@@ -26,8 +26,8 @@ Template.registerHelper 'gif_filename', () ->
     @url.slice(0,-1)
     # true
 
-Template.registerHelper 'current_doc', () ->
-    Docs.findOne Router.current().params.doc_id
+# Template.registerHelper 'current_doc', () ->
+#     Docs.findOne Router.current().params.doc_id
 
 Template.registerHelper 'is_image_domain', () ->
     # console.log 'image match', match
@@ -84,11 +84,6 @@ Template.registerHelper 'is_youtube', () ->
 
 # Template.registerHelper 'lowered', (input)->
 #     input.toLowerCase()
-
-Template.registerHelper 'omega_doc', ()->
-    Docs.findOne
-        model:'omega_session'
-
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
@@ -342,17 +337,17 @@ Template.home.helpers
         Template.instance().subscriptionsReady()
         
         
-    Router.route '/doc/:doc_id/view', (->
-        @layout 'layout'
-        @render 'doc_page'
-        ), name:'doc_page'
+    # Router.route '/doc/:doc_id/view', (->
+    #     @layout 'layout'
+    #     @render 'doc_page'
+    #     ), name:'doc_page'
 
 
-    Template.doc_page.onCreated ->
-        # @autorun => Meteor.subscribe('doc', Router.current().params.doc_id)
-        # Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'current_doc', Router.current().params.doc_id
-        console.log @
+    # Template.doc_page.onCreated ->
+    #     # @autorun => Meteor.subscribe('doc', Router.current().params.doc_id)
+    #     # Meteor.subscribe 'doc', Router.current().params.doc_id
+    #     @autorun => Meteor.subscribe 'current_doc', Router.current().params.doc_id
+    #     console.log @
     Template.doc_page.onRendered ->
         Meteor.setTimeout ->
             $('.ui.accordion').accordion()
@@ -361,11 +356,12 @@ Template.home.helpers
     Template.doc_page.events
         'click .select_doc_tag': ->
             picked_tags.push @valueOf()
-            Router.go '/'
+            # Router.go '/'
             Meteor.call 'search_reddit', picked_tags.array(), ->
 
         'click .call_watson': ->
-            Meteor.call 'call_watson', Router.current().params.doc_id,'body','html', ->
+            # Meteor.call 'call_watson', Router.current().params.doc_id,'body','html', ->
+            Meteor.call 'call_watson', @_id,'body','html', ->
     
         'click .print_me': ->
             console.log @
@@ -436,7 +432,7 @@ Template.home.helpers
 
     Template.doc_page.onCreated ->
         @view_detail = new ReactiveVar false
-        @autorun => @subscribe 'doc', Router.current().params.doc_id
+        # @autorun => @subscribe 'doc', Router.current().params.doc_id
 
     Template.doc_page.onRendered ->
         Meteor.setTimeout ->

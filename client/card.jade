@@ -5,11 +5,12 @@ template(name='doc_card')
         if has_thumbnail
             unless is_image
                 unless is_video
-                    unless watson.metadata.image
-                        //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                        //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                        img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
-        if is_video
+                    unless is_youtube
+                        unless watson.metadata.image
+                            //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                            //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                            img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+        else if is_video
             .invert
                 blockquote(class="reddit-card")
                     //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
@@ -20,12 +21,13 @@ template(name='doc_card')
                         |r/
                     script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
 
-        if is_image   
-            //- unless is_video
-            img.ui.centered.image.rounded.pointer.call_visual(src=url)
-        if watson.metadata.image 
+        else if is_image   
+            unless is_youtube
+                img.ui.centered.image.rounded.pointer.call_visual(src=url)
+        else if watson.metadata.image 
             unless is_video
-                img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                unless is_youtube
+                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
                 
         .content
             a.ui.header(href="/doc/#{_id}/view" class=emotion_color_class) #{title}

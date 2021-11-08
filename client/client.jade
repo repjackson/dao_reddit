@@ -23,9 +23,11 @@ head
 
       gtag('config', 'UA-156965333-1');
 
-template(name='layout')
-    +yield
+// template(name='layout')
+//     +yield
 
+body 
+    +home
 
 template(name='doc_page')
     with current_doc
@@ -206,7 +208,7 @@ template(name='home')
                 //             +small_card
                 // if more_than_four
                 //     //- .ui.selection.list
-                .ui.four.stackable.cards
+                .ui.four.stackable.centered.cards
                     each doc_results
                         +small_card
             
