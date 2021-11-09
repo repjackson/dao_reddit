@@ -214,17 +214,16 @@ template(name='agg_tag')
 
 
 template(name='small_card')
-    .ui.button
+    div
         if is_youtube
-            iframe.invert(width="400" height="400" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+            iframe.inline.invert(width="400" height="400" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
         if has_thumbnail
             unless is_image
-                a(href="/doc/#{_id}/view")
-                    img.ui.invert.image.rounded.pointer.call_visual(src=thumbnail)
-                    // unless watson.metadata.image
-                    //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
-                    //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
-                    //- a(href=url target='_window')
+                img.ui.invert.inline.small.image.rounded.pointer.call_visual(src=thumbnail)
+                // unless watson.metadata.image
+                //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                //- a(href=url target='_window')
         // - if is_video
         // -     .invert
         // -         blockquote(class="reddit-card")
@@ -239,8 +238,8 @@ template(name='small_card')
         if is_image   
             //- unless is_video
             //- img.ui.centered.image.rounded.pointer.call_visual(src=url)
-            a(href="/doc/#{_id}/view")
-                img.ui.image(src=url)
+            // a(href="/doc/#{_id}/view")
+            img.ui.inline.small.image(src=url)
         // if watson.metadata.image 
         //     unless is_video
         //         unless is_youtube
@@ -248,10 +247,10 @@ template(name='small_card')
         //                 img.ui.centered.rounded.image(src=watson.metadata.image)
                 
         //- a.ui.small.header(href=url target='_window') #{title}
-        a.ui.header(href="/doc/#{_id}/view" class=emotion_color_class) 
+        // a.ui.inline.header(href="/doc/#{_id}/view" class=emotion_color_class) 
+        .ui.inline.header(class=emotion_color_class) 
             |!{title}
             // |!{lowered_title}
-        .spacer
         //- .ui.icon.circular.button.vote_up(title=points)
         //-     i.chevron.up.large.icon
         //- .ui.inline.small.header #{points}
@@ -288,22 +287,22 @@ template(name='small_card')
                 //- i.calendar.icon
                 //- |#{watson.metadata.publication_date}
                 |#{publish_when}
-        // .ui.tertiary.circular.button.toggle_domain(title='add domain')
-        //     //- i.globe.icon
-        //     |#{domain}
-        //- if rd.selftext_html
-        //-     //- unless tone
-        //-     //- .content
-        //-     |!{parsed_selftext_html}
-        //-     //- |!{rd.selftext_html}
-        //- else
-        //-     if tone
-        //-         //- .scrolling
-        //-         +tone
-        //-     //- else
-        //- if rd.selftext
-        //-     .content
-        //-         +markdown
-        //-             !{rd.selftext}
+        .ui.tertiary.circular.button.toggle_domain(title='add domain')
+            //- i.globe.icon
+            |#{domain}
+        if rd.selftext_html
+            //unless tone
+            //.content
+            |!{parsed_selftext_html}
+            //|!{rd.selftext_html}
+        else
+            if tone
+                //.scrolling
+                +tone
+            //else
+        if rd.selftext
+            .content
+                +markdown
+                    !{rd.selftext}
             
                     
