@@ -340,7 +340,7 @@ template(name='doc_card')
                     img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
                 
         .content
-            a.ui.header(href="/doc/#{_id}/view" class=emotion_color_class) #{title}
+            a.ui.small.header(href=url class=emotion_color_class target="_window") #{title}
             .spacer
             // .ui.icon.circular.button.vote_up(title=points)
             //     i.chevron.up.large.icon
@@ -386,11 +386,11 @@ template(name='doc_card')
                 //- .content
                 |!{parsed_selftext_html}
                 //- |!{rd.selftext_html}
-            else
-                if tone
-                    //- .scrolling
-                    +tone
-                //- else
+            // else
+            //     if tone
+            //         //- .scrolling
+            //         +tone
+            //     //- else
             if rd.selftext
                 .content
                     +markdown
