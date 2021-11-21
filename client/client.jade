@@ -191,7 +191,8 @@ template(name='home')
                     each unpicked_tags
                         +agg_tag
                 each doc_results
-                    +small_card
+                    // +small_card
+                    +doc_card
             
             
                    
@@ -304,5 +305,95 @@ template(name='small_card')
             .content
                 +markdown
                     !{rd.selftext}
+            
+                    
+                    
+template(name='doc_card')
+    .column
+        if is_youtube
+            iframe.invert(width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+        if has_thumbnail
+            unless is_image
+                unless is_video
+                    unless is_youtube
+                        unless watson.metadata.image
+                            //- img.ui.left.floated.middle.aligned.top.aligned.image.rounded(src=url class=omega_dark_mode_class)
+                            //- img.ui.left.floated.inline.image.rounded(src=thumbnail class=omega_dark_mode_class)
+                            img.ui.left.floated.invert.image.rounded.pointer.call_visual(src=thumbnail)
+        else if is_video
+            .invert
+                blockquote(class="reddit-card")
+                    //- a(href="https://www.reddit.com/r/PewdiepieSubmissions/comments/ga7oxs/i_made_some_3d_art_of_edgar_discovering_the/") 
+                    a(href="https://www.reddit.com#{permalink}") 
+                        |dao
+                    |from 
+                    a(href="http://www.reddit.com/r/news")
+                        |r/
+                    script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+
+        else if is_image   
+            unless is_youtube
+                img.ui.centered.image.rounded.pointer.call_visual(src=url)
+        else if watson.metadata.image 
+            unless is_video
+                unless is_youtube
+                    img.ui.centered.image.rounded.pointer.call_visual(src=watson.metadata.image)
+                
+        .content
+            a.ui.header(href="/doc/#{_id}/view" class=emotion_color_class) #{title}
+            .spacer
+            // .ui.icon.circular.button.vote_up(title=points)
+            //     i.chevron.up.large.icon
+            // .ui.inline.small.header #{points}
+            // .ui.icon.circular.button.vote_down(title=points)
+            //     i.chevron.down.large.icon  
+            if key_value_is 'model' 'reddit'
+                if reddit_id
+                    unless rd
+                        //- div
+                        .ui.icon.circular.large.button.pull_post
+                            i.reddit.large.icon
+            // unless watson
+            //     .ui.icon.circular.large.button.call_watson
+            //         i.dna.large.icon
+            // if dev 
+            //     i.code.link.icon.print_me
+            //- i.picture.icon(title='image tags')
+            // each visual_tags
+            //     .ui.compact.circular.button.toggle_tag #{this}
+            // .ui.icon.small.input
+            //     i.tag.icon
+            //     input.add_tag(type='text')
+            // each user_tags
+            //     .ui.compact.circular.button.toggle_tag #{this}
+            
+            // a.ui.tertiary.compact.circular.button(href="https://www.reddit.com/#{permalink}" target="_blank" title='view reddit comments')
+            //     i.chat.outline.large.icon
+            //     |#{comment_count}
+            // a.ui.tertiary.button(href="https://www.reddit.com/r/#{subreddit}" target="_blank")
+            //     i.reddit.icon
+            //     |r/#{subreddit}
+            // if publish_when
+            //     .ui.small.tertiary.circular.button
+            //         //- i.calendar.icon
+            //         //- |#{watson.metadata.publication_date}
+            //         |#{publish_when}
+            // .ui.tertiary.circular.button.toggle_domain(title='add domain')
+            //     //- i.globe.icon
+            //     |#{domain}
+            if rd.selftext_html
+                //- unless tone
+                //- .content
+                |!{parsed_selftext_html}
+                //- |!{rd.selftext_html}
+            else
+                if tone
+                    //- .scrolling
+                    +tone
+                //- else
+            if rd.selftext
+                .content
+                    +markdown
+                        !{rd.selftext}
             
                     
