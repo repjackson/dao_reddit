@@ -348,24 +348,6 @@ Template.home.helpers
     #     # Meteor.subscribe 'doc', Router.current().params.doc_id
     #     @autorun => Meteor.subscribe 'current_doc', Router.current().params.doc_id
     #     console.log @
-    Template.doc_page.onRendered ->
-        Meteor.setTimeout ->
-            $('.ui.accordion').accordion()
-        , 1000
-
-    Template.doc_page.events
-        'click .select_doc_tag': ->
-            picked_tags.push @valueOf()
-            # Router.go '/'
-            Meteor.call 'search_reddit', picked_tags.array(), ->
-
-        'click .call_watson': ->
-            # Meteor.call 'call_watson', Router.current().params.doc_id,'body','html', ->
-            Meteor.call 'call_watson', @_id,'body','html', ->
-    
-        'click .print_me': ->
-            console.log @
-    
     # Template.array_view.events
     #     'click .toggle_post_filter': ->
     #         console.log @
@@ -426,31 +408,3 @@ Template.home.helpers
     #         # else
     #         #     'basic'
     #
-
-
-
-
-    Template.doc_page.onCreated ->
-        @view_detail = new ReactiveVar false
-        # @autorun => @subscribe 'doc', Router.current().params.doc_id
-
-    Template.doc_page.onRendered ->
-        Meteor.setTimeout ->
-            $('.ui.embed').embed();
-        , 1000
-
-    Template.doc_page.helpers
-        view_tone: -> Session.get('view_tone')
-
-        when: -> moment(@_timestamp).fromNow()
-        view_detail: -> Template.instance().view_detail.get()
-    Template.doc_page.events
-        'click .toggle_detail': (e,t)->
-            t.view_detail.set !t.view_detail.get()
-        'click .remove': ->
-            Docs.remove @_id
-
-
-
-
-        
