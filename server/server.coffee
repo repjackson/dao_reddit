@@ -41,7 +41,7 @@ Meteor.publish 'tag_results', (
         { $match: count: $lt: agg_doc_count }
         # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
         { $sort: count: -1, _id: 1 }
-        { $limit: 11 }
+        { $limit: 20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ], {
         allowDiskUse: true
@@ -106,7 +106,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=20&include_facets=true",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=100&include_facets=true",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=off&limit=42&include_facets=true",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
