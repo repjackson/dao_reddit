@@ -13,7 +13,7 @@ Template.registerHelper 'youtube_id', () ->
 Template.registerHelper 'is_image', () ->
     regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
     match = @url.match(regExp)
-    # console.log 'image match', match
+    console.log 'image match', match
     if match then true
     # true
 Template.registerHelper 'is_gifv', () ->

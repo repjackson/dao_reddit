@@ -88,7 +88,7 @@ Meteor.publish 'doc_results', (
         sort:
             ups:-1
             # points:-1
-        limit:20
+        limit:10
         fields:
             youtube_id:1
             thumbnail:1

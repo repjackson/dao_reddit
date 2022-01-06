@@ -332,7 +332,7 @@ template(name='doc_card')
                         |r/
                     script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
 
-        else if is_image   
+        if is_image   
             unless is_youtube
                 img.ui.centered.image.rounded.pointer.call_visual(src=url)
         else if watson.metadata.image 
