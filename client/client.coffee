@@ -19,6 +19,7 @@ Template.registerHelper 'global_subs_ready', () ->
     Session.get('global_subs_ready')
 
 
+Template.registerHelper 'sval', (input)-> Session.get(input)
 Template.registerHelper 'is_loading', -> Session.get 'is_loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'fixed', (number)->
@@ -31,21 +32,19 @@ Template.registerHelper 'to_percent', (number)->
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 
-Template.registerHelper 'publish_when', ()->
-    if @watson
-        if @watson.metadata
-            if @watson.metadata.publication_date
-                moment(@watson.metadata.publication_date).fromNow()
-
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 
 Template.home.onCreated ->
     Session.setDefault('current_query', null)
+    Session.setDefault('dummy', false)
+    Session.setDefault('is_loading', false)
     @autorun => @subscribe 'tag_results',
         picked_tags.array()
+        Session.get('dummy')
     @autorun => @subscribe 'doc_results',
         picked_tags.array()
+        Session.get('dummy')
 
 
 
@@ -56,10 +55,15 @@ Template.agg_tag.events
         $('#search').val('')
         Session.set('current_query', null)
         Session.set('searching', true)
+        Session.set('is_loading', true)
 
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('is_loading', false)
             Session.set('searching', false)
+        Meteor.setTimeout ->
+            Session.set('dummy',!Session.get('dummy'))
+        , 5000
+        
 
 Template.home.events
     'click .select_query': ->
@@ -73,24 +77,35 @@ Template.home.events
         picked_tags.remove @valueOf()
         console.log picked_tags.array()
         if picked_tags.array().length > 0
+            Session.set('is_loading', true)
             Meteor.call 'search_reddit', picked_tags.array(), =>
+                Session.set('is_loading', false)
+            Meteor.setTimeout ->
+                Session.set('dummy', !Session.get('dummy'))
+            , 5000
+
     # # 'keyup #search': _.throttle((e,t)->
+    'click #search': (e,t)->
+        Session.set('dummy', !Session.get('dummy'))
     'keydown #search': (e,t)->
         query = $('#search').val()
         # if query.length > 0
+        Session.set('current_query', query)
         # console.log Session.get('current_query')
         if query.length > 0
             if e.which is 13
-                Session.set('current_query', query)
-                Session.set('searching', true)
                 search = $('#search').val().trim().toLowerCase()
                 if search.length > 0
+                    # Session.set('searching', true)
                     picked_tags.push search
                     console.log 'search', search
                     Session.set('is_loading', true)
                     Meteor.call 'search_reddit', picked_tags.array(), ->
                         Session.set('is_loading', false)
-                        Session.set('searching', false)
+                        # Session.set('searching', false)
+                    Meteor.setTimeout ->
+                        Session.set('dummy', !Session.get('dummy'))
+                    , 5000
                     $('#search').val('')
                     Session.set('current_query', null)
     # , 200)

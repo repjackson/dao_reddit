@@ -48,7 +48,7 @@ template(name='home')
                     unless is_loading
                         i.yin.yang.big.loading.link.icon.reconnect
                     if is_loading
-                        i.yin.yang.big.loading.large.icon
+                        i.yin.yang.big.loading.icon
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
                     input#search(type='text' autofocus='' autocomplete="off")
                 //- .ui.header #{connection.status}
@@ -64,6 +64,11 @@ template(name='home')
                     // else 
                     each unpicked_tags
                         +agg_tag
+                if in_dev 
+                    .ui.divider
+                    .ui.header is_loading #{is_loading}
+                    .ui.header current query  {{sval 'current_query'}}
+                    .ui.header dummy  {{sval 'dummy'}}
                 // .ui.items
                 //     each doc_results
                 //         // +small_card

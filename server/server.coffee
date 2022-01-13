@@ -11,9 +11,9 @@ Meteor.publish 'doc', (doc_id)->
 
 
 Meteor.publish 'tag_results', (
-    picked_tags
-    query
-    searching
+    picked_tags=null
+    # query
+    # searching
     dummy
     )->
     # console.log 'dummy', dummy
@@ -29,35 +29,35 @@ Meteor.publish 'tag_results', (
     # console.log 'query length', query.length
     # if query
 
-
-    match.tags = $all: picked_tags
-    agg_doc_count = Docs.find(match).count()
-    tag_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "tags": 1 }
-        { $unwind: "$tags" }
-        { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: picked_tags }
-        { $match: count: $lt: agg_doc_count }
-        # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-        { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ], {
-        allowDiskUse: true
-    }
-
-    tag_cloud.forEach (tag, i) =>
-        # console.log 'queried tag ', tag
-        # console.log 'key', key
-        self.added 'tags', Random.id(),
-            title: tag.name
-            count: tag.count
-            # category:key
-            # index: i
-    # console.log doc_tag_cloud.count()
-    self.ready()
-
+    if picked_tags
+        match.tags = $all: picked_tags
+        agg_doc_count = Docs.find(match).count()
+        tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
+            { $match: count: $lt: agg_doc_count }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+    
+        tag_cloud.forEach (tag, i) =>
+            console.log 'queried tag ', tag
+            # console.log 'key', key
+            self.added 'tags', Random.id(),
+                title: tag.name
+                count: tag.count
+                # category:key
+                # index: i
+        # console.log doc_tag_cloud.count()
+        self.ready()
+    else []
 
 Meteor.publish 'doc_results', (
     picked_tags=null
@@ -81,8 +81,8 @@ Meteor.publish 'doc_results', (
     #     #
     #     #     match.title = picked_tags[0]
     #     # else
-    if picked_tags
-        match.tags = $all: picked_tags
+    # if picked_tags
+    match.tags = $all: picked_tags
     console.log match
     Docs.find match,
         sort:
@@ -93,16 +93,16 @@ Meteor.publish 'doc_results', (
             # youtube_id:1
             # thumbnail:1
             # url:1
-            title:1
+            # title:1
             model:1
             tags:1
-            _timestamp:1
-            domain:1
+            # _timestamp:1
+            # domain:1
 
 
 Meteor.methods
     search_reddit: (query)->
-        # console.log 'searching reddit for', query
+        console.log 'searching reddit for', query
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=20&include_facets=true",(err,response)=>
