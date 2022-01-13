@@ -55,9 +55,11 @@ Template.agg_tag.events
         picked_tags.push @title
         $('#search').val('')
         Session.set('current_query', null)
-        Session.set('searching', false)
+        Session.set('searching', true)
 
         Meteor.call 'search_reddit', picked_tags.array(), ->
+            Session.set('is_loading', false)
+            Session.set('searching', false)
 
 Template.home.events
     'click .select_query': ->
@@ -84,11 +86,13 @@ Template.home.events
                 search = $('#search').val().trim().toLowerCase()
                 if search.length > 0
                     picked_tags.push search
-                    # console.log 'search', search
+                    console.log 'search', search
+                    Session.set('is_loading', true)
                     Meteor.call 'search_reddit', picked_tags.array(), ->
+                        Session.set('is_loading', false)
+                        Session.set('searching', false)
                     $('#search').val('')
                     Session.set('current_query', null)
-                    Session.set('searching', false)
     # , 200)
 
     # 'keydown #search': _.throttle((e,t)->
@@ -114,8 +118,9 @@ Template.home.events
         # Meteor.call 'agg_omega', ->
 
 Template.shortcut.events
-    'click .go': ->
-        picked_tags.push @key
+    'click .go': -> picked_tags.push @key
+    
+    
 Template.home.helpers
     not_searching: ->
         picked_tags.array().length is 0 and Session.equals('current_query',null)
@@ -226,16 +231,6 @@ Template.home.helpers
     home_subs_ready: ->
         Template.instance().subscriptionsReady()
         
-        
-    # Router.route '/doc/:doc_id/view', (->
-    #     @layout 'layout'
-    #     @render 'doc_page'
-    #     ), name:'doc_page'
-
-
-    # Template.doc_page.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc', Router.current().params.doc_id)
-    #     # Meteor.subscribe 'doc', Router.current().params.doc_id
     #     @autorun => Meteor.subscribe 'current_doc', Router.current().params.doc_id
     #     console.log @
     # Template.array_view.events

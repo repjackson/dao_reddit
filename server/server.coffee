@@ -41,7 +41,7 @@ Meteor.publish 'tag_results', (
         { $match: count: $lt: agg_doc_count }
         # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
         { $sort: count: -1, _id: 1 }
-        { $limit: 25 }
+        { $limit: 20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ], {
         allowDiskUse: true
@@ -60,7 +60,7 @@ Meteor.publish 'tag_results', (
 
 
 Meteor.publish 'doc_results', (
-    picked_tags
+    picked_tags=null
     # current_query
     # date_setting
     )->
@@ -81,9 +81,9 @@ Meteor.publish 'doc_results', (
     #     #
     #     #     match.title = picked_tags[0]
     #     # else
-    match.tags = $all: picked_tags
-    # console.log 'sort key', sort_key
-    # console.log 'sort direction', sort_direction
+    if picked_tags
+        match.tags = $all: picked_tags
+    console.log match
     Docs.find match,
         sort:
             ups:-1
@@ -106,7 +106,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=20&include_facets=true",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=off&limit=42",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&include_over_18=off&limit=42",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -153,7 +153,7 @@ Meteor.methods
                             # console.log 'importing url', data.url
                             new_reddit_post_id = Docs.insert reddit_post
                             # console.log 'calling watson on ', reddit_post.title
-                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                                 # console.log 'get post res', res
                     else
                         console.log 'NO found data'
