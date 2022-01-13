@@ -1,89 +1,5 @@
 @picked_tags = new ReactiveArray []
 
-Template.registerHelper 'youtube_id', () ->
-    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
-    match = @url.match(regExp)
-    if (match && match[2].length == 11)
-        # console.log 'match 2', match[2]
-        match[2]
-    else
-        console.log 'error'
-
-
-Template.registerHelper 'is_image', () ->
-    regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
-    match = @url.match(regExp)
-    # console.log 'image match', match
-    if match then true
-    # true
-Template.registerHelper 'is_gifv', () ->
-    regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:gifv).*/
-    match = @url.match(regExp)
-    # console.log 'gifv match', match
-    if match then true
-    # true
-Template.registerHelper 'gif_filename', () ->
-    @url.slice(0,-1)
-    # true
-
-# Template.registerHelper 'current_doc', () ->
-#     Docs.findOne Router.current().params.doc_id
-
-Template.registerHelper 'is_image_domain', () ->
-    # console.log 'image match', match
-    if @domain
-        console.log 'hi domain', @domain
-        if @domain in ['i.imgur.com']
-            console.log 'hi domain TRUE', @domain
-            true
-    # true
-
-Template.registerHelper 'is_video', () ->
-    if @domain
-        if @domain in ['v.redd.it']
-            true
-    # true
-
-
-Template.registerHelper 'above_50', (input) ->
-    # console.log 'input', input
-    # console.log @
-    # console.log @["#{input}"]
-    @["#{input}"] > .49
-
-Template.registerHelper 'has_thumbnail', (input) ->
-    # console.log @thumbnail
-    @thumbnail and @thumbnail not in ['self','default']
-
-Template.registerHelper 'parse', (input) ->
-    console.log 'input', input
-
-    # parser = new DOMParser()
-    # doc = parser.parseFromString(input, 'text/html')
-    # console.log 'dom parser', doc, doc.body
-    # console.log 'dom parser', doc.body
-
-    # // Otherwise, fallback to old-school method
-    dom = document.createElement('textarea')
-    # dom.innerHTML = doc.body
-    dom.innerHTML = input
-    console.log 'innner html', dom
-    return dom.value
-
-
-Template.registerHelper 'is_twitter', () ->
-    @domain is 'twitter.com'
-Template.registerHelper 'is_streamable', () ->
-    @domain is 'streamable.com'
-Template.registerHelper 'is_youtube', () ->
-    @domain in ['youtube.com', 'youtu.be']
-
-
-# Template.registerHelper 'lowered_title', ()->
-#     @title.toLowerCase()
-
-# Template.registerHelper 'lowered', (input)->
-#     input.toLowerCase()
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
@@ -101,32 +17,6 @@ Template.registerHelper 'template_subs_ready', () ->
 
 Template.registerHelper 'global_subs_ready', () ->
     Session.get('global_subs_ready')
-
-
-
-Template.registerHelper 'calculated_size', (metric) ->
-    # console.log 'metric', metric
-    # console.log typeof parseFloat(@relevance)
-    # console.log typeof (@relevance*100).toFixed()
-    whole = parseInt(@["#{metric}"]*10)
-    # console.log 'whole', whole
-
-    if whole is 2 then 'f7'
-    else if whole is 3 then 'f8'
-    else if whole is 4 then 'f9'
-    else if whole is 5 then 'f10'
-    else if whole is 6 then 'f11'
-    else if whole is 7 then 'f12'
-    else if whole is 8 then 'f13'
-    else if whole is 9 then 'f14'
-    else if whole is 10 then 'f15'
-
-
-Template.registerHelper 'nl2br', (text)->
-    nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-    new Spacebars.SafeString(nl2br)
-
-
 
 
 Template.registerHelper 'is_loading', -> Session.get 'is_loading'

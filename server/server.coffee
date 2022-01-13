@@ -106,7 +106,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=20&include_facets=true",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on&limit=42&include_facets=true",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=off&limit=42",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -188,36 +188,36 @@ Meteor.methods
                 #     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
                 #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
                 #     # Meteor.call 'call_visual', doc_id, ->
-                if rd.selftext
-                    unless rd.is_video
-                        # if Meteor.isDevelopment
-                        #     console.log "self text", rd.selftext
-                        Docs.update doc_id, {
-                            $set:
-                                body: rd.selftext
-                        }, ->
-                        #     Meteor.call 'pull_site', doc_id, url
-                            # console.log 'hi'
-                if rd.selftext_html
-                    unless rd.is_video
-                        Docs.update doc_id, {
-                            $set:
-                                html: rd.selftext_html
-                        }, ->
-                            # Meteor.call 'pull_site', doc_id, url
-                            # console.log 'hi'
-                if rd.url
-                    unless rd.is_video
-                        url = rd.url
-                        # if Meteor.isDevelopment
-                        #     console.log "found url", url
-                        Docs.update doc_id, {
-                            $set:
-                                reddit_url: url
-                                url: url
-                        }, ->
-                            # Meteor.call 'call_watson', doc_id, 'url', 'url', ->
-                # update_ob = {}
+                # if rd.selftext
+                #     unless rd.is_video
+                #         # if Meteor.isDevelopment
+                #         #     console.log "self text", rd.selftext
+                #         Docs.update doc_id, {
+                #             $set:
+                #                 body: rd.selftext
+                #         }, ->
+                #         #     Meteor.call 'pull_site', doc_id, url
+                #             # console.log 'hi'
+                # if rd.selftext_html
+                #     unless rd.is_video
+                #         Docs.update doc_id, {
+                #             $set:
+                #                 html: rd.selftext_html
+                #         }, ->
+                #             # Meteor.call 'pull_site', doc_id, url
+                #             # console.log 'hi'
+                # if rd.url
+                #     unless rd.is_video
+                #         url = rd.url
+                #         # if Meteor.isDevelopment
+                #         #     console.log "found url", url
+                #         Docs.update doc_id, {
+                #             $set:
+                #                 reddit_url: url
+                #                 url: url
+                #         }, ->
+                #             # Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                # # update_ob = {}
 
                 Docs.update doc_id,
                     $set:
