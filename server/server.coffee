@@ -29,7 +29,7 @@ Meteor.publish 'tag_results', (
     # console.log 'query length', query.length
     # if query
 
-    if picked_tags
+    if picked_tags and picked_tags.length > 0
         match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
@@ -81,23 +81,24 @@ Meteor.publish 'doc_results', (
     #     #
     #     #     match.title = picked_tags[0]
     #     # else
-    # if picked_tags
-    match.tags = $all: picked_tags
-    console.log match
-    Docs.find match,
-        sort:
-            ups:-1
-            # points:-1
-        limit:4
-        fields:
-            # youtube_id:1
-            # thumbnail:1
-            # url:1
-            # title:1
-            model:1
-            tags:1
-            # _timestamp:1
-            # domain:1
+    if picked_tags and picked_tags.length > 0
+        match.tags = $all: picked_tags
+        
+        console.log match
+        Docs.find match,
+            sort:
+                ups:-1
+                # points:-1
+            limit:4
+            fields:
+                # youtube_id:1
+                # thumbnail:1
+                # url:1
+                # title:1
+                model:1
+                tags:1
+                # _timestamp:1
+                # domain:1
 
 
 Meteor.methods
@@ -155,6 +156,7 @@ Meteor.methods
                             # console.log 'calling watson on ', reddit_post.title
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                                 # console.log 'get post res', res
+                        return true
                     else
                         console.log 'NO found data'
                 )
