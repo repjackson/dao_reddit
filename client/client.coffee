@@ -160,7 +160,7 @@ Template.home.helpers
         # Docs.findOne Session.get('selected_doc_id')
         doc_count = Docs.find().count()
         # if doc_count is 1
-        Docs.find({}, limit:10)
+        Docs.find({}, limit:42)
 
 
     is_loading: -> Session.get('is_loading')
@@ -238,7 +238,6 @@ Template.home.helpers
             },
                 sort:
                     ups:-1
-                limit:10
         # console.log cursor.fetch()
         cursor
 
