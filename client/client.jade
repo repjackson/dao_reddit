@@ -34,9 +34,9 @@ template(name='home')
         .row
             .sixteen.wide.center.aligned.column
                 each picked_tags
-                    button.ui.active.compact.circular.big.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
+                    button.ui.active.compact.massive.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         .ui.inline.small.header #{this}
-                        //- button.ui.active.large.circular.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
+                        //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                 // if not_searching 
                 //     .ui.center.aligned.basic.segment
@@ -55,7 +55,7 @@ template(name='home')
                 unless connected
                     //- .ui.header disconnected
                     //- .ui.hidden.divider
-                    i.lightning.invert.big.circular.link.icon
+                    i.lightning.invert.big.link.icon
                 //- div
                 if connected
                     // if searching 
@@ -80,14 +80,14 @@ template(name='shortcut')
     i.big.icon.go.spaced.zoomer(class=icon title=key)
                     
 template(name='agg_tag')
-    button.ui.big.tertiary.button.result(tabindex="0" title=count)
+    button.ui.massive.tertiary.button.result(tabindex="0" title=count)
         // if term.image
-        //     //- button.ui.compact.circular.button(tabindex="0" title=count)
+        //     //- button.ui.compact.button(tabindex="0" title=count)
         //     //- img.ui.mini.inline.image(src=term.image)
         //     img.ui.mini.inline.image(src=term.image)
         //     .ui.inline.small.thin.header(class=tag_result_class) #{title}
         // else
-        //     //- button.ui.compact.circular.button(tabindex="0" title=count)
+        //     //- button.ui.compact.button(tabindex="0" title=count)
         | #{title}
 
         //- small #{count}
