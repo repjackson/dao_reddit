@@ -3,7 +3,7 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-family: 'Lato+Mono', sans-serif !important; */
     /* font-family: 'Lato', sans-serif !important; */
-     /*font-size: 150% !important; */
+     font-size: 120% !important; 
     /* line-height: 200% !important; */
     background: rgba(0,0,0,7) !important;
     /* background: rgba(0,0,0,.3) !important; */
@@ -48,9 +48,10 @@ body {
 }
 
 .ui.button.result:hover{
-    /* transition: transform 1s; /* Animation */ */
+    /* transition: transform 1s; /* Animation */
     /* color: black !important; */
     /* font-size: 120% !important; */
+     /*border-radius: 0 0 10px 10px !important; */
     /* : 130% !important; */
 }
 
@@ -66,7 +67,6 @@ body {
     /*font-size: 1.10rem !important;*/
     font-weight: 300 !important;
     /* color: grey !important; */
-    /* border-radius: 0 0 10px 10px !important; */
     transition: all 1s ease !important;
     /* margin-bottom: 10px !important; */
     /* background-color: rgba(250,250,250,.6) !important; */
@@ -85,7 +85,7 @@ body {
 }
 
 .rounded {
-     border-radius: 5px !important; 
+     border-radius: 10px !important; 
 }
 
 .sadness {
@@ -103,13 +103,13 @@ a.goto_article {
 }
 
 .ui.button {
-    margin: 2px !important;
-    /* border-radius: 20px !important; */
+    margin: 10px !important;
+    border-radius: 20px !important; 
     /* transition: all 1s ease !important; */
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
-    /* font-size: 120% !important; */
+     font-size: 170% !important; 
 }
 /*  */
 .pointer:hover {
@@ -269,7 +269,7 @@ a.title, #title {
 
 input {
     margin: 5px !important;
-    /*border-radius: 42px !important;*/
+    border-radius: 20px !important;
 }
 
 ::-webkit-scrollbar {
