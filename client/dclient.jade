@@ -71,17 +71,21 @@ template(name='home')
                     // else 
                     each unpicked_tags
                         +agg_tag
-                if in_dev 
-                    .ui.divider
-                    .ui.header is_loading #{is_loading}
-                    .ui.header current query  {{sval 'current_query'}}
-                    .ui.header dummy  {{sval 'dummy'}}
+                // if in_dev 
+                //     .ui.divider
+                //     .ui.header is_loading #{is_loading}
+                //     .ui.header current query  {{sval 'current_query'}}
+                //     .ui.header dummy  {{sval 'dummy'}}
                 // .ui.items
                 // if doc_results
                 //     .ui.divider
-                each doc_results
-                    // +small_card
-                    a.ui.small.header(href=url target='_window') #{title}
+                .ui.animated.big.link.list
+                    each doc_results
+                        // +small_card
+                        a.item(href=url target='_window' title=url) 
+                            if is_image
+                                img.ui.small.image(src=url)
+                            |#{title}
             
             
                    

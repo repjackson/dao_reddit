@@ -29,6 +29,20 @@ Template.registerHelper 'to_percent', (number)->
     # console.log number
     (number*100).toFixed()
 
+Template.registerHelper 'is_image', () ->
+    # regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
+    # match = @url.match(regExp)
+    # # console.log 'image match', match
+    # if match then true
+    # true
+    regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
+    match = @url.match(regExp)
+    console.log 'image match', match
+    if match then true
+    # true
+
+
+
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 

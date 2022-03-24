@@ -81,8 +81,10 @@ Meteor.publish 'doc_results', (
                 # youtube_id:1
                 # thumbnail:1
                 url:1
+                ups:1
                 title:1
                 model:1
+                num_comments:1
                 tags:1
                 # _timestamp:1
                 domain:1
@@ -103,6 +105,7 @@ Meteor.methods
                         # added_tags.push data.domain.toLowerCase()
                         # added_tags.push data.author.toLowerCase()
                         # added_tags = _.flatten(added_tags)
+                        console.log 'data', data
                         reddit_post =
                             reddit_id: data.id
                             url: data.url
@@ -111,6 +114,8 @@ Meteor.methods
                             permalink: data.permalink
                             title: data.title
                             # root: query
+                            ups:data.ups
+                            num_comments:data.num_comments
                             # selftext: false
                             # thumbnail: false
                             tags: query
@@ -125,6 +130,8 @@ Meteor.methods
                                 $addToSet: tags: $each: query
                                 $set:
                                     title:data.title
+                                    ups:data.ups
+                                    num_comments:data.num_comments
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                         unless existing_doc
                             new_reddit_post_id = Docs.insert reddit_post
