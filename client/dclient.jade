@@ -79,13 +79,14 @@ template(name='home')
                 // .ui.items
                 // if doc_results
                 //     .ui.divider
-                .ui.animated.big.link.list
+                .ui.animated.big.link.divided.list.scrolling
                     each doc_results
                         // +small_card
                         a.item(href=url target='_window' title=url) 
                             if is_image
-                                img.ui.small.image(src=url)
-                            |#{title}
+                                img.ui.image(src=url)
+                            .content 
+                                |#{title}
             
             
                    
@@ -93,7 +94,7 @@ template(name='shortcut')
     i.big.icon.go.spaced.zoomer(class=icon title=key)
                     
 template(name='agg_tag')
-    button.ui.massive.tertiary.fade.animated.button.result(tabindex="0" title=count)
+    button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
         .visible.content
             | #{title}
         .hidden.content

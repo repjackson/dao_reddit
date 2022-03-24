@@ -103,13 +103,13 @@ a.goto_article {
 }
 
 .ui.button {
-    margin: 5px !important;
+    margin: 3px !important;
     border-radius: 20px !important; 
     /* transition: all 1s ease !important; */
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
-     font-size: 150% !important; 
+     font-size: 120% !important; 
 }
 /*  */
 .pointer:hover {
@@ -294,13 +294,13 @@ input {
   background: darkgrey !important;
 }
 .smallscroll{
-    /* padding: 5px !important;
-    border-radius: 10px !important;
-    border-width: 1px !important;
-    border-color: grey !important;
-    border-style: solid !important; */
-    max-height: 300px !important;
-    overflow-y:scroll;
+  /* padding: 5px !important;
+  border-radius: 10px !important;
+  border-width: 1px !important;
+  border-color: grey !important;
+  border-style: solid !important; */
+  max-height: 300px !important;
+  overflow-y:scroll;
 	overflow-x:hidden;
 	/* padding-top: .2em; */
 	padding: .2em;

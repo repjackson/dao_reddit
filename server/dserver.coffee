@@ -76,7 +76,7 @@ Meteor.publish 'doc_results', (
             sort:
                 ups:-1
                 # points:-1
-            limit:5
+            limit:20
             fields:
                 # youtube_id:1
                 # thumbnail:1
@@ -105,7 +105,7 @@ Meteor.methods
                         # added_tags.push data.domain.toLowerCase()
                         # added_tags.push data.author.toLowerCase()
                         # added_tags = _.flatten(added_tags)
-                        console.log 'data', data
+                        # console.log 'data', data
                         reddit_post =
                             reddit_id: data.id
                             url: data.url

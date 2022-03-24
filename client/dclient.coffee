@@ -37,7 +37,7 @@ Template.registerHelper 'is_image', () ->
     # true
     regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/
     match = @url.match(regExp)
-    console.log 'image match', match
+    # console.log 'image match', match
     if match then true
     # true
 
