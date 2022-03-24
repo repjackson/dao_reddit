@@ -160,7 +160,7 @@ Template.home.helpers
         # Docs.findOne Session.get('selected_doc_id')
         doc_count = Docs.find().count()
         # if doc_count is 1
-        Docs.find({}, limit:42)
+        Docs.find({}, limit:5)
 
 
     is_loading: -> Session.get('is_loading')

@@ -36,7 +36,7 @@ Meteor.publish 'tag_results', (
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -76,16 +76,16 @@ Meteor.publish 'doc_results', (
             sort:
                 ups:-1
                 # points:-1
-            limit:4
+            limit:5
             fields:
                 # youtube_id:1
                 # thumbnail:1
-                # url:1
-                # title:1
+                url:1
+                title:1
                 model:1
                 tags:1
                 # _timestamp:1
-                # domain:1
+                domain:1
 
 
 Meteor.methods
@@ -106,10 +106,10 @@ Meteor.methods
                         reddit_post =
                             reddit_id: data.id
                             url: data.url
-                            # domain: data.domain
-                            # comment_count: data.num_comments
-                            # permalink: data.permalink
-                            # title: data.title
+                            domain: data.domain
+                            comment_count: data.num_comments
+                            permalink: data.permalink
+                            title: data.title
                             # root: query
                             # selftext: false
                             # thumbnail: false
@@ -123,7 +123,8 @@ Meteor.methods
                             #         $unset: tags: 1
                             Docs.update existing_doc._id,
                                 $addToSet: tags: $each: query
-
+                                $set:
+                                    title:data.title
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                         unless existing_doc
                             new_reddit_post_id = Docs.insert reddit_post

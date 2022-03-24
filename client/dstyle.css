@@ -103,13 +103,13 @@ a.goto_article {
 }
 
 .ui.button {
-    margin: 10px !important;
+    margin: 5px !important;
     border-radius: 20px !important; 
     /* transition: all 1s ease !important; */
 
     /* padding: 12px !important; */
     /* font-weight: lighter !important; */
-     font-size: 170% !important; 
+     font-size: 150% !important; 
 }
 /*  */
 .pointer:hover {
