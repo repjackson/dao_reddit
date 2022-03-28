@@ -79,14 +79,21 @@ template(name='home')
                 // .ui.items
                 // if doc_results
                 //     .ui.divider
-                .ui.animated.big.link.divided.list.scrolling
+                // .ui.animated.big.link.divided.list.scrolling
+                .ui.stackable.centered.cards
                     each doc_results
                         // +small_card
-                        a.item(href=url target='_window' title=url) 
+                        a.fluid.card(href=url target='_window' title=url) 
                             if is_image
-                                img.ui.image(src=url)
+                                img.uis.image(src=url)
                             .content 
-                                |#{title}
+                                .ui.small.header #{title}
+                                i.globe.grey.icon 
+                                |#{domain}
+                                i.thumbs.up.icon 
+                                |#{ups}
+                                i.comment.icon 
+                                |#{num_comments}
             
             
                    
