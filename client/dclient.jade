@@ -86,7 +86,7 @@ template(name='home')
                         // +small_card
                         a.fluid.card(href=url target='_window' title=url) 
                             if is_image
-                                img.uis.image(src=url)
+                                img.ui.image(src=url)
                             .content 
                                 .ui.small.header !{title}
                                 i.globe.grey.icon 
@@ -95,8 +95,13 @@ template(name='home')
                                 |#{ups}
                                 i.comment.icon 
                                 |#{num_comments}
-            
-            
+                // if in_dev 
+                .ui.list 
+                    each doc_results
+                        .item #{title} 
+                            .ui.button.print_me
+                                i.code.icon
+        
                    
 template(name='shortcut')                   
     i.big.icon.go.spaced.zoomer(class=icon title=key)

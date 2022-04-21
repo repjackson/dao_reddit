@@ -62,6 +62,15 @@ Template.home.onCreated ->
 
 
 
+Template.agg_tag.onCreated ->
+    # console.log @
+    @autorun => @subscribe 'tag_image', @data.title, ->
+        
+Template.agg_tag.helpers
+    term_image: ->
+        console.log Template.currentData().title
+        Docs.findOne 
+            tags:$in:Template.currentData().title
 Template.agg_tag.events
     'click .result': (e,t)->
         # Meteor.call 'log_term', @title, ->
@@ -87,6 +96,8 @@ Template.home.events
         Session.set('current_query', null)
 
 Template.home.events
+    'click .print_me': ->
+        console.log @
     'click .unpick_tag': ->
         picked_tags.remove @valueOf()
         console.log picked_tags.array()
@@ -151,6 +162,7 @@ Template.shortcut.events
     
     
 Template.home.helpers
+    # in_dev: -> Meteor.isDevelopment()
     not_searching: ->
         picked_tags.array().length is 0 and Session.equals('current_query',null)
         
