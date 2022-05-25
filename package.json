@@ -1,6 +1,7 @@
 {
 	"dependencies": {
-		"@babel/runtime": "^7.6.3"
+		"@babel/runtime": "^7.6.3",
+		"ibm-watson": "^5.6.0"
 	},
 	"scripts": {
 		"local": "meteor --settings settings.json"

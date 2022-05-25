@@ -36,7 +36,7 @@ Meteor.publish 'tag_results', (
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -87,17 +87,17 @@ Meteor.publish 'doc_results', (
                 ups:-1
                 # points:-1
             limit:10
-            fields:
-                # youtube_id:1
-                # thumbnail:1
-                url:1
-                ups:1
-                title:1
-                model:1
-                num_comments:1
-                tags:1
-                # _timestamp:1
-                domain:1
+            # fields:
+            #     # youtube_id:1
+            #     # thumbnail:1
+            #     url:1
+            #     ups:1
+            #     title:1
+            #     model:1
+            #     num_comments:1
+            #     tags:1
+            #     # _timestamp:1
+            #     domain:1
 
 
 Meteor.methods
@@ -145,10 +145,13 @@ Meteor.methods
                                     num_comments:data.num_comments
                                     over_18:data.over_18
                                     thumbnail:data.thumbnail
+                                    permalink:data.permalink
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                            Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         unless existing_doc
                             new_reddit_post_id = Docs.insert reddit_post
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         return true
                 )
 
