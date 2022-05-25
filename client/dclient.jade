@@ -80,7 +80,7 @@ template(name='home')
                 // if doc_results
                 //     .ui.divider
                 // .ui.animated.big.link.divided.list.scrolling
-                .ui.hidden.divider
+                // .ui.hidden.divider
                 .ui.stackable.centered.cards
                     each doc_results
                         // +small_card
@@ -95,12 +95,6 @@ template(name='home')
                                 |#{ups}
                                 i.comment.icon 
                                 |#{num_comments}
-                // if in_dev 
-                .ui.list 
-                    each doc_results
-                        .item #{title} 
-                            .ui.button.print_me
-                                i.code.icon
         
                    
 template(name='shortcut')                   
