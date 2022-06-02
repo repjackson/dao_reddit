@@ -110,6 +110,15 @@
     'days'
     'months'
     'members'
+    'advertisement'
+    'trademark'
+    'copyright'
+    'trademark'
+    'privacy policy'
+    'use of this site'
+    'alien logo'
+    'trademarks of reddit'
+    'reddit inc.'
     'imgur'
     'careers press'
     'points'
@@ -117,12 +126,14 @@
     'comment share'
     'subreddit'
     'bot'
+    'united states'
     'luser'
     'blog terms'
     'hide report'
     'hide  report'
     'thread'
     'debut albums'
+    'debut album'
     '2000 albums'
     '2001 albums'
     '2002 albums'
@@ -206,14 +217,10 @@ Meteor.methods
             console.log 'removed', result, black_tag
 
     clear_blocklist_doc: (doc_id)=>
-        # console.log 'pulling blocklist from doc', doc_id
+        console.log 'pulling blocklist from doc', doc_id
         doc = Docs.findOne doc_id 
-        user = Meteor.users.findOne doc_id
         if doc
             Docs.update doc_id,
-                $pullAll:tags:@blocklist
-        else if user 
-            Meteor.users.update doc_id,
                 $pullAll:tags:@blocklist
                 
         
